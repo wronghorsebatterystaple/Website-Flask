@@ -1,3 +1,6 @@
 # should be ignored by default but just to be safe
 # instead do pip install -r requirements.txt on clone
-venv
+venv/
+
+# Python ignores
+__pycache__/
