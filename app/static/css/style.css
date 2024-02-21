@@ -1,12 +1,27 @@
-h1 {
-  border: 2px #eee solid;
-  color: brown;
-  text-align: center;
-  padding: 10px;
+/* background is always black */
+html, body {
+  margin: 0px;
+  padding: 0px;
+  background-color: black;
 }
-h3 {
-  color: GRAY;
+
+/* text is white by default */
+* {
+  color: white;   
+}
+
+h1 {
+  color: #00ff44;
   text-align: center;
-  padding: 5px;
+}
+
+h4 {
+  color: gray;
+  text-align: center;
+}
+
+body {
+  margin-left: 45rem;
+  margin-right: 45rem;
 }
 
