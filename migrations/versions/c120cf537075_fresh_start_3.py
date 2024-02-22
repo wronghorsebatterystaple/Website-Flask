@@ -1,8 +1,8 @@
-"""init db
+"""fresh start 3
 
-Revision ID: e956475c24fd
+Revision ID: c120cf537075
 Revises: 
-Create Date: 2024-02-21 20:45:27.085156
+Create Date: 2024-02-22 03:43:46.679814
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e956475c24fd'
+revision = 'c120cf537075'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,11 +32,14 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('timestamp', sa.DateTime(), nullable=False),
     sa.Column('title', sa.String(length=250), nullable=False),
+    sa.Column('title_for_url', sa.String(length=250), nullable=False),
     sa.Column('subtitle', sa.String(length=500), nullable=False),
-    sa.Column('body', sa.String(length=100000), nullable=False),
+    sa.Column('content', sa.String(length=100000), nullable=False),
     sa.Column('comment_ids', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['comment_ids'], ['comment.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('title'),
+    sa.UniqueConstraint('title_for_url')
     )
     with op.batch_alter_table('post', schema=None) as batch_op:
         batch_op.create_index(batch_op.f('ix_post_timestamp'), ['timestamp'], unique=False)

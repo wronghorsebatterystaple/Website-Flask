@@ -1,26 +1,31 @@
-/* background is always black */
+/* background is always white */
 html, body {
   margin: 0px;
   padding: 0px;
-  background-color: black;
+  background-color: white;
 }
 
-/* text is white by default */
+/* text is black by default */
 * {
-  color: white;   
+  color: black
 }
 
 body {
-  margin-left: 45rem;
-  margin-right: 45rem;
+  margin-left: 32.5%;
+  margin-right: 32.5%;
+  overflow-wrap: break-word;
 }
 
-.main-header {
+.container {
+  max-width: 100%;
+}
+
+.mainpage-blog-name {
   color: #00ff44;
   text-align: center;
 }
 
-.main-subheader {
+.mainpage-blog-subname {
   color: gray;
   text-align: center;
 }

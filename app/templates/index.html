@@ -4,20 +4,22 @@
   Professor Google
 {% endblock %}
 
-{% block main_header %}
-  <h1 class="main-header">Professor Google</h1>
+{% block blog_name %}
+  <h1 class="mainpage-blog-name">Professor Google</h1>
 {% endblock %}
 
-{% block main_subheader %}
-  <h2 class="main-subheader">THE BLOG WHERE I TEACH MYSELF</h2>
+{% block blog_subname %}
+  <h2 class="mainpage-blog-subname">THE BLOG WHERE I TEACH MYSELF</h2>
 {% endblock %}
 
 {% block content %}
   {% for post in posts %}
     <div>
-      <h1 class="post-list-title">{{ post.title }}</h1>
-      <h2 class="post-list-subtitle">{{ post.subtitle }}</h2>
-      <h3 class="post-list-timestamp">{{ post.timestamp }}</h3>
+      <a href="{{ url_for('post', post_title_for_url=post.title_for_url) }}">
+        <h1 class="post-list-title">{{ post.title }}</h1>
+        <h2 class="post-list-subtitle">{{ post.subtitle }}</h2>
+        <h3 class="post-list-timestamp">{{ post.timestamp }}</h3>
+      </a>
     </div>
     <hr>
   {% endfor%}
