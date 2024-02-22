@@ -10,18 +10,17 @@ html, body {
   color: white;   
 }
 
-h1 {
-  color: #00ff44;
-  text-align: center;
-}
-
-h4 {
-  color: gray;
-  text-align: center;
-}
-
 body {
   margin-left: 45rem;
   margin-right: 45rem;
 }
 
+.main-header {
+  color: #00ff44;
+  text-align: center;
+}
+
+.main-subheader {
+  color: gray;
+  text-align: center;
+}
