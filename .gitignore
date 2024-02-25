@@ -5,3 +5,5 @@ venv/
 # Python ignores
 __pycache__/
 
+# other ignores
+db_backup.sh
