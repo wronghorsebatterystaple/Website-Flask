@@ -4,3 +4,6 @@ venv/
 
 # Python ignores
 __pycache__/
+
+# other ignores
+reload-server.sh
