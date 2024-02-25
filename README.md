@@ -1,5 +1,5 @@
 # Website-Flask
 
-[Main page](anonymousrand.xyz)
+[Main page](https://anonymousrand.xyz)
 
-[Blog page](blog.anonymousrand.xyz)
+[Blog page](https://blog.anonymousrand.xyz)
