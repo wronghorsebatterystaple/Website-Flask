@@ -13,9 +13,12 @@ def create_app(config_class=Config):
     migrate.init_app(app, db, render_as_batch=True)
 
     # register blueprints
+    from app.main import bp as main_bp
+    app.register_blueprint(main_bp)
+
     from app.blog import bp as blog_bp
     app.register_blueprint(blog_bp, subdomain="blog")
-
+    
     return app
 
 from app import models # imports done at bottom to prevent circular imports

@@ -7,11 +7,11 @@ from flask import render_template, abort
 @bp.route("/")
 def index():
     posts = db.session.query(Post).all()
-    return render_template("index.html", posts=posts)
+    return render_template("blog/index.html", posts=posts)
 
 @bp.route("/<string:post_title_for_url>")
 def post(post_title_for_url):
     post = db.session.query(Post).filter(Post.title_for_url == post_title_for_url).first()
     if post is None:
         abort(404)
-    return render_template("post.html", post=post)
+    return render_template("blog/post.html", post=post)
