@@ -1,12 +1,11 @@
+# security ignores
+.env
+app.db
+db_backup.sh
+
 # should be ignored by default but just to be safe
 # instead do pip install -r requirements.txt on clone
 venv/
 
 # Python ignores
 __pycache__/
-
-# security ignores
-.env
-
-# other ignores
-db_backup.sh

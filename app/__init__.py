@@ -9,6 +9,7 @@ migrate = Migrate()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+
     db.init_app(app)
     migrate.init_app(app, db, render_as_batch=True)
 
@@ -17,6 +18,8 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     from app.blog import bp as blog_bp
+    from app.blog.admin import bp as blog_admin_bp
+    blog_bp.register_blueprint(blog_admin_bp, url_prefix="/admin")
     app.register_blueprint(blog_bp, subdomain="blog")
     
     return app

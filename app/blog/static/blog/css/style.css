@@ -1,0 +1,31 @@
+/* background is always white */
+html, body {
+  margin: 0px;
+  padding: 0px;
+  background-color: blue;
+}
+
+/* text is black by default */
+* {
+  color: black
+}
+
+body {
+  margin-left: 32.5%;
+  margin-right: 32.5%;
+  overflow-wrap: break-word;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.mainpage-blog-name {
+  color: #00ff44;
+  text-align: center;
+}
+
+.mainpage-blog-subname {
+  color: gray;
+  text-align: center;
+}

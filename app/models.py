@@ -4,12 +4,14 @@ import sqlalchemy.orm as so
 from app import db
 import re
 
+from app import db_config
+
 class Comment(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
-    author_name: so.Mapped[str] = so.mapped_column(sa.String(100))
-    content: so.Mapped[str] = so.mapped_column(sa.String(10000))
+    author_name: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_COMMENT_AUTHOR_NAME"]))
+    content: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_COMMENT_CONTENT"]))
 
     def __repr(self):
         return f"<Comment {comment.id} written by \"{self.author_name}\", last modified on {self.timestamp}>"
@@ -19,10 +21,10 @@ class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
-    title: so.Mapped[str] = so.mapped_column(sa.String(250), unique=True)
-    title_for_url: so.Mapped[str] = so.mapped_column(sa.String(250), unique=True)
-    subtitle: so.Mapped[str] = so.mapped_column(sa.String(500))
-    content: so.Mapped[str] = so.mapped_column(sa.String(100000))
+    title: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]), unique=True)
+    title_for_url: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]), unique=True)
+    subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_SUBTITLE"]))
+    content: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_CONTENT"]))
     comment_ids: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Comment.id))
 
     def __repr__(self):

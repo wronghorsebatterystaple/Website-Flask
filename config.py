@@ -8,4 +8,4 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
         "sqlite:///" + os.path.join(basedir, "app.db")
     SERVER_NAME = "anonymousrand.xyz"
-    SECRET_KEY = os.environ.get("SECRET_KEY") or "lol"
+    SECRET_KEY = os.environ.get("SECRET_KEY")

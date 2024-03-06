@@ -1,6 +1,7 @@
 from app.blog import bp
+from app.models import *
 from app import db
-from app.models import Post, Comment, Image
+
 import sqlalchemy as sa
 from flask import render_template, abort
 
