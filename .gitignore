@@ -5,5 +5,8 @@ venv/
 # Python ignores
 __pycache__/
 
+# security ignores
+.env
+
 # other ignores
 db_backup.sh
