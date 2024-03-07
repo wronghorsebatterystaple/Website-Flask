@@ -8,6 +8,7 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+login_manager.login_view = "blog.admin.index"
 
 def create_app(config_class=Config):
     # create app variable (Flask instance)

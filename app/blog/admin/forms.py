@@ -10,7 +10,7 @@ class PasswordForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
-class SelectActionForm(FlaskForm):
+class ChooseActionForm(FlaskForm):
     action = RadioField("Actions", choices=[("create", "Create"), ("edit", "Edit"), ("delete", "Delete"),
             ("change_admin_password", "Change Admin Password")], validators=[InputRequired()])
     submit = SubmitField("Submit")
