@@ -107,7 +107,6 @@ def edit_blogpost():
             pass
         
 
-
 @bp.route("/change-admin-password", methods=["GET", "POST"])
 @login_required
 def change_admin_password():

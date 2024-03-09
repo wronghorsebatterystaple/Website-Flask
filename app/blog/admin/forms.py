@@ -31,7 +31,7 @@ class CreateBlogpostForm(FlaskForm):
 
 class SearchBlogpostForm(FlaskForm):
     post = QuerySelectField("Post", validators=[InputRequired()],
-            query_factory=lambda: db.session.query(Post).all(), get_label="title")
+            query_factory=lambda: db.session.query(Post), get_label="title")
     submit = SubmitField("Submit")
 
 
