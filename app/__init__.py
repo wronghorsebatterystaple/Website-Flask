@@ -17,7 +17,7 @@ def create_app(config_class=Config):
 
     # init extensions
     db.init_app(app)
-    migrate.init_app(app, db, render_as_batch=True)
+    migrate.init_app(app, db)
     login_manager.init_app(app)
 
     # register blueprints

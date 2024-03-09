@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from sqlalchemy.types import Text
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 
@@ -15,7 +16,7 @@ class Comment(db.Model):
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     author_name: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_COMMENT_AUTHOR_NAME"]))
-    content: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_COMMENT_CONTENT"]))
+    content: so.Mapped[Text()] = so.mapped_column(Text(db_config.config["MAXLEN_COMMENT_CONTENT"]))
 
     def __repr(self):
         return f"<Comment {comment.id} written by \"{self.author_name}\", last modified on {self.timestamp}>"
@@ -30,7 +31,7 @@ class Post(db.Model):
     sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]),
             unique=True)
     subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_SUBTITLE"]))
-    content: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_CONTENT"]))
+    content: so.Mapped[Text()] = so.mapped_column(Text(db_config.config["MAXLEN_POST_CONTENT"]))
     comment_ids: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Comment.id))
 
     def sanitize_title(self):
