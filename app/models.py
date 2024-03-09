@@ -27,18 +27,19 @@ class Post(db.Model):
             index=True, default=lambda: datetime.now(timezone.utc))
     title: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]),
             unique=True)
-    title_for_url: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]),
+    sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]),
             unique=True)
     subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_SUBTITLE"]))
     content: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_CONTENT"]))
     comment_ids: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Comment.id))
 
+    def sanitize_title(self):
+        self.sanitized_title = ("-".join(self.title.split())).lower()
+        self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title) # sanitize all non [A-Za-z0-9-] in titles
+
     def __repr__(self):
         return f"<Post {self.id} with title \"{self.title}\" and subtitle \"{self.subtitle}\">"
 
-    def gen_title_for_url(self):
-        self.title_for_url = ("-".join(self.title.split())).lower()
-        self.title_for_url = re.sub("[^A-Za-z0-9-]", "", self.title_for_url) # sanitize all non [A-Za-z0-9-] in titles
 
 
 class Image(db.Model):

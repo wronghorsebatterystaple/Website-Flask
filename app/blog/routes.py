@@ -1,6 +1,6 @@
 from app.blog import bp
-from app.models import *
 from app import db
+from app.models import *
 
 import sqlalchemy as sa
 from flask import render_template, abort
@@ -12,9 +12,9 @@ def index():
     posts = db.session.query(Post).all()
     return render_template("blog/index.html", posts=posts)
 
-@bp.route("/<string:post_title_for_url>")
-def post(post_title_for_url):
-    post = db.session.query(Post).filter(Post.title_for_url == post_title_for_url).first()
+@bp.route("/<string:post_sanitized_title>")
+def post(post_sanitized_title):
+    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
         abort(404)
 

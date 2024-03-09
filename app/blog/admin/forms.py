@@ -1,8 +1,11 @@
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, RadioField, StringField, SubmitField
 from wtforms.validators import InputRequired, Length
+from wtforms_sqlalchemy.fields import QuerySelectField
 
+from app import db
 from app import db_config
+from app.models import Post
 
 class PasswordForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(),
@@ -11,7 +14,7 @@ class PasswordForm(FlaskForm):
 
 
 class ChooseActionForm(FlaskForm):
-    action = RadioField("Actions", choices=[("create", "Create"), ("edit", "Edit"), ("delete", "Delete"),
+    action = RadioField("Actions", choices=[("create", "Create"), ("edit", "Edit/Delete"),
             ("change_admin_password", "Change Admin Password")], validators=[InputRequired()])
     submit = SubmitField("Submit")
 
@@ -27,8 +30,9 @@ class CreateBlogpostForm(FlaskForm):
 
 
 class SearchBlogpostForm(FlaskForm):
-    searched_title = StringField("Title of form", validators=[InputRequired(),
-            Length(max=db_config.config["MAXLEN_POST_TITLE"])])
+    post = QuerySelectField("Post", validators=[InputRequired()],
+            query_factory=lambda: db.session.query(Post).all(), get_label="title")
+    submit = SubmitField("Submit")
 
 
 class EditBlogpostForm(FlaskForm):
@@ -39,6 +43,7 @@ class EditBlogpostForm(FlaskForm):
     content = StringField("Content (Markdown supported)", validators=[InputRequired(),
             Length(max=db_config.config["MAXLEN_POST_CONTENT"])])
     submit = SubmitField("Submit")
+    delete = SubmitField("Delete Post")
 
 
 class ChangeAdminPasswordForm(FlaskForm):
