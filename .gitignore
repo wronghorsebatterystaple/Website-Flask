@@ -1,6 +1,5 @@
 # security ignores
 .env
-app.db
 db_backup.sh
 
 # should be ignored by default but just to be safe
