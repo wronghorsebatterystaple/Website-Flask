@@ -11,17 +11,6 @@ from app import login_manager
 
 import re
 
-class Comment(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    timestamp: so.Mapped[datetime] = so.mapped_column(
-            index=True, default=lambda: datetime.now(timezone.utc))
-    author_name: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_COMMENT_AUTHOR_NAME"]))
-    content: so.Mapped[Text()] = so.mapped_column(Text(db_config.config["MAXLEN_COMMENT_CONTENT"]))
-
-    def __repr(self):
-        return f"<Comment {comment.id} written by \"{self.author_name}\", last modified on {self.timestamp}>"
-
-
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     timestamp: so.Mapped[datetime] = so.mapped_column(
@@ -32,7 +21,6 @@ class Post(db.Model):
             unique=True)
     subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_SUBTITLE"]))
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config.config["MAXLEN_POST_CONTENT"]))
-    comment_ids: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Comment.id))
 
     def sanitize_title(self):
         self.sanitized_title = ("-".join(self.title.split())).lower()
@@ -41,6 +29,17 @@ class Post(db.Model):
     def __repr__(self):
         return f"<Post {self.id} with title \"{self.title}\" and subtitle \"{self.subtitle}\">"
 
+
+class Comment(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id))
+    timestamp: so.Mapped[datetime] = so.mapped_column(
+            index=True, default=lambda: datetime.now(timezone.utc))
+    author_name: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_COMMENT_AUTHOR_NAME"]))
+    content: so.Mapped[Text()] = so.mapped_column(Text(db_config.config["MAXLEN_COMMENT_CONTENT"]))
+
+    def __repr(self):
+        return f"<Comment {self.id} for post {self.post_id} written by \"{self.author_name}\""
 
 
 class Image(db.Model):

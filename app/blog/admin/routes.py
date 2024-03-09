@@ -62,17 +62,19 @@ def create_blogpost():
     form = CreateBlogpostForm()
     # process POST requests
     if form.validate_on_submit():
-        new_post = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data,
-                comment_ids="")
+        new_post = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
         new_post.sanitize_title()
+        # check that title still exists after sanitization
         if new_post.sanitized_title == "":
             flash("Post must have alphanumeric characters in its title")
             return redirect(request.url) # can also use Ajax to avoid clearing all fields with reload
+        # check that title is unique
+        # todo
 
         db.session.add(new_post)
         db.session.commit()
         flash("Post created successfully!")
-        return redirect(url_for("blog.index", post_sanitized_title=post.sanitized_title)) # view completed post
+        return redirect(url_for("blog.post", post_sanitized_title=new_post.sanitized_title)) # view completed post
 
     # process GET requests otherwise
     return render_template("blog/admin/form-base.html", prompt="Create post", form=form)
