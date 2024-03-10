@@ -174,4 +174,4 @@ def change_admin_password():
 
     # process GET requests otherwise
     return render_template("blog/admin/form-base.html", title="Change Admin Password",
-            prompt=f"Do not make it password123456", form=form)
+            prompt="Do not make it password123456", form=form)
