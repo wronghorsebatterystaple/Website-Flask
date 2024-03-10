@@ -108,16 +108,16 @@ def search_blogpost():
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
 @login_required
 def edit_blogpost():
-    post = db.session.query(Post).get(request.args["post_id"])
+    post = db.session.get(Post, request.args["post_id"])
     if post is None:
-        flash("That post has gone missing...race condition?")
-        return redirect(url_for("blog.admin.choose_blogpost"))
+        flash("That post no longer exists. Did you hit the back button? Regret your choice, did you?")
+        return redirect(url_for("blog.admin.search_blogpost"))
     
     form = EditBlogpostForm(obj=post) # pre-populate fields
 
     # process POST requests
     if form.validate_on_submit():
-        # handle form deletion (after confimation button)
+        # handle form deletion (after confirmation button)
         if form.delete.data:
             db.session.delete(post)
             db.session.commit()
@@ -142,7 +142,7 @@ def edit_blogpost():
         post.edited_timestamp = datetime.now(timezone.utc) # updated edited time
         db.session.commit()
         flash("Post edited successfully")
-        return redirect(url_for("blog.post", post_sanitized_title=post.sanitized_title)) # view completed post
+        return redirect(url_for("blog.post", post_sanitized_title=post.sanitized_title)) # view edited post
 
     # process GET requests otherwise
     return render_template("blog/admin/form-base.html", title="Edit post",
@@ -152,4 +152,4 @@ def edit_blogpost():
 @bp.route("/change-admin-password", methods=["GET", "POST"])
 @login_required
 def change_admin_password():
-    pass
+    

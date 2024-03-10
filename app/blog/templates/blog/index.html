@@ -10,7 +10,7 @@
   <hr>
 
   {% for post in posts %}
-    <div>
+    <div class="post-list-post">
       <a href="{{ url_for('blog.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="post-list-title">{{ post.title }}</h1>
         <h2 class="post-list-subtitle">{{ post.subtitle }}</h2>
