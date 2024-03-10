@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, RadioField, StringField, SubmitField
+from wtforms import PasswordField, RadioField, StringField, SubmitField, TextAreaField
 from wtforms.validators import InputRequired, Length
 from wtforms_sqlalchemy.fields import QuerySelectField
 
@@ -24,7 +24,7 @@ class CreateBlogpostForm(FlaskForm):
             Length(max=db_config.config["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[InputRequired(),
             Length(max=db_config.config["MAXLEN_POST_SUBTITLE"])])
-    content = StringField("Content (Markdown supported)", validators=[InputRequired(),
+    content = TextAreaField("Content (Markdown supported)", validators=[InputRequired(),
             Length(max=db_config.config["MAXLEN_POST_CONTENT"])])
     submit = SubmitField("Submit")
 
@@ -40,7 +40,7 @@ class EditBlogpostForm(FlaskForm):
             Length(max=db_config.config["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[InputRequired(),
             Length(max=db_config.config["MAXLEN_POST_SUBTITLE"])])
-    content = StringField("Content (Markdown supported)", validators=[InputRequired(),
+    content = TextAreaField("Content (Markdown supported)", validators=[InputRequired(),
             Length(max=db_config.config["MAXLEN_POST_CONTENT"])])
     submit = SubmitField("Submit")
     delete = SubmitField("Delete Post")
