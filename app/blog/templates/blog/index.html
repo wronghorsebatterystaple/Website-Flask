@@ -14,7 +14,11 @@
       <a href="{{ url_for('blog.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="post-list-title">{{ post.title }}</h1>
         <h2 class="post-list-subtitle">{{ post.subtitle }}</h2>
-        <h3 class="post-list-timestamp">{{ post.timestamp }}</h3>
+        {% if post.edited_timestamp is not none %}
+          <h3 class="post-list-timestamp">{{ post.timestamp }} | EDITED {{ post.edited_timestamp }}</h3>
+        {% else %}
+          <h3 class="post-list-timestamp">{{ post.timestamp }}</h3>
+        {% endif %}
       </a>
     </div>
     <hr>

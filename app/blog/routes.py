@@ -1,10 +1,10 @@
-from app.blog import bp
-from app import db
-from app.models import *
-
 import sqlalchemy as sa
 from sqlalchemy import desc
 from flask import render_template, abort
+
+from app.blog import bp
+from app import db
+from app.models import *
 
 import markdown
 

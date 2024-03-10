@@ -15,6 +15,7 @@ class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
+    edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None)
     title: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]),
             unique=True)
     sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_POST_TITLE"]),

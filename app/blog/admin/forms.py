@@ -43,7 +43,7 @@ class EditBlogpostForm(FlaskForm):
     content = TextAreaField("Content (Markdown supported)", validators=[InputRequired(),
             Length(max=db_config.config["MAXLEN_POST_CONTENT"])])
     submit = SubmitField("Submit")
-    delete = SubmitField("Delete Post")
+    delete = SubmitField("Delete Post", render_kw={"onclick": "return confirm('Sanity check');"})
 
 
 class ChangeAdminPasswordForm(FlaskForm):
