@@ -8,7 +8,7 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
-login_manager.login_view = "blog.admin.index"
+login_manager.login_view = "admin.login"
 
 def create_app(config_class=Config):
     # create app variable (Flask instance)
@@ -25,10 +25,11 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     from app.blog import bp as blog_bp
-    from app.blog.admin import bp as blog_admin_bp
-    blog_bp.register_blueprint(blog_admin_bp, url_prefix="/admin")
     app.register_blueprint(blog_bp, subdomain="blog")
     
+    from app.admin import bp as admin_bp
+    app.register_blueprint(admin_bp, url_prefix="/admin")
+
     return app
 
 from app import models # imports done at bottom to prevent circular imports
