@@ -69,7 +69,10 @@ def create_blogpost():
             flash("Post must have alphanumeric characters in its title")
             return redirect(request.url) # can also use Ajax to avoid clearing all fields with reload
         # check that title is unique
-        # todo
+        if db.session.query(Post).filter_by(title=form.title.data).first() is not None \
+                or db.session.query(Post).filter_by(sanitized_title=new_post.sanitized_title).first() is not None:
+            flash("There is already a post with that title or sanitized title")
+            return redirect(request.url)
 
         db.session.add(new_post)
         db.session.commit()
