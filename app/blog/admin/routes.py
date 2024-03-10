@@ -102,7 +102,7 @@ def search_blogpost():
         return redirect(url_for("blog.admin.edit_blogpost", post_id=post))
         
     # process GET requests otherwise
-    return render_template("blog/admin/form-base.html", title="Search posts", prompt="Search posts", form=form)
+    return render_template("blog/admin/form-base.html", title="Search Posts", prompt="Search posts", form=form)
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
@@ -145,11 +145,33 @@ def edit_blogpost():
         return redirect(url_for("blog.post", post_sanitized_title=post.sanitized_title)) # view edited post
 
     # process GET requests otherwise
-    return render_template("blog/admin/form-base.html", title="Edit post",
+    return render_template("blog/admin/form-base.html", title="Edit Post",
             prompt=f"Edit post: {post.title}", form=form)
         
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
 @login_required
 def change_admin_password():
-    
+    form = ChangeAdminPasswordForm()
+
+    # process POST requests
+    if form.validate_on_submit():
+        user = db.session.scalar(sa.select(User).where(User.username == "admin"))
+        # check given password
+        if user is None or not user.check_password(form.old_password.data):
+            flash("Old password is not correct")
+            return redirect(request.url)
+
+        # check new passwords are identical
+        if form.new_password_1.data != form.new_password_2.data:
+            flash("New passwords do not match")
+            return redirect(request.url)
+        
+        user.set_password(form.new_password_1.data)
+        db.session.commit()
+        flash("Your password has been changed")
+        return redirect(url_for("blog.admin.index"))
+
+    # process GET requests otherwise
+    return render_template("blog/admin/form-base.html", title="Change Admin Password",
+            prompt=f"Do not make it password123456", form=form)

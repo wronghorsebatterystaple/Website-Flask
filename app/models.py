@@ -3,7 +3,7 @@ import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.types import Text
 from flask_login import UserMixin
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
 from app import db_config
@@ -59,6 +59,9 @@ class User(UserMixin, db.Model):
     email: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_USER_EMAIL"]),
             unique=True)
     password_hash: so.Mapped[str] = so.mapped_column(sa.String(db_config.config["MAXLEN_USER_PASSWORD_HASH"]))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
