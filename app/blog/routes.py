@@ -3,13 +3,14 @@ from app import db
 from app.models import *
 
 import sqlalchemy as sa
+from sqlalchemy import desc
 from flask import render_template, abort
 
 import markdown
 
 @bp.route("/")
 def index():
-    posts = db.session.query(Post).all()
+    posts = db.session.query(Post).order_by(desc(Post.timestamp))
     return render_template("blog/index.html", posts=posts)
 
 @bp.route("/<string:post_sanitized_title>")
