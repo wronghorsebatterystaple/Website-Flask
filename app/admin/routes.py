@@ -7,8 +7,16 @@ from app.admin import bp
 from app.admin.forms import *
 from app import db
 from app.models import *
+from app import turnstile
 
 from urllib.parse import urlsplit
+
+def has_failed_turnstile() -> bool:
+    if not turnstile.verify():
+        flash("you are a bot aren't you")
+        return True
+    return False
+
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -20,6 +28,9 @@ def login():
 
     # process POST requests (form submitted)
     if form.validate_on_submit():
+        if has_failed_turnstile():
+            return redirect(url_for("admin.bot_jail"))
+
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
         if user is None or not user.check_password(form.password.data):
@@ -183,3 +194,9 @@ def logout():
     logout_user()
     flash(f"You have been logged out.")
     return redirect(url_for("main.index"))
+
+
+@bp.route("/bot-jail")
+def bot_jail():
+    img_filepath = url_for("static", filename="amogus.webp")
+    return render_template("admin/bot-jail.html", img_filepath=img_filepath)

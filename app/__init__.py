@@ -3,12 +3,14 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_turnstile import Turnstile
 
 # declare extension instances outside so blueprints can still do `from app import db` etc.
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = "admin.login"
+turnstile = Turnstile()
 
 def create_app(config_class=Config):
     # create app variable (Flask instance)
@@ -19,6 +21,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    turnstile.init_app(app)
 
     # register blueprints
     from app.main import bp as main_bp
