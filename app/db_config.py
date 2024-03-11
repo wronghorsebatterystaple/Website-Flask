@@ -1,5 +1,5 @@
 # can't put in config.py because current_app is not recognized when db is initialized
-config = {
+db_config = {
     "MAXLEN_USER_USERNAME": 25,
     "MAXLEN_USER_EMAIL": 320,
     "MAXLEN_USER_PASSWORD": 25,

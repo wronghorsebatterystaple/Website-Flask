@@ -1,22 +1,16 @@
 import sqlalchemy as sa
 from flask_login import current_user, login_user, logout_user, login_required
 from wtforms.form import Form
-from flask import render_template, flash, redirect, url_for, request
+from flask import flash, redirect, render_template, request, url_for
 
 from app.admin import bp
 from app.admin.forms import *
 from app import db
 from app.models import *
-from app import turnstile
+#from app import turnstile
+from app.util.turnstile_check import has_failed_turnstile
 
 from urllib.parse import urlsplit
-
-def has_failed_turnstile() -> bool:
-    if not turnstile.verify():
-        flash("you are a bot aren't you")
-        return True
-    return False
-
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -29,7 +23,7 @@ def login():
     # process POST requests (form submitted)
     if form.validate_on_submit():
         if has_failed_turnstile():
-            return redirect(url_for("admin.bot_jail"))
+            return redirect(url_for("main.bot_jail"))
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
@@ -194,9 +188,3 @@ def logout():
     logout_user()
     flash(f"You have been logged out.")
     return redirect(url_for("main.index"))
-
-
-@bp.route("/bot-jail")
-def bot_jail():
-    img_filepath = url_for("static", filename="amogus.webp")
-    return render_template("admin/bot-jail.html", img_filepath=img_filepath)
