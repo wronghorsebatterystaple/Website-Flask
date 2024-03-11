@@ -15,7 +15,7 @@ def index():
     posts = db.session.query(Post).order_by(desc(Post.timestamp))
     return render_template("blog/index.html", posts=posts)
 
-@bp.route("/<string:post_sanitized_title>")
+@bp.route("/<string:post_sanitized_title>", methods=["GET", "POST"])
 def post(post_sanitized_title):
     form = AddCommentForm()
 
@@ -44,4 +44,4 @@ def post(post_sanitized_title):
     for comment in comments:
         setattr(comment, "content", markdown.markdown(comment.content, extensions=["extra"]))
 
-    return render_template("blog/post.html", post=post, comments=comments)
+    return render_template("blog/post.html", post=post, form=form, comments=comments)

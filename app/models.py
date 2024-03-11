@@ -23,8 +23,10 @@ class Post(db.Model):
     subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_SUBTITLE"]))
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_POST_CONTENT"]))
 
-    images: so.WriteOnlyMapped["Image"] = so.relationship(back_populates="post")
-    comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post")
+    images: so.WriteOnlyMapped["Image"] = so.relationship(back_populates="post",
+            cascade="all, delete, delete-orphan", passive_deletes=True)
+    comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post",
+            cascade="all, delete, delete-orphan", passive_deletes=True)
 
     def sanitize_title(self):
         self.sanitized_title = ("-".join(self.title.split())).lower()
@@ -36,7 +38,7 @@ class Post(db.Model):
 
 class Comment(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id))
+    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id, ondelete="CASCADE"))
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True)
@@ -51,7 +53,7 @@ class Comment(db.Model):
 
 class Image(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id))
+    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id, ondelete="CASCADE"))
     img_pos: so.Mapped[int] = so.mapped_column(index=True)
 
     post: so.Mapped[Post] = so.relationship(back_populates="images")
