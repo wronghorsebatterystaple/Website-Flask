@@ -39,7 +39,7 @@ def post(post_sanitized_title):
     # process GET requests otherwise
     setattr(post, "content", markdown.markdown(post.content, extensions=["extra"]))
     
-    comments_query = post.comments.select() # we can do this because post.comments is a WriteOnlyMapped
+    comments_query = post.comments.select().order_by(desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
     for comment in comments:
         setattr(comment, "content", markdown.markdown(comment.content, extensions=["extra"]))
