@@ -29,7 +29,7 @@ def post(post_sanitized_title):
         if has_failed_turnstile():
             return redirect(url_for("main.bot_jail"))
 
-        comment = Comment(author_name=form.name.data, content=form.content.data,
+        comment = Comment(author=form.author.data, content=form.content.data,
                 post=post) # SQLAlchemy automatically generate post_id ForeignKey from post relationship()
         db.session.add(comment)
         db.session.commit()
@@ -38,5 +38,10 @@ def post(post_sanitized_title):
 
     # process GET requests otherwise
     setattr(post, "content", markdown.markdown(post.content, extensions=["extra"]))
-    comments = db.sessoin.query(Comment).filter
-    return render_template("blog/post.html", post=post)
+    
+    comments_query = post.comments.select() # we can do this because post.comments is a WriteOnlyMapped
+    comments = db.session.scalars(comments_query).all()
+    for comment in comments:
+        setattr(comment, "content", markdown.markdown(comment.content, extensions=["extra"]))
+
+    return render_template("blog/post.html", post=post, comments=comments)

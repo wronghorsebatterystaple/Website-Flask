@@ -16,7 +16,22 @@
     {{ post.content |safe }}
   </div>
 
-  <div class="post-comment-form">
-    {{ wtf.quick_form(form, id="post-comment-form-body") }}
+  <div class="post-commentform">
+    {{ wtf.quick_form(form, id="post-commentform-body") }}
+  </div>
+
+  <div class="post-commentlist">
+    {% for comment in comments %}
+      <div class="post-commentlist-comment">
+          <h2 class="post-commentlist-comment-author">{{ comment.author }}</h2>
+          <p class="post-commentlist-comment-content">{{ comment.content }}</p>
+
+          {% if comment.edited_timestamp is not none %}
+            <p class="post-commentlist-comment-timestamp"><small>{{ comment.timestamp }} | EDITED {{ comment.edited_timestamp }}</small></p>
+          {% else %}
+            <p class="post-commentlist-comment-timestamp"><small>{{ comment.timestamp }}</small></p>
+          {% endif %}
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}

@@ -10,7 +10,6 @@ from app.db_config import db_config
 from app import login_manager
 
 import re
-from typing import Optional
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -24,8 +23,8 @@ class Post(db.Model):
     subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_SUBTITLE"]))
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_POST_CONTENT"]))
 
-    images: so.WriteOnlyMapped[Optional["Image"]] = so.relationship(back_populates="post")
-    comments: so.WriteOnlyMapped[Optional["Comment"]] = so.relationship(back_populates="post")
+    images: so.WriteOnlyMapped["Image"] = so.relationship(back_populates="post")
+    comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post")
 
     def sanitize_title(self):
         self.sanitized_title = ("-".join(self.title.split())).lower()
@@ -41,13 +40,13 @@ class Comment(db.Model):
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True)
-    author_name: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_COMMENT_AUTHOR_NAME"]))
+    author: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_COMMENT_AUTHOR"]))
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_COMMENT_CONTENT"]))
 
     post: so.Mapped[Post] = so.relationship(back_populates="comments")
 
     def __repr(self):
-        return f"<Comment {self.id} for post {self.post_id} written by \"{self.author_name}\""
+        return f"<Comment {self.id} for post {self.post_id} written by \"{self.author}\""
 
 
 class Image(db.Model):
