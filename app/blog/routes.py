@@ -31,7 +31,9 @@ def post(post_sanitized_title):
 
         comment = Comment(author=form.author.data, content=form.content.data,
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
-        comment.insert_comment(post, db.session.get(Comment, 31))
+        if not comment.insert_comment(post, db.session.get(Comment, 31)):
+            flash("Attempted addition of comment under the wrong post")
+            return redirect(request.url)
         db.session.add(comment)
         db.session.commit()
         flash("Comment added successfully!")
