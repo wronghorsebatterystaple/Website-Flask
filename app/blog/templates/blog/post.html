@@ -27,17 +27,21 @@
   </div>
 
   <div class="post-commentlist">
-    {% for comment in comments %}
-      <div class="post-commentlist-comment">
-          <h3 class="post-commentlist-comment-author">{{ comment.author }}</h3>
-          <p class="post-commentlist-comment-content">{{ comment.content |safe }}</p>
-
-          {% if comment.edited_timestamp is not none %}
-            <p class="post-commentlist-comment-timestamp"><small>{{ comment.timestamp }} | EDITED {{ comment.edited_timestamp }}</small></p>
-          {% else %}
+    {% for comment in comments recursive %}
+      {% if comment.depth == loop.depth0 %}
+        <li>
+          <div class="post-commentlist-comment">
+            <h3 class="post-commentlist-comment-author">{{ comment.author }}</h3>
+            <p class="post-commentlist-comment-content">{{ comment.content |safe }}</p>
             <p class="post-commentlist-comment-timestamp"><small>{{ comment.timestamp }}</small></p>
-          {% endif %}
-      </div>
+
+            {% set descendants = comment.get_descendants_list(post) %}
+            {% if descendants %}
+              <ul class="post-commentlist-comment-reply">{{ loop(descendants) }}</ul>
+            {% endif %}
+          </div>
+        </li>
+      {% endif %}
     {% endfor %}
   </div>
 {% endblock %}

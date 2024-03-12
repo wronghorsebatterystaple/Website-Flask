@@ -45,7 +45,6 @@ class Comment(db.Model):
     post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id, ondelete="CASCADE"))
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
-    edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True)
     author: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_COMMENT_AUTHOR"]))
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_COMMENT_CONTENT"]))
 
@@ -54,32 +53,37 @@ class Comment(db.Model):
     # nested set
     left: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
     right: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
-    # depth: so.Mapped[int] = so.mapped_column(sa.Integer)
+    depth: so.Mapped[int] = so.mapped_column(sa.Integer)
 
     def insert_comment(self, post, parent) -> bool:
         if parent is None: # add child with left = max of right for that post + 1
-            max_right_query = post.comments.select().filter(sa.func.max(Comment.right))
-            max_right = db.session.scalar(max_right_query)
+            max_right_query = post.comments.select().order_by(sa.desc(Comment.right)).limit(1)
+            max_right_comment = db.session.scalars(max_right_query).first()
+            max_right = 0
+            if max_right_comment is not None:
+                max_right = max_right_comment.right
             self.left = max_right + 1
             self.right = max_right + 2
+            self.depth = 0
             return True
 
         if self.post_id != parent.post_id or self.post_id != post.id: # sanity check
             return False
-        post.comments.select().filter(Comment.right >= parent.right).update({
-            "left": sa.case(
-                (Comment.left >= parent.right, Comment.left + 2),
-                else_ = Comment.left
-            ),
-            "right": Comment.right + 2
-        })
         self.left = parent.right
         self.right = parent.right + 1
+        self.depth = parent.depth + 1
+
+        comments_to_update_query = post.comments.select().filter(Comment.right >= parent.right)
+        comments_to_update = db.session.scalars(comments_to_update_query).all()
+        for comment in comments_to_update:
+            if comment.left >= parent.right:
+                comment.left += 2
+            comment.right += 2
         return True
 
-    def get_descendants(self, post):
+    def get_descendants_list(self, post) -> list:
         comments_query = post.comments.select().filter(sa.and_(Comment.left > self.left, Comment.right < self.right))
-        return db.session.scalars(comments_query)
+        return db.session.scalars(comments_query).all()
 
     def __repr(self):
         return f"<Comment {self.id} for post {self.post_id} written by \"{self.author}\""
