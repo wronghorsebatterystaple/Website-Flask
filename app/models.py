@@ -10,6 +10,7 @@ from app.db_config import db_config
 from app import login_manager
 
 import re
+from typing import Optional
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -32,6 +33,9 @@ class Post(db.Model):
         self.sanitized_title = ("-".join(self.title.split())).lower()
         self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title) # sanitize all non [A-Za-z0-9-] in titles
 
+    def are_titles_unique(self) -> bool:
+        return db.session.query(Post).filter_by(sanitized_title=self.sanitized_title).first() is None
+
     def __repr__(self):
         return f"<Post {self.id} with title \"{self.title}\" and subtitle \"{self.subtitle}\">"
 
@@ -39,6 +43,7 @@ class Post(db.Model):
 class Comment(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id, ondelete="CASCADE"))
+    parent_comment_id: so.Mapped[Optional[Comment]] = so.mapped_column(sa.ForeignKey(Comment.id, ondelete="CASCADE"))
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True)
@@ -46,6 +51,9 @@ class Comment(db.Model):
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_COMMENT_CONTENT"]))
 
     post: so.Mapped[Post] = so.relationship(back_populates="comments")
+    parent_comment: so.Mapped[Optional[Comment]] = so.relationship(back_populates="child_comments")
+    child_comments: so.WriteOnlyMapped[Comment] = so.relationship(back_populates="parent_comment",
+            cascade="all, delete, delete-orphan", passive_deletes=True)
 
     def __repr(self):
         return f"<Comment {self.id} for post {self.post_id} written by \"{self.author}\""

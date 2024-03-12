@@ -1,0 +1,9 @@
+.custom-narrow {
+    max-width: clamp(480px, 33%, 33%);
+}
+
+hr.custom-doublehr {
+    height: 6px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}

@@ -79,7 +79,7 @@ def create_blogpost():
             return redirect(request.url)
 
         # check that title is unique (sanitized is unique => non-sanitized is unique)
-        if db.session.query(Post).filter_by(sanitized_title=new_post.sanitized_title).first() is not None:
+        if not new_post.are_titles_unique():
             flash("There is already a post with that title or sanitized title.")
             return redirect(request.url) # can also use Ajax to avoid clearing all fields with reload
         
@@ -133,7 +133,7 @@ def edit_blogpost():
         if form.title.data != post.title:
             post_temp = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
             post_temp.sanitize_title() # need post_temp for this--populate_obj() seems to already add to db
-            if db.session.query(Post).filter_by(sanitized_title=post_temp.sanitized_title).first() is not None:
+            if not post_temp.are_titles_unique():
                 flash("There is already a post with that title or sanitized title.")
                 return redirect(request.url)
 
