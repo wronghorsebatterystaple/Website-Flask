@@ -30,7 +30,7 @@ def post(post_sanitized_title):
             return redirect(url_for("main.bot_jail"))
 
         comment = Comment(author=form.author.data, content=form.content.data,
-                post=post) # SQLAlchemy automatically generate post_id ForeignKey from post relationship()
+                post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
         db.session.add(comment)
         db.session.commit()
         flash("Comment added successfully!")
