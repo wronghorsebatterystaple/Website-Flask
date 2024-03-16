@@ -50,7 +50,7 @@ class Comment(db.Model):
 
     post: so.Mapped[Post] = so.relationship(back_populates="comments")
 
-    # nested set
+    # nested set; quite the beautiful data structure
     left: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
     right: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
     depth: so.Mapped[int] = so.mapped_column(sa.Integer)
@@ -69,6 +69,7 @@ class Comment(db.Model):
 
         if self.post_id != parent.post_id or self.post_id != post.id: # sanity check
             return False
+
         self.left = parent.right
         self.right = parent.right + 1
         self.depth = parent.depth + 1
@@ -82,7 +83,8 @@ class Comment(db.Model):
         return True
 
     def get_descendants_list(self, post) -> list:
-        comments_query = post.comments.select().filter(sa.and_(Comment.left > self.left, Comment.right < self.right))
+        comments_query = post.comments.select().filter(sa.and_(
+                Comment.left > self.left, Comment.right < self.right))
         return db.session.scalars(comments_query).all()
 
     def __repr(self):

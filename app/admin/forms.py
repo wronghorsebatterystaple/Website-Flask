@@ -24,7 +24,7 @@ class CreateBlogpostForm(FlaskForm):
             Length(max=db_config["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
-    content = TextAreaField("Content (Markdown supported)", validators=[InputRequired(),
+    content = TextAreaField("Content (Markdown, LaTeX supported)", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
     submit = SubmitField("Submit")
 

@@ -1,5 +1,17 @@
+@media (min-width: 640px) {
+    .custom-narrow {
+        width: 640px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .custom-narrow {
+        width: 33%;
+    }
+}
+
 .custom-narrow {
-    max-width: clamp(480px, 33%, 33%);
+    max-width: 100%;
 }
 
 hr.custom-doublehr {
@@ -7,3 +19,4 @@ hr.custom-doublehr {
     border-top: 2px solid black;
     border-bottom: 2px solid black;
 }
+

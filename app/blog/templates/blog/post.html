@@ -6,9 +6,12 @@
     <h1 class="post-title">{% block title %} {{ post.title }} {% endblock %}</h1>
     <h2 class="post-subtitle">{{ post.subtitle }}</h2>
     {% if post.edited_timestamp is not none %}
-      <h3 class="post-timestamp">{{ post.timestamp }} | EDITED {{ post.edited_timestamp }} </h3>
+      <h3 class="post-timestamp">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }} </h3>
     {% else %}
-      <h3 class="post-timestamp">{{ post.timestamp }}</h3>
+      <h3 class="post-timestamp">{{ moment(post.timestamp).format('l') }}</h3>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+      {{ wtf.quick_form(edit_blogpost_button, class="admin-button") }}
     {% endif %}
   </div>
 
@@ -23,25 +26,30 @@
   </div>
 
   <div class="post-commentform">
-    {{ wtf.quick_form(form, id="post-commentform-body") }}
+    {{ wtf.quick_form(add_comment_form, class="post-commentform-body") }}
   </div>
 
   <div class="post-commentlist">
-    {% for comment in comments recursive %}
-      {% if comment.depth == loop.depth0 %}
-        <li>
-          <div class="post-commentlist-comment">
-            <h3 class="post-commentlist-comment-author">{{ comment.author }}</h3>
-            <p class="post-commentlist-comment-content">{{ comment.content |safe }}</p>
-            <p class="post-commentlist-comment-timestamp"><small>{{ comment.timestamp }}</small></p>
+    <h2 class="post-commentlist-header">Comments</h2>
+    <div class="d-flex flex-shrink-0">
+      <div class="flex-shrink-0">
+        {% for comment in comments recursive %}
+          {% if comment.depth == loop.depth0 %}
+            <div class="flex-grow-1 ms-3">
+              <div class="post-commentlist-comment">
+                <h3 class="post-commentlist-comment-author">{{ comment.author }}</h3>
+                <p class="post-commentlist-comment-content">{{ comment.content |safe }}</p>
+                <p class="post-commentlist-comment-timestamp"><small>{{ moment(comment.timestamp).format('lll') }} ({{ moment(comment.timestamp).fromNow() }})</small></p>
 
-            {% set descendants = comment.get_descendants_list(post) %}
-            {% if descendants %}
-              <ul class="post-commentlist-comment-reply">{{ loop(descendants) }}</ul>
-            {% endif %}
-          </div>
-        </li>
-      {% endif %}
-    {% endfor %}
+                {% set descendants = comment.get_descendants_list(post) %}
+                {% if descendants %}
+                  <div class="post-commentlist-comment-reply">{{ loop(descendants) }}</div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
   </div>
 {% endblock %}

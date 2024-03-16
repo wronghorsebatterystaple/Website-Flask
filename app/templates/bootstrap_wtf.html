@@ -44,10 +44,11 @@
   {%- endif %}
 {% endmacro %}
 
-{% macro quick_form(form, action="", method="post", id="", novalidate=False) %}
+{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False) %}
 <form novalidate
   {%- if action != None %} action="{{ action }}"{% endif -%}
-  {%- if method %} method="{{ method }}"{% endif %}
+  {%- if method %} method="{{ method }}"{% endif -%}
+  {%- if class %} class="{{ class }}"{% endif -%}
   {%- if id %} id="{{ id }}"{% endif -%}
   {%- if novalidate %} novalidate{% endif -%}>
   {{ form.hidden_tag() }}
