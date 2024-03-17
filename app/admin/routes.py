@@ -7,7 +7,6 @@ from app.admin import bp
 from app.admin.forms import *
 from app import db
 from app.models import *
-#from app import turnstile
 from app.util.turnstile_check import has_failed_turnstile
 
 from urllib.parse import urlsplit
@@ -20,14 +19,14 @@ def login():
 
     form = PasswordForm()
 
-    # process POST requests (form submitted)
-    if request.method == "POST":
+    # process POST requests (with Ajax)
+    if form.validate_on_submit():
         if has_failed_turnstile():
             return jsonify(redirect=True, redirect_url=url_for("main.bot_jail"))
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
-        if user is None or not user.check_password(request.json["password"]):
+        if user is None or not user.check_password(form.password.data):
             return jsonify(redirect=False, flash="Invalid password lol")
             # return redirect(request.url)
         login_user(user, remember=True)
@@ -48,16 +47,21 @@ def login():
 def choose_action():
     form = ChooseActionForm()
 
-    # process POST requests
+    # process POST requests (with Ajax)
     if form.validate_on_submit():
         action = form.action.data
+        redirect_url = ""
+
         if action == "create":
-            return redirect(url_for("admin.create_blogpost"))
+            redirect_url = url_for("admin.create_blogpost")
         elif action == "edit":
-            return redirect(url_for("admin.search_blogpost"))
+            redirect_url = url_for("admin.search_blogpost")
         elif action == "change_admin_password":
-            return redirect(url_for("admin.change_admin_password"))
-        return action
+            redirect_url = url_for("admin.change_admin_password")
+        else:
+            return jsonify(redirect=False, flash="How did you do that?")
+
+        return jsonify(redirect=True, redirect_url=redirect_url)
 
     # process GET requests otherwise
     return render_template("admin/form-base.html", title="Sleeping TA Yandex", prompt="42", form=form)
@@ -68,28 +72,31 @@ def choose_action():
 def create_blogpost():
     form = CreateBlogpostForm()
 
-    # process POST requests
+    # process POST requests (with Ajax)
     if form.validate_on_submit():
         new_post = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
         new_post.sanitize_title()
 
         # check that title still exists after sanitization
         if new_post.sanitized_title == "":
-            flash("Post must have alphanumeric characters in its title.")
-            return redirect(request.url)
+            return jsonify(redirect=False,
+                    flash="Post must have alphanumeric characters in its title.")
 
         # check that title is unique (sanitized is unique => non-sanitized is unique)
         if not new_post.are_titles_unique():
-            flash("There is already a post with that title or sanitized title.")
-            return redirect(request.url) # can also use Ajax to avoid clearing all fields with reload
+            return jsonify(redirect=False,
+                    flash="There is already a post with that title or sanitized title.")
         
         db.session.add(new_post)
         db.session.commit()
         flash("Post created successfully!")
-        return redirect(url_for("blog.post", post_sanitized_title=new_post.sanitized_title)) # view completed post
+        return jsonify(redirect=True,
+                redirect_url=url_for("blog.post",
+                post_sanitized_title=new_post.sanitized_title)) # view completed post
 
     # process GET requests otherwise
-    return render_template("admin/form-base.html", title="Create post", prompt="Create post", form=form)
+    return render_template("admin/form-base.html", title="Create post",
+            prompt="Create post", form=form)
 
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
@@ -97,17 +104,17 @@ def create_blogpost():
 def search_blogpost():
     form = SearchBlogpostForm()
 
-    # process POST requests
+    # process POST requests (with Ajax)
     if form.validate_on_submit():
         post = form.post.data
         if post is None:
-            flash("You somehow managed to choose nothing, congratulations.")
-            return redirect(request.url)
-        post = post.id
-        return redirect(url_for("admin.edit_blogpost", post_id=post))
+            return jsonify(redirect=False,
+                    flash="You somehow managed to choose nothing, congratulations.")
+        return jsonify(redirect=True, redirect_url=url_for("admin.edit_blogpost", post_id=post.id))
         
     # process GET requests otherwise
-    return render_template("admin/form-base.html", title="Search Posts", prompt="Search posts", form=form)
+    return render_template("admin/form-base.html", title="Search Posts",
+            prompt="Search posts", form=form)
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
@@ -116,38 +123,41 @@ def edit_blogpost():
     post = db.session.get(Post, request.args.get("post_id"))
     if post is None:
         flash("That post no longer exists. Did you hit the back button? Regret your choice, did you?")
-        return redirect(url_for("admin.search_blogpost"))
+        return jsonify(redirect=True, redirect_url=url_for("admin.search_blogpost"))
     
     form = EditBlogpostForm(obj=post) # pre-populate fields
 
-    # process POST requests
+    import json
+    # process POST requests (with Ajax)
     if form.validate_on_submit():
         # handle form deletion (after confirmation button)
-        if form.delete.data:
+        if "delete" in request.get_json():
             db.session.delete(post)
             db.session.commit()
             flash("Post deleted successfully!")
-            return redirect(url_for("blog.index"))
+            return jsonify(redirect=True, redirect_url=url_for("blog.index"))
 
         # check that title is unique if changed
         if form.title.data != post.title:
             post_temp = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
             post_temp.sanitize_title() # need post_temp for this--populate_obj() seems to already add to db
             if not post_temp.are_titles_unique():
-                flash("There is already a post with that title or sanitized title.")
-                return redirect(request.url)
+                return jsonify(redirect=False,
+                        flash="There is already a post with that title or sanitized title.")
 
         form.populate_obj(post)
         post.sanitize_title()
         # check that title still exists after sanitization
         if post.sanitized_title == "":
-            flash("Post must have alphanumeric characters in its title.")
-            return redirect(request.url)
+            return jsonify(redirect=False,
+                    flash="Post must have alphanumeric characters in its title.")
         
         post.edited_timestamp = datetime.now(timezone.utc) # updated edited time
         db.session.commit()
         flash("Post edited successfully!")
-        return redirect(url_for("blog.post", post_sanitized_title=post.sanitized_title)) # view edited post
+        return jsonify(redirect=True,
+                redirect_url=url_for("blog.post",
+                post_sanitized_title=post.sanitized_title)) # view edited post
 
     # process GET requests otherwise
     return render_template("admin/form-base.html", title="Edit Post",
@@ -159,23 +169,21 @@ def edit_blogpost():
 def change_admin_password():
     form = ChangeAdminPasswordForm()
 
-    # process POST requests
+    # process POST requests (with Ajax)
     if form.validate_on_submit():
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check given password
         if user is None or not user.check_password(form.old_password.data):
-            flash("Old password is not correct.")
-            return redirect(request.url)
+            return jsonify(redirect=False, flash="Old password is not correct.")
 
         # check new passwords are identical
         if form.new_password_1.data != form.new_password_2.data:
-            flash("New passwords do not match.")
-            return redirect(request.url)
+            return jsonify(redirect=False, flash="New passwords do not match.")
         
         user.set_password(form.new_password_1.data)
         db.session.commit()
         flash("Your password has been changed!")
-        return redirect(url_for("admin.login"))
+        return jsonify(redirect=True, redirect_url=url_for("admin.login"))
 
     # process GET requests otherwise
     return render_template("admin/form-base.html", title="Change Admin Password",

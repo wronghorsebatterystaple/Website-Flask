@@ -13,8 +13,8 @@
 {% block js %}
   var csrf_token = "{{ csrf_token() }}";
 
-  function formToJSON($formObj) {
-    var array = $formObj.serializeArray();
+  function formToJSON(formObj) {
+    var array = formObj.serializeArray();
     var json = {};
 
     $.map(array, function(n, i) {
@@ -35,13 +35,18 @@
   $("#form").submit(function(e) {
     e.preventDefault();
 
-    var datas = formToJSON($(this));
+    var data = formToJSON($(this))
+    // send customid in POST request to differentiate multiple submit buttons in routes.py
+    var submit_button_customid = $(e.originalEvent.submitter).attr("data-submit-customid")
+    if (submit_button_customid) { // only proceed if this attribute is defined
+      data[submit_button_customid] = true;
+    }
 
     $.ajax({
       type: "POST",
-      url: "/admin/login",
+      url: window.location.pathname + window.location.search,
       contentType: "application/json; charset=utf-8",
-      data: JSON.stringify(formToJSON($(this))),
+      data: JSON.stringify(data),
       dataType: "json",
     })
     .done(function(response) {

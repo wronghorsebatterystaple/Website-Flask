@@ -42,8 +42,9 @@ class EditBlogpostForm(FlaskForm):
             Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
     content = TextAreaField("Content (markdown supported)", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
-    submit = SubmitField("Submit")
-    delete = SubmitField("Delete Post", render_kw={"onclick": "return confirm('Sanity check');"})
+    submit = SubmitField("Submit", render_kw={"data-submit-customid": "submit"})
+    delete = SubmitField("Delete Post", render_kw={
+        "data-submit-customid": "delete", "onclick": "return confirm('Sanity check');"})
 
 
 class ChangeAdminPasswordForm(FlaskForm):
