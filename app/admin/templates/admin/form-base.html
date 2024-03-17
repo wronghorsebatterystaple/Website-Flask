@@ -53,7 +53,7 @@
       if (response.redirect) {
         window.location.href = response.redirect_url;
       } else {
-        alert(response.flash);
+        custom_flash(response.flash);
       }
     });
   });
