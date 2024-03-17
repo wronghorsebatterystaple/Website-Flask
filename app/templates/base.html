@@ -66,7 +66,7 @@
       </div>
     </nav>
 
-    <div class="container mt-3 custom-narrow">
+    <div id="flash-wrapper" class="container mt-3 custom-narrow">
       <!-- display flash()ed messages as alerts -->
       {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -82,6 +82,9 @@
       <!-- subtemplates' content blocks insert themselves here -->
       {% block content %} {% endblock %}
     </div>
+
+    <!-- subtemplates' (optional) JS goes here -->
+    <script>{% block js %} {% endblock %}</script>
 
     <!-- CDNs -->
       <!-- Flask-Moment -->

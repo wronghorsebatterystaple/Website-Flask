@@ -7,6 +7,49 @@
 
 {% block content %}
   <h1 class="form-main-prompt">{{ prompt }}</h1>
-  {{ wtf.quick_form(form, class="form-body") }}
+  {{ wtf.quick_form(form, id="form", class="form-body") }}
 {% endblock %}
 
+{% block js %}
+  var csrf_token = "{{ csrf_token() }}";
+
+  function formToJSON($formObj) {
+    var array = $formObj.serializeArray();
+    var json = {};
+
+    $.map(array, function(n, i) {
+        json[n["name"]] = n["value"];
+    });
+
+    return json;
+  }
+
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", csrf_token);
+      }
+    }
+  });
+
+  $("#form").submit(function(e) {
+    e.preventDefault();
+
+    var datas = formToJSON($(this));
+
+    $.ajax({
+      type: "POST",
+      url: "/admin/login",
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(formToJSON($(this))),
+      dataType: "json",
+    })
+    .done(function(response) {
+      if (response.redirect) {
+        window.location.href = response.redirect_url;
+      } else {
+        alert(response.flash);
+      }
+    });
+  });
+{% endblock %}

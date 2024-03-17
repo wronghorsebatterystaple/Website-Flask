@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 from flask_login import current_user, login_user, logout_user, login_required
 from wtforms.form import Form
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, jsonify, redirect, render_template, request, url_for
 
 from app.admin import bp
 from app.admin.forms import *
@@ -21,22 +21,22 @@ def login():
     form = PasswordForm()
 
     # process POST requests (form submitted)
-    if form.validate_on_submit():
+    if request.method == "POST":
         if has_failed_turnstile():
-            return redirect(url_for("main.bot_jail"))
+            return jsonify(redirect=True, redirect_url=url_for("main.bot_jail"))
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
-        if user is None or not user.check_password(form.password.data):
-            flash("Invalid password lol")
-            return redirect(request.url)
+        if user is None or not user.check_password(request.json["password"]):
+            return jsonify(redirect=False, flash="Invalid password lol")
+            # return redirect(request.url)
         login_user(user, remember=True)
         
         # allow redirects from @login_required
         next_page = request.args.get("next")
         if next_page is None or urlsplit(next_page).netloc != "": # ensure redirects are only local for security
             next_page = url_for("admin.choose_action")
-        return redirect(next_page)
+        return jsonify(redirect=True, redirect_url=next_page)
 
     # process GET requests otherwise (page being loaded)
     return render_template("admin/form-base.html", title="Assistant Professor Bing",

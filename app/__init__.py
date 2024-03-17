@@ -6,8 +6,10 @@ from flask_moment import Moment
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_turnstile import Turnstile
+from flask_wtf.csrf import CSRFProtect
 
 # declare extension instances outside so blueprints can still do `from app import db` etc.
+csrf = CSRFProtect()
 db = SQLAlchemy()
 migrate = Migrate()
 moment = Moment()
@@ -21,6 +23,7 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # init extensions
+    csrf.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
     moment.init_app(app)
