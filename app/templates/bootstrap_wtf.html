@@ -60,7 +60,6 @@
     {%- if id %} id="{{ id }}"{% endif -%}
     {%- if novalidate %} novalidate{% endif -%}>
     {{ form.hidden_tag() }}
-  
     {% set ns = namespace(first_field=true) %}
     {%- for field in form %}
       {% if field.widget.input_type != 'hidden' -%}
