@@ -20,7 +20,10 @@ def login():
     form = PasswordForm()
 
     # process POST requests (with Ajax)
-    if form.validate_on_submit():
+    if request.method == "POST":
+        if not form.validate():
+            return jsonify(redirect=False, invalid_submission=True,
+                    submission_errors=form.errors)
         if has_failed_turnstile():
             return jsonify(redirect=True, redirect_url=url_for("main.bot_jail"))
 
@@ -28,7 +31,6 @@ def login():
         # check admin password
         if user is None or not user.check_password(form.password.data):
             return jsonify(redirect=False, flash="Invalid password lol")
-            # return redirect(request.url)
         login_user(user, remember=True)
         
         # allow redirects from @login_required
@@ -48,7 +50,11 @@ def choose_action():
     form = ChooseActionForm()
 
     # process POST requests (with Ajax)
-    if form.validate_on_submit():
+    if request.method == "POST":
+        if not form.validate():
+            return jsonify(redirect=False, invalid_submission=True,
+                    submission_errors=form.errors)
+
         action = form.action.data
         redirect_url = ""
 
@@ -73,7 +79,11 @@ def create_blogpost():
     form = CreateBlogpostForm()
 
     # process POST requests (with Ajax)
-    if form.validate_on_submit():
+    if request.method == "POST":
+        if not form.validate():
+            return jsonify(redirect=False, invalid_submission=True,
+                    submission_errors=form.errors)
+
         new_post = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
         new_post.sanitize_title()
 
@@ -105,7 +115,11 @@ def search_blogpost():
     form = SearchBlogpostForm()
 
     # process POST requests (with Ajax)
-    if form.validate_on_submit():
+    if request.method == "POST":
+        if not form.validate():
+            return jsonify(redirect=False, invalid_submission=True,
+                    submission_errors=form.errors)
+
         post = form.post.data
         if post is None:
             return jsonify(redirect=False,
@@ -129,7 +143,11 @@ def edit_blogpost():
 
     import json
     # process POST requests (with Ajax)
-    if form.validate_on_submit():
+    if request.method == "POST":
+        if not form.validate():
+            return jsonify(redirect=False, invalid_submission=True,
+                    submission_errors=form.errors)
+
         # handle form deletion (after confirmation button)
         if "delete" in request.get_json():
             db.session.delete(post)
@@ -170,7 +188,11 @@ def change_admin_password():
     form = ChangeAdminPasswordForm()
 
     # process POST requests (with Ajax)
-    if form.validate_on_submit():
+    if request.method == "POST":
+        if not form.validate():
+            return jsonify(redirect=False, invalid_submission=True,
+                    submission_errors=form.errors)
+
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check given password
         if user is None or not user.check_password(form.old_password.data):

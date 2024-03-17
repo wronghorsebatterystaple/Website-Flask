@@ -31,6 +31,7 @@
 
     <!-- JS -->
       <!-- global custom JS -->
+      <script>csrf_token = "{{ csrf_token() }}";</script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
 
     <!-- subtemplates' title blocks insert themselves here -->
@@ -74,7 +75,7 @@
         <!-- display flash()ed messages as alerts -->
         <div id="flash-container">
           <div id="flash-message-template" class="alert alert-info alert-dismissible fade show" role="alert" hidden>
-            <span id="flash-message-template-text"> "Something went very, very wrong.</span>
+            <span id="flash-message-template-text">"Something went very, very wrong.</span>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
 
@@ -97,7 +98,7 @@
     </div>
 
     <!-- subtemplates' (optional) JS goes here -->
-    <script>{% block js %} {% endblock %}</script>
+    {% block js %} {% endblock %}
 
     <!-- CDNs -->
       <!-- Flask-Moment -->

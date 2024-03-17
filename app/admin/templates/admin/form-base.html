@@ -11,50 +11,5 @@
 {% endblock %}
 
 {% block js %}
-  var csrf_token = "{{ csrf_token() }}";
-
-  function formToJSON(formObj) {
-    var array = formObj.serializeArray();
-    var json = {};
-
-    $.map(array, function(n, i) {
-        json[n["name"]] = n["value"];
-    });
-
-    return json;
-  }
-
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-        xhr.setRequestHeader("X-CSRFToken", csrf_token);
-      }
-    }
-  });
-
-  $("#form").submit(function(e) {
-    e.preventDefault();
-
-    var data = formToJSON($(this))
-    // send customid in POST request to differentiate multiple submit buttons in routes.py
-    var submit_button_customid = $(e.originalEvent.submitter).attr("data-submit-customid")
-    if (submit_button_customid) { // only proceed if this attribute is defined
-      data[submit_button_customid] = true;
-    }
-
-    $.ajax({
-      type: "POST",
-      url: window.location.pathname + window.location.search,
-      contentType: "application/json; charset=utf-8",
-      data: JSON.stringify(data),
-      dataType: "json",
-    })
-    .done(function(response) {
-      if (response.redirect) {
-        window.location.href = response.redirect_url;
-      } else {
-        custom_flash(response.flash);
-      }
-    });
-  });
+  <script src="{{ url_for('static', filename='js/form_submit_ajax.js') }}"></script>
 {% endblock %}
