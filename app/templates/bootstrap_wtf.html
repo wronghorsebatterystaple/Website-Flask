@@ -1,9 +1,11 @@
 {% macro form_field(field, autofocus) %}
   {%- if field.type == 'BooleanField' %}
     <div class="form-check mb-3">
-      {{ field(class='form-check-input') }}
+      {{ field(id=field.name + '-input', class='form-check-input') }}
       {{ field.label(class='form-check-label') }}
+      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
     </div>
+
   {%- elif field.type == 'RadioField' %}
     {{ field.label(class='form-label') }}
     {%- for item in field %}
@@ -12,9 +14,12 @@
         {{ item.label(class='form-check-label') }}
       </div>
     {%- endfor %}
+
   {%- elif field.type == 'SelectField' %}
-    {{ field.label(class='form-label') }}
-    {{ field(class='form-select mb-3') }}
+      {{ field.label(class='form-label') }}
+      {{ field(id=field.name + '-input', class='form-select mb-3') }}
+      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
+
   {%- elif field.type == 'TextAreaField' %}
     <div class="mb-3">
       {{ field.label(class='form-label') }}
@@ -24,11 +29,13 @@
         {% else %}
           {{ field(id=field.name + '-input', class='form-control' + (' is-invalid' if field.errors else '')) }}
         {% endif %}
-        <div class="invalid-feedback" aria-describedby="{{ field.name }}">error here</div>
+        <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
+
   {%- elif field.type == 'SubmitField' %}
     {{ field(class='btn btn-primary mb-3') }}
+
   {%- else %}
     <div class="mb-3">
       {{ field.label(class='form-label') }}
@@ -43,6 +50,7 @@
     </div>
   {%- endif %}
 {% endmacro %}
+
 
 {% macro quick_form(form, action="", method="post", class="", id="", novalidate=False) %}
   <form novalidate
@@ -61,7 +69,7 @@
           {% set ns.first_field = false %}
         </div>
       {%- endif %}
-    {%- endfor %}  
+    {%- endfor %}
   
     {{ turnstile }}
   </form>
