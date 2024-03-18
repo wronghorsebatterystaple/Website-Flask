@@ -69,7 +69,7 @@ $("#form").submit(function(e) {
 // Remove invalid input highlighting and error message when user inputs into field.
 $(".form-control").on("input", function() {
     if ($(this).hasClass("is-invalid")) {
-        $(this).removeClass("is-invalid");
-        $(this).siblings(".invalid-feedback").text(""); // this apparently also hides the div
+        $(this).removeClass("is-invalid"); // this also hides the .invalid-feedback child div I think
+        $(this).siblings(".invalid-feedback").text("");
     }
 });
