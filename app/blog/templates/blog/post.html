@@ -11,7 +11,7 @@
       <h3 class="post-timestamp">{{ moment(post.timestamp).format('l') }}</h3>
     {% endif %}
     {% if current_user.is_authenticated %}
-      {{ wtf.quick_form(edit_blogpost_button, class='admin-button') }}
+    {{ wtf.quick_form(edit_blogpost_button, action=url_for("blog.edit_blogpost_button", post_id=post.id), class="admin-button") }}
     {% endif %}
   </div>
 
@@ -26,10 +26,10 @@
   </div>
 
   <div class="post-commentform">
-    {{ wtf.quick_form(add_comment_form, class="post-commentform-body") }}
+    {{ wtf.quick_form(add_comment_form, class="post-commentform-form") }}
   </div>
 
-  <div class="post-commentlist">
+  <div id="commentlist" class="post-commentlist">
     <h2 class="post-commentlist-header">Comments</h2>
     <div class="d-flex flex-shrink-0">
       <div class="flex-shrink-0">
@@ -44,7 +44,7 @@
               <p class="post-commentlist-comment-timestamp"><small>{{ moment(comment.timestamp).format('lll') }} ({{ moment(comment.timestamp).fromNow() }})</small></p>
 
               {{ wtf.quick_form(reply_comment_button, btn_type='link', id='reply-btn-' ~ comment.id, class='reply-btn') }}
-              {{ wtf.quick_form(add_comment_form, hidden=true, id='reply-form-' ~ comment.id) }}
+              {{ wtf.quick_form(add_comment_form, hidden=true, id='reply-form-' ~ comment.id, class='post-commentform-form') }}
 
               {% set descendants = comment.get_descendants_list(post) %}
               {% if descendants %}
@@ -62,5 +62,5 @@
 {% endblock %}
 
 {% block js %}
-  <script src="{{ url_for('blog.static', filename='js/comment_reply.js') }}"></scipt>
+  <script src="{{ url_for('blog.static', filename='blog/js/comment_reply.js') }}"></scipt>
 {% endblock %}

@@ -1,24 +1,3 @@
-// Util function that converts <form> element and its data to a JSON for Ajax.
-function formToJSON(formObj) {
-    var array = formObj.serializeArray();
-    var json = {};
-  
-    $.map(array, function(n, i) {
-        json[n["name"]] = n["value"];
-    });
-  
-    return json;
-}
-
-// Add CSRF token to headers
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrf_token);
-      }
-    }
-});
-
 // Use Ajax to intercept form submissions, pass to Flask manually, and process the response
 // so we can have asynchronous flash()ing/input validation messages on errored response from Flask.
 $("#form").submit(function(e) {
@@ -64,12 +43,4 @@ $("#form").submit(function(e) {
             }
         }
     });
-});
-
-// Remove invalid input highlighting and error message when user inputs into field.
-$(".form-control").on("input", function() {
-    if ($(this).hasClass("is-invalid")) {
-        $(this).removeClass("is-invalid"); // this also hides the .invalid-feedback child div I think
-        $(this).siblings(".invalid-feedback").text("");
-    }
 });

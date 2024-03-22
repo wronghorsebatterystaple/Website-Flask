@@ -31,14 +31,16 @@
 
     <!-- JS -->
       <!-- global custom JS -->
-      <script>csrf_token = "{{ csrf_token() }}";</script>
+      <script>
+          var csrf_token = "{{ csrf_token() }}";
+      </script>
+      <script src="{{ url_for('static', filename='js/ajax_setup.js') }}"></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
 
     <!-- subtemplates' title blocks insert themselves here -->
     <title>{% block title %} {% endblock %}</title>
   </head>
-
-
 
   <body>
     <div class="container custom-narrow">

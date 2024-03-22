@@ -7,6 +7,7 @@ from app.admin import bp
 from app.admin.forms import *
 from app import db
 from app.models import *
+from app.util.uri_util import encode_uri_component
 from app.util.turnstile_check import has_failed_turnstile
 
 from urllib.parse import urlsplit
@@ -130,23 +131,24 @@ def edit_blogpost():
     post = db.session.get(Post, request.args.get("post_id"))
     if post is None:
         return jsonify(redirect_uri=url_for("admin.search_blogpost"),
-                flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you?")
+                flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you? {request.url}")
     
     form = EditBlogpostForm(obj=post) # pre-populate fields
 
-    import json
     # process POST requests (with Ajax)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        # handle form deletion (after confirmation button)
-        if "delete" in request.get_json():
+        import json
+        # handle post deletion (after confirmation button)
+        if request.get_json().get("delete"):
             db.session.delete(post)
             db.session.commit()
             return jsonify(redirect_uri=url_for("blog.index"),
                     flash_message="Post deleted successfully!")
 
+        # handle post editing otherwise
         # check that title is unique if changed
         if form.title.data != post.title:
             post_temp = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
@@ -203,4 +205,4 @@ def change_admin_password():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("main.index", flash="Mischief managed."))
+    return redirect(url_for("main.index", flash=encode_uri_component("Mischief managed.")))

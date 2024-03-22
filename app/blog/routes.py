@@ -1,28 +1,21 @@
 import sqlalchemy as sa
 from sqlalchemy import desc
 from flask_login import current_user
-from flask import flash, get_flashed_messages, redirect, render_template, request, url_for
+from flask import jsonify, redirect, render_template, request, url_for
 
 from app.blog import bp
 from app.blog.forms import *
 from app import db
 from app.models import *
+from app.util.uri_util import encode_uri_component, url_with_flash
 from app.util.turnstile_check import has_failed_turnstile
 
 import markdown
 
 
-@bp.route("/", methods=["GET", "POST"])
+@bp.route("/")
 def index():
     create_blogpost_button = CreateBlogpostButton()
-    # process POST requests (create blogpost button):
-    if create_blogpost_button.validate_on_submit():
-        if has_failed_turnstile():
-            return redirect(url_for("main.bot_jail"))
-
-        return redirect(url_for("admin.create_blogpost"))
-
-    # process GET requests otherwise
     posts = db.session.query(Post).order_by(desc(Post.timestamp))
     return render_template("blog/index.html", posts=posts, create_blogpost_button=create_blogpost_button)
 
@@ -34,30 +27,23 @@ def post(post_sanitized_title):
     edit_blogpost_button = EditBlogpostButton()
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
-        flash("The post doesn't exist.")
-        return redirect(url_for("blog.index"))
+        return redirect(url_for("blog.index", flash=encode_uri_component("The post doesn't exist.")))
 
-    # process POST requests (adding comments; after making sure that post still exists)
-    if add_comment_form.validate_on_submit():
+    # process POST requests (adding comments) (with Ajax)
+    if request.method == "POST":
+        if not add_comment_form.validate():
+            return jsonify(submission_errors=request.form)
+            return jsonify(submission_errors=add_comment_form.errors)
         if has_failed_turnstile():
             return redirect(url_for("main.bot_jail"))
 
         comment = Comment(author=add_comment_form.author.data, content=add_comment_form.content.data,
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
         if not comment.insert_comment(post, db.session.get(Comment, add_comment_form.parent.data)):
-            flash("Attempted addition of comment under the wrong post")
-            return redirect(request.url)
+            return jsonify(flash_message="Sanity check is not supposed to fail...")
         db.session.add(comment)
         db.session.commit()
-        flash("Comment added successfully!")
-        return redirect(request.url)
-
-    # process POST requests (editing/deleting blogposts)
-    if edit_blogpost_button.validate_on_submit():
-        if has_failed_turnstile():
-            return redirect(url_for("main.bot_jail"))
-
-        return redirect(url_for("admin.edit_blogpost", post_id=post.id))
+        return jsonify(flash_message="Comment added successfully!")
 
     # process GET requests otherwise
     post.content = markdown.markdown(post.content, extensions=["extra"])
@@ -73,3 +59,12 @@ def post(post_sanitized_title):
             reply_comment_button = reply_comment_button,
             edit_blogpost_button=edit_blogpost_button)
 
+
+@bp.route("/create-blogpost-button", methods=["POST"])
+def create_blogpost_button():
+    return redirect(url_for("admin.create_blogpost"))
+
+
+@bp.route("/edit-blogpost-button", methods=["POST"])
+def edit_blogpost_button():
+    return redirect(url_for("admin.edit_blogpost", post_id=request.args.get("post_id")))
