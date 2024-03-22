@@ -1,5 +1,5 @@
 // Asynchronously reveal fields for comment on clicking a reply button, and don't send POST at all
-$(".reply-btn").submit(function(e) {
+$(document).on("submit", ".reply-btn", function(e) {
     e.preventDefault();
 
     var id = $(this).attr("id").match(/\d+/)[0] // get matching id number
@@ -8,7 +8,7 @@ $(".reply-btn").submit(function(e) {
 });
 
 // Use Ajax to update page on comment addition without refreshing and going back to top
-$(".post-commentform-form").submit(function(e) {
+$(document).on("submit", ".post-commentform-form", function(e) {
     e.preventDefault();
 
     $.ajax({
@@ -19,20 +19,29 @@ $(".post-commentform-form").submit(function(e) {
         dataType: "json",
     })
     .done(function(response) {
-        if (response.flash_message) {
-            customFlash(response.flash_message);
-        }
-
-        if (response.submission_errors) {
-            errors = response.submission_errors;
-            Object.keys(errors).forEach((field_name) => {
-                var field_elem = $("#form").find(`#${field_name}-field`)
-                field_elem.find(`#${field_name}-input`).addClass("is-invalid");
-                field_elem.find(".invalid-feedback").text(errors[field_name][0]);
-            });
+        if (response.redirect_uri) {
+            var newURI = response.redirect_uri;
+            if (response.flash_message) {
+                newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
+            }
+            window.location.href = newURI;
         } else {
-            // only asynchronously update comment section if no submission errors
-            $("#commentlist").load(window.location.href + " #commentlist > *");
+            if (response.flash_message) {
+                customFlash(response.flash_message);
+            }
+
+            if (response.submission_errors) {
+                errors = response.submission_errors;
+                Object.keys(errors).forEach((field_name) => {
+                    var field_elem = $(e.target).find(`#${field_name}-field`)
+                    field_elem.find(`#${field_name}-input`).addClass("is-invalid");
+                    field_elem.find(".invalid-feedback").text(errors[field_name][0]);
+                    });
+            }
+
+            if (response.success) {
+                $("#commentlist").load(window.location.href + " #commentlist > *");
+            }
         }
     });
 });

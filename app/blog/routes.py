@@ -32,18 +32,18 @@ def post(post_sanitized_title):
     # process POST requests (adding comments) (with Ajax)
     if request.method == "POST":
         if not add_comment_form.validate():
-            return jsonify(submission_errors=request.form)
             return jsonify(submission_errors=add_comment_form.errors)
         if has_failed_turnstile():
-            return redirect(url_for("main.bot_jail"))
+            return jsonify(redirect_uri=url_for("main.bot_jail"))
 
         comment = Comment(author=add_comment_form.author.data, content=add_comment_form.content.data,
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
         if not comment.insert_comment(post, db.session.get(Comment, add_comment_form.parent.data)):
-            return jsonify(flash_message="Sanity check is not supposed to fail...")
+            return jsonify(redirect_uri=url_for("blog.index"),
+                    flash_message="Sanity check is not supposed to fail...")
         db.session.add(comment)
         db.session.commit()
-        return jsonify(flash_message="Comment added successfully!")
+        return jsonify(success=True, flash_message="Comment added successfully!")
 
     # process GET requests otherwise
     post.content = markdown.markdown(post.content, extensions=["extra"])

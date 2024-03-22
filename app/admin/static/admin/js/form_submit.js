@@ -1,6 +1,6 @@
 // Use Ajax to intercept form submissions, pass to Flask manually, and process the response
 // so we can have asynchronous flash()ing/input validation messages on errored response from Flask.
-$("#form").submit(function(e) {
+$("#form").on("submit", function(e) {
     e.preventDefault();
   
     var data = formToJSON($(this))
@@ -36,7 +36,7 @@ $("#form").submit(function(e) {
                 // which we make sure to match in bootstrap_wtf.html when assigning id attributes
                 errors = response.submission_errors;
                 Object.keys(errors).forEach((field_name) => {
-                    var field_elem = $("#form").find(`#${field_name}-field`)
+                    var field_elem = $(e.target).find(`#${field_name}-field`)
                     field_elem.find(`#${field_name}-input`).addClass("is-invalid");
                     field_elem.find(".invalid-feedback").text(errors[field_name][0]);
                 });
