@@ -13,9 +13,11 @@
           crossorigin="anonymous">
       </script>
       <!-- MathJax -->
-        <script type="text/javascript" id="MathJax-script"
-            async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-        </script>
+      <script type="text/javascript" id="MathJax-script"
+          async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+      </script>
+      <!-- Flask-Moment -->
+      {{ moment.include_moment() }}
 
     <!-- CSS -->
       <!-- Bootstrap -->
@@ -91,8 +93,6 @@
     {% block js %} {% endblock %}
 
     <!-- CDNs -->
-      <!-- Flask-Moment -->
-      {{ moment.include_moment() }}
       <!-- Bootstrap -->
       <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

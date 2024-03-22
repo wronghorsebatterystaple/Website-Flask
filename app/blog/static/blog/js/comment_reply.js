@@ -40,6 +40,9 @@ $(document).on("submit", ".post-commentform-form", function(e) {
             }
 
             if (response.success) {
+                $(e.target).find("*").filter(function() {
+                    return this.id.match(/.*-input/); // submit button should not match
+                }).val("");
                 $("#commentlist").load(window.location.href + " #commentlist > *");
             }
         }

@@ -140,7 +140,6 @@ def edit_blogpost():
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        import json
         # handle post deletion (after confirmation button)
         if request.get_json().get("delete"):
             db.session.delete(post)

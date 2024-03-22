@@ -11,7 +11,7 @@
       <h3 class="post-timestamp">{{ moment(post.timestamp).format('l') }}</h3>
     {% endif %}
     {% if current_user.is_authenticated %}
-    {{ wtf.quick_form(edit_blogpost_button, action=url_for("blog.edit_blogpost_button", post_id=post.id), class="admin-button") }}
+    {{ wtf.quick_form(edit_blogpost_button, action=url_for('blog.edit_blogpost_button', post_id=post.id), class="admin-button") }}
     {% endif %}
   </div>
 
