@@ -10,7 +10,7 @@
     <h1 class="mainpage-blog-name">Professor Google</h1>
     <h2 class="mainpage-blog-subname">THE BLOG WHERE I TEACH MYSELF</h2>
     {% if current_user.is_authenticated %}
-      {{ wtf.quick_form(create_blogpost_button, class="admin-button") }}
+      {{ wtf.quick_form(create_blogpost_button, class='admin-button') }}
     {% endif %}
     <hr>
   </div>

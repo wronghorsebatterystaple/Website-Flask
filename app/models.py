@@ -24,8 +24,6 @@ class Post(db.Model):
     subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_SUBTITLE"]))
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_POST_CONTENT"]))
 
-    images: so.WriteOnlyMapped["Image"] = so.relationship(back_populates="post",
-            cascade="all, delete, delete-orphan", passive_deletes=True)
     comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post",
             cascade="all, delete, delete-orphan", passive_deletes=True)
 
@@ -89,17 +87,6 @@ class Comment(db.Model):
 
     def __repr(self):
         return f"<Comment {self.id} for post {self.post_id} written by \"{self.author}\""
-
-
-class Image(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id, ondelete="CASCADE"))
-    img_pos: so.Mapped[int] = so.mapped_column(index=True)
-
-    post: so.Mapped[Post] = so.relationship(back_populates="images")
-
-    def __repr__(self):
-        return f"<Image {self.id} for post {self.post_id} at position {self.img_pos}>"
 
 
 class User(UserMixin, db.Model):

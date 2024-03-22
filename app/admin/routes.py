@@ -11,6 +11,7 @@ from app.util.turnstile_check import has_failed_turnstile
 
 from urllib.parse import urlsplit
 
+
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     # make sure logged-in admin doesn't try to log in again

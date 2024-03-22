@@ -1,4 +1,4 @@
-{% macro form_field(field, autofocus) %}
+{% macro form_field(field, autofocus, btn_type) %}
   {%- if field.type == 'BooleanField' %}
     <div class="form-check mb-3">
       {{ field(id=field.name + '-input', class='form-check-input') }}
@@ -34,7 +34,7 @@
     </div>
 
   {%- elif field.type == 'SubmitField' %}
-    {{ field(class='btn btn-primary mb-3') }}
+    {{ field(class='btn btn-' + btn_type + ' mb-3') }}
 
   {%- else %}
     <div class="mb-3">
@@ -52,19 +52,20 @@
 {% endmacro %}
 
 
-{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False) %}
+{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type='primary', hidden=false) %}
   <form novalidate
     {%- if action != None %} action="{{ action }}"{% endif -%}
     {%- if method %} method="{{ method }}"{% endif -%}
     {%- if class %} class="{{ class }}"{% endif -%}
     {%- if id %} id="{{ id }}"{% endif -%}
-    {%- if novalidate %} novalidate{% endif -%}>
+    {%- if novalidate %} novalidate{% endif -%}
+    {%- if hidden %} hidden{% endif -%}>
     {{ form.hidden_tag() }}
     {% set ns = namespace(first_field=true) %}
     {%- for field in form %}
       {% if field.widget.input_type != 'hidden' -%}
         <div id="{{ field.name }}-field">
-          {{ form_field(field, ns.first_field) }}
+          {{ form_field(field, ns.first_field, btn_type) }}
           {% set ns.first_field = false %}
         </div>
       {%- endif %}

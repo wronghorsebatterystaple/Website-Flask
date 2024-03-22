@@ -11,6 +11,7 @@ from app.util.turnstile_check import has_failed_turnstile
 
 import markdown
 
+
 @bp.route("/", methods=["GET", "POST"])
 def index():
     create_blogpost_button = CreateBlogpostButton()
@@ -25,9 +26,11 @@ def index():
     posts = db.session.query(Post).order_by(desc(Post.timestamp))
     return render_template("blog/index.html", posts=posts, create_blogpost_button=create_blogpost_button)
 
+
 @bp.route("/<string:post_sanitized_title>", methods=["GET", "POST"])
 def post(post_sanitized_title):
     add_comment_form = AddCommentForm()
+    reply_comment_button = ReplyCommentButton()
     edit_blogpost_button = EditBlogpostButton()
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
@@ -41,7 +44,7 @@ def post(post_sanitized_title):
 
         comment = Comment(author=add_comment_form.author.data, content=add_comment_form.content.data,
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
-        if not comment.insert_comment(post, db.session.get(Comment, 52)):
+        if not comment.insert_comment(post, db.session.get(Comment, add_comment_form.parent.data)):
             flash("Attempted addition of comment under the wrong post")
             return redirect(request.url)
         db.session.add(comment)
@@ -67,5 +70,6 @@ def post(post_sanitized_title):
     return render_template("blog/post.html", post=post,
             get_descendants_list=Comment.get_descendants_list,
             comments=comments, add_comment_form=add_comment_form,
+            reply_comment_button = reply_comment_button,
             edit_blogpost_button=edit_blogpost_button)
 
