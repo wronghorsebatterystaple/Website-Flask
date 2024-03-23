@@ -11,6 +11,7 @@ from app.util.uri_util import encode_uri_component, url_with_flash
 from app.util.turnstile_check import has_failed_turnstile
 
 import markdown
+import re
 
 
 @bp.route("/")
@@ -29,16 +30,16 @@ def post(post_sanitized_title):
     if post is None:
         return redirect(url_for("blog.index", flash=encode_uri_component("The post doesn't exist.")))
 
-    # process POST requests (adding comments) (with Ajax)
+    # process POST requests (adding comments) (with Ajax: FormData)
     if request.method == "POST":
         if not add_comment_form.validate():
             return jsonify(submission_errors=add_comment_form.errors)
         if has_failed_turnstile():
             return jsonify(redirect_uri=url_for("main.bot_jail"))
 
-        comment = Comment(author=add_comment_form.author.data, content=add_comment_form.content.data,
+        comment = Comment(author=request.form["author"], content=request.form["content"],
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
-        if not comment.insert_comment(post, db.session.get(Comment, add_comment_form.parent.data)):
+        if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
             return jsonify(redirect_uri=url_for("blog.index"),
                     flash_message="Sanity check is not supposed to fail...")
         db.session.add(comment)
@@ -47,7 +48,9 @@ def post(post_sanitized_title):
 
     # process GET requests otherwise
     post.content = markdown.markdown(post.content, extensions=["extra"])
-    
+    # allow using just image name for Markdown instead of full path
+    post.content = re.sub(r'''(<img[\s\S]* src=")([\s\S]*")''', fr'''\1./static/blog/images/{post.id}/\2''', post.content)
+
     comments_query = post.comments.select().order_by(desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
     for comment in comments:

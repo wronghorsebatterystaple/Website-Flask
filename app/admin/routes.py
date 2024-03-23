@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 from flask_login import current_user, login_user, logout_user, login_required
 from wtforms.form import Form
-from flask import flash, jsonify, redirect, render_template, request, url_for
+from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
 
 from app.admin import bp
 from app.admin.forms import *
@@ -10,7 +10,45 @@ from app.models import *
 from app.util.uri_util import encode_uri_component
 from app.util.turnstile_check import has_failed_turnstile
 
+import imghdr
+import os
 from urllib.parse import urlsplit
+from werkzeug.utils import secure_filename
+
+
+def validate_image(image):
+    header = image.read(512)
+    image.seek(0)
+    format = imghdr.what(None, header)
+    if not format:
+        return None
+    return "." + (format if format != "jpeg" else "jpg")
+
+
+def upload_images(images, post_id: int) -> str:
+    for image in images:
+        if image.filename == "": # this happens when no image is submitted
+            continue
+
+        filename = secure_filename(image.filename)
+        if filename == "":
+            return "Image name was reduced to atoms by sanitization."
+
+        file_ext = os.path.splitext(filename)[1]
+        if file_ext not in current_app.config["IMAGE_EXTENSIONS"] \
+                or file_ext != validate_image(image.stream):
+            return "Invalid image."
+
+        path_before_filename = os.path.join(current_app.root_path,
+                "blog/static/blog/images", str(post_id))
+        path = os.path.join(path_before_filename, filename)
+        os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
+        if not os.path.exists(path):
+            image.save(path)
+        else:
+            return "Image name already exists."
+
+    return "success"
 
 
 @bp.route("/login", methods=["GET", "POST"])
@@ -21,7 +59,7 @@ def login():
 
     form = PasswordForm()
 
-    # process POST requests (with Ajax)
+    # process POST requests (with Ajax: FormData)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -30,7 +68,7 @@ def login():
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
-        if user is None or not user.check_password(form.password.data):
+        if user is None or not user.check_password(request.form["password"]):
             return jsonify(flash_message="Invalid password lol")
         login_user(user, remember=True)
         
@@ -50,12 +88,12 @@ def login():
 def choose_action():
     form = ChooseActionForm()
 
-    # process POST requests (with Ajax)
+    # process POST requests (with Ajax: FormData)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        action = form.action.data
+        action = request.form["action"]
         redirect_uri = ""
 
         if action == "create":
@@ -78,24 +116,29 @@ def choose_action():
 def create_blogpost():
     form = CreateBlogpostForm()
 
-    # process POST requests (with Ajax)
+    # process POST requests (with Ajax: FormData)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        new_post = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
+        new_post = Post(title=request.form["title"], subtitle=request.form["subtitle"], content=request.form["content"])
         new_post.sanitize_title()
 
         # check that title still exists after sanitization
         if new_post.sanitized_title == "":
             return jsonify(flash_message="Post must have alphanumeric characters in its title.")
-
         # check that title is unique (sanitized is unique => non-sanitized is unique)
         if not new_post.are_titles_unique():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
         
         db.session.add(new_post)
         db.session.commit()
+
+        # upload images if any
+        res = upload_images(request.files.getlist("images"), new_post.id)
+        if not res == "success":
+            return jsonify(flash_message=res)
+
         return jsonify(redirect_uri=url_for("blog.post",
                 post_sanitized_title=new_post.sanitized_title),
                 flash_message="Post created successfully") # view completed post
@@ -110,15 +153,15 @@ def create_blogpost():
 def search_blogpost():
     form = SearchBlogpostForm()
 
-    # process POST requests (with Ajax)
+    # process POST requests (with Ajax: FormData)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        post = form.post.data
-        if post is None:
+        post_id = request.form["post"]
+        if post_id is None:
             return jsonify(flash_message="You somehow managed to choose nothing, congratulations.")
-        return jsonify(redirect_uri=url_for("admin.edit_blogpost", post_id=post.id))
+        return jsonify(redirect_uri=url_for("admin.edit_blogpost", post_id=post_id))
         
     # process GET requests otherwise
     return render_template("admin/form-base.html", title="Search Posts",
@@ -135,13 +178,13 @@ def edit_blogpost():
     
     form = EditBlogpostForm(obj=post) # pre-populate fields
 
-    # process POST requests (with Ajax)
+    # process POST requests (with Ajax: FormData)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
         # handle post deletion (after confirmation button)
-        if request.get_json().get("delete"):
+        if "delete" in request.form:
             db.session.delete(post)
             db.session.commit()
             return jsonify(redirect_uri=url_for("blog.index"),
@@ -149,12 +192,12 @@ def edit_blogpost():
 
         # handle post editing otherwise
         # check that title is unique if changed
-        if form.title.data != post.title:
-            post_temp = Post(title=form.title.data, subtitle=form.subtitle.data, content=form.content.data)
+        if request.form["title"] != post.title:
+            post_temp = Post(title=request.form["title"], subtitle=request.form["subtitle"],
+                    content=request.form["content"])
             post_temp.sanitize_title() # need post_temp for this--populate_obj() seems to already add to db
             if not post_temp.are_titles_unique():
                 return jsonify(flash_message="There is already a post with that title or sanitized title.")
-
         form.populate_obj(post)
         post.sanitize_title()
         # check that title still exists after sanitization
@@ -163,6 +206,13 @@ def edit_blogpost():
         
         post.edited_timestamp = datetime.now(timezone.utc) # updated edited time
         db.session.commit()
+
+
+        # upload images if any
+        res = upload_images(request.files.getlist("images"), post.id)
+        if not res == "success":
+            return jsonify(flash_message=res)
+
         return jsonify(redirect_uri=url_for("blog.post", post_sanitized_title=post.sanitized_title),
                 flash_message="Post edited successfully!") # view edited post
 
@@ -176,21 +226,21 @@ def edit_blogpost():
 def change_admin_password():
     form = ChangeAdminPasswordForm()
 
-    # process POST requests (with Ajax)
+    # process POST requests (with Ajax: FormData)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check given password
-        if user is None or not user.check_password(form.old_password.data):
+        if user is None or not user.check_password(request.form["old_password"]):
             return jsonify(flash_message="Old password is not correct.")
 
         # check new passwords are identical
-        if form.new_password_1.data != form.new_password_2.data:
+        if request.form["new_password_1"] != request.form["new_password_2"]:
             return jsonify(flash_message="New passwords do not match.")
         
-        user.set_password(form.new_password_1.data)
+        user.set_password(request.form["new_password_1"])
         db.session.commit()
         return jsonify(redirect_uri=url_for("admin.login"),
                 flash=True, flash_message="Your password has been changed!")

@@ -14,3 +14,7 @@ class Config(object):
     REMEMBER_COOKIE_SECURE = True
     REMEMBER_COOKIE_DURATION = 3600
     PERMANENT_SESSION_LIFETIME = 3600
+
+    # Image uploads
+    MAX_CONTENT_LENGTH = 100 * 1024 * 1024
+    IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]

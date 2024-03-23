@@ -11,11 +11,13 @@ $(document).on("submit", ".reply-btn", function(e) {
 $(document).on("submit", ".post-commentform-form", function(e) {
     e.preventDefault();
 
+    var formData = new FormData($(e.target).get(0))
     $.ajax({
         type: "POST",
         url: window.location.pathname + window.location.search,
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(formToJSON($(this))),
+        data: formData,
+        processData: false,
+        contentType: false,
         dataType: "json",
     })
     .done(function(response) {

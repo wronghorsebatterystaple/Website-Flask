@@ -1,20 +1,15 @@
 // Use Ajax to intercept form submissions, pass to Flask manually, and process the response
 // so we can have asynchronous flash()ing/input validation messages on errored response from Flask.
-$("#form").on("submit", function(e) {
+$(document).on("submit", "form", function(e) {
     e.preventDefault();
   
-    var data = formToJSON($(this))
-    // send customid in POST request to differentiate multiple submit buttons in routes.py
-    var submitButtonCustomID = $(e.originalEvent.submitter).attr("data-submit-customid")
-    if (submitButtonCustomID) { // only proceed if this attribute is defined
-        data[submitButtonCustomID] = true;
-    }
-  
+    var formData = new FormData($(this).get(0), $(e.originalEvent.submitter).get(0));
     $.ajax({
         type: "POST",
         url: window.location.pathname + window.location.search,
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(data),
+        data: formData,
+        processData: false,
+        contentType: false,
         dataType: "json",
     })
     .done(function(response) {
