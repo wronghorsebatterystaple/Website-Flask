@@ -48,8 +48,6 @@ def post(post_sanitized_title):
 
     # process GET requests otherwise
     post.content = markdown.markdown(post.content, extensions=["extra"])
-    # allow using just image name for Markdown instead of full path
-    post.content = re.sub(r'''(<img[\s\S]* src=")([\s\S]*")''', fr'''\1./static/blog/images/{post.id}/\2''', post.content)
 
     comments_query = post.comments.select().order_by(desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
