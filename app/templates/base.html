@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -28,7 +27,7 @@
           crossorigin="anonymous">
       <!-- global custom CSS -->
       <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-      <!-- subtemplates' own CSS insert themselves here -->
+
       {% block css_href %} {% endblock %}
 
     <!-- JS -->
@@ -40,7 +39,6 @@
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
 
-    <!-- subtemplates' title blocks insert themselves here -->
     <title>{% block title %} {% endblock %}</title>
   </head>
 
@@ -83,13 +81,11 @@
         </div>
 
         <div class="content">
-          <!-- subtemplates' content blocks insert themselves here -->
           {% block content %} {% endblock %}
         </div>
       </div>
     </div>
 
-    <!-- subtemplates' (optional) JS goes here -->
     {% block js %} {% endblock %}
 
     <!-- CDNs -->
