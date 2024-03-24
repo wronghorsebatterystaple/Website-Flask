@@ -1,7 +1,7 @@
 // Remove invalid input highlighting and error message when user inputs into field.
 $(document).on("input", ".form-control", function() {
     if ($(this).hasClass("is-invalid")) {
-        $(this).removeClass("is-invalid"); // this also hides the .invalid-feedback child div I think
+        $(this).removeClass("is-invalid");
         $(this).siblings(".invalid-feedback").text("");
     }
 });

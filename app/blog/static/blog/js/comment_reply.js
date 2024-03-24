@@ -2,9 +2,9 @@
 $(document).on("submit", ".reply-btn", function(e) {
     e.preventDefault();
 
-    var id = $(this).attr("id").match(/\d+/)[0] // get matching id number
+    var id = $(this).attr("id").match(/\d+/)[0];
     $(`#reply-form-${id}`).removeAttr("hidden");
-    $(`#reply-form-${id}`).find("#parent").attr("value", id); // insert under right parent
+    $(`#reply-form-${id}`).find("#parent").attr("value", id);
 });
 
 // Use Ajax to update page on comment addition without refreshing and going back to top
@@ -41,9 +41,9 @@ $(document).on("submit", ".post-commentform-form", function(e) {
                     });
             }
 
-            if (response.success) {
+            if (response.success) { // clear fields on success
                 $(e.target).find("*").filter(function() {
-                    return this.id.match(/.*-input/); // submit button should not match
+                    return this.id.match(/.*-input/);
                 }).val("");
                 $("#commentlist").load(window.location.href + " #commentlist > *");
             }

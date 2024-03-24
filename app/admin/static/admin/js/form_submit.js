@@ -1,5 +1,4 @@
-// Use Ajax to intercept form submissions, pass to Flask manually, and process the response
-// so we can have asynchronous flash()ing/input validation messages on errored response from Flask.
+// Ajax for form submissions to allow asynchronous flash()ing and input validation messages
 $(document).on("submit", "form", function(e) {
     e.preventDefault();
   
@@ -15,20 +14,16 @@ $(document).on("submit", "form", function(e) {
     .done(function(response) {
         if (response.redirect_uri) {
             var newURI = response.redirect_uri;
-            if (response.flash_message) { // put flash into query string to render after load
+            if (response.flash_message) {
                 newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
             }
             window.location.href = newURI;
         } else {
-            // immediately flash if no redirect (async)
             if (response.flash_message) {
                 customFlash(response.flash_message);
             }
             
             if (response.submission_errors) { 
-                // dynamically populate input validation message elements (from bootstrap_wtf.html)
-                // `errors`' keys, returned from Flask as form.errors, are Jinja's field.name
-                // which we make sure to match in bootstrap_wtf.html when assigning id attributes
                 errors = response.submission_errors;
                 Object.keys(errors).forEach((field_name) => {
                     var field_elem = $(e.target).find(`#${field_name}-field`)
