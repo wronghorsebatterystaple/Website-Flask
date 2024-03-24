@@ -9,7 +9,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     SECRET_KEY = os.environ.get("SECRET_KEY")
 
-    # Flask-login
+    # Flask-Login
     REMEMBER_COOKIE_DOMAIN = f".{SERVER_NAME}"
     REMEMBER_COOKIE_SECURE = True
     REMEMBER_COOKIE_DURATION = 3600
@@ -18,3 +18,20 @@ class Config(object):
     # Image uploads
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
+
+    # Mappings for blogpage blueprints
+    BLOG_ID_TO_TITLE = {
+        0: "Professor Google",
+        1: "Writer's Block",
+        2: "Writer's Unblock"
+    }
+    BLOG_ID_TO_SUBTITLE = {
+        0: "THE BLOG WHERE I TEACH MYSELF",
+        1: "YES I STOLE THIS IDEA",
+        2: "RANDOM CREATIVE WRITING DUMPS FROM 3AM"
+    }
+    
+    # Relative path to blogs' images directory from root_path
+    IMAGES_PATH_FROM_ROOT = "blog/static/blog/images"
+    # Relative path to blogs' images directory from blogpage's routes.py
+    IMAGES_BASE_REL_PATH = "../static/blog/images"

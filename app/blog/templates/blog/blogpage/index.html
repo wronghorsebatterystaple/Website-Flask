@@ -1,0 +1,30 @@
+{% extends "blog/blogpage/base.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
+
+{% block content %}
+<div class="mainpage-header">
+  <h1 class="mainpage-blog-name">{{ title }}</h1>
+  <h2 class="mainpage-blog-subname">{{ subtitle }}</h2>
+  {% if current_user.is_authenticated %}
+    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="admin-button") }}
+  {% endif %}
+  <hr>
+</div>
+
+<div class="postlist">
+  {% for post in posts %}
+    <div class="postlist-post">
+      <a href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <h1 class="postlist-post-title">{{ post.title }}</h1>
+        <h2 class="postlist-post-subtitle">{{ post.subtitle }}</h2>
+        {% if post.edited_timestamp is not none %}
+          <h3 class="postlist-post-timestamp">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
+        {% else %}
+          <h3 class="postlist-post-timestamp">{{ moment(post.timestamp).format('l') }}</h3>
+        {% endif %}
+      </a>
+    </div>
+    <hr>
+  {% endfor %}
+</div>
+{% endblock %}

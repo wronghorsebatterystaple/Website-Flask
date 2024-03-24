@@ -1,20 +1,22 @@
-from datetime import datetime, timezone
+from flask import current_app
+from flask_login import UserMixin
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.types import Text
-from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import db
-from app.db_config import db_config
-from app import login_manager
-
+from datetime import datetime, timezone
 import re
 from typing import Optional
+
+from app import db
+from app import login_manager
+from app.db_config import db_config
 
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    blog_id: so.Mapped[int] = so.mapped_column(index=True)
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None)
@@ -34,10 +36,10 @@ class Post(db.Model):
 
     def expand_image_markdown(self):
         self.content = re.sub(r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
-                fr"\1(./static/blog/images/{self.id}/\2)", self.content)
+                fr"\1({current_app.config['IMAGES_BASE_REL_PATH']}/{self.blog_id}/{self.id}/\2)", self.content)
 
     def collapse_image_markdown(self) -> str:
-        return re.sub(fr"(!\[[\S\s]*?\])\(./static/blog/images/{self.id}/([\S\s]+?)\)",
+        return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['IMAGES_BASE_REL_PATH']}/{self.blog_id}/{self.id}/([\S\s]+?)\)",
                 r"\1(\2)", self.content)
 
     def are_titles_unique(self) -> bool:

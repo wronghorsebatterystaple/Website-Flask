@@ -1,3 +1,9 @@
 {% extends "base.html" %}
 
-{% block css_href %} <link rel="stylesheet" href="{{url_for('blog.static', filename='blog/css/style.css')}}"> {% endblock %}
+{% block title %}
+Blog Pages
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/css/style.css') }}">
+{% endblock %}

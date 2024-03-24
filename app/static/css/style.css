@@ -1,7 +1,3 @@
-img {
-    max-width:100%;
-}
-
 @media (min-width: 640px) {
     .custom-narrow {
         width: 640px;
@@ -16,6 +12,10 @@ img {
 
 .custom-narrow {
     max-width: 100%;
+}
+
+img {
+    max-width:100%;
 }
 
 hr.custom-doublehr {

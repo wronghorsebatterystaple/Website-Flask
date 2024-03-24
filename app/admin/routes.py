@@ -1,14 +1,7 @@
-import sqlalchemy as sa
-from flask_login import current_user, login_user, logout_user, login_required
-from wtforms.form import Form
 from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
-
-from app.admin import bp
-from app.admin.forms import *
-from app import db
-from app.models import *
-from app.util.uri_util import encode_uri_component
-from app.util.turnstile_check import has_failed_turnstile
+from flask_login import current_user, login_user, logout_user, login_required
+import sqlalchemy as sa
+from wtforms.form import Form
 
 import imghdr
 import os
@@ -16,7 +9,12 @@ import shutil
 import urllib.parse as ul
 from werkzeug.utils import escape, secure_filename
 
-IMAGES_PATH_FROM_ROOT = "blog/static/blog/images"
+from app import db
+from app.admin import bp
+from app.admin.forms import *
+from app.models import *
+from app.util.turnstile_check import has_failed_turnstile
+from app.util.uri_util import encode_uri_component
 
 
 def sanitize_filename(filename):
@@ -34,7 +32,7 @@ def validate_image(image):
     return "." + (format if format != "jpeg" else "jpg")
 
 
-def upload_images(images, post_id: int) -> str:
+def upload_images(images, blog_id: int, post_id: int) -> str:
     for image in images:
         if image.filename == "": # this happens when no image is submitted
             continue
@@ -48,7 +46,9 @@ def upload_images(images, post_id: int) -> str:
                 or file_ext != validate_image(image.stream):
             return "Invalid image."
 
-        path_before_filename = os.path.join(current_app.root_path, IMAGES_PATH_FROM_ROOT, str(post_id))
+        path_before_filename = os.path.join(current_app.root_path,
+                current_app.config["IMAGES_PATH_FROM_ROOT"],
+                str(blog_id), str(post_id))
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
         if not os.path.exists(path):
@@ -144,11 +144,12 @@ def create_blogpost():
         db.session.commit()
 
         # upload images if any
-        res = upload_images(request.files.getlist("images"), new_post.id)
+        res = upload_images(request.files.getlist("images"), new_post.blog_id,
+                new_post.id)
         if not res == "success":
             return jsonify(flash_message=res)
 
-        return jsonify(redirect_uri=url_for("blog.post",
+        return jsonify(redirect_uri=url_for(f"blog.{new_post.blog_id}.post",
                 post_sanitized_title=new_post.sanitized_title),
                 flash_message="Post created successfully!") # view completed post
 
@@ -197,8 +198,10 @@ def edit_blogpost():
         if "delete" in request.form:
             db.session.delete(post)
             db.session.commit()
-            shutil.rmtree(os.path.join(current_app.root_path, IMAGES_PATH_FROM_ROOT, str(post.id)))
-            return jsonify(redirect_uri=url_for("blog.index"),
+            shutil.rmtree(os.path.join(current_app.root_path,
+                current_app.config["IMAGES_PATH_FROM_ROOT"],
+                str(post.blog_id), str(post.id)))
+            return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.index"),
                     flash_message="Post deleted successfully!")
 
         # handle post editing otherwise
@@ -221,11 +224,12 @@ def edit_blogpost():
         db.session.commit()
 
         # upload images if any
-        res = upload_images(request.files.getlist("images"), post.id)
+        res = upload_images(request.files.getlist("images"), post.blog_id, post.id)
         if not res == "success":
             return jsonify(flash_message=res)
 
-        return jsonify(redirect_uri=url_for("blog.post", post_sanitized_title=post.sanitized_title),
+        return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.post",
+                post_sanitized_title=post.sanitized_title),
                 flash_message="Post edited successfully!") # view edited post
 
     # process GET requests otherwise

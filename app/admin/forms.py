@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import MultipleFileField, PasswordField, RadioField, StringField, SubmitField, TextAreaField
-from wtforms.validators import InputRequired, Length
 from wtforms_sqlalchemy.fields import QuerySelectField
+from wtforms.validators import InputRequired, Length
 
 from app import db
 from app.db_config import db_config
 from app.models import Post
+
 
 class PasswordForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(),

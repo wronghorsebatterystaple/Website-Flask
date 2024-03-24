@@ -28,7 +28,7 @@
       <!-- global custom CSS -->
       <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
-      {% block css_href %} {% endblock %}
+      {% block css %}{% endblock %}
 
     <!-- JS -->
       <!-- global custom JS -->
@@ -39,7 +39,7 @@
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
 
-    <title>{% block title %} {% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
   </head>
 
   <body>
@@ -56,7 +56,9 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url_for('blog.index') }}">Professor Google</a></li>
+                {% for k, v in config.BLOG_ID_TO_TITLE.items() %}
+                  <li><a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a></li>
+                {% endfor %}
               </ul>
             </li>
           </ul>
@@ -81,12 +83,12 @@
         </div>
 
         <div class="content">
-          {% block content %} {% endblock %}
+          {% block content %}{% endblock %}
         </div>
       </div>
     </div>
 
-    {% block js %} {% endblock %}
+    {% block js %}{% endblock %}
 
     <!-- CDNs -->
       <!-- Bootstrap -->

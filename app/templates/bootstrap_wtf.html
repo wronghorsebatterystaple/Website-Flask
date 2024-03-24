@@ -1,7 +1,7 @@
 {% macro form_field(field, autofocus, btn_type) %}
   {%- if field.type == 'BooleanField' %}
     <div class="form-check mb-3">
-      {{ field(id=field.name + '-input', class='form-check-input') }}
+      {{ field(id=field.name ~ '-input', class='form-check-input') }}
       {{ field.label(class='form-check-label') }}
       <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
     </div>
@@ -17,7 +17,7 @@
 
   {%- elif field.type == 'SelectField' %}
       {{ field.label(class='form-label') }}
-      {{ field(id=field.name + '-input', class='form-select mb-3') }}
+      {{ field(id=field.name ~ '-input', class='form-select mb-3') }}
       <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
 
   {%- elif field.type == 'TextAreaField' %}
@@ -25,25 +25,25 @@
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
         {% if autofocus %}
-          {{ field(id=field.name + '-input', class='form-control' + (' is-invalid' if field.errors else ''), autofocus=True) }}
+          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
         {% else %}
-          {{ field(id=field.name + '-input', class='form-control' + (' is-invalid' if field.errors else '')) }}
+          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
         {% endif %}
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
 
   {%- elif field.type == 'SubmitField' %}
-    {{ field(class='btn btn-' + btn_type + ' mb-3') }}
+    {{ field(class='btn btn-' ~ btn_type ~ ' mb-3') }}
 
   {%- else %}
     <div class="mb-3">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
         {% if autofocus %}
-          {{ field(id=field.name + '-input', class='form-control' + (' is-invalid' if field.errors else ''), autofocus=True) }}
+          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
         {% else %}
-          {{ field(id=field.name + '-input', class='form-control' + (' is-invalid' if field.errors else '')) }}
+          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
         {% endif %}
         <div class="invalid-feedback" aria-describedby="{{ field.name }}">error here</div>
       </div>
