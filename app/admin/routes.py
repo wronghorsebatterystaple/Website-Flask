@@ -13,7 +13,12 @@ from app.util.turnstile_check import has_failed_turnstile
 import imghdr
 import os
 from urllib.parse import urlsplit
-from werkzeug.utils import secure_filename
+from werkzeug.utils import escape, secure_filename
+
+
+def sanitize_filename(filename):
+    filename = escape(secure_filename(filename))
+    filename = filename.replace("(", "").replace(")", "")
 
 
 def validate_image(image):
@@ -30,7 +35,7 @@ def upload_images(images, post_id: int) -> str:
         if image.filename == "": # this happens when no image is submitted
             continue
 
-        filename = secure_filename(image.filename)
+        filename = sanitize_filename(image.filename)
         if filename == "":
             return "Image name was reduced to atoms by sanitization."
 
@@ -123,6 +128,7 @@ def create_blogpost():
 
         new_post = Post(title=request.form["title"], subtitle=request.form["subtitle"], content=request.form["content"])
         new_post.sanitize_title()
+        new_post.expand_image_markdown()
 
         # check that title still exists after sanitization
         if new_post.sanitized_title == "":
@@ -130,7 +136,7 @@ def create_blogpost():
         # check that title is unique (sanitized is unique => non-sanitized is unique)
         if not new_post.are_titles_unique():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
-        
+
         db.session.add(new_post)
         db.session.commit()
 
@@ -174,9 +180,10 @@ def edit_blogpost():
     post = db.session.get(Post, request.args.get("post_id"))
     if post is None:
         return jsonify(redirect_uri=url_for("admin.search_blogpost"),
-                flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you? {request.url}")
+                flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you?")
     
     form = EditBlogpostForm(obj=post) # pre-populate fields
+    form.content.data = post.collapse_image_markdown()
 
     # process POST requests (with Ajax: FormData)
     if request.method == "POST":
@@ -191,22 +198,23 @@ def edit_blogpost():
                     flash_message="Post deleted successfully!")
 
         # handle post editing otherwise
-        # check that title is unique if changed
-        if request.form["title"] != post.title:
-            post_temp = Post(title=request.form["title"], subtitle=request.form["subtitle"],
-                    content=request.form["content"])
-            post_temp.sanitize_title() # need post_temp for this--populate_obj() seems to already add to db
-            if not post_temp.are_titles_unique():
-                return jsonify(flash_message="There is already a post with that title or sanitized title.")
-        form.populate_obj(post)
+        old_title = post.title
+        post.title = request.form["title"]
+        post.subtitle = request.form["subtitle"]
+        post.content = request.form["content"]
         post.sanitize_title()
+
         # check that title still exists after sanitization
         if post.sanitized_title == "":
             return jsonify(flash_message="Post must have alphanumeric characters in its title.")
-        
+        # check that title is unique if changed
+        if post.title != old_title:
+            if not post.are_titles_unique():
+                return jsonify(flash_message="There is already a post with that title or sanitized title.")
+
+        post.expand_image_markdown()
         post.edited_timestamp = datetime.now(timezone.utc) # updated edited time
         db.session.commit()
-
 
         # upload images if any
         res = upload_images(request.files.getlist("images"), post.id)

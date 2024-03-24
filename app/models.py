@@ -29,7 +29,15 @@ class Post(db.Model):
 
     def sanitize_title(self):
         self.sanitized_title = ("-".join(self.title.split())).lower()
-        self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title) # sanitize all non [A-Za-z0-9-] in titles
+        self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title)
+
+    def expand_image_markdown(self):
+        self.content = re.sub(r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
+                fr"\1(./static/blog/images/{self.id}/\2)", self.content)
+
+    def collapse_image_markdown(self) -> str:
+        return re.sub(fr"(!\[[\S\s]*?\])\(./static/blog/images/{self.id}/([\S\s]+?)\)",
+                r"\1(\2)", self.content)
 
     def are_titles_unique(self) -> bool:
         return db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).first() is None
