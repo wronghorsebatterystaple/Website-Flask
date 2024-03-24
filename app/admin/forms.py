@@ -28,12 +28,14 @@ class CreateBlogpostForm(FlaskForm):
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     submit = SubmitField("Submit")
+    cancel = SubmitField("Cancel", render_kw={"onclick": "window.history.back()"})
 
 
 class SearchBlogpostForm(FlaskForm):
     post = QuerySelectField("Post", validators=[InputRequired()],
             query_factory=lambda: db.session.query(Post), get_label="title")
     submit = SubmitField("Submit")
+    cancel = SubmitField("Cancel", render_kw={"onclick": "window.history.back()"})
 
 
 class EditBlogpostForm(FlaskForm):
@@ -44,8 +46,9 @@ class EditBlogpostForm(FlaskForm):
     content = TextAreaField("Content (markdown supported)", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
-    submit = SubmitField("Submit", render_kw={"data-submit-customid": "submit"})
+    submit = SubmitField("Submit")
     delete = SubmitField("Delete Post", render_kw={"onclick": "return confirm('Sanity check');"})
+    cancel = SubmitField("Cancel", render_kw={"onclick": "window.history.back()"})
 
 
 class ChangeAdminPasswordForm(FlaskForm):
@@ -56,3 +59,4 @@ class ChangeAdminPasswordForm(FlaskForm):
     new_password_2 = PasswordField("Repeat new password", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_USER_PASSWORD"])])
     submit = SubmitField("Submit")
+    cancel = SubmitField("Cancel", render_kw={"onclick": "window.history.back()"})

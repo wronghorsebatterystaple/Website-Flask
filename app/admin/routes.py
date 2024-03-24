@@ -19,6 +19,7 @@ from werkzeug.utils import escape, secure_filename
 def sanitize_filename(filename):
     filename = escape(secure_filename(filename))
     filename = filename.replace("(", "").replace(")", "")
+    return filename
 
 
 def validate_image(image):

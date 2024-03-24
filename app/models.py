@@ -12,6 +12,7 @@ from app import login_manager
 import re
 from typing import Optional
 
+
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     timestamp: so.Mapped[datetime] = so.mapped_column(
