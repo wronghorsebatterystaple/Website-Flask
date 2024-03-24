@@ -12,8 +12,11 @@ from app.util.turnstile_check import has_failed_turnstile
 
 import imghdr
 import os
+import shutil
 import urllib.parse as ul
 from werkzeug.utils import escape, secure_filename
+
+IMAGES_PATH_FROM_ROOT = "blog/static/blog/images"
 
 
 def sanitize_filename(filename):
@@ -45,8 +48,7 @@ def upload_images(images, post_id: int) -> str:
                 or file_ext != validate_image(image.stream):
             return "Invalid image."
 
-        path_before_filename = os.path.join(current_app.root_path,
-                "blog/static/blog/images", str(post_id))
+        path_before_filename = os.path.join(current_app.root_path, IMAGES_PATH_FROM_ROOT, str(post_id))
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
         if not os.path.exists(path):
@@ -148,7 +150,7 @@ def create_blogpost():
 
         return jsonify(redirect_uri=url_for("blog.post",
                 post_sanitized_title=new_post.sanitized_title),
-                flash_message="Post created successfully") # view completed post
+                flash_message="Post created successfully!") # view completed post
 
     # process GET requests otherwise
     return render_template("admin/form-base.html", title="Create post",
@@ -195,6 +197,7 @@ def edit_blogpost():
         if "delete" in request.form:
             db.session.delete(post)
             db.session.commit()
+            shutil.rmtree(os.path.join(current_app.root_path, IMAGES_PATH_FROM_ROOT, str(post.id)))
             return jsonify(redirect_uri=url_for("blog.index"),
                     flash_message="Post deleted successfully!")
 

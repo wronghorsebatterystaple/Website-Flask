@@ -12,6 +12,7 @@ from app.util.turnstile_check import has_failed_turnstile
 
 import markdown
 import re
+import shutil
 
 
 @bp.route("/")
