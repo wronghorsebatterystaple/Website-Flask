@@ -12,7 +12,7 @@ from app.util.turnstile_check import has_failed_turnstile
 
 import imghdr
 import os
-from urllib.parse import urlsplit
+import urllib.parse as ul
 from werkzeug.utils import escape, secure_filename
 
 
@@ -74,13 +74,13 @@ def login():
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
-        if user is None or not user.check_password(request.form["password"]):
+        if user is None or not user.check_password(request.form.get("password")):
             return jsonify(flash_message="Invalid password lol")
         login_user(user, remember=True)
         
         # allow redirects from @login_required
         next_page = request.args.get("next")
-        if next_page is None or urlsplit(next_page).netloc != "": # ensure redirects are only local for security
+        if next_page is None or ul.urlsplit(next_page).netloc != "": # ensure redirects are only local for security
             next_page = url_for("admin.choose_action")
         return jsonify(redirect_uri=next_page)
 
@@ -99,7 +99,7 @@ def choose_action():
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        action = request.form["action"]
+        action = request.form.get("action")
         redirect_uri = ""
 
         if action == "create":
@@ -127,7 +127,7 @@ def create_blogpost():
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        new_post = Post(title=request.form["title"], subtitle=request.form["subtitle"], content=request.form["content"])
+        new_post = Post(title=request.form.get("title"), subtitle=request.form.get("subtitle"), content=request.form.get("content"))
         new_post.sanitize_title()
         new_post.expand_image_markdown()
 
@@ -165,7 +165,7 @@ def search_blogpost():
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        post_id = request.form["post"]
+        post_id = request.form.get("post")
         if post_id is None:
             return jsonify(flash_message="You somehow managed to choose nothing, congratulations.")
         return jsonify(redirect_uri=url_for("admin.edit_blogpost", post_id=post_id))
@@ -200,9 +200,9 @@ def edit_blogpost():
 
         # handle post editing otherwise
         old_title = post.title
-        post.title = request.form["title"]
-        post.subtitle = request.form["subtitle"]
-        post.content = request.form["content"]
+        post.title = request.form.get("title")
+        post.subtitle = request.form.get("subtitle")
+        post.content = request.form.get("content")
         post.sanitize_title()
 
         # check that title still exists after sanitization
@@ -242,14 +242,14 @@ def change_admin_password():
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check given password
-        if user is None or not user.check_password(request.form["old_password"]):
+        if user is None or not user.check_password(request.form.get("old_password")):
             return jsonify(flash_message="Old password is not correct.")
 
         # check new passwords are identical
-        if request.form["new_password_1"] != request.form["new_password_2"]:
+        if request.form.get("new_password_1") != request.form.get("new_password_2"):
             return jsonify(flash_message="New passwords do not match.")
         
-        user.set_password(request.form["new_password_1"])
+        user.set_password(request.form.get("new_password_1"))
         db.session.commit()
         return jsonify(redirect_uri=url_for("admin.login"),
                 flash=True, flash_message="Your password has been changed!")

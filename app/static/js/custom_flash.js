@@ -11,4 +11,4 @@ function renderQueryStringFlash() {
     }
 }
 
-window.addEventListener("pageshow", renderQueryStringFlash, false); // this fires even if page is cached
+window.addEventListener("pageshow", renderQueryStringFlash, false);
