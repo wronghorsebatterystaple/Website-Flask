@@ -1,3 +1,17 @@
+// Set CSS class to display asterisk next to required fields' labels.
+function asteriskRequiredFields() {
+    $("[required]").each(function() {
+        if (!$(this).is("[type=\"radio\"]")) {
+            $(this).siblings("label").addClass("required-label");
+            $(this).parent().siblings("label").addClass("required-label");
+        } else {
+            $(this).parent().siblings("label").addClass("required-label");
+        }
+    });
+}
+
+window.addEventListener("load", asteriskRequiredFields, false);
+
 // Remove invalid input highlighting and error message when user inputs into field.
 $(document).on("input", ".form-control", function() {
     if ($(this).hasClass("is-invalid")) {
@@ -6,7 +20,7 @@ $(document).on("input", ".form-control", function() {
     }
 });
 
-// Util function that converts <form> element and its data to a JSON for Ajax.
+// Convert <form> element and its data to a JSON for Ajax.
 function formToJSON(formObj) {
     var array = formObj.serializeArray();
     var json = {};

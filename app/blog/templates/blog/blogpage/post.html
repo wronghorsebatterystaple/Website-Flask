@@ -4,7 +4,9 @@
 {% block content %}
 <div class="post-headline">
   <h1 class="post-title">{% block title %} {{ post.title }} {% endblock %}</h1>
-  <h2 class="post-subtitle">{{ post.subtitle }}</h2>
+  {% if post.subtitle is not none %}
+    <h2 class="post-subtitle">{{ post.subtitle }}</h2>
+  {% endif %}
   {% if post.edited_timestamp is not none %}
     <h3 class="post-timestamp">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }} </h3>
   {% else %}
@@ -62,5 +64,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="{{ url_for('blog.static', filename='blog/js/comment_reply.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/comment_reply.js') }}"></script>
 {% endblock %}

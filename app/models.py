@@ -24,7 +24,8 @@ class Post(db.Model):
             unique=True)
     sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_TITLE"]),
             unique=True)
-    subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_SUBTITLE"]))
+    subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_SUBTITLE"]),
+            nullable=True, default=None)
     content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_POST_CONTENT"]))
 
     comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post",
@@ -36,10 +37,10 @@ class Post(db.Model):
 
     def expand_image_markdown(self):
         self.content = re.sub(r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
-                fr"\1({current_app.config['IMAGES_BASE_REL_PATH']}/{self.blog_id}/{self.id}/\2)", self.content)
+                fr"\1({current_app.config['BLOGPAGE_STATIC_FROM_ROUTES']}/{self.blog_id}/images/{self.id}/\2)", self.content)
 
     def collapse_image_markdown(self) -> str:
-        return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['IMAGES_BASE_REL_PATH']}/{self.blog_id}/{self.id}/([\S\s]+?)\)",
+        return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_STATIC_FROM_ROUTES']}/{self.blog_id}/images/{self.id}/([\S\s]+?)\)",
                 r"\1(\2)", self.content)
 
     def are_titles_unique(self) -> bool:

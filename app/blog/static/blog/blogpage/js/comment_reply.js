@@ -5,6 +5,8 @@ $(document).on("submit", ".reply-btn", function(e) {
     var id = $(this).attr("id").match(/\d+/)[0];
     $(`#reply-form-${id}`).removeAttr("hidden");
     $(`#reply-form-${id}`).find("#parent").attr("value", id);
+
+    asteriskRequiredFields();
 });
 
 // Use Ajax to update page on comment addition without refreshing and going back to top

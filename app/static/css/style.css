@@ -28,3 +28,8 @@ hr.custom-doublehr {
     text-decoration: none;
     padding: 0;
 }
+
+.required-label:after {
+    content:" *";
+    color: red;
+}

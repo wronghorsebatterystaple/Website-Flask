@@ -24,8 +24,7 @@ class CreateBlogpostForm(FlaskForm):
     blog_id = SelectField("Blog", validators=[InputRequired()])
     title = StringField("Title", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_TITLE"])])
-    subtitle = StringField("Subtitle", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
+    subtitle = StringField("Subtitle", validators=[Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
     content = TextAreaField("Content (Markdown, LaTeX supported)", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
@@ -43,8 +42,7 @@ class SearchBlogpostForm(FlaskForm):
 class EditBlogpostForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_TITLE"])])
-    subtitle = StringField("Subtitle", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
+    subtitle = StringField("Subtitle", validators=[Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
     content = TextAreaField("Content (markdown supported)", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")

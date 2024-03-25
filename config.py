@@ -31,7 +31,7 @@ class Config(object):
         2: "RANDOM CREATIVE WRITING DUMPS FROM 3AM"
     }
     
-    # Relative path to blogs' images directory from root_path
-    IMAGES_PATH_FROM_ROOT = "blog/static/blog/images"
-    # Relative path to blogs' images directory from blogpage's routes.py
-    IMAGES_BASE_REL_PATH = "../static/blog/images"
+    # Relative path to blogpages' static directory from root_path
+    BLOGPAGE_STATIC_FROM_ROOT = "blog/static/blog/blogpage"
+    # Relative path to blogpages' static directory from blogpage's routes.py
+    BLOGPAGE_STATIC_FROM_ROUTES = "../static/blog/blogpage"

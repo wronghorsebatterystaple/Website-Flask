@@ -47,8 +47,8 @@ def upload_images(images, blog_id: int, post_id: int) -> str:
             return "Invalid image."
 
         path_before_filename = os.path.join(current_app.root_path,
-                current_app.config["IMAGES_PATH_FROM_ROOT"],
-                str(blog_id), str(post_id))
+                current_app.config["BLOGPAGE_STATIC_FROM_ROOT"],
+                str(blog_id), "images", str(post_id))
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
         if not os.path.exists(path):
@@ -205,8 +205,8 @@ def edit_blogpost():
             db.session.delete(post)
             db.session.commit()
             shutil.rmtree(os.path.join(current_app.root_path,
-                current_app.config["IMAGES_PATH_FROM_ROOT"],
-                str(post.blog_id), str(post.id)))
+                current_app.config["BLOGPAGE_STATIC_FROM_ROOT"],
+                str(post.blog_id), "images", str(post.id)))
             return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.index"),
                     flash_message="Post deleted successfully!")
 
