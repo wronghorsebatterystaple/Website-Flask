@@ -77,7 +77,7 @@ def post(post_sanitized_title):
 @bp.route("/create-blogpost-button", methods=["POST"])
 def create_blogpost_button():
     # can't route button directly via GET due to CSRF protection
-    return redirect(url_for("admin.create_blogpost"))
+    return redirect(url_for("admin.create_blogpost", blog_id=get_blog_id(request.blueprint)))
 
 
 @bp.route("/edit-blogpost-button", methods=["POST"])

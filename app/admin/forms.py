@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import MultipleFileField, PasswordField, RadioField, StringField, SubmitField, TextAreaField
+from wtforms import MultipleFileField, PasswordField, RadioField, SelectField, StringField, SubmitField, TextAreaField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import InputRequired, Length
 
@@ -8,7 +8,7 @@ from app.db_config import db_config
 from app.models import Post
 
 
-class PasswordForm(FlaskForm):
+class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_USER_PASSWORD"])])
     submit = SubmitField("Submit")
@@ -21,6 +21,7 @@ class ChooseActionForm(FlaskForm):
 
 
 class CreateBlogpostForm(FlaskForm):
+    blog_id = SelectField("Blog", validators=[InputRequired()])
     title = StringField("Title", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[InputRequired(),

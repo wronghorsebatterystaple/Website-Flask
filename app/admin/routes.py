@@ -65,7 +65,7 @@ def login():
     if current_user.is_authenticated:
         logout_user()
 
-    form = PasswordForm()
+    form = LoginForm()
 
     # process POST requests (with Ajax: FormData)
     if request.method == "POST":
@@ -120,16 +120,19 @@ def choose_action():
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
-@login_required
+#@login_required
 def create_blogpost():
     form = CreateBlogpostForm()
+    # set choices dynamically so we can access current_app context; also must do before POST handling so validation works?
+    form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE"].items()]
 
     # process POST requests (with Ajax: FormData)
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        new_post = Post(title=request.form.get("title"), subtitle=request.form.get("subtitle"), content=request.form.get("content"))
+        new_post = Post(blog_id=int(request.form.get("blog_id")), title=request.form.get("title"),
+                subtitle=request.form.get("subtitle"), content=request.form.get("content"))
         new_post.sanitize_title()
         new_post.expand_image_markdown()
 
@@ -154,6 +157,9 @@ def create_blogpost():
                 flash_message="Post created successfully!") # view completed post
 
     # process GET requests otherwise
+    # automatically populate from query string if detected
+    if request.args.get("blog_id") is not None:
+        form.blog_id.data = request.args.get("blog_id")
     return render_template("admin/form-base.html", title="Create post",
             prompt="Create post", form=form)
 
