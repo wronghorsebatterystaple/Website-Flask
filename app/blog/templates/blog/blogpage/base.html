@@ -7,3 +7,8 @@
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/' ~ blog_id ~ '/css/style.css') }}">
 {% endblock %}
+
+{% block js %}
+<script src="{{ url_for('blog.static', filename='blog/blogpage/' ~ blog_id ~ '/js/set_background_image.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/background.js') }}"></script>
+{% endblock %}

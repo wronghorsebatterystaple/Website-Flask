@@ -28,7 +28,7 @@ class Config(object):
     BLOG_ID_TO_SUBTITLE = {
         0: "THE BLOG WHERE I TEACH MYSELF",
         1: "YES I STOLE THIS IDEA",
-        2: "RANDOM CREATIVE WRITING DUMPS FROM 3AM"
+        2: "CREATIVE WRITING DUMPS FROM 3AM"
     }
     
     # Relative path to blogpages' static directory from root_path

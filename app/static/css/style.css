@@ -1,21 +1,10 @@
-@media (min-width: 640px) {
-    .custom-narrow {
-        width: 640px;
-    }
-}
-
-@media (min-width: 1920px) {
-    .custom-narrow {
-        width: 33%;
-    }
-}
-
 .custom-narrow {
-    max-width: 100%;
+    max-width: clamp(33.33vw, 640px, 100vw);
+    margin: auto;
 }
 
 img {
-    max-width:100%;
+    max-width: 100%;
 }
 
 hr.custom-doublehr {
