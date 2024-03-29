@@ -22,3 +22,7 @@ hr.custom-doublehr {
     content:" *";
     color: red;
 }
+
+#background-img {
+    min-height: 100vh;
+}
