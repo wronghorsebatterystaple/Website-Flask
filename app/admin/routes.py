@@ -204,9 +204,11 @@ def edit_blogpost():
         if "delete" in request.form:
             db.session.delete(post)
             db.session.commit()
-            shutil.rmtree(os.path.join(current_app.root_path,
+            images_dir = os.path.join(current_app.root_path,
                 current_app.config["BLOGPAGE_STATIC_FROM_ROOT"],
-                str(post.blog_id), "images", str(post.id)))
+                str(post.blog_id), "images", str(post.id))
+            if os.path.exists(images_dir) and os.path.isdir(images_dir):
+                shutil.rmtree(images_dir)
             return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.index"),
                     flash_message="Post deleted successfully!")
 

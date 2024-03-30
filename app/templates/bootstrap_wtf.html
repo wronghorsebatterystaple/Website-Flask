@@ -29,6 +29,7 @@
         {% else %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
         {% endif %}
+
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
@@ -45,6 +46,11 @@
         {% else %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
         {% endif %}
+
+        {% if field.type == 'PasswordField' %}
+          <i id="{{ field.name }}-show" class="bi bi-eye-slash ps-2" onclick='togglePasswordVisibility("{{ field.name }}-input", "{{ field.name }}-show")' style='display: flex; align-items: center;'></i>
+        {% endif %}
+
         <div class="invalid-feedback" aria-describedby="{{ field.name }}">error here</div>
       </div>
     </div>

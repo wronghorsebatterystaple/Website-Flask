@@ -19,6 +19,11 @@ class Config(object):
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
 
+    # Relative path to blogpages' static directory from root_path
+    BLOGPAGE_STATIC_FROM_ROOT = "blog/static/blog/blogpage"
+    # Relative path to blogpages' static directory from blogpage's routes.py
+    BLOGPAGE_STATIC_FROM_ROUTES = "../static/blog/blogpage"
+
     # Mappings for blogpage blueprints
     BLOG_ID_TO_TITLE = {
         0: "Professor Google",
@@ -30,8 +35,3 @@ class Config(object):
         1: "YES I STOLE THIS IDEA",
         2: "CREATIVE WRITING DUMPS FROM 3AM"
     }
-    
-    # Relative path to blogpages' static directory from root_path
-    BLOGPAGE_STATIC_FROM_ROOT = "blog/static/blog/blogpage"
-    # Relative path to blogpages' static directory from blogpage's routes.py
-    BLOGPAGE_STATIC_FROM_ROUTES = "../static/blog/blogpage"
