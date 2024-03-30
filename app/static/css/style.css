@@ -1,10 +1,16 @@
-.custom-narrow {
-    max-width: clamp(33.33vw, 640px, 100vw);
-    margin: auto;
+body {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 img {
     max-width: 100%;
+}
+
+.btn-link {
+    text-decoration: none;
+    padding: 0;
 }
 
 hr.custom-doublehr {
@@ -13,9 +19,9 @@ hr.custom-doublehr {
     border-bottom: 2px solid black;
 }
 
-.btn-link {
-    text-decoration: none;
-    padding: 0;
+.custom-narrow {
+    max-width: clamp(33.33vw, 640px, 100vw);
+    margin: auto;
 }
 
 .required-label:after {

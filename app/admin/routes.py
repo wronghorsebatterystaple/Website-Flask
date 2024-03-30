@@ -213,22 +213,25 @@ def edit_blogpost():
                     flash_message="Post deleted successfully!")
 
         # handle post editing otherwise
-        old_title = post.title
-        post.title = request.form.get("title")
-        post.subtitle = request.form.get("subtitle")
-        post.content = request.form.get("content")
-        post.sanitize_title()
+        old_sanitized_title = post.sanitized_title
 
+        post_temp = Post()
+        post_temp.title = request.form.get("title")
+        post_temp.sanitize_title()
         # check that title still exists after sanitization
         if post.sanitized_title == "":
             return jsonify(flash_message="Post must have alphanumeric characters in its title.")
-        # check that title is unique if changed
-        if post.title != old_title:
-            if not post.are_titles_unique():
+        # check that sanitized title is unique if changed; temp for unique check to work
+        if post_temp.sanitized_title != old_sanitized_title:
+            if not post_temp.are_titles_unique():
                 return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
-        post.expand_image_markdown()
+        post.title = post_temp.title
+        post.sanitized_title = post_temp.sanitized_title
+        post.subtitle = request.form.get("subtitle")
+        post.content = request.form.get("content")
         post.edited_timestamp = datetime.now(timezone.utc) # updated edited time
+        post.expand_image_markdown()
         db.session.commit()
 
         # upload images if any
