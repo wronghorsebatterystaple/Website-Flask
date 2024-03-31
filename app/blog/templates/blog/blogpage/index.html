@@ -1,6 +1,11 @@
 {% extends "blog/blogpage/base.html" %}
 {% import "bootstrap_wtf.html" as wtf %}
 
+{% block title %}
+{{ title }}
+{{ super() }}
+{% endblock %}
+
 {% block content %}
 <div class="mainpage-header">
   <h1 class="mainpage-blog-name">{{ title }}</h1>

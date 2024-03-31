@@ -1,9 +1,13 @@
 {% extends "blog/blogpage/base.html" %}
 {% import "bootstrap_wtf.html" as wtf %}
 
+{% block title %}
+{{ post.title }} - {{ blog_title }}
+{% endblock %}
+
 {% block content %}
 <div class="post-headline">
-  <h1 class="post-title">{% block title %} {{ post.title }} {% endblock %}</h1>
+    <h1 class="post-title">{{ post.title }}</h1>
   {% if post.subtitle is not none %}
     <h2 class="post-subtitle">{{ post.subtitle }}</h2>
   {% endif %}
@@ -12,6 +16,7 @@
   {% else %}
     <h3 class="post-timestamp">{{ moment(post.timestamp).format('l') }}</h3>
   {% endif %}
+
   {% if current_user.is_authenticated %}
   {{ wtf.quick_form(edit_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.edit_blogpost_button', post_id=post.id), class="admin-button") }}
   {% endif %}
@@ -27,7 +32,7 @@
 </div>
 
 <div class="post-commentform">
-  {{ wtf.quick_form(add_comment_form, class="post-commentform-form") }}
+  {{ wtf.quick_form(add_comment_form, class="post-commentform-form", autofocus_first=false) }}
 </div>
 <hr class="custom-doublehr">
 

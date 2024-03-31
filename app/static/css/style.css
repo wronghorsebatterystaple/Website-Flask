@@ -1,7 +1,7 @@
 body {
-  font-family: "Varela Round", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Varela Round", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 img {
@@ -19,7 +19,7 @@ hr.custom-doublehr {
     border-bottom: 2px solid black;
 }
 
-.custom-narrow {
+.narrow-container {
     max-width: clamp(33.33vw, 640px, 100vw);
     margin: auto;
 }

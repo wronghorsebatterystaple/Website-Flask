@@ -58,7 +58,7 @@
 {% endmacro %}
 
 
-{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="primary", hidden=false) %}
+{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="primary", autofocus_first=true, hidden=false) %}
   <form novalidate
     {%- if action != None %} action="{{ action }}"{% endif -%}
     {%- if method %} method="{{ method }}"{% endif -%}
@@ -71,7 +71,7 @@
     {%- for field in form %}
       {% if field.widget.input_type != 'hidden' -%}
         <div id="{{ field.name }}-field">
-          {{ form_field(field, ns.first_field, btn_type) }}
+          {{ form_field(field, ns.first_field and autofocus_first, btn_type) }}
           {% set ns.first_field = false %}
         </div>
       {%- endif %}

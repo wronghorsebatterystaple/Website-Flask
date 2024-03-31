@@ -77,7 +77,8 @@ def login():
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
         if user is None or not user.check_password(request.form.get("password")):
-            return jsonify(flash_message="Invalid password lol")
+            # display in submission errors section instead of flash
+            return jsonify(submission_errors={"password": ["No, the password is not \"solarwinds123\"."]})
         login_user(user, remember=True)
         
         # allow redirects from @login_required
@@ -87,7 +88,7 @@ def login():
         return jsonify(redirect_uri=next_page)
 
     # process GET requests otherwise (page being loaded)
-    return render_template("admin/form-base.html", title="Assistant Professor Bing",
+    return render_template("admin/form-base.html", title="Admin login",
             prompt="Access the Secrets of the Universe", form=form)
 
 
@@ -116,7 +117,7 @@ def choose_action():
         return jsonify(redirect_uri=redirect_uri)
 
     # process GET requests otherwise
-    return render_template("admin/form-base.html", title="Sleeping TA Yandex", prompt="42", form=form)
+    return render_template("admin/form-base.html", title="Choose action", prompt="42", form=form)
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])

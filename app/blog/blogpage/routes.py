@@ -66,7 +66,7 @@ def post(post_sanitized_title):
         comment.content = markdown.markdown(comment.content, extensions=["extra"])
 
     return render_template("blog/blogpage/post.html",
-            title=current_app.config["BLOG_ID_TO_TITLE"][get_blog_id(request.blueprint)],
+            blog_title=current_app.config["BLOG_ID_TO_TITLE"][get_blog_id(request.blueprint)],
             blog_id=get_blog_id(request.blueprint), post=post,
             get_descendants_list=Comment.get_descendants_list,
             comments=comments, add_comment_form=add_comment_form,
