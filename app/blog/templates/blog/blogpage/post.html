@@ -21,43 +21,44 @@
   {{ wtf.quick_form(edit_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.edit_blogpost_button', post_id=post.id), class="admin-button") }}
   {% endif %}
 </div>
+<hr>
 
-<div class="post-body">
+<div>
   {{ post.content |safe }}
 </div>
-<hr class="custom-doublehr">
 
-<div class="post-commentprompt">
-  <h2 class="post-commentprompt-text">Leave a comment</h2>
+<hr class="doublehr">
+
+<div>
+  <h2>Leave a comment</h2>
+  {{ wtf.quick_form(add_comment_form, autofocus_first=false) }}
 </div>
+<hr>
 
-<div class="post-commentform">
-  {{ wtf.quick_form(add_comment_form, class="post-commentform-form", autofocus_first=false) }}
-</div>
-<hr class="custom-doublehr">
-
-<div id="commentlist" class="post-commentlist">
-  <h2 class="post-commentlist-header">Comments</h2>
+<div id="commentlist">
+  <h2>Comments</h2>
   <div class="d-flex flex-shrink-0">
     <div class="flex-shrink-0">
       {% for comment in comments recursive %}
         {% if comment.depth == loop.depth0 %}
-          {% if comment.depth != 0 %} <!-- Only indent if nested comment -->
+          {% if comment.depth != 0 %}
             <div class="flex-grow-1 ms-3">
           {% endif %}
-          <div class="post-commentlist-comment">
-            <h3 class="post-commentlist-comment-author">{{ comment.author }}</h3>
-            <span class="post-commentlist-comment-content">{{ comment.content |safe }}</span>
-            <p class="post-commentlist-comment-timestamp"><small>{{ moment(comment.timestamp).format('lll') }} ({{ moment(comment.timestamp).fromNow() }})</small></p>
 
-            {{ wtf.quick_form(reply_comment_button, btn_type='link', id='reply-btn-' ~ comment.id, class='reply-btn') }}
-            {{ wtf.quick_form(add_comment_form, hidden=true, id='reply-form-' ~ comment.id, class='post-commentform-form') }}
+          <div class="comment">
+            <h3 class="comment-author">{{ comment.author }}</h3>
+            <span class="comment-content">{{ comment.content |safe }}</span>
+            <p class="comment-timestamp"><small>{{ moment(comment.timestamp).format('lll') }} ({{ moment(comment.timestamp).fromNow() }})</small></p>
+
+            {{ wtf.quick_form(reply_comment_button, btn_type='link', id='reply-btn-' ~ comment.id, class='comment-reply-btn') }}
+            {{ wtf.quick_form(add_comment_form, hidden=true, id='reply-form-' ~ comment.id, class='comment-reply-form') }}
 
             {% set descendants = comment.get_descendants_list(post) %}
             {% if descendants %}
-              <div class="post-commentlist-comment-reply">{{ loop(descendants) }}</div>
+              <div class="comment-reply">{{ loop(descendants) }}</div>
             {% endif %}
           </div>
+
           {% if comment.depth != 0 %}
             </div>
           {% endif %}

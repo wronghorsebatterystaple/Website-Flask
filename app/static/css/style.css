@@ -1,9 +1,3 @@
-body {
-    font-family: "Varela Round", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
 img {
     max-width: 100%;
 }
@@ -13,7 +7,7 @@ img {
     padding: 0;
 }
 
-hr.custom-doublehr {
+hr.doublehr {
     height: 6px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
@@ -29,6 +23,14 @@ hr.custom-doublehr {
     color: red;
 }
 
-#background-img {
-    min-height: 100vh;
+.font-comic-neue {
+    font-family: "Comic Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.font-varela-round {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }

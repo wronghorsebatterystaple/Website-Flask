@@ -1,5 +1,5 @@
 // Asynchronously reveal fields for comment on clicking a reply button, and don't send POST at all
-$(document).on("submit", ".reply-btn", function(e) {
+$(document).on("submit", ".comment-reply-btn", function(e) {
     e.preventDefault();
 
     var id = $(this).attr("id").match(/\d+/)[0];
@@ -10,7 +10,7 @@ $(document).on("submit", ".reply-btn", function(e) {
 });
 
 // Use Ajax to update page on comment addition without refreshing and going back to top
-$(document).on("submit", ".post-commentform-form", function(e) {
+$(document).on("submit", ".comment-reply-form", function(e) {
     e.preventDefault();
 
     var formData = new FormData($(e.target).get(0))
