@@ -1,18 +1,18 @@
-{% macro form_field(field, autofocus, bottom_margin, btn_type) %}
+{%- macro form_field(field, autofocus, bottom_margin, btn_type) %}
   {%- if field.type == 'BooleanField' %}
    <div class="form-check mb-{{ bottom_margin }}">
-      {{ field(id=field.name ~ '-input', class='form-check-input') }}
-      {{ field.label(class='form-check-label') }}
-      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
-    </div>
+     {{ field(id=field.name ~ '-input', class='form-check-input') }}
+     {{ field.label(class='form-check-label') }}
+     <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
+   </div>
 
   {%- elif field.type == 'RadioField' %}
     {{ field.label(class='form-label') }}
     {%- for item in field %}
-    <div class="form-check{% if loop.last %} mb-{{ bottom_margin }}{% endif %}">
-        {{ item(class='form-check-input') }}
-        {{ item.label(class='form-check-label') }}
-      </div>
+    <div class="form-check{%- if loop.last %} mb-{{ bottom_margin }}{%- endif %}">
+      {{ item(class='form-check-input') }}
+      {{ item.label(class='form-check-label') }}
+    </div>
     {%- endfor %}
 
   {%- elif field.type == 'SelectField' %}
@@ -24,12 +24,11 @@
     <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
-        {% if autofocus %}
+        {%- if autofocus %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
-        {% else %}
+        {%- else %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
-        {% endif %}
-
+        {%- endif %}
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
@@ -41,43 +40,39 @@
     <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
-        {% if autofocus %}
+        {%- if autofocus %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
-        {% else %}
+        {%- else %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
-        {% endif %}
-
-        {% if field.type == 'PasswordField' %}
+        {%- endif %}
+        {%- if field.type == 'PasswordField' %}
           <i id="{{ field.name }}-show" class="bi bi-eye-slash ps-3" onclick='togglePasswordVisibility("{{ field.name }}-input", "{{ field.name }}-show")' style='display: flex; align-items: center;'></i>
-        {% endif %}
-
+        {%- endif %}
         <div class="invalid-feedback" aria-describedby="{{ field.name }}">error here</div>
       </div>
     </div>
   {%- endif %}
-{% endmacro %}
+{%- endmacro %}
 
 
-{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, autofocus_first=true, bottom_margin=3, btn_type="warning", hidden=false) %}
+{%- macro quick_form(form, action="", method="post", class="", id="", novalidate=False, autofocus_first=true, bottom_margin=3, btn_type="warning", hidden=false) %}
   <form novalidate
-    {%- if action != None %} action="{{ action }}"{% endif -%}
-    {%- if method %} method="{{ method }}"{% endif -%}
-    {%- if class %} class="{{ class }}"{% endif -%}
-    {%- if id %} id="{{ id }}"{% endif -%}
-    {%- if novalidate %} novalidate{% endif -%}
-    {%- if hidden %} hidden{% endif -%}>
+    {%- if action != None %} action="{{ action }}"{%- endif %}
+    {%- if method %} method="{{ method }}"{%- endif %}
+    {%- if class %} class="{{ class }}"{%- endif %}
+    {%- if id %} id="{{ id }}"{%- endif %}
+    {%- if novalidate %} novalidate{%- endif %}
+    {%- if hidden %} hidden{%- endif %}>
     {{ form.hidden_tag() }}
-    {% set ns = namespace(first_field=true) %}
+    {%- set ns = namespace(first_field=true) %}
     {%- for field in form %}
-      {% if field.widget.input_type != 'hidden' -%}
+      {%- if field.widget.input_type != 'hidden' %}
         <div id="{{ field.name }}-field">
           {{ form_field(field, ns.first_field and autofocus_first, bottom_margin, btn_type) }}
-          {% set ns.first_field = false %}
+          {%- set ns.first_field = false %}
         </div>
       {%- endif %}
     {%- endfor %}
-  
     {{ turnstile }}
   </form>
-{% endmacro %}
-
+{%- endmacro %}

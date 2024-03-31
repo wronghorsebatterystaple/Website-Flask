@@ -1,16 +1,16 @@
-{% extends "admin/base.html" %}
-{% import "bootstrap_wtf.html" as wtf %}
+{%- extends "admin/base.html" %}
+{%- import "bootstrap_wtf.html" as wtf %}
 
-{% block title %}
+{%- block title %}
 {{ title }}
 {{ super() }}
-{% endblock %}
+{%- endblock %}
 
-{% block content %}
+{%- block content %}
 <h1>{{ prompt }}</h1>
 {{ wtf.quick_form(form) }}
-{% endblock %}
+{%- endblock %}
 
-{% block js %}
+{%- block js %}
 <script src="{{ url_for('admin.static', filename='admin/js/form_submit.js') }}"></script>
-{% endblock %}
+{%- endblock %}

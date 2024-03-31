@@ -37,7 +37,7 @@
       <!-- global custom CSS -->
       <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 
-      {% block css %}{% endblock %}
+      {%- block css %}{%- endblock %}
 
     <!-- JS -->
       <!-- global custom JS -->
@@ -50,7 +50,7 @@
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js') }}"></script>
 
-    <title>{% block title %}{% endblock %}</title>
+    <title>{%- block title %}{%- endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}">
   </head>
 
@@ -72,20 +72,20 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
-                {% for k, v in config.BLOG_ID_TO_TITLE.items() %}
+                {%- for k, v in config.BLOG_ID_TO_TITLE.items() %}
                   <li><a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a></li>
-                {% endfor %}
+                {%- endfor %}
               </ul>
             </li>
           </ul>
 
           <ul class="navbar-nav mb-2 mb-lg-0">
             <li class="nav-item">
-              {% if current_user.is_anonymous %}
+              {%- if current_user.is_anonymous %}
                 <a class="nav-link" href="{{ url_for('admin.login') }}">Admin login</a>
-              {% else %}
+              {%- else %}
               <a class="nav-link" href="{{ url_for('admin.logout') }}">Logout please :3</a>
-              {% endif %}
+              {%- endif %}
             </li>
           </ul>
         </div>
@@ -99,13 +99,13 @@
         </div>
 
         <div>
-          {% block content %}{% endblock %}
+          {%- block content %}{%- endblock %}
         </div>
       </div>
     </div>
     </div>
 
-    {% block js %}{% endblock %}
+    {%- block js %}{%- endblock %}
 
     <!-- CDNs -->
       <!-- Bootstrap -->
