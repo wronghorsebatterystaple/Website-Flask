@@ -1,0 +1,61 @@
+.black {
+    color: black;
+}
+
+.blogpage-header {
+    padding-top: 0.75rem;
+}
+
+.blogpage-name {
+    font-size: 3.6rem;
+}
+
+.blogpage-subname {
+    font-size: 1.6rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.gray {
+    color: gray;
+}
+
+.post-header {
+    padding-top: 0.75rem;
+}
+
+.post-title {
+    font-size: 3rem;
+}
+
+.post-subtitle {
+    font-size: 1.6rem;
+}
+
+.post-timestamp {
+    font-size: 1.3rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.2rem;
+}
+
+.post-content {
+    padding-top: 0.3rem;
+}
+
+.postlist-post {
+    padding-top: 0.2rem;
+    padding-bottom: 0.1rem;
+}
+
+.postlist-post-title {
+    font-size: 2.25rem;
+}
+
+.postlist-post-subtitle {
+    font-size: 1.2rem;
+}
+
+.postlist-post-timestamp {
+    padding-top: 0.2rem;
+    font-size: 1rem;
+}

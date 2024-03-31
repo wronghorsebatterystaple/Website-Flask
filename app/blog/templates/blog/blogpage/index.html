@@ -9,7 +9,7 @@
 {% block content %}
 <div class="blogpage-header">
   <h1 class="blogpage-name">{{ title }}</h1>
-  <h2 class="blogpage-subname">{{ subtitle }}</h2>
+  <h2 class="blogpage-subname gray">{{ subtitle }}</h2>
   {% if current_user.is_authenticated %}
     {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="admin-button") }}
   {% endif %}
@@ -18,16 +18,16 @@
 
 <div>
   {% for post in posts %}
-    <div>
+    <div class="postlist-post">
       <a href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="postlist-post-title">{{ post.title }}</h1>
         {% if post.subtitle is not none %}
-          <h2 class="postlist-post-subtitle">{{ post.subtitle }}</h2>
+          <h2 class="postlist-post-subtitle gray">{{ post.subtitle }}</h2>
         {% endif %}
         {% if post.edited_timestamp is not none %}
-          <h3 class="postlist-post-timestamp">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
+          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
         {% else %}
-          <h3 class="postlist-post-timestamp">{{ moment(post.timestamp).format('l') }}</h3>
+          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
         {% endif %}
       </a>
     </div>
