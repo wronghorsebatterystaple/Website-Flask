@@ -1,5 +1,5 @@
-.black {
-    color: black;
+.admin-btn {
+    margin-top: 0.5rem;
 }
 
 .blogpage-header {
@@ -16,8 +16,25 @@
     padding-bottom: 0.2rem;
 }
 
-.gray {
-    color: gray;
+.comment-section-headers {
+    font-size: 2.2rem;
+}
+
+.comment-inner {
+    padding-bottom: 0;
+}
+
+.comment-author {
+    font-size: 1.25rem;
+}
+
+.comment-timestamp {
+    margin-bottom: 0.25rem;
+}
+
+input[value="Reply"] {
+    font-size: 0.95rem;
+    margin-bottom: 0rem;
 }
 
 .post-header {

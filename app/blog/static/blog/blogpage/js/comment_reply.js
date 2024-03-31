@@ -10,7 +10,7 @@ $(document).on("submit", ".comment-reply-btn", function(e) {
 });
 
 // Use Ajax to update page on comment addition without refreshing and going back to top
-$(document).on("submit", ".comment-reply-form", function(e) {
+$(document).on("submit", ".comment-form", function(e) {
     e.preventDefault();
 
     var formData = new FormData($(e.target).get(0))
@@ -43,11 +43,11 @@ $(document).on("submit", ".comment-reply-form", function(e) {
                     });
             }
 
-            if (response.success) { // clear fields on success
+            if (response.success) { // clear fields and reload on success
                 $(e.target).find("*").filter(function() {
                     return this.id.match(/.*-input/);
                 }).val("");
-                $("#commentlist").load(window.location.href + " #commentlist > *");
+                $("#commentlist").load(window.location.href + " #commentlist > *", flask_moment_render_all);
             }
         }
     });

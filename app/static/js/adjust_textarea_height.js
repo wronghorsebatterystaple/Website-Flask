@@ -1,6 +1,8 @@
 function adjustTextareaHeight(textarea_dom) {
-    textarea_dom.style.height = "";
-    textarea_dom.style.height = `${textarea_dom.scrollHeight + 3}px`;
+    if (textarea_dom.style.height != textarea_dom.scrollHeight) {
+        textarea_dom.style.height = "";
+        textarea_dom.style.height = `${textarea_dom.scrollHeight + 1.5}px`;
+    }
 }
 
 window.addEventListener("load", function() {

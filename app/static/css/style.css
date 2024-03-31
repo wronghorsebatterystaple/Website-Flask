@@ -2,6 +2,14 @@ img {
     max-width: 100%;
 }
 
+textarea {
+    overflow: hidden;
+}
+
+.black {
+    color: black;
+}
+
 .btn-link {
     text-decoration: none;
     padding: 0;
@@ -11,6 +19,14 @@ hr.doublehr {
     height: 6px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+}
+
+.gray {
+    color: gray;
+}
+
+.link-color {
+    color: #0d6efd;
 }
 
 .narrow-container {

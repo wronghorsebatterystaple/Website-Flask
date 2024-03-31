@@ -11,7 +11,7 @@
   <h1 class="blogpage-name">{{ title }}</h1>
   <h2 class="blogpage-subname gray">{{ subtitle }}</h2>
   {% if current_user.is_authenticated %}
-    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="admin-button") }}
+    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="admin-btn", btn_type="info", bottom_margin=0) }}
   {% endif %}
 </div>
 <hr>

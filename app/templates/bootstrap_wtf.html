@@ -1,6 +1,6 @@
-{% macro form_field(field, autofocus, btn_type) %}
+{% macro form_field(field, autofocus, bottom_margin, btn_type) %}
   {%- if field.type == 'BooleanField' %}
-    <div class="form-check mb-3">
+   <div class="form-check mb-{{ bottom_margin }}">
       {{ field(id=field.name ~ '-input', class='form-check-input') }}
       {{ field.label(class='form-check-label') }}
       <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
@@ -9,19 +9,19 @@
   {%- elif field.type == 'RadioField' %}
     {{ field.label(class='form-label') }}
     {%- for item in field %}
-      <div class="form-check{% if loop.last %} mb-3{% endif %}">
+    <div class="form-check{% if loop.last %} mb-{{ bottom_margin }}{% endif %}">
         {{ item(class='form-check-input') }}
         {{ item.label(class='form-check-label') }}
       </div>
     {%- endfor %}
 
   {%- elif field.type == 'SelectField' %}
-      {{ field.label(class='form-label') }}
-      {{ field(id=field.name ~ '-input', class='form-select mb-3') }}
-      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
+    {{ field.label(class='form-label') }}
+    {{ field(id=field.name ~ '-input', class='form-select mb-' ~ bottom_margin) }}
+    <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
 
   {%- elif field.type == 'TextAreaField' %}
-    <div class="mb-3">
+    <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
         {% if autofocus %}
@@ -35,10 +35,10 @@
     </div>
 
   {%- elif field.type == 'SubmitField' %}
-    {{ field(class='btn btn-' ~ btn_type ~ ' mb-3') }}
+    {{ field(class='btn btn-' ~ btn_type ~ ' mb-' ~ bottom_margin) }}
 
   {%- else %}
-    <div class="mb-3">
+    <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
         {% if autofocus %}
@@ -58,7 +58,7 @@
 {% endmacro %}
 
 
-{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="primary", autofocus_first=true, hidden=false) %}
+{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, autofocus_first=true, bottom_margin=3, btn_type="warning", hidden=false) %}
   <form novalidate
     {%- if action != None %} action="{{ action }}"{% endif -%}
     {%- if method %} method="{{ method }}"{% endif -%}
@@ -71,7 +71,7 @@
     {%- for field in form %}
       {% if field.widget.input_type != 'hidden' -%}
         <div id="{{ field.name }}-field">
-          {{ form_field(field, ns.first_field and autofocus_first, btn_type) }}
+          {{ form_field(field, ns.first_field and autofocus_first, bottom_margin, btn_type) }}
           {% set ns.first_field = false %}
         </div>
       {%- endif %}
