@@ -7,11 +7,10 @@ import markdown
 import re
 import shutil
 
-from app import db
+from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
 from app.models import *
-from app.util.turnstile_check import has_failed_turnstile
 from app.util.uri_util import encode_uri_component, url_with_flash
 
 
@@ -45,7 +44,7 @@ def post(post_sanitized_title):
     if request.method == "POST":
         if not add_comment_form.validate():
             return jsonify(submission_errors=add_comment_form.errors)
-        if has_failed_turnstile():
+        if not turnstile.verify():
             return jsonify(redirect_uri=url_for("main.bot_jail"))
 
         comment = Comment(author=request.form["author"], content=request.form["content"],

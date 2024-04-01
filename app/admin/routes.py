@@ -9,11 +9,10 @@ import shutil
 import urllib.parse as ul
 from werkzeug.utils import escape, secure_filename
 
-from app import db
+from app import db, turnstile
 from app.admin import bp
 from app.admin.forms import *
 from app.models import *
-from app.util.turnstile_check import has_failed_turnstile
 from app.util.uri_util import encode_uri_component
 
 
@@ -71,7 +70,7 @@ def login():
     if request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
-        if has_failed_turnstile():
+        if not turnstile.verify():
             return jsonify(redirect_uri=url_for("main.bot_jail"))
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
