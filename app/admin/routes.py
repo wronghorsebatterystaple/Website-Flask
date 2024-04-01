@@ -53,7 +53,7 @@ def upload_images(images, blog_id: int, post_id: int) -> str:
         if not os.path.exists(path):
             image.save(path)
         else:
-            return "Image name already exists."
+            return "Image already exists."
 
     return "success"
 
