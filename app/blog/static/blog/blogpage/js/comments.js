@@ -1,19 +1,35 @@
+var digits_reg = /\d+/;
+
 // Asynchronously reveal fields for comment on clicking a reply button, and don't send POST at all
 $(document).on("submit", ".comment-reply-btn", function(e) {
     e.preventDefault();
 
-    var id = $(this).attr("id").match(/\d+/)[0];
-    $(`#reply-form-${id}`).removeAttr("hidden");
-    $(`#reply-form-${id}`).find("#parent").attr("value", id);
+    var id = $(this).attr("id").match(digits_reg)[0];
+    $(`#comment-reply-form-${id}`).removeAttr("hidden");
+    $(`#comment-reply-form-${id}`).find("#parent").attr("value", id);
 
     asteriskRequiredFields();
 });
 
-// Use Ajax to update page on comment addition without refreshing and going back to top
-$(document).on("submit", ".comment-form", function(e) {
+// Asynchronously populate comment id hidden fields for comment deletion
+function loadDeleteButtonIDs() {
+    $(".comment-delete-btn").each(function() {
+        var id = $(this).attr("id").match(digits_reg)[0];
+        $(this).find("#id").attr("value", id);
+    });
+}
+window.addEventListener("load", loadDeleteButtonIDs, false)
+
+// Use Ajax to update page on comment addition/deletion without refreshing and going back to top
+function onCommentReload() {
+    flask_moment_render_all();
+    loadDeleteButtonIDs();
+}
+
+$(document).on("submit", ".comment-ajax", function(e) {
     e.preventDefault();
 
-    var formData = new FormData($(e.target).get(0))
+    var formData = new FormData($(e.target).get(0), $(e.originalEvent.submitter).get(0));
     $.ajax({
         type: "POST",
         url: window.location.pathname + window.location.search,
@@ -43,11 +59,11 @@ $(document).on("submit", ".comment-form", function(e) {
                     });
             }
 
-            if (response.success) { // clear fields and reload on success
+            if (response.success) { // clear fields and reload comments on success
                 $(e.target).find("*").filter(function() {
                     return this.id.match(/.*-input/);
                 }).val("");
-                $("#commentlist").load(window.location.href + " #commentlist > *", flask_moment_render_all);
+                $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
             }
         }
     });

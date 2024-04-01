@@ -11,7 +11,6 @@ from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
 from app.models import *
-from app.util.uri_util import encode_uri_component, url_with_flash
 
 
 def get_blog_id(blueprint_name) -> int:
@@ -34,6 +33,7 @@ def index():
 def post(post_sanitized_title):
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
+    delete_comment_button = DeleteCommentButton()
     edit_blogpost_button = EditBlogpostButton()
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
@@ -42,10 +42,32 @@ def post(post_sanitized_title):
 
     # process POST requests (adding comments) (with Ajax: FormData)
     if request.method == "POST":
-        if not add_comment_form.validate():
-            return jsonify(submission_errors=add_comment_form.errors)
         if not turnstile.verify():
             return jsonify(redirect_uri=url_for("main.bot_jail"))
+
+        # handle comment deletion (after confirmation button)
+        if "delete" in request.form:
+            if not current_user.is_authenticated: # since we can't use @login_required here
+                return jsonify(flash_message=f"Your session has been ended or has expired.")
+
+            comment = db.session.get(Comment, request.form["id"])
+            if comment is None:
+                return jsonify(redirect_uri=url_for(f"{request.blueprint}.index"),
+                        flash_message=f"That comment doesn't exist (and never did...).")
+
+            descendants = comment.get_descendants_list(post)
+            if not comment.remove_comment(post):
+                return jsonify(redirect_uri=url_for(f"{request.blueprint}.index"),
+                        flash_message="Sanity check is not supposed to fail...")
+            for descendant in descendants:
+                db.session.delete(descendant)
+            db.session.delete(comment)
+            db.session.commit()
+            return jsonify(success=True, flash_message="1984 established!")
+
+        # handle comment addition otherwise
+        if not add_comment_form.validate():
+            return jsonify(submission_errors=add_comment_form.errors)
 
         comment = Comment(author=request.form["author"], content=request.form["content"],
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
@@ -70,6 +92,7 @@ def post(post_sanitized_title):
             get_descendants_list=Comment.get_descendants_list,
             comments=comments, add_comment_form=add_comment_form,
             reply_comment_button = reply_comment_button,
+            delete_comment_button = delete_comment_button,
             edit_blogpost_button=edit_blogpost_button)
 
 

@@ -31,7 +31,7 @@
 
 <div>
   <h2 class="comment-section-headers">Leave a comment</h2>
-  {{ wtf.quick_form(add_comment_form, class='comment-form', autofocus_first=false) }}
+  {{ wtf.quick_form(add_comment_form, class='comment-ajax', autofocus_first=false) }}
 </div>
 <hr>
 
@@ -44,23 +44,29 @@
           {%- if comment.depth != 0 %}
             <div class="flex-grow-1 ms-3">
           {%- endif %}
-          <div class="card{%- if comment.depth == 0 %} mb-3{%- else %} mb-1{%- endif %} comment">
+          {%- set descendants = comment.get_descendants_list(post) %}
+          <div class="card{%- if descendants or comment.depth != 0 %} mb-1{%- else %} mb-3{%- endif %} comment">
             <div class="card-body comment-inner">
               <h3 class="comment-author">{{ comment.author }}</h3>
               <span class="comment-content gray">{{ comment.content |safe }}</span>
               <span class="comment-timestamp"><small>{{ moment(comment.timestamp).format('lll') }} ({{ moment(comment.timestamp).fromNow() }})</small></span>
-              {%- if comment.depth < 8 %}
-                {{ wtf.quick_form(reply_comment_button, id='reply-btn-' ~ comment.id, class='comment-reply-btn', btn_type='link', bottom_margin=2) }}
-                {{ wtf.quick_form(add_comment_form, hidden=true, id='reply-form-' ~ comment.id, class='comment-form') }}
+              
+              {%- if comment.depth < 5 %}
+                {{ wtf.quick_form(reply_comment_button, id='comment-reply-btn-' ~ comment.id, class='comment-reply-btn', btn_type='link', bottom_margin=2) }}
+                {{ wtf.quick_form(add_comment_form, id='comment-reply-form-' ~ comment.id, class='comment-ajax', hidden=true) }}
               {%- else %}
                 <p class="link-color"><small>It's gonna get ugly if you keep replying...</small></p>
               {%- endif %}
-              {%- set descendants = comment.get_descendants_list(post) %}
-              {%- if descendants %}
-                <div class="comment-reply">{{ loop(descendants) }}</div>
+
+              {%- if current_user.is_authenticated %}
+              {{ wtf.quick_form(delete_comment_button, id='comment-delete-btn-' ~ comment.id, class='comment-ajax comment-delete-btn', btn_type="link", btn_color="red", bottom_margin=2) }}
               {%- endif %}
             </div>
           </div>
+          {%- if descendants %}
+            <div class="comment-reply">{{ loop(descendants) }}</div>
+          {%- endif %}
+
           {%- if comment.depth != 0 %}
             </div>
           {%- endif %}
@@ -73,5 +79,5 @@
 
 {%- block js %}
 {{ super() }}
-<script src="{{ url_for('blog.static', filename='blog/blogpage/js/comment_reply.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/comments.js') }}"></script>
 {%- endblock %}

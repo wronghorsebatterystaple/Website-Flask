@@ -1,4 +1,4 @@
-{%- macro form_field(field, autofocus, bottom_margin, btn_type) %}
+{%- macro form_field(field, btn_type, btn_color, bottom_margin, autofocus_first) %}
   {%- if field.type == 'BooleanField' %}
    <div class="form-check mb-{{ bottom_margin }}">
      {{ field(id=field.name ~ '-input', class='form-check-input') }}
@@ -24,7 +24,7 @@
     <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
-        {%- if autofocus %}
+        {%- if autofocus_focus %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
         {%- else %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
@@ -34,20 +34,26 @@
     </div>
 
   {%- elif field.type == 'SubmitField' %}
-    {{ field(class='btn btn-' ~ btn_type ~ ' mb-' ~ bottom_margin) }}
+    {%- if btn_color == 'default' %}
+      {{ field(class='btn btn-' ~ btn_type ~ ' mb-' ~ bottom_margin) }}
+    {%- else %}
+      {{ field(class='btn btn-' ~ btn_type ~ ' mb-' ~ bottom_margin ~ ' btn-' ~ btn_color) }}
+    {%- endif %}
 
   {%- else %}
     <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
-        {%- if autofocus %}
+        {%- if autofocus_first %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
         {%- else %}
           {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
         {%- endif %}
+
         {%- if field.type == 'PasswordField' %}
           <i id="{{ field.name }}-show" class="bi bi-eye-slash ps-3" onclick='togglePasswordVisibility("{{ field.name }}-input", "{{ field.name }}-show")' style='display: flex; align-items: center;'></i>
         {%- endif %}
+
         <div class="invalid-feedback" aria-describedby="{{ field.name }}">error here</div>
       </div>
     </div>
@@ -55,7 +61,7 @@
 {%- endmacro %}
 
 
-{%- macro quick_form(form, action="", method="post", class="", id="", novalidate=False, autofocus_first=true, bottom_margin=3, btn_type="warning", hidden=false) %}
+{%- macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="warning", btn_color="default", bottom_margin=3, autofocus_first=true, hidden=false) %}
   <form novalidate
     {%- if action != None %} action="{{ action }}"{%- endif %}
     {%- if method %} method="{{ method }}"{%- endif %}
@@ -68,11 +74,12 @@
     {%- for field in form %}
       {%- if field.widget.input_type != 'hidden' %}
         <div id="{{ field.name }}-field">
-          {{ form_field(field, ns.first_field and autofocus_first, bottom_margin, btn_type) }}
+          {{ form_field(field, btn_type, btn_color, bottom_margin, ns.first_field and autofocus_first) }}
           {%- set ns.first_field = false %}
         </div>
       {%- endif %}
     {%- endfor %}
+
     {{ turnstile }}
   </form>
 {%- endmacro %}

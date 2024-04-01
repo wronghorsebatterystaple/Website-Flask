@@ -4,6 +4,7 @@ from config import Config
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_login import LoginManager
+from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
 from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect
@@ -15,6 +16,8 @@ migrate = Migrate()
 moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = "admin.login"
+paranoid = Paranoid()
+paranoid.redirect_view = "admin.login"
 turnstile = Turnstile()
 
 def create_app(config_class=Config):
@@ -28,6 +31,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     moment.init_app(app)
     login_manager.init_app(app)
+    paranoid.init_app(app)
     turnstile.init_app(app)
 
     # register blueprints

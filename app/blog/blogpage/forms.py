@@ -18,6 +18,11 @@ class ReplyCommentButton(FlaskForm):
     submit = SubmitField("Reply")
 
 
+class DeleteCommentButton(FlaskForm):
+    id = HiddenField(default=None)
+    delete = SubmitField("Delete", render_kw={"onclick": "return confirm('Abuse of power check');"})
+
+
 class CreateBlogpostButton(FlaskForm):
     submit = SubmitField("Create post")
 

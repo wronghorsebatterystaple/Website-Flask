@@ -92,6 +92,23 @@ class Comment(db.Model):
             comment.right += 2
         return True
 
+    def remove_comment(self, post) -> bool:
+        if self.post_id != post.id: # sanity check
+            return False
+
+        descendants = self.get_descendants_list(post)
+        for descendant in descendants:
+            if not descendant.remove_comment(post):
+                return False
+
+        comments_to_update_query = post.comments.select().filter(Comment.right > self.right)
+        comments_to_update = db.session.scalars(comments_to_update_query).all()
+        for comment in comments_to_update:
+            if comment.left > self.right:
+                comment.left -= 2
+            comment.right -= 2
+        return True
+
     def get_descendants_list(self, post) -> list:
         comments_query = post.comments.select().filter(sa.and_(
                 Comment.left > self.left, Comment.right < self.right))

@@ -1,42 +1,6 @@
-img {
-    max-width: 100%;
-}
-
-textarea {
-    overflow: hidden;
-}
-
-.black {
-    color: black;
-}
-
-.btn-link {
-    text-decoration: none;
-    padding: 0;
-}
-
-hr.doublehr {
-    height: 6px;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-}
-
-.gray {
-    color: gray;
-}
-
-.link-color {
-    color: #0d6efd;
-}
-
 .narrow-container {
     max-width: clamp(33.33vw, 640px, 100vw);
     margin: auto;
-}
-
-.required-label:after {
-    content:" *";
-    color: red;
 }
 
 .font-comic-neue {
@@ -49,4 +13,46 @@ hr.doublehr {
     font-family: "Varela Round", sans-serif;
     font-weight: 400;
     font-style: normal;
+}
+
+.black {
+    color: black;
+}
+
+.gray {
+    color: gray;
+}
+
+.link-color {
+    color: #0d6efd;
+}
+
+.btn-red {
+    --bs-btn-color: red;
+    --bs-btn-hover-color: red;
+    --bs-btn-active-color: red;
+}
+
+.btn-link {
+    text-decoration: none;
+    padding: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+textarea {
+    overflow: hidden;
+}
+
+hr.doublehr {
+    height: 6px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.required-label:after {
+    content:" *";
+    color: red;
 }
