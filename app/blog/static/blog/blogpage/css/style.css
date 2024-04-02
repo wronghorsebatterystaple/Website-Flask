@@ -1,44 +1,22 @@
-.admin-btn {
-    margin-top: 0.5rem;
-}
-
-.blogpage-header {
-    padding-top: 0.75rem;
-}
-
 .blogpage-name {
     font-size: 3.6rem;
 }
 
 .blogpage-subname {
     font-size: 1.6rem;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
 }
 
 .comment-section-headers {
     font-size: 2.2rem;
 }
 
-.comment-inner {
-    padding-bottom: 0;
-}
-
 .comment-author {
     font-size: 1.25rem;
-}
-
-.comment-timestamp {
-    margin-bottom: 0.25rem;
 }
 
 input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
     margin-bottom: 0rem;
-}
-
-.post-header {
-    padding-top: 0.75rem;
 }
 
 .post-title {
@@ -51,16 +29,6 @@ input[value="Reply"][value="Delete"] {
 
 .post-timestamp {
     font-size: 1.3rem;
-    padding-top: 0.3rem;
-    padding-bottom: 0.2rem;
-}
-
-.post-content {
-    padding-top: 0.3rem;
-}
-
-.postlist-post {
-    padding-top: 0.2rem;
 }
 
 .postlist-post-title {
@@ -72,6 +40,5 @@ input[value="Reply"][value="Delete"] {
 }
 
 .postlist-post-timestamp {
-    padding-top: 0.2rem;
     font-size: 1rem;
 }

@@ -7,27 +7,27 @@
 {%- endblock %}
 
 {%- block content %}
-<div class="blogpage-header">
+<div class="pt-2">
   <h1 class="blogpage-name">{{ title }}</h1>
-  <h2 class="blogpage-subname gray">{{ subtitle }}</h2>
+  <h2 class="blogpage-subname gray mt-1 mb-1">{{ subtitle }}</h2>
   {%- if current_user.is_authenticated %}
-    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="admin-btn", btn_type="info", bottom_margin=0) }}
+    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="mt-2", btn_type="info", bottom_margin=0) }}
   {%- endif %}
 </div>
 <hr>
 
 <div>
   {%- for post in posts %}
-    <div class="postlist-post">
+    <div>
       <a href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="postlist-post-title">{{ post.title }}</h1>
         {%- if post.subtitle is not none %}
           <h2 class="postlist-post-subtitle gray">{{ post.subtitle }}</h2>
         {%- endif %}
         {%- if post.edited_timestamp is not none %}
-          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
+          <h3 class="pt-1 postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
         {%- else %}
-          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
+          <h3 class="pt-1 postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
         {%- endif %}
       </a>
     </div>
