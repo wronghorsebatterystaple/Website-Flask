@@ -22,7 +22,7 @@
       <a class="deepskyblue" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="postlist-post-title deepskyblue">{{ post.title }}</h1>
         {%- if post.subtitle is not none %}
-          <h2 class="pb-1 mb-2 postlist-post-subtitle gray">{{ post.subtitle }}</h2>
+          <h2 class="postlist-post-subtitle gray mb-2 pb-1">{{ post.subtitle }}</h2>
         {%- endif %}
         {%- if post.edited_timestamp is not none %}
           <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>

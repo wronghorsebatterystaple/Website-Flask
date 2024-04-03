@@ -7,12 +7,12 @@
 
 {%- block content %}
 <div class="pt-2">
-    <h1 class="mb-1 post-title deepskyblue">{{ post.title }}</h1>
+    <h1 class="post-title deepskyblue mb-1">{{ post.title }}</h1>
   {%- if post.subtitle is not none %}
-    <h2 class="mb-2 post-subtitle gray">{{ post.subtitle }}</h2>
+    <h2 class="post-subtitle gray mb-2">{{ post.subtitle }}</h2>
   {%- endif %}
   {%- if post.edited_timestamp is not none %}
-    <h3 class="mb-0 post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }} </h3>
+    <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }} </h3>
   {%- else %}
     <h3 class="post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
   {%- endif %}
@@ -36,7 +36,7 @@
 <hr>
 
 <div id="commentlist">
-  <h2 class="mb-0 comment-section-headers">Comments</h2>
+  <h2 class="comment-section-headers mb-0">Comments</h2>
   <div class="d-flex flex-shrink-0">
     <div class="flex-shrink-0" style="width: 100%;">
       {%- for comment in comments recursive %}
@@ -45,7 +45,7 @@
             <div class="flex-grow-1 ms-3">
           {%- endif %}
           {%- set descendants = comment.get_descendants_list(post) %}
-          <div class="card{%- if comment.depth != 0 %} mt-0{%- else %} mt-3{%- endif %} comment">
+          <div class="comment card{%- if comment.depth != 0 %} mt-0{%- else %} mt-3{%- endif %}">
             <div class="card-body pb-2">
               <h3 class="comment-author">{{ comment.author }}</h3>
               <div class="comment-content gray">{{ comment.content |safe }}</div>
@@ -55,7 +55,7 @@
                 {{ wtf.quick_form(reply_comment_button, id='comment-reply-btn-' ~ comment.id, class='comment-reply-btn', btn_type='link', btn_color="deepskyblue", bottom_margin=0) }}
                 {{ wtf.quick_form(add_comment_form, id='comment-reply-form-' ~ comment.id, class='comment-ajax', bottom_margin=2, hidden=true) }}
               {%- else %}
-                <p class="mb-0 deepskyblue"><small>It's gonna get ugly if you keep replying...</small></p>
+                <p class="deepskyblue mb-0"><small>It's gonna get ugly if you keep replying...</small></p>
               {%- endif %}
 
               {%- if current_user.is_authenticated %}
