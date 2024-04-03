@@ -13,7 +13,7 @@ from app import db, turnstile
 from app.admin import bp
 from app.admin.forms import *
 from app.models import *
-from app.util.uri_util import encode_uri_component
+from app.util import encode_uri_component
 
 
 def sanitize_filename(filename):
@@ -46,7 +46,7 @@ def upload_images(images, blog_id: int, post_id: int) -> str:
             return "Invalid image."
 
         path_before_filename = os.path.join(current_app.root_path,
-                current_app.config["BLOGPAGE_STATIC_FROM_ROOT"],
+                current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
                 str(blog_id), "images", str(post_id))
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
@@ -205,7 +205,7 @@ def edit_blogpost():
             db.session.delete(post)
             db.session.commit()
             images_dir = os.path.join(current_app.root_path,
-                current_app.config["BLOGPAGE_STATIC_FROM_ROOT"],
+                current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
                 str(post.blog_id), "images", str(post.id))
             if os.path.exists(images_dir) and os.path.isdir(images_dir):
                 shutil.rmtree(images_dir)

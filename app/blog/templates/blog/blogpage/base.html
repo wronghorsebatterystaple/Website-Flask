@@ -1,5 +1,9 @@
 {%- extends "blog/base.html" %}
 
+{%- block metavars %}
+<meta id="var-path-to-background-image" data-val="{{ url_for('blog.static', filename='blog/blogpage/' ~ blog_id ~ '/images/background/') }}">
+{%- endblock %}
+
 {%- block css %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/css/style.css') }}">
