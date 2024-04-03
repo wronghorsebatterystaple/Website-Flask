@@ -7,14 +7,14 @@
 
 {%- block content %}
 <div class="pt-2">
-    <h1 class="post-title">{{ post.title }}</h1>
+    <h1 class="mb-1 post-title deepskyblue">{{ post.title }}</h1>
   {%- if post.subtitle is not none %}
-    <h2 class="post-subtitle gray">{{ post.subtitle }}</h2>
+    <h2 class="mb-2 post-subtitle gray">{{ post.subtitle }}</h2>
   {%- endif %}
   {%- if post.edited_timestamp is not none %}
-    <h3 class="mt-1 mb-1 post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }} </h3>
+    <h3 class="mb-0 post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }} </h3>
   {%- else %}
-    <h3 class="mt-1 mb-1 post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
+    <h3 class="post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
   {%- endif %}
 
   {%- if current_user.is_authenticated %}
