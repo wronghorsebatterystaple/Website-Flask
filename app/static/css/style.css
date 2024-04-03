@@ -28,14 +28,16 @@
     color: gray;
 }
 
-.link-color {
-    color: #0d6efd;
-}
-
 .btn-red {
     --bs-btn-color: red;
     --bs-btn-hover-color: red;
     --bs-btn-active-color: red;
+}
+
+.btn-deepskyblue {
+    --bs-btn-color: DeepSkyBlue;
+    --bs-btn-hover-color: DeepSkyBlue;
+    --bs-btn-active-color: DeepSkyBlue;
 }
 
 .btn-link {
