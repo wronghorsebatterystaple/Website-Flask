@@ -1,13 +1,13 @@
-from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
-from flask_login import current_user, login_user, logout_user, login_required
-import sqlalchemy as sa
-from wtforms.form import Form
-
 import imghdr
 import os
 import shutil
 import urllib.parse as ul
 from werkzeug.utils import escape, secure_filename
+
+from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
+from flask_login import current_user, login_user, logout_user, login_required
+import sqlalchemy as sa
+from wtforms.form import Form
 
 from app import db, turnstile
 from app.admin import bp

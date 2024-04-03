@@ -1,13 +1,13 @@
+from datetime import datetime, timezone
+import re
+from typing import Optional
+
 from flask import current_app
 from flask_login import UserMixin
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.types import Text
 from werkzeug.security import generate_password_hash, check_password_hash
-
-from datetime import datetime, timezone
-import re
-from typing import Optional
 
 from app import db
 from app import login_manager
