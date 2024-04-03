@@ -17,15 +17,22 @@
 
 .black {
     color: black;
+    text-decoration-color: black;
 }
 
-.deepskyblue {
-    color: DeepSkyBlue;
-    text-decoration-color: DeepSkyBlue;
+.customgreen {
+    color: #5dd600;
+    text-decoration-color: #5dd600;
 }
 
 .gray {
     color: gray;
+    text-decoration-color: gray;
+}
+
+.warningorange {
+    color: #ffc107;
+    text-decoration-color: #ffc107;
 }
 
 .btn-red {
@@ -34,15 +41,10 @@
     --bs-btn-active-color: red;
 }
 
-.btn-deepskyblue {
-    --bs-btn-color: DeepSkyBlue;
-    --bs-btn-hover-color: DeepSkyBlue;
-    --bs-btn-active-color: DeepSkyBlue;
-}
-
-.btn-link {
-    text-decoration: none;
-    padding: 0;
+.btn-warningorange {
+    --bs-btn-color: #ffc107;
+    --bs-btn-hover-color: #ffc107;
+    --bs-btn-active-color: #ffc107;
 }
 
 img {
@@ -51,6 +53,11 @@ img {
 
 textarea {
     overflow: hidden;
+}
+
+.btn-link {
+    text-decoration: none;
+    padding: 0;
 }
 
 hr.doublehr {

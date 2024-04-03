@@ -7,7 +7,7 @@
 
 {%- block content %}
 <div class="pt-2">
-    <h1 class="post-title deepskyblue mb-1">{{ post.title }}</h1>
+    <h1 class="post-title customgreen mb-1">{{ post.title }}</h1>
   {%- if post.subtitle is not none %}
     <h2 class="post-subtitle gray mb-2">{{ post.subtitle }}</h2>
   {%- endif %}
@@ -52,10 +52,10 @@
               <div class="mb-1"><small>{{ moment(comment.timestamp).format('lll') }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
               
               {%- if comment.depth < 5 %}
-                {{ wtf.quick_form(reply_comment_button, id='comment-reply-btn-' ~ comment.id, class='comment-reply-btn', btn_type='link', btn_color="deepskyblue", bottom_margin=0) }}
+                {{ wtf.quick_form(reply_comment_button, id='comment-reply-btn-' ~ comment.id, class='comment-reply-btn', btn_type='link', btn_color="warningorange", bottom_margin=0) }}
                 {{ wtf.quick_form(add_comment_form, id='comment-reply-form-' ~ comment.id, class='comment-ajax', bottom_margin=2, hidden=true) }}
               {%- else %}
-                <p class="deepskyblue mb-0"><small>It's gonna get ugly if you keep replying...</small></p>
+                <p class="warningorange mb-0"><small>It's gonna get ugly if you keep replying...</small></p>
               {%- endif %}
 
               {%- if current_user.is_authenticated %}
