@@ -1,6 +1,6 @@
 {%- macro form_field(field, btn_type, btn_color, bottom_margin, autofocus_first) %}
   {%- if field.type == 'BooleanField' %}
-   <div class="form-check mb-{{ bottom_margin }}">
+  <div class="form-check mb-{{ bottom_margin }}">
      {{ field(id=field.name ~ '-input', class='form-check-input') }}
      {{ field.label(class='form-check-label') }}
      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
@@ -9,7 +9,7 @@
   {%- elif field.type == 'RadioField' %}
     {{ field.label(class='form-label') }}
     {%- for item in field %}
-    <div class="form-check{%- if loop.last %} mb-{{ bottom_margin }}{%- endif %}">
+    <div class="form-check{%- if loop.last %} {{ bottom_margin }}{%- endif %}">
       {{ item(class='form-check-input') }}
       {{ item.label(class='form-check-label') }}
     </div>
@@ -21,7 +21,7 @@
     <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
 
   {%- elif field.type == 'TextAreaField' %}
-    <div class="mb-{{ bottom_margin }}">
+  <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
         {%- if autofocus_focus %}
@@ -41,7 +41,7 @@
     {%- endif %}
 
   {%- else %}
-    <div class="mb-{{ bottom_margin }}">
+  <div class="mb-{{ bottom_margin }}">
       {{ field.label(class='form-label') }}
       <div class="input-group has-validation">
         {%- if autofocus_first %}
@@ -69,15 +69,19 @@
     {%- if id %} id="{{ id }}"{%- endif %}
     {%- if novalidate %} novalidate{%- endif %}
     {%- if hidden %} hidden{%- endif %}>
+
     {{ form.hidden_tag() }}
     {%- set ns = namespace(first_field=true) %}
-    {%- for field in form %}
-      {%- if field.widget.input_type != 'hidden' %}
-        <div id="{{ field.name }}-field">
+
+    {%- for field in form if field.widget.input_type != 'hidden' %}
+      <div id="{{ field.name }}-field">
+        {%- if not loop.last %}
+          {{ form_field(field, btn_type, btn_color, 3, ns.first_field and autofocus_first) }}
+        {%- else %}
           {{ form_field(field, btn_type, btn_color, bottom_margin, ns.first_field and autofocus_first) }}
-          {%- set ns.first_field = false %}
-        </div>
-      {%- endif %}
+        {%- endif %}
+        {%- set ns.first_field = false %}
+      </div>
     {%- endfor %}
 
     {{ turnstile }}

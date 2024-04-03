@@ -19,8 +19,8 @@
 <div>
   {%- for post in posts %}
     <div>
-      <a href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-        <h1 class="postlist-post-title" style="color: DeepSkyBlue;">{{ post.title }}</h1>
+      <a class="deepskyblue" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <h1 class="postlist-post-title deepskyblue">{{ post.title }}</h1>
         {%- if post.subtitle is not none %}
           <h2 class="postlist-post-subtitle gray">{{ post.subtitle }}</h2>
         {%- endif %}

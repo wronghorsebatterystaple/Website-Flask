@@ -7,6 +7,7 @@ $(document).on("submit", ".comment-reply-btn", function(e) {
     var id = $(this).attr("id").match(digits_reg)[0];
     $(`#comment-reply-form-${id}`).removeAttr("hidden");
     $(`#comment-reply-form-${id}`).find("#parent").attr("value", id);
+    e.target.setAttribute("hidden", "");
 
     asteriskRequiredFields();
 });

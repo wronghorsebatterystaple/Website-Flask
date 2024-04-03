@@ -19,6 +19,11 @@
     color: black;
 }
 
+.deepskyblue {
+    color: DeepSkyBlue;
+    text-decoration-color: DeepSkyBlue;
+}
+
 .gray {
     color: gray;
 }
