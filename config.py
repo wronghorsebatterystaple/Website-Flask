@@ -48,3 +48,8 @@ class Config(object):
         5: "yes I stole this idea",
         6: "creative writing dumps from 3am"
     }
+    BLOG_ID_TO_COLOR_CLASS = {
+        2: "customgreen",
+        5: "custompink",
+        6: "custompink"
+    }
