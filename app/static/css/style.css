@@ -31,7 +31,10 @@
 
 .customorange {
     color: var(--customorange) !important;
-    text-decoration-color: var(--customorange) !important;
+}
+
+.custompink {
+    color: var(--custompink) !important;
 }
 
 .gray {
@@ -52,6 +55,14 @@
 
 .link-customgreen {
     text-decoration-color: var(--customgreen) !important;
+}
+
+.link-customorange {
+    text-decoration-color: var(--customorange) !important;
+}
+
+.link-custompink {
+    text-decoration-color: var(--custompink) !important;
 }
 
 body {
