@@ -21,7 +21,7 @@
     <div>
       <a class="link-hover link-customgreen" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="postlist-post-title customgreen mb-1">{{ post.title }}</h1>
-        {%- if post.subtitle is not none %}
+        {%- if post.subtitle != "" %}
           <h2 class="postlist-post-subtitle gray mb-2 pb-1">{{ post.subtitle }}</h2>
         {%- endif %}
         {%- if post.edited_timestamp is not none %}
