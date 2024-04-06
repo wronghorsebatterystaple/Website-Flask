@@ -3,14 +3,17 @@ window.MathJax = {
         macros: {
             // simple math symbols
             divs: "\\mid",
-            F: "\\textbf{F}",
             given: "\\,\\vert\\,",
             givenlong: "\\,\\middle\\vert\\,",
+            N: "\\mathbb{N}",
             nequiv: "\\not\\equiv",
             notdivs: "\\nmid",
             powerset: "\\mathcal{P}",
+            R: "\\mathbb{R}",
+            Q: "\\mathbb{Q}",
             suchthat: "\\,\\vert\\,",
             suchthatlong: "\\,\\middle\\vert\\,",
+            Z: "\\mathbb{Z}",
             // redifined functions to always use parenthesess around arguments
             Arccos: ["\\arccos{\\left(#1\\right)}", 1],
             Arccot: ["\\arccot{\\left(#1\\right)}", 1],
