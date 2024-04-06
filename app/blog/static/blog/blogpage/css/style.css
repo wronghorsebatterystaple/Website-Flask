@@ -1,9 +1,9 @@
 .blogpage-name {
-    font-size: 3.6rem;
+    font-size: 3.5rem;
 }
 
 .blogpage-subname {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
 }
 
 .comment-section-headers {
@@ -20,27 +20,27 @@ input[value="Reply"][value="Delete"] {
 }
 
 .post-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .post-subtitle {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
 }
 
 .post-timestamp {
-    font-size: 1.25rem;
-}
-
-.postlist-post-blogtitle {
     font-size: 1rem;
 }
 
+.postlist-post-blogtitle {
+    font-size: 0.95rem;
+}
+
 .postlist-post-title {
-    font-size: 2.25rem;
+    font-size: 2rem;
 }
 
 .postlist-post-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .postlist-post-timestamp {

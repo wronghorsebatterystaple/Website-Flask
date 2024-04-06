@@ -16,36 +16,40 @@
 }
 
 .black {
-    color: black;
+    color: black !important;
 }
 
 .customgreen {
-    color: #5dd600;
+    color: #5dd600 !important;
 }
 
 .gray {
-    color: gray;
+    color: gray !important;
 }
 
 .warningorange {
-    color: #ffc107;
-    text-decoration-color: #ffc107;
+    color: #ffc107 !important;
+    text-decoration-color: #ffc107 !important;
 }
 
 .btn-red {
-    --bs-btn-color: red;
-    --bs-btn-hover-color: red;
-    --bs-btn-active-color: red;
+    --bs-btn-color: red !important;
+    --bs-btn-hover-color: red !important;;
+    --bs-btn-active-color: red !important;;
 }
 
 .btn-warningorange {
-    --bs-btn-color: #ffc107;
-    --bs-btn-hover-color: #ffc107;
-    --bs-btn-active-color: #ffc107;
+    --bs-btn-color: #ffc107 !important;;
+    --bs-btn-hover-color: #ffc107 !important;;
+    --bs-btn-active-color: #ffc107 !important;;
 }
 
 .link-customgreen {
-    text-decoration-color: #5dd600;
+    text-decoration-color: #5dd600 !important;
+}
+
+body {
+    overflow-wrap: anywhere;
 }
 
 img {
@@ -65,6 +69,14 @@ hr.doublehr {
     height: 6px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+}
+
+.link-hover {
+    text-decoration: none;
+}
+
+.link-hover:hover {
+    text-decoration: underline;
 }
 
 .required-label:after {

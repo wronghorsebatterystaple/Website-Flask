@@ -124,7 +124,7 @@ def choose_action():
 def create_blogpost():
     form = CreateBlogpostForm()
     # set choices dynamically so we can access current_app context; also must do before POST handling so validation works?
-    form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE"].items()]
+    form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
 
     # process POST requests (with Ajax: FormData)
     if request.method == "POST":

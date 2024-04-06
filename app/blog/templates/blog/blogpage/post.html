@@ -7,12 +7,12 @@
 
 {%- block content %}
 <div class="pt-2">
-    <h1 class="post-title customgreen mb-1">{{ post.title }}</h1>
-  {%- if post.subtitle is not none %}
-    <h2 class="post-subtitle gray mb-2">{{ post.subtitle }}</h2>
+    <h1 class="post-title customgreen mb-2">{{ post.title }}</h1>
+  {%- if post.subtitle != "" %}
+    <h2 class="post-subtitle gray mb-3">{{ post.subtitle }}</h2>
   {%- endif %}
   {%- if post.edited_timestamp is not none %}
-    <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }} </h3>
+    <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
   {%- else %}
     <h3 class="post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
   {%- endif %}

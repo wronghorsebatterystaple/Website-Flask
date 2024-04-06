@@ -18,10 +18,10 @@
 <div>
   {%- for post in posts %}
     <div>
-      <a class="link-customgreen" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-        <div class="d-flex align-items-center">
-          <h1 class="postlist-post-title customgreen">{{ post.title }}</h1>
-          <h1 class="postlist-post-blogtitle warningorange ms-auto"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>
+      <a class="link-hover link-customgreen" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <div class="d-flex align-items-top">
+          <h1 class="postlist-post-title customgreen me-5 mb-1">{{ post.title }}</h1>
+          <h1 class="postlist-post-blogtitle warningorange flex-shrink-0 ms-auto mt-2"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>
         </div>
         {%- if post.subtitle is not none %}
           <h2 class="postlist-post-subtitle gray mb-2 pb-1">{{ post.subtitle }}</h2>

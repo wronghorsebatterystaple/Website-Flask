@@ -30,10 +30,15 @@ class Config(object):
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
 
-    # Mappings for blogpage blueprints
-    ALL_POSTS_BLOG_ID = 0;
+    # Configs for blogpage blueprints
+    ALL_POSTS_BLOG_ID = 0
     BLOG_ID_TO_TITLE = {
         0: "All Posts",
+        2: "Professor Google",
+        5: "Writer's Block",
+        6: "Writer's Unblock"
+    }
+    BLOG_ID_TO_TITLE_WRITEABLE = { # exclude All Posts
         2: "Professor Google",
         5: "Writer's Block",
         6: "Writer's Unblock"
