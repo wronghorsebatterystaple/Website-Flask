@@ -8,7 +8,7 @@
 
 {%- block content %}
 <div class="pt-2">
-  <h1 class="blogpage-name mb-2">{{ title }}</h1>
+  <h1 class="blogpage-name mb-2 pb-1">{{ title }}</h1>
   <h2 class="blogpage-subname mt-1 pb-1">{{ subtitle }}</h2>
   {%- if current_user.is_authenticated %}
     {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="mt-2", btn_type="info", bottom_margin=0) }}

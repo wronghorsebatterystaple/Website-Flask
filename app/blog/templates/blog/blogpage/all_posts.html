@@ -25,7 +25,7 @@
           <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-0 ms-auto mt-2"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>
         </div>
         {%- if post.subtitle is not none %}
-          <h2 class="postlist-post-subtitle gray mb-3">{{ post.subtitle }}</h2>
+          <h2 class="postlist-post-subtitle {{ color }} mb-3">{{ post.subtitle }}</h2>
         {%- endif %}
         {%- if post.edited_timestamp is not none %}
           <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
