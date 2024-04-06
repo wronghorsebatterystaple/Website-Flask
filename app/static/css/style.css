@@ -17,17 +17,14 @@
 
 .black {
     color: black;
-    text-decoration-color: black;
 }
 
 .customgreen {
     color: #5dd600;
-    text-decoration-color: #5dd600;
 }
 
 .gray {
     color: gray;
-    text-decoration-color: gray;
 }
 
 .warningorange {
@@ -45,6 +42,10 @@
     --bs-btn-color: #ffc107;
     --bs-btn-hover-color: #ffc107;
     --bs-btn-active-color: #ffc107;
+}
+
+.link-customgreen {
+    text-decoration-color: #5dd600;
 }
 
 img {

@@ -19,18 +19,25 @@ def get_blog_id(blueprint_name) -> int:
 
 @bp.route("/")
 def index():
+    blog_id = get_blog_id(request.blueprint)
     create_blogpost_button = CreateBlogpostButton()
-    posts = db.session.query(Post).filter_by(blog_id=get_blog_id(request.blueprint)) \
-            .order_by(desc(Post.timestamp))
-    return render_template("blog/blogpage/index.html",
-            title=current_app.config["BLOG_ID_TO_TITLE"][get_blog_id(request.blueprint)],
-            subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"][get_blog_id(request.blueprint)],
-            posts=posts, blog_id=get_blog_id(request.blueprint),
-            create_blogpost_button=create_blogpost_button)
+    if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
+        posts = db.session.query(Post).order_by(desc(Post.timestamp))
+        return render_template("blog/blogpage/all_posts.html",
+                blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
+                posts=posts, create_blogpost_button=create_blogpost_button)
+    else:
+        posts = db.session.query(Post).filter_by(blog_id=blog_id) \
+                .order_by(desc(Post.timestamp))
+        return render_template("blog/blogpage/index.html",
+                blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
+                subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"][blog_id],
+                posts=posts, create_blogpost_button=create_blogpost_button)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET", "POST"])
 def post(post_sanitized_title):
+    blog_id = get_blog_id(request.blueprint)
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
     delete_comment_button = DeleteCommentButton()
@@ -87,13 +94,12 @@ def post(post_sanitized_title):
         comment.content = markdown.markdown(comment.content, extensions=["extra"])
 
     return render_template("blog/blogpage/post.html",
-            blog_title=current_app.config["BLOG_ID_TO_TITLE"][get_blog_id(request.blueprint)],
-            blog_id=get_blog_id(request.blueprint), post=post,
-            get_descendants_list=Comment.get_descendants_list,
-            comments=comments, add_comment_form=add_comment_form,
+            blog_id=blog_id, blog_title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
+            post=post, comments=comments, add_comment_form=add_comment_form,
             reply_comment_button = reply_comment_button,
             delete_comment_button = delete_comment_button,
-            edit_blogpost_button=edit_blogpost_button)
+            edit_blogpost_button=edit_blogpost_button,
+            get_descendants_list=Comment.get_descendants_list)
 
 
 @bp.route("/create-blogpost-button", methods=["POST"])

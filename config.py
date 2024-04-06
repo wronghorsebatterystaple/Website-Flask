@@ -31,13 +31,15 @@ class Config(object):
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
 
     # Mappings for blogpage blueprints
+    ALL_POSTS_BLOG_ID = 0;
     BLOG_ID_TO_TITLE = {
-        0: "Professor Google",
-        1: "Writer's Block",
-        2: "Writer's Unblock"
+        0: "All Posts",
+        2: "Professor Google",
+        5: "Writer's Block",
+        6: "Writer's Unblock"
     }
     BLOG_ID_TO_SUBTITLE = {
-        0: "THE BLOG WHERE I TEACH MYSELF",
-        1: "YES I STOLE THIS IDEA",
-        2: "CREATIVE WRITING DUMPS FROM 3AM"
+        2: "THE BLOG WHERE I TEACH MYSELF",
+        5: "YES I STOLE THIS IDEA",
+        6: "CREATIVE WRITING DUMPS FROM 3AM"
     }
