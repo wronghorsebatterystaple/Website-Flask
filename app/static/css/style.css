@@ -1,3 +1,9 @@
+:root {
+    --customgreen: #5dd600;
+    --customorange: #ffc107;
+    --custompink: #ff91c3;
+}
+
 .narrow-container {
     max-width: clamp(33.33vw, 640px, 100vw);
     margin: auto;
@@ -20,16 +26,16 @@
 }
 
 .customgreen {
-    color: #5dd600 !important;
+    color: var(--customgreen) !important;
+}
+
+.customorange {
+    color: var(--customorange) !important;
+    text-decoration-color: var(--customorange) !important;
 }
 
 .gray {
     color: gray !important;
-}
-
-.warningorange {
-    color: #ffc107 !important;
-    text-decoration-color: #ffc107 !important;
 }
 
 .btn-red {
@@ -38,14 +44,14 @@
     --bs-btn-active-color: red !important;;
 }
 
-.btn-warningorange {
-    --bs-btn-color: #ffc107 !important;;
-    --bs-btn-hover-color: #ffc107 !important;;
-    --bs-btn-active-color: #ffc107 !important;;
+.btn-customorange {
+    --bs-btn-color: var(--customorange) !important;;
+    --bs-btn-hover-color: var(--customorange) !important;;
+    --bs-btn-active-color: var(--customorange) !important;;
 }
 
 .link-customgreen {
-    text-decoration-color: #5dd600 !important;
+    text-decoration-color: var(--customgreen) !important;
 }
 
 body {

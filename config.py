@@ -45,6 +45,6 @@ class Config(object):
     }
     BLOG_ID_TO_SUBTITLE = {
         2: "THE BLOG WHERE I TEACH MYSELF",
-        5: "YES I STOLE THIS IDEA",
-        6: "CREATIVE WRITING DUMPS FROM 3AM"
+        5: "yes I stole this idea",
+        6: "creative writing dumps from 3am"
     }

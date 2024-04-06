@@ -8,8 +8,8 @@
 
 {%- block content %}
 <div class="pt-2">
-  <h1 class="blogpage-name">{{ title }}</h1>
-  <h2 class="blogpage-subname gray mt-1 mb-1">{{ subtitle }}</h2>
+  <h1 class="blogpage-name mb-2">{{ title }}</h1>
+  <h2 class="blogpage-subname mt-1 pb-1">{{ subtitle }}</h2>
   {%- if current_user.is_authenticated %}
     {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), class="mt-2", btn_type="info", bottom_margin=0) }}
   {%- endif %}
@@ -22,7 +22,7 @@
       <a class="link-hover link-customgreen" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="postlist-post-title customgreen mb-1">{{ post.title }}</h1>
         {%- if post.subtitle != "" %}
-          <h2 class="postlist-post-subtitle gray mb-2 pb-1">{{ post.subtitle }}</h2>
+          <h2 class="postlist-post-subtitle customorange mb-2 pb-1">{{ post.subtitle }}</h2>
         {%- endif %}
         {%- if post.edited_timestamp is not none %}
           <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>

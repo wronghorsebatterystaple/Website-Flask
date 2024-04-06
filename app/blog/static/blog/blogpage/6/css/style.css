@@ -3,3 +3,11 @@
     font-weight: 400;
     font-style: normal;
 }
+
+.blogpage-name {
+    color: var(--custompink);
+}
+
+.blogpage-subname {
+    color: var(--customorange);
+}
