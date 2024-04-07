@@ -20,14 +20,14 @@
   {%- for post in posts %}
     <div>
       <a class="link-hover link-customgreen" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-        <h1 class="postlist-post-title customgreen mb-2">{{ post.title }}</h1>
+        <h1 class="postlist-post-title customgreen mb-1">{{ post.title }}</h1>
         {%- if post.subtitle != "" %}
-          <h2 class="postlist-post-subtitle customorange mb-3">{{ post.subtitle }}</h2>
+          <h2 class="postlist-post-subtitle customorange mb-1">{{ post.subtitle }}</h2>
         {%- endif %}
         {%- if post.edited_timestamp is not none %}
-          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
+          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
         {%- else %}
-          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }}</></h3>
+          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format('l') }}</></h3>
         {%- endif %}
       </a>
     </div>

@@ -20,17 +20,18 @@
     <div>
       {% set color = config['BLOG_ID_TO_COLOR_CLASS'][post.blog_id] %}
       <a class="link-hover link-{{ color }}" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-        <div class="d-flex align-items-top mb-2">
-          <h1 class="postlist-post-title {{ color }} me-5 mb-0">{{ post.title }}</h1>
+        <div class="d-flex align-items-top">
+          <h1 class="postlist-post-title {{ color }} me-5 mb-1">{{ post.title }}</h1>
           <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-0 ms-auto mt-2"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>
         </div>
-        {%- if post.subtitle is not none %}
-          <h2 class="postlist-post-subtitle {{ color }} mb-3">{{ post.subtitle }}</h2>
+        {%- if post.subtitle != "" %}
+          <h2 class="postlist-post-subtitle {{ color }} mb-1">{{ post.subtitle }}</h2>
         {%- endif %}
+
         {%- if post.edited_timestamp is not none %}
-          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
+          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
         {%- else %}
-          <h3 class="postlist-post-timestamp black">{{ moment(post.timestamp).format('l') }}</h3>
+          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format('l') }}</h3>
         {%- endif %}
       </a>
     </div>
