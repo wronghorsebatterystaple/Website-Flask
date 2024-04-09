@@ -5,9 +5,9 @@
 }
 
 .blogpage-name {
-    color: var(--custompink);
+    color: black;
 }
 
 .blogpage-subname {
-    color: var(--customorange);
+    color: gray;
 }
