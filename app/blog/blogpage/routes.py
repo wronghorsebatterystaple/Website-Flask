@@ -75,6 +75,10 @@ def post(post_sanitized_title):
         # handle comment addition otherwise
         if not add_comment_form.validate():
             return jsonify(submission_errors=add_comment_form.errors)
+        # make sure non-admin users can't masquerade as verified author
+        if request.form["author"].lower() == current_app.config["VERIFIED_AUTHOR"].lower() \
+                and not current_user.is_authenticated:
+            return jsonify(submission_errors={"author": ["You are not the verified original poster."]})
 
         comment = Comment(author=request.form["author"], content=request.form["content"],
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()

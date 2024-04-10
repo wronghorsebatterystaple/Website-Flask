@@ -41,6 +41,10 @@
     color: gray !important;
 }
 
+.border-customorange {
+    border-color: var(--customorange) !important;
+}
+
 .btn-red {
     --bs-btn-color: red !important;
     --bs-btn-hover-color: red !important;;

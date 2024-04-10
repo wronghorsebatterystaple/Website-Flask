@@ -53,3 +53,6 @@ class Config(object):
         5: "custompink",
         6: "custompink"
     }
+
+    # Other
+    VERIFIED_AUTHOR = "Verified Original Poster"
