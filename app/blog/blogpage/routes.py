@@ -22,7 +22,8 @@ def index():
     blog_id = get_blog_id(request.blueprint)
     create_blogpost_button = CreateBlogpostButton()
     if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
-        posts = db.session.query(Post).order_by(desc(Post.timestamp))
+        posts = db.session.query(Post).filter(Post.blog_id.notin_(current_app.config["HIDDEN_BLOG_IDS"])) \
+                .order_by(desc(Post.timestamp))
         return render_template("blog/blogpage/all_posts.html",
                 blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
                 posts=posts, create_blogpost_button=create_blogpost_button)
@@ -31,7 +32,7 @@ def index():
                 .order_by(desc(Post.timestamp))
         return render_template("blog/blogpage/index.html",
                 blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
-                subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"][blog_id],
+                subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
                 posts=posts, create_blogpost_button=create_blogpost_button)
 
 

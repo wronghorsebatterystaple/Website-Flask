@@ -193,6 +193,7 @@ def edit_blogpost():
                 flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you?")
     
     form = EditBlogpostForm(obj=post) # pre-populate fields
+    form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
     form.content.data = post.collapse_image_markdown()
 
     # process POST requests (with Ajax: FormData)
@@ -226,6 +227,7 @@ def edit_blogpost():
             if not post_temp.are_titles_unique():
                 return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
+        post.blog_id = request.form.get("blog_id")
         post.title = post_temp.title
         post.sanitized_title = post_temp.sanitized_title
         post.subtitle = request.form.get("subtitle")

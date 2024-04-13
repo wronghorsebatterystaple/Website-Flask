@@ -40,6 +40,7 @@ class SearchBlogpostForm(FlaskForm):
 
 
 class EditBlogpostForm(FlaskForm):
+    blog_id = SelectField("Blog", validators=[InputRequired()])
     title = StringField("Title", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
