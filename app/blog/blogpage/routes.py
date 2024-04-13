@@ -105,6 +105,8 @@ def post(post_sanitized_title):
 
     # process GET requests otherwise
     post.content = markdown.markdown(post.content, extensions=["extra"])
+    # custom Markdown \lf{}\elf to give stuff inside LaTeX font
+    post.content = re.sub(r"\\lf{([\S\s]*?)}\\elf", r'<span class="font-latex">\1</span>', post.content)
 
     comments_query = post.comments.select().order_by(desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()

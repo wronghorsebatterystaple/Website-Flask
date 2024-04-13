@@ -21,6 +21,12 @@
     font-style: normal;
 }
 
+.font-latex {
+    font-family: MJXZERO, MJXTEX;
+    font-size: 117.4%;
+    position: relative;
+}
+
 .black {
     color: black !important;
 }
@@ -71,6 +77,13 @@
 
 body {
     overflow-wrap: anywhere;
+}
+
+blockquote {
+    margin-left: 1rem;
+    padding-left: 0.6rem;
+    color: gray;
+    border-left: 3.5px solid #cccccc;
 }
 
 img {
