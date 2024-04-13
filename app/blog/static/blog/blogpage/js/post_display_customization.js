@@ -8,6 +8,8 @@ window.addEventListener("load", function() {
 
     // Make footnote links open in new tab
     $(".footnote").find("a").each(function() {
-        $(this).attr("target", "_blank");
+        if (!$(this).hasClass("footnote-backref")) {
+            $(this).attr("target", "_blank");
+        }
     });
 });
