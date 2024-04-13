@@ -145,7 +145,7 @@ def create_blogpost():
 
         # upload images if any
         res = upload_images(request.files.getlist("images"), os.path.join(current_app.root_path,
-                current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(post.blog_id), "images", str(post.id)))
+                current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(new_post.blog_id), "images", str(new_post.id)))
         if not res == "success":
             return jsonify(flash_message=res)
 
