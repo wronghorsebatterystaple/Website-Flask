@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import MultipleFileField, PasswordField, RadioField, SelectField, StringField, SubmitField, TextAreaField
+from wtforms import MultipleFileField, SelectMultipleField, PasswordField, RadioField, SelectField, StringField, SubmitField, TextAreaField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import InputRequired, Length
 
@@ -47,6 +47,8 @@ class EditBlogpostForm(FlaskForm):
     content = TextAreaField("Content (markdown supported)", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
+    delete_images = SelectMultipleField("Delete images")
+
     submit = SubmitField("Submit")
     delete = SubmitField("Delete Post", render_kw={"onclick": "return confirm('Sanity check');"})
     cancel = SubmitField("Cancel", render_kw={"onclick": "window.history.back()"})

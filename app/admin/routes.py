@@ -31,7 +31,7 @@ def validate_image(image):
     return "." + (format if format != "jpeg" else "jpg")
 
 
-def upload_images(images, blog_id: int, post_id: int) -> str:
+def upload_images(images, path_before_filename) -> str:
     for image in images:
         if image.filename == "": # this happens when no image is submitted
             continue
@@ -45,9 +45,6 @@ def upload_images(images, blog_id: int, post_id: int) -> str:
                 or file_ext != validate_image(image.stream):
             return "Invalid image."
 
-        path_before_filename = os.path.join(current_app.root_path,
-                current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-                str(blog_id), "images", str(post_id))
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
         if not os.path.exists(path):
@@ -147,8 +144,8 @@ def create_blogpost():
         db.session.commit()
 
         # upload images if any
-        res = upload_images(request.files.getlist("images"), new_post.blog_id,
-                new_post.id)
+        res = upload_images(request.files.getlist("images"), os.path.join(current_app.root_path,
+                current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(post.blog_id), "images", str(post.id)))
         if not res == "success":
             return jsonify(flash_message=res)
 
@@ -192,8 +189,13 @@ def edit_blogpost():
         return jsonify(redirect_uri=url_for("admin.search_blogpost"),
                 flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you?")
     
+    images_path = os.path.join(current_app.root_path, current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+            str(post.blog_id), "images", str(post.id))
     form = EditBlogpostForm(obj=post) # pre-populate fields
     form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
+    if os.path.exists(images_path) and os.path.isdir(images_path):
+        form.delete_images.choices = [(f, f) for f in os.listdir(images_path) \
+                if os.path.isfile(os.path.join(images_path, f))]
     form.content.data = post.collapse_image_markdown()
 
     # process POST requests (with Ajax: FormData)
@@ -205,11 +207,8 @@ def edit_blogpost():
         if "delete" in request.form:
             db.session.delete(post)
             db.session.commit()
-            images_dir = os.path.join(current_app.root_path,
-                current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-                str(post.blog_id), "images", str(post.id))
-            if os.path.exists(images_dir) and os.path.isdir(images_dir):
-                shutil.rmtree(images_dir)
+            if os.path.exists(images_path) and os.path.isdir(images_path):
+                shutil.rmtree(images_path)
             return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.index"),
                     flash_message="Post deleted successfully!")
 
@@ -237,9 +236,16 @@ def edit_blogpost():
         db.session.commit()
 
         # upload images if any
-        res = upload_images(request.files.getlist("images"), post.blog_id, post.id)
+        res = upload_images(request.files.getlist("images"), images_path)
         if not res == "success":
             return jsonify(flash_message=res)
+        # delete images if any
+        for image in request.form.getlist("delete_images"):
+            filepath = os.path.join(images_path, image)
+            if os.path.exists(filepath):
+                os.remove(filepath)
+        if len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
+            shutil.rmtree(images_path)
 
         return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.post",
                 post_sanitized_title=post.sanitized_title),
