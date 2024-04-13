@@ -44,7 +44,7 @@ class Config(object):
         6: "Writer's Unblock"
     }
     BLOG_ID_TO_SUBTITLE = {
-        2: "THE BLOG WHERE I TEACH MYSELF",
+        2: "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
         5: "yes I stole this idea",
         6: "creative writing dumps from 3am"
     }
