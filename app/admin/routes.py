@@ -244,7 +244,7 @@ def edit_blogpost():
             filepath = os.path.join(images_path, image)
             if os.path.exists(filepath):
                 os.remove(filepath)
-        if len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
+        if os.path.exists(images_path) and len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
             shutil.rmtree(images_path)
 
         return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.post",
