@@ -31,7 +31,7 @@ class Config(object):
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
 
     # Configs for blogpage blueprints
-    HIDDEN_BLOG_IDS = [0]
+    PRIVATE_BLOG_IDS = [0]
     ALL_POSTS_BLOG_ID = 1
     BLOG_ID_TO_TITLE = {
         0: "The Backrooms",
@@ -53,7 +53,6 @@ class Config(object):
         7: "Writer's Unblock"
     }
     BLOG_ID_TO_SUBTITLE = {
-        0: "yes I know this is technically public",
         3: "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
         6: "yes I stole this idea",
         7: "creative writing dumps from 3am"

@@ -11,6 +11,7 @@ from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
 from app.models import *
+import app.util as util
 
 
 def get_blog_id(blueprint_name) -> int:
@@ -21,24 +22,36 @@ def get_blog_id(blueprint_name) -> int:
 def index():
     blog_id = get_blog_id(request.blueprint)
     create_blogpost_button = CreateBlogpostButton()
+    
+    # require login to access private blogs
+    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
+        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
+            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
+    # not the neatest way to do this probably
     if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
-        posts = db.session.query(Post).filter(Post.blog_id.notin_(current_app.config["HIDDEN_BLOG_IDS"])) \
+        posts = db.session.query(Post).filter(Post.blog_id.notin_(current_app.config["PRIVATE_BLOG_IDS"])) \
                 .order_by(desc(Post.timestamp))
         return render_template("blog/blogpage/all_posts.html",
                 blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
                 posts=posts, create_blogpost_button=create_blogpost_button)
-    else:
-        posts = db.session.query(Post).filter_by(blog_id=blog_id) \
-                .order_by(desc(Post.timestamp))
-        return render_template("blog/blogpage/index.html",
-                blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
-                subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
-                posts=posts, create_blogpost_button=create_blogpost_button)
+
+    posts = db.session.query(Post).filter_by(blog_id=blog_id) \
+            .order_by(desc(Post.timestamp))
+    return render_template("blog/blogpage/index.html",
+            blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
+            subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
+            posts=posts, create_blogpost_button=create_blogpost_button)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET", "POST"])
 def post(post_sanitized_title):
     blog_id = get_blog_id(request.blueprint)
+
+    # require login to access private blogs
+    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
+        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
+            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
+
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
     delete_comment_button = DeleteCommentButton()
@@ -46,7 +59,7 @@ def post(post_sanitized_title):
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
-                flash=encode_uri_component("The post doesn't exist.")))
+                flash=util.encode_uri_component("The post doesn't exist.")))
 
     # process POST requests (adding comments) (with Ajax: FormData)
     if request.method == "POST":

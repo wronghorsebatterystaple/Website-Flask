@@ -13,7 +13,7 @@ from app import db, turnstile
 from app.admin import bp
 from app.admin.forms import *
 from app.models import *
-from app.util import encode_uri_component
+import app.util as util
 
 
 def sanitize_filename(filename):
@@ -289,4 +289,4 @@ def change_admin_password():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-    return redirect(url_for("main.index", flash=encode_uri_component("Mischief managed.")))
+    return redirect(url_for("main.index", flash=util.encode_uri_component("Mischief managed.")))
