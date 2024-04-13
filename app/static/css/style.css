@@ -111,6 +111,11 @@ hr.doublehr {
     border-bottom: 2px solid black;
 }
 
+.footnote {
+    font-size: 0.8rem;
+    color: gray; 
+}
+
 .link-hover {
     text-decoration: none;
 }
