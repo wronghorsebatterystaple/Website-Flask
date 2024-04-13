@@ -12,4 +12,6 @@ window.addEventListener("load", function() {
             $(this).attr("target", "_blank");
         }
     });
+
+    $(".footnote").find("p").addClass("mb-2");
 });
