@@ -13,7 +13,6 @@ from app import db, turnstile
 from app.admin import bp
 from app.admin.forms import *
 from app.models import *
-import app.util as util
 
 
 def sanitize_filename(filename):
@@ -289,7 +288,7 @@ def change_admin_password():
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()
         return jsonify(redirect_uri=url_for("admin.login"),
-                flash=True, flash_message="Your password has been changed!")
+                flash_message="Your password has been changed!")
 
     # process GET requests otherwise
     return render_template("admin/form-base.html", title="Change Admin Password",
@@ -300,4 +299,4 @@ def change_admin_password():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-    return redirect(url_for("main.index", flash=util.encode_uri_component("Mischief managed.")))
+    return jsonify(flash_message="Mischief managed.")

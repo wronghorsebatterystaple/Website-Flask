@@ -37,7 +37,7 @@ $(document).on("submit", ".comment-ajax", function(e) {
         data: formData,
         processData: false,
         contentType: false,
-        dataType: "json",
+        dataType: "json"
     })
     .done(function(response) {
         if (response.redirect_uri) {

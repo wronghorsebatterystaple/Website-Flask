@@ -49,9 +49,9 @@ def post(post_sanitized_title):
     blog_id = get_blog_id(request.blueprint)
 
     # require login to access private blogs
-#    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
-#        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
-#            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
+    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
+        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
+            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
 
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()

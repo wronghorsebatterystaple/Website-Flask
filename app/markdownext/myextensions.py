@@ -6,25 +6,18 @@ import xml.etree.ElementTree as etree
 
 class HeaderFormatTreeProcessor(Treeprocessor):
     def run(self, root) -> None:
-        for child in root:
-            if child.tag == "h1" and child.get("class", "") == "":
-                child.set("class", "post-h1")
-            elif child.tag == "h2" and child.get("class", "") == "":
-                child.set("class", "post-h2")
-            self.run(child)
-
-
-# custom Markdown \lf{}\elf to give stuff inside LaTeX font
-class LatexFontInlineProcessor(InlineProcessor):
-    def handleMatch(self, m, data):
-        elem = etree.Element("span")
-        elem.text = m.group(1)
-        elem.set("class", "font-latex")
-        return elem, m.start(0), m.end(0)
+        def iterate(parent):
+            for child in parent:
+                if child.tag == "h1" and child.get("class", "") == "":
+                    child.set("class", "post-h1")
+                elif child.tag == "h2" and child.get("class", "") == "":
+                    child.set("class", "post-h2")
+                iterate(child)
+        iterate(root)
 
 
 class MyExtensions(Extension):
     def extendMarkdown(self, md):
-        LF_RE_FROM = r"\\lf{([\S\s]*?)}\\elf"
-        md.treeprocessors.register(HeaderFormatTreeProcessor(md), "headerformat", 105)
-        md.inlinePatterns.register(LatexFontInlineProcessor(LF_RE_FROM, md), "latexfont", 105)
+        # Some things like footnotes aren't expanded and accessible from Treeprocessor,
+        # so it's probably better to offload that processing to client-side JS
+        md.treeprocessors.register(HeaderFormatTreeProcessor(md.parser), "headerformat", 105)

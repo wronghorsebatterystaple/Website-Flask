@@ -1,4 +1,6 @@
 :root {
+    --customblue: #00bfff;
+    --custombluehover: #00aaff;
     --customgreen: #77d900;
     --customorange: #ffc107;
     --custompink: #ff9cdd;
@@ -63,16 +65,18 @@
     --bs-btn-active-color: var(--customorange) !important;;
 }
 
-.link-customgreen {
+.link-customblue {
+    color: var(--customblue) !important;
+    text-decoration-color: var(--customblue) !important;
+}
+
+.link-customblue:hover {
+    color: var(--custombluehover) !important;
+    text-decoration-color: var(--custombluehover) !important;
+}
+
+.underline-customgreen {
     text-decoration-color: var(--customgreen) !important;
-}
-
-.link-customorange {
-    text-decoration-color: var(--customorange) !important;
-}
-
-.link-custompink {
-    text-decoration-color: var(--custompink) !important;
 }
 
 body {
@@ -121,4 +125,9 @@ hr.doublehr {
 .required-label:after {
     content:" *";
     color: red;
+}
+
+.tooltip .tooltip-inner {
+    max-width: 20rem;
+    font-size: 0.8rem;
 }
