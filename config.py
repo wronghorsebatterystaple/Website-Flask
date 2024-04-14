@@ -32,6 +32,7 @@ class Config(object):
 
     # Configs for blogpage blueprints
     PRIVATE_BLOG_IDS = [0]
+    UNPUBLISHED_BLOG_ID = 0
     ALL_POSTS_BLOG_ID = 1
     BLOG_ID_TO_TITLE = {
         0: "The Backrooms",

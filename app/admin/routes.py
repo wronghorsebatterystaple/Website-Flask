@@ -128,29 +128,32 @@ def create_blogpost():
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        new_post = Post(blog_id=int(request.form.get("blog_id")), title=request.form.get("title"),
+        post = Post(blog_id=int(request.form.get("blog_id")), title=request.form.get("title"),
                 subtitle=request.form.get("subtitle"), content=request.form.get("content"))
-        new_post.sanitize_title()
-        new_post.expand_image_markdown()
+        post.sanitize_title()
+        post.expand_image_markdown()
 
         # check that title still exists after sanitization
-        if new_post.sanitized_title == "":
+        if post.sanitized_title == "":
             return jsonify(flash_message="Post must have alphanumeric characters in its title.")
         # check that title is unique (sanitized is unique => non-sanitized is unique)
-        if not new_post.are_titles_unique():
+        if not post.are_titles_unique():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
-        db.session.add(new_post)
+        # mark post as published and editable if creating on published blogpage
+        if post.blog_id != current_app.config["UNPUBLISHED_BLOG_ID"]:
+            post.published = True
+        db.session.add(post)
         db.session.commit()
 
         # upload images if any
         res = upload_images(request.files.getlist("images"), os.path.join(current_app.root_path,
-                current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(new_post.blog_id), "images", str(new_post.id)))
+                current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(post.blog_id), "images", str(post.id)))
         if not res == "success":
             return jsonify(flash_message=res)
 
-        return jsonify(redirect_uri=url_for(f"blog.{new_post.blog_id}.post",
-                post_sanitized_title=new_post.sanitized_title),
+        return jsonify(redirect_uri=url_for(f"blog.{post.blog_id}.post",
+                post_sanitized_title=post.sanitized_title),
                 flash_message="Post created successfully!") # view completed post
 
     # process GET requests otherwise
@@ -231,7 +234,15 @@ def edit_blogpost():
         post.sanitized_title = post_temp.sanitized_title
         post.subtitle = request.form.get("subtitle")
         post.content = request.form.get("content")
-        post.edited_timestamp = datetime.now(timezone.utc) # updated edited time
+        # update edited time if editing a published post
+        if post.published:
+            post.edited_timestamp = datetime.now(timezone.utc)
+        else:
+            # mark post as published and editable if not published and moving to published blogpage
+            if int(request.form.get("blog_id")) != current_app.config["UNPUBLISHED_BLOG_ID"]:
+                post.published = True
+            # keep updating created time instead of updated time if not published
+            post.timestamp = datetime.now(timezone.utc)
         post.expand_image_markdown()
         db.session.commit()
 

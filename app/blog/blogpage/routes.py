@@ -10,6 +10,7 @@ from sqlalchemy import desc
 from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
+from app.markdownext.myextensions import MyExtensions
 from app.models import *
 import app.util as util
 
@@ -48,9 +49,9 @@ def post(post_sanitized_title):
     blog_id = get_blog_id(request.blueprint)
 
     # require login to access private blogs
-    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
-        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
-            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
+#    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
+#        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
+#            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
 
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
@@ -104,14 +105,14 @@ def post(post_sanitized_title):
         return jsonify(success=True, flash_message="Comment added successfully!")
 
     # process GET requests otherwise
-    post.content = markdown.markdown(post.content, extensions=["extra"])
-    # custom Markdown \lf{}\elf to give stuff inside LaTeX font
-    post.content = re.sub(r"\\lf{([\S\s]*?)}\\elf", r'<span class="font-latex">\1</span>', post.content)
+    post.content = markdown.markdown(post.content, extensions=["extra", MyExtensions()])
+#    # custom Markdown \lf{}\elf to give stuff inside LaTeX font
+#    post.content = re.sub(r"\\lf{([\S\s]*?)}\\elf", r'<span class="font-latex">\1</span>', post.content)
 
     comments_query = post.comments.select().order_by(desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
     for comment in comments:
-        comment.content = markdown.markdown(comment.content, extensions=["extra"])
+        comment.content = markdown.markdown(comment.content, extensions=["extra", MyExtensions()])
 
     return render_template("blog/blogpage/post.html",
             blog_id=blog_id, blog_title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],

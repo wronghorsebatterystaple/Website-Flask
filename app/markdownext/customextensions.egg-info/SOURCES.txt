@@ -1,0 +1,7 @@
+extensions.py
+setup.py
+customextensions.egg-info/PKG-INFO
+customextensions.egg-info/SOURCES.txt
+customextensions.egg-info/dependency_links.txt
+customextensions.egg-info/requires.txt
+customextensions.egg-info/top_level.txt

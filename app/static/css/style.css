@@ -86,17 +86,6 @@ blockquote {
     border-left: 3.5px solid #cccccc;
 }
 
-h1 {
-    font-size: 2rem;
-    color: var(--customgreen);
-    margin-bottom: 1rem;
-}
-
-h2 {
-    font-size: 1.4rem;
-    color: var(--customorange);
-}
-
 img {
     max-width: 100%;
 }

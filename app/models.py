@@ -17,6 +17,7 @@ from app.db_config import db_config
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     blog_id: so.Mapped[int] = so.mapped_column(index=True)
+    published: so.Mapped[bool] = so.mapped_column(default=False)
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None)
