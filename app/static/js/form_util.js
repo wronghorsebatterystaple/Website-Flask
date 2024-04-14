@@ -10,7 +10,7 @@ function asteriskRequiredFields() {
     });
 }
 
-window.addEventListener("load", asteriskRequiredFields, false);
+$(document).ready(asteriskRequiredFields);
 
 // Remove invalid input highlighting and error message when user inputs into field.
 $(document).on("input", ".form-control", function() {

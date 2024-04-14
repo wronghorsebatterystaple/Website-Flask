@@ -11,4 +11,4 @@ function renderQueryStringFlash() {
     }
 }
 
-window.addEventListener("pageshow", renderQueryStringFlash, false);
+$(document).ready(renderQueryStringFlash);

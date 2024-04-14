@@ -130,4 +130,5 @@ hr.doublehr {
 .tooltip .tooltip-inner {
     max-width: 20rem;
     font-size: 0.8rem;
+    --bs-tooltip-color: var(--customgreen);
 }

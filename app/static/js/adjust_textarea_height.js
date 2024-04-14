@@ -5,7 +5,7 @@ function adjustTextareaHeight(textarea_dom) {
     }
 }
 
-window.addEventListener("load", function() {
+$(document).ready(function() {
     $("textarea").each(function() {
         adjustTextareaHeight($(this).get(0));
     });

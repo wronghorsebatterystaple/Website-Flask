@@ -1,1 +1,1 @@
-window.addEventListener("load", setBackgroundImage, false);
+$(document).ready(setBackgroundImage);

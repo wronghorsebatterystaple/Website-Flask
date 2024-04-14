@@ -10,9 +10,9 @@ from sqlalchemy import desc
 from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
-from app.markdownext.myextensions import MyExtensions
 from app.models import *
 import app.util as util
+from markdownext.myextensions import MyExtensions
 
 
 def get_blog_id(blueprint_name) -> int:

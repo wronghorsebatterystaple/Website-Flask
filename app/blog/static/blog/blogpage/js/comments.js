@@ -19,7 +19,7 @@ function loadDeleteButtonIDs() {
         $(this).find("#id").attr("value", id);
     });
 }
-window.addEventListener("load", loadDeleteButtonIDs, false)
+$(document).ready(loadDeleteButtonIDs)
 
 // Use Ajax to update page on comment addition/deletion without refreshing and going back to top
 function onCommentReload() {
