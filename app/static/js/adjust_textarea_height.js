@@ -1,7 +1,7 @@
 function adjustTextareaHeight(textarea_dom) {
     if (textarea_dom.style.height != textarea_dom.scrollHeight) {
-        textarea_dom.style.height = "";
-        textarea_dom.style.height = `${textarea_dom.scrollHeight + 1.5}px`;
+        textarea_dom.style.height = "max-content";
+        textarea_dom.style.height = `${textarea_dom.scrollHeight}px`;
     }
 }
 
