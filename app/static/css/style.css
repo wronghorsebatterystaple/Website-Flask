@@ -84,7 +84,7 @@ body {
 }
 
 blockquote {
-    margin-left: 1rem;
+    margin-left: 0rem;
     padding-left: 0.6rem;
     color: gray;
     border-left: 3.5px solid #cccccc;
