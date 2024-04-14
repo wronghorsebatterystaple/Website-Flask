@@ -1,7 +1,5 @@
 from markdown.extensions import Extension
-from markdown.inlinepatterns import InlineProcessor
 from markdown.treeprocessors import Treeprocessor
-import xml.etree.ElementTree as etree
 
 
 class HeaderFormatTreeProcessor(Treeprocessor):
