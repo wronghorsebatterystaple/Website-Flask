@@ -1,21 +1,23 @@
-var digits_reg = /\d+/;
+var DIGITS_RE = /\d+/;
 
-// Asynchronously reveal fields for comment on clicking a reply button, and don't send POST at all
+// Reveal fields for comment on clicking a reply button
 $(document).on("submit", ".comment-reply-btn", function(e) {
     e.preventDefault();
 
-    var id = $(this).attr("id").match(digits_reg)[0];
-    $(`#comment-reply-form-${id}`).removeAttr("hidden");
-    $(`#comment-reply-form-${id}`).find("#parent").val(id);
+    var id = $(this).attr("id").match(DIGITS_RE)[0];
+    var commentReplyForm_elem = $(`#comment-reply-form-${id}`);
+    commentReplyForm_elem.removeAttr("hidden");
+    commentReplyForm_elem.find("#parent").val(id); // insert under right parent
+    commentReplyForm_elem.find("#author-input").focus();
     e.target.setAttribute("hidden", "");
 
     asteriskRequiredFields();
 });
 
-// Asynchronously populate comment id hidden fields for comment deletion
+// Populate comment id hidden fields for comment deletion
 function loadDeleteButtonIDs() {
     $(".comment-delete-btn").each(function() {
-        var id = $(this).attr("id").match(digits_reg)[0];
+        var id = $(this).attr("id").match(DIGITS_RE)[0];
         $(this).find("#id").val(id);
     });
 }

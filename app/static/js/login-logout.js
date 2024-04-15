@@ -1,3 +1,14 @@
+$(document).ready(function() {
+    // Security - wipe contents on hide
+    $("#login-modal").on("hidden.bs.modal", function(e) {
+        $(e.target).find("#password-input").val("");
+    });
+
+    $("#login-modal").on("shown.bs.modal", function(e) {
+        $(e.target).find("#password-input").focus();
+    });
+});
+
 $(document).on("submit", "#login-form", function(e) {
     e.preventDefault();
 
@@ -40,13 +51,6 @@ $(document).on("submit", "#login-form", function(e) {
             $("#navbar").load(window.location.href + " #navbar > *");
             $("#login-modal").modal("hide");
         }
-    });
-});
-
-// Security - wipe contents on hide
-$(document).ready(function() {
-    $("#login-modal").on("hidden.bs.modal", function(e) {
-        $(e.target).find("#password-input").val("");
     });
 });
 
