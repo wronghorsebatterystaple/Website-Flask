@@ -10,32 +10,23 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect
 
+from app.routes import *
+
 # declare extension instances outside so blueprints can still do `from app import db` etc.
-cors = CORS(supports_credentials=True)
+cors = CORS(origins=Config.CORS_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
 db = SQLAlchemy()
 migrate = Migrate()
 moment = Moment()
 login_manager = LoginManager()
-login_manager.login_view = "admin.login"
 paranoid = Paranoid()
-paranoid.redirect_view = "admin.login"
+paranoid.redirect_view = "/"
 turnstile = Turnstile()
 
 def create_app(config_class=Config):
     # create app variable (Flask instance)
     app = Flask(__name__)
     app.config.from_object(config_class)
-
-    # init extensions
-    cors.init_app(app)
-    csrf.init_app(app)
-    db.init_app(app)
-    migrate.init_app(app, db)
-    moment.init_app(app)
-    login_manager.init_app(app)
-    paranoid.init_app(app)
-    turnstile.init_app(app)
 
     # register blueprints
     from app.main import bp as main_bp
@@ -54,6 +45,19 @@ def create_app(config_class=Config):
     blog_bp.register_blueprint(blog_blogpage_bp, url_prefix="/writers-block", name="6")
     blog_bp.register_blueprint(blog_blogpage_bp, url_prefix="/writers-unblock", name="7")
     app.register_blueprint(blog_bp, subdomain="blog")
+
+    # register global routes and stuff
+    app.context_processor(inject_login_form)
+
+    # init extensions after all that
+    cors.init_app(app)
+    csrf.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    moment.init_app(app)
+    login_manager.init_app(app)
+    paranoid.init_app(app)
+    turnstile.init_app(app)
 
     return app
 

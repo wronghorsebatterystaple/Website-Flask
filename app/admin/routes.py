@@ -13,6 +13,7 @@ from app import db, turnstile
 from app.admin import bp
 from app.admin.forms import *
 from app.models import *
+from app.forms import *
 
 
 def sanitize_filename(filename):
@@ -53,38 +54,31 @@ def upload_images(images, path_before_filename) -> str:
 
     return "success"
 
-
 @bp.route("/login", methods=["GET", "POST"])
 def login():
-    # make sure logged-in admin doesn't try to log in again
-    if current_user.is_authenticated:
-        logout_user()
-
-    form = LoginForm()
-
+    if request.method == "GET":
+        return jsonify(flash_message="yes");
     # process POST requests (with Ajax: FormData)
     if request.method == "POST":
+        form = LoginForm()
+
         if not form.validate():
             return jsonify(submission_errors=form.errors)
         if not turnstile.verify():
             return jsonify(redirect_uri=url_for("main.bot_jail"))
 
+        if current_user.is_authenticated:
+            logout_user()
+
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password
         if user is None or not user.check_password(request.form.get("password")):
             # display in submission errors section instead of flash
-            return jsonify(submission_errors={"password": ["No, the password is not \"solarwinds123\"."]})
+            return jsonify(submission_errors={"password":
+                    ["No, the password is not \"solarwinds123\"."]})
         login_user(user, remember=True)
         
-        # allow redirects from @login_required
-        next_page = request.args.get("next")
-        if next_page is None or ul.urlsplit(next_page).netloc != "": # ensure redirects are only local for security
-            next_page = url_for("admin.choose_action")
-        return jsonify(redirect_uri=next_page)
-
-    # process GET requests otherwise (page being loaded)
-    return render_template("admin/form-base.html", title="Admin login",
-            prompt="Access the Secrets of the Universe", form=form)
+        return jsonify(flash_message="Logged in, the universe is at your fingertips...")
 
 
 @bp.route("/choose-action", methods=["GET", "POST"])
@@ -287,7 +281,8 @@ def change_admin_password():
         
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()
-        return jsonify(redirect_uri=url_for("admin.login"),
+        logout_user()
+        return jsonify(redirect_uri=url_for("main.index"),
                 flash_message="Your password has been changed!")
 
     # process GET requests otherwise

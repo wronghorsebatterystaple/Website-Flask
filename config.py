@@ -6,6 +6,7 @@ load_dotenv(os.path.join(basedir, ".env"))
 
 class Config(object):
     SERVER_NAME = "anonymousrand.xyz"
+    CORS_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -25,6 +26,7 @@ class Config(object):
 
     # Flask-WTF
     WTF_CSRF_TIME_LIMIT = None
+    WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
 
     # Image uploads
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024

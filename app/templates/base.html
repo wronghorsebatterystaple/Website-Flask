@@ -1,9 +1,12 @@
+{%- import "bootstrap_wtf.html" as wtf %}
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta id="var-url-for-logout" data-val="{{ url_for('admin.logout') }}">
+    <meta id="var-login-url" data-val="{{ url_for('admin.login') }}">
+    <meta id="var-logout-url" data-val="{{ url_for('admin.logout') }}">
     {%- block metavars %}{% endblock %}
 
     <!-- CDNs -->
@@ -55,7 +58,7 @@
       <script src="{{ url_for('static', filename='js/ajax_setup.js') }}"></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
-      <script src="{{ url_for('static', filename='js/logout_link.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/login-logout.js') }}"></script>
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js') }}"></script>
 
     <title>{%- block title %}{%- endblock %}</title>
@@ -96,7 +99,7 @@
           <ul class="navbar-nav mb-0 mb-lg-0">
             <li id="login-or-logout" class="nav-item">
               {%- if current_user.is_anonymous %}
-                <a class="nav-link" href="{{ url_for('admin.login') }}">Admin login</a>
+                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
               {%- else %}
                 <a id="logout-link" class="nav-link" href="#">Logout please :3</a>
               {%- endif %}
@@ -117,17 +120,33 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Login modal -->
+  <div id="login-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Access the Secrets of the Universe</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {{ wtf.quick_form(login_form, id="login-form") }}
+        </div>
+      </div>
     </div>
+  </div>
 
-    {%- block js %}{%- endblock %}
 
-    <!-- CDNs -->
-      <!-- Bootstrap -->
-      <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-          crossorigin="anonymous">
-      </script>
+  {%- block js %}{%- endblock %}
+
+  <!-- CDNs -->
+    <!-- Bootstrap -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+    </script>
   </body>
 </html>
 
