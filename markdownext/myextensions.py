@@ -18,4 +18,4 @@ class MyExtensions(Extension):
     def extendMarkdown(self, md):
         # Some things like footnotes aren't expanded and accessible from Treeprocessor,
         # so it's probably better to offload that processing to client-side JS
-        md.treeprocessors.register(HeaderFormatTreeProcessor(md.parser), "headerformat", 105)
+        md.treeprocessors.register(HeaderFormatTreeProcessor(md), "headerformat", 105)

@@ -1,3 +1,19 @@
+function showAuthElems() {
+    $(".auth-false").attr("hidden", "");
+    $(".auth-true").removeAttr("hidden");
+}
+
+function hideAuthElems() {
+    $(".auth-true").attr("hidden", "");
+    $(".auth-false").removeAttr("hidden");
+}
+
+function authReloadElems() {
+    $(".auth-reload").each(function() {
+        $(this).load(window.location.href + ` #${$(this).attr("id")} > *`);
+    });
+}
+
 $(document).ready(function() {
     // Security - wipe contents on hide
     $("#login-modal").on("hidden.bs.modal", function(e) {
@@ -48,7 +64,7 @@ $(document).on("submit", "#login-form", function(e) {
         }
 
         if (response.success) {
-            $("#navbar").load(window.location.href + " #navbar > *");
+            showAuthElems();
             $("#login-modal").modal("hide");
         }
     });
@@ -81,7 +97,7 @@ $(document).on("click", "#logout-link", function(e) {
                 customFlash(response.flash_message);
             }
 
-            $("#navbar").load(window.location.href + " #navbar > *");
+            hideAuthElems();
         }
     });
 });

@@ -69,7 +69,7 @@
     <div id="background-img" style="min-height: 100vh;">
       <div class="narrow-container container">
       <!-- navbar -->
-      <nav id="navbar" class="navbar navbar-expand-sm">
+      <nav class="navbar navbar-expand-sm">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">
           <img alt="icon" src="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}" width="30" height="30" class="d-inline-block align-text-middle">
           Home
@@ -83,38 +83,28 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
-                {%- if current_user.is_authenticated %}
-                  {%- for k, v in config.BLOG_ID_TO_TITLE.items() %}
-                    <li><a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a></li>
-                  {%- endfor %}
-                {%- else %}
-                  {%- for k, v in config.BLOG_ID_TO_TITLE_PUBLIC.items() %}
-                    <li><a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a></li>
-                  {%- endfor %}
-                {%- endif %}
-
+                {%- for k, v in config.BLOG_ID_TO_TITLE.items() %}
+                  <li id="auth-reload-navbar-0" class="auth-true"{%- if k in config.PRIVATE_BLOG_IDS and not current_user.is_authenticated %} hidden{%- endif %}>
+                    <a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a>
+                  </li>
+                {%- endfor %}
               </ul>
             </li>
-            {%- if current_user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('admin.choose_action') }}">Secrets of the Universe</a>
-              </li>
-            {%- endif %}
+            <li id="auth-reload-navbar-1" class="auth-true nav-item" {%- if not current_user.is_authenticated %} hidden{%- endif %}>
+              <a class="nav-link" href="{{ url_for('admin.choose_action') }}">Secrets of the Universe</a>
+            </li>
           </ul>
 
-          {%- if current_user.is_authenticated %}
-            <ul class="navbar-nav mb-0 mb-lg-0">
-              <li class="nav-item">
-                <a id="logout-link" class="nav-link" href="#">Logout please :3</a>
-              </li>
-            </ul>
-          {%- else %}
-            <ul class="navbar-nav mb-0 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
-              </li>
-            </ul>
-          {%- endif %}
+          <ul id="auth-reload-navbar-2" class="auth-true navbar-nav mb-0 mb-lg-0"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
+            <li class="nav-item">
+              <a id="logout-link" class="nav-link" href="#">Logout please :3</a>
+            </li>
+          </ul>
+          <ul id="auth-reload-navbar-3" class="auth-false navbar-nav mb-0 mb-lg-0" {%- if current_user.is_authenticated %} hidden{%- endif %}>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
+            </li>
+          </ul>
         </div>
       </nav>
 
@@ -141,7 +131,7 @@
           <button type="button" id="login-modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          {{ wtf.quick_form(login_form, id="login-form") }}
+          {{ wtf.quick_form(login_form, id="login-form", bottom_margin=0) }}
         </div>
       </div>
     </div>

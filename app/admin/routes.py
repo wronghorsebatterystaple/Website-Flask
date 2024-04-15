@@ -4,7 +4,7 @@ import shutil
 import urllib.parse as ul
 from werkzeug.utils import escape, secure_filename
 
-from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
+from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from wtforms.form import Form
@@ -18,7 +18,7 @@ from app.forms import *
 
 def sanitize_filename(filename):
     filename = escape(secure_filename(filename))
-    filename = filename.replace("(", "").replace(")", "")
+    filename = filename.replace("(", "").replace(")", "") # for Markdown parsing
     return filename
 
 
@@ -80,6 +80,8 @@ def login():
             return jsonify(submission_errors={"password":
                     ["No, the password is not \"solarwinds123\"."]})
         login_user(user, remember=True)
+        session.permanent = True # stays alive on browser close and gives us control with
+                                 # PERMANENT_SESSION_LIFETIME and SESSION_REFRESH_EACH_REQUEST configs
 
         if request.args.get("next", "") != "":
             return jsonify(success=True, redirect_uri=request.args.get("next"),
@@ -151,7 +153,7 @@ def create_blogpost():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
         # mark post as published and editable if creating on published blogpage
-        if post.blog_id != current_app.config["UNPUBLISHED_BLOG_ID"]:
+        if post.blog_id not in current_app.config["UNPUBLISHED_BLOG_ID"]:
             post.published = True
         db.session.add(post)
         db.session.commit()
@@ -252,7 +254,7 @@ def edit_blogpost():
             post.edited_timestamp = datetime.now(timezone.utc)
         else:
             # mark post as published and editable if not published and moving to published blogpage
-            if int(request.form.get("blog_id")) != current_app.config["UNPUBLISHED_BLOG_ID"]:
+            if int(request.form.get("blog_id")) not in current_app.config["UNPUBLISHED_BLOG_ID"]:
                 post.published = True
             # keep updating created time instead of updated time if not published
             post.timestamp = datetime.now(timezone.utc)

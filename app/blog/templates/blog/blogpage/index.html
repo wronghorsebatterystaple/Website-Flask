@@ -12,8 +12,11 @@
   {%- if subtitle != "" %}
     <h2 class="blogpage-subname mt-2">{{ subtitle }}</h2>
   {%- endif %}
+
   {%- if current_user.is_authenticated %}
-    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), btn_type="info", bottom_margin=0) }}
+    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), id="auth-reload-create-blogpost-btn", class="auth-true", btn_type="info", bottom_margin=0) }}
+  {%- else %}
+    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), id="auth-reload-create-blogpost-btn", class="auth-true", btn_type="info", bottom_margin=0, hidden=true) }}
   {%- endif %}
 </div>
 <hr>

@@ -15,14 +15,16 @@ class Config(object):
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
-    PERMANENT_SESSION_LIFETIME = 3600
+    SESSION_REFRESH_EACH_REQUEST = True
+    PERMANENT_SESSION_LIFETIME = 10
 
     # Flask-Login cookies
     REMEMBER_COOKIE_DOMAIN = f".{SERVER_NAME}"
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_SAMESITE = "Lax"
     REMEMBER_COOKIE_SECURE = True
-    REMEMBER_COOKIE_DURATION = 3600
+    REMEMBER_COOKIE_REFRESH_EACH_REQUEST = True
+    REMEMBER_COOKIE_DURATION = 10
 
     # Flask-WTF
     WTF_CSRF_TIME_LIMIT = None
@@ -44,16 +46,10 @@ class Config(object):
         f"blog.{SERVER_NAME}/the-backrooms"
     ]
     PRIVATE_BLOG_IDS = [0]
-    UNPUBLISHED_BLOG_ID = 0
+    UNPUBLISHED_BLOG_IDS = [0]
     ALL_POSTS_BLOG_ID = 1
     BLOG_ID_TO_TITLE = {
         0: "The Backrooms",
-        1: "All Posts",
-        3: "Professor Google",
-        6: "Writer's Block",
-        7: "Writer's Unblock"
-    }
-    BLOG_ID_TO_TITLE_PUBLIC = { # exclude The Backrooms
         1: "All Posts",
         3: "Professor Google",
         6: "Writer's Block",
