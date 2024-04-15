@@ -19,8 +19,9 @@ db = SQLAlchemy()
 migrate = Migrate()
 moment = Moment()
 login_manager = LoginManager()
+login_manager.login_view = Config.LOGIN_VIEW
 paranoid = Paranoid()
-paranoid.redirect_view = "/"
+paranoid.redirect_view = Config.LOGIN_VIEW
 turnstile = Turnstile()
 
 def create_app(config_class=Config):

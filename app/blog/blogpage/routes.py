@@ -26,12 +26,12 @@ def index():
     
     # require login to access private blogs
     if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
-        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
-            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
+        return current_app.login_manager.unauthorized()
+
     # not the neatest way to do this probably
     if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
-        posts = db.session.query(Post).filter(Post.blog_id.notin_(current_app.config["PRIVATE_BLOG_IDS"])) \
-                .order_by(desc(Post.timestamp))
+        posts = db.session.query(Post).filter(Post.blog_id \
+                .notin_(current_app.config["PRIVATE_BLOG_IDS"])).order_by(desc(Post.timestamp))
         return render_template("blog/blogpage/all_posts.html",
                 blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
                 posts=posts, create_blogpost_button=create_blogpost_button)
@@ -50,8 +50,7 @@ def post(post_sanitized_title):
 
     # require login to access private blogs
     if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
-        return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index",
-            flash=util.encode_uri_component("You are not allowed to visit the backrooms at this time.")))
+        return current_app.login_manager.unauthorized()
 
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
@@ -60,7 +59,7 @@ def post(post_sanitized_title):
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
-                flash=util.encode_uri_component("The post doesn't exist.")))
+                flash=util.encode_URI_component("The post doesn't exist.")))
 
     # process POST requests (adding comments) (with Ajax: FormData)
     if request.method == "POST":

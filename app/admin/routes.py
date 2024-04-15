@@ -55,26 +55,38 @@ def upload_images(images, path_before_filename) -> str:
     return "success"
 
 
-@bp.route("/login", methods=["POST"])
+@bp.route("/login", methods=["GET", "POST"])
 def login():
-    # process POST requests (with Ajax: FormData)
     form = LoginForm()
 
-    if not form.validate():
-        return jsonify(submission_errors=form.errors)
-    if not turnstile.verify():
-        return jsonify(redirect_uri=url_for("main.bot_jail"))
     if current_user.is_authenticated:
         logout_user()
 
-    user = db.session.scalar(sa.select(User).where(User.username == "admin"))
-    # check admin password
-    if user is None or not user.check_password(request.form.get("password")):
-        # display in submission errors section instead of flash
-        return jsonify(submission_errors={"password":
-                ["No, the password is not \"solarwinds123\"."]})
-    login_user(user, remember=True)
-    return jsonify(success=True, flash_message="The universe is at your fingertips...")
+    if request.method == "GET":
+        return render_template("admin/form-base.html",
+                prompt="Access the Secrets of the Universe", form=form)
+
+    # Ajax: FormData
+    elif request.method == "POST":
+        if not form.validate():
+            return jsonify(submission_errors=form.errors)
+        if not turnstile.verify():
+            return jsonify(redirect_uri=url_for("main.bot_jail"))
+
+        user = db.session.scalar(sa.select(User).where(User.username == "admin"))
+        # check admin password
+        if user is None or not user.check_password(request.form.get("password")):
+            # display in submission errors section instead of flash
+            return jsonify(submission_errors={"password":
+                    ["No, the password is not \"solarwinds123\"."]})
+        login_user(user, remember=True)
+
+        if request.args.get("next", "") != "":
+            return jsonify(success=True, redirect_uri=request.args.get("next"),
+                    flash_message="The universe is at your fingertips...")
+        return jsonify(success=True, flash_message="The universe is at your fingertips...")
+
+    return "If you see this message, please panic."
 
 
 @bp.route("/choose-action", methods=["GET", "POST"])
@@ -82,14 +94,17 @@ def login():
 def choose_action():
     form = ChooseActionForm()
 
-    # process POST requests (with Ajax: FormData)
-    if request.method == "POST":
+    if request.method == "GET":
+        return render_template("admin/form-base.html", title="Choose action",
+                prompt="42", form=form)
+
+    # Ajax: FormData
+    elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
         action = request.form.get("action")
         redirect_uri = ""
-
         if action == "create":
             redirect_uri = url_for("admin.create_blogpost")
         elif action == "edit":
@@ -101,19 +116,25 @@ def choose_action():
 
         return jsonify(redirect_uri=redirect_uri)
 
-    # process GET requests otherwise
-    return render_template("admin/form-base.html", title="Choose action", prompt="42", form=form)
+    return "If you see this message, please panic."
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
-#@login_required
+@login_required
 def create_blogpost():
     form = CreateBlogpostForm()
     # set choices dynamically so we can access current_app context; also must do before POST handling so validation works?
     form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
 
-    # process POST requests (with Ajax: FormData)
-    if request.method == "POST":
+    if request.method == "GET":
+        # automatically populate from query string if detected
+        if request.args.get("blog_id") is not None:
+            form.blog_id.data = request.args.get("blog_id")
+        return render_template("admin/form-base.html", title="Create post",
+                prompt="Create post", form=form)
+
+    # Ajax: FormData
+    elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
@@ -145,12 +166,7 @@ def create_blogpost():
                 post_sanitized_title=post.sanitized_title),
                 flash_message="Post created successfully!") # view completed post
 
-    # process GET requests otherwise
-    # automatically populate from query string if detected
-    if request.args.get("blog_id") is not None:
-        form.blog_id.data = request.args.get("blog_id")
-    return render_template("admin/form-base.html", title="Create post",
-            prompt="Create post", form=form)
+    return "If you see this message, please panic."
 
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
@@ -158,8 +174,12 @@ def create_blogpost():
 def search_blogpost():
     form = SearchBlogpostForm()
 
-    # process POST requests (with Ajax: FormData)
-    if request.method == "POST":
+    if request.method == "GET":
+        return render_template("admin/form-base.html", title="Search Posts",
+                prompt="Search posts", form=form)
+
+    # Ajax: FormData
+    elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
@@ -167,10 +187,8 @@ def search_blogpost():
         if post_id is None:
             return jsonify(flash_message="You somehow managed to choose nothing, congratulations.")
         return jsonify(redirect_uri=url_for("admin.edit_blogpost", post_id=post_id))
-        
-    # process GET requests otherwise
-    return render_template("admin/form-base.html", title="Search Posts",
-            prompt="Search posts", form=form)
+
+    return "If you see this message, please panic."
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
@@ -181,17 +199,23 @@ def edit_blogpost():
         return jsonify(redirect_uri=url_for("admin.search_blogpost"),
                 flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you?")
     
-    images_path = os.path.join(current_app.root_path, current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+    images_path = os.path.join(current_app.root_path,
+            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
             str(post.blog_id), "images", str(post.id))
     form = EditBlogpostForm(obj=post) # pre-populate fields
-    form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
+    form.blog_id.choices = [(k, v) for k, v in \
+            current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
     if os.path.exists(images_path) and os.path.isdir(images_path):
         form.delete_images.choices = [(f, f) for f in os.listdir(images_path) \
                 if os.path.isfile(os.path.join(images_path, f))]
     form.content.data = post.collapse_image_markdown()
 
-    # process POST requests (with Ajax: FormData)
-    if request.method == "POST":
+    if request.method == "GET":
+        return render_template("admin/form-base.html", title="Edit Post",
+                prompt=f"Edit post: {post.title}", form=form)
+
+    # Ajax: FormData
+    elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
@@ -251,9 +275,7 @@ def edit_blogpost():
                 post_sanitized_title=post.sanitized_title),
                 flash_message="Post edited successfully!") # view edited post
 
-    # process GET requests otherwise
-    return render_template("admin/form-base.html", title="Edit Post",
-            prompt=f"Edit post: {post.title}", form=form)
+    return "If you see this message, please panic."
         
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
@@ -261,8 +283,12 @@ def edit_blogpost():
 def change_admin_password():
     form = ChangeAdminPasswordForm()
 
-    # process POST requests (with Ajax: FormData)
-    if request.method == "POST":
+    if request.method == "GET":
+        return render_template("admin/form-base.html", title="Change Admin Password",
+                prompt="Do not make it password123456", form=form)
+
+    # Ajax: FormData
+    elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
@@ -281,9 +307,7 @@ def change_admin_password():
         return jsonify(redirect_uri=url_for("main.index"),
                 flash_message="Your password has been changed!")
 
-    # process GET requests otherwise
-    return render_template("admin/form-base.html", title="Change Admin Password",
-            prompt="Do not make it password123456", form=form)
+    return "If you see this message, please panic."
 
 
 @bp.route("/logout")
@@ -291,7 +315,7 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
 
-    from_url = request.args.get("from")
+    from_url = request.args.get("from_url")
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
         if from_url.startswith(url):
             return jsonify(redirect_uri=url_for("main.index"), flash_message="Mischief managed.")

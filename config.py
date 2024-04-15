@@ -37,7 +37,11 @@ class Config(object):
     IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
 
     # Misc configs
-    LOGIN_REQUIRED_URLS = [f"{SERVER_NAME}/admin"]
+    LOGIN_VIEW = "admin.login"
+    LOGIN_REQUIRED_URLS = [
+        f"{SERVER_NAME}/admin",
+        f"blog.{SERVER_NAME}/the-backrooms"
+    ]
     PRIVATE_BLOG_IDS = [0]
     UNPUBLISHED_BLOG_ID = 0
     ALL_POSTS_BLOG_ID = 1

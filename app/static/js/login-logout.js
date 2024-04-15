@@ -61,7 +61,7 @@ $(document).on("click", "#logout-link", function(e) {
             withCredentials: true
         },
         data: {
-            from: window.location.hostname + window.location.pathname
+            from_url: window.location.hostname + window.location.pathname
         },
         dataType: "json"
     })
