@@ -69,7 +69,7 @@
     <div id="background-img" style="min-height: 100vh;">
       <div class="narrow-container container">
       <!-- navbar -->
-      <nav class="navbar navbar-expand-sm">
+      <nav id="navbar" class="navbar navbar-expand-sm">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">
           <img alt="icon" src="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}" width="30" height="30" class="d-inline-block align-text-middle">
           Home
@@ -92,26 +92,36 @@
                     <li><a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a></li>
                   {%- endfor %}
                 {%- endif %}
+
               </ul>
             </li>
+            {%- if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin.choose_action') }}">Secrets of the Universe</a>
+              </li>
+            {%- endif %}
           </ul>
 
-          <ul class="navbar-nav mb-0 mb-lg-0">
-            <li id="login-or-logout" class="nav-item">
-              {%- if current_user.is_anonymous %}
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
-              {%- else %}
+          {%- if current_user.is_authenticated %}
+            <ul class="navbar-nav mb-0 mb-lg-0">
+              <li class="nav-item">
                 <a id="logout-link" class="nav-link" href="#">Logout please :3</a>
-              {%- endif %}
-            </li>
-          </ul>
+              </li>
+            </ul>
+          {%- else %}
+            <ul class="navbar-nav mb-0 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
+              </li>
+            </ul>
+          {%- endif %}
         </div>
       </nav>
 
       <div class="non-navbar-container mt-3">
         <!-- display flash()ed messages as alerts -->
         <div id="flash" class="alert alert-info alert-dismissible fade show" role="alert" hidden>
-          <span id="flash-text">yeet.</span>
+          <span id="flash-text"></span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
@@ -123,12 +133,12 @@
   </div>
 
   <!-- Login modal -->
-  <div id="login-modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div id="login-modal" class="modal fade" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Access the Secrets of the Universe</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1 class="modal-title fs-5" id="login-modal-label">Access the Secrets of the Universe</h1>
+          <button type="button" id="login-modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {{ wtf.quick_form(login_form, id="login-form") }}
@@ -136,7 +146,6 @@
       </div>
     </div>
   </div>
-
 
   {%- block js %}{%- endblock %}
 
@@ -149,4 +158,3 @@
     </script>
   </body>
 </html>
-

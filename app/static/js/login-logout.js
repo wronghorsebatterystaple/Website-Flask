@@ -34,9 +34,19 @@ $(document).on("submit", "#login-form", function(e) {
                     field_elem.find(".invalid-feedback").text(errors[field_name][0]);
                 });
             }
-
-            $("#login-or-logout").load(window.location.href + " #login-or-logout > *");
         }
+
+        if (response.success) {
+            $("#navbar").load(window.location.href + " #navbar > *");
+            $("#login-modal").modal("hide");
+        }
+    });
+});
+
+// Security - wipe contents on hide
+$(document).ready(function() {
+    $("#login-modal").on("hidden.bs.modal", function(e) {
+        $(e.target).find("#password-input").val("");
     });
 });
 
@@ -50,13 +60,24 @@ $(document).on("click", "#logout-link", function(e) {
         xhrFields: {
             withCredentials: true
         },
+        data: {
+            from: window.location.hostname + window.location.pathname
+        },
         dataType: "json"
     })
     .done(function(response) {
-        if (response.flash_message) {
-            customFlash(response.flash_message);
-        }
+        if (response.redirect_uri) {
+            var newURI = response.redirect_uri;
+            if (response.flash_message) {
+                newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
+            }
+            window.location.href = newURI;
+        } else {
+            if (response.flash_message) {
+                customFlash(response.flash_message);
+            }
 
-        $("#login-or-logout").load(window.location.href + " #login-or-logout > *");
+            $("#navbar").load(window.location.href + " #navbar > *");
+        }
     });
 });

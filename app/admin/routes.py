@@ -54,31 +54,27 @@ def upload_images(images, path_before_filename) -> str:
 
     return "success"
 
-@bp.route("/login", methods=["GET", "POST"])
+
+@bp.route("/login", methods=["POST"])
 def login():
-    if request.method == "GET":
-        return jsonify(flash_message="yes");
     # process POST requests (with Ajax: FormData)
-    if request.method == "POST":
-        form = LoginForm()
+    form = LoginForm()
 
-        if not form.validate():
-            return jsonify(submission_errors=form.errors)
-        if not turnstile.verify():
-            return jsonify(redirect_uri=url_for("main.bot_jail"))
+    if not form.validate():
+        return jsonify(submission_errors=form.errors)
+    if not turnstile.verify():
+        return jsonify(redirect_uri=url_for("main.bot_jail"))
+    if current_user.is_authenticated:
+        logout_user()
 
-        if current_user.is_authenticated:
-            logout_user()
-
-        user = db.session.scalar(sa.select(User).where(User.username == "admin"))
-        # check admin password
-        if user is None or not user.check_password(request.form.get("password")):
-            # display in submission errors section instead of flash
-            return jsonify(submission_errors={"password":
-                    ["No, the password is not \"solarwinds123\"."]})
-        login_user(user, remember=True)
-        
-        return jsonify(flash_message="Logged in, the universe is at your fingertips...")
+    user = db.session.scalar(sa.select(User).where(User.username == "admin"))
+    # check admin password
+    if user is None or not user.check_password(request.form.get("password")):
+        # display in submission errors section instead of flash
+        return jsonify(submission_errors={"password":
+                ["No, the password is not \"solarwinds123\"."]})
+    login_user(user, remember=True)
+    return jsonify(success=True, flash_message="The universe is at your fingertips...")
 
 
 @bp.route("/choose-action", methods=["GET", "POST"])
@@ -101,7 +97,7 @@ def choose_action():
         elif action == "change_admin_password":
             redirect_uri = url_for("admin.change_admin_password")
         else:
-            return jsonify(flash_message="How did you do that?")
+            return jsonify(flash_message="Sneaky...")
 
         return jsonify(redirect_uri=redirect_uri)
 
@@ -294,4 +290,10 @@ def change_admin_password():
 def logout():
     if current_user.is_authenticated:
         logout_user()
+
+    from_url = request.args.get("from")
+    for url in current_app.config["LOGIN_REQUIRED_URLS"]:
+        if from_url.startswith(url):
+            return jsonify(redirect_uri=url_for("main.index"), flash_message="Mischief managed.")
+
     return jsonify(flash_message="Mischief managed.")

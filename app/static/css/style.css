@@ -75,8 +75,20 @@
     text-decoration-color: var(--custombluehover) !important;
 }
 
+.underline-customblue {
+    text-decoration-color: var(--customblue) !important;
+}
+
 .underline-customgreen {
     text-decoration-color: var(--customgreen) !important;
+}
+
+.underline-customorange {
+    text-decoration-color: var(--customorange) !important;
+}
+
+.underline-custompink {
+    text-decoration-color: var(--custompink) !important;
 }
 
 body {

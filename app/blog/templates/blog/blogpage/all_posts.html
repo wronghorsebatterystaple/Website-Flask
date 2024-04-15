@@ -19,7 +19,7 @@
   {%- for post in posts %}
     <div>
       {% set color = config['BLOG_ID_TO_COLOR_CLASS'][post.blog_id] %}
-      <a class="link-hover link-{{ color }}" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+      <a class="link-hover underline-{{ color }}" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <div class="d-flex align-items-top">
           <h1 class="postlist-post-title {{ color }} me-5 mb-1">{{ post.title }}</h1>
           <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-0 ms-auto"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>

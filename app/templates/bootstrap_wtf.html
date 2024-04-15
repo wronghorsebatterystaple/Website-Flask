@@ -9,7 +9,7 @@
   {%- elif field.type == 'RadioField' %}
     {{ field.label(class='form-label') }}
     {%- for item in field %}
-    <div class="form-check{%- if loop.last %} {{ bottom_margin }}{%- endif %}">
+    <div class="form-check{%- if loop.last %} mb-{{ bottom_margin }}{%- endif %}">
       {{ item(class='form-check-input') }}
       {{ item.label(class='form-check-label') }}
     </div>

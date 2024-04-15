@@ -28,15 +28,16 @@ class Config(object):
     WTF_CSRF_TIME_LIMIT = None
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
 
-    # Image uploads
-    MAX_CONTENT_LENGTH = 100 * 1024 * 1024
-    IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
-
     # Paths
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
 
-    # Configs for blogpage blueprints
+    # Image uploads
+    MAX_CONTENT_LENGTH = 100 * 1024 * 1024
+    IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
+
+    # Misc configs
+    LOGIN_REQUIRED_URLS = [f"{SERVER_NAME}/admin"]
     PRIVATE_BLOG_IDS = [0]
     UNPUBLISHED_BLOG_ID = 0
     ALL_POSTS_BLOG_ID = 1
