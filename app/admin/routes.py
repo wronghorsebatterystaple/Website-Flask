@@ -318,6 +318,7 @@ def logout():
     from_url = request.args.get("from_url")
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
         if from_url.startswith(url):
-            return jsonify(redirect_uri=url_for("main.index"), flash_message="Mischief managed.")
+            return jsonify(redirect_uri=current_app.config["MAIN_PAGE_URL_FULL"], 
+                    flash_message="Mischief managed.")
 
     return jsonify(flash_message="Mischief managed.")

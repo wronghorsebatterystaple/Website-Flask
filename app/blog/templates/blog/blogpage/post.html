@@ -9,7 +9,7 @@
 <div class="pt-2">
     <h1 class="post-title customgreen mb-2">{{ post.title }}</h1>
   {%- if post.subtitle != "" %}
-    <h2 class="post-subtitle customorange mb-3">{{ post.subtitle }}</h2>
+    <h2 class="post-subtitle customorange mb-2">{{ post.subtitle }}</h2>
   {%- endif %}
   {%- if post.edited_timestamp is not none %}
     <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>

@@ -37,6 +37,7 @@ class Config(object):
     IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
 
     # Misc configs
+    MAIN_PAGE_URL_FULL = f"https://{SERVER_NAME}"
     LOGIN_VIEW = "admin.login"
     LOGIN_REQUIRED_URLS = [
         f"{SERVER_NAME}/admin",
