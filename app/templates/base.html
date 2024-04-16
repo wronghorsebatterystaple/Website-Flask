@@ -5,9 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{%- block meta_description %}{%- endblock %}">
+
     <meta id="var-login-url" data-val="{{ url_for('admin.login') }}">
     <meta id="var-logout-url" data-val="{{ url_for('admin.logout') }}">
-    {%- block metavars %}{% endblock %}
+    {%- block meta_vars %}{%- endblock %}
 
     <!-- CDNs -->
       <!-- JQuery -->
@@ -84,7 +86,7 @@
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
                 {%- for k, v in config.BLOG_ID_TO_TITLE.items() %}
-                  <li id="auth-reload-navbar-0" class="auth-true"{%- if k in config.PRIVATE_BLOG_IDS and not current_user.is_authenticated %} hidden{%- endif %}>
+                  <li{%- if k in config.PRIVATE_BLOG_IDS %} id="auth-reload-navbar-0" class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
                     <a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a>
                   </li>
                 {%- endfor %}

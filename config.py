@@ -66,6 +66,12 @@ class Config(object):
         6: "yes I stole this idea",
         7: "creative writing dumps from 3am"
     }
+    BLOG_ID_TO_DESCRIPTION = {
+        1: "all posts made by AnonymousRand.",
+        3: "intution, explanations, and details about computer science and math topics unlike any class you've taken.",
+        6: "the",
+        7: "creative writing dumps or random pieces of vent from my journal."
+    }
     BLOG_ID_TO_COLOR_CLASS = {
         3: "customgreen",
         6: "custompink",

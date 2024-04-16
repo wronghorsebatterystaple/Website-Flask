@@ -1,8 +1,12 @@
 {%- extends "base.html" %}
 
-{%- block title %}
+{%- block meta_vars -%}
+If you're seeing this on a search engine, something's very, very, wrong.
+{%- endblock -%}
+
+{%- block title -%}
 - AnonymousRand admin
-{%- endblock %}
+{%- endblock -%}
 
 {%- block css %}
 <link rel="stylesheet" href="{{ url_for('admin.static', filename='admin/css/style.css') }}">

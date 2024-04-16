@@ -1,8 +1,17 @@
 {%- extends "base.html" %}
 
-{%- block title %}
+{%- block meta_description -%}
+AnonymousRand blogs:
+{%- for k, v in config.BLOG_ID_TO_TITLE -%}
+  {%- if k not in config.PRIVATE_BLOG_IDS -%}
+    {{ v }}{%- if not loop.last %} - {% endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- endblock -%}
+
+{%- block title -%}
 - AnonymousRand blogs
-{%- endblock %}
+{%- endblock -%}
 
 {%- block css %}
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/css/style.css') }}">
