@@ -14,9 +14,9 @@
   {%- endif %}
 
   {%- if current_user.is_authenticated %}
-    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), id="auth-reload-create-blogpost-btn", class="auth-true", btn_type="info", bottom_margin=0) }}
+    {{ wtf.quick_form(create_blogpost_button, action=url_for("blog." ~ blog_id ~ ".create_blogpost_button"), id="auth-reload-create-blogpost-btn", class="auth-true", btn_type="info", bottom_margin=0) }}
   {%- else %}
-    {{ wtf.quick_form(create_blogpost_button, action=url_for('blog.' ~ blog_id ~ '.create_blogpost_button'), id="auth-reload-create-blogpost-btn", class="auth-true", btn_type="info", bottom_margin=0, hidden=true) }}
+    {{ wtf.quick_form(create_blogpost_button, action=url_for("blog." ~ blog_id ~ ".create_blogpost_button"), id="auth-reload-create-blogpost-btn", class="auth-true", btn_type="info", bottom_margin=0, hidden=true) }}
   {%- endif %}
 </div>
 <hr>
@@ -30,9 +30,9 @@
           <h2 class="postlist-post-subtitle customorange mb-1">{{ post.subtitle }}</h2>
         {%- endif %}
         {%- if post.edited_timestamp is not none %}
-          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format('l') }} | EDITED {{ moment(post.edited_timestamp).format('l') }}</h3>
+          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
         {%- else %}
-          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format('l') }}</></h3>
+          <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format("l") }}</></h3>
         {%- endif %}
       </a>
     </div>
