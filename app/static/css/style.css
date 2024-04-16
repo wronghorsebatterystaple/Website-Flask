@@ -1,9 +1,13 @@
 :root {
     --customblue: #00bfff;
-    --custombluehover: #00aaff;
+    --custombluedark: #00aaff;
     --customgreen: #77d900;
+    --customgreenlight: #beff6e;
+    --customgreenxlight: #ecffd5;
     --customorange: #ffc107;
     --custompink: #ff9cdd;
+    --custompinklight: #ffc7ec;
+    --custompinkxlight: #fff3fc;
 }
 
 .narrow-container {
@@ -71,8 +75,8 @@
 }
 
 .link-customblue:hover {
-    color: var(--custombluehover) !important;
-    text-decoration-color: var(--custombluehover) !important;
+    color: var(--custombluedark) !important;
+    text-decoration-color: var(--custombluedark) !important;
 }
 
 .underline-customblue {
