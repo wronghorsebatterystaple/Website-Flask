@@ -23,7 +23,6 @@ function loadDeleteButtonIDs() {
 }
 $(document).ready(loadDeleteButtonIDs)
 
-// Use Ajax to update page on comment addition/deletion without refreshing and going back to top
 function onCommentReload() {
     flask_moment_render_all();
     loadDeleteButtonIDs();
@@ -62,7 +61,7 @@ $(document).on("submit", ".comment-ajax", function(e) {
                     });
             }
 
-            if (response.success) { // clear fields and reload comments on success
+            if (response.success) {
                 $(e.target).find("*").filter(function() {
                     return this.id.match(/.*-input/);
                 }).val("");
