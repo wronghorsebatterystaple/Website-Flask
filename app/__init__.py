@@ -8,7 +8,7 @@ from flask_login import LoginManager
 from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
 from flask_turnstile import Turnstile
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, CSRFError
 
 from app.routes import *
 
@@ -49,6 +49,7 @@ def create_app(config_class=Config):
 
     # register global routes and stuff
     app.context_processor(inject_login_form)
+    #app.register_error_handler(CSRFError, handle_csrf_error)
 
     # init extensions after all that
     cors.init_app(app)

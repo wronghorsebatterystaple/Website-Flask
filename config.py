@@ -16,7 +16,7 @@ class Config(object):
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_REFRESH_EACH_REQUEST = True
-    PERMANENT_SESSION_LIFETIME = 1000
+    PERMANENT_SESSION_LIFETIME = 10
 
     # Flask-Login cookies
     REMEMBER_COOKIE_DOMAIN = f".{SERVER_NAME}"
@@ -24,10 +24,10 @@ class Config(object):
     REMEMBER_COOKIE_SAMESITE = "Lax"
     REMEMBER_COOKIE_SECURE = True
     REMEMBER_COOKIE_REFRESH_EACH_REQUEST = True
-    REMEMBER_COOKIE_DURATION = 1000
+    REMEMBER_COOKIE_DURATION = 10
 
     # Flask-WTF
-    WTF_CSRF_TIME_LIMIT = None
+    WTF_CSRF_TIME_LIMIT = 3600 # does not need to expire
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
 
     # Paths
