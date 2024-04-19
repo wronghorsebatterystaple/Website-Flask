@@ -14,6 +14,14 @@ function authReloadElems() {
     });
 }
 
+// Populate comment id hidden fields for comment deletion
+function loadDeleteButtonIDs() {
+    $(".comment-delete-btn").each(function() {
+        var id = $(this).attr("id").match(DIGITS_RE)[0];
+        $(this).find("#id").val(id);
+    });
+}
+
 $(document).ready(function() {
     // Security - wipe contents on hide
     $("#login-modal").on("hidden.bs.modal", function(e) {
@@ -65,6 +73,7 @@ $(document).on("submit", "#login-form", function(e) {
 
         if (response.success) {
             showAuthElems();
+            loadDeleteButtonIDs();
             $("#login-modal").modal("hide");
         }
     });
