@@ -194,10 +194,8 @@ def search_blogpost():
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
+@login_required
 def edit_blogpost():
-    if not current_user.is_authenticated:
-        return jsonify(refresh_login=True)
-
     post = db.session.get(Post, request.args.get("post_id"))
     if post is None:
         return jsonify(redirect_uri=url_for("admin.search_blogpost"),

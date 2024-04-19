@@ -61,26 +61,8 @@ def post(post_sanitized_title):
         return redirect(url_for(f"{request.blueprint}.index",
                 flash=util.encode_URI_component("The post doesn't exist.")))
 
-    if request.method == "GET":
-        post.content = markdown.markdown(post.content, extensions=["extra", MyExtensions()])
-    #    # custom Markdown \lf{}\elf to give stuff inside LaTeX font
-    #    post.content = re.sub(r"\\lf{([\S\s]*?)}\\elf", r'<span class="font-latex">\1</span>', post.content)
-
-        comments_query = post.comments.select().order_by(desc(Comment.timestamp))
-        comments = db.session.scalars(comments_query).all()
-        for comment in comments:
-            comment.content = markdown.markdown(comment.content, extensions=["extra", MyExtensions()])
-
-        return render_template("blog/blogpage/post.html",
-                blog_id=blog_id, blog_title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
-                post=post, comments=comments, add_comment_form=add_comment_form,
-                reply_comment_button = reply_comment_button,
-                delete_comment_button = delete_comment_button,
-                edit_blogpost_button=edit_blogpost_button,
-                get_descendants_list=Comment.get_descendants_list)
-
-    # Ajax: FormData
-    elif request.method == "POST":
+    # process POST requests (adding comments) (with Ajax: FormData)
+    if request.method == "POST":
         if not turnstile.verify():
             return jsonify(redirect_uri=url_for("main.bot_jail"))
 
@@ -121,7 +103,23 @@ def post(post_sanitized_title):
         db.session.commit()
         return jsonify(success=True, flash_message="Comment added successfully!")
 
-    return "If you see this message, please panic."
+    # process GET requests otherwise
+    post.content = markdown.markdown(post.content, extensions=["extra", MyExtensions()])
+#    # custom Markdown \lf{}\elf to give stuff inside LaTeX font
+#    post.content = re.sub(r"\\lf{([\S\s]*?)}\\elf", r'<span class="font-latex">\1</span>', post.content)
+
+    comments_query = post.comments.select().order_by(desc(Comment.timestamp))
+    comments = db.session.scalars(comments_query).all()
+    for comment in comments:
+        comment.content = markdown.markdown(comment.content, extensions=["extra", MyExtensions()])
+
+    return render_template("blog/blogpage/post.html",
+            blog_id=blog_id, blog_title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
+            post=post, comments=comments, add_comment_form=add_comment_form,
+            reply_comment_button = reply_comment_button,
+            delete_comment_button = delete_comment_button,
+            edit_blogpost_button=edit_blogpost_button,
+            get_descendants_list=Comment.get_descendants_list)
 
 
 @bp.route("/create-blogpost-button", methods=["POST"])
