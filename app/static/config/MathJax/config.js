@@ -3,6 +3,7 @@ window.MathJax = {
         macros: {
             // simple math symbols
             divs: "\\mid",
+            F: "\\mathbb{F}",
             given: "\\,\\vert\\,",
             givenlong: "\\,\\middle\\vert\\,",
             N: "\\mathbb{N}",

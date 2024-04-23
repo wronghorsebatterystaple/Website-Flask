@@ -14,13 +14,6 @@ $(document).on("submit", ".comment-reply-btn", function(e) {
     asteriskRequiredFields();
 });
 
-// Populate comment id hidden fields for comment deletion
-function loadDeleteButtonIDs() {
-    $(".comment-delete-btn").each(function() {
-        var id = $(this).attr("id").match(DIGITS_RE)[0];
-        $(this).find("#id").val(id);
-    });
-}
 $(document).ready(loadDeleteButtonIDs)
 
 function onCommentReload() {

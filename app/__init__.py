@@ -49,7 +49,9 @@ def create_app(config_class=Config):
 
     # register global routes and stuff
     app.context_processor(inject_login_form)
-    #app.register_error_handler(CSRFError, handle_csrf_error)
+    app.register_error_handler(CSRFError, handle_csrf_error)
+   # app.register_error_handler(RefreshCSRFError, catchall_refresh_csrf_error)
+   # app.register_error_handler(RefreshLoginError, catchall_refresh_login_error)
 
     # init extensions after all that
     cors.init_app(app)
