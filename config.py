@@ -32,8 +32,7 @@ class Config(object):
 
     # Custom errors
     CUSTOM_ERRORS = {
-        "REFRESH_CSRF": (499, "The CSRF token has expired since the session has expired."),
-        "REFRESH_LOGIN": (498, "The admin session has expired.")
+        "REFRESH_CSRF": (499, "CSRF token expired because the session expired.")
     }
 
     # Paths

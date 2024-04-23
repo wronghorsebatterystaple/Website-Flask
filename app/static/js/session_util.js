@@ -1,3 +1,14 @@
+function reloadCSRF(newToken) {
+  csrf_token = newToken;
+  $("input[name='csrf_token']").val(csrf_token); // reload hidden fields
+}
+
+function relogin() {
+    hideAuthElems();
+    $("#login-modal").load(window.location.href + " #login-modal > *");
+    $("#login-modal").modal("show");
+}
+
 function showAuthElems() {
     $(".auth-false").attr("hidden", "");
     $(".auth-true").removeAttr("hidden");
@@ -6,20 +17,6 @@ function showAuthElems() {
 function hideAuthElems() {
     $(".auth-true").attr("hidden", "");
     $(".auth-false").removeAttr("hidden");
-}
-
-function authReloadElems() {
-    $(".auth-reload").each(function() {
-        $(this).load(window.location.href + ` #${$(this).attr("id")} > *`);
-    });
-}
-
-// Populate comment id hidden fields for comment deletion
-function loadDeleteButtonIDs() {
-    $(".comment-delete-btn").each(function() {
-        var id = $(this).attr("id").match(DIGITS_RE)[0];
-        $(this).find("#id").val(id);
-    });
 }
 
 $(document).ready(function() {
@@ -32,6 +29,34 @@ $(document).ready(function() {
         $(e.target).find("#password-input").focus();
     });
 });
+
+function onLoginAjaxDone(response, e) {
+    if (response.redirect_uri) {
+        var newURI = response.redirect_uri;
+        if (response.flash_message) {
+            newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
+        }
+        window.location.href = newURI;
+    } else {
+        if (response.flash_message) {
+            customFlash(response.flash_message);
+        }
+        
+        if (response.submission_errors) { 
+            errors = response.submission_errors;
+            Object.keys(errors).forEach((field_name) => {
+                var field_elem = $(e.target).find(`#${field_name}-field`)
+                field_elem.find(`#${field_name}-input`).addClass("is-invalid");
+                field_elem.find(".invalid-feedback").text(errors[field_name][0]);
+            });
+        }
+
+        if (response.success) {
+            showAuthElems();
+            $("#login-modal").modal("hide");
+        }
+    }
+}
 
 $(document).on("submit", "#login-form", function(e) {
     e.preventDefault();
@@ -50,32 +75,11 @@ $(document).on("submit", "#login-form", function(e) {
         dataType: "json"
     })
     .done(function(response) {
-        if (response.redirect_uri) {
-            var newURI = response.redirect_uri;
-            if (response.flash_message) {
-                newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
-            }
-            window.location.href = newURI;
-        } else {
-            if (response.flash_message) {
-                customFlash(response.flash_message);
-            }
-            
-            if (response.submission_errors) { 
-                errors = response.submission_errors;
-                Object.keys(errors).forEach((field_name) => {
-                    var field_elem = $(e.target).find(`#${field_name}-field`)
-                    field_elem.find(`#${field_name}-input`).addClass("is-invalid");
-                    field_elem.find(".invalid-feedback").text(errors[field_name][0]);
-                });
-            }
-        }
-
-        if (response.success) {
-            showAuthElems();
-            loadDeleteButtonIDs();
-            $("#login-modal").modal("hide");
-        }
+        onLoginAjaxDone(response, e);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        var self = this;
+        handleCustomErrors(jqXHR, formData, e, self, onLoginAjaxDone);
     });
 });
 
