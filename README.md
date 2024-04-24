@@ -15,7 +15,8 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Update `config.py` and directory names in static paths
 
 ### Adding new forms:
-- Make sure that all POST forms should be Ajax using FormData and should handle the custom error(s) defined in `config.py` (ref. `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`)
+- Make sure that all POST forms should be Ajax using FormData and should handle the custom error(s) defined in `config.py`
+  - Ref. `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`
 - Always add HTML classes `login-req-form` and `auth-true`/`auth-false` when needed
 
 ### Updating HTML custom errors:
