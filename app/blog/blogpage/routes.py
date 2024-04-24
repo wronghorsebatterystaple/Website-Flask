@@ -12,7 +12,7 @@ from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
 from app.models import *
 import app.util as util
-from markdownext.myextensions import MyExtensions
+from markdown_ext.myextensions import MyExtensions
 
 
 def get_blog_id(blueprint_name) -> int:
