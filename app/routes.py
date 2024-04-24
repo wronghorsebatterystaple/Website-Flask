@@ -9,7 +9,7 @@ def inject_login_form():
     return dict(login_form=LoginForm())
 
 
-# regenerate CSRF token on token (tied to session) expire
+# Regenerate CSRF token on token (tied to session) expire
 # then let Ajax take it from there with custom error fail() handler
 # (non-auth action: resend request; auth action: show login modal for re-login)
 def handle_csrf_error(e):

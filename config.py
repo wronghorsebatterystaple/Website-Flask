@@ -16,7 +16,7 @@ class Config(object):
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_REFRESH_EACH_REQUEST = True
-    PERMANENT_SESSION_LIFETIME = 3
+    PERMANENT_SESSION_LIFETIME = 86400
 
     # Flask-Login cookies
     REMEMBER_COOKIE_DOMAIN = f".{SERVER_NAME}"
@@ -24,7 +24,7 @@ class Config(object):
     REMEMBER_COOKIE_SAMESITE = "Lax"
     REMEMBER_COOKIE_SECURE = True
     REMEMBER_COOKIE_REFRESH_EACH_REQUEST = True
-    REMEMBER_COOKIE_DURATION = 3
+    REMEMBER_COOKIE_DURATION = 86400
 
     # Flask-WTF
     WTF_CSRF_TIME_LIMIT = None
@@ -50,8 +50,8 @@ class Config(object):
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}/the-backrooms"
     ]
-    PRIVATE_BLOG_IDS = [0]
-    UNPUBLISHED_BLOG_IDS = [0]
+    PRIVATE_BLOG_IDS = [0] # for displaying/access control
+    UNPUBLISHED_BLOG_IDS = [0] # for published dates on blogs
     ALL_POSTS_BLOG_ID = 1
     BLOG_ID_TO_TITLE = {
         0: "The Backrooms",

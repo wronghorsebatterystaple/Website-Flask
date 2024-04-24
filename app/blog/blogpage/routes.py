@@ -87,12 +87,11 @@ def post(post_sanitized_title):
         # handle comment deletion (after confirmation button)
         if "delete" in request.form:
             if not current_user.is_authenticated: # since we can't use @login_required here
-                return jsonify(flash_message=f"Your session has been ended or has expired.")
+                return jsonify(flash_message="Nice try.")
 
             comment = db.session.get(Comment, request.form["id"])
             if comment is None:
-                return jsonify(redirect_uri=url_for(f"{request.blueprint}.index"),
-                        flash_message=f"That comment doesn't exist (and never did...).")
+                return jsonify(success=True, flash_message=f"That comment is already gone...")
 
             descendants = comment.get_descendants_list(post)
             if not comment.remove_comment(post):
@@ -122,18 +121,3 @@ def post(post_sanitized_title):
         return jsonify(success=True, flash_message="Comment added successfully!")
 
     return "If you see this message, please panic."
-
-
-@bp.route("/create-blogpost-button", methods=["POST"])
-def create_blogpost_button():
-    # can't route button directly via GET due to CSRF protection
-    blog_id = get_blog_id(request.blueprint)
-    if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
-        return redirect(url_for("admin.create_blogpost"))
-    else:
-        return redirect(url_for("admin.create_blogpost", blog_id=get_blog_id(request.blueprint)))
-
-
-@bp.route("/edit-blogpost-button", methods=["POST"])
-def edit_blogpost_button():
-    return redirect(url_for("admin.edit_blogpost", post_id=request.args.get("post_id")))

@@ -27,32 +27,13 @@ function onCommentReload() {
 }
 
 function onCommentAjaxDone(response, e) {
-    if (response.redirect_uri) {
-        var newURI = response.redirect_uri;
-        if (response.flash_message) {
-            newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
-        }
-        window.location.href = newURI;
-    } else {
-        if (response.flash_message) {
-            customFlash(response.flash_message);
-        }
+    processStandardAjaxResponse(response, e);
 
-        if (response.submission_errors) {
-            errors = response.submission_errors;
-            Object.keys(errors).forEach((field_name) => {
-                var field_elem = $(e.target).find(`#${field_name}-field`)
-                field_elem.find(`#${field_name}-input`).addClass("is-invalid");
-                field_elem.find(".invalid-feedback").text(errors[field_name][0]);
-                });
-        }
-
-        if (response.success) {
-            $(e.target).find("*").filter(function() {
-                return this.id.match(/.*-input/);
-            }).val("");
-            $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
-        }
+    if (response.success) {
+        $(e.target).find("*").filter(function() {
+            return this.id.match(/.*-input/);
+        }).val("");
+        $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
     }
 }
 

@@ -130,7 +130,8 @@ def create_blogpost():
 
     if request.method == "GET":
         # automatically populate from query string if detected
-        if request.args.get("blog_id") is not None:
+        if request.args.get("blog_id") is not None \
+                and request.args.get("blog_id") != current_app.config["ALL_POSTS_BLOG_ID"]:
             form.blog_id.data = request.args.get("blog_id")
         return render_template("admin/form-base.html", title="Create post",
                 prompt="Create post", form=form)

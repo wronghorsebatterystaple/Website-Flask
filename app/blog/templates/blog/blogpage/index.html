@@ -14,13 +14,14 @@
   {%- endif %}
 
   {%- if current_user.is_authenticated %}
-    {{ wtf.quick_form(create_blogpost_button, action=url_for("blog." ~ blog_id ~ ".create_blogpost_button"), id="auth-reload-create-blogpost-btn", class="login-req-form auth-true", btn_type="info", bottom_margin=0) }}
+    <a id="auth-reload-create-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.create_blogpost', blog_id=blog_id) }}" role="button">Create post</a>
   {%- else %}
-    {{ wtf.quick_form(create_blogpost_button, action=url_for("blog." ~ blog_id ~ ".create_blogpost_button"), id="auth-reload-create-blogpost-btn", class="login-req-form auth-true", btn_type="info", bottom_margin=0, hidden=true) }}
+    <a id="auth-reload-create-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.create_blogpost', blog_id=blog_id) }}" role="button" hidden>Create post</a>
   {%- endif %}
 </div>
 <hr>
 
+{%- block content_nonheader %}
 <div>
   {%- for post in posts %}
     <div>
@@ -39,4 +40,5 @@
     <hr>
   {%- endfor %}
 </div>
+{%- endblock %}
 {%- endblock %}

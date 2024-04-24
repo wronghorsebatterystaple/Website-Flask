@@ -1,57 +1,61 @@
 {%- macro form_field(field, btn_type, btn_color, bottom_margin, autofocus_first) %}
-  {%- if field.type == 'BooleanField' %}
+  {%- if field.type == "BooleanField" %}
   <div class="form-check mb-{{ bottom_margin }}">
-     {{ field(id=field.name ~ '-input', class='form-check-input') }}
-     {{ field.label(class='form-check-label') }}
+     {{ field(id=field.name ~ "-input", class="form-check-input") }}
+     {{ field.label(class="form-check-label") }}
      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
    </div>
 
-  {%- elif field.type == 'RadioField' %}
-    {{ field.label(class='form-label') }}
+  {%- elif field.type == "RadioField" %}
+    {{ field.label(class="form-label") }}
     {%- for item in field %}
     <div class="form-check{%- if loop.last %} mb-{{ bottom_margin }}{%- endif %}">
-      {{ item(class='form-check-input') }}
-      {{ item.label(class='form-check-label') }}
+      {{ item(class="form-check-input") }}
+      {{ item.label(class="form-check-label") }}
     </div>
     {%- endfor %}
 
-  {%- elif field.type == 'SelectField' %}
-    {{ field.label(class='form-label') }}
-    {{ field(id=field.name ~ '-input', class='form-select mb-' ~ bottom_margin) }}
+  {%- elif field.type == "SelectField" %}
+    {{ field.label(class="form-label") }}
+    {{ field(id=field.name ~ "-input", class="form-select mb-" ~ bottom_margin) }}
     <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
 
-  {%- elif field.type == 'TextAreaField' %}
+  {%- elif field.type == "TextAreaField" %}
   <div class="mb-{{ bottom_margin }}">
-      {{ field.label(class='form-label') }}
+      {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
         {%- if autofocus_focus %}
-          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
+          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=True) }}
         {%- else %}
-          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
+          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
         {%- endif %}
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
 
-  {%- elif field.type == 'SubmitField' %}
-    {%- if btn_color == 'default' %}
-      {{ field(class='btn btn-' ~ btn_type ~ ' mb-' ~ bottom_margin) }}
+  {%- elif field.type == "SubmitField" %}
+    {%- if btn_color == "original" %}
+      {{ field(class="btn btn-" ~ btn_type ~ " mb-" ~ bottom_margin) }}
     {%- else %}
-      {{ field(class='btn btn-' ~ btn_type ~ ' mb-' ~ bottom_margin ~ ' btn-' ~ btn_color) }}
+      {%- if btn_type == "link" %}
+        {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ "-link mb-" ~ bottom_margin) }}
+      {%- else %}
+        {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ " mb-" ~ bottom_margin) }}
+      {%- endif %}
     {%- endif %}
 
   {%- else %}
     <div class="mb-{{ bottom_margin }}">
-      {{ field.label(class='form-label') }}
+      {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
         {%- if autofocus_first %}
-          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else ''), autofocus=True) }}
+          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=True) }}
         {%- else %}
-          {{ field(id=field.name ~ '-input', class='form-control' ~ (' is-invalid' if field.errors else '')) }}
+          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
         {%- endif %}
 
-        {%- if field.type == 'PasswordField' %}
-          <i id="{{ field.name }}-show" class="bi bi-eye-slash ps-3" onclick='togglePasswordVisibility("{{ field.name }}-input", "{{ field.name }}-show")' style='display: flex; align-items: center;'></i>
+        {%- if field.type == "PasswordField" %}
+          <i id="{{ field.name }}-show" class="bi bi-eye-slash ps-3" onclick="togglePasswordVisibility('{{ field.name }}-input', '{{ field.name }}-show')" style="display: flex; align-items: center;"></i>
         {%- endif %}
 
         <div class="invalid-feedback" aria-describedby="{{ field.name }}">error here</div>
@@ -61,7 +65,7 @@
 {%- endmacro %}
 
 
-{%- macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="warning", btn_color="default", bottom_margin=3, autofocus_first=true, hidden=false) %}
+{%- macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="primary", btn_color="customorange", bottom_margin=3, autofocus_first=true, hidden=false) %}
   <form novalidate
     {%- if action != None %} action="{{ action }}"{%- endif %}
     {%- if method %} method="{{ method }}"{%- endif %}
@@ -73,7 +77,7 @@
     {{ form.hidden_tag() }}
     {%- set ns = namespace(first_field=true) %}
 
-    {%- for field in form if field.widget.input_type != 'hidden' %}
+    {%- for field in form if field.widget.input_type != "hidden" %}
       <div id="{{ field.name }}-field">
         {%- if not loop.last %}
           {{ form_field(field, btn_type, btn_color, 3, ns.first_field and autofocus_first) }}

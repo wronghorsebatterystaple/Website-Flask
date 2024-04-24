@@ -57,7 +57,7 @@
           var csrf_token = "{{ csrf_token() }}";
       </script>
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js') }}"></script>
-      <script src="{{ url_for('static', filename='js/ajax_setup.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/ajax_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/handle_custom_errors.js') }}"></script>
@@ -113,7 +113,7 @@
 
       <div class="non-navbar-container mt-3">
         <!-- display flash()ed messages as alerts -->
-        <div id="flash" class="alert alert-info alert-dismissible fade show" role="alert" style="background-color: var(--customgreenxlight); border-color: var(--customgreenlight); color: black;", hidden>
+        <div id="flash" class="alert alert-info alert-dismissible fade show" role="alert" style="background-color: var(--customgreenxxlight); border-color: var(--customgreenxlight); color: black;", hidden>
           <span id="flash-text"></span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
