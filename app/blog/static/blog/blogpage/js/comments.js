@@ -24,6 +24,7 @@ $(document).ready(loadDeleteButtonIDs)
 function onCommentReload() {
     flask_moment_render_all();
     loadDeleteButtonIDs();
+    MathJax.typeset(["#commentlist"]); // render any LaTeX in comments
 }
 
 function onCommentAjaxDone(response, e) {
@@ -32,7 +33,7 @@ function onCommentAjaxDone(response, e) {
     if (response.success) {
         $(e.target).find("*").filter(function() {
             return this.id.match(/.*-input/);
-        }).val("");
+        }).val(""); // clear
         $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
     }
 }

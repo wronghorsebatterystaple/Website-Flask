@@ -25,7 +25,7 @@ class CreateBlogpostForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
-    content = TextAreaField("Content (Markdown, LaTeX supported)", validators=[InputRequired(),
+    content = TextAreaField("Content (Markdown, LaTeX supported (remember to escape backslashes))", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     submit = SubmitField("Submit")

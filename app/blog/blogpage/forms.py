@@ -9,7 +9,7 @@ class AddCommentForm(FlaskForm):
     author = StringField("Name", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_COMMENT_AUTHOR"])])
     parent = HiddenField(default=None)
-    content = TextAreaField("Comment (Markdown, LaTeX supported)", validators=[InputRequired(),
+    content = TextAreaField("Comment (Markdown, LaTeX supported (remember to escape backslashes))", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_COMMENT_CONTENT"])])
     submit = SubmitField("Submit")
 

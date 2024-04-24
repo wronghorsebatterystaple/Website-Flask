@@ -154,7 +154,7 @@ def create_blogpost():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
         # mark post as published and editable if creating on published blogpage
-        if post.blog_id not in current_app.config["UNPUBLISHED_BLOG_ID"]:
+        if post.blog_id not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
             post.published = True
         db.session.add(post)
         db.session.commit()
@@ -255,7 +255,7 @@ def edit_blogpost():
             post.edited_timestamp = datetime.now(timezone.utc)
         else:
             # mark post as published and editable if not published and moving to published blogpage
-            if int(request.form.get("blog_id")) not in current_app.config["UNPUBLISHED_BLOG_ID"]:
+            if int(request.form.get("blog_id")) not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
                 post.published = True
             # keep updating created time instead of updated time if not published
             post.timestamp = datetime.now(timezone.utc)
