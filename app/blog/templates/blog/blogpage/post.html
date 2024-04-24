@@ -47,7 +47,7 @@
             <div class="flex-grow-1 ms-3">
           {%- endif %}
           {%- set descendants = comment.get_descendants_list(post) %}
-          <div class="comment card{%- if comment.author.lower() == config['VERIFIED_AUTHOR'].lower() %} border-customorange{%- endif %}{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
+          <div class="comment card{%- if comment.author.lower().strip() == config['VERIFIED_AUTHOR'].lower().strip() %} border-customorange{%- endif %}{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
               <h3 class="comment-author">{{ comment.author }}</h3>
               <div class="comment-content gray">{{ comment.content |safe }}</div>
