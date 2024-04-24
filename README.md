@@ -11,7 +11,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 # Developer notes to compensate for possibly scuffed code
 
 ### Adding new blogpages:
-- Register new copy of blueprint with proper blog id/name in `app/__init__.py`
+- Register new copy of `blogpage` blueprint with proper blog id/name in `app/__init__.py`
 - Update `config.py` and directory names in static paths
 
 ### Adding new forms:
