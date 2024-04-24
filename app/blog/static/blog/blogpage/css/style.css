@@ -38,7 +38,8 @@ input[value="Reply"][value="Delete"] {
 .post-h1 {
     font-size: 2rem;
     color: var(--customgreen);
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .post-h2 {
