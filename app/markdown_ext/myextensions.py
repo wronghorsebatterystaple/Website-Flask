@@ -1,4 +1,5 @@
 from markdown.extensions import Extension
+from markdown.inlinepatterns import SimpleTagInlineProcessor
 from markdown.treeprocessors import Treeprocessor
 
 
@@ -14,8 +15,11 @@ class HeaderFormatTreeProcessor(Treeprocessor):
         iterate(root)
 
 
+# Some things like footnotes aren't expanded and accessible from Treeprocessor,
+# so it's probably better to offload that processing to client-side JS
 class MyExtensions(Extension):
     def extendMarkdown(self, md):
-        # Some things like footnotes aren't expanded and accessible from Treeprocessor,
-        # so it's probably better to offload that processing to client-side JS
+        # add header classes for CSS customization
         md.treeprocessors.register(HeaderFormatTreeProcessor(md), "headerformat", 105)
+        # ~~[text]~~ for strikethrough; ref. documentation example
+        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()~~([\S\s]*?)~~", "del"), "del", 105)
