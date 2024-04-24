@@ -12,6 +12,7 @@ from flask_wtf.csrf import CSRFProtect, CSRFError
 
 from app.routes import *
 
+
 # declare extension instances outside so blueprints can still do `from app import db` etc.
 cors = CORS(origins=Config.CORS_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
@@ -62,5 +63,6 @@ def create_app(config_class=Config):
     turnstile.init_app(app)
 
     return app
+
 
 from app import models # imports done at bottom to prevent circular imports
