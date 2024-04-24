@@ -22,7 +22,6 @@ def get_blog_id(blueprint_name) -> int:
 @bp.route("/")
 def index():
     blog_id = get_blog_id(request.blueprint)
-    create_blogpost_button = CreateBlogpostButton()
     
     # require login to access private blogs
     if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
@@ -34,14 +33,14 @@ def index():
                 .notin_(current_app.config["PRIVATE_BLOG_IDS"])).order_by(desc(Post.timestamp))
         return render_template("blog/blogpage/all_posts.html",
                 blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
-                posts=posts, create_blogpost_button=create_blogpost_button)
+                posts=posts)
 
     posts = db.session.query(Post).filter_by(blog_id=blog_id) \
             .order_by(desc(Post.timestamp))
     return render_template("blog/blogpage/index.html",
             blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
             subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
-            posts=posts, create_blogpost_button=create_blogpost_button)
+            posts=posts)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET", "POST"])
@@ -55,7 +54,6 @@ def post(post_sanitized_title):
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
     delete_comment_button = DeleteCommentButton()
-    edit_blogpost_button = EditBlogpostButton()
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
@@ -76,7 +74,6 @@ def post(post_sanitized_title):
                 post=post, comments=comments, add_comment_form=add_comment_form,
                 reply_comment_button = reply_comment_button,
                 delete_comment_button = delete_comment_button,
-                edit_blogpost_button=edit_blogpost_button,
                 get_descendants_list=Comment.get_descendants_list)
 
     # Ajax: FormData
