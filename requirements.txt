@@ -12,7 +12,6 @@ colorama==0.4.4
 configobj==5.0.6
 constantly==15.1.0
 cryptography==42.0.5
--e git+ssh://git@github.com/wronghorsebatterystaple/Flask-Website.git@17afcd7cd25e87f875a817fa001dbf8b3bf4c8a6#egg=customextensions&subdirectory=app/markdownext
 distlib==0.3.4
 distro==1.7.0
 filelock==3.6.0
