@@ -1,16 +1,17 @@
 :root {
-    --customblue: #00bfff; /* DeepSkyBlue */
-    --custombluelight: #47d1ff;
-    --custombluedark: #00aaff;
+    --customblue: deepskyblue;
+    --customblue-light: #47d1ff;
+    --customblue-dark: #00aaff;
     --customgreen: #77d900;
-    --customgreenxlight: #beff6e;
-    --customgreenxxlight: #ecffd5;
+    --customgreen-light: #b8ff61;
+    --customgreen-xxlight: #ecffd5;
     --customorange: #ffc107; /* BS warning color */
-    --customorangelight: #ffce47;
+    --customorange-light: #ffce47;
     --custompink: #ff9cdd;
-    --custompinklight: #ffb3e4;
-    --custompinkxlight: #ffc7ec;
-    --custompinkxxlight: #fff3fc;
+    --custompink-light: #ffb3e4;
+    --code-color: navy;
+    --thm-color: navy;
+    --thm-border-color: #a1a1ff;
 }
 
 .narrow-container {
@@ -66,15 +67,15 @@
     --bs-btn-bg: var(--customblue) !important;
     --bs-btn-border-color: var(--customblue) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custombluelight) !important;
-    --bs-btn-hover-border-color: var(--custombluelight) !important;
+    --bs-btn-hover-bg: var(--customblue-light) !important;
+    --bs-btn-hover-border-color: var(--customblue-light) !important;
     --bs-btn-focus-shadow-rgb: var(--customblue) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--customblue) !important;
     --bs-btn-active-border-color: var(--customblue) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custombluelight) !important;
-    --bs-btn-disabled-border-color: var(--custombluelight) !important;
+    --bs-btn-disabled-bg: var(--customblue-light) !important;
+    --bs-btn-disabled-border-color: var(--customblue-light) !important;
 }
 
 .btn-customorange {
@@ -82,26 +83,26 @@
     --bs-btn-bg: var(--customorange) !important;
     --bs-btn-border-color: var(--customorange) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--customorangelight) !important;
-    --bs-btn-hover-border-color: var(--customorangelight) !important;
+    --bs-btn-hover-bg: var(--customorange-light) !important;
+    --bs-btn-hover-border-color: var(--customorange-light) !important;
     --bs-btn-focus-shadow-rgb: var(--customorange) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--customorange) !important;
     --bs-btn-active-border-color: var(--customorange) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--customorangelight) !important;
-    --bs-btn-disabled-border-color: var(--customorangelight) !important;
+    --bs-btn-disabled-bg: var(--customorange-light) !important;
+    --bs-btn-disabled-border-color: var(--customorange-light) !important;
 }
 
 .btn-customorange-link {
     --bs-btn-color: var(--customorange) !important;
-    --bs-btn-hover-color: var(--customorangelight) !important;
+    --bs-btn-hover-color: var(--customorange-light) !important;
     --bs-btn-active-color: var(--customorange) !important;
 }
 
 .btn-custompink-link {
     --bs-btn-color: var(--custompink) !important;
-    --bs-btn-hover-color: var(--custompinklight) !important;
+    --bs-btn-hover-color: var(--custompink-light) !important;
     --bs-btn-active-color: var(--custompink) !important;
 }
 
@@ -111,8 +112,8 @@
 }
 
 .link-customblue:hover {
-    color: var(--custombluedark) !important;
-    text-decoration-color: var(--custombluedark) !important;
+    color: var(--customblue-dark) !important;
+    text-decoration-color: var(--customblue-dark) !important;
 }
 
 .underline-customblue {
@@ -140,6 +141,14 @@ blockquote {
     padding-left: 0.75rem;
     color: gray;
     border-left: 3.5px solid #cccccc;
+}
+
+code {
+    color: var(--code-color);
+}
+
+pre code {
+    color: var(--code-color);
 }
 
 img {
@@ -174,14 +183,14 @@ hr.doublehr {
     text-decoration: underline;
 }
 
-blockquote.thm {
-    color: navy !important;
-    border-left: 3.5px solid #a1a1ff !important;
-}
-
 .required-label:after {
     content:" *";
     color: red;
+}
+
+blockquote.thm {
+    color: var(--thm-color) !important;
+    border-left: 3.5px solid var(--thm-border-color) !important;
 }
 
 .tooltip .tooltip-inner {
