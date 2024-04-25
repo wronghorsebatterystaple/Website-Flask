@@ -59,7 +59,9 @@ window.MathJax = {
             mod: "\\text{ mod }",
             orr: "\\text{ or }",
             st: "\\text{ s.t. }",
-            t: "\\text"
+            t: "\\text",
+            // other
+            p: "\\phantom{-}"
         }
     }
 };

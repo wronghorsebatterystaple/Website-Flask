@@ -136,7 +136,7 @@ body {
 
 blockquote {
     margin-left: 0rem;
-    padding-left: 0.6rem;
+    padding-left: 0.75rem;
     color: gray;
     border-left: 3.5px solid #cccccc;
 }
@@ -171,6 +171,11 @@ hr.doublehr {
 
 .link-hover:hover {
     text-decoration: underline;
+}
+
+blockquote.thm {
+    color: red !important;
+    border-left: 3.5px solid #ffbaba !important;
 }
 
 .required-label:after {

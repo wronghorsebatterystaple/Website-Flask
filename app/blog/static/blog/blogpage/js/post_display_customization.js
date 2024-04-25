@@ -26,6 +26,7 @@ function genFootnoteTooltips() {
 }
 
 $(document).ready(function() {
+    // Python-Markdown Treeprocessors don't seem to be able to access these
     $("#post-content").find("a").addClass("link-customblue");
 
     $(".footnote").first().attr("id", "footnotes");
