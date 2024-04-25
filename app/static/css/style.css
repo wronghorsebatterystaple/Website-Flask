@@ -38,6 +38,7 @@
 
 .black {
     color: black !important;
+
 }
 
 .customgreen {
@@ -174,8 +175,8 @@ hr.doublehr {
 }
 
 blockquote.thm {
-    color: red !important;
-    border-left: 3.5px solid #ffbaba !important;
+    color: navy !important;
+    border-left: 3.5px solid #a1a1ff !important;
 }
 
 .required-label:after {
