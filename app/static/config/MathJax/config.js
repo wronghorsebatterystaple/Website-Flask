@@ -46,8 +46,8 @@ window.MathJax = {
             perm: ["^{#1}P_{#2}", 2],
             ppx: ["\\frac{\\partial}{\\partial #1}", 1],
             pypx: ["\\frac{\\partial #1}{\\partial #2}", 2],
-            ppxpy: ["\\frac{\\partial}{\\partial #1 \\partial #2}", 2],
-            pfpxpy: ["\\frac{\\partial #1}{\\partial #2 \\partial #3}", 3],
+            ppxpy: ["\\frac{\\partial^2}{\\partial #1 \\partial #2}", 2],
+            pfpxpy: ["\\frac{\\partial^2 #1}{\\partial #2 \\partial #3}", 3],
             // text
             andd: "\\text{ and }",
             cand: ",\\, \\text{and }",
