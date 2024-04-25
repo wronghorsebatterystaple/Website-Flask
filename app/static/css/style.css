@@ -155,6 +155,18 @@ img {
     max-width: 100%;
 }
 
+table {
+    font-size: clamp(70%, 2vw, 100%);
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, th {
+    border-width: 1px;
+    padding: 5px;
+}
+
 textarea {
     overflow: hidden;
 }
