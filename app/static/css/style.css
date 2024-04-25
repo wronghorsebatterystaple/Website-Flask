@@ -144,11 +144,13 @@ blockquote {
 }
 
 code {
-    color: var(--code-color);
+    font-size: 95%;
+    color: var(--code-color) !important;
+    white-space : pre-wrap !important;
 }
 
 pre code {
-    color: var(--code-color);
+    font-size: clamp(85%, 2.5vw, 0.95rem) !important;
 }
 
 img {
