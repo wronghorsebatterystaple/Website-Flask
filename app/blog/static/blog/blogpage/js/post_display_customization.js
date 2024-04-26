@@ -27,6 +27,8 @@ function genFootnoteTooltips() {
 
 $(document).ready(function() {
     $("#post-content").find("a").addClass("link-customblue");
+
+    $("table").find("p").addClass("mb-0"); // markdown_grid_tables tables generate <p> tags with too much spacing
     $("td").each(function() {
         if ($(this).find("pre").length > 0) {
             $(this).addClass("align-top"); // cells containing code blocks are top-aligned

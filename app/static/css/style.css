@@ -9,6 +9,7 @@
     --customorange-light: #ffce47;
     --custompink: #ff9cdd;
     --custompink-light: #ffb3e4;
+    --custompink-xxlight: #fff5fc;
     --code-color: navy;
     --thm-color: navy;
     --thm-border-color: #a1a1ff;
@@ -205,7 +206,18 @@ blockquote.thm {
 }
 
 .tooltip .tooltip-inner {
-    max-width: 30rem;
+    max-width: 30rem !important;
     font-size: 0.8rem;
-    --bs-tooltip-color: var(--customgreen);
+    color: #2b2b2b !important;
+    background-color: var(--custompink-xxlight) !important;
+}
+
+.tooltip.show {
+    opacity: 100%;
+    border: 1px solid var(--custompink-light) !important;
+    border-radius: var(--bs-border-radius);
+}
+
+.bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
+    border-top-color: var(--custompink) !important;
 }
