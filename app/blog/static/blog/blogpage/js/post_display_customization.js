@@ -26,8 +26,13 @@ function genFootnoteTooltips() {
 }
 
 $(document).ready(function() {
-    // Python-Markdown Treeprocessors don't seem to be able to access these
     $("#post-content").find("a").addClass("link-customblue");
+    $("td").each(function() {
+        if ($(this).find("pre").length > 0) {
+            $(this).addClass("align-top"); // cells containing code blocks are top-aligned
+            $(this).find("pre").addClass("mb-0");
+        }
+    });
 
     $(".footnote").first().attr("id", "footnotes");
     $("#footnotes").find("p").addClass("mb-1");

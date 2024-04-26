@@ -55,11 +55,11 @@ class HeaderFormatTreeProcessor(Treeprocessor):
 # so it's probably better to offload that processing to client-side JS
 class MyExtensions(Extension):
     def extendMarkdown(self, md):
-        # add math-blockquote class for CSS customization, using "\thm " at the beginning of a line
-        md.parser.blockprocessors.register(ThmBlockquoteBlockProcessor(md.parser), "thmblockquote", 105);
+        # ~~[text]~~ for strikethrough; ref. documentation example
+        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()~~([\S\s]*?)~~", "del"), "del", 105)
 
         # add header classes for CSS customization
         md.treeprocessors.register(HeaderFormatTreeProcessor(md), "headerformat", 105)
 
-        # ~~[text]~~ for strikethrough; ref. documentation example
-        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()~~([\S\s]*?)~~", "del"), "del", 105)
+        # add math-blockquote class for CSS customization, using "\thm " at the beginning of a line
+        md.parser.blockprocessors.register(ThmBlockquoteBlockProcessor(md.parser), "thmblockquote", 105);

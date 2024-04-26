@@ -150,7 +150,7 @@ code {
 }
 
 pre code {
-    font-size: clamp(85%, 2.5vw, 0.95rem) !important;
+    font-size: clamp(85%, 2.5vw, 0.9rem) !important;
 }
 
 img {
@@ -162,15 +162,12 @@ table {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 1.5rem;
 }
 
 td, th {
     border-width: 1px;
-    padding: 5px;
-}
-
-textarea {
-    overflow: hidden;
+    padding: 0.5rem;
 }
 
 .btn-link {
