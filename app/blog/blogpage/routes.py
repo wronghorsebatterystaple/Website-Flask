@@ -99,7 +99,7 @@ def post(post_sanitized_title):
 
             comment = db.session.get(Comment, request.form["id"])
             if comment is None:
-                return jsonify(success=True, flash_message=f"That comment is already gone...")
+                return jsonify(success=True, flash_message=f"That comment doesn't exist.")
 
             descendants = comment.get_descendants_list(post)
             if not comment.remove_comment(post):
