@@ -159,8 +159,8 @@ img {
 }
 
 table {
-    font-size: clamp(70%, 2vw, 100%);
-    max-width: 100%;
+    font-size: clamp(65%, 2vw, 100%);
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1.5rem;
@@ -168,7 +168,7 @@ table {
 
 td, th {
     border-width: 1px;
-    padding: 0.5rem;
+    padding: 0.4rem;
 }
 
 .btn-link {
@@ -180,6 +180,10 @@ hr.doublehr {
     height: 6px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+}
+
+table.fixed-table-layout {
+    table-layout: fixed;
 }
 
 .footnote {

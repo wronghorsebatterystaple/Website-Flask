@@ -56,6 +56,7 @@
       <script>
           var csrf_token = "{{ csrf_token() }}";
       </script>
+      <script src="{{ url_for('static', filename='js/adjust_textarea_height.js') }}"></script>
       <script src="{{ url_for('static', filename='js/ajax_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
       <script src="{{ url_for('static', filename='js/display_customization.js') }}"></script>
