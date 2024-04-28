@@ -72,7 +72,7 @@ def post(post_sanitized_title):
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
-                flash=util.encode_URI_component("The post doesn't exist.")))
+                flash=util.encode_URI_component("That post doesn't exist.")))
 
     if request.method == "GET":
         extensions = ["extra", "markdown_grid_tables", MyExtensions()]
