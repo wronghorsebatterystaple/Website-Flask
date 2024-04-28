@@ -37,10 +37,11 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 - Other syntax:
   - Raw HTML can be put in Markdown and rendered, such as:
-      - `<u></u>` for underline
-      - `<small></small>` for small text
       - `<center></center>` for centering individual cells in a table
       - `<pre><code></code></pre>` for code blocks in a table
+      - `<small></small>` for small text
+  - `__[text]__` to underline
+  - `~~[text]~~` to strikethrough
   - `\thm` and `\endthm` followed/preceded by a blank line respectively to highlight everything inside as a navy blue blockquote
 
 # Other useless notes

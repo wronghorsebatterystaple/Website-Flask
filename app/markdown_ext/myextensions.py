@@ -55,8 +55,11 @@ class HeaderFormatTreeProcessor(Treeprocessor):
 # so it's probably better to offload that processing to client-side JS
 class MyExtensions(Extension):
     def extendMarkdown(self, md):
-        # ~~[text]~~ for strikethrough; ref. documentation example
-        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()~~([\S\s]*?)~~", "del"), "del", 105)
+        # __[text]__ for underline
+        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()__([\S\s]*?)__", "u"), "underline", 105)
+
+        # ~~[text]~~ for strikethrough
+        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()~~([\S\s]*?)~~", "del"), "strikethrough", 105)
 
         # add header classes for CSS customization
         md.treeprocessors.register(HeaderFormatTreeProcessor(md), "headerformat", 105)
