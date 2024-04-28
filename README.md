@@ -20,7 +20,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - Ref. `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`
 - Always add HTML classes `login-req-post` and `auth-true`/`auth-false` when needed
 
-### Updating HTML custom errors:
+#### Updating HTML custom errors:
 - Update `config.py`
 - Update `app/routes.py` error handlers
 - Update `app/static/js/handle_custom_errors.js`
