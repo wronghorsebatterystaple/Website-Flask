@@ -1,5 +1,5 @@
 function adjustTextareaHeight(textarea_dom, initial) {
-    var maxHeight = $(window).height() * 0.6;
+    var maxHeight = $(window).height() * 0.5;
     if ((textarea_dom.offsetHeight === textarea_dom.scrollHeight || textarea_dom.scrollHeight >= maxHeight) && !initial) {
         return;
     }
@@ -8,7 +8,6 @@ function adjustTextareaHeight(textarea_dom, initial) {
     // clamp size between 7rem (roughly 4 rows) and 50vh
     var height_px = Math.max(7 * parseFloat(getComputedStyle(document.documentElement).fontSize),
             Math.min(maxHeight, textarea_dom.scrollHeight));
-    console.log(`${textarea_dom.scrollHeight}, ${height_px}`);
     textarea_dom.style.height = `${height_px + 1.5}px`; // + 1.5 to hide scrollbar
 }
 

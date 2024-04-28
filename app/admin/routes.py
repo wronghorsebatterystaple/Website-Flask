@@ -214,7 +214,7 @@ def edit_blogpost():
     form.content.data = post.collapse_image_markdown()
 
     if request.method == "GET":
-        return render_template("admin/form-base.html", title="Edit Post",
+        return render_template("admin/form-base.html", title=f"Edit Post: {post.title}",
                 prompt=f"Edit post: {post.title}", form=form)
 
     # Ajax: FormData

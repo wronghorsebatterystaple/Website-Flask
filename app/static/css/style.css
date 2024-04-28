@@ -18,6 +18,7 @@
 .narrow-container {
     max-width: clamp(33.33vw, 640px, 100vw);
     margin: auto;
+    overflow-x: scroll;
 }
 
 .font-comic-neue {
@@ -147,11 +148,10 @@ blockquote {
 code {
     font-size: 95%;
     color: var(--code-color) !important;
-    white-space : pre-wrap !important;
 }
 
 pre code {
-    font-size: clamp(85%, 2.5vw, 0.9rem) !important;
+    font-size: clamp(90%, 2.5vw, 0.9rem) !important;
 }
 
 img {
@@ -159,11 +159,12 @@ img {
 }
 
 table {
-    font-size: clamp(65%, 2vw, 100%);
-    width: 100%;
+    font-size: clamp(70%, 2vw, 100%);
+    min-width: 100%;
+    width: max-content;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 td, th {
@@ -176,14 +177,15 @@ td, th {
     padding: 0;
 }
 
-hr.doublehr {
+.doublehr {
     height: 6px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
 }
 
-table.fixed-table-layout {
-    table-layout: fixed;
+.scroll-overflow-x {
+    overflow-x: scroll;
+    margin-bottom: 0.5rem;
 }
 
 .footnote {
@@ -199,12 +201,16 @@ table.fixed-table-layout {
     text-decoration: underline;
 }
 
+.mjx-center {
+    font-size: clamp(85%, 3.25vw, 100%);
+}
+
 .required-label:after {
     content:" *";
     color: red;
 }
 
-blockquote.thm {
+.thm {
     color: var(--thm-color) !important;
     border-left: 3.5px solid var(--thm-border-color) !important;
 }

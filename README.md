@@ -24,3 +24,17 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Update `config.py`
 - Update `app/routes.py` error handlers
 - Update `app/static/js/handle_custom_errors.js`
+
+# Blog writer notes
+
+- Tables:
+  - Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked
+  - Use [reStructuredText grid tables](https://tableconvert.com/restructuredtext-generator) for features such as:
+    - Merged cells
+  - Syntax notes:
+    - `<center></center>` for centering individual cells
+    - `<pre><code></code></pre>` for code blocks
+    - (Custom) Insert TODO for column width
+
+- Other syntax:
+  - `\thm` and `\endthm` followed/preceded by a blank line respectively to highlight everything inside as a navy blue blockquote
