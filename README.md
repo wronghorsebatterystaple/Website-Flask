@@ -44,6 +44,9 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - `~~[text]~~` to strikethrough
   - `\thm` and `\endthm` followed/preceded by a blank line respectively to highlight everything inside as a navy blue blockquote
 
+- Other considerations:
+  - Use `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza
+
 # Other useless notes
 CSS property order (currently-used properties):
 - "Specific":
