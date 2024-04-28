@@ -39,33 +39,18 @@ $(document).ready(function() {
         }
     });
 
-//    // tables containing only code blocks in at least one row have equal width cols (scuffed)
-//    var rowAllCodeBlocks = true;
-//    $("table").each(function() {
-//        $(this).find("tr").each(function() {
-//            rowAllCodeBlocks = true;
-//            $(this).find("td").each(function() {
-//                if ($(this).find("pre").length === 0) {
-//                    rowAllCodeBlocks = false;
-//                    return false;
-//                }
-//            });
-//            if (rowAllCodeBlocks) {
-//                return false;
-//            }
-//        });
-//
-//        if (rowAllCodeBlocks) {
-//            $(this).addClass("fixed-table-layout");
-//        }
-//    });
-
     // table cells containing code blocks are top-aligned
     $("td").each(function() {
         if ($(this).find("pre").length > 0) {
             $(this).addClass("align-top");
             $(this).find("pre").addClass("mb-0");
         }
+    });
+
+    // custom data-col-width control syntax
+    $("[data-col-width]").each(function() {
+        $(this).parents("td").css("width", $(this).attr("data-col-width"));
+        $(this).parents("th").css("width", $(this).attr("data-col-width"));
     });
 
     // other Markdown tweaks

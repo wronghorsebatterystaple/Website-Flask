@@ -18,11 +18,6 @@
     font-size: 0.95rem !important;
 }
 
-input[value="Reply"][value="Delete"] {
-    font-size: 0.95rem !important;
-    margin-bottom: 0rem !important;
-}
-
 .post-title {
     font-size: 2.5rem !important;
 }
@@ -36,15 +31,15 @@ input[value="Reply"][value="Delete"] {
 }
 
 .post-h1 {
-    font-size: 2rem;
     color: var(--customgreen);
+    font-size: 2rem;
     margin-top: 1rem;
     margin-bottom: 0.75rem;
 }
 
 .post-h2 {
-    font-size: 1.4rem;
     color: var(--customorange);
+    font-size: 1.4rem;
 }
 
 .postlist-post-blogtitle {
@@ -61,4 +56,9 @@ input[value="Reply"][value="Delete"] {
 
 .postlist-post-timestamp {
     font-size: 1rem !important;
+}
+
+input[value="Reply"][value="Delete"] {
+    font-size: 0.95rem !important;
+    margin-bottom: 0rem !important;
 }

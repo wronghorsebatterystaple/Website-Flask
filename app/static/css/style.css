@@ -33,12 +33,6 @@
     font-style: normal;
 }
 
-.font-latex {
-    font-family: MJXZERO, MJXTEX;
-    font-size: 115.5%;
-    position: relative;
-}
-
 .black {
     color: black !important;
 
@@ -139,18 +133,14 @@ body {
 }
 
 blockquote {
-    margin-left: 0rem;
-    padding-left: 0.75rem;
     color: gray;
     border-left: 3.5px solid #cccccc;
+    margin-left: 0rem;
+    padding-left: 0.75rem;
 }
 
 code {
-    font-size: 95%;
     color: var(--code-color) !important;
-}
-
-pre code {
     font-size: clamp(90%, 2.5vw, 0.9rem) !important;
 }
 
@@ -160,8 +150,8 @@ img {
 
 table {
     font-size: clamp(70%, 2vw, 100%);
-    min-width: 100%;
     width: max-content;
+    min-width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1rem;
@@ -189,8 +179,8 @@ td, th {
 }
 
 .footnote {
-    font-size: 0.9rem;
     color: gray; 
+    font-size: 0.9rem;
 }
 
 .link-hover {
@@ -216,10 +206,10 @@ td, th {
 }
 
 .tooltip .tooltip-inner {
-    max-width: 30rem !important;
-    font-size: 0.8rem;
     color: #2b2b2b !important;
     background-color: var(--custompink-xxlight) !important;
+    font-size: 0.8rem;
+    max-width: 30rem !important;
 }
 
 .tooltip.show {
