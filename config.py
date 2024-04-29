@@ -42,7 +42,7 @@ class Config(object):
     # Other "conventional" configs
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
-    POSTS_PER_PAGE = 2
+    POSTS_PER_PAGE = 10
 
     # Scuffed configs
     MAIN_PAGE_URL_FULL = f"https://{SERVER_NAME}"
