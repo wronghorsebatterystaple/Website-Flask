@@ -44,7 +44,7 @@
           {%- if post.edited_timestamp is not none %}
             <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
           {%- else %}
-            <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format("l") }}</></h3>
+            <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format("l") }}</h3>
           {%- endif %}
         </a>
       </div>
