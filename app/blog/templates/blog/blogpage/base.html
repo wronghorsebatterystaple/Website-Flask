@@ -1,4 +1,5 @@
 {%- extends "blog/base.html" %}
+{%- import "bootstrap_wtf.html" as wtf %}
 
 {%- block meta_description -%}
 {{ config.BLOG_ID_TO_TITLE[blog_id] ~ ": " ~ config.BLOG_ID_TO_DESCRIPTION[blog_id] }}
@@ -18,4 +19,5 @@
 <script src="{{ url_for('blog.static', filename='blog/blogpage/' ~ blog_id ~ '/js/set_background_image.js') }}"></script>
 <script src="{{ url_for('blog.static', filename='blog/blogpage/js/background.js') }}"></script>
 <script src="{{ url_for('blog.static', filename='blog/blogpage/js/display_customization.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/goto_page_form.js') }}"></script>
 {%- endblock %}

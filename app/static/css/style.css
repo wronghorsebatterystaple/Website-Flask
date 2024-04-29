@@ -90,6 +90,12 @@
     --bs-btn-disabled-border-color: var(--customorange-light) !important;
 }
 
+.btn-customblue-link {
+    --bs-btn-color: var(--customblue) !important;
+    --bs-btn-hover-color: var(--customblue-light) !important;
+    --bs-btn-active-color: var(--customblue) !important;
+}
+
 .btn-customorange-link {
     --bs-btn-color: var(--customorange) !important;
     --bs-btn-hover-color: var(--customorange-light) !important;
@@ -163,7 +169,6 @@ td, th {
 }
 
 .btn-link {
-    text-decoration: none;
     padding: 0;
 }
 
@@ -171,11 +176,6 @@ td, th {
     height: 6px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
-}
-
-.scroll-overflow-x {
-    overflow-x: scroll;
-    margin-bottom: 0.5rem;
 }
 
 .footnote {
@@ -195,9 +195,22 @@ td, th {
     font-size: clamp(85%, 3.25vw, 100%);
 }
 
+.no-underline {
+    text-decoration: none;
+}
+
+.pipe {
+    border-left: 2px solid black;
+}
+
 .required-label:after {
     content:" *";
     color: red;
+}
+
+.scroll-overflow-x {
+    overflow-x: scroll;
+    margin-bottom: 0.5rem;
 }
 
 .thm {

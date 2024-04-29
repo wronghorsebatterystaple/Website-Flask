@@ -42,20 +42,26 @@ def index():
     if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
         return current_app.login_manager.unauthorized()
 
-    # not the neatest way to do this probably
-    if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
-        posts = db.session.query(Post).filter(Post.blog_id \
-                .notin_(current_app.config["PRIVATE_BLOG_IDS"])).order_by(desc(Post.timestamp))
-        return render_template("blog/blogpage/all_posts.html",
-                blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
-                posts=posts)
+    page = request.args.get("page", 1, type=int)
+    all_posts = False
 
-    posts = db.session.query(Post).filter_by(blog_id=blog_id) \
-            .order_by(desc(Post.timestamp))
+    if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
+        all_posts = True
+        posts = db.paginate(db.session.query(Post).filter(Post.blog_id \
+                .notin_(current_app.config["PRIVATE_BLOG_IDS"])).order_by(desc(Post.timestamp)),
+                page=page, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
+    else:
+        all_posts = False
+        posts = db.paginate(db.session.query(Post).filter_by(blog_id=blog_id).order_by(desc(Post.timestamp)),
+                page=page, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
+
+    next_page_url = url_for(f"blog.{blog_id}.index", page=posts.next_num) if posts.has_next else None
+    prev_page_url = url_for(f"blog.{blog_id}.index", page=posts.prev_num) if posts.has_prev else None
     return render_template("blog/blogpage/index.html",
-            blog_id=blog_id, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
+            blog_id=blog_id, page=page, total_pages=max(1, posts.pages),
+            all_posts=all_posts, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
             subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
-            posts=posts)
+            posts=posts, next_page_url=next_page_url, prev_page_url=prev_page_url)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET", "POST"])

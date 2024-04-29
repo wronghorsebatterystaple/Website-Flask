@@ -39,6 +39,8 @@
     {%- else %}
       {%- if btn_type == "link" %}
         {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ "-link mb-" ~ bottom_margin) }}
+      {%- elif btn_type == "link-no-underline" %}
+        {{ field(class="btn btn-link btn-" ~ btn_color ~ "-link no-underline mb-" ~ bottom_margin) }}
       {%- else %}
         {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ " mb-" ~ bottom_margin) }}
       {%- endif %}
@@ -58,7 +60,7 @@
           <i id="{{ field.name }}-show" class="bi bi-eye-slash ps-3" onclick="togglePasswordVisibility('{{ field.name }}-input', '{{ field.name }}-show')" style="display: flex; align-items: center;"></i>
         {%- endif %}
 
-        <div class="invalid-feedback" aria-describedby="{{ field.name }}">error here</div>
+        <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
   {%- endif %}

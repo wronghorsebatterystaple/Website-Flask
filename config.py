@@ -7,8 +7,8 @@ load_dotenv(os.path.join(basedir, ".env"))
 class Config(object):
     SERVER_NAME = "anonymousrand.xyz"
     CORS_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     SECRET_KEY = os.environ.get("SECRET_KEY")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
     # Flask cookies
     SESSION_COOKIE_DOMAIN = f".{SERVER_NAME}"
@@ -39,18 +39,19 @@ class Config(object):
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
 
-    # Image uploads
+    # Other "conventional" configs
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
+    POSTS_PER_PAGE = 2
 
-    # Misc configs
+    # Scuffed configs
     MAIN_PAGE_URL_FULL = f"https://{SERVER_NAME}"
     LOGIN_VIEW = "admin.login"
-    LOGIN_REQUIRED_URLS = [
+    LOGIN_REQUIRED_URLS = [ # for Flask access control
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}/the-backrooms"
     ]
-    PRIVATE_BLOG_IDS = [0] # for displaying/access control
+    PRIVATE_BLOG_IDS = [0] # for displaying and Flask access control
     UNPUBLISHED_BLOG_IDS = [0] # for published dates on blogs
     ALL_POSTS_BLOG_ID = 1
     BLOG_ID_TO_TITLE = {

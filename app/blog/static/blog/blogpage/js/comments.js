@@ -42,7 +42,6 @@ $(document).on("submit", ".comment-ajax", function(e) {
     e.preventDefault();
 
     var formData = new FormData($(e.target).get(0), $(e.originalEvent.submitter).get(0));
-    var old_csrf = csrf_token;
     $.ajax({
         type: "POST",
         url: window.location.pathname + window.location.search,

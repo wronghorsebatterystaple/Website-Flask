@@ -4,11 +4,13 @@
 
 [Blog page](https://blog.anonymousrand.xyz) (don't click this one)
 
-Huge thanks to [Miguel Grinberg's Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) and also [Noran Saber Abdelfattah's Flask blog guide](https://medium.com/@noransaber685/building-a-flask-blog-a-step-by-step-guide-for-beginners-8bffe925cd0e), otherwise this project would've taken longer to get going and would probably have *bad practice* scribbled all over it.
+Huge thanks to [Miguel Grinberg's Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) and also [Noran Saber Abdelfattah's Flask blog guide](https://medium.com/@noransaber685/building-a-flask-blog-a-step-by-step-guide-for-beginners-8bffe925cd0e), otherwise this project would've taken longer to get going and would probably have even more *bad practice* scribbled over it than it already has.
 
 And thank you to GitHub for free image "backups" in my static folders <3
 
 # Developer notes to compensate for possibly scuffed code
+
+**Always check to make sure `config.py` is updated!**
 
 #### Adding new blogpages:
 - Register new copy of `blogpage` blueprint with proper blog id/name in `app/__init__.py`
@@ -18,7 +20,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 #### Adding new forms:
 - Make sure that all POST forms should be Ajax using FormData and should handle the custom error(s) defined in `config.py`
   - Ref. `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`
-- Always add HTML classes `login-req-post` and `auth-true`/`auth-false` when needed
+- Always add HTML classes `login-req-post` to `<form>`s (for handling of CSRF/session expiry in `handleCustomErrors()`) and `auth-true`/`auth-false` (for showing/hiding elements) when needed
 
 #### Updating HTML custom errors:
 - Update `config.py`
@@ -36,9 +38,10 @@ And thank you to GitHub for free image "backups" in my static folders <3
     - Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any cell to control width for its column
 
 - Other syntax:
-  - Raw HTML can be put in Markdown and rendered, such as:
+  - Raw HTML (including with attributes!) can be put in Markdown and rendered, such as:
       - `<center></center>` for centering individual cells in a table
       - `<pre><code></code></pre>` for code blocks in a table
+      - `<details><summary>[name]</summary>[collapsed text]</details>` for spoiler-like expandable text sections
       - `<small></small>` for small text
   - `__[text]__` to underline
   - `~~[text]~~` to strikethrough
