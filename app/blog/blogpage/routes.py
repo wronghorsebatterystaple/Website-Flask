@@ -126,7 +126,7 @@ def post(post_sanitized_title):
         if not add_comment_form.validate():
             return jsonify(submission_errors=add_comment_form.errors)
         # make sure non-admin users can't masquerade as verified author
-        if request.form["author"].lower().strip() == current_app.config["VERIFIED_AUTHOR"].lower().strip() \
+        if request.form["author"].lower().replace(" ", "") == current_app.config["VERIFIED_AUTHOR"] \
                 and not current_user.is_authenticated:
             return jsonify(submission_errors={"author": ["You are not the verified original poster."]})
 

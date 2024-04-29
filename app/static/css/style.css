@@ -168,6 +168,10 @@ td, th {
     padding: 0.4rem;
 }
 
+.border-3px {
+    border-width: 3px !important;
+}
+
 .btn-link {
     padding: 0;
 }

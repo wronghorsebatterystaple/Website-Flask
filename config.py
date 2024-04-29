@@ -15,7 +15,7 @@ class Config(object):
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
-    SESSION_REFRESH_EACH_REQUEST = True
+    SESSION_REFRESH_EACH_REQUEST = False
     PERMANENT_SESSION_LIFETIME = 86400
 
     # Flask-Login cookies
@@ -23,7 +23,7 @@ class Config(object):
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_SAMESITE = "Lax"
     REMEMBER_COOKIE_SECURE = True
-    REMEMBER_COOKIE_REFRESH_EACH_REQUEST = True
+    REMEMBER_COOKIE_REFRESH_EACH_REQUEST = False
     REMEMBER_COOKIE_DURATION = 86400
 
     # Flask-WTF
@@ -85,4 +85,4 @@ class Config(object):
     }
 
     # Other
-    VERIFIED_AUTHOR = "Verified Original Poster"
+    VERIFIED_AUTHOR = "verifiedoriginalposter" # lowercase and no spaces for easier comparison
