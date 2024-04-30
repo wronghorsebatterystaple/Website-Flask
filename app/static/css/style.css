@@ -145,9 +145,13 @@ blockquote {
     padding-left: 0.75rem;
 }
 
+pre {
+    font-size: 100%;
+}
+
 code {
     color: var(--code-color) !important;
-    font-size: 100% !important;
+    font-size: 95% !important;
 }
 
 details {
