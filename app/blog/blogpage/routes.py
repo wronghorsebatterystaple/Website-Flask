@@ -42,7 +42,7 @@ def index():
     if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
         return current_app.login_manager.unauthorized()
 
-    page = request.args.get("page", 1, type=int)
+    page = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     all_posts = False
 
     if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
@@ -58,7 +58,7 @@ def index():
     next_page_url = url_for(f"blog.{blog_id}.index", page=posts.next_num) if posts.has_next else None
     prev_page_url = url_for(f"blog.{blog_id}.index", page=posts.prev_num) if posts.has_prev else None
     return render_template("blog/blogpage/index.html",
-            blog_id=blog_id, page=page, total_pages=max(1, posts.pages),
+            blog_id=blog_id, page=page, total_pages=posts.pages,
             all_posts=all_posts, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
             subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
             posts=posts, next_page_url=next_page_url, prev_page_url=prev_page_url)
