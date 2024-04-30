@@ -147,7 +147,7 @@ blockquote {
 
 code {
     color: var(--code-color) !important;
-    font-size: clamp(90%, 2.5vw, 0.9rem) !important;
+    font-size: 100% !important;
 }
 
 details {
@@ -235,7 +235,7 @@ td, th {
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
     background-color: var(--custompink-xxlight) !important;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     max-width: 30rem !important;
 }
 
