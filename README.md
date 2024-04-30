@@ -42,7 +42,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
       - `<center></center>` for centering individual cells in a table
       - `<pre><code></code></pre>` for code blocks in a table
       - `<details><summary>[name]</summary>\n\n[collapsed text]\n\n</details>` for spoiler-like expandable text sections
-        - Note that these tags do not render Markdown within
+        - Note that these tags do not render all Markdown within; `<br>` is supported (you will need `<br><br>` for simulating inter-paragraph blank lines/spacing`)
       - `<small></small>` for small text
   - `__[text]__` to underline
   - `~~[text]~~` to strikethrough

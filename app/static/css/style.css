@@ -156,10 +156,18 @@ code {
 
 details {
     color: gray;
+    border: 2px solid var(--customblue);
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--bs-border-radius);
 }
 
 img {
     max-width: 100%;
+}
+
+summary {
+    color: var(--customblue) !important;
 }
 
 table {
@@ -173,7 +181,7 @@ table {
 
 td, th {
     border-width: 1px;
-    padding: 0.5rem;
+    padding: 0.5em;
 }
 
 .border-3px {
