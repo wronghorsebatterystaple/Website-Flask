@@ -41,7 +41,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - Raw HTML (including with attributes!) can be put in Markdown and rendered, such as:
       - `<center></center>` for centering individual cells in a table
       - `<pre><code></code></pre>` for code blocks in a table
-      - `<details><summary>[name]</summary>\n[collapsed text]\n</details>` for spoiler-like expandable text sections
+      - `<details><summary>[name]</summary>\n\n[collapsed text]\n\n</details>` for spoiler-like expandable text sections
         - Note that these tags do not render Markdown within
       - `<small></small>` for small text
   - `__[text]__` to underline
