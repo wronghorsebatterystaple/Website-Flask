@@ -54,7 +54,7 @@
 
 {%- if total_pages > 0 %}
   <div class="text-center mx-auto mt-4 mb-4">
-    <p class="mb-2">Page {{ page }} of {{ total_pages }}{%- if page > total_pages %} (??){%- endif %}</p>
+    <p class="mb-2" style="color: gray;">Page {{ page }} of {{ total_pages }}{%- if page > total_pages %} (??){%- endif %}</p>
     {%- if prev_page_url %}
       <a class="link-customblue" href="{{ prev_page_url }}">Page--</a>
       <span class="pipe ms-3 me-3"></span>
