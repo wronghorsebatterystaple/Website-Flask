@@ -43,6 +43,8 @@ def index():
         return current_app.login_manager.unauthorized()
 
     page = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
+    if page <= 0: # prevent funny query string shenanigans
+        return "", 204
     all_posts = False
 
     if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
