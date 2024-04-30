@@ -156,7 +156,7 @@ code {
 
 details {
     color: gray;
-    border: 2px solid var(--customblue);
+    border: 2px solid var(--customblue-light);
     margin-bottom: 1rem;
     padding: 0.75rem;
     border-radius: var(--bs-border-radius);

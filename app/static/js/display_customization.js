@@ -53,7 +53,7 @@ $(document).ready(function() {
         $(this).parents("th").css("width", $(this).attr("data-col-width"));
     });
 
-    // other Markdown tweaks
+    // other Markdown tweaks more appropriate for JQuery than Markdown extension custom syntax/Flask regex replace
     $(".footnote").first().attr("id", "footnotes");
     $("#footnotes").find("p").addClass("mb-1");
     $("#footnotes").find("a").each(function() {
@@ -61,8 +61,9 @@ $(document).ready(function() {
             $(this).attr("target", "_blank");
         }
     });
-
     genFootnoteTooltips();
+    $("#footnotes").wrap("<details style=\"border: 2px solid #999999 !important;\"></details>")
+    $("#footnotes").before("<summary style=\"color: gray !important\">Footnotes</summary>");
 });
 
 // Rerender LaTeX in tooltips on show
