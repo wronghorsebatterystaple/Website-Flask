@@ -150,6 +150,10 @@ code {
     font-size: clamp(90%, 2.5vw, 0.9rem) !important;
 }
 
+details {
+    color: gray;
+}
+
 img {
     max-width: 100%;
 }
