@@ -22,15 +22,15 @@
 }
 
 .font-comic-neue {
-    font-family: "Comic Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+    font-family: "Comic Neue", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
 }
 
 .font-varela-round {
-    font-family: "Varela Round", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+    font-family: "Varela Round", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
 }
 
 .black {
@@ -220,6 +220,12 @@ td, th {
 .thm {
     color: var(--thm-color) !important;
     border-left: 3.5px solid var(--thm-border-color) !important;
+}
+
+.tooltip {
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    font-style: inherit !important;
 }
 
 .tooltip .tooltip-inner {

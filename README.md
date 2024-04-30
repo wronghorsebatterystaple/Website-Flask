@@ -57,6 +57,9 @@ CSS property order (currently-used properties):
   - `opacity`
   - `color`
   - `background-color`
+  - `font-family`
+  - `font-weight`
+  - `font-style`
   - `font-size`
   - `text-decoration`
   - Other specific ones like `overflow-x`
