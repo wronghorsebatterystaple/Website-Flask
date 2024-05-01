@@ -1,7 +1,7 @@
 :root {
     --customblue: deepskyblue;
     --customblue-light: #47d1ff;
-    --customblue-dark: #00aaff;
+    --customblue-deep: #00a2ff;
 
     --customgreen: #77d900;
     --customgreen-light: #b8ff61;
@@ -9,7 +9,6 @@
 
     --customorange: #ffc107; /* BS warning color */
     --customorange-light: #ffce47;
-    --customorange-dark: #f9ba00;
 
     --custompink: #ff9cdd;
     --custompink-light: #ffb3e4;
@@ -135,8 +134,8 @@ a { /* Links default to customblue, but can be overwritten with !important */
 }
 
 a:hover {
-    color: var(--customblue-dark);
-    text-decoration-color: var(--customblue-dark);
+    color: var(--customblue-deep);
+    text-decoration-color: var(--customblue-deep);
 }
 
 body {
