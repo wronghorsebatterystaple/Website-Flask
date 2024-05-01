@@ -79,9 +79,10 @@ def login():
             # display in submission errors section instead of flash
             return jsonify(submission_errors={"password":
                     ["No, the password is not \"solarwinds123\"."]})
-        login_user(user, remember=True)
-        session.permanent = True # stays alive on browser close and gives us control with
-                                 # PERMANENT_SESSION_LIFETIME and SESSION_REFRESH_EACH_REQUEST configs
+        # No persistent cookies, so session expires on both browser close (if it isn't running in background)
+        # and PERMANENT_SESSION_LIFETIME timeout (check README for cookie explanation)
+        login_user(user, remember=False)
+        session.permanent = False
 
         if request.args.get("next", "") != "":
             return jsonify(success=True, redirect_uri=request.args.get("next"),

@@ -8,7 +8,7 @@ function handleCustomErrors(jqXHR, formData, e, self, doneFunc) {
             relogin();
         } else { 
             formData.set("csrf_token", csrf_token)
-            if (doneFunc === null) {
+            if (doneFunc) {
                 $.ajax(self).done(function(response) {
                     doneFunc(response, e);
                 });
