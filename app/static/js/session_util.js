@@ -1,8 +1,3 @@
-function reloadCSRF(newToken) {
-  csrf_token = newToken;
-  $("input[name='csrf_token']").val(csrf_token); // reload hidden fields
-}
-
 function relogin() {
     hideAuthElems();
     $("#login-modal").load(window.location.href + " #login-modal > *");

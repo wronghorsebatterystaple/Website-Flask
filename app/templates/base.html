@@ -54,14 +54,40 @@
     <!-- JS -->
       <!-- global custom JS -->
       <script>
+          // must be here to work properly
           var csrf_token = "{{ csrf_token() }}";
+          function reloadCSRF(newToken) {
+            csrf_token = newToken;
+            $("input[name='csrf_token']").val(csrf_token); // reload hidden fields
+          }
+
+          function handleCustomErrors(jqXHR, formData, e, self, doneFunc) {
+              if (jqXHR.status === 499) {
+                  reloadCSRF(jqXHR.responseText);
+                  hideAuthElems(); // session must have expired for CSRF expired error
+
+                  if ($(e.target).hasClass("login-req-post")) {
+                      customFlash("Your session has expired. Please log in again.");
+                      relogin();
+                  } else { 
+                      formData.set("csrf_token", csrf_token)
+                      if (doneFunc) {
+                          $.ajax(self).done(function(response) {
+                              doneFunc(response, e);
+                          });
+                      } else {
+                          $.ajax(self);
+                      }
+                  }
+              }
+          }
       </script>
+
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js') }}"></script>
       <script src="{{ url_for('static', filename='js/ajax_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
       <script src="{{ url_for('static', filename='js/display_customization.js') }}"></script>
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
-      <script src="{{ url_for('static', filename='js/handle_custom_errors.js') }}"></script>
       <script src="{{ url_for('static', filename='js/session_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js') }}"></script>
 

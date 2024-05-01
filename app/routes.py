@@ -19,5 +19,6 @@ def handle_csrf_error(e):
     # return new token as description since csrf_token() in Jinja
     # doesn't seem to update until page reload; so instead we pass
     # the error description in as the new csrf_token in JS
-    # scuffed yes I know
+    # shouldn't be a security issue since CSRF token sent in POST anyways
+    # (most scuffed CSRF refresh in history)
     return csrf_token, code
