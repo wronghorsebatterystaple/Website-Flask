@@ -108,7 +108,7 @@ def post(post_sanitized_title):
 
         # handle comment deletion (after confirmation button)
         if "delete" in request.form:
-            if not current_user.is_authenticated: # since we can't use @login_required here
+            if not current_user.is_authenticated: # since delete button exists always for async refresh on login
                 return jsonify(flash_message="Nice try.")
 
             comment = db.session.get(Comment, request.form["id"])
