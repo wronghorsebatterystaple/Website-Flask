@@ -53,7 +53,9 @@ $(document).ready(function() {
         $(this).parents("th").css("width", $(this).attr("data-col-width"));
     });
 
-    // other Markdown tweaks more appropriate for JQuery than Markdown extension custom syntax/Flask regex replace
+    // Markdown tweaks round 3
+    $("details").find("p").contents().unwrap();
+
     $(".footnote").first().attr("id", "footnotes");
     $("#footnotes").find("p").addClass("mb-1");
     $("#footnotes").find("a").each(function() {
@@ -61,9 +63,11 @@ $(document).ready(function() {
             $(this).attr("target", "_blank");
         }
     });
+    $("#footnotes").wrap("<details class=\"footnotes-details\"></details>")
+    $("#footnotes").before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
+    $("#footnotes").children("hr").first().css("margin", "0.8rem 0");
+    $("#footnotes").children("ol").first().addClass("mb-0");
     genFootnoteTooltips();
-    $("#footnotes").wrap("<details style=\"border: 2px solid #999999 !important;\"></details>")
-    $("#footnotes").before("<summary style=\"color: gray !important\">Footnotes</summary>");
 });
 
 // Rerender LaTeX in tooltips on show
