@@ -85,9 +85,9 @@ def login():
 
         if request.args.get("next", "") != "":
             return jsonify(success=True, redirect_uri=request.args.get("next"),
-                    flash_message="The universe is at your fingertips...")
+                    flash_message="The universe is at your fingertips…")
         return jsonify(success=True, redirect_uri=url_for("main.index"),
-                flash_message="The universe is at your fingertips...")
+                flash_message="The universe is at your fingertips…")
 
     return "If you see this message, please panic."
 
