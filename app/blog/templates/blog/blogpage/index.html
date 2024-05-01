@@ -25,7 +25,7 @@
     <div>
       {%- if all_posts %}
         {%- set color = config["BLOG_ID_TO_COLOR_CLASS"][post.blog_id] %}
-        <a class="link-hover underline-{{ color }}" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="underline-on-hover underline-{{ color }}" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <h1 class="postlist-post-title {{ color }} me-5 mb-1">{{ post.title }}</h1>
             <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-0 ms-auto"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>
@@ -34,7 +34,7 @@
             <h2 class="postlist-post-subtitle {{ color }} mb-1">{{ post.subtitle }}</h2>
           {%- endif %}
       {%- else %}
-        <a class="link-hover underline-customgreen" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="underline-on-hover underline-customgreen" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <h1 class="postlist-post-title customgreen mb-1">{{ post.title }}</h1>
           {%- if post.subtitle != "" %}
             <h2 class="postlist-post-subtitle customorange mb-1">{{ post.subtitle }}</h2>

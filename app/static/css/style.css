@@ -113,16 +113,6 @@
     --bs-btn-active-color: var(--custompink) !important;
 }
 
-.link-customblue {
-    color: var(--customblue) !important;
-    text-decoration-color: var(--customblue) !important;
-}
-
-.link-customblue:hover {
-    color: var(--customblue-dark) !important;
-    text-decoration-color: var(--customblue-dark) !important;
-}
-
 .underline-customblue {
     text-decoration-color: var(--customblue) !important;
 }
@@ -137,6 +127,16 @@
 
 .underline-custompink {
     text-decoration-color: var(--custompink) !important;
+}
+
+a { /* Links default to customblue, but can be overwritten with !important */
+    color: var(--customblue);
+    text-decoration-color: var(--customblue);
+}
+
+a:hover {
+    color: var(--customblue-dark);
+    text-decoration-color: var(--customblue-dark);
 }
 
 body {
@@ -204,11 +204,11 @@ td, th {
     color: gray !important;
 }
 
-.link-hover {
+.underline-on-hover {
     text-decoration: none;
 }
 
-.link-hover:hover {
+.underline-on-hover:hover {
     text-decoration: underline;
 }
 
