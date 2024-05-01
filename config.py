@@ -51,6 +51,8 @@ class Config(object):
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}/the-backrooms"
     ]
+    VERIFIED_AUTHOR = "verifiedoriginalposter" # lowercase and no spaces for easier comparison
+
     PRIVATE_BLOG_IDS = [0] # for displaying and Flask access control
     UNPUBLISHED_BLOG_IDS = [0] # for published dates on blogs
     ALL_POSTS_BLOG_ID = 1
@@ -70,7 +72,7 @@ class Config(object):
     BLOG_ID_TO_SUBTITLE = {
         3: "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
         6: "yes I stole this idea",
-        7: "creative writing dumps from 3am"
+        7: "creative writing and existential dumps from 3am"
     }
     BLOG_ID_TO_DESCRIPTION = {
         1: "all posts made by AnonymousRand.",
@@ -83,6 +85,3 @@ class Config(object):
         6: "custompink",
         7: "custompink"
     }
-
-    # Other
-    VERIFIED_AUTHOR = "verifiedoriginalposter" # lowercase and no spaces for easier comparison
