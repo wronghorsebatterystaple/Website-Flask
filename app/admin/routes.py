@@ -115,7 +115,7 @@ def choose_action():
         elif action == "change_admin_password":
             redirect_uri = url_for("admin.change_admin_password")
         else:
-            return jsonify(flash_message="Sneaky...")
+            return jsonify(flash_message="Sneaky…")
 
         return jsonify(redirect_uri=redirect_uri)
 

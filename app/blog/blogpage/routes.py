@@ -118,7 +118,7 @@ def post(post_sanitized_title):
             descendants = comment.get_descendants_list(post)
             if not comment.remove_comment(post):
                 return jsonify(redirect_uri=url_for(f"{request.blueprint}.index"),
-                        flash_message="Sanity check is not supposed to fail...")
+                        flash_message="Sanity check is not supposed to fail…")
             for descendant in descendants:
                 db.session.delete(descendant)
             db.session.delete(comment)
@@ -137,7 +137,7 @@ def post(post_sanitized_title):
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
         if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
             return jsonify(redirect_uri=url_for(f"{request.blueprint}.index"),
-                    flash_message="Sanity check is not supposed to fail...")
+                    flash_message="Sanity check is not supposed to fail…")
         db.session.add(comment)
         db.session.commit()
         return jsonify(success=True, flash_message="Comment added successfully!")
