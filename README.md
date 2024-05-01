@@ -54,12 +54,12 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` config vs. Flask-Login's remember me cookie with `REMEMBER_COOKIE_DURATION` CONFIG (currently using the first row for no persistent cookies)
 
-|  | Session cookie stored in: | Remember cookie stored in: | PERMANENT_SESSION_LIFETIME effect on session cookie | REMEMBER_COOKIE_DURATION effect on remember cookie | User experience when PERMANENT_SESSION_LIFETIME reached | User experience when REMEMBER_COOKIE_DURATION reached |
+|  | Session cookie stored in: | Remember cookie stored in: | `PERMANENT_SESSION_LIFETIME` effect on session cookie | `REMEMBER_COOKIE_DURATION` effect on remember cookie | User experience when `PERMANENT_SESSION_LIFETIME` reached | User experience when `REMEMBER_COOKIE_DURATION` reached |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| session.permanent=False, remember=False | Memory (non-persistent) | - | [Invalidated by Flask](https://stackoverflow.com/a/55055558) ([docs](https://flask.palletsprojects.com/en/3.0.x/config/#PERMANENT_SESSION_LIFETIME)) | - | Logged out | - |
-| session.permanent=True, remember=False | Disk (persistent) | - | Expires & is deleted | - | Logged out | - |
-| session.permanent=False, remember=True | Memory (non-persistent) | Disk (persistent) | Invalidated by Flask | Expires & is deleted | Logged out | Logged out if browser closed |
-| session.permanent=True, remember=True | Disk (persistent) | Disk (persistent) | Expires & is deleted | Expires & is deleted | Logged out | Logged out if browser closed |
+| `session.permanent=False, remember=False` | Memory (non-persistent) | - | [Invalidated by Flask](https://stackoverflow.com/a/55055558) ([docs](https://flask.palletsprojects.com/en/3.0.x/config/#PERMANENT_SESSION_LIFETIME)) | - | Logged out | - |
+| `session.permanent=True, remember=False` | Disk (persistent) | - | Expires & is deleted | - | Logged out | - |
+| `session.permanent=False, remember=True` | Memory (non-persistent) | Disk (persistent) | Invalidated by Flask | Expires & is deleted | Logged out | Logged out if browser closed |
+| `session.permanent=True, remember=True` | Disk (persistent) | Disk (persistent) | Expires & is deleted | Expires & is deleted | Logged out | Logged out if browser closed |
 
 # Other useless notes
 
