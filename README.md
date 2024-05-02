@@ -77,28 +77,38 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
   - `content`
   - `opacity`
   - `color`
-  - `background-color`
-  - `font-family`
-  - `font-weight`
-  - `font-style`
-  - `font-size`
+    - `background-color`
+  - Font:
+    - `font-family`
+    - `font-weight`
+    - `font-style`
+    - `font-size`
   - `text-decoration`
   - Other specific ones like `overflow-x`
 - "General":
+  - `position`
+    - `top`
+    - `right`
+    - `bottom`
+    - `left`
+  - `display`
   - `width`
-  - `min-width`
-  - `max-width`
+    - `min-width`
+    - `max-width`
   - `height`
   - `border`
-  - `border-width`
-  - `border-radius`
+    - `border-width`
+    - `border-style`
+    - `border-color`
+    - `border-radius`
   - `margin`
-    - `left`
-    - `right`
-    - `top`
-    - `bottom`
+    - `margin-top`
+    - `margin-right`
+    - `margin-bottom`
+    - `margin-left`
   - `padding`
-    - `left`
-    - `right`
-    - `top`
-    - `bottom`
+    - `padding-top`
+    - `padding-right`
+    - `padding-bottom`
+    - `padding-left`
+  - `z-index`

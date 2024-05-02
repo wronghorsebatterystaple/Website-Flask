@@ -14,7 +14,7 @@ from app.routes import *
 
 
 # declare extension instances outside so blueprints can still do `from app import db` etc.
-cors = CORS(origins=Config.CORS_ORIGINS, supports_credentials=True)
+cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
 db = SQLAlchemy()
 migrate = Migrate()

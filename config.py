@@ -6,7 +6,7 @@ load_dotenv(os.path.join(basedir, ".env"))
 
 class Config(object):
     SERVER_NAME = "anonymousrand.xyz"
-    CORS_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
+    ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
@@ -73,7 +73,7 @@ class Config(object):
         7: "creative writing dumps or random pieces of vent from my journal."
     }
     BLOG_ID_TO_COLOR_CLASS = {
-        3: "customgreen",
+        3: "customgreen-deep",
         6: "custompink",
         7: "custompink"
     }

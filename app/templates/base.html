@@ -1,6 +1,6 @@
 {%- import "bootstrap_wtf.html" as wtf %}
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -36,15 +36,15 @@
     <!-- CSS -->
       <!-- Bootstrap -->
       <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
       <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-        integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd"
-        crossorigin="anonymous">
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd"
+          crossorigin="anonymous">
 
       <!-- global custom CSS -->
       <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -140,7 +140,7 @@
 
       <div class="non-navbar-container mt-3">
         <!-- display flash()ed messages as alerts -->
-        <div id="flash" class="alert alert-info alert-dismissible fade show" role="alert" style="background-color: var(--customgreen-xxlight); border-color: var(--customgreen-light); color: black;", hidden>
+        <div id="flash" class="alert alert-info alert-dismissible fade show" role="alert" style="color: black; background-color: var(--customgreen-xxlight); border-color: var(--customgreen-light)", hidden>
           <span id="flash-text"></span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
