@@ -27,6 +27,10 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Update `app/routes.py` error handlers
 - Update `app/static/js/handle_custom_errors.js`
 
+#### Changing image static paths:
+- Update Markdown expansion/collapse regex in `app/models.py`
+- Update image paths for all existing images in db (oof...)
+
 # Blog writer notes
 
 #### Custom Markdown syntax:
@@ -35,6 +39,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - `\thm` and `\endthm` both surrounded by blank lines to highlight everything inside as a navy blue blockquote
 - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside, all surrounded by blank lines, to do a `<details>`-style dropdown with custom formatting
 - Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column
+- Only give the filname for images in Markdown; the full path will be automatically expanded
 
 #### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, such as:
