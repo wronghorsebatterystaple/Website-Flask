@@ -68,9 +68,9 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
   - Custom Markdown extensions in `app/markdown_ext/myextensions.py`
     - Custom Markdown syntax
   - `additional_markdown_processing()` in `app/blog/blogpage/routes.py`
-    - Non-custom-syntax stuff that is easier to handle from Flask than from JQuery in round 3, like regex replaces
+    - Non-custom-syntax stuff that is easier to handle from Flask than from JQuery in round 3, like regex replaces on the raw HTML output
   - JQuery in `app/static/js/display_customization.js` and `app/blog/static/blog/blogpage/js/display_customization.js`
-    - Non-custom-syntax stuff that is easier to handle from JQuery (adding classes for styling etc.)
+    - Non-custom-syntax stuff that is easier to handle from JQuery, like adding classes for styling or traversing DOM
 
 #### CSS property order (currently-used properties):
 - "Specific":
