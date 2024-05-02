@@ -54,7 +54,6 @@
     <!-- JS -->
       <!-- global custom JS -->
       <script>
-          // must be here to work properly
           var csrf_token = "{{ csrf_token() }}";
           function reloadCSRF(newToken) {
             csrf_token = newToken;

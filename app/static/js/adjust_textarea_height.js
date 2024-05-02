@@ -3,8 +3,9 @@ function adjustTextareaHeight(textarea_dom, initial) {
     // don't change if increasing from above maxHeight
     // can't seem to catch decreasing to above maxHeight because scrollHeight is not updated until `height = "0"`
     // but scroll snap on deleting text should be minimal since maxHeight forces the whole textarea to be on screen
-    if (!initial && (textarea_dom.offsetHeight === textarea_dom.scrollHeight
-            || (textarea_dom.scrollHeight > textarea_dom.offsetHeight && textarea_dom.offsetHeight >= maxHeight))) {
+    if ((textarea_dom.offsetHeight === textarea_dom.scrollHeight
+            || (textarea_dom.scrollHeight > textarea_dom.offsetHeight && textarea_dom.offsetHeight >= maxHeight))
+            && !initial) {
         return;
     }
 
