@@ -7,9 +7,9 @@
 
 {%- block content %}
 <div class="pt-2">
-    <h1 class="post-title customgreen-deep mb-2">{{ post.title }}</h1>
+    <h1 class="post-title custom-green-deep mb-2">{{ post.title }}</h1>
   {%- if post.subtitle != "" %}
-    <h2 class="post-subtitle customorange mb-2">{{ post.subtitle }}</h2>
+    <h2 class="post-subtitle custom-orange mb-2">{{ post.subtitle }}</h2>
   {%- endif %}
   {%- if post.edited_timestamp is not none %}
     <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
@@ -18,9 +18,9 @@
   {%- endif %}
 
   {%- if current_user.is_authenticated %}
-    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
+    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-custom-blue btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
   {%- else %}
-    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button" hidden>Edit/delete post</a>
+    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-custom-blue btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button" hidden>Edit/delete post</a>
   {%- endif %}
 </div>
 <hr>
@@ -47,23 +47,23 @@
             <div class="flex-grow-1 ms-3">
           {%- endif %}
           {%- set descendants = comment.get_descendants_list(post) %}
-          <div class="comment card{%- if comment.author.lower() |replace(" ", "") == config['VERIFIED_AUTHOR'] %} border-customorange border-3px{%- endif %}{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
+          <div class="comment card{%- if comment.author.lower() |replace(" ", "") == config['VERIFIED_AUTHOR'] %} border-custom-orange border-3px{%- endif %}{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
               <h3 class="comment-author">{{ comment.author }}</h3>
               <div class="comment-content gray">{{ comment.content |safe }}</div>
               <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
               
               {%- if comment.depth < 5 %}
-                {{ wtf.quick_form(reply_comment_button, id="comment-reply-btn-" ~ comment.id, class="comment-reply-btn", btn_type="link-no-underline", btn_color="customorange", bottom_margin=0) }}
+                {{ wtf.quick_form(reply_comment_button, id="comment-reply-btn-" ~ comment.id, class="comment-reply-btn", btn_type="link-no-underline", btn_color="custom-orange", bottom_margin=0) }}
                 {{ wtf.quick_form(add_comment_form, id="comment-reply-form-" ~ comment.id, class="comment-ajax", bottom_margin=2, hidden=true) }}
               {%- else %}
-                <p class="comment-nest-limit-text customorange mb-0">It's gonna get ugly if you keep replying…</p>
+                <p class="comment-nest-limit-text custom-orange mb-0">It's gonna get ugly if you keep replying…</p>
               {%- endif %}
 
               {%- if current_user.is_authenticated %}
-                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="login-req-post auth-true comment-ajax comment-delete-btn", btn_type="link-no-underline", btn_color="custompink", bottom_margin=0) }}
+                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="login-req-post auth-true comment-ajax comment-delete-btn", btn_type="link-no-underline", btn_color="custom-pink", bottom_margin=0) }}
               {%- else %}
-                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="login-req-post auth-true comment-ajax comment-delete-btn", btn_type="link-no-underline", btn_color="custompink", bottom_margin=0, hidden=true) }}
+                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="login-req-post auth-true comment-ajax comment-delete-btn", btn_type="link-no-underline", btn_color="custom-pink", bottom_margin=0, hidden=true) }}
               {%- endif %}
             </div>
           </div>

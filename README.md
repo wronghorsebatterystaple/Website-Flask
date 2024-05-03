@@ -10,33 +10,16 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 # Developer notes to compensate for possibly scuffed code
 
-**Always check to make sure `config.py` is updated!**
+**Always check to make sure `config.py` is updated!
 
-#### Adding new blogpages:
-- Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one
-  - `blog_id` is a string
-- Update directory names in static paths if necessary
+Always check to make sure access control is correct (see documentation below)!
 
-#### Adding new forms:
-- All forms requiring access control must be POST and should be CSRF protected.
-- Make sure that all POST forms should be Ajax using FormData and should handle the custom error(s) defined in `config.py`
-  - If JSON response from Flask has `redirect_abs_url`, it must be an absolute URL in order to be compatible with my standard Ajax response in `app/static/js/processStandardAjaxResponse()`, which can be done in Flask's `url_for()` by setting the parameter `_external=True`.
-  - Ref. `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`
-- Always add HTML classes `login-req-post` to `<form>`s (for handling of CSRF/session expiry in `handleCustomErrors()`) and `auth-true`/`auth-false` (for showing/hiding elements) when needed
-
-#### Updating HTML custom errors:
-- Update `config.py`
-- Update `app/routes.py` error handlers
-- Update `app/static/js/handle_custom_errors.js`
-
-#### Changing image static paths:
-- Update Markdown expansion/collapse regex in `app/models.py`
-- Update image paths for all existing images in db (oof...)
+Always make sure this README is updated!**
 
 #### Access control documentation:
-- Access control is mainly achieved through the function `sign_in_if_not_admin(request)` function provided in `app/util.py`. This function is intended to replace Flask-Login's `@login_required` decorator to allow more functionality.
-  - On GET to banned page, this redirects to the login view as established in `config.py` with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs, enabling cross-domain redirects
-  - On POST to banned pages, this returns Ajax with the key `relogin=True` that makes `app/static/js/processStandardAjaxResponse()` explicitly show the login modal, instead of relying on the possibly weak condition of CSRF token expiration and `handleCustomErrors()` in `app/templates/base.html` to detect session expiry and show modal.
+- Access control is mainly achieved through the function `sign_in_if_not_admin(request)` function provided in `app/util.py`, which should be used in view functions. This function is intended to replace Flask-Login's `@login_required` decorator.
+  - On GET to banned page, this redirects to the login view as established in `config.py` with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs, enabling cross-domain redirects.
+  - On POST to banned pages, this returns Ajax with the key `relogin=True` that makes `app/static/js/ajax_utils.js`'s `processStandardAjaxResponse()` explicitly show the login modal, instead of relying on the possibly weak condition of CSRF token expiration and `handleCustomErrors()` in `app/templates/base.html` to detect session expiry and show modal.
   - Usage in view functions:
 
     ```py
@@ -45,8 +28,33 @@ And thank you to GitHub for free image "backups" in my static folders <3
             return result
     ```
 
-    - Refer to `app/admin/routes.py` and `app/blog/blogpage/routes.py` for example usages
-- Another precaution must be taken with regards to session expiry, as the CSRF token missing error (since CSRF tokens are stored in Flask's `session` global variable and are thus associated with sessions) will happen before Flask's view functions are run and `sign_in_if_not_admin()` can bring up the login modal. To mitigate this, any `<form>` that requires admin status to submit (corresponding to those checked by `sign_in_if_not_admin()` in the view functions) must have class `login-req-post`, which allows `handleCustomErrors()` to catch my custom `499 CSRF Error` and show the login modal that way.
+    - Refer to `app/admin/routes.py` and `app/blog/blogpage/routes.py` for example usages.
+- Another precaution must be taken with regards to session expiry, as the CSRF token missing error (since CSRF tokens are stored in Flask's `session` global variable and are thus associated with sessions) will happen before Flask's view functions are run and `sign_in_if_not_admin()` can bring up the login modal. To mitigate this, any `<form>` that requires admin status to submit (corresponding to those checked by `sign_in_if_not_admin()` in the view functions) must have class `login-req-post`, which allows `handleCustomErrors()` to catch my custom `499 CSRF Error` and show the login modal on session expiry that way. Otherwise, a 500 CSRFError will be returned and nothing will happen.
+- `config.py` contains settings that must be up-to-date for access control:
+  - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of those URLs and you log out.
+  - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics.
+  - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode and that Flask will use `sign_in_if_not_admin()` to check on attempt to access.
+
+#### Adding new blogpages:
+- Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one
+  - `blog_id` is a string
+- Update directory names in static paths if necessary
+
+#### Adding new forms:
+- All forms requiring access control must be POST and should be CSRF protected.
+- Make sure that all POST forms should be Ajax using FormData and should handle the custom error(s) defined in `config.py`.
+  - If JSON response from Flask has `redirect_abs_url`, it must be an absolute URL in order to be compatible with my standard Ajax response in `app/static/js/processStandardAjaxResponse()`, which can be done in Flask's `url_for()` by setting the parameter `_external=True`.
+  - Refer to `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`.
+- Always add HTML classes `login-req-post` to `<form>`s (for handling of CSRF/session expiry in `handleCustomErrors()`) and `auth-true`/`auth-false` (for showing/hiding elements) when needed.
+
+#### Updating HTML custom errors:
+- Update `config.py`
+- Update `app/routes.py` error handlers
+- Update `handleCustomErrors()` in `app/templates/base.html`
+
+#### Changing image static paths:
+- Update Markdown expansion/collapse regex in `app/models.py`
+- Update image paths for all existing images in db
 
 # Blog writer notes
 
@@ -55,8 +63,8 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - `~~[text]~~` to strikethrough
 - `\thm` and `\endthm` both surrounded by blank lines to highlight everything inside as a navy blue blockquote
 - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside, all surrounded by blank lines, to do a `<details>`-style dropdown with custom formatting
-- Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column
-- Only give the filname for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!)
+- Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column.
+- Only give the filname for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!).
 
 #### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, such as:
@@ -64,13 +72,13 @@ And thank you to GitHub for free image "backups" in my static folders <3
     - `<pre><code></code></pre>` for code blocks in a table
     - `<small></small>` for small text
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas
-      - `<br><br>` is also useful for when blank lines aren't tolerated or otherwise don't work, like in a footnote, table, or `\dropdown`
+      - `<br><br>` is also useful for when blank lines aren't tolerated or otherwise don't work, like in a footnote, table, or `\dropdown`.
 
 #### Tables:
-- Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked
+- Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked.
 - Use [reStructuredText grid tables](https://tableconvert.com/restructuredtext-generator) with "Force separate lines" checked for features such as:
   - Merged cells
-    - In order to merge cells, replace intermediate '|' characters generated by the website with a space (every line has to be the same number of chars long for reStructuredText grid tables!)
+    - In order to merge cells, replace intermediate '|' characters generated by the website with a space (every line has to be the same number of chars long for reStructuredText grid tables!).
 
 # Cookie explanation from empirical observations and devtools
 

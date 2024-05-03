@@ -31,14 +31,14 @@
 }
 
 .post-h1 {
-    color: var(--customgreen-deep);
+    color: var(--custom-green-deep);
     font-size: 2rem;
     margin-top: 1rem;
     margin-bottom: 0.75rem;
 }
 
 .post-h2 {
-    color: var(--customorange);
+    color: var(--custom-orange);
     font-size: 1.4rem;
 }
 

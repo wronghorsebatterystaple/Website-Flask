@@ -1,20 +1,20 @@
 :root {
-    --customblue: deepskyblue;
-    --customblue-light: #47d1ff;
-    --customblue-deep: #00a2ff;
+    --custom-blue: deepskyblue;
+    --custom-blue-light: #47d1ff;
+    --custom-blue-deep: #00a2ff;
 
-    --customgreen: #8cff00;
-    --customgreen-light: #b8ff61;
-    --customgreen-xlight: #ccff8c;
-    --customgreen-xxlight: #ecffd5;
-    --customgreen-deep: #77d900;
+    --custom-green: #8cff00;
+    --custom-green-light: #b8ff61;
+    --custom-green-xlight: #ccff8c;
+    --custom-green-xxlight: #ecffd5;
+    --custom-green-deep: #77d900;
 
-    --customorange: #ffc107; /* BS warning color */
-    --customorange-light: #ffce47;
+    --custom-orange: #ffc107; /* BS warning color */
+    --custom-orange-light: #ffce47;
 
-    --custompink: #ff9cdd;
-    --custompink-light: #ffb3e4;
-    --custompink-xxlight: #fff5fc;
+    --custom-pink: #ff9cdd;
+    --custom-pink-light: #ffb3e4;
+    --custom-pink-xxlight: #fff5fc;
 
     --customcolor-code: navy;
     --customcolor-thm: navy;
@@ -44,116 +44,116 @@
 
 }
 
-.customgreen-deep {
-    color: var(--customgreen-deep) !important;
+.custom-green-deep {
+    color: var(--custom-green-deep) !important;
 }
 
-.customorange {
-    color: var(--customorange) !important;
+.custom-orange {
+    color: var(--custom-orange) !important;
 }
 
-.custompink {
-    color: var(--custompink) !important;
+.custom-pink {
+    color: var(--custom-pink) !important;
 }
 
 .gray {
     color: gray !important;
 }
 
-.border-customorange {
-    border-color: var(--customorange) !important;
+.border-custom-orange {
+    border-color: var(--custom-orange) !important;
 }
 
-.btn-customblue {
+.btn-custom-blue {
     --bs-btn-color: black !important;
-    --bs-btn-bg: var(--customblue) !important;
-    --bs-btn-border-color: var(--customblue) !important;
+    --bs-btn-bg: var(--custom-blue) !important;
+    --bs-btn-border-color: var(--custom-blue) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--customblue-light) !important;
-    --bs-btn-hover-border-color: var(--customblue-light) !important;
-    --bs-btn-focus-shadow-rgb: var(--customblue) !important;
+    --bs-btn-hover-bg: var(--custom-blue-light) !important;
+    --bs-btn-hover-border-color: var(--custom-blue-light) !important;
+    --bs-btn-focus-shadow-rgb: var(--custom-blue) !important;
     --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--customblue) !important;
-    --bs-btn-active-border-color: var(--customblue) !important;
+    --bs-btn-active-bg: var(--custom-blue) !important;
+    --bs-btn-active-border-color: var(--custom-blue) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--customblue-light) !important;
-    --bs-btn-disabled-border-color: var(--customblue-light) !important;
+    --bs-btn-disabled-bg: var(--custom-blue-light) !important;
+    --bs-btn-disabled-border-color: var(--custom-blue-light) !important;
 }
 
-.btn-customgreen-light {
+.btn-custom-green-light {
     --bs-btn-color: black !important;
-    --bs-btn-bg: var(--customgreen-light) !important;
-    --bs-btn-border-color: var(--customgreen-light) !important;
+    --bs-btn-bg: var(--custom-green-light) !important;
+    --bs-btn-border-color: var(--custom-green-light) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--customgreen-xlight) !important;
-    --bs-btn-hover-border-color: var(--customgreen-xlight) !important;
-    --bs-btn-focus-shadow-rgb: var(--customgreen-light) !important;
+    --bs-btn-hover-bg: var(--custom-green-xlight) !important;
+    --bs-btn-hover-border-color: var(--custom-green-xlight) !important;
+    --bs-btn-focus-shadow-rgb: var(--custom-green-light) !important;
     --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--customgreen-light) !important;
-    --bs-btn-active-border-color: var(--customgreen-light) !important;
+    --bs-btn-active-bg: var(--custom-green-light) !important;
+    --bs-btn-active-border-color: var(--custom-green-light) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--customgreen-xlight) !important;
-    --bs-btn-disabled-border-color: var(--customgreen-xlight) !important;
+    --bs-btn-disabled-bg: var(--custom-green-xlight) !important;
+    --bs-btn-disabled-border-color: var(--custom-green-xlight) !important;
 }
 
-.btn-customorange {
+.btn-custom-orange {
     --bs-btn-color: black !important;
-    --bs-btn-bg: var(--customorange) !important;
-    --bs-btn-border-color: var(--customorange) !important;
+    --bs-btn-bg: var(--custom-orange) !important;
+    --bs-btn-border-color: var(--custom-orange) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--customorange-light) !important;
-    --bs-btn-hover-border-color: var(--customorange-light) !important;
-    --bs-btn-focus-shadow-rgb: var(--customorange) !important;
+    --bs-btn-hover-bg: var(--custom-orange-light) !important;
+    --bs-btn-hover-border-color: var(--custom-orange-light) !important;
+    --bs-btn-focus-shadow-rgb: var(--custom-orange) !important;
     --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--customorange) !important;
-    --bs-btn-active-border-color: var(--customorange) !important;
+    --bs-btn-active-bg: var(--custom-orange) !important;
+    --bs-btn-active-border-color: var(--custom-orange) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--customorange-light) !important;
-    --bs-btn-disabled-border-color: var(--customorange-light) !important;
+    --bs-btn-disabled-bg: var(--custom-orange-light) !important;
+    --bs-btn-disabled-border-color: var(--custom-orange-light) !important;
 }
 
-.btn-customblue-link {
-    --bs-btn-color: var(--customblue) !important;
-    --bs-btn-hover-color: var(--customblue-light) !important;
-    --bs-btn-active-color: var(--customblue) !important;
+.btn-custom-blue-link {
+    --bs-btn-color: var(--custom-blue) !important;
+    --bs-btn-hover-color: var(--custom-blue-light) !important;
+    --bs-btn-active-color: var(--custom-blue) !important;
 }
 
-.btn-customorange-link {
-    --bs-btn-color: var(--customorange) !important;
-    --bs-btn-hover-color: var(--customorange-light) !important;
-    --bs-btn-active-color: var(--customorange) !important;
+.btn-custom-orange-link {
+    --bs-btn-color: var(--custom-orange) !important;
+    --bs-btn-hover-color: var(--custom-orange-light) !important;
+    --bs-btn-active-color: var(--custom-orange) !important;
 }
 
-.btn-custompink-link {
-    --bs-btn-color: var(--custompink) !important;
-    --bs-btn-hover-color: var(--custompink-light) !important;
-    --bs-btn-active-color: var(--custompink) !important;
+.btn-custom-pink-link {
+    --bs-btn-color: var(--custom-pink) !important;
+    --bs-btn-hover-color: var(--custom-pink-light) !important;
+    --bs-btn-active-color: var(--custom-pink) !important;
 }
 
-.underline-customblue {
-    text-decoration-color: var(--customblue) !important;
+.underline-custom-blue {
+    text-decoration-color: var(--custom-blue) !important;
 }
 
-.underline-customgreen-deep {
-    text-decoration-color: var(--customgreen-deep) !important;
+.underline-custom-green-deep {
+    text-decoration-color: var(--custom-green-deep) !important;
 }
 
-.underline-customorange {
-    text-decoration-color: var(--customorange) !important;
+.underline-custom-orange {
+    text-decoration-color: var(--custom-orange) !important;
 }
 
-.underline-custompink {
-    text-decoration-color: var(--custompink) !important;
+.underline-custom-pink {
+    text-decoration-color: var(--custom-pink) !important;
 }
 
-a { /* Links default to customblue, but can be overwritten with !important */
-    color: var(--customblue);
-    text-decoration-color: var(--customblue);
+a { /* Links default to custom-blue, but can be overwritten with !important */
+    color: var(--custom-blue);
+    text-decoration-color: var(--custom-blue);
 }
 
 a:hover {
-    color: var(--customblue-deep);
-    text-decoration-color: var(--customblue-deep);
+    color: var(--custom-blue-deep);
+    text-decoration-color: var(--custom-blue-deep);
 }
 
 body {
@@ -199,7 +199,7 @@ td, th {
 }
 
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
-    border-top-color: var(--custompink) !important;
+    border-top-color: var(--custom-pink) !important;
 }
 
 .btn-link {
@@ -226,12 +226,12 @@ td, th {
 }
 
 .link-style {
-    color: var(--customblue);
+    color: var(--custom-blue);
     text-decoration: underline;
 }
 
 .md-details {
-    border: 2px solid var(--customblue-light);
+    border: 2px solid var(--custom-blue-light);
     border-radius: var(--bs-border-radius);
     margin-bottom: 1rem;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
@@ -243,7 +243,7 @@ td, th {
 }
 
 .md-details-summary {
-    color: var(--customblue) !important;
+    color: var(--custom-blue) !important;
 }
 
 .mjx-center {
@@ -281,14 +281,14 @@ td, th {
 
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
-    background-color: var(--custompink-xxlight) !important;
+    background-color: var(--custom-pink-xxlight) !important;
     font-size: 0.85rem;
     max-width: 30rem !important;
 }
 
 .tooltip.show {
     opacity: 100%;
-    border: 1px solid var(--custompink-light) !important;
+    border: 1px solid var(--custom-pink-light) !important;
     border-radius: var(--bs-border-radius);
 }
 

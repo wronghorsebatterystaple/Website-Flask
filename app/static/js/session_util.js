@@ -72,13 +72,13 @@ $(document).on("click", "#logout-link", function(e) {
         url: $("#var-logout-url").attr("data-val"),
         crossDomain: true,
         data: {
-            from_url: window.location.hostname + window.location.pathname
+            from_url: window.location.hostname + window.location.pathname // to determine if we need to redirect away
         },
         dataType: "json"
     })
     .done(function(response) {
-        if (response.redirect_uri) {
-            var newURL = new URL(decodeURIComponent(response.redirect_uri));
+        if (response.redirect_abs_url) {
+            var newURL = new URL(decodeURIComponent(response.redirect_abs_url));
             if (response.flash_message) {
                 newURL.searchParams.append("flash", encodeURIComponent(response.flash_message));
             }

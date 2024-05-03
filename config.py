@@ -19,7 +19,7 @@ class Config(object):
     PERMANENT_SESSION_LIFETIME = 86400
 
     # Flask-WTF
-    WTF_CSRF_TIME_LIMIT = None
+    WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
 
     # Custom errors
@@ -87,7 +87,7 @@ class Config(object):
         "7": "creative writing dumps or random pieces of vent."
     }
     BLOG_ID_TO_COLOR_CLASS = {
-        "3": "customgreen-deep",
-        "6": "custompink",
-        "7": "custompink"
+        "3": "custom-green-deep",
+        "6": "custom-pink",
+        "7": "custom-pink"
     }

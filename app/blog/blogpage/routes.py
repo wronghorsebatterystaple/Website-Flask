@@ -110,7 +110,7 @@ def post(post_sanitized_title):
     # Ajax: FormData
     elif request.method == "POST":
         if not turnstile.verify():
-            return jsonify(redirect_uri=url_for("main.bot_jail", _external=True))
+            return jsonify(redirect_abs_url=url_for("main.bot_jail", _external=True))
 
         # handle comment deletion (after confirmation button)
         if "delete" in request.form:
@@ -124,7 +124,7 @@ def post(post_sanitized_title):
 
             descendants = comment.get_descendants_list(post)
             if not comment.remove_comment(post):
-                return jsonify(redirect_uri=url_for(f"{request.blueprint}.index", _external=True),
+                return jsonify(redirect_abs_url=url_for(f"{request.blueprint}.index", _external=True),
                         flash_message="Sanity check is not supposed to fail…")
             for descendant in descendants:
                 db.session.delete(descendant)
@@ -143,7 +143,7 @@ def post(post_sanitized_title):
         comment = Comment(author=request.form["author"], content=request.form["content"],
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
         if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
-            return jsonify(redirect_uri=url_for(f"{request.blueprint}.index", _external=True),
+            return jsonify(redirect_abs_url=url_for(f"{request.blueprint}.index", _external=True),
                     flash_message="Sanity check is not supposed to fail…")
         db.session.add(comment)
         db.session.commit()
