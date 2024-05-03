@@ -37,7 +37,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 #### Adding new blogpages:
 - Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one
-  - `blog_id` is a string in Python (to avoid errors with negative `blog_id`s as keys for `config.py` dictionaries) always remember to cast to `str` when pulling from database (even though it's also a VARCHAR; else it will still break sometimes)
+  - `blog_id` is stored and used as a string
 - Update directory names in static paths if necessary
 
 #### Adding new forms:

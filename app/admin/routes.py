@@ -168,7 +168,7 @@ def create_blogpost():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
         # mark post as published and editable if creating on published blogpage
-        if str(post.blog_id) not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+        if post.blog_id not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
             post.published = True
         db.session.add(post)
         db.session.commit()
@@ -176,7 +176,7 @@ def create_blogpost():
         # upload images if any
         try:
             res = upload_images(request.files.getlist("images"), os.path.join(current_app.root_path,
-                    current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(post.blog_id), "images", str(post.id)))
+                    current_app.config["ROOT_TO_BLOGPAGE_STATIC"], post.blog_id, "images", str(post.id)))
             if not res == "success":
                 return jsonify(flash_message=res)
         except Exception as e:
@@ -227,7 +227,7 @@ def edit_blogpost():
     
     images_path = os.path.join(current_app.root_path,
             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-            str(post.blog_id), "images", str(post.id))
+            post.blog_id, "images", str(post.id))
     form = EditBlogpostForm(obj=post) # pre-populate fields
     form.blog_id.choices = [(k, v) for k, v in \
             current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
@@ -282,7 +282,7 @@ def edit_blogpost():
             post.edited_timestamp = datetime.now(timezone.utc)
         else:
             # mark post as published and editable if not published and moving to published blogpage
-            if int(request.form.get("blog_id")) not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+            if request.form.get("blog_id") not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
                 post.published = True
             # keep updating created time instead of updated time if not published
             post.timestamp = datetime.now(timezone.utc)
@@ -313,7 +313,7 @@ def edit_blogpost():
                 try:
                     shutil.move(images_path, os.path.join(current_app.root_path,
                             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-                            str(post.blog_id), "images", str(post.id)))
+                            post.blog_id, "images", str(post.id)))
                 except Exception as e:
                     return jsonify(flash_message=f"Image move exception: {str(e)}")
             post.update_image_markdown_blog_id(old_blog_id) # shouldn't be needed but just in case?
