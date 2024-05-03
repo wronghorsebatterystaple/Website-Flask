@@ -44,6 +44,10 @@ class Post(db.Model):
         return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blog_id}/images/{self.id}/([\S\s]+?)\)",
                 r"\1(\2)", self.content)
 
+    def update_image_markdown_blog_id(self, old_blog_id):
+        self.content = re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{old_blog_id}/images/{self.id}/([\S\s]+?)\)",
+                fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blog_id}/images/{self.id}/\2)", self.content)
+
     def are_titles_unique(self) -> bool:
         return db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).first() is None
 

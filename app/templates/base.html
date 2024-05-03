@@ -66,7 +66,6 @@
                   hideAuthElems(); // session must have expired for CSRF expired error
 
                   if ($(e.target).hasClass("login-req-post")) {
-                      customFlash("Your session has expired. Please log in again.");
                       relogin();
                   } else { 
                       formData.set("csrf_token", csrf_token)
@@ -160,7 +159,7 @@
           <button type="button" id="login-modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          {{ wtf.quick_form(login_form, id="login-form", bottom_margin=0) }}
+          {{ wtf.quick_form(login_form, id="login-form-modal", bottom_margin=0) }}
         </div>
       </div>
     </div>

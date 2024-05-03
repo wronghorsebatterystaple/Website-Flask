@@ -18,8 +18,8 @@ from app.markdown_ext.myextensions import MyExtensions
 import re
 
 
-def get_blog_id(blueprint_name) -> int:
-    return int(blueprint_name.split('.')[-1])
+def get_blog_id(blueprint_name) -> str:
+    return blueprint_name.split('.')[-1]
 
 
 # Markdown tweaks round 2: non-custom-syntax stuff easier from here than from JQuery in round 3, like regex replaces
@@ -40,8 +40,11 @@ def index():
     blog_id = get_blog_id(request.blueprint)
     
     # require login to access private blogs
-    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
-        return current_app.login_manager.unauthorized()
+    if blog_id in current_app.config["PRIVATE_BLOG_IDS"]:
+        result = util.sign_in_if_not_admin(request)
+        if result:
+            return result
+
 
     page = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     if page <= 0: # prevent funny query string shenanigans
@@ -61,8 +64,9 @@ def index():
     next_page_url = url_for(f"blog.{blog_id}.index", page=posts.next_num) if posts.has_next else None
     prev_page_url = url_for(f"blog.{blog_id}.index", page=posts.prev_num) if posts.has_prev else None
     return render_template("blog/blogpage/index.html",
-            blog_id=blog_id, page=page, total_pages=posts.pages,
-            all_posts=all_posts, title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
+            blog_id=blog_id, unpublished_blog_id=blog_id if blog_id.startswith('-') else "-"+blog_id,
+            page=page, total_pages=posts.pages, all_posts=all_posts,
+            title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
             subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
             posts=posts, next_page_url=next_page_url, prev_page_url=prev_page_url)
 
@@ -72,8 +76,10 @@ def post(post_sanitized_title):
     blog_id = get_blog_id(request.blueprint)
 
     # require login to access private blogs
-    if blog_id in current_app.config["PRIVATE_BLOG_IDS"] and not current_user.is_authenticated:
-        return current_app.login_manager.unauthorized()
+    if blog_id in current_app.config["PRIVATE_BLOG_IDS"]:
+        result = util.sign_in_if_not_admin(request)
+        if result:
+            return result
 
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
@@ -104,12 +110,13 @@ def post(post_sanitized_title):
     # Ajax: FormData
     elif request.method == "POST":
         if not turnstile.verify():
-            return jsonify(redirect_uri=url_for("main.bot_jail"))
+            return jsonify(redirect_uri=url_for("main.bot_jail", _external=True))
 
         # handle comment deletion (after confirmation button)
         if "delete" in request.form:
-            if not current_user.is_authenticated: # since delete button exists always for async refresh on login
-                return jsonify(flash_message="Nice try.")
+            result = util.sign_in_if_not_admin(request)
+            if result:
+                return result
 
             comment = db.session.get(Comment, request.form["id"])
             if comment is None:
@@ -117,7 +124,7 @@ def post(post_sanitized_title):
 
             descendants = comment.get_descendants_list(post)
             if not comment.remove_comment(post):
-                return jsonify(redirect_uri=url_for(f"{request.blueprint}.index"),
+                return jsonify(redirect_uri=url_for(f"{request.blueprint}.index", _external=True),
                         flash_message="Sanity check is not supposed to fail…")
             for descendant in descendants:
                 db.session.delete(descendant)
@@ -136,7 +143,7 @@ def post(post_sanitized_title):
         comment = Comment(author=request.form["author"], content=request.form["content"],
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
         if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
-            return jsonify(redirect_uri=url_for(f"{request.blueprint}.index"),
+            return jsonify(redirect_uri=url_for(f"{request.blueprint}.index", _external=True),
                     flash_message="Sanity check is not supposed to fail…")
         db.session.add(comment)
         db.session.commit()

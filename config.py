@@ -24,7 +24,7 @@ class Config(object):
 
     # Custom errors
     CUSTOM_ERRORS = {
-        "REFRESH_CSRF": (499, "CSRF token expired because the session expired.")
+        "REFRESH_CSRF": (499, "CSRF Error")
     }
 
     # Paths
@@ -37,43 +37,57 @@ class Config(object):
     POSTS_PER_PAGE = 10
 
     # Scuffed configs
-    MAIN_PAGE_URL_FULL = f"https://{SERVER_NAME}"
     LOGIN_VIEW = "admin.login"
-    LOGIN_REQUIRED_URLS = [ # for Flask access control
+    LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
         f"{SERVER_NAME}/admin",
-        f"blog.{SERVER_NAME}/the-backrooms"
+        f"blog.{SERVER_NAME}/professor-google-backrooms",
+        f"blog.{SERVER_NAME}/writers-block-backrooms",
+        f"blog.{SERVER_NAME}/writers-unblock-backrooms",
     ]
     VERIFIED_AUTHOR = "verifiedoriginalposter" # lowercase and no spaces for easier comparison
 
-    PRIVATE_BLOG_IDS = [0] # for displaying and Flask access control
-    UNPUBLISHED_BLOG_IDS = [0] # for published dates on blogs
-    ALL_POSTS_BLOG_ID = 1
+    PRIVATE_BLOG_IDS = ["-3", "-6", "-7"] # for displaying and Flask access control
+    UNPUBLISHED_BLOG_IDS = ["-3", "-6", "-7"] # for published dates on blogs
+    ALL_POSTS_BLOG_ID = "1"
+    BLOG_ID_TO_URL = {
+        "1": "/all",
+        "3": "/professor-google",
+        "-3": "/professor-google-backrooms",
+        "6": "/writers-block",
+        "-6": "/writers-block-backrooms",
+        "7": "/writers-unblock",
+        "-7": "/writers-unblock-backrooms"
+    }
     BLOG_ID_TO_TITLE = {
-        0: "The Backrooms",
-        1: "All Posts",
-        3: "Professor Google",
-        6: "Writer's Block",
-        7: "Writer's Unblock"
+        "1": "All Posts",
+        "3": "Professor Google",
+        "-3": "Professor Google - The Backrooms",
+        "6": "Writer's Block",
+        "-6": "Writer's Block - The Backrooms",
+        "7": "Writer's Unblock",
+        "-7": "Writer's Unblock - The Backrooms"
     }
     BLOG_ID_TO_TITLE_WRITEABLE = { # exclude All Posts
-        0: "The Backrooms",
-        3: "Professor Google",
-        6: "Writer's Block",
-        7: "Writer's Unblock"
+        "3": "Professor Google",
+        "-3": "Professor Google - The Backrooms",
+        "6": "Writer's Block",
+        "-6": "Writer's Block - The Backrooms",
+        "7": "Writer's Unblock",
+        "-7": "Writer's Unblock - The Backrooms"
     }
     BLOG_ID_TO_SUBTITLE = {
-        3: "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
-        6: "yes I stole this idea",
-        7: "creative writing and existential dumps from 3am"
+        "3": "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
+        "6": "yes I stole this idea",
+        "7": "creative writing and existential dumps from 3am"
     }
     BLOG_ID_TO_DESCRIPTION = {
-        1: "all posts made by AnonymousRand.",
-        3: "intution, explanations, and details about computer science and math topics unlike any class you've taken.",
-        6: "the",
-        7: "creative writing dumps or random pieces of vent from my journal."
+        "1": "all posts by AnonymousRand.",
+        "3": "intution, explanations, and details about computer science and math topics unlike any class you've taken.",
+        "6": "the",
+        "7": "creative writing dumps or random pieces of vent."
     }
     BLOG_ID_TO_COLOR_CLASS = {
-        3: "customgreen-deep",
-        6: "custompink",
-        7: "custompink"
+        "3": "customgreen-deep",
+        "6": "custompink",
+        "7": "custompink"
     }

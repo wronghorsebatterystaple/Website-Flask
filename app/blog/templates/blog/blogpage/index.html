@@ -13,9 +13,9 @@
   {%- endif %}
 
   {%- if current_user.is_authenticated %}
-    <a id="auth-reload-create-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.create_blogpost', blog_id=blog_id) }}" role="button">Create post</a>
+    <a id="auth-reload-create-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.create_blogpost', blog_id=unpublished_blog_id) }}" role="button">Create post</a>
   {%- else %}
-    <a id="auth-reload-create-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.create_blogpost', blog_id=blog_id) }}" role="button" hidden>Create post</a>
+    <a id="auth-reload-create-blogpost-btn" class="auth-true btn-customblue btn btn-primary mt-2" href="{{ url_for('admin.create_blogpost', blog_id=unpublished_blog_id) }}" role="button" hidden>Create post</a>
   {%- endif %}
 </div>
 <hr>

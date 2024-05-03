@@ -11,12 +11,17 @@ $.ajaxPrefilter(function(options) {
 });
 
 function processStandardAjaxResponse(response, e) {
+    if (response.relogin) {
+        relogin();
+        return;
+    }
+
     if (response.redirect_uri) {
-        var newURI = response.redirect_uri;
+        var newURL = new URL(decodeURIComponent(response.redirect_uri));
         if (response.flash_message) {
-            newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
+            newURL.searchParams.append("flash", encodeURIComponent(response.flash_message));
         }
-        window.location.href = newURI;
+        window.location.href = newURL;
     } else {
         if (response.flash_message) {
             customFlash(response.flash_message);

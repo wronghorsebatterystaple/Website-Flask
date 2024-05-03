@@ -1,7 +1,9 @@
 function relogin() {
+    customFlash("Your session has expired. Please log in again.");
     hideAuthElems();
-    $("#login-modal").load(window.location.href + " #login-modal > *");
-    $("#login-modal").modal("show");
+    var loginModal_elem = $("#login-modal");
+    loginModal_elem.load(window.location.href + " #login-modal > *");
+    loginModal_elem.modal("show");
 }
 
 function showAuthElems() {
@@ -15,13 +17,19 @@ function hideAuthElems() {
 }
 
 $(document).ready(function() {
-    // Security - wipe contents on hide
-    $("#login-modal").on("hidden.bs.modal", function(e) {
+    var loginModal_elem = $("#login-modal");
+    // security - wipe contents on hide
+    loginModal_elem.on("hidden.bs.modal", function(e) {
         $(e.target).find("#password-input").val("");
     });
 
-    $("#login-modal").on("shown.bs.modal", function(e) {
+    loginModal_elem.on("shown.bs.modal", function(e) {
         $(e.target).find("#password-input").focus();
+    });
+
+    // differentiate modal vs. non-modal logins for redirect
+    loginModal_elem.on("show.bs.modal", function(e) {
+        $(e.target).find("#is_modal").val("yes");
     });
 });
 
@@ -34,7 +42,7 @@ function onLoginAjaxDone(response, e) {
     }
 }
 
-$(document).on("submit", "#login-form", function(e) {
+$(document).on("submit", "#login-form-modal", function(e) {
     e.preventDefault();
 
     var formData = new FormData($(this).get(0), $(e.originalEvent.submitter).get(0));
@@ -70,11 +78,11 @@ $(document).on("click", "#logout-link", function(e) {
     })
     .done(function(response) {
         if (response.redirect_uri) {
-            var newURI = response.redirect_uri;
+            var newURL = new URL(decodeURIComponent(response.redirect_uri));
             if (response.flash_message) {
-                newURI += `?flash=${encodeURIComponent(response.flash_message)}`;
+                newURL.searchParams.append("flash", encodeURIComponent(response.flash_message));
             }
-            window.location.href = newURI;
+        window.location.href = newURL;
         } else {
             if (response.flash_message) {
                 customFlash(response.flash_message);

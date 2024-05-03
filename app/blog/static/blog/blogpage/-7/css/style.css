@@ -1,0 +1,13 @@
+.non-navbar-container {
+    font-family: "Comic Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.blogpage-name {
+    color: black;
+}
+
+.blogpage-subname {
+    color: gray;
+}

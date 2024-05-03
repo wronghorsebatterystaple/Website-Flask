@@ -56,17 +56,18 @@ $(document).ready(function() {
     // Markdown tweaks round 3
     $("details").find("p").contents().unwrap();
 
-    $(".footnote").first().attr("id", "footnotes");
-    $("#footnotes").find("p").addClass("mb-1");
-    $("#footnotes").find("a").each(function() {
+    var footnotes_elem = $(".footnote").first();
+    footnotes_elem.attr("id", "footnotes");
+    footnotes_elem.find("p").addClass("mb-1");
+    footnotes_elem.find("a").each(function() {
         if (!$(this).hasClass("footnote-backref")) {
             $(this).attr("target", "_blank");
         }
     });
-    $("#footnotes").wrap("<details class=\"footnotes-details\"></details>")
-    $("#footnotes").before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
-    $("#footnotes").children("hr").first().css("margin", "0.8rem 0");
-    $("#footnotes").children("ol").first().addClass("mb-0");
+    footnotes_elem.wrap("<details class=\"footnotes-details\"></details>")
+    footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
+    footnotes_elem.children("hr").first().css("margin", "0.8rem 0");
+    footnotes_elem.children("ol").first().addClass("mb-0");
     genFootnoteTooltips();
 });
 
