@@ -37,8 +37,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Access control is mainly achieved through the function `sign_in_if_not_admin(request)` function provided in `app/util.py`. This function is intended to replace Flask-Login's `@login_required` decorator to allow more functionality.
   - On GET to banned page, this redirects to the login view as established in `config.py` with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs, enabling cross-domain redirects
   - On POST to banned pages, this returns Ajax with the key `relogin=True` that makes `app/static/js/processStandardAjaxResponse()` explicitly show the login modal, instead of relying on the possibly weak condition of CSRF token expiration and `handleCustomErrors()` in `app/templates/base.html` to detect session expiry and show modal.
-  - Usage in view functions: ```
-    result = util.sign_in_if_not_admin(request)
+  - Usage in view functions: ```result = util.sign_in_if_not_admin(request)
     if result:
         return result
 ```
