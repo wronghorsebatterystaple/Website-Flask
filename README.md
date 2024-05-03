@@ -10,11 +10,11 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 # Developer notes to compensate for possibly scuffed code
 
-**Always check to make sure `config.py` is updated!
+**Always check to make sure `config.py` is updated!**
 
-Always check to make sure access control is correct (see documentation below)!
+**Always check to make sure access control is correct (see documentation below)!**
 
-Always make sure this README is updated!**
+**Always make sure this README is updated!**
 
 #### Access control documentation:
 - Access control is mainly achieved through the function `sign_in_if_not_admin(request)` function provided in `app/util.py`, which should be used in view functions. This function is intended to replace Flask-Login's `@login_required` decorator.
@@ -37,7 +37,7 @@ Always make sure this README is updated!**
 
 #### Adding new blogpages:
 - Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one
-  - `blog_id` is a string
+  - `blog_id` is a string in Python (to avoid errors with negative `blog_id`s as keys for `config.py` dictionaries) always remember to cast to `str` when pulling from database (even though it's also a VARCHAR; else it will still break sometimes)
 - Update directory names in static paths if necessary
 
 #### Adding new forms:

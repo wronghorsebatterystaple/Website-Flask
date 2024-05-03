@@ -168,7 +168,7 @@ def create_blogpost():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
         # mark post as published and editable if creating on published blogpage
-        if post.blog_id not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+        if str(post.blog_id) not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
             post.published = True
         db.session.add(post)
         db.session.commit()
