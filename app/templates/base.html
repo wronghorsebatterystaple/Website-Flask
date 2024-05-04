@@ -65,17 +65,13 @@
                   reloadCSRF(jqXHR.responseText);
                   hideAuthElems(); // session must have expired for CSRF expired error
 
-                  if ($(e.target).hasClass("login-req-post")) {
-                      relogin();
-                  } else { 
-                      formData.set("csrf_token", csrf_token)
-                      if (doneFunc) {
-                          $.ajax(self).done(function(response) {
-                              doneFunc(response, e);
-                          });
-                      } else {
-                          $.ajax(self);
-                      }
+                  formData.set("csrf_token", csrf_token)
+                  if (doneFunc) {
+                      $.ajax(self).done(function(response) {
+                          doneFunc(response, e);
+                      });
+                  } else {
+                      $.ajax(self);
                   }
               }
           }

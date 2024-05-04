@@ -41,7 +41,7 @@ def index():
     
     # require login to access private blogs
     if blog_id in current_app.config["PRIVATE_BLOG_IDS"]:
-        result = util.sign_in_if_not_admin(request)
+        result = util.custom_unauthorized(request)
         if result:
             return result
 
@@ -77,7 +77,7 @@ def post(post_sanitized_title):
 
     # require login to access private blogs
     if blog_id in current_app.config["PRIVATE_BLOG_IDS"]:
-        result = util.sign_in_if_not_admin(request)
+        result = util.custom_unauthorized(request)
         if result:
             return result
 
@@ -114,7 +114,7 @@ def post(post_sanitized_title):
 
         # handle comment deletion (after confirmation button)
         if "delete" in request.form:
-            result = util.sign_in_if_not_admin(request)
+            result = util.custom_unauthorized(request)
             if result:
                 return result
 

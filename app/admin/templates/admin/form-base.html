@@ -8,11 +8,7 @@
 
 {%- block content %}
 <h1>{{ prompt }}</h1>
-{%- if login_req %}
-  {{ wtf.quick_form(form, class="login-req-post") }}
-{%- else %}
-  {{ wtf.quick_form(form) }}
-{%- endif %}
+{{ wtf.quick_form(form) }}
 {%- endblock %}
 
 {%- block js %}

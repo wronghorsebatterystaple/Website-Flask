@@ -65,7 +65,7 @@ def login():
 
     if request.method == "GET":
         return render_template("admin/form-base.html", title="Login",
-                prompt="Access the Secrets of the Universe", form=form, login_req=False)
+                prompt="Access the Secrets of the Universe", form=form)
 
     # Ajax: FormData
     elif request.method == "POST":
@@ -98,21 +98,16 @@ def login():
 
 
 @bp.route("/choose-action", methods=["GET", "POST"])
+@util.custom_login_required(request)
 def choose_action():
-    result = util.sign_in_if_not_admin(request)
-    if result:
-        return result
-
     form = ChooseActionForm()
 
     if request.method == "GET":
         return render_template("admin/form-base.html", title="Choose action",
-                prompt="42", form=form, login_req=True)
+                prompt="42", form=form)
 
     # Ajax: FormData
     elif request.method == "POST":
-        if not current_user.is_authenticated:
-            return jsonify(relogin=True)
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
@@ -133,11 +128,8 @@ def choose_action():
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
+@util.custom_login_required(request)
 def create_blogpost():
-    result = util.sign_in_if_not_admin(request)
-    if result:
-        return result
-
     form = CreateBlogpostForm()
     # set choices dynamically so we can access current_app context; also must do before POST handling so validation works?
     form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
@@ -148,7 +140,7 @@ def create_blogpost():
                 and request.args.get("blog_id") != current_app.config["ALL_POSTS_BLOG_ID"]:
             form.blog_id.data = request.args.get("blog_id")
         return render_template("admin/form-base.html", title="Create post",
-                prompt="Create post", form=form, login_req=True)
+                prompt="Create post", form=form)
 
     # Ajax: FormData
     elif request.method == "POST":
@@ -190,16 +182,13 @@ def create_blogpost():
 
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
+@util.custom_login_required(request)
 def search_blogpost():
-    result = util.sign_in_if_not_admin(request)
-    if result:
-        return result
-
     form = SearchBlogpostForm()
 
     if request.method == "GET":
         return render_template("admin/form-base.html", title="Search Posts",
-                prompt="Search posts", form=form, login_req=True)
+                prompt="Search posts", form=form)
 
     # Ajax: FormData
     elif request.method == "POST":
@@ -215,11 +204,8 @@ def search_blogpost():
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
+@util.custom_login_required(request)
 def edit_blogpost():
-    result = util.sign_in_if_not_admin(request)
-    if result:
-        return result
-
     post = db.session.get(Post, request.args.get("post_id"))
     if post is None:
         return jsonify(redirect_abs_url=url_for("admin.search_blogpost", _external=True),
@@ -238,7 +224,7 @@ def edit_blogpost():
 
     if request.method == "GET":
         return render_template("admin/form-base.html", title=f"Edit Post: {post.title}",
-                prompt=f"Edit post: {post.title}", form=form, login_req=True)
+                prompt=f"Edit post: {post.title}", form=form)
 
     # Ajax: FormData
     elif request.method == "POST":
@@ -327,16 +313,13 @@ def edit_blogpost():
         
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
+@util.custom_login_required(request)
 def change_admin_password():
-    result = util.sign_in_if_not_admin(request)
-    if result:
-        return result
-
     form = ChangeAdminPasswordForm()
 
     if request.method == "GET":
         return render_template("admin/form-base.html", title="Change Admin Password",
-                prompt="Do not make it password123456", form=form, login_req=True)
+                prompt="Do not make it password123456", form=form)
 
     # Ajax: FormData
     elif request.method == "POST":

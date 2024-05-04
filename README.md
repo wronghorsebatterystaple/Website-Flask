@@ -17,23 +17,31 @@ And thank you to GitHub for free image "backups" in my static folders <3
 **Always make sure this README is updated!**
 
 #### Access control documentation:
-- Access control is mainly achieved through the function `sign_in_if_not_admin(request)` function provided in `app/util.py`, which should be used in view functions. This function is intended to replace Flask-Login's `@login_required` decorator.
-  - On GET to banned page, this redirects to the login view as established in `config.py` with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs, enabling cross-domain redirects.
-  - On POST to banned pages, this returns Ajax with the key `relogin=True` that makes `app/static/js/ajax_utils.js`'s `processStandardAjaxResponse()` explicitly show the login modal, instead of relying on the possibly weak condition of CSRF token expiration and `handleCustomErrors()` in `app/templates/base.html` to detect session expiry and show modal.
-  - Usage in view functions:
+- Access control in view functions is achieved through the decorator `@custom_login_required(request)` decorator and the equivalent function `custom_unauthorized(request)`, provided in `app/util.py`. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
+  - On GET to banned page, these redirect to the login view as established in `config.py`, with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs. This allows for cross-domain redirects.
+  - On POST to banned pages, these return an Ajax JSON with the key `relogin=True` that makes `app/static/js/ajax_utils.js`'s `processStandardAjaxResponse()` show the login modal. This allows us to simply pop up the modal instead of redirecting away to a whole new page like `@login_required` or `login_manager.unauthorized()` would, potentially losing stuff we've put into a form (for example) in the process. In addition, returning the `relogin` key explicitly avoids the potentially bad practice of relying on CSRF token expiration and `handleCustomErrors()` in `app/templates/base.html` to detect session expiry and show the modal.
+  - `@custom_login_required(request)` usage in view functions:
 
     ```py
-    result = util.sign_in_if_not_admin(request)
+    @bp.route(...)
+    @custom_login_required(request)
+    def view_func():
+        pass
+    ```
+
+  - `custom_unauthorized(request)` usage in view functions:
+
+    ```py
+    result = util.custom_unauthorized(request)
         if result:
             return result
     ```
 
     - Refer to `app/admin/routes.py` and `app/blog/blogpage/routes.py` for example usages.
-- Another precaution must be taken with regards to session expiry, as the CSRF token missing error (since CSRF tokens are stored in Flask's `session` global variable and are thus associated with sessions) will happen before Flask's view functions are run and `sign_in_if_not_admin()` can bring up the login modal. To mitigate this, any `<form>` that requires admin status to submit (corresponding to those checked by `sign_in_if_not_admin()` in the view functions) must have class `login-req-post`, which allows `handleCustomErrors()` to catch my custom `499 CSRF Error` and show the login modal on session expiry that way. Otherwise, a 500 CSRFError will be returned and nothing will happen.
 - `config.py` contains settings that must be up-to-date for access control:
   - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of those URLs and you log out.
   - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics.
-  - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode and that Flask will use `sign_in_if_not_admin()` to check on attempt to access.
+  - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode and that Flask will use `custom_unauthorized()` to check on attempt to access.
 
 #### Adding new blogpages:
 - Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one
