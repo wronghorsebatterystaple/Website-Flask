@@ -11,7 +11,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 # Developer notes to compensate for possibly scuffed code
 
 ### IMPORTANT:
-- Always make sure <config.py> is updated!
+- Always make sure [config.py](config.py) is updated!
 - Always make sure access control is correct (see documentation below)!
 - Always make sure this README is updated!
 
