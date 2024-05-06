@@ -38,30 +38,30 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
   - Refer to `app/admin/routes.py` and `app/blog/blogpage/routes.py` for example usages.
 - `config.py` contains settings that must be up-to-date for access control:
-  - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of those URLs and you log out.
+  - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out.
   - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics.
-  - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode and that Flask will use `custom_unauthorized()` to check on attempt to access.
+  - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode, and Flask will check `custom_unauthorized()` on attempts to access these.
 
 ### Adding new blogpages:
-- Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one
-  - `blog_id` is stored and used as a string
-- Update directory names in static paths if necessary
+- Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
+  - `blog_id` is stored and used as a string.
+- Create new static directories for it and update other static directory names if necessary.
 
 ### Adding new forms:
 - All forms requiring access control must be POST and should be CSRF protected.
-- Make sure that all POST forms should be Ajax using FormData and should handle the custom error(s) defined in `config.py`.
+- Make sure that all POST forms are Ajax (using FormData) and handle the custom error(s) defined in `config.py` with `handleCustomErrors()`.
   - If JSON response from Flask has `redirect_abs_url`, it must be an absolute URL in order to be compatible with my standard Ajax response in `app/static/js/processStandardAjaxResponse()`, which can be done in Flask's `url_for()` by setting the parameter `_external=True`.
   - Refer to `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`.
-- Always add HTML classes `login-req-post` to `<form>`s (for handling of CSRF/session expiry in `handleCustomErrors()`) and `auth-true`/`auth-false` (for showing/hiding elements) when needed.
+- Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed.
 
 ### Updating HTML custom errors:
-- Update `config.py`
-- Update `app/routes.py` error handlers
-- Update `handleCustomErrors()` in `app/templates/base.html`
+- Update `config.py`.
+- Update `app/routes.py` error handlers.
+- Update `handleCustomErrors()` in `app/templates/base.html`.
 
 ### Changing image static paths:
-- Update Markdown expansion/collapse regex in `app/models.py`
-- Update image paths for all existing images in db
+- Update Markdown expansion/collapse regex in `app/models.py`.
+- Update image paths for all existing images in db.
 
 # Blog writer notes
 
@@ -79,7 +79,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
     - `<pre><code></code></pre>` for code blocks in a table
     - `<small></small>` for small text
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas
-      - `<br><br>` is also useful for when blank lines aren't tolerated or otherwise don't work, like in a footnote, table, or `\dropdown`.
+      - `<br><br>` is also useful for when blank lines aren't tolerated or otherwise don't work, like in a footnote, table, or `\dropdown`
 
 ### Tables:
 - Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked.
