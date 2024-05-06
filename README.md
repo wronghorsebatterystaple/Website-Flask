@@ -10,11 +10,10 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 # Developer notes to compensate for possibly scuffed code
 
-**Always check to make sure `config.py` is updated!**
-
-**Always check to make sure access control is correct (see documentation below)!**
-
-**Always make sure this README is updated!**
+### IMPORTANT
+- Always check to make sure `config.py` is updated!
+- Always check to make sure access control is correct (see documentation below)!
+- Always make sure this README is updated!
 
 ### Access control documentation:
 - Access control in view functions is achieved through the decorator `@custom_login_required(request)` decorator and the equivalent function `custom_unauthorized(request)`, provided in `app/util.py`. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
