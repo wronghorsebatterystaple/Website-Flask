@@ -16,7 +16,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 **Always make sure this README is updated!**
 
-#### Access control documentation:
+### Access control documentation:
 - Access control in view functions is achieved through the decorator `@custom_login_required(request)` decorator and the equivalent function `custom_unauthorized(request)`, provided in `app/util.py`. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
   - On GET to banned page, these redirect to the login view as established in `config.py`, with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs. This allows for cross-domain redirects.
   - On POST to banned pages, these return an Ajax JSON with the key `relogin=True` that makes `app/static/js/ajax_utils.js`'s `processStandardAjaxResponse()` show the login modal. This allows us to simply pop up the modal instead of redirecting away to a whole new page like `@login_required` or `login_manager.unauthorized()` would, potentially losing stuff we've put into a form (for example) in the process. In addition, returning the `relogin` key explicitly avoids the potentially bad practice of relying on CSRF token expiration and `handleCustomErrors()` in `app/templates/base.html` to detect session expiry and show the modal.
@@ -43,30 +43,30 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics.
   - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode and that Flask will use `custom_unauthorized()` to check on attempt to access.
 
-#### Adding new blogpages:
+### Adding new blogpages:
 - Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one
   - `blog_id` is stored and used as a string
 - Update directory names in static paths if necessary
 
-#### Adding new forms:
+### Adding new forms:
 - All forms requiring access control must be POST and should be CSRF protected.
 - Make sure that all POST forms should be Ajax using FormData and should handle the custom error(s) defined in `config.py`.
   - If JSON response from Flask has `redirect_abs_url`, it must be an absolute URL in order to be compatible with my standard Ajax response in `app/static/js/processStandardAjaxResponse()`, which can be done in Flask's `url_for()` by setting the parameter `_external=True`.
   - Refer to `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`.
 - Always add HTML classes `login-req-post` to `<form>`s (for handling of CSRF/session expiry in `handleCustomErrors()`) and `auth-true`/`auth-false` (for showing/hiding elements) when needed.
 
-#### Updating HTML custom errors:
+### Updating HTML custom errors:
 - Update `config.py`
 - Update `app/routes.py` error handlers
 - Update `handleCustomErrors()` in `app/templates/base.html`
 
-#### Changing image static paths:
+### Changing image static paths:
 - Update Markdown expansion/collapse regex in `app/models.py`
 - Update image paths for all existing images in db
 
 # Blog writer notes
 
-#### Custom Markdown syntax:
+### Custom Markdown syntax:
 - `__[text]__` to underline
 - `~~[text]~~` to strikethrough
 - `\thm` and `\endthm` both surrounded by blank lines to highlight everything inside as a navy blue blockquote
@@ -74,7 +74,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column.
 - Only give the filname for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!).
 
-#### Other syntax notes:
+### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, such as:
     - `<center></center>` for centering individual cells in a table
     - `<pre><code></code></pre>` for code blocks in a table
@@ -82,7 +82,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas
       - `<br><br>` is also useful for when blank lines aren't tolerated or otherwise don't work, like in a footnote, table, or `\dropdown`.
 
-#### Tables:
+### Tables:
 - Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked.
 - Use [reStructuredText grid tables](https://tableconvert.com/restructuredtext-generator) with "Force separate lines" checked for features such as:
   - Merged cells
@@ -101,7 +101,7 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 
 # Other useless notes
 
-#### Rounds of Markdown processing:
+### Rounds of Markdown processing:
   - Standard `markdown.markdown` with official extension `extra`
   - Custom Markdown extensions in `app/markdown_ext/myextensions.py`
     - Custom Markdown syntax
@@ -110,7 +110,7 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
   - JQuery in `app/static/js/display_customization.js` and `app/blog/static/blog/blogpage/js/display_customization.js`
     - Non-custom-syntax stuff that is easier to handle from JQuery, like adding classes for styling or traversing DOM
 
-#### CSS property order (currently-used properties):
+### CSS property order (currently-used properties):
 - "Specific":
   - `content`
   - `opacity`
