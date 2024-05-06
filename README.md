@@ -10,7 +10,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 # Developer notes to compensate for possibly scuffed code
 
-### IMPORTANT
+### IMPORTANT:
 - Always check to make sure `config.py` is updated!
 - Always check to make sure access control is correct (see documentation below)!
 - Always make sure this README is updated!
