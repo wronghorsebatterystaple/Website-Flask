@@ -48,10 +48,13 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Create new static directories for it and update other static directory names if necessary.
 
 ### Adding new forms:
-- All forms requiring access control must be POST and should be CSRF protected.
-- Make sure that all POST forms are Ajax (using FormData) and handle the custom error(s) defined in `config.py` with `handleCustomErrors()`.
-  - If JSON response from Flask has `redirect_abs_url`, it must be an absolute URL in order to be compatible with my standard Ajax response in `app/static/js/processStandardAjaxResponse()`, which can be done in Flask's `url_for()` by setting the parameter `_external=True`.
-  - Refer to `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js`.
+- GET forms should not modify server-side state and should only function as a link! They must:
+  - Not have a CSRF Token hidden field to avoid leaking token in the URL (per OWASP guidelines). This means that we shouldn't use the `boostrap_wtf.quick_form()` macro for GET forms!
+- Refer to `app/blog/static/blog/blogpage/js/goto_page_form.js` and its associated `app/blog/templates/blog/blogpage/index.html` for an example of a GET form.
+- All other forms should be POST, and they must:
+  - Use Ajax, sending FormData
+  - Handle the custom error(s) defined in `config.py` using `handleCustomErrors()`
+- Refer to `app/static/js/session_util.js`, `app/admin/static/admin/js/form_submit.js`, `app/blog/static/blog/blogpage/js/comments.js` for examples of POST forms.
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed.
 
 ### Updating HTML custom errors:
