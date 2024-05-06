@@ -147,7 +147,7 @@ def create_blogpost():
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        post = Post(blog_id=int(request.form.get("blog_id")), title=request.form.get("title"),
+        post = Post(blog_id=request.form.get("blog_id"), title=request.form.get("title"),
                 subtitle=request.form.get("subtitle"), content=request.form.get("content"))
         post.sanitize_title()
         post.expand_image_markdown()
@@ -162,6 +162,8 @@ def create_blogpost():
         # mark post as published and editable if creating on published blogpage
         if post.blog_id not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
             post.published = True
+        else:
+            post.published = False
         db.session.add(post)
         db.session.commit()
 
