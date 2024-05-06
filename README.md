@@ -32,8 +32,8 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
     ```py
     result = util.custom_unauthorized(request)
-        if result:
-            return result
+    if result:
+        return result
     ```
 
     - Refer to `app/admin/routes.py` and `app/blog/blogpage/routes.py` for example usages.
