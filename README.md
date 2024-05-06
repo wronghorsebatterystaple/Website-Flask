@@ -39,8 +39,8 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - Refer to `app/admin/routes.py` and `app/blog/blogpage/routes.py` for example usages.
 - `config.py` contains settings that must be up-to-date for access control:
   - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out.
-  - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics.
   - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode, and Flask will check `custom_unauthorized()` on attempts to access these.
+  - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics.
 
 ### Adding new blogpages:
 - Update `config.py` with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
