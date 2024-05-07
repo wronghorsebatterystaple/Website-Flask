@@ -2,7 +2,7 @@ function onAdminFormAjaxDone(response, e) {
     processStandardAjaxResponse(response, e);
 }
 
-$(document).on("submit", "form", function(e) {
+$(document).on("submit", "#main-form", function(e) {
     e.preventDefault();
   
     var formData = new FormData($(this).get(0), $(e.originalEvent.submitter).get(0));

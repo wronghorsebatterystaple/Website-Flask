@@ -1,11 +1,3 @@
-function relogin() {
-    customFlash("Your session has expired (or you were being sneaky...). Please log in again.");
-    hideAuthElems();
-    var loginModal_elem = $("#login-modal");
-    loginModal_elem.load(window.location.href + " #login-modal > *");
-    loginModal_elem.modal("show");
-}
-
 function showAuthElems() {
     $(".auth-false").attr("hidden", "");
     $(".auth-true").removeAttr("hidden");

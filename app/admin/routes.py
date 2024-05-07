@@ -69,10 +69,10 @@ def login():
 
     # Ajax: FormData
     elif request.method == "POST":
-        if not form.validate():
-            return jsonify(submission_errors=form.errors)
         if not turnstile.verify():
             return jsonify(redirect_abs_url=url_for("main.bot_jail", _external=True))
+        if not form.validate():
+            return jsonify(submission_errors=form.errors)
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check admin password

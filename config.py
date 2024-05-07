@@ -16,7 +16,7 @@ class Config(object):
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_REFRESH_EACH_REQUEST = False
-    PERMANENT_SESSION_LIFETIME = 86400
+    PERMANENT_SESSION_LIFETIME = 2
 
     # Flask-WTF
     WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
