@@ -38,7 +38,7 @@
 <hr>
 
 <div id="commentlist" class="pb-3">
-  <h2 class="comment-section-headers mb-0">Comments</h2>
+  <h2 class="comment-section-headers mb-0">Comments <span class="gray">({{ post.get_comment_count() }})</span></h2>
   <div class="d-flex flex-shrink-0">
     <div class="flex-shrink-0" style="width: 100%;">
       {%- for comment in comments recursive %}

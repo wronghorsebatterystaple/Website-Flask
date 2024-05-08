@@ -68,7 +68,8 @@ def index():
             page=page, total_pages=posts.pages, all_posts=all_posts,
             title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
             subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
-            posts=posts, next_page_url=next_page_url, prev_page_url=prev_page_url)
+            posts=posts, next_page_url=next_page_url, prev_page_url=prev_page_url,
+            get_comment_count=Post.get_comment_count)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET", "POST"])
@@ -105,6 +106,7 @@ def post(post_sanitized_title):
                 post=post, comments=comments, add_comment_form=add_comment_form,
                 reply_comment_button = reply_comment_button,
                 delete_comment_button = delete_comment_button,
+                get_comment_count=Post.get_comment_count,
                 get_descendants_list=Comment.get_descendants_list)
 
     # Ajax: FormData

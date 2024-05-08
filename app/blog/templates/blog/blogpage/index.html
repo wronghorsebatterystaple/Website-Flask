@@ -41,11 +41,14 @@
           {%- endif %}
       {%- endif %}
 
-          {%- if post.edited_timestamp is not none %}
-            <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
-          {%- else %}
-            <h3 class="postlist-post-timestamp black pt-2">{{ moment(post.timestamp).format("l") }}</h3>
-          {%- endif %}
+          <div class="d-flex align-items-center pt-2">
+            {%- if post.edited_timestamp is not none %}
+              <h3 class="postlist-post-timestamp black me-5 mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
+            {%- else %}
+              <h3 class="postlist-post-timestamp black me-5 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
+            {%- endif %}
+            <span class="gray d-flex align-items-center flex-shrink-0 ms-auto"><img class="me-1" src="{{ url_for('blog.static', filename='blog/blogpage/images/comment_icon.svg') }}" style="width: 1em; height: 1em;">{{ post.get_comment_count() }}</span>
+          </div>
         </a>
       </div>
     <hr>

@@ -18,6 +18,9 @@ $(document).ready(function() {
     loginModal_elem.on("shown.bs.modal", function(e) {
         $(e.target).find("#password-input").focus();
     });
+
+    // differentiate modal vs. non-modal logins for redirect
+    loginModal_elem.find("#is_modal").val("yes");
 });
 
 function onLoginAjaxDone(response, e) {
@@ -33,8 +36,6 @@ $(document).on("submit", "#login-form-modal", function(e) {
     e.preventDefault();
 
     var formData = new FormData($(this).get(0), $(e.originalEvent.submitter).get(0));
-    // differentiate modal vs. non-modal logins for redirect; doesn't work anywhere else
-    formData.set("is_modal", "yes");
     $.ajax({
         type: "POST",
         url: $("#var-login-url").attr("data-val"),

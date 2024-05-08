@@ -16,7 +16,7 @@ class Config(object):
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_REFRESH_EACH_REQUEST = False
-    PERMANENT_SESSION_LIFETIME = 2
+    PERMANENT_SESSION_LIFETIME = 86400
 
     # Flask-WTF
     WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
@@ -49,7 +49,7 @@ class Config(object):
     PRIVATE_BLOG_IDS = ["-3", "-6", "-7"] # for displaying and Flask access control
     UNPUBLISHED_BLOG_IDS = ["-3", "-6", "-7"] # for published dates on blogs
     ALL_POSTS_BLOG_ID = "1"
-    BLOG_ID_TO_URL = {
+    BLOG_ID_TO_PATH = {
         "1": "/all",
         "3": "/professor-google",
         "-3": "/professor-google-backrooms",

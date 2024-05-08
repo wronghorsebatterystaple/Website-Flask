@@ -51,6 +51,11 @@ class Post(db.Model):
     def are_titles_unique(self) -> bool:
         return db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).first() is None
 
+    # god bless Miguel Grinberg https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers
+    def get_comment_count(self) -> int:
+        return db.session.scalar(sa.select(sa.func.count()).select_from(
+            self.comments.select().subquery()))
+
     def __repr__(self):
         return f"<Post {self.id} with title \"{self.title}\" and subtitle \"{self.subtitle}\">"
 
