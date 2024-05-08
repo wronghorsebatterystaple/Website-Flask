@@ -44,7 +44,7 @@ class Config(object):
         f"blog.{SERVER_NAME}/writers-block-backrooms",
         f"blog.{SERVER_NAME}/writers-unblock-backrooms",
     ]
-    VERIFIED_AUTHOR = "verifiedoriginalposter" # lowercase and no spaces for easier comparison
+    VERIFIED_AUTHOR = "originalposter" # lowercase and no spaces for easier comparison
 
     PRIVATE_BLOG_IDS = ["-3", "-6", "-7"] # for displaying and Flask access control
     UNPUBLISHED_BLOG_IDS = ["-3", "-6", "-7"] # for published dates on blogs

@@ -140,7 +140,7 @@ def post(post_sanitized_title):
         # make sure non-admin users can't masquerade as verified author
         if request.form["author"].lower().replace(" ", "") == current_app.config["VERIFIED_AUTHOR"] \
                 and not current_user.is_authenticated:
-            return jsonify(submission_errors={"author": ["You are not the verified original poster."]})
+            return jsonify(submission_errors={"author": ["You are not the original poster."]})
 
         comment = Comment(author=request.form["author"], content=request.form["content"],
                 post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
