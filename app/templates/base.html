@@ -97,7 +97,7 @@
 
   <body class="font-varela-round">
     <div id="background-img">
-      <div class="narrow-container container" style="min-height: 100vh;">
+      <div class="narrow-container container min-vh-100">
       <!-- navbar -->
       <nav class="navbar navbar-expand-sm">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">
@@ -140,7 +140,7 @@
 
       <div class="non-navbar-container mt-3">
         <!-- display flash()ed messages as alerts -->
-        <div id="flash" class="alert alert-info alert-dismissible fade show" role="alert" style="color: black; background-color: var(--custom-green-xxlight); border-color: var(--custom-green-light)", hidden>
+        <div id="flash" class="alert alert-info alert-dismissible fade show" role="alert" hidden>
           <span id="flash-text"></span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>

@@ -52,7 +52,7 @@
             {%- else %}
               <h3 class="postlist-post-timestamp black me-5 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
             {%- endif %}
-            <span class="gray d-flex align-items-center flex-shrink-0 ms-auto"><span class="me-1">{{ post.get_comment_count() }}</span><img src="{{ url_for('blog.static', filename='blog/blogpage/images/comment_icon.svg') }}" style="width: 1em; height: 1em;"></span>
+            <span class="gray d-flex align-items-center flex-shrink-0 ms-auto"><span class="me-1">{{ post.get_comment_count() }}</span><img class="comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/comment_icon.svg') }}"></span>
           </div>
         </a>
       </div>

@@ -136,6 +136,8 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
     - `min-width`
     - `max-width`
   - `height`
+    - `min-height`
+    - `max-height`
   - `border`
     - `border-width`
     - `border-style`

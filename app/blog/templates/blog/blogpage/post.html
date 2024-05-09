@@ -40,7 +40,7 @@
 <div id="commentlist" class="pb-3">
   <h2 class="comment-section-headers mb-0">Comments <span class="gray">({{ post.get_comment_count() }})</span></h2>
   <div class="d-flex flex-shrink-0">
-    <div class="flex-shrink-0" style="width: 100%;">
+    <div class="w-100 flex-shrink-0">
       {%- for comment in comments recursive %}
         {%- if comment.depth == loop.depth0 %}
           {%- if comment.depth != 0 %}
@@ -50,7 +50,7 @@
           <div class="comment card{%- if comment.author.lower() |replace(" ", "") == config['VERIFIED_AUTHOR'] %} border-custom-orange border-3px{%- endif %}{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
               <h3 class="comment-author">{{ comment.author }}</h3>
-              <div class="comment-content gray">{{ comment.content |safe }}</div>
+              <div class="gray">{{ comment.content |safe }}</div>
               <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
               
               {%- if comment.depth < 5 %}
@@ -68,7 +68,7 @@
             </div>
           </div>
           {%- if descendants %}
-            <div class="comment-reply">{{ loop(descendants) }}</div>
+            <div>{{ loop(descendants) }}</div>
           {%- endif %}
 
           {%- if comment.depth != 0 %}
