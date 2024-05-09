@@ -48,13 +48,17 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Create new static directories for it and update other static directory names if necessary.
 
 ### Adding new forms:
-- GET forms should not modify server-side state and should only function as a link! They must:
-  - Not have a CSRF Token hidden field to avoid leaking token in the URL (per OWASP guidelines). This means that we shouldn't use the `boostrap_wtf.quick_form()` macro for GET forms!
-- Refer to [app/blog/static/blog/blogpage/js/goto_page_form.js](app/blog/static/blog/blogpage/js/goto_page_form.js) and its associated [app/blog/templates/blog/blogpage/index.html](app/blog/templates/blog/blogpage/index.html) for an example of a GET form.
-- All other forms should be POST, and they must:
-  - Use Ajax, sending FormData
-  - Handle the custom error(s) defined in [config.py](config.py) using `handleCustomErrors()`
-- Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/admin/js/form_submit.js](app/admin/static/admin/js/form_submit.js), [app/blog/static/blog/blogpage/js/comments.js](app/blog/static/blog/blogpage/js/comments.js) for examples of POST forms.
+- GET forms:
+  - These should not modify server-side state and should only function as a link!
+  - Usage guidelines:
+    - Do not have a CSRF Token hidden field to avoid leaking token in the URL (per OWASP guidelines). This means that we shouldn't use the `boostrap_wtf.quick_form()` macro for GET forms!
+  - Refer to [app/blog/static/blog/blogpage/js/goto_page_form.js](app/blog/static/blog/blogpage/js/goto_page_form.js) and its associated [app/blog/templates/blog/blogpage/index.html](app/blog/templates/blog/blogpage/index.html) for an example of a GET form.
+- POST forms:
+  - All other forms
+  - Usage guidelines:
+    - Use Ajax and send FormData
+    - Handle the custom error(s) defined in [config.py](config.py) using `handleCustomErrors()`
+  - Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/admin/js/form_submit.js](app/admin/static/admin/js/form_submit.js), [app/blog/static/blog/blogpage/js/comments.js](app/blog/static/blog/blogpage/js/comments.js) for examples of POST forms.
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed.
 
 ### Updating HTML custom errors:
