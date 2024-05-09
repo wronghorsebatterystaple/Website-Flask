@@ -44,7 +44,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 ### Adding new blogpages:
 - Update [config.py](config.py) with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
-  - `blog_id` is stored and used as a string.
+  - `blog_id` is stored and used as a string
 - Create new static directories for it and update other static directory names if necessary.
 
 ### Adding new forms:
