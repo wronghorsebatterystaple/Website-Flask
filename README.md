@@ -74,7 +74,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - `\thm` and `\endthm` both surrounded by blank lines to highlight everything inside as a navy blue blockquote
 - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside, all surrounded by blank lines, to do a `<details>`-style dropdown with custom formatting
 - Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column.
-- Only give the filname for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!).
+- Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!).
 
 ### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, such as:
