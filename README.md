@@ -104,7 +104,7 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 # Other useless notes
 
 ### Rounds of Markdown processing:
-  - Standard `markdown.markdown` with official extension `extra`
+  - Standard Python-Markdown `markdown.markdown()` with official extension `extra`
   - Custom Markdown extensions in [app/markdown_ext/myextensions.py](app/markdown_ext/myextensions.py)
     - Custom Markdown syntax
   - Custom `additional_markdown_processing()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py)
