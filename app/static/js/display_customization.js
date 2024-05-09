@@ -64,11 +64,19 @@ $(document).ready(function() {
             $(this).attr("target", "_blank");
         }
     });
-    footnotes_elem.wrap("<details class=\"footnotes-details\" open></details>")
+    footnotes_elem.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\" open></details>")
     footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
     footnotes_elem.children("hr").first().css("margin", "0.8rem 0");
     footnotes_elem.children("ol").first().addClass("mb-0");
     genFootnoteTooltips();
+});
+
+// Footnotes collapsible opens if footnote link clicked on and the collapsible is closed
+$(document).on("click", ".footnote-ref", function(e) {
+    var footnoteDetails_elem = $("#footnotes-details");
+    if (!footnoteDetails_elem.attr("open")) {
+        footnoteDetails_elem.attr("open", "");
+    }
 });
 
 // Rerender LaTeX in tooltips on show
