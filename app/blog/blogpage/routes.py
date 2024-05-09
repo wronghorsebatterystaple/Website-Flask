@@ -49,6 +49,7 @@ def index():
     page = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     if page <= 0: # prevent funny query string shenanigans
         return "", 204
+    posts = None
     all_posts = False
 
     if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
@@ -61,6 +62,8 @@ def index():
         posts = db.paginate(db.session.query(Post).filter_by(blog_id=blog_id).order_by(desc(Post.timestamp)),
                 page=page, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
 
+    if posts is None or page > posts.pages: # prevent funny query string shenanigans, 2.0
+        return "", 204
     next_page_url = url_for(f"blog.{blog_id}.index", page=posts.next_num) if posts.has_next else None
     prev_page_url = url_for(f"blog.{blog_id}.index", page=posts.prev_num) if posts.has_prev else None
     return render_template("blog/blogpage/index.html",

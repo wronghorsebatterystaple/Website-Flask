@@ -10,10 +10,10 @@
     --custom-green-deep: #77d900;
 
     --custom-orange: #ffc107; /* BS warning color */
-    --custom-orange-light: #ffce47;
+    --custom-orange-light: #ffcf4a;
 
     --custom-pink: #ff9cdd;
-    --custom-pink-light: #ffb3e4;
+    --custom-pink-light: #ffb5e5;
     --custom-pink-xxlight: #fff5fc;
 
     --customcolor-code: navy;
@@ -114,17 +114,17 @@
 
 .btn-custom-blue-link {
     --bs-btn-color: var(--custom-blue) !important;
-    --bs-btn-hover-color: var(--custom-blue-light) !important;
+    --bs-btn-hover-color: var(--custom-blue-deep) !important;
     --bs-btn-active-color: var(--custom-blue) !important;
 }
 
-.btn-custom-orange-link {
+.btn-custom-orange-link-no-underline {
     --bs-btn-color: var(--custom-orange) !important;
     --bs-btn-hover-color: var(--custom-orange-light) !important;
     --bs-btn-active-color: var(--custom-orange) !important;
 }
 
-.btn-custom-pink-link {
+.btn-custom-pink-link-no-underline {
     --bs-btn-color: var(--custom-pink) !important;
     --bs-btn-hover-color: var(--custom-pink-light) !important;
     --bs-btn-active-color: var(--custom-pink) !important;
