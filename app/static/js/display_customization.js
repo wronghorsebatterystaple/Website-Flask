@@ -64,7 +64,7 @@ $(document).ready(function() {
             $(this).attr("target", "_blank");
         }
     });
-    footnotes_elem.wrap("<details class=\"footnotes-details\"></details>")
+    footnotes_elem.wrap("<details class=\"footnotes-details\" open></details>")
     footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
     footnotes_elem.children("hr").first().css("margin", "0.8rem 0");
     footnotes_elem.children("ol").first().addClass("mb-0");
