@@ -45,6 +45,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 ### Adding new blogpages:
 - Update [config.py](config.py) with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
   - `blog_id` is stored and used as a string
+  - To avoid negative signs from being interpreted as an argument on the command line, preface filepath with `./` or escape individually with '\' (latter strategy doesn't work at the start of a filepath). Alternatively, disable further option processing with `--` option.
 - Create new static directories for it and update other static directory names if necessary.
 
 ### Adding new forms:

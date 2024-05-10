@@ -34,7 +34,7 @@ class Config(object):
     # Other "conventional" configs
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
-    POSTS_PER_PAGE = 10
+    POSTS_PER_PAGE = 15
 
     # Scuffed configs
     LOGIN_VIEW = "admin.login"

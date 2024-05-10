@@ -1,3 +1,7 @@
+/***************************/
+/* General-purpose/utility */
+/***************************/
+
 :root {
     --custom-blue: deepskyblue;
     --custom-blue-light: #47d1ff;
@@ -21,6 +25,10 @@
     --customcolor-thm-border: #a1a1ff;
 }
 
+html {
+    font-size: clamp(14px, 2vw, 16px);
+}
+
 .narrow-container {
     overflow-x: scroll;
     max-width: clamp(33.33vw, 640px, 100vw);
@@ -30,6 +38,8 @@
 .min-height-full {
     min-height: 100vh;
 }
+
+/* Fonts */
 
 .font-comic-neue {
     font-family: "Comic Neue", sans-serif !important;
@@ -43,25 +53,24 @@
     font-style: normal !important;
 }
 
+/* Colors */
+
 .black {
     color: black !important;
 
+}
+.gray {
+    color: gray !important;
 }
 
 .custom-green-deep {
     color: var(--custom-green-deep) !important;
 }
-
 .custom-orange {
     color: var(--custom-orange) !important;
 }
-
 .custom-pink {
     color: var(--custom-pink) !important;
-}
-
-.gray {
-    color: gray !important;
 }
 
 .border-custom-orange {
@@ -83,7 +92,6 @@
     --bs-btn-disabled-bg: var(--custom-blue-light) !important;
     --bs-btn-disabled-border-color: var(--custom-blue-light) !important;
 }
-
 .btn-custom-green-light {
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-green-light) !important;
@@ -99,7 +107,6 @@
     --bs-btn-disabled-bg: var(--custom-green-xlight) !important;
     --bs-btn-disabled-border-color: var(--custom-green-xlight) !important;
 }
-
 .btn-custom-orange {
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-orange) !important;
@@ -115,7 +122,6 @@
     --bs-btn-disabled-bg: var(--custom-orange-light) !important;
     --bs-btn-disabled-border-color: var(--custom-orange-light) !important;
 }
-
 .btn-custom-blue-link {
     --bs-btn-color: var(--custom-blue) !important;
     --bs-btn-hover-color: var(--custom-blue-deep) !important;
@@ -128,7 +134,6 @@
     --bs-btn-hover-color: var(--custom-orange-light) !important;
     --bs-btn-active-color: var(--custom-orange) !important;
 }
-
 .btn-custom-pink-link-no-underline {
     --bs-btn-color: var(--custom-pink) !important;
     --bs-btn-hover-color: var(--custom-pink-light) !important;
@@ -138,24 +143,79 @@
 .underline-custom-blue {
     text-decoration-color: var(--custom-blue) !important;
 }
-
 .underline-custom-green-deep {
     text-decoration-color: var(--custom-green-deep) !important;
 }
-
 .underline-custom-orange {
     text-decoration-color: var(--custom-orange) !important;
 }
-
 .underline-custom-pink {
     text-decoration-color: var(--custom-pink) !important;
 }
+
+/* Size and spacing utils */
+
+.border-3px {
+    border-width: 3px !important;
+}
+
+.flex-basis-25 {
+    flex-basis: 25% !important;
+}
+
+.flex-basis-75 {
+    flex-basis: 75% !important;
+}
+
+.mt-2half {
+    margin-top: 0.75rem !important;
+}
+
+.w-20 {
+    width: 20% !important;
+}
+
+/* Other utils */
+
+.doublehr {
+    height: 6px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.link-style {
+    color: var(--custom-blue);
+    text-decoration: underline;
+}
+
+.no-underline {
+    text-decoration: none;
+}
+
+.pipe {
+    border-left: 2px solid black;
+}
+
+.scroll-overflow-x {
+    overflow-x: scroll;
+    margin-bottom: 0.5rem;
+}
+
+.underline-on-hover {
+    text-decoration: none;
+}
+.underline-on-hover:hover {
+    text-decoration: underline;
+}
+
+/************/
+/* Specific */
+/************/
 
 a { /* Links default to custom-blue, but can be overwritten with !important */
     color: var(--custom-blue);
     text-decoration-color: var(--custom-blue);
 }
-
 a:hover {
     color: var(--custom-blue-deep);
     text-decoration-color: var(--custom-blue-deep);
@@ -172,13 +232,12 @@ blockquote {
     padding-left: 0.75rem;
 }
 
-pre {
-    font-size: 100%;
-}
-
 code {
     color: var(--customcolor-code) !important;
     font-size: 95% !important;
+}
+pre {
+    font-size: 100%;
 }
 
 img {
@@ -186,53 +245,36 @@ img {
 }
 
 table {
-    font-size: clamp(70%, 2vw, 100%);
     width: max-content;
     min-width: 100%;
     margin-right: auto;
     margin-bottom: 1rem;
     margin-left: auto;
 }
-
 td, th {
     border-width: 1px;
     padding: 0.5em;
-}
-
-.border-3px {
-    border-width: 3px !important;
-}
-
-.bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
-    border-top-color: var(--custom-pink) !important;
 }
 
 .btn-link {
     padding: 0;
 }
 
-.doublehr {
-    height: 6px;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+.flash {
+    color: black;
+    background-color: var(--custom-green-xxlight);
+    border-color: var(--custom-green-light);
 }
 
 .footnote {
     color: gray; 
     font-size: 0.9rem;
 }
-
 .footnotes-details {
     margin-bottom: 1rem;
 }
-
 .footnotes-details-summary {
     color: gray !important;
-}
-
-.link-style {
-    color: var(--custom-blue);
-    text-decoration: underline;
 }
 
 .md-details {
@@ -241,22 +283,16 @@ td, th {
     margin-bottom: 1rem;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
 }
-
 .md-details-contents {
     color: gray !important;
     margin-top: 0.5rem;
 }
-
 .md-details-summary {
     color: var(--custom-blue) !important;
 }
-
-.mjx-center {
-    font-size: clamp(85%, 3.25vw, 100%);
-}
-
-.no-underline {
-    text-decoration: none;
+.md-thm {
+    color: var(--customcolor-thm) !important;
+    border-left: 3.5px solid var(--customcolor-thm-border) !important;
 }
 
 .password-vis-toggle {
@@ -264,54 +300,27 @@ td, th {
     align-items: center;
 }
 
-.pipe {
-    border-left: 2px solid black;
-}
-
 .required-label:after {
     content:" *";
     color: red;
 }
 
-.scroll-overflow-x {
-    overflow-x: scroll;
-    margin-bottom: 0.5rem;
+.bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
+    border-top-color: var(--custom-pink) !important;
 }
-
-.md-thm {
-    color: var(--customcolor-thm) !important;
-    border-left: 3.5px solid var(--customcolor-thm-border) !important;
-}
-
 .tooltip {
     font-family: inherit !important;
     font-weight: inherit !important;
     font-style: inherit !important;
 }
-
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
     background-color: var(--custom-pink-xxlight) !important;
     font-size: 0.85rem;
     max-width: 30rem !important;
 }
-
 .tooltip.show {
     opacity: 100%;
     border: 1px solid var(--custom-pink-light) !important;
     border-radius: var(--bs-border-radius);
-}
-
-.underline-on-hover {
-    text-decoration: none;
-}
-
-.underline-on-hover:hover {
-    text-decoration: underline;
-}
-
-#flash {
-    color: black;
-    background-color: var(--custom-green-xxlight);
-    border-color: var(--custom-green-light);
 }
