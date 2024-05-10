@@ -26,8 +26,11 @@ function genFootnoteTooltips() {
 }
 
 $(document).ready(function() {
-    // mark \[\] LaTeX blocks with identifying class
-    $("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("mjx-center");
+    // mark \[\] LaTeX blocks with identifying class and make their font shrink on mobile
+    $("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("mjx-center shrinking-font");
+
+    // tables' font also shrinks on mobile
+    $("table").addClass("shrinking-font")
 
     // tables, \[\] LaTeX blocks, and non-table code blocks scroll horizontally on overflow
     const divHTML = "<div class=\"scroll-overflow-x\"></div>";

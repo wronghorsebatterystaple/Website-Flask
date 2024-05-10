@@ -1,57 +1,57 @@
 .blogpage-name {
-    font-size: 3.5rem !important;
+    font-size: 3.5em !important;
 }
 .blogpage-subname {
-    font-size: 1.5rem !important;
+    font-size: 1.5em !important;
 }
 
 .postlist-post-blogtitle {
-    font-size: 0.9rem !important;
+    font-size: 0.9em !important;
 }
 .postlist-post-title {
-    font-size: 2rem !important;
+    font-size: 2em !important;
 }
 .postlist-post-subtitle {
-    font-size: 1.1rem !important;
+    font-size: 1.1em !important;
 }
 .postlist-post-timestamp {
-    font-size: 1rem !important;
+    font-size: 1em !important;
 }
 
 .post-title {
-    font-size: 2.5rem !important;
+    font-size: 2.5em !important;
 }
 .post-subtitle {
-    font-size: 1.3rem !important;
+    font-size: 1.3em !important;
 }
 .post-timestamp {
-    font-size: 1rem !important;
+    font-size: 1em !important;
 }
 .post-h1 {
     color: var(--custom-green-deep);
-    font-size: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 0.75rem;
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom: 0.75em;
 }
 .post-h2 {
     color: var(--custom-orange);
-    font-size: 1.4rem;
+    font-size: 1.4em;
 }
 
 .comment-section-headers {
-    font-size: 2.2rem !important;
+    font-size: 2.2em !important;
 }
 .comment-author {
-    font-size: 1.25rem !important;
+    font-size: 1.25em !important;
 }
 .comment-nest-limit-text {
-    font-size: 0.95rem !important;
+    font-size: 0.95em !important;
 }
 .comment-icon {
     width: 1em;
     height: 1em;
 }
 input[value="Reply"][value="Delete"] {
-    font-size: 0.95rem !important;
-    margin-bottom: 0rem !important;
+    font-size: 0.95em !important;
+    margin-bottom: 0em !important;
 }
