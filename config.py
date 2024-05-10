@@ -42,7 +42,7 @@ class Config(object):
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}/professor-google-backrooms",
         f"blog.{SERVER_NAME}/writers-block-backrooms",
-        f"blog.{SERVER_NAME}/writers-unblock-backrooms",
+        f"blog.{SERVER_NAME}/writers-unblock-backrooms"
     ]
     VERIFIED_AUTHOR = "originalposter" # lowercase and no spaces for easier comparison
 
