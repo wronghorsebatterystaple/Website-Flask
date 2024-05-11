@@ -228,8 +228,8 @@ body {
 blockquote {
     color: gray;
     border-left: 3.5px solid #cccccc;
-    margin-left: 0em;
-    padding-left: 0.75em;
+    margin-left: 0rem;
+    padding-left: 0.75rem;
 }
 
 code {
@@ -253,7 +253,7 @@ table {
 }
 td, th {
     border-width: 1px;
-    padding: 0.5em;
+    padding: 0.5rem;
 }
 
 .btn-link {
