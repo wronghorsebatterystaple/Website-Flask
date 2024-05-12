@@ -38,7 +38,7 @@ $(document).on("submit", "#login-form-modal", function(e) {
     var formData = new FormData($(this).get(0), $(e.originalEvent.submitter).get(0));
     $.ajax({
         type: "POST",
-        url: $("#var-login-url").attr("data-val"),
+        url: URL_login,
         crossDomain: true,
         data: formData,
         processData: false,
@@ -59,7 +59,7 @@ $(document).on("click", "#logout-link", function(e) {
 
     $.ajax({
         type: "GET",
-        url: $("#var-logout-url").attr("data-val"),
+        url: URL_logout,
         crossDomain: true,
         data: {
             from_url: window.location.hostname + window.location.pathname // to determine if we need to redirect away

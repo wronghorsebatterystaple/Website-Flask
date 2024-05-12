@@ -5,9 +5,10 @@
 {{ config.BLOG_ID_TO_TITLE[blog_id] ~ ": " ~ config.BLOG_ID_TO_DESCRIPTION[blog_id] }}
 {%- endblock -%}
 
-{%- block meta_vars %}
-<meta id="var-path-to-background-image" data-val="{{ url_for('blog.static', filename='blog/blogpage/' ~ blog_id ~ '/images/background/') }}">
-{%- endblock %}
+{%- block vars -%}
+{{ super() }}
+const path_backgroundImg = "{{ url_for('blog.static', filename='blog/blogpage/' ~ blog_id ~ '/images/background') }}";
+{%- endblock -%}
 
 {%- block css %}
 {{ super() }}

@@ -1,6 +1,13 @@
 {%- extends "blog/blogpage/base.html" %}
 {%- import "bootstrap_wtf.html" as wtf %}
 
+{%- block vars -%}
+{{ super() }}
+const endptURL_addComment = "{{ url_for('blog.endpoint_add_comment') }}";
+const endptURL_deleteComment = "{{ url_for('blog.endpoint_delete_comment') }}";
+const postId = "{{ post.id }}";
+{%- endblock -%}
+
 {%- block title -%}
 {{ post.title }} - {{ blog_title }}
 {%- endblock -%}
@@ -33,7 +40,7 @@
 
 <div>
   <h2 class="comment-section-headers shrinking-font">Leave a comment</h2>
-  {{ wtf.quick_form(add_comment_form, class="comment-ajax", bottom_margin=2, autofocus_first=false) }}
+  {{ wtf.quick_form(add_comment_form, class="comment-add-form ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
 </div>
 <hr>
 
@@ -63,15 +70,15 @@
               
               {%- if comment.depth < 6 %}
                 {{ wtf.quick_form(reply_comment_button, id="comment-reply-btn-" ~ comment.id, class="comment-reply-btn", btn_type="link-no-underline", btn_color="custom-orange", bottom_margin=0) }}
-                {{ wtf.quick_form(add_comment_form, id="comment-reply-form-" ~ comment.id, class="comment-ajax", bottom_margin=2, hidden=true) }}
+                {{ wtf.quick_form(add_comment_form, id="comment-reply-form-" ~ comment.id, class="comment-add-form ajax-add-comment", bottom_margin=2, hidden=true) }}
               {%- else %}
                 <p class="comment-nest-limit-text custom-orange mb-0">It's gonna get ugly if you keep replying…</p>
               {%- endif %}
 
               {%- if current_user.is_authenticated %}
-                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="auth-true comment-ajax comment-delete-btn", btn_type="link-no-underline", btn_color="custom-pink", bottom_margin=0) }}
+                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="auth-true ajax-delete-comment comment-delete-btn", btn_type="link-no-underline", btn_color="custom-pink", bottom_margin=0) }}
               {%- else %}
-                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="auth-true comment-ajax comment-delete-btn", btn_type="link-no-underline", btn_color="custom-pink", bottom_margin=0, hidden=true) }}
+                {{ wtf.quick_form(delete_comment_button, id="comment-delete-btn-" ~ comment.id, class="auth-true ajax-delete-comment comment-delete-btn", btn_type="link-no-underline", btn_color="custom-pink", bottom_margin=0, hidden=true) }}
               {%- endif %}
             </div>
           </div>

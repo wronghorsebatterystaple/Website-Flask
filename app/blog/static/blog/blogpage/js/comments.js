@@ -12,18 +12,21 @@ $(document).on("submit", ".comment-reply-btn", function(e) {
     asteriskRequiredFields();
 });
 
-// Populate comment id hidden fields for comment deletion
-function loadDeleteButtonIDs() {
+// Populate comment's hidden fields for comment addition and deletion
+function loadCommentHiddenIds() {
+    $(".comment-add-form").find("#post_id").val(postId);
+
     $(".comment-delete-btn").each(function() {
         var id = $(this).attr("id").match(/\d+/)[0];
-        $(this).find("#id").val(id);
+        $(this).find("#comment_id").val(id);
+        $(this).find("#post_id").val(postId);
     });
 }
-$(document).ready(loadDeleteButtonIDs)
+$(document).ready(loadCommentHiddenIds)
 
 function onCommentReload() {
     flask_moment_render_all();
-    loadDeleteButtonIDs();
+    loadCommentHiddenIds();
     MathJax.typeset(["#commentlist"]); // render any LaTeX in comments
 }
 
@@ -38,13 +41,34 @@ function onCommentAjaxDone(response, e) {
     }
 }
 
-$(document).on("submit", ".comment-ajax", function(e) {
+$(document).on("submit", ".ajax-add-comment", function(e) {
     e.preventDefault();
 
-    var formData = new FormData($(e.target).get(0), $(e.originalEvent.submitter).get(0));
+    var formData = new FormData($(e.target).get(0));
     $.ajax({
         type: "POST",
-        url: window.location.pathname + window.location.search,
+        url: endptURL_addComment,
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json"
+    })
+    .done(function(response) {
+        onCommentAjaxDone(response, e);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        var self = this;
+        handleCustomErrors(jqXHR, formData, e, self, onCommentAjaxDone);
+    });
+});
+
+$(document).on("submit", ".ajax-delete-comment", function(e) {
+    e.preventDefault();
+
+    var formData = new FormData($(e.target).get(0));
+    $.ajax({
+        type: "POST",
+        url: endptURL_deleteComment,
         data: formData,
         processData: false,
         contentType: false,

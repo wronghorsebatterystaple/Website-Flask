@@ -14,6 +14,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - Always make sure [config.py](config.py) is updated!
 - Always make sure access control is correct (see documentation below)!
 - Always make sure this README is updated!
+- Always make sure Cloudflare firewall rules etc. still use the right URLs!
 
 ### Access control documentation:
 - Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
@@ -45,7 +46,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 ### Adding new blogpages:
 - Update [config.py](config.py) with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
   - `blog_id` is stored and used as a string
-  - To avoid negative signs from being interpreted as an argument on the command line, preface filepath with `./` or escape individually with '\' (latter strategy doesn't work at the start of a filepath). Alternatively, disable further option processing with `--` option.
+  - To avoid negative signs from being interpreted as an argument on the command line when they are the first element in a filepath, preface filepath with `./`. Alternatively, disable further option processing with `--` option.
 - Create new static directories for it and update other static directory names if necessary.
 
 ### Adding new forms:

@@ -6,6 +6,7 @@ from app.db_config import db_config
 
 
 class AddCommentForm(FlaskForm):
+    post_id = HiddenField(default=None)
     author = StringField("Name", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_COMMENT_AUTHOR"])])
     parent = HiddenField(default=None)
@@ -19,5 +20,6 @@ class ReplyCommentButton(FlaskForm):
 
 
 class DeleteCommentButton(FlaskForm):
-    id = HiddenField(default=None)
+    comment_id = HiddenField(default=None)
+    post_id = HiddenField(default=None)
     delete = SubmitField("Delete", render_kw={"onclick": "return confirm('Abuse of power check');"})
