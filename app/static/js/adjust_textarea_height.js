@@ -20,8 +20,8 @@ $(document).ready(function() {
     $("textarea").each(function() {
         adjustTextareaHeight($(this).get(0), true);
     });
-});
 
-$(document).on("input", "textarea", function(e) {
-    adjustTextareaHeight(e.target, false);
+    $("textarea").on("input", function(e) {
+        adjustTextareaHeight(e.target, false);
+    });
 });

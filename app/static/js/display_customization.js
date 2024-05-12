@@ -26,13 +26,13 @@ function genFootnoteTooltips() {
 }
 
 $(document).ready(function() {
-    // mark \[\] LaTeX blocks with identifying class and make their font shrink on mobile
+    // Mark \[\] LaTeX blocks with identifying class and make their font shrink on mobile
     $("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("mjx-center shrinking-font");
 
-    // tables' font also shrinks on mobile
+    // Tables' font also shrinks on mobile
     $("table").addClass("shrinking-font")
 
-    // tables, \[\] LaTeX blocks, and non-table code blocks scroll horizontally on overflow
+    // Tables, \[\] LaTeX blocks, and non-table code blocks scroll horizontally on overflow
     const divHTML = "<div class=\"scroll-overflow-x\"></div>";
     $("table").wrap(divHTML);
     $(".mjx-center").wrap(divHTML);
@@ -42,7 +42,7 @@ $(document).ready(function() {
         }
     });
 
-    // table cells containing code blocks are top-aligned
+    // Table cells containing code blocks are top-aligned
     $("td").each(function() {
         if ($(this).find("pre").length > 0) {
             $(this).addClass("align-top");
@@ -50,7 +50,7 @@ $(document).ready(function() {
         }
     });
 
-    // custom data-col-width control syntax
+    // Custom data-col-width control syntax
     $("[data-col-width]").each(function() {
         $(this).parents("td").css("width", $(this).attr("data-col-width"));
         $(this).parents("th").css("width", $(this).attr("data-col-width"));
@@ -72,14 +72,14 @@ $(document).ready(function() {
     footnotes_elem.children("hr").first().css("margin", "0.8rem 0");
     footnotes_elem.children("ol").first().addClass("mb-0");
     genFootnoteTooltips();
-});
 
-// Footnotes collapsible opens if footnote link clicked on and the collapsible is closed
-$(document).on("click", ".footnote-ref", function(e) {
-    var footnoteDetails_elem = $("#footnotes-details");
-    if (!footnoteDetails_elem.attr("open")) {
-        footnoteDetails_elem.attr("open", "");
-    }
+    // Footnotes collapsible opens if footnote link clicked on and the collapsible is closed
+    $(".footnote-ref").on("click", function(e) {
+        var footnoteDetails_elem = $("#footnotes-details");
+        if (!footnoteDetails_elem.attr("open")) {
+            footnoteDetails_elem.attr("open", "");
+        }
+    });
 });
 
 // Rerender LaTeX in tooltips on show

@@ -19,7 +19,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 ### Access control documentation:
 - Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
   - On GET to banned page, these redirect to the login view as established in [config.py](config.py), with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs. This allows for cross-domain redirects.
-  - On POST to banned pages, these return an Ajax JSON with the key `relogin=True` that makes [app/static/js/ajax_utils.js](app/static/js/ajax_utils.js)'s `processStandardAjaxResponse()` show the login modal. This allows us to simply pop up the modal instead of redirecting away to a whole new page like `@login_required` or `login_manager.unauthorized()` would, potentially losing stuff we've put into a form (for example) in the process. In addition, returning the `relogin` key explicitly avoids the potentially bad practice of relying on CSRF token expiration and `handleCustomErrors()` in [app/templates/base.html](app/templates/base.html) to detect session expiry and show the modal.
+  - On POST to banned pages, these return an Ajax JSON with the key `relogin=True` that makes [app/static/js/ajax_utils.js](app/static/js/ajax_utils.js)'s `processStandardAjaxResponse()` show the login modal. This allows us to simply pop up the modal instead of redirecting away to a whole new page like `@login_required` or `login_manager.unauthorized()` would, potentially losing stuff we've put into a form (for example) in the process. In addition, returning the `relogin` key explicitly avoids the potentially bad practice of relying on CSRF token expiration and `handleAjaxErrors()` in [app/templates/base.html](app/templates/base.html) to detect session expiry and show the modal.
   - `@custom_login_required(request)` usage in view functions:
 
     ```py
@@ -59,14 +59,14 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - All other forms
   - Usage guidelines:
     - Use Ajax and send FormData
-    - Handle the custom error(s) defined in [config.py](config.py) using `handleCustomErrors()`
+    - Handle the custom error(s) defined in [config.py](config.py) using `handleAjaxErrors()`
   - Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/admin/js/form_submit.js](app/admin/static/admin/js/form_submit.js), [app/blog/static/blog/blogpage/js/comments.js](app/blog/static/blog/blogpage/js/comments.js) for examples of POST forms.
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed.
 
 ### Updating HTML custom errors:
 - Update [config.py](config.py).
 - Update [app/routes.py](app/routes.py) error handlers.
-- Update `handleCustomErrors()` in [app/templates/base.html](app/templates/base.html).
+- Update `handleAjaxErrors()` in [app/templates/base.html](app/templates/base.html).
 
 ### Changing image static paths:
 - Update Markdown expansion/collapse regex in [app/models.py](app/models.py).

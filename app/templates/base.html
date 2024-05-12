@@ -56,8 +56,11 @@
               $("input[name='csrf_token']").val(csrf_token); // reload hidden fields
           }
 
-          function handleCustomErrors(jqXHR, formData, e, self, doneFunc) {
-              if (jqXHR.status === 499) {
+          function handleAjaxErrors(jqXHR, formData, e, self, doneFunc) {
+              if (jqXHR.status === 429) {
+                  customFlash("Please slow down :3");
+              }
+              else if (jqXHR.status === 499) {
                   reloadCSRF(jqXHR.responseText);
                   hideAuthElems(); // session must have expired for CSRF expired error
 
@@ -139,11 +142,11 @@
         </div>
       </nav>
 
-      <div class="non-navbar-container mt-3">
+      <div id="non-navbar" class="mt-3">
         <!-- display flash()ed messages as alerts -->
         <div id="flash" class="flash alert alert-info alert-dismissible fade show" role="alert" hidden>
           <span id="flash-text"></span>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Dismiss"></button>
         </div>
 
         <div>

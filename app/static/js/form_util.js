@@ -10,17 +10,7 @@ function asteriskRequiredFields() {
     });
 }
 
-$(document).ready(asteriskRequiredFields);
-
-// Remove invalid input highlighting and error message when user inputs into field.
-$(document).on("input", ".form-control", function() {
-    if ($(this).hasClass("is-invalid")) {
-        $(this).removeClass("is-invalid");
-        $(this).siblings(".invalid-feedback").text("");
-    }
-});
-
-// Convert <form> element and its data to a JSON for Ajax.
+// Convert <form> element and its data to a JSON for Ajax
 function formToJSON(formObj) {
     var array = formObj.serializeArray();
     var json = {};
@@ -31,3 +21,15 @@ function formToJSON(formObj) {
   
     return json;
 }
+
+$(document).ready(function() {
+    asteriskRequiredFields();
+
+    // Remove invalid input highlighting and error message when user inputs into field
+    $(".form-control").on("input", function() {
+        if ($(this).hasClass("is-invalid")) {
+            $(this).removeClass("is-invalid");
+            $(this).siblings(".invalid-feedback").text("");
+        }
+    });
+});

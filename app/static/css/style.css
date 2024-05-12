@@ -3,6 +3,8 @@
 /***************************/
 
 :root {
+    --narrow-max-width: clamp(33.33vw, 640px, 100vw);
+
     --custom-blue: deepskyblue;
     --custom-blue-light: #47d1ff;
     --custom-blue-deep: #00a2ff;
@@ -27,7 +29,7 @@
 
 .narrow-container {
     overflow-x: scroll;
-    max-width: clamp(33.33vw, 640px, 100vw);
+    max-width: var(--narrow-max-width) !important;
     margin: auto;
 }
 
@@ -268,7 +270,11 @@ td, th {
 .flash {
     color: black;
     background-color: var(--custom-green-xxlight);
+    position: fixed;
+    top: 1rem;
+    width: calc(var(--narrow-max-width) - (var(--bs-gutter-x)));
     border-color: var(--custom-green-light);
+    z-index: 9999;
 }
 
 .footnote {

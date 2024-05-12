@@ -12,3 +12,8 @@ function renderQueryStringFlash() {
 }
 
 $(document).ready(renderQueryStringFlash);
+
+// Regenerate flash on dismiss so we can flash again; we do this instead of changing close button behavior to preserve fade animation
+$(document).on("close.bs.alert", "#flash", function() {
+    $("#non-navbar").prepend("<div id=\"flash\" class=\"flash alert alert-info alert-dismissible fade show\" role=\"alert\" hidden=\"\"><span id=\"flash-text\"></span><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Dismiss\"></button></div>");
+});

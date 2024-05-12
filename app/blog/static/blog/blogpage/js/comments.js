@@ -1,17 +1,3 @@
-// Reveal fields for comment on clicking a reply button
-$(document).on("submit", ".comment-reply-btn", function(e) {
-    e.preventDefault();
-
-    var id = $(this).attr("id").match(/\d+/)[0];
-    var commentReplyForm_elem = $(`#comment-reply-form-${id}`);
-    commentReplyForm_elem.removeAttr("hidden");
-    commentReplyForm_elem.find("#parent").val(id); // insert under right parent
-    commentReplyForm_elem.find("#author-input").focus();
-    e.target.setAttribute("hidden", "");
-
-    asteriskRequiredFields();
-});
-
 // Populate comment's hidden fields for comment addition and deletion
 function loadCommentHiddenIds() {
     $(".comment-add-form").find("#post_id").val(postId);
@@ -22,7 +8,6 @@ function loadCommentHiddenIds() {
         $(this).find("#post_id").val(postId);
     });
 }
-$(document).ready(loadCommentHiddenIds)
 
 function onCommentReload() {
     flask_moment_render_all();
@@ -41,44 +26,63 @@ function onCommentAjaxDone(response, e) {
     }
 }
 
-$(document).on("submit", ".ajax-add-comment", function(e) {
-    e.preventDefault();
+$(document).ready(function() {
+    loadCommentHiddenIds();
 
-    var formData = new FormData($(e.target).get(0));
-    $.ajax({
-        type: "POST",
-        url: endptURL_addComment,
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json"
-    })
-    .done(function(response) {
-        onCommentAjaxDone(response, e);
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-        var self = this;
-        handleCustomErrors(jqXHR, formData, e, self, onCommentAjaxDone);
+    // reveal fields for comment on clicking a reply button
+    $(".comment-reply-btn").on("submit", function(e) {
+        e.preventDefault();
+
+        var id = $(this).attr("id").match(/\d+/)[0];
+        var commentReplyForm_elem = $(`#comment-reply-form-${id}`);
+        commentReplyForm_elem.removeAttr("hidden");
+        commentReplyForm_elem.find("#parent").val(id); // insert under right parent
+        commentReplyForm_elem.find("#author-input").focus();
+        e.target.setAttribute("hidden", "");
+
+        asteriskRequiredFields();
+    });
+
+    $(".ajax-add-comment").on("submit", function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($(e.target).get(0));
+        $.ajax({
+            type: "POST",
+            url: endptURL_addComment,
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json"
+        })
+        .done(function(response) {
+            onCommentAjaxDone(response, e);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            var self = this;
+            handleAjaxErrors(jqXHR, formData, e, self, onCommentAjaxDone);
+        });
+    });
+
+    $(".ajax-delete-comment").on("submit", function(e) {
+        e.preventDefault();
+
+        var formData = new FormData($(e.target).get(0));
+        $.ajax({
+            type: "POST",
+            url: endptURL_deleteComment,
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json"
+        })
+        .done(function(response) {
+            onCommentAjaxDone(response, e);
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            var self = this;
+            handleAjaxErrors(jqXHR, formData, e, self, onCommentAjaxDone);
+        });
     });
 });
 
-$(document).on("submit", ".ajax-delete-comment", function(e) {
-    e.preventDefault();
-
-    var formData = new FormData($(e.target).get(0));
-    $.ajax({
-        type: "POST",
-        url: endptURL_deleteComment,
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json"
-    })
-    .done(function(response) {
-        onCommentAjaxDone(response, e);
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-        var self = this;
-        handleCustomErrors(jqXHR, formData, e, self, onCommentAjaxDone);
-    });
-});
