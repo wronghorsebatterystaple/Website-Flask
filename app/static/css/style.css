@@ -168,7 +168,7 @@
 }
 
 .shrinking-font {
-    font-size: clamp(14px, 2vw, 1rem) !important;
+    font-size: clamp(14px, 2vw, 1em) !important;
 }
 
 .w-20 {
@@ -316,7 +316,7 @@ td, th {
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
     background-color: var(--custom-pink-xxlight) !important;
-    font-size: 0.85em;
+    font-size: 0.9em;
     max-width: 30rem !important;
 }
 .tooltip.show {
