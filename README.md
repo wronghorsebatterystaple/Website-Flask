@@ -58,7 +58,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 - POST forms:
   - All other forms
   - Usage guidelines:
-    - Use Ajax and send FormData
+    - Use Ajax and send FormData (since `handleAjaxErrors()` only works with FormData)
     - Handle the custom error(s) defined in [config.py](config.py) using `handleAjaxErrors()`
   - Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/admin/js/form_submit.js](app/admin/static/admin/js/form_submit.js), [app/blog/static/blog/blogpage/js/comments.js](app/blog/static/blog/blogpage/js/comments.js) for examples of POST forms.
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed.
