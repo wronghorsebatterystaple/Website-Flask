@@ -101,8 +101,7 @@
       <!-- navbar -->
       <nav class="navbar navbar-expand-sm">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">
-          <img alt="icon" src="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}" width="30" height="30" class="d-inline-block align-text-middle">
-          Home
+          <img class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}" alt="icon" width="30" height="30">Home
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -127,7 +126,7 @@
 
           <ul id="auth-reload-navbar-2" class="auth-true navbar-nav mb-0 mb-lg-0"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
             <li class="nav-item">
-              <a id="logout-link" class="nav-link" href="#">Logout please :3</a>
+              <a id="logout-link" class="nav-link pe-0" href="#">Logout please :3</a>
             </li>
           </ul>
           <ul id="auth-reload-navbar-3" class="auth-false navbar-nav mb-0 mb-lg-0" {%- if current_user.is_authenticated %} hidden{%- endif %}>
