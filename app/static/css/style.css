@@ -321,7 +321,6 @@ td, th {
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
     background-color: var(--custom-pink-xxlight) !important;
-    font-size: 0.9em;
     max-width: 30rem !important;
 }
 .tooltip.show {
