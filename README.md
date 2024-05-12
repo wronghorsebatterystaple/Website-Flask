@@ -159,3 +159,4 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
     - `padding-bottom`
     - `padding-left`
   - `z-index`
+- Browser-specific display stuff

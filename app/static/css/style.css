@@ -199,6 +199,11 @@
 .scroll-overflow-x {
     overflow-x: scroll;
     margin-bottom: 0.5rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scroll-overflow-x::-webkit-scrollbar {
+    display: none;
 }
 
 .underline-on-hover {
