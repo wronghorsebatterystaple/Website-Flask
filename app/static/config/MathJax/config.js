@@ -15,7 +15,7 @@ window.MathJax = {
             suchthat: "\\,\\vert\\,",
             suchthatlong: "\\,\\middle\\vert\\,",
             Z: "\\mathbb{Z}",
-            // redifined functions to always use parenthesess around arguments
+            // redefined functions to always use parentheses around arguments
             Arccos: ["\\arccos{\\left(#1\\right)}", 1],
             Arccot: ["\\arccot{\\left(#1\\right)}", 1],
             Arccsc: ["\\arccsc{\\left(#1\\right)}", 1],
@@ -61,7 +61,7 @@ window.MathJax = {
             st: "\\text{ s.t. }",
             t: "\\text",
             // other
-            p: "\\phantom{-}"
+            p: ["\\phantom{#1}", 1]
         }
     }
 };

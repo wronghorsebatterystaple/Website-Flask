@@ -47,9 +47,17 @@
             <div class="flex-grow-1 ms-3">
           {%- endif %}
           {%- set descendants = comment.get_descendants_list(post) %}
-          <div class="comment card{%- if comment.author.lower() |replace(" ", "") == config['VERIFIED_AUTHOR'] %} border-custom-orange border-3px{%- endif %}{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
+          {%- if comment.author.lower() |replace(" ", "") == config["VERIFIED_AUTHOR"] %}
+          <div class="comment card border-custom-orange border-3px{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
+            <div class="card-body pb-2">
+                <h3 class="comment-author d-flex align-items-center me-1">
+                  <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/verified_checkmark.svg') }}" title="Actually verified, unlike Twitter.">
+                </h3>
+          {%- else %}
+          <div class="comment card{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
               <h3 class="comment-author">{{ comment.author }}</h3>
+          {%- endif %}
               <div class="gray">{{ comment.content |safe }}</div>
               <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
               

@@ -47,11 +47,16 @@
 .comment-nest-limit-text {
     font-size: 0.95em !important;
 }
-.comment-icon {
-    width: 1em;
-    height: 1em;
-}
 input[value="Reply"][value="Delete"] {
     font-size: 0.95em !important;
     margin-bottom: 0em !important;
+}
+
+.img-comment-icon {
+    width: 1em;
+    height: 1em;
+}
+.img-verified-checkmark {
+    width: 0.8em;
+    height: 0.8em;
 }
