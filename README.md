@@ -70,6 +70,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
 
 ### Changing image static paths:
 - Update Markdown expansion/collapse regex in [app/models.py](app/models.py).
+- Update image paths in [app/admin/routes.py](app/admin/routes.py).
 - Update image paths for all existing images in db.
 
 # Blog writer notes
