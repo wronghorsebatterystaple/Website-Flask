@@ -271,7 +271,7 @@ td, th {
     color: black;
     background-color: var(--custom-green-xxlight);
     position: fixed;
-    top: 1rem;
+    top: 0.9rem;
     width: calc(var(--narrow-max-width) - (var(--bs-gutter-x)));
     border-color: var(--custom-green-light);
     z-index: 9999;
