@@ -6,7 +6,7 @@ const totalPages = {{ total_pages }};
 {%- endblock -%}
 
 {%- block title -%}
-{{ title }} (page {{ page }})
+{{ title }}{%- if page > 1 %} (page {{ page }}){%- endif %}
 {{ super() }}
 {%- endblock -%}
 
