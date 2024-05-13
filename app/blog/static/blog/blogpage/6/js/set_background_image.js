@@ -5,4 +5,4 @@ function setBackgroundImage() {
     imgContainer_elem.css("background-position", "center center");
     imgContainer_elem.css("background-size", "cover");
     imgContainer_elem.css("background-attachment", "fixed");
-
+}
