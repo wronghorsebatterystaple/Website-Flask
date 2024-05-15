@@ -1,6 +1,7 @@
 # security ignores
 .env
-db_backup.sh
+db_backup_1.sh
+db_backup_2.sh
 
 # should be ignored by default but just to be safe
 # instead do pip install -r requirements.txt on clone

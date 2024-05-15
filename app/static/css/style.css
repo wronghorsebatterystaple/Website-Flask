@@ -197,7 +197,6 @@
 .scroll-overflow-x {
     overflow-x: scroll;
     margin-bottom: 0.5rem;
-    -ms-overflow-style: none;
     scrollbar-width: none;
 }
 .scroll-overflow-x::-webkit-scrollbar {
@@ -241,6 +240,10 @@ code {
 }
 pre {
     font-size: 100%;
+    scrollbar-width: none;
+}
+.pre::-webkit-scrollbar {
+    display: none;
 }
 
 img {
