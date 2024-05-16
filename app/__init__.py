@@ -1,16 +1,16 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from config import Config
 
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_login import LoginManager
-from flask_paranoid import Paranoid
 from flask_sqlalchemy import SQLAlchemy
 from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect, CSRFError
 
 from app.routes import *
+from app.util import *
 
 
 # declare extension instances outside so blueprints can still do `from app import db` etc.
@@ -21,8 +21,7 @@ migrate = Migrate()
 moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = Config.LOGIN_VIEW
-paranoid = Paranoid()
-paranoid.redirect_view = Config.LOGIN_VIEW
+login_manager.session_protection = "strong" # deletes session cookie on IP/UA change
 turnstile = Turnstile()
 
 def create_app(config_class=Config):
@@ -56,7 +55,6 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     moment.init_app(app)
     login_manager.init_app(app)
-    paranoid.init_app(app)
     turnstile.init_app(app)
 
     return app

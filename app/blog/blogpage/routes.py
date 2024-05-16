@@ -39,7 +39,7 @@ def index():
     blog_id = get_blog_id(request.blueprint)
     
     # require login to access private blogs
-    if blog_id in current_app.config["PRIVATE_BLOG_IDS"]:
+    if blog_id in current_app.config["LOGIN_REQUIRED_BLOG_IDS"]:
         result = util.custom_unauthorized(request)
         if result:
             return result
@@ -54,7 +54,7 @@ def index():
     if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
         all_posts = True
         posts = db.paginate(db.session.query(Post).filter(Post.blog_id \
-                .notin_(current_app.config["PRIVATE_BLOG_IDS"])).order_by(sa.desc(Post.timestamp)),
+                .notin_(current_app.config["LOGIN_REQUIRED_BLOG_IDS"])).order_by(sa.desc(Post.timestamp)),
                 page=page, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
     else:
         all_posts = False
@@ -83,7 +83,7 @@ def post(post_sanitized_title):
     blog_id = get_blog_id(request.blueprint)
 
     # require login to access private blogs
-    if blog_id in current_app.config["PRIVATE_BLOG_IDS"]:
+    if blog_id in current_app.config["LOGIN_REQUIRED_BLOG_IDS"]:
         result = util.custom_unauthorized(request)
         if result:
             return result

@@ -3,7 +3,7 @@
 {%- block meta_description -%}
 AnonymousRand blogs:
 {%- for k, v in config.BLOG_ID_TO_TITLE -%}
-  {%- if k not in config.PRIVATE_BLOG_IDS -%}
+  {%- if k not in config.LOGIN_REQUIRED_BLOG_IDS -%}
     {{ v }}{%- if not loop.last %} - {% endif -%}
   {%- endif -%}
 {%- endfor -%}

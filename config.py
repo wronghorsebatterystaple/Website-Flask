@@ -37,7 +37,7 @@ class Config(object):
     POSTS_PER_PAGE = 15
 
     # Scuffed configs
-    PRIVATE_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for displaying and Flask access control
+    LOGIN_REQUIRED_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for displaying and Flask access control
     UNPUBLISHED_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for published dates on blogs
     ALL_POSTS_BLOG_ID = "1"
     BLOG_ID_TO_PATH = {

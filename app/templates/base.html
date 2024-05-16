@@ -118,7 +118,7 @@
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
                 {%- for k, v in config.BLOG_ID_TO_TITLE.items() %}
-                  <li{%- if k in config.PRIVATE_BLOG_IDS %} id="auth-reload-navbar-0" class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
+                  <li{%- if k in config.LOGIN_REQUIRED_BLOG_IDS %} id="auth-reload-navbar-0" class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
                     <a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a>
                   </li>
                 {%- endfor %}
