@@ -5,22 +5,26 @@
 :root {
     --narrow-max-width: clamp(33.33vw, 640px, 100vw);
 
+    /* Light/dark is saturation on HSV while deep is value */
     --custom-blue: deepskyblue;
     --custom-blue-light: #47d1ff;
-    --custom-blue-deep: #00a2ff;
+    --custom-blue-deep: #00ace6;
 
     --custom-green: #8cff00;
     --custom-green-light: #b8ff61;
     --custom-green-xlight: #ccff8c;
     --custom-green-xxlight: #ecffd5;
     --custom-green-deep: #77d900;
+    --custom-green-xdeep: #6fc900;
 
     --custom-orange: #ffc107; /* BS warning color */
     --custom-orange-light: #ffcf4a;
+    --custom-orange-deep: #ebb207;
 
     --custom-pink: #ff9cdd;
     --custom-pink-light: #ffb5e5;
     --custom-pink-xxlight: #fff5fc;
+    --custom-pink-deep: #e88ec8;
 
     --customcolor-code: navy;
     --customcolor-thm: navy;
@@ -55,12 +59,10 @@
 
 .black {
     color: black !important;
-
 }
 .gray {
     color: gray !important;
 }
-
 .custom-green-deep {
     color: var(--custom-green-deep) !important;
 }
@@ -138,17 +140,53 @@
     --bs-btn-active-color: var(--custom-pink) !important;
 }
 
-.underline-custom-blue {
-    text-decoration-color: var(--custom-blue) !important;
+.link-underline-color-custom-blue {
+    color: var(--custom-blue) !important;
 }
-.underline-custom-green-deep {
-    text-decoration-color: var(--custom-green-deep) !important;
+.link-underline-color-custom-blue:hover {
+    color: var(--custom-blue-deep) !important;
 }
-.underline-custom-orange {
-    text-decoration-color: var(--custom-orange) !important;
+.hover-color-custom-blue {
+    color: var(--custom-blue) !important;
 }
-.underline-custom-pink {
-    text-decoration-color: var(--custom-pink) !important;
+.hover-color-custom-blue:hover {
+    color: var(--custom-blue-deep) !important;
+}
+.link-underline-color-custom-green-deep {
+    color: var(--custom-green-deep) !important;
+}
+.link-underline-color-custom-green-deep:hover {
+    color: var(--custom-green-xdeep) !important;
+}
+.hover-color-custom-green-deep {
+    color: var(--custom-green-deep) !important;
+}
+.hover-color-custom-green-deep:hover {
+    color: var(--custom-green-xdeep) !important;
+}
+.link-underline-color-custom-orange {
+    color: var(--custom-orange) !important;
+}
+.link-underline-color-custom-orange:hover {
+    color: var(--custom-orange-deep) !important;
+}
+.hover-color-custom-orange {
+    color: var(--custom-orange) !important;
+}
+.hover-color-custom-orange:hover {
+    color: var(--custom-orange-deep) !important;
+}
+.link-underline-color-custom-pink {
+    color: var(--custom-pink) !important;
+}
+.link-underline-color-custom-pink:hover {
+    color: var(--custom-pink-deep) !important;
+}
+.hover-color-custom-pink {
+    color: var(--custom-pink) !important;
+}
+.hover-color-custom-pink:hover {
+    color: var(--custom-pink-deep) !important;
 }
 
 /* Size and spacing utils */
