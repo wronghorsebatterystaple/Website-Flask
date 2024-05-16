@@ -155,8 +155,8 @@
     border-width: 3px !important;
 }
 
-.flex-basis-75 {
-    flex-basis: 75% !important;
+.flex-basis-80 {
+    flex-basis: 80% !important;
 }
 
 .mt-2half {
@@ -164,7 +164,7 @@
 }
 
 .shrinking-font {
-    font-size: clamp(14px, 2vw, 1em) !important;
+    font-size: clamp(14px, 2.5vw, 1em) !important;
 }
 
 .w-20 {

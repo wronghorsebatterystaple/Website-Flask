@@ -32,11 +32,13 @@ const totalPages = {{ total_pages }};
         {%- set color = config["BLOG_ID_TO_COLOR_CLASS"][post.blog_id] %}
         <a class="underline-on-hover-only underline-{{ color }} shrinking-font" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
-              <h1 class="postlist-post-title {{ color }} flex-basis-75 flex-shrink-0 me-3 mb-1">{{ post.title }}</h1>
+            <h1 class="postlist-post-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-1">{{ post.title }}</h1>
             <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-9 text-end ms-auto"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>
           </div>
           {%- if post.subtitle != "" %}
-            <h2 class="postlist-post-subtitle {{ color }} mb-1">{{ post.subtitle }}</h2>
+            <div class="d-flex align-items-top">
+              <h2 class="postlist-post-subtitle {{ color }} flex-basis-80 flex-shrink-0 mb-1">{{ post.subtitle }}</h2>
+            </div>
           {%- endif %}
       {%- else %}
         <a class="underline-on-hover-only underline-custom-green shrinking-font" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
@@ -48,11 +50,13 @@ const totalPages = {{ total_pages }};
 
           <div class="d-flex align-items-center pt-2">
             {%- if post.edited_timestamp is not none %}
-              <h3 class="postlist-post-timestamp black me-2 mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
+              <h3 class="postlist-post-timestamp black flex-basis-80 me-2 mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
             {%- else %}
-              <h3 class="postlist-post-timestamp black me-2 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
+              <h3 class="postlist-post-timestamp black flex-basis-80 me-2 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
             {%- endif %}
-            <span class="gray d-flex align-items-center ms-auto"><span class="me-1">{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/comment_icon.svg') }}" alt="comments"></span>
+            <span class="gray d-flex align-items-center ms-auto">
+              <span class="me-1">{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/comment_icon.svg') }}" alt="comments">
+            </span>
           </div>
         </a>
       </div>
