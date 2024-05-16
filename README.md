@@ -128,6 +128,9 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
     - Non-custom-syntax stuff that is easier to handle from JQuery, like adding classes for styling or traversing DOM
 
 ### CSS property order (currently-used properties):
+- Custom variables:
+  - Mine
+  - Bootstrap's
 - "Specific":
   - `content`
   - `opacity`

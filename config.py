@@ -86,7 +86,7 @@ class Config(object):
     }
     BLOG_ID_TO_COLOR_CLASS = {
         "2": "custom-blue",
-        "3": "custom-green-deep",
+        "3": "custom-green",
         "6": "custom-pink",
         "7": "custom-pink"
     }

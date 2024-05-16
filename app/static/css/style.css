@@ -1,30 +1,30 @@
-/***************************/
-/* General-purpose/utility */
-/***************************/
+/***********/
+/* General */
+/***********/
 
 :root {
     --narrow-max-width: clamp(33.33vw, 640px, 100vw);
 
-    /* Light/dark is saturation on HSV while deep is value */
-    --custom-blue: deepskyblue;
-    --custom-blue-light: #47d1ff;
-    --custom-blue-deep: #00ace6;
+    /* "soft" is saturation on HSV while "dark" is value */
+    /* Decreasing value is used for link hovers, while decreasing saturation is for button hovers */
+    --custom-blue: DeepSkyBlue;
+    --custom-blue-soft: #47d1ff;
+    --custom-blue-dark: #00ace6;
 
-    --custom-green: #8cff00;
-    --custom-green-light: #b8ff61;
-    --custom-green-xlight: #ccff8c;
-    --custom-green-xxlight: #ecffd5;
-    --custom-green-deep: #77d900;
-    --custom-green-xdeep: #6fc900;
+    --custom-green-soft: #8cff00;
+    --custom-green-xsoft: #b8ff61;
+    --custom-green-xxsoft: #ecffd5;
+    --custom-green: #77d900;
+    --custom-green-dark: #6fc900;
 
     --custom-orange: #ffc107; /* BS warning color */
-    --custom-orange-light: #ffcf4a;
-    --custom-orange-deep: #ebb207;
+    --custom-orange-soft: #ffcf4a;
+    --custom-orange-dark: #ebb207;
 
     --custom-pink: #ff9cdd;
-    --custom-pink-light: #ffb5e5;
-    --custom-pink-xxlight: #fff5fc;
-    --custom-pink-deep: #e88ec8;
+    --custom-pink-soft: #ffb5e5;
+    --custom-pink-xxsoft: #fff5fc;
+    --custom-pink-dark: #e88ec8;
 
     --customcolor-code: navy;
     --customcolor-thm: navy;
@@ -41,7 +41,9 @@
     min-height: 100vh;
 }
 
+/*********/
 /* Fonts */
+/*********/
 
 .font-comic-neue {
     font-family: "Comic Neue", sans-serif !important;
@@ -55,7 +57,9 @@
     font-style: normal !important;
 }
 
+/**********/
 /* Colors */
+/**********/
 
 .black {
     color: black !important;
@@ -63,8 +67,11 @@
 .gray {
     color: gray !important;
 }
-.custom-green-deep {
-    color: var(--custom-green-deep) !important;
+.custom-blue {
+    color: var(--custom-blue) !important;
+}
+.custom-green {
+    color: var(--custom-green) !important;
 }
 .custom-orange {
     color: var(--custom-orange) !important;
@@ -82,114 +89,67 @@
     --bs-btn-bg: var(--custom-blue) !important;
     --bs-btn-border-color: var(--custom-blue) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-blue-light) !important;
-    --bs-btn-hover-border-color: var(--custom-blue-light) !important;
+    --bs-btn-hover-bg: var(--custom-blue-soft) !important;
+    --bs-btn-hover-border-color: var(--custom-blue-soft) !important;
     --bs-btn-focus-shadow-rgb: var(--custom-blue) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-blue) !important;
     --bs-btn-active-border-color: var(--custom-blue) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custom-blue-light) !important;
-    --bs-btn-disabled-border-color: var(--custom-blue-light) !important;
-}
-.btn-custom-green-light {
-    --bs-btn-color: black !important;
-    --bs-btn-bg: var(--custom-green-light) !important;
-    --bs-btn-border-color: var(--custom-green-light) !important;
-    --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-green-xlight) !important;
-    --bs-btn-hover-border-color: var(--custom-green-xlight) !important;
-    --bs-btn-focus-shadow-rgb: var(--custom-green-light) !important;
-    --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--custom-green-light) !important;
-    --bs-btn-active-border-color: var(--custom-green-light) !important;
-    --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custom-green-xlight) !important;
-    --bs-btn-disabled-border-color: var(--custom-green-xlight) !important;
+    --bs-btn-disabled-bg: var(--custom-blue-soft) !important;
+    --bs-btn-disabled-border-color: var(--custom-blue-soft) !important;
 }
 .btn-custom-orange {
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-orange) !important;
     --bs-btn-border-color: var(--custom-orange) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-orange-light) !important;
-    --bs-btn-hover-border-color: var(--custom-orange-light) !important;
+    --bs-btn-hover-bg: var(--custom-orange-soft) !important;
+    --bs-btn-hover-border-color: var(--custom-orange-soft) !important;
     --bs-btn-focus-shadow-rgb: var(--custom-orange) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-orange) !important;
     --bs-btn-active-border-color: var(--custom-orange) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custom-orange-light) !important;
-    --bs-btn-disabled-border-color: var(--custom-orange-light) !important;
+    --bs-btn-disabled-bg: var(--custom-orange-soft) !important;
+    --bs-btn-disabled-border-color: var(--custom-orange-soft) !important;
 }
 .btn-custom-blue-link {
     --bs-btn-color: var(--custom-blue) !important;
-    --bs-btn-hover-color: var(--custom-blue-deep) !important;
+    --bs-btn-hover-color: var(--custom-blue-dark) !important;
     --bs-btn-active-color: var(--custom-blue) !important;
 }
 
-/* btn-link-no-underline simulates button behavior (turning brighter when hovered) instead of btn-link's link behavior (turning darker when hovered) */
+/* btn-link-no-underline also simulates button hover behavior (turning less saturated/softer) instead of btn-link's link behavior (turning less luminous/darker) */
 .btn-custom-orange-link-no-underline {
     --bs-btn-color: var(--custom-orange) !important;
-    --bs-btn-hover-color: var(--custom-orange-light) !important;
+    --bs-btn-hover-color: var(--custom-orange-soft) !important;
     --bs-btn-active-color: var(--custom-orange) !important;
+    text-decoration: none;
 }
 .btn-custom-pink-link-no-underline {
     --bs-btn-color: var(--custom-pink) !important;
-    --bs-btn-hover-color: var(--custom-pink-light) !important;
+    --bs-btn-hover-color: var(--custom-pink-soft) !important;
     --bs-btn-active-color: var(--custom-pink) !important;
+    text-decoration: none;
 }
 
-.link-underline-color-custom-blue {
-    color: var(--custom-blue) !important;
+.underline-custom-blue {
+    text-decoration-color: var(--custom-blue) !important;
 }
-.link-underline-color-custom-blue:hover {
-    color: var(--custom-blue-deep) !important;
+.underline-custom-green {
+    text-decoration-color: var(--custom-green) !important;
 }
-.hover-color-custom-blue {
-    color: var(--custom-blue) !important;
+.underline-custom-orange {
+    text-decoration-color: var(--custom-orange) !important;
 }
-.hover-color-custom-blue:hover {
-    color: var(--custom-blue-deep) !important;
-}
-.link-underline-color-custom-green-deep {
-    color: var(--custom-green-deep) !important;
-}
-.link-underline-color-custom-green-deep:hover {
-    color: var(--custom-green-xdeep) !important;
-}
-.hover-color-custom-green-deep {
-    color: var(--custom-green-deep) !important;
-}
-.hover-color-custom-green-deep:hover {
-    color: var(--custom-green-xdeep) !important;
-}
-.link-underline-color-custom-orange {
-    color: var(--custom-orange) !important;
-}
-.link-underline-color-custom-orange:hover {
-    color: var(--custom-orange-deep) !important;
-}
-.hover-color-custom-orange {
-    color: var(--custom-orange) !important;
-}
-.hover-color-custom-orange:hover {
-    color: var(--custom-orange-deep) !important;
-}
-.link-underline-color-custom-pink {
-    color: var(--custom-pink) !important;
-}
-.link-underline-color-custom-pink:hover {
-    color: var(--custom-pink-deep) !important;
-}
-.hover-color-custom-pink {
-    color: var(--custom-pink) !important;
-}
-.hover-color-custom-pink:hover {
-    color: var(--custom-pink-deep) !important;
+.underline-custom-pink {
+    text-decoration-color: var(--custom-pink) !important;
 }
 
+/**************************/
 /* Size and spacing utils */
+/**************************/
 
 .border-3px {
     border-width: 3px !important;
@@ -211,7 +171,9 @@
     width: 20% !important;
 }
 
+/***************/
 /* Other utils */
+/***************/
 
 .doublehr {
     height: 6px;
@@ -222,10 +184,6 @@
 .link-style {
     color: var(--custom-blue);
     text-decoration: underline;
-}
-
-.no-underline {
-    text-decoration: none;
 }
 
 .pipe {
@@ -244,17 +202,18 @@
     text-decoration: underline;
 }
 
-/************/
-/* Specific */
-/************/
+/****************************************/
+/* Changes to specific tags/classes/IDs */
+/****************************************/
 
-a { /* Links default to custom-blue, but can be overwritten with !important */
+/* Links default to custom-blue, but can be overwritten with !important */
+a {
     color: var(--custom-blue);
     text-decoration-color: var(--custom-blue);
 }
 a:hover {
-    color: var(--custom-blue-deep);
-    text-decoration-color: var(--custom-blue-deep);
+    color: var(--custom-blue-dark);
+    text-decoration-color: var(--custom-blue-dark);
 }
 
 body {
@@ -299,11 +258,11 @@ td, th {
 
 .flash {
     color: black;
-    background-color: var(--custom-green-xxlight);
+    background-color: var(--custom-green-xxsoft);
     position: fixed;
     top: 0.9rem;
     width: calc(var(--narrow-max-width) - (var(--bs-gutter-x)));
-    border-color: var(--custom-green-light);
+    border-color: var(--custom-green-xsoft);
     z-index: 9999;
 }
 
@@ -319,7 +278,7 @@ td, th {
 }
 
 .md-details {
-    border: 2px solid var(--custom-blue-light);
+    border: 2px solid var(--custom-blue-soft);
     border-radius: var(--bs-border-radius);
     margin-bottom: 1rem;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
@@ -356,11 +315,11 @@ td, th {
 }
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
-    background-color: var(--custom-pink-xxlight) !important;
+    background-color: var(--custom-pink-xxsoft) !important;
     max-width: 30rem !important;
 }
 .tooltip.show {
     opacity: 100%;
-    border: 1px solid var(--custom-pink-light) !important;
+    border: 1px solid var(--custom-pink-soft) !important;
     border-radius: var(--bs-border-radius);
 }
