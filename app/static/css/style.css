@@ -28,7 +28,7 @@
 }
 
 .narrow-container {
-    overflow-x: scroll;
+    overflow-x: auto;
     max-width: var(--narrow-max-width) !important;
     margin: auto;
 }
@@ -195,12 +195,8 @@
 }
 
 .scroll-overflow-x {
-    overflow-x: scroll;
+    overflow-x: auto;
     margin-bottom: 0.5rem;
-    scrollbar-width: none;
-}
-.scroll-overflow-x::-webkit-scrollbar {
-    display: none;
 }
 
 .underline-on-hover {
@@ -240,10 +236,6 @@ code {
 }
 pre {
     font-size: 100%;
-    scrollbar-width: none;
-}
-.pre::-webkit-scrollbar {
-    display: none;
 }
 
 img {

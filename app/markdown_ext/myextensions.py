@@ -6,44 +6,28 @@ import xml.etree.ElementTree as etree
 import re
 
 
-class CustomThmBlockProcessor(BlockProcessor):
-    THM_START_RE = r"\\thm$"
-    THM_END_RE = r"\\endthm$"
+class GrayCodeInlineProcessor(InlineProcessor):
+    def handleMatch(self, m, data):
+        elem = etree.Element("code")
+        elem.set("class", "gray")
+        elem.text = m.group(1)
+        return elem, m.start(0), m.end(0)
 
 
-    def test(self, parent, block):
-        return re.match(self.THM_START_RE, block)
-
-    def run(self, parent, blocks):
-        original_block = blocks[0]
-        # remove starting delimiter
-        blocks[0] = re.sub(self.THM_START_RE, "", blocks[0])
-
-        # find ending delimiter
-        for block_num, block in enumerate(blocks):
-            if re.search(self.THM_END_RE, block):
-                # remove ending delimiter
-                blocks[block_num] = re.sub(self.THM_END_RE, "", block)
-                # put area between in <blockquote class="md-thm"></blockquote>
-                elem = etree.SubElement(parent, "blockquote")
-                elem.set("class", "md-thm")
-                self.parser.parseBlocks(elem, blocks[0:block_num + 1])
-                # remove used blocks
-                for _ in range(0, block_num + 1):
-                    blocks.pop(0)
-                return True
-
-        # if no ending delimiter, restore and do nothing
-        blocks[0] = original_block
-        return False
+class ImageWidthInlineProcessor(InlineProcessor):
+    def handleMatch(self, m, data):
+        elem = etree.Element("img")
+        elem.set("src", m.group(3))
+        elem.set("alt", m.group(1))
+        elem.set("width", m.group(2))
+        return elem, m.start(0), m.end(0)
 
 
-class CustomDropdownBlockProcessor(BlockProcessor):
+class DropdownBlockProcessor(BlockProcessor):
     DROPDOWN_START_RE = r"\\dropdown$"
     DROPDOWN_END_RE = r"\\enddropdown$"
     SUMMARY_START_RE = r"\\summary$"
     SUMMARY_END_RE = r"\\endsummary$"
-
 
     def test(self, parent, block):
         return re.match(self.DROPDOWN_START_RE, block)
@@ -103,6 +87,72 @@ class CustomDropdownBlockProcessor(BlockProcessor):
         return False
 
 
+class TextboxBlockProcessor(BlockProcessor):
+    TEXTBOX_START_RE = r"\\textbox$"
+    TEXTBOX_END_RE = r"\\endtextbox$"
+
+    def test(self, parent, block):
+        return re.match(self.TEXTBOX_START_RE, block)
+
+    def run(self, parent, blocks):
+        original_block = blocks[0]
+        # remove starting delimiter
+        blocks[0] = re.sub(self.TEXTBOX_START_RE, "", blocks[0])
+
+        # find ending delimiter
+        for block_num, block in enumerate(blocks):
+            if re.search(self.TEXTBOX_END_RE, block):
+                # remove ending delimiter
+                blocks[block_num] = re.sub(self.TEXTBOX_END_RE, "", block)
+                # put area between in <table><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+                table_elem = etree.SubElement(parent, "table")
+                tbody_elem = etree.SubElement(table_elem, "tbody")
+                tr_elem = etree.SubElement(tbody_elem, "tr")
+                td_elem = etree.SubElement(tr_elem, "td")
+                td_elem.set("colspan", "1")
+                td_elem.set("rowspan", "1")
+                self.parser.parseBlocks(td_elem, blocks[0:block_num + 1])
+                # remove used blocks
+                for _ in range(0, block_num + 1):
+                    blocks.pop(0)
+                return True
+
+        # if no ending delimiter, restore and do nothing
+        blocks[0] = original_block
+        return False
+
+
+class ThmBlockProcessor(BlockProcessor):
+    THM_START_RE = r"\\thm$"
+    THM_END_RE = r"\\endthm$"
+
+    def test(self, parent, block):
+        return re.match(self.THM_START_RE, block)
+
+    def run(self, parent, blocks):
+        original_block = blocks[0]
+        # remove starting delimiter
+        blocks[0] = re.sub(self.THM_START_RE, "", blocks[0])
+
+        # find ending delimiter
+        for block_num, block in enumerate(blocks):
+            if re.search(self.THM_END_RE, block):
+                # remove ending delimiter
+                blocks[block_num] = re.sub(self.THM_END_RE, "", block)
+                # put area between in <blockquote class="md-thm"></blockquote>
+                elem = etree.SubElement(parent, "blockquote")
+                elem.set("class", "md-thm")
+                self.parser.parseBlocks(elem, blocks[0:block_num + 1])
+                # remove used blocks
+                for _ in range(0, block_num + 1):
+                    blocks.pop(0)
+                return True
+
+        # if no ending delimiter, restore and do nothing
+        blocks[0] = original_block
+        return False
+
+
 # Markdown tweaks round 1: custom syntax only!
 class MyExtensions(Extension):
     def extendMarkdown(self, md):
@@ -112,9 +162,20 @@ class MyExtensions(Extension):
         # ~~[text]~~ for strikethrough
         md.inlinePatterns.register(SimpleTagInlineProcessor(r"()~~([\S\s]*?)~~", "del"), "strikethrough", 105)
 
-        # add "\thm\endthm" for <blockquote class="md-thm"></blockquote>
-        md.parser.blockprocessors.register(CustomThmBlockProcessor(md.parser), "thm", 105);
+        # '''[text]''' for gray code
+        md.inlinePatterns.register(GrayCodeInlineProcessor(r"'''([\S\s]*?)'''", md), "gray_code", 999)
+
+        # !\[[text] \width=[number]%\]([alt text]) for images with custom width
+        md.inlinePatterns.register(ImageWidthInlineProcessor(r"!\[([\S\s]*?) \\width=([0-9]+?%)\]\(([\S\s]*?)\)",
+            md), "image_width", 999)
 
         # add "\dropdown\summary\endsummary\enddropdown" for
         # <details class="md-details"><summary class="md-summary"></summary></details>
-        md.parser.blockprocessors.register(CustomDropdownBlockProcessor(md.parser), "dropdown", 105);
+        md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
+
+        # add "\textbox\endtextbox" for
+        # <table><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+        md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
+
+        # add "\thm\endthm" for <blockquote class="md-thm"></blockquote>
+        md.parser.blockprocessors.register(ThmBlockProcessor(md.parser), "thm", 105)
