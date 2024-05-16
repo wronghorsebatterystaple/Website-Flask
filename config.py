@@ -37,29 +37,24 @@ class Config(object):
     POSTS_PER_PAGE = 15
 
     # Scuffed configs
-    LOGIN_VIEW = "admin.login"
-    LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
-        f"{SERVER_NAME}/admin",
-        f"blog.{SERVER_NAME}/professor-google-backrooms",
-        f"blog.{SERVER_NAME}/writers-block-backrooms",
-        f"blog.{SERVER_NAME}/writers-unblock-backrooms"
-    ]
-    VERIFIED_AUTHOR = "originalposter" # lowercase and no spaces for easier comparison
-
-    PRIVATE_BLOG_IDS = ["-3", "-6", "-7"] # for displaying and Flask access control
-    UNPUBLISHED_BLOG_IDS = ["-3", "-6", "-7"] # for published dates on blogs
+    PRIVATE_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for displaying and Flask access control
+    UNPUBLISHED_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for published dates on blogs
     ALL_POSTS_BLOG_ID = "1"
     BLOG_ID_TO_PATH = {
         "1": "/all",
+        "2": "/misc",
         "3": "/professor-google",
-        "-3": "/professor-google-backrooms",
         "6": "/writers-block",
-        "-6": "/writers-block-backrooms",
         "7": "/writers-unblock",
+        "-2": "/misc-backrooms",
+        "-3": "/professor-google-backrooms",
+        "-6": "/writers-block-backrooms",
         "-7": "/writers-unblock-backrooms"
     }
     BLOG_ID_TO_TITLE = {
         "1": "All Posts",
+        "2": "/misc/",
+        "-2": "/misc/ - The Backrooms",
         "3": "Professor Google",
         "-3": "Professor Google - The Backrooms",
         "6": "Writer's Block",
@@ -68,12 +63,14 @@ class Config(object):
         "-7": "Writer's Unblock - The Backrooms"
     }
     BLOG_ID_TO_TITLE_WRITEABLE = { # exclude All Posts
-        "3": "Professor Google",
-        "-3": "Professor Google - The Backrooms",
-        "6": "Writer's Block",
-        "-6": "Writer's Block - The Backrooms",
-        "7": "Writer's Unblock",
-        "-7": "Writer's Unblock - The Backrooms"
+        "2": BLOG_ID_TO_TITLE["2"],
+        "-2": BLOG_ID_TO_TITLE["-2"],
+        "3": BLOG_ID_TO_TITLE["3"],
+        "-3": BLOG_ID_TO_TITLE["-3"],
+        "6": BLOG_ID_TO_TITLE["6"],
+        "-6": BLOG_ID_TO_TITLE["-6"],
+        "7": BLOG_ID_TO_TITLE["7"],
+        "-7": BLOG_ID_TO_TITLE["-7"]
     }
     BLOG_ID_TO_SUBTITLE = {
         "3": "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
@@ -82,12 +79,24 @@ class Config(object):
     }
     BLOG_ID_TO_DESCRIPTION = {
         "1": "all posts by AnonymousRand.",
+        "2": "all the posts that don't really belong anywhere else",
         "3": "intution, explanations, and details about computer science and math topics unlike any class you've taken.",
         "6": "the",
         "7": "creative writing dumps or random pieces of vent."
     }
     BLOG_ID_TO_COLOR_CLASS = {
+        "2": "custom-blue",
         "3": "custom-green-deep",
         "6": "custom-pink",
         "7": "custom-pink"
     }
+
+    LOGIN_VIEW = "admin.login"
+    LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
+        f"{SERVER_NAME}/admin",
+        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-2']}",
+        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-3']}",
+        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-6']}",
+        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-7']}"
+    ]
+    VERIFIED_AUTHOR = "originalposter" # lowercase and no spaces for easier comparison
