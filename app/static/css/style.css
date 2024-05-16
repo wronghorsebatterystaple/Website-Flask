@@ -232,7 +232,7 @@ blockquote {
 
 code {
     color: var(--customcolor-code) !important;
-    font-size: 95% !important;
+    font-size: 97.5% !important;
 }
 pre {
     font-size: 100%;
