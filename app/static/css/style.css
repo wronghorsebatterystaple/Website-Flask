@@ -236,6 +236,7 @@ code {
 }
 pre {
     font-size: 100%;
+    margin-bottom: 0;
 }
 
 img {

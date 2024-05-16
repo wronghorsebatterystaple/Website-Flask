@@ -65,8 +65,12 @@ def index():
         return "", 204
     next_page_url = url_for(f"blog.{blog_id}.index", page=posts.next_num) if posts.has_next else None
     prev_page_url = url_for(f"blog.{blog_id}.index", page=posts.prev_num) if posts.has_prev else None
+    unpublished_blog_id = blog_id
+    if not blog_id in current_app.config["UNPUBLISHED_BLOG_IDS"] \
+            and "-" + blog_id in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+        unpublished_blog_id = "-" + blog_id
     return render_template("blog/blogpage/index.html",
-            blog_id=blog_id, unpublished_blog_id=blog_id if blog_id.startswith('-') else "-"+blog_id,
+            blog_id=blog_id, unpublished_blog_id=unpublished_blog_id,
             page=page, total_pages=posts.pages, all_posts=all_posts,
             title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
             subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),

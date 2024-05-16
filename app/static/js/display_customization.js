@@ -46,7 +46,6 @@ $(document).ready(function() {
     $("td").each(function() {
         if ($(this).find("pre").length > 0) {
             $(this).addClass("align-top");
-            $(this).find("pre").addClass("mb-0");
         }
     });
 
@@ -58,6 +57,7 @@ $(document).ready(function() {
 
     // Markdown tweaks round 3
     $("details").find("p").contents().unwrap();
+    $("table").find("p").contents().unwrap();
 
     var footnotes_elem = $(".footnote").first();
     footnotes_elem.attr("id", "footnotes");
