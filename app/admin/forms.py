@@ -48,7 +48,7 @@ class EditBlogpostForm(FlaskForm):
             validators=[InputRequired(), Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     delete_images = SelectMultipleField("Delete images")
-    remove_edited_timestamp = BooleanField("Remove edited timestamp (sneaky edit)")
+    remove_edited_timestamp = BooleanField("Remove edited timestamp")
     submit = SubmitField("Submit")
     delete = SubmitField("Delete Post", render_kw={"onclick": "return confirm('Sanity check');"})
     back = SubmitField("Back", render_kw={"onclick": "window.history.back()"})
