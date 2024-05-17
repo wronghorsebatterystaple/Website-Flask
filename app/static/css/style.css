@@ -5,25 +5,25 @@
 :root {
     --narrow-max-width: clamp(33.33vw, 640px, 100vw);
 
-    /* "soft" is saturation on HSV while "dark" is value */
+    /* "light" is saturation on HSV while "dark" is value */
     /* Decreasing value is used for link hovers, while decreasing saturation is for button hovers */
     --custom-blue: DeepSkyBlue;
-    --custom-blue-soft: #47d1ff;
+    --custom-blue-light: #47d1ff;
     --custom-blue-dark: #00ace6;
 
-    --custom-green-soft: #8cff00;
-    --custom-green-xsoft: #b8ff61;
-    --custom-green-xxsoft: #ecffd5;
+    --custom-green-light: #8cff00;
+    --custom-green-xlight: #b8ff61;
+    --custom-green-xxlight: #ecffd5;
     --custom-green: #77d900;
     --custom-green-dark: #6fc900;
 
     --custom-orange: #ffc107; /* BS warning color */
-    --custom-orange-soft: #ffcf4a;
+    --custom-orange-light: #ffcf4a;
     --custom-orange-dark: #ebb207;
 
     --custom-pink: #ff9cdd;
-    --custom-pink-soft: #ffb5e5;
-    --custom-pink-xxsoft: #fff5fc;
+    --custom-pink-light: #ffb5e5;
+    --custom-pink-xxlight: #fff5fc;
     --custom-pink-dark: #e88ec8;
 
     --customcolor-code: navy;
@@ -89,30 +89,30 @@
     --bs-btn-bg: var(--custom-blue) !important;
     --bs-btn-border-color: var(--custom-blue) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-blue-soft) !important;
-    --bs-btn-hover-border-color: var(--custom-blue-soft) !important;
+    --bs-btn-hover-bg: var(--custom-blue-light) !important;
+    --bs-btn-hover-border-color: var(--custom-blue-light) !important;
     --bs-btn-focus-shadow-rgb: var(--custom-blue) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-blue) !important;
     --bs-btn-active-border-color: var(--custom-blue) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custom-blue-soft) !important;
-    --bs-btn-disabled-border-color: var(--custom-blue-soft) !important;
+    --bs-btn-disabled-bg: var(--custom-blue-light) !important;
+    --bs-btn-disabled-border-color: var(--custom-blue-light) !important;
 }
 .btn-custom-orange {
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-orange) !important;
     --bs-btn-border-color: var(--custom-orange) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-orange-soft) !important;
-    --bs-btn-hover-border-color: var(--custom-orange-soft) !important;
+    --bs-btn-hover-bg: var(--custom-orange-light) !important;
+    --bs-btn-hover-border-color: var(--custom-orange-light) !important;
     --bs-btn-focus-shadow-rgb: var(--custom-orange) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-orange) !important;
     --bs-btn-active-border-color: var(--custom-orange) !important;
     --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custom-orange-soft) !important;
-    --bs-btn-disabled-border-color: var(--custom-orange-soft) !important;
+    --bs-btn-disabled-bg: var(--custom-orange-light) !important;
+    --bs-btn-disabled-border-color: var(--custom-orange-light) !important;
 }
 .btn-custom-blue-link {
     --bs-btn-color: var(--custom-blue) !important;
@@ -120,16 +120,16 @@
     --bs-btn-active-color: var(--custom-blue) !important;
 }
 
-/* btn-link-no-underline also simulates button hover behavior (turning less saturated/softer) instead of btn-link's link behavior (turning less luminous/darker) */
+/* btn-link-no-underline also simulates button hover behavior (turning less saturated/lighter) instead of btn-link's link behavior (turning less luminous/darker) */
 .btn-custom-orange-link-no-underline {
     --bs-btn-color: var(--custom-orange) !important;
-    --bs-btn-hover-color: var(--custom-orange-soft) !important;
+    --bs-btn-hover-color: var(--custom-orange-light) !important;
     --bs-btn-active-color: var(--custom-orange) !important;
     text-decoration: none;
 }
 .btn-custom-pink-link-no-underline {
     --bs-btn-color: var(--custom-pink) !important;
-    --bs-btn-hover-color: var(--custom-pink-soft) !important;
+    --bs-btn-hover-color: var(--custom-pink-light) !important;
     --bs-btn-active-color: var(--custom-pink) !important;
     text-decoration: none;
 }
@@ -258,11 +258,11 @@ td, th {
 
 .flash {
     color: black;
-    background-color: var(--custom-green-xxsoft);
+    background-color: var(--custom-green-xxlight);
     position: fixed;
     top: 0.9rem;
     width: calc(var(--narrow-max-width) - (var(--bs-gutter-x)));
-    border-color: var(--custom-green-xsoft);
+    border-color: var(--custom-green-xlight);
     z-index: 9999;
 }
 
@@ -278,7 +278,7 @@ td, th {
 }
 
 .md-details {
-    border: 2px solid var(--custom-blue-soft);
+    border: 2px solid var(--custom-blue-light);
     border-radius: var(--bs-border-radius);
     margin-bottom: 1rem;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
@@ -315,11 +315,11 @@ td, th {
 }
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
-    background-color: var(--custom-pink-xxsoft) !important;
+    background-color: var(--custom-pink-xxlight) !important;
     max-width: 30rem !important;
 }
 .tooltip.show {
     opacity: 100%;
-    border: 1px solid var(--custom-pink-soft) !important;
+    border: 1px solid var(--custom-pink-light) !important;
     border-radius: var(--bs-border-radius);
 }
