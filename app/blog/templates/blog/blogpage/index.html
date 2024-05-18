@@ -50,9 +50,9 @@ const totalPages = {{ total_pages }};
 
           <div class="d-flex align-items-center pt-2">
             {%- if post.edited_timestamp is not none %}
-              <h3 class="postlist-post-timestamp black flex-basis-80 me-2 mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
+              <h3 class="postlist-post-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
             {%- else %}
-              <h3 class="postlist-post-timestamp black flex-basis-80 me-2 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
+              <h3 class="postlist-post-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
             {%- endif %}
             <span class="gray d-flex align-items-center ms-auto">
               <span class="me-1">{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/comment_icon.svg') }}" alt="comments">
