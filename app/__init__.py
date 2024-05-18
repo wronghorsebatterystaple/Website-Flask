@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, jsonify, redirect, url_for
 from config import Config
 
 from flask_cors import CORS
@@ -6,11 +6,14 @@ from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_talisman import Talisman
 from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect, CSRFError
 
-from app.routes import *
+from app.forms import *
 from app.util import *
+
+import secrets
 
 
 # declare extension instances outside so blueprints can still do `from app import db` etc.
@@ -22,6 +25,7 @@ moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = Config.LOGIN_VIEW
 login_manager.session_protection = "strong" # deletes session cookie on IP/UA change
+talisman = Talisman()
 turnstile = Turnstile()
 
 def create_app(config_class=Config):
@@ -45,8 +49,24 @@ def create_app(config_class=Config):
     app.register_blueprint(blog_bp, subdomain="blog")
 
     # register global routes and stuff
-    app.context_processor(inject_login_form)
-    app.register_error_handler(CSRFError, handle_csrf_error)
+    @app.context_processor
+    def inject_login_form():
+        return dict(login_form=LoginForm())
+
+    # Regenerate CSRF token on token (tied to session) expire
+    # then let Ajax take it from there with custom error fail() handler
+    # (non-auth action: resend request; auth action: show login modal for re-login)
+    @app.errorhandler(CSRFError)
+    def handle_csrf_error(e):
+        csrf_token = generate_csrf()
+        # don't use custom HTTPException since we can't `raise` here
+        (code, description) = Config.CUSTOM_ERRORS["REFRESH_CSRF"]
+        # return new token as description since csrf_token() in Jinja
+        # doesn't seem to update until page reload; so instead we pass
+        # the error description in as the new csrf_token in JS
+        # shouldn't be a security issue since CSRF token sent in POST anyways
+        # (most scuffed CSRF refresh in history)
+        return csrf_token, code
 
     # init extensions after all that
     cors.init_app(app)
@@ -55,6 +75,8 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     moment.init_app(app)
     login_manager.init_app(app)
+    talisman.init_app(app, content_security_policy=config_class.CSP,
+            content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
     turnstile.init_app(app)
 
     return app

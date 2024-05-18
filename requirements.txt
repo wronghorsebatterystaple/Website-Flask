@@ -21,6 +21,7 @@ Flask-Login==0.6.3
 Flask-Migrate==4.0.6
 Flask-Moment==1.0.5
 Flask-SQLAlchemy==3.1.1
+flask-talisman==1.1.0
 Flask-Turnstile==0.1.1
 Flask-WTF==1.2.1
 greenlet==3.0.3

@@ -49,7 +49,7 @@
 
     <!-- JS -->
       <!-- global custom JS -->
-      <script>
+      <script nonce="{{ csp_nonce() }}">
           var csrf_token = "{{ csrf_token() }}";
           function reloadCSRF(newToken) {
               csrf_token = newToken;
@@ -90,7 +90,7 @@
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js') }}"></script>
 
       <!-- Variables (from Jinja to JS, for example) -->
-      <script>
+      <script nonce="{{ csp_nonce() }}">
           const URL_login = "{{ url_for('admin.login') }}";
           const URL_logout = "{{ url_for('admin.logout') }}";
           {%- block vars -%}{%- endblock -%}

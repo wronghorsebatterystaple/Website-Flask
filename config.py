@@ -9,6 +9,27 @@ class Config(object):
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    csp_self = ["\'self\'", SERVER_NAME, f"*.{SERVER_NAME}"]
+    CSP = {
+        "default-src": csp_self,
+        "font-src": csp_self + [
+            "cdn.jsdelivr.net",
+            "fonts.googleapis.com",
+            "fonts.gstatic.com"
+        ],
+        "img-src": csp_self + [
+            "data:"
+        ],
+        "script-src": csp_self + [
+            "cdn.jsdelivr.net",
+            "cdnjs.cloudflare.com",
+            "code.jquery.com"
+        ],
+        "style-src": [
+            "*",
+            "\'unsafe-inline\'" # TODO
+        ]
+    }
 
     # Flask cookies
     SESSION_COOKIE_DOMAIN = f".{SERVER_NAME}"
