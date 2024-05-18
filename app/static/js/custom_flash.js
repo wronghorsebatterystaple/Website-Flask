@@ -1,5 +1,5 @@
 function customFlash(message) {
-    $("#flash-text").text(message);
+    $("#flash-text").text(message); // text() by itself is XSS-safe
     $("#flash").removeAttr("hidden");
 }
 
