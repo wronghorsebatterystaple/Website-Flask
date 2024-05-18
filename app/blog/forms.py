@@ -22,4 +22,4 @@ class ReplyCommentButton(FlaskForm):
 class DeleteCommentButton(FlaskForm):
     comment_id = HiddenField(default=None)
     post_id = HiddenField(default=None)
-    delete = SubmitField("Delete", render_kw={"onclick": "return confirm('Abuse of power check');"})
+    delete = SubmitField("Delete", render_kw={"data-confirm-submit": ""})

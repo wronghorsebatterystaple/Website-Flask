@@ -16,7 +16,7 @@ def index():
 
 
 @bp.route("/add-comment", methods=["POST"])
-def endpoint_add_comment():
+def add_comment():
     if not turnstile.verify():
         return jsonify(redirect_abs_url=url_for("main.bot_jail", _external=True))
 
@@ -41,7 +41,7 @@ def endpoint_add_comment():
 
 
 @bp.route("/delete-comment", methods=["POST"])
-def endpoint_delete_comment():
+def delete_comment():
     result = util.custom_unauthorized(request)
     if result:
         return result

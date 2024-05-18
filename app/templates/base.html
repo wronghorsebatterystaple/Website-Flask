@@ -17,12 +17,20 @@
 
       <!-- MathJax -->
       <script src="{{ url_for('static', filename='config/MathJax/config.js') }}" defer></script>
-      <script type="text/javascript" id="MathJax-script"
+      <script
+          type="text/javascript"
+          id="MathJax-script"
           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer>
       </script>
 
-      <!-- Flask-Moment -->
-      {{ moment.include_moment() }}
+      <!-- Flask-Moment (JS bundling moment.js to Flask is included separately for CSP) -->
+      <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"
+          integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer">
+      </script>
+      <script src="{{ url_for('static', filename='js/flask_moment_for_csp.js') }}"></script>
 
       <!-- Fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,6 +91,7 @@
       </script>
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js') }}"></script>
       <script src="{{ url_for('static', filename='js/ajax_util.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/confirm_submit.js') }}"></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
       <script src="{{ url_for('static', filename='js/display_customization.js') }}"></script>
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>

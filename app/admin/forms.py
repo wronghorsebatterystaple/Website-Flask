@@ -50,7 +50,7 @@ class EditBlogpostForm(FlaskForm):
     delete_images = SelectMultipleField("Delete images")
     remove_edited_timestamp = BooleanField("Remove edited timestamp")
     submit = SubmitField("Submit")
-    delete = SubmitField("Delete Post", render_kw={"onclick": "return confirm('Sanity check');"})
+    delete = SubmitField("Delete Post", render_kw={"data-confirm-submit": ""})
     back = SubmitField("Back", render_kw={"onclick": "window.history.back()"})
 
 
