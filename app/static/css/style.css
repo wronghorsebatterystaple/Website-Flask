@@ -1,6 +1,6 @@
-/***********/
-/* General */
-/***********/
+/**********************************/
+/* General/root-/body-level stuff */
+/**********************************/
 
 :root {
     --narrow-max-width: clamp(33.33vw, 640px, 100vw);
@@ -11,10 +11,10 @@
     --custom-blue-light: #47d1ff;
     --custom-blue-dark: #00ace6;
 
+    --custom-green: #77d900;
     --custom-green-light: #8cff00;
     --custom-green-xlight: #b8ff61;
     --custom-green-xxlight: #ecffd5;
-    --custom-green: #77d900;
     --custom-green-dark: #6fc900;
 
     --custom-orange: #ffc107; /* BS warning color */
@@ -31,14 +31,22 @@
     --customcolor-thm-border: #a1a1ff;
 }
 
+.min-height-full {
+    min-height: 100vh;
+}
+
 .narrow-container {
     overflow-x: auto;
     max-width: var(--narrow-max-width) !important;
     margin: auto;
 }
 
-.min-height-full {
-    min-height: 100vh;
+#background-img {
+    background-image: url("/static/images/background/background_0.svg");
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
 /*********/
