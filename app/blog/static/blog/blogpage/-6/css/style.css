@@ -1,3 +1,10 @@
+#background-img {
+    background-image: url("/static/blog/blogpage/6/images/background/background_0.png");
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 #non-navbar {
     font-family: "Comic Neue", sans-serif;
     font-weight: 400;

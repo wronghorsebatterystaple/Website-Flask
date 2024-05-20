@@ -51,8 +51,8 @@ $(document).ready(function() {
 
     // Custom data-col-width control syntax
     $("[data-col-width]").each(function() {
-        $(this).parents("td").css("width", $(this).attr("data-col-width"));
-        $(this).parents("th").css("width", $(this).attr("data-col-width"));
+        $(this).parents("td").attr("width", $(this).attr("data-col-width"));
+        $(this).parents("th").attr("width", $(this).attr("data-col-width"));
     });
 
     // Markdown tweaks round 3
@@ -69,7 +69,7 @@ $(document).ready(function() {
     });
     footnotes_elem.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
     footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
-    footnotes_elem.children("hr").first().css("margin", "0.8rem 0");
+    footnotes_elem.children("hr").first().addClass("footnote-hr");
     footnotes_elem.children("ol").first().addClass("mb-0");
     genFootnoteTooltips();
 

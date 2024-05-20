@@ -29,14 +29,14 @@ class CreateBlogpostForm(FlaskForm):
             validators=[InputRequired(), Length(max=db_config["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     submit = SubmitField("Submit")
-    back = SubmitField("Back", render_kw={"onclick": "window.history.back()"})
+    back = SubmitField("Back", render_kw={"data-back-btn": ""})
 
 
 class SearchBlogpostForm(FlaskForm):
     post = QuerySelectField("Post", validators=[InputRequired()],
             query_factory=lambda: db.session.query(Post), get_label="title")
     submit = SubmitField("Submit")
-    back = SubmitField("Back", render_kw={"onclick": "window.history.back()"})
+    back = SubmitField("Back", render_kw={"data-back-btn": ""})
 
 
 class EditBlogpostForm(FlaskForm):
@@ -51,7 +51,7 @@ class EditBlogpostForm(FlaskForm):
     remove_edited_timestamp = BooleanField("Remove edited timestamp")
     submit = SubmitField("Submit")
     delete = SubmitField("Delete Post", render_kw={"data-confirm-submit": ""})
-    back = SubmitField("Back", render_kw={"onclick": "window.history.back()"})
+    back = SubmitField("Back", render_kw={"data-back-btn": ""})
 
 
 class ChangeAdminPasswordForm(FlaskForm):
@@ -62,4 +62,4 @@ class ChangeAdminPasswordForm(FlaskForm):
     new_password_2 = PasswordField("Repeat new password", validators=[InputRequired(),
             Length(max=db_config["MAXLEN_USER_PASSWORD"])])
     submit = SubmitField("Submit")
-    back = SubmitField("Back", render_kw={"onclick": "window.history.back()"})
+    back = SubmitField("Back", render_kw={"data-back-btn": ""})

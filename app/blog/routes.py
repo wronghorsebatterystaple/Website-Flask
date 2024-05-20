@@ -32,8 +32,7 @@ def add_comment():
     comment = Comment(author=request.form["author"], content=request.form["content"],
             post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
     if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
-        return jsonify(redirect_abs_url=url_for(f"{request.blueprint}.index", _external=True),
-                flash_message="Sanity check is not supposed to fail…")
+        return jsonify(flash_message="Sneaky…")
     db.session.add(comment)
     db.session.commit()
 
@@ -53,8 +52,7 @@ def delete_comment():
     post = db.session.query(Post).get(request.form["post_id"])
     descendants = comment.get_descendants_list(post)
     if not comment.remove_comment(post):
-        return jsonify(redirect_abs_url=url_for(f"{request.blueprint}.index", _external=True),
-                flash_message="Sanity check is not supposed to fail…")
+        return jsonify(flash_message="Sneaky…")
     for descendant in descendants:
         db.session.delete(descendant)
     db.session.delete(comment)

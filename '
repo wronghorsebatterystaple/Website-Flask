@@ -30,7 +30,7 @@ class Config(object):
             "cdnjs.cloudflare.com",
             "code.jquery.com",
             "fonts.googleapis.com",
-            "\'unsafe-inline\'" # MATHJAX PLEASE REMOVE YOUR INLINE CSS I BEG YOU!!!
+            "\'unsafe-inline\'"
         ]
     }
 

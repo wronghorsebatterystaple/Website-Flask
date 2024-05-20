@@ -284,6 +284,9 @@ td, th {
 .footnotes-details-summary {
     color: gray !important;
 }
+.footnote-hr {
+    margin: 0.8rem 0;
+}
 
 .md-details {
     border: 2px solid var(--custom-blue-light);
