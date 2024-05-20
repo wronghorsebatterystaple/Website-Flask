@@ -11,23 +11,23 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
 from app import login_manager
-from app.db_config import db_config
+from config import Config
 
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    blog_id: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_BLOG_ID"]), index=True)
+    blog_id: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_BLOG_ID"]), index=True)
     published: so.Mapped[bool] = so.mapped_column(default=False)
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None)
-    title: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_TITLE"]),
+    title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]),
             unique=True)
-    sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_TITLE"]),
+    sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]),
             unique=True)
-    subtitle: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_POST_SUBTITLE"]),
+    subtitle: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"]),
             nullable=True, default=None)
-    content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_POST_CONTENT"]))
+    content: so.Mapped[Text()] = so.mapped_column(Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]))
 
     comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post",
             cascade="all, delete, delete-orphan", passive_deletes=True)
@@ -65,8 +65,8 @@ class Comment(db.Model):
     post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id, ondelete="CASCADE"))
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
-    author: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_COMMENT_AUTHOR"]))
-    content: so.Mapped[Text()] = so.mapped_column(Text(db_config["MAXLEN_COMMENT_CONTENT"]))
+    author: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"]))
+    content: so.Mapped[Text()] = so.mapped_column(Text(Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"]))
 
     post: so.Mapped[Post] = so.relationship(back_populates="comments")
 
@@ -130,11 +130,11 @@ class Comment(db.Model):
 
 class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    username: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_USER_USERNAME"]),
+    username: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_USER_USERNAME"]),
             unique=True)
-    email: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_USER_EMAIL"]),
+    email: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_USER_EMAIL"]),
             unique=True)
-    password_hash: so.Mapped[str] = so.mapped_column(sa.String(db_config["MAXLEN_USER_PASSWORD_HASH"]))
+    password_hash: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_USER_PASSWORD_HASH"]))
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

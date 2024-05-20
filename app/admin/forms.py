@@ -4,13 +4,13 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import InputRequired, Length
 
 from app import db
-from app.db_config import db_config
 from app.models import Post
+from config import Config
 
 
 class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_USER_PASSWORD"])])
+            Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
     submit = SubmitField("Submit")
 
 
@@ -23,10 +23,10 @@ class ChooseActionForm(FlaskForm):
 class CreateBlogpostForm(FlaskForm):
     blog_id = SelectField("Blog", validators=[InputRequired()])
     title = StringField("Title", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_POST_TITLE"])])
-    subtitle = StringField("Subtitle", validators=[Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
+            Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
+    subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
     content = TextAreaField("Content (Markdown, LaTeX supported (remember to escape backslashes))",
-            validators=[InputRequired(), Length(max=db_config["MAXLEN_POST_CONTENT"])])
+            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     submit = SubmitField("Submit")
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
@@ -42,10 +42,10 @@ class SearchBlogpostForm(FlaskForm):
 class EditBlogpostForm(FlaskForm):
     blog_id = SelectField("Blog", validators=[InputRequired()])
     title = StringField("Title", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_POST_TITLE"])])
-    subtitle = StringField("Subtitle", validators=[Length(max=db_config["MAXLEN_POST_SUBTITLE"])])
+            Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
+    subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
     content = TextAreaField("Content (Markdown, LaTeX supported (remember to escape backslashes))",
-            validators=[InputRequired(), Length(max=db_config["MAXLEN_POST_CONTENT"])])
+            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     delete_images = SelectMultipleField("Delete images")
     remove_edited_timestamp = BooleanField("Remove edited timestamp")
@@ -56,10 +56,10 @@ class EditBlogpostForm(FlaskForm):
 
 class ChangeAdminPasswordForm(FlaskForm):
     old_password = PasswordField("Old password", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_USER_PASSWORD"])])
+            Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
     new_password_1 = PasswordField("New password", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_USER_PASSWORD"])])
+            Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
     new_password_2 = PasswordField("Repeat new password", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_USER_PASSWORD"])])
+            Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
     submit = SubmitField("Submit")
     back = SubmitField("Back", render_kw={"data-back-btn": ""})

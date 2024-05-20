@@ -5,10 +5,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
 class Config(object):
+    # Basics
     SERVER_NAME = "anonymousrand.xyz"
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     csp_self = ["\'self\'", SERVER_NAME, f"*.{SERVER_NAME}"]
     CSP = {
         "default-src": csp_self,
@@ -47,6 +47,21 @@ class Config(object):
     # Flask-WTF
     WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
+
+    # Database
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    DB_CONFIGS = {
+        "MAXLEN_USER_USERNAME": 25,
+        "MAXLEN_USER_EMAIL": 512,
+        "MAXLEN_USER_PASSWORD": 50,
+        "MAXLEN_USER_PASSWORD_HASH": 256,
+        "MAXLEN_COMMENT_AUTHOR": 100,
+        "MAXLEN_COMMENT_CONTENT": 5000,
+        "MAXLEN_POST_BLOG_ID": 5,
+        "MAXLEN_POST_TITLE": 150,
+        "MAXLEN_POST_SUBTITLE": 150,
+        "MAXLEN_POST_CONTENT": 100000
+    }
 
     # Custom errors
     CUSTOM_ERRORS = {
