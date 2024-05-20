@@ -31,7 +31,9 @@ class Config(object):
             "code.jquery.com",
             "fonts.googleapis.com",
             "\'unsafe-inline\'" # MATHJAX PLEASE REMOVE YOUR INLINE CSS I BEG YOU!!!
-        ]
+        ],
+        "base-uri": csp_self,
+        "frame-ancestors": csp_self
     }
 
     # Flask cookies
