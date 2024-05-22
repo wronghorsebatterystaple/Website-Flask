@@ -84,15 +84,16 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
   - `\textbox` and `\endtextbox` to put everything inside a 1-cell table
   - `\thm` and `\endthm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code
-- Other:
+- Tables:
   - Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column.
+  - Insert any inline tag like `<span>` with attributes `data-align-[center/right/top/bottom]` inside any table cell to control its non-default vertical and horizontal alignment.
+- Images:
   - Insert ` \width=[number]%` at the end of the alt text portion (within the square brackets) of images to customize image width (default 100%)
   - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!).
 
 ### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, which is useful in environments where the Markdown equivalents may not work (footnotes, tables, blockquotes, \dropdown, \textbox etc.). Examples:
     - `<span></span>` with pretty much any custom CSS styling you want
-    - `<center></center>` for centering individual cells in a table
     - `<pre><code></code></pre>` for code blocks in a table
     - `<small></small>` for small text
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas

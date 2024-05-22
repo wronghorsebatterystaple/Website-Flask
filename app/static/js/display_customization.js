@@ -42,22 +42,37 @@ $(document).ready(function() {
         }
     });
 
-    // Table cells containing code blocks are top-aligned
-    $("td").each(function() {
-        if ($(this).find("pre").length > 0) {
-            $(this).addClass("align-top");
-        }
-    });
+    // Inline CSS used by Markdown tables converted to class for CSP
+    $("[style='text-align: center;']").removeAttr("style").addClass("text-center");
+    $("[style='text-align: right;']").removeAttr("style").addClass("text-end");
 
-    // Custom data-col-width control syntax
+    // Markdown tweaks round 3
+    $("details").find("p").contents().unwrap();
+    $("table").find("p").contents().unwrap();
+
+    // Custom table column width syntax
     $("[data-col-width]").each(function() {
         $(this).parents("td").attr("width", $(this).attr("data-col-width"));
         $(this).parents("th").attr("width", $(this).attr("data-col-width"));
     });
 
-    // Markdown tweaks round 3
-    $("details").find("p").contents().unwrap();
-    $("table").find("p").contents().unwrap();
+    // Custom table horizontal and vertical align syntax
+    $("[data-align-center]").each(function() {
+        $(this).parents("td").addClass("text-center");
+        $(this).parents("th").addClass("text-center");
+    });
+    $("[data-align-right]").each(function() {
+        $(this).parents("td").addClass("text-end");
+        $(this).parents("th").addClass("text-end");
+    });
+    $("[data-align-top]").each(function() {
+        $(this).parents("td").addClass("align-top");
+        $(this).parents("th").addClass("align-top");
+    });
+    $("[data-align-bottom]").each(function() {
+        $(this).parents("td").addClass("align-bottom");
+        $(this).parents("th").addClass("align-bottom");
+    });
 
     var footnotes_elem = $(".footnote").first();
     footnotes_elem.attr("id", "footnotes");
