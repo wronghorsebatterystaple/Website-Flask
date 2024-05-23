@@ -244,10 +244,6 @@ pre {
     margin-bottom: 0;
 }
 
-img {
-    max-width: 100%;
-}
-
 table {
     width: max-content;
     min-width: 100%;
@@ -268,7 +264,7 @@ td, th {
     color: black;
     background-color: var(--custom-green-xxlight);
     position: fixed;
-    top: 0.9rem;
+    top: 1rem;
     width: calc(var(--narrow-max-width) - (var(--bs-gutter-x)));
     border-color: var(--custom-green-xlight);
     z-index: 9999;

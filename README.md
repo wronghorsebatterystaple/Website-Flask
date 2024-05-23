@@ -88,7 +88,7 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column.
   - Insert any inline tag like `<span>` with attributes `data-align-[center/right/top/bottom]` inside any table cell to control its non-default vertical and horizontal alignment.
 - Images:
-  - Insert ` \width=[number]%` at the end of the alt text portion (within the square brackets) of images to customize image width (default 100%)
+  - Insert `<span data-width=[number]%></span>` around the alt text portion (within the square brackets) of images to customize image width (default 100%)
   - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!).
 
 ### Other syntax notes:

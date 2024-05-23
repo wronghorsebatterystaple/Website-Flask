@@ -74,7 +74,7 @@ class Config(object):
 
     # Other "conventional" configs
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
-    IMAGE_EXTENSIONS = [".jpg", ".png", ".gif"]
+    IMAGE_EXTENSIONS = [".gif", ".jpg", ".png"]
     POSTS_PER_PAGE = 15
 
     # Scuffed configs

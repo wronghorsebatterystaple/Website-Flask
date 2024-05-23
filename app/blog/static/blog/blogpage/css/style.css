@@ -37,6 +37,11 @@
     color: var(--custom-orange);
     font-size: 1.4em;
 }
+.post-img {
+    display: block;
+    max-width: 100%;
+    margin: 1rem auto 1rem auto;
+}
 
 .comment-section-headers {
     font-size: 2.2em !important;

@@ -18,8 +18,8 @@ class ImageWidthInlineProcessor(InlineProcessor):
     def handleMatch(self, m, data):
         elem = etree.Element("img")
         elem.set("src", m.group(3))
-        elem.set("alt", m.group(1))
-        elem.set("width", m.group(2))
+        elem.set("alt", m.group(2))
+        elem.set("width", m.group(1))
         return elem, m.start(0), m.end(0)
 
 
@@ -165,8 +165,8 @@ class MyExtensions(Extension):
         # '''[text]''' for gray code
         md.inlinePatterns.register(GrayCodeInlineProcessor(r"'''([\S\s]*?)'''", md), "gray_code", 999)
 
-        # !\[[text] \width=[number]%\]([alt text]) for images with custom width
-        md.inlinePatterns.register(ImageWidthInlineProcessor(r"!\[([\S\s]*?) \\width=([0-9]+?%)\]\(([\S\s]*?)\)",
+        # !\[<span data-width="[number]%">[alt text]</span>\]([image src]) for images with custom width
+        md.inlinePatterns.register(ImageWidthInlineProcessor("!\\[<span data-width=\"([0-9]+?%)\">([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)",
             md), "image_width", 999)
 
         # add "\dropdown\summary\endsummary\enddropdown" for
