@@ -26,7 +26,7 @@ def custom_unauthorized(request):
 # Same thing as custom_unauthorized() but use as a decorator
 def custom_login_required(request):
     def inner_decorator(func):
-        @wraps(func) # seems to allow double decorator to work if this is the second decorator (like what @login_required does)
+        @wraps(func) # this seems to allow double decorator to work if this is the second decorator (like what @login_required does)
         def wrapped(*args, **kwargs):
             result = custom_unauthorized(request)
             if result:
