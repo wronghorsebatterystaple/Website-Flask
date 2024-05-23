@@ -46,7 +46,9 @@ class EditBlogpostForm(FlaskForm):
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
     content = TextAreaField("Content (Markdown, LaTeX supported (remember to escape backslashes))",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
-    images = MultipleFileField("Upload images")
+    SUPPORTED_IMAGE_FORMATS = ", ".join(Config.IMAGE_EXTENSIONS).replace(".", "")
+    images = MultipleFileField(f"Upload images (supported formats: {SUPPORTED_IMAGE_FORMATS})")
+    cancel_images = SubmitField("Clear images to upload", render_kw={"id": "cancel-images-btn"})
     delete_images = SelectMultipleField("Delete images")
     dont_add_edited_timestamp = BooleanField("Don't add edited timestamp")
     remove_edited_timestamps = BooleanField("Remove all edited timestamps")

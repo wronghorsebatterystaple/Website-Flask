@@ -48,10 +48,7 @@ def upload_images(images, path_before_filename) -> str:
 
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
-        if not os.path.exists(path):
-            image.save(path)
-        else:
-            return "Image already exists."
+        image.save(path) # replaces image if it's already there
 
     return "success"
 

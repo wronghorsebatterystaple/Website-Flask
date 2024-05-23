@@ -34,7 +34,7 @@ $(document).ready(function() {
     $("#login-form-modal").on("submit", function(e) {
         e.preventDefault();
 
-        var formData = new FormData($(this).get(0), $(e.originalEvent.submitter).get(0));
+        var formData = new FormData(e.target, e.originalEvent.submitter);
         $.ajax({
             type: "POST",
             url: URL_login,

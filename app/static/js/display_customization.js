@@ -26,19 +26,20 @@ function genFootnoteTooltips() {
 }
 
 $(document).ready(function() {
-    // Mark \[\] LaTeX blocks with identifying class and make their font shrink on mobile
-    $("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("mjx-center shrinking-font");
+    // Make font of \[\] LaTeX blocks shrink on mobile and make them scroll horizontally on overflow
+    const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
+    const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
+    $("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML);
+    $("mjx-math[width='full']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
 
     // Tables' font also shrinks on mobile
-    $("table").addClass("shrinking-font")
+    $("table").addClass("shrinking-font-15")
 
-    // Tables, \[\] LaTeX blocks, and non-table code blocks scroll horizontally on overflow
-    const divHTML = "<div class=\"scroll-overflow-x\"></div>";
-    $("table").wrap(divHTML);
-    $(".mjx-center").wrap(divHTML);
+    // Tables and non-table code blocks scroll horizontally on overflow
+    $("table").wrap(HORIZ_SCOLL_DIV_HTML);
     $("pre").each(function(e) {
         if ($(this).parents("table").length === 0) {
-            $(this).wrap(divHTML);
+            $(this).wrap(HORIZ_SCOLL_DIV_HTML);
         }
     });
 

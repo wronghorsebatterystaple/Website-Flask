@@ -6,7 +6,12 @@ $(document).ready(function() {
     $("#main-form").on("submit", function(e) {
         e.preventDefault();
       
-        var formData = new FormData($(this).get(0), $(e.originalEvent.submitter).get(0));
+        if (e.originalEvent.submitter.id === "cancel-images-btn") {
+            $("#images-input").val("");
+            return;
+        }
+
+        var formData = new FormData(e.target, e.originalEvent.submitter);
         $.ajax({
             type: "POST",
             url: window.location.pathname + window.location.search,
