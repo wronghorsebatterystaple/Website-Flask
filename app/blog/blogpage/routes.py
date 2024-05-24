@@ -44,7 +44,6 @@ def index():
         if result:
             return result
 
-
     page = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     if page <= 0: # prevent funny query string shenanigans
         return "", 204

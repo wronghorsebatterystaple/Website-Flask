@@ -266,7 +266,7 @@ def edit_blogpost():
         if post.published:
             if request.form.get("remove_edited_timestamps"):
                 post.edited_timestamp = None
-            elif request.form.get("dont_add_edited_timestamp"):
+            elif request.form.get("dont_update_edited_timestamp"):
                 pass
             else:
                 post.edited_timestamp = datetime.now(timezone.utc)

@@ -50,7 +50,7 @@ class EditBlogpostForm(FlaskForm):
     images = MultipleFileField(f"Upload images (supported formats: {SUPPORTED_IMAGE_FORMATS})")
     cancel_images = SubmitField("Clear images to upload", render_kw={"id": "cancel-images-btn"})
     delete_images = SelectMultipleField("Delete images")
-    dont_add_edited_timestamp = BooleanField("Don't add edited timestamp")
+    dont_update_edited_timestamp = BooleanField("Don't update edited timestamp")
     remove_edited_timestamps = BooleanField("Remove all edited timestamps")
     submit = SubmitField("Submit")
     delete = SubmitField("Delete Post", render_kw={"data-confirm-submit": ""})
