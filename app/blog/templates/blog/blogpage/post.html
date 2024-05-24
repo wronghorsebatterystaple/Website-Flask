@@ -25,9 +25,9 @@ const postId = "{{ post.id }}";
   {%- endif %}
 
   {%- if current_user.is_authenticated %}
-    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-custom-blue btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
+    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-custom-orange btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
   {%- else %}
-    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-custom-blue btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button" hidden>Edit/delete post</a>
+    <a id="auth-reload-edit-blogpost-btn" class="auth-true btn-custom-orange btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button" hidden>Edit/delete post</a>
   {%- endif %}
 </div>
 <hr>
