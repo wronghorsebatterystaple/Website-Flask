@@ -21,84 +21,86 @@ function genFootnoteTooltips() {
         $(this).attr("data-bs-title", footnote_html);
     });
 
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    refreshTooltips();
 }
 
-$(document).ready(function() {
+function globalDisplayCustomization(root_selector) {
+    const root_elem = $(root_selector);
+
     // Make font of \[\] LaTeX blocks shrink on mobile and make them scroll horizontally on overflow
     const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
     const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
-    $("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML);
-    $("mjx-math[width='full']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
+    root_elem.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML);
+    root_elem.find("mjx-math[width='full']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
 
     // Tables' font also shrinks on mobile
-    $("table").addClass("shrinking-font-15")
+    root_elem.find("table").addClass("shrinking-font-15")
 
     // Tables and non-table code blocks scroll horizontally on overflow
-    $("table").wrap(HORIZ_SCOLL_DIV_HTML);
-    $("pre").each(function(e) {
+    root_elem.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
+    root_elem.find("pre").each(function(e) {
         if ($(this).parents("table").length === 0) {
             $(this).wrap(HORIZ_SCOLL_DIV_HTML);
         }
     });
 
     // Inline CSS used by Markdown tables converted to class for CSP
-    $("[style='text-align: center;']").removeAttr("style").addClass("text-center");
-    $("[style='text-align: right;']").removeAttr("style").addClass("text-end");
+    root_elem.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
+    root_elem.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
 
     // Markdown tweaks round 3
-    $("details").find("p").contents().unwrap();
-    $("table").find("p").contents().unwrap();
+    root_elem.find("details").find("p").contents().unwrap();
+    root_elem.find("table").find("p").contents().unwrap();
 
     // Custom table column width syntax
-    $("[data-col-width]").each(function() {
+    root_elem.find("[data-col-width]").each(function() {
         $(this).parents("td").attr("width", $(this).attr("data-col-width"));
         $(this).parents("th").attr("width", $(this).attr("data-col-width"));
     });
 
     // Custom table horizontal and vertical align syntax
-    $("[data-align-center]").each(function() {
+    root_elem.find("[data-align-center]").each(function() {
         $(this).parents("td").addClass("text-center");
         $(this).parents("th").addClass("text-center");
     });
-    $("[data-align-right]").each(function() {
+    root_elem.find("[data-align-right]").each(function() {
         $(this).parents("td").addClass("text-end");
         $(this).parents("th").addClass("text-end");
     });
-    $("[data-align-top]").each(function() {
+    root_elem.find("[data-align-top]").each(function() {
         $(this).parents("td").addClass("align-top");
         $(this).parents("th").addClass("align-top");
     });
-    $("[data-align-bottom]").each(function() {
+    root_elem.find("[data-align-bottom]").each(function() {
         $(this).parents("td").addClass("align-bottom");
         $(this).parents("th").addClass("align-bottom");
     });
 
-    var footnotes_elem = $(".footnote").first();
-    footnotes_elem.attr("id", "footnotes");
-    footnotes_elem.find("p").addClass("mb-1");
-    footnotes_elem.find("a").each(function() {
-        if (!$(this).hasClass("footnote-backref")) {
-            $(this).attr("target", "_blank");
-        }
-    });
-    footnotes_elem.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
-    footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
-    footnotes_elem.children("hr").first().addClass("footnote-hr");
-    footnotes_elem.children("ol").first().addClass("mb-0");
-    genFootnoteTooltips();
+    var footnotes_elem = root_elem.find(".footnote").first();
+    if (footnotes_elem) {
+        footnotes_elem.attr("id", "footnotes");
+        footnotes_elem.find("p").addClass("mb-1");
+        footnotes_elem.find("a").each(function() {
+            if (!$(this).hasClass("footnote-backref")) {
+                $(this).attr("target", "_blank");
+            }
+        });
+        footnotes_elem.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
+        footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
+        footnotes_elem.children("hr").first().addClass("footnote-hr");
+        footnotes_elem.children("ol").first().addClass("mb-0");
+        genFootnoteTooltips();
+    }
 
     // Footnotes collapsible opens if footnote link clicked on and the collapsible is closed
-    $(".footnote-ref").on("click", function(e) {
-        var footnoteDetails_elem = $("#footnotes-details");
+    root_elem.find(".footnote-ref").on("click", function(e) {
+        var footnoteDetails_elem = root_elem.find("#footnotes-details");
         if (!footnoteDetails_elem.attr("open")) {
             footnoteDetails_elem.attr("open", "");
         }
     });
-});
+}
 
-// Rerender LaTeX in tooltips on show
-$(document).on("inserted.bs.tooltip",  function(e) {
-    MathJax.typeset([".tooltip"]);
+$(document).ready(function() {
+    globalDisplayCustomization("body");
 });

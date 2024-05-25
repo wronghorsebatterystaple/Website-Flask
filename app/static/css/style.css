@@ -251,7 +251,7 @@ table {
     width: max-content;
     min-width: 100%;
     margin-right: auto;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     margin-left: auto;
 }
 td, th {
@@ -341,4 +341,7 @@ td, th {
     opacity: 100%;
     border: 1px solid var(--custom-pink-light) !important;
     border-radius: var(--bs-border-radius);
+}
+.tooltip-text-align-left .tooltip-inner {
+    text-align: left;
 }

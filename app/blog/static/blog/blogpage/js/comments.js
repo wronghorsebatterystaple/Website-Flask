@@ -16,6 +16,7 @@ function onCommentReload() {
     $("input[data-confirm-submit][type='submit']").on("click", function() { // refresh listeners
         return confirm("Sanity check");
     });
+    globalDisplayCustomization("#commentlist");
 }
 
 function onCommentAjaxDone(response, e) {
@@ -24,7 +25,13 @@ function onCommentAjaxDone(response, e) {
     if (response.success) {
         $(e.target).find("*").filter(function() {
             return this.id.match(/.*-input/);
-        }).val(""); // clear
+        }).each(function() {
+            // clear input fields and reset height
+            $(this).val("");
+            if ($(this).is("textarea")) {
+                adjustTextareaHeight($(this).get(0), false);
+            }
+        });
         $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
     }
 }

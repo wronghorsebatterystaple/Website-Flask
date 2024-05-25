@@ -65,7 +65,7 @@ const postId = "{{ post.id }}";
             <div class="card-body pb-2">
               <h3 class="comment-author">{{ comment.author }}</h3>
           {%- endif %}
-              <div class="gray">{{ comment.content |safe }}</div>
+              <div class="comment-content gray">{{ comment.content |safe }}</div>
               <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
               
               {%- if comment.depth < 6 %}

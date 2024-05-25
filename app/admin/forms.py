@@ -25,7 +25,7 @@ class CreateBlogpostForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
-    content = TextAreaField("Content (Markdown, LaTeX supported (remember to escape backslashes))",
+    content = TextAreaField("Content",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     submit = SubmitField("Submit")
@@ -44,7 +44,7 @@ class EditBlogpostForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
-    content = TextAreaField("Content (Markdown, LaTeX supported (remember to escape backslashes))",
+    content = TextAreaField("Content",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     SUPPORTED_IMAGE_FORMATS = ", ".join(Config.IMAGE_EXTENSIONS).replace(".", "")
     images = MultipleFileField(f"Upload images (supported formats: {SUPPORTED_IMAGE_FORMATS})")

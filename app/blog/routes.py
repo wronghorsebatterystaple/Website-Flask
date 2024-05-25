@@ -1,5 +1,4 @@
 from flask import current_app, jsonify, redirect, render_template, request, url_for
-
 from flask_login import current_user
 import sqlalchemy as sa
 
@@ -31,6 +30,7 @@ def add_comment():
     post = db.session.query(Post).get(request.form["post_id"])
     comment = Comment(author=request.form["author"], content=request.form["content"],
             post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
+    comment.sanitize_comment_input()
     if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
         return jsonify(flash_message="Sneaky…")
     db.session.add(comment)

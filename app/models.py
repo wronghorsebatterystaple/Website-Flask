@@ -75,6 +75,10 @@ class Comment(db.Model):
     right: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
     depth: so.Mapped[int] = so.mapped_column(sa.Integer)
 
+    # clean links to prevent deceptive linking
+    def sanitize_comment_input(self):
+        self.content = re.sub("\\[([\\S\\s]*?)\\]\\(([\\S\\s]*?)\\)", r"\1 (\2)", self.content)
+
     def insert_comment(self, post, parent) -> bool:
         if parent is None: # add child with left = max of right for that post + 1
             max_right_query = post.comments.select().order_by(sa.desc(Comment.right)).limit(1)

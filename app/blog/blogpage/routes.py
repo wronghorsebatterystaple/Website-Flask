@@ -1,4 +1,6 @@
+import bleach
 import markdown
+import markdown_grid_tables
 import re
 import shutil
 
@@ -12,9 +14,6 @@ from app.blog.forms import *
 from app.models import *
 import app.util as util
 from app.markdown_ext.myextensions import MyExtensions
-
-import markdown_grid_tables
-import re
 
 
 def get_blog_id(blueprint_name) -> str:
@@ -32,6 +31,20 @@ def additional_markdown_processing(s) -> str:
     s = re.sub(r"<p><pre([\S\s]*?)>", r"<pre\1>", s)
 
     return s
+
+
+# Markdown sanitization for comments (XSS etc.)
+# Bleach is deprecated because html5lib is, but both seem to still be mostly active
+def sanitize_comment_html(c) -> str:
+    # MathJax should be processed client-side after this so no need to allow those tags
+    c = bleach.clean(c,
+            tags={"abbr", "acronym", "b", "blockquote", "br", "center", "code", "details", "div", "em",
+                "h1", "h2", "h3", "i", "li", "p", "pre", "ol", "small", "span", "strong", "sub", "summary",
+                "sup", "table", "tbody", "td", "th", "thead", "tr", "ul"},
+            attributes=["class", "colspan", "data-align-bottom", "data-align-center", "data-align-right",
+                "data-align-top", "data-col-width", "height", "rowspan", "title", "width"])
+    c = bleach.linkify(c)
+    return c
 
 
 @bp.route("/")
@@ -95,15 +108,16 @@ def post(post_sanitized_title):
         return redirect(url_for(f"{request.blueprint}.index",
                 flash=util.encode_URI_component("That post doesn't exist.")))
 
-    extensions = ["extra", "markdown_grid_tables", MyExtensions()]
-    post.content = markdown.markdown(post.content, extensions=extensions)
+    MD_EXTENSIONS = ["extra", "markdown_grid_tables", MyExtensions()]
+    post.content = markdown.markdown(post.content, extensions=MD_EXTENSIONS)
     post.content = additional_markdown_processing(post.content)
 
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
     for comment in comments:
-        comment.content = markdown.markdown(comment.content, extensions=extensions)
+        comment.content = markdown.markdown(comment.content, extensions=MD_EXTENSIONS)
         comment.content = additional_markdown_processing(comment.content)
+        comment.content = sanitize_comment_html(comment.content)
 
     return render_template("blog/blogpage/post.html",
             blog_id=blog_id, blog_title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
