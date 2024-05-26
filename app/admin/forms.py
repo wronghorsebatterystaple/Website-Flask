@@ -25,8 +25,8 @@ class CreateBlogpostForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
-    content = TextAreaField("Content",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
+    content = TextAreaField("Content", validators=[InputRequired(),
+            Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
     submit = SubmitField("Submit")
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
@@ -44,8 +44,8 @@ class EditBlogpostForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
-    content = TextAreaField("Content",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
+    content = TextAreaField("Content", validators=[InputRequired(),
+            Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     SUPPORTED_IMAGE_FORMATS = ", ".join(Config.IMAGE_EXTENSIONS).replace(".", "")
     images = MultipleFileField(f"Upload images (supported formats: {SUPPORTED_IMAGE_FORMATS})")
     cancel_images = SubmitField("Clear images to upload", render_kw={"id": "cancel-images-btn"})

@@ -47,7 +47,7 @@ function globalDisplayCustomization(root_selector) {
     // Inline CSS used by Markdown tables converted to class for CSP
     root_elem.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
     root_elem.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
-
+    
     // Markdown tweaks round 3
     root_elem.find("details").find("p").contents().unwrap();
     root_elem.find("table").find("p").contents().unwrap();
@@ -80,11 +80,6 @@ function globalDisplayCustomization(root_selector) {
     if (footnotes_elem) {
         footnotes_elem.attr("id", "footnotes");
         footnotes_elem.find("p").addClass("mb-1");
-        footnotes_elem.find("a").each(function() {
-            if (!$(this).hasClass("footnote-backref")) {
-                $(this).attr("target", "_blank");
-            }
-        });
         footnotes_elem.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
         footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
         footnotes_elem.children("hr").first().addClass("footnote-hr");

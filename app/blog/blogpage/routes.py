@@ -8,7 +8,7 @@ from flask import current_app, jsonify, redirect, render_template, request, url_
 from flask_login import current_user
 import sqlalchemy as sa
 
-from app import db, turnstile
+from app import db
 from app.blog.blogpage import bp
 from app.blog.forms import *
 from app.models import *
@@ -43,7 +43,6 @@ def sanitize_comment_html(c) -> str:
                 "sup", "table", "tbody", "td", "th", "thead", "tr", "ul"},
             attributes=["class", "colspan", "data-align-bottom", "data-align-center", "data-align-right",
                 "data-align-top", "data-col-width", "height", "rowspan", "title", "width"])
-    c = bleach.linkify(c)
     return c
 
 
