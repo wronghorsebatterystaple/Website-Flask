@@ -4,10 +4,6 @@
 
 [Blog page](https://blog.anonymousrand.xyz) (don't click this one)
 
-Huge thanks to [Miguel Grinberg's Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) and also [Noran Saber Abdelfattah's Flask blog guide](https://medium.com/@noransaber685/building-a-flask-blog-a-step-by-step-guide-for-beginners-8bffe925cd0e), otherwise this project would've taken longer to get going and would probably have even more *bad practice* scribbled over it than it already has.
-
-And thank you to GitHub for free image "backups" in my static folders <3
-
 # Developer notes to compensate for possibly scuffed code
 
 ### IMPORTANT:
@@ -42,6 +38,17 @@ And thank you to GitHub for free image "backups" in my static folders <3
   - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out.
   - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode, and Flask will check `custom_unauthorized()` on attempts to access these.
   - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real** verified checkmark!!!).
+
+### XSS sanitization documentation:
+- Comments:
+  - Python's [bleach](https://pypi.org/project/bleach/) is the main library used for XSS sanitization on Markdown -> HTML render for comments; yes it's deprecated but there is no good alternative atm and both bleach and its main dependency html5lib are still being maintained
+    - Links and images are not allowed
+- `flash` query string parameter:
+  - Only JQuery's `text()` is used to insert contents into flash element, which is XSS-safe
+- Other query string parameters:
+  - Handled on the backend by Flask and never put directly into the DOM
+- Overall:
+  - CSP prevents inline scripts as a final safety measure. Inline styles are unfortunately still allowed because I could not figure out how to get MathJax to work without them.
 
 ### Adding new blogpages:
 - Update [config.py](config.py) with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
