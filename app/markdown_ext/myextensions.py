@@ -1,7 +1,6 @@
 from markdown.extensions import Extension
 from markdown.blockprocessors import BlockProcessor
 from markdown.inlinepatterns import InlineProcessor, SimpleTagInlineProcessor
-from markdown.treeprocessors import Treeprocessor
 import xml.etree.ElementTree as etree
 
 import re
