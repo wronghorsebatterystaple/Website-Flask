@@ -50,7 +50,7 @@ const totalPages = {{ total_pages }};
 
           <div class="d-flex align-items-center pt-2">
             {%- if post.edited_timestamp is not none %}
-              <h3 class="postlist-post-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
+              <h3 class="postlist-post-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</h3>
             {%- else %}
               <h3 class="postlist-post-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
             {%- endif %}

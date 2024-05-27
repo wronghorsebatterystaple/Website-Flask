@@ -101,11 +101,12 @@
 
 ### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, which is useful in environments where the Markdown equivalents may not work (footnotes, tables, blockquotes, \dropdown, \textbox etc.). Examples:
-    - `<span></span>` with pretty much any custom CSS styling you want
+    - `<span></span>` with pretty much any custom CSS styling you want (or with existing styling classes, once CSP is able to block inline `style` attributes)
     - `<pre><code></code></pre>` for code blocks in a table
     - `<small></small>` for small text
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas
       - `<br><br>` for a blank line
+- Emojis will probably not work
 
 ### Tables:
 - Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked.

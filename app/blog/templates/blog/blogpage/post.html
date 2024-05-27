@@ -19,7 +19,7 @@ const postId = "{{ post.id }}";
     <h2 class="post-subtitle custom-orange mt-1 mb-0">{{ post.subtitle }}</h2>
   {%- endif %}
   {%- if post.edited_timestamp is not none %}
-    <h3 class="post-timestamp black mt-2half mb-0">{{ moment(post.timestamp).format("l") }} | EDITED {{ moment(post.edited_timestamp).format("l") }}</h3>
+    <h3 class="post-timestamp black mt-2half mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</h3>
   {%- else %}
     <h3 class="post-timestamp black mt-2half mb-0">{{ moment(post.timestamp).format("l") }}</h3>
   {%- endif %}

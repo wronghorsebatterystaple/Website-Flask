@@ -75,6 +75,9 @@
 .gray {
     color: gray !important;
 }
+.navy {
+    color: navy !important;
+}
 .custom-blue {
     color: var(--custom-blue) !important;
 }
@@ -237,6 +240,9 @@ blockquote {
     margin-left: 0rem;
     padding-left: 0.75rem;
 }
+blockquote p {
+    margin-top: 1rem;
+}
 
 code {
     color: var(--customcolor-code) !important;
@@ -251,7 +257,7 @@ table {
     width: max-content;
     min-width: 100%;
     margin-right: auto;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     margin-left: auto;
 }
 td, th {
@@ -285,6 +291,10 @@ td, th {
 }
 .footnote-hr {
     margin: 0.8rem 0;
+}
+
+.font-size-0 {
+    font-size: 0 !important;
 }
 
 .md-details {
