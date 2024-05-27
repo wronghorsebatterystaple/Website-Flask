@@ -49,7 +49,8 @@
 - Other query string parameters:
   - Handled on the backend by Flask and never put directly into the DOM
 - Overall:
-  - CSP prevents inline scripts as a final safety measure. Inline styles are unfortunately still allowed because I could not figure out how to get MathJax to work without them.
+  - CSP prevents inline scripts as a final safety measure.
+  - Inline styles are unfortunately still allowed because I could not figure out how to get MathJax to work without them.
 
 ### Adding new blogpages:
 - Update [config.py](config.py) with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
