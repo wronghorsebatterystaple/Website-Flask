@@ -217,8 +217,10 @@ def edit_blogpost():
     form.blog_id.choices = [(k, v) for k, v in \
             current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
     if os.path.exists(images_path) and os.path.isdir(images_path):
-        form.delete_images.choices = [(f, f) for f in os.listdir(images_path) \
+        images_choices = [(f, f) for f in os.listdir(images_path) \
                 if os.path.isfile(os.path.join(images_path, f))]
+        images_choices.sort(key=lambda t: t[0])
+        form.delete_images.choices = images_choices
     form.content.data = post.collapse_image_markdown()
 
     if request.method == "GET":

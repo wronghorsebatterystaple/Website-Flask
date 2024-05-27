@@ -93,10 +93,10 @@
   - `\textbox` and `\endtextbox` to put everything inside a 1-cell table
   - `\thm` and `\endthm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code
 - Tables:
-  - Insert any inline tag like `<span>` with attribute `data-col-width="[something]%"` inside any table cell to control width for its column.
+  - Insert any inline tag like `<span>` with attribute `data-col-width="[something]"` inside any table cell to control width for its column (accepted units: all). Use this to force word wrapping in tables too, otherwise they default to scrolling horizontally if too wide (note that `<pre>` cannot be wrapped).
   - Insert any inline tag like `<span>` with attributes `data-align-[center/right/top/bottom]` inside any table cell to control its non-default vertical and horizontal alignment.
 - Images:
-  - Insert `<span data-width=[number]%></span>` around the alt text portion (within the square brackets) of images to customize image width (default 100%)
+  - Insert `<span data-width="[number]%"></span>` around the alt text portion (within the square brackets) of images to customize image width (default 100%; accepted units: %)
   - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!).
 
 ### Other syntax notes:
@@ -156,8 +156,9 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
     - `background-position`
     - `background-repeat`
     - `background-size`
+  - `overflow-wrap`
   - `text-decoration`
-  - Other specific ones like `overflow-x`
+  - Other specific ones like `overflow-x` in alphabetical order
 - "General":
   - `position`
     - `top`

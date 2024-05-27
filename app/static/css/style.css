@@ -310,6 +310,9 @@ td, th {
 .md-details-summary {
     color: var(--custom-blue) !important;
 }
+.md-textbox {
+    width: 100%; /* <pre> overrides */
+}
 .md-thm {
     color: var(--customcolor-thm) !important;
     border-left: 3.5px solid var(--customcolor-thm-border) !important;

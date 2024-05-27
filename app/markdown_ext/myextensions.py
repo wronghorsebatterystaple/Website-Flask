@@ -104,8 +104,9 @@ class TextboxBlockProcessor(BlockProcessor):
             if re.search(self.TEXTBOX_END_RE, block):
                 # remove ending delimiter
                 blocks[block_num] = re.sub(self.TEXTBOX_END_RE, "", block)
-                # put area between in <table><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+                # put area between in <table class="textbox"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
                 table_elem = etree.SubElement(parent, "table")
+                table_elem.set("class", "md-textbox")
                 tbody_elem = etree.SubElement(table_elem, "tbody")
                 tr_elem = etree.SubElement(tbody_elem, "tr")
                 td_elem = etree.SubElement(tr_elem, "td")
@@ -174,7 +175,7 @@ class MyExtensions(Extension):
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
 
         # add "\textbox\endtextbox" for
-        # <table><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+        # <table class="md-textbox"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
         md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
 
         # add "\thm\endthm" for <blockquote class="md-thm"></blockquote>
