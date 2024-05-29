@@ -43,7 +43,7 @@
 - Comments:
   - Python's [bleach](https://pypi.org/project/bleach/) is the main library used for XSS sanitization during Markdown to HTML rendering for comments (`sanitize_comment_html()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py)).
     - Yes it's deprecated, but there is no good alternative atm, and both bleach and its main dependency html5lib are still being maintained.
-    - Links and images are not allowed; full list of allowed tags is at link above.
+    - Links and images are not allowed; full list of allowed tags is in the code linked above.
 - `flash` query string parameter:
   - Only JQuery's `text()` is used to insert contents into flash element, which is XSS-safe.
 - Other query string parameters:
