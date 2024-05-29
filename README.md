@@ -45,7 +45,7 @@
     - Yes it's deprecated, but there is no good alternative atm, and both bleach and its main dependency html5lib are still being maintained.
     - Links and images are not allowed; full list of allowed tags is at link above.
 - `flash` query string parameter:
-  - Only JQuery's `text()` is used to insert contents into flash element, which is XSS-safe
+  - Only JQuery's `text()` is used to insert contents into flash element, which is XSS-safe.
 - Other query string parameters:
   - Handled on the backend by Flask and never put directly into the DOM
 - Overall:
