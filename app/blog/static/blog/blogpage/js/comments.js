@@ -16,7 +16,8 @@ function onCommentReload() {
     $("input[data-confirm-submit][type='submit']").on("click", function() { // refresh listeners
         return confirm("Sanity check");
     });
-    globalDisplayCustomization("#commentlist");
+    applyGlobalStyles("#commentlist");
+    applyCommentStyles();
 }
 
 function onCommentAjaxDone(response, e) {

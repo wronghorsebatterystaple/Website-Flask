@@ -24,8 +24,11 @@ function genFootnoteTooltips() {
     refreshTooltips();
 }
 
-function globalDisplayCustomization(root_selector) {
+function applyGlobalStyles(root_selector) {
     const root_elem = $(root_selector);
+    if (!root_elem) {
+        return;
+    }
 
     // Make font of \[\] LaTeX blocks shrink on mobile and make them scroll horizontally on overflow
     const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
@@ -49,31 +52,35 @@ function globalDisplayCustomization(root_selector) {
     root_elem.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
     
     // Markdown tweaks round 3
-    root_elem.find("details").find("p").contents().unwrap();
-    root_elem.find("table").find("p").contents().unwrap();
+    // Custom table horizontal and vertical align syntax
+    root_elem.find("[data-align-center]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-center");
+    });
+    root_elem.find("[data-align-right]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-end");
+    });
+    root_elem.find("[data-align-top]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-top");
+    });
+    root_elem.find("[data-align-bottom]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-bottom");
+    });
 
     // Custom table column width syntax
     root_elem.find("[data-col-width]").each(function() {
-        $(this).parents("td").attr("width", $(this).attr("data-col-width"));
-        $(this).parents("th").attr("width", $(this).attr("data-col-width"));
+        $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
     });
 
-    // Custom table horizontal and vertical align syntax
-    root_elem.find("[data-align-center]").each(function() {
-        $(this).parents("td").addClass("text-center");
-        $(this).parents("th").addClass("text-center");
+    $.merge(root_elem.find("th"), root_elem.find("td")).each(function() {
+        $(this).find("p").last().addClass("mb-0");
     });
-    root_elem.find("[data-align-right]").each(function() {
-        $(this).parents("td").addClass("text-end");
-        $(this).parents("th").addClass("text-end");
-    });
-    root_elem.find("[data-align-top]").each(function() {
-        $(this).parents("td").addClass("align-top");
-        $(this).parents("th").addClass("align-top");
-    });
-    root_elem.find("[data-align-bottom]").each(function() {
-        $(this).parents("td").addClass("align-bottom");
-        $(this).parents("th").addClass("align-bottom");
+    root_elem.find("details").each(function() {
+        var summaryParagraphs_elem = $(this).find("summary").find("p");
+        if (summaryParagraphs_elem) {
+            summaryParagraphs_elem.first().addClass("d-inline");
+            summaryParagraphs_elem.last().addClass("mb-0");
+        }
+        $(this).find("p").last().addClass("mb-0");
     });
 
     var footnotes_elem = root_elem.find(".footnote").first();
@@ -97,5 +104,5 @@ function globalDisplayCustomization(root_selector) {
 }
 
 $(document).ready(function() {
-    globalDisplayCustomization("body");
+    applyGlobalStyles("body");
 });
