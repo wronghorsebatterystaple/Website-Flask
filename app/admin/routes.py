@@ -356,9 +356,9 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
 
-    from_url = request.args.get("from_url")
+    previous = request.args.get("previous")
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
-        if from_url.startswith(url):
+        if previous.startswith(url):
             return jsonify(redirect_abs_url=url_for("main.index", _external=True), 
                     flash_message="Mischief managed.")
 

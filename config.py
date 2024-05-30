@@ -135,9 +135,9 @@ class Config(object):
     LOGIN_VIEW = "admin.login"
     LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
         f"{SERVER_NAME}/admin",
-        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-2']}",
-        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-3']}",
-        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-6']}",
-        f"blog.{SERVER_NAME}/{BLOG_ID_TO_PATH['-7']}"
+        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-2']}",
+        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-3']}",
+        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-6']}",
+        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-7']}"
     ]
     VERIFIED_AUTHOR = "originalposter" # lowercase and no spaces for easier comparison

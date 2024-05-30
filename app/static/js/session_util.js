@@ -61,7 +61,7 @@ $(document).ready(function() {
             url: URL_logout,
             crossDomain: true,
             data: {
-                from_url: window.location.hostname + window.location.pathname // to determine if we need to redirect away
+                previous: window.location.hostname + window.location.pathname // to determine if we need to redirect away
             },
             dataType: "json"
         })
