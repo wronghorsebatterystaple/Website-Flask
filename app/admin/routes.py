@@ -67,7 +67,7 @@ def login():
     # Ajax: FormData
     elif request.method == "POST":
         if not turnstile.verify():
-            return jsonify(redirect_abs_url=url_for("main.bot_jail", _external=True))
+            return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
@@ -84,11 +84,11 @@ def login():
 
         # assumes next is always within the same blueprint (request.url_root)!
         if request.args.get("next", "") != "":
-            return jsonify(success=True, redirect_abs_url=request.args.get("next"),
+            return jsonify(success=True, redirect_url_abs=request.args.get("next"),
                     flash_message="The universe is at your fingertips…")
         elif request.form.get("is_modal") == "yes":
             return jsonify(success=True, flash_message="The universe is at your fingertips…")
-        return jsonify(success=True, redirect_abs_url=url_for("main.index", _external=True),
+        return jsonify(success=True, redirect_url_abs=url_for("main.index", _external=True),
                 flash_message="The universe is at your fingertips…")
 
     return "If you see this message, please panic."
@@ -109,17 +109,17 @@ def choose_action():
             return jsonify(submission_errors=form.errors)
 
         action = request.form.get("action")
-        redirect_abs_url = ""
+        redirect_url_abs = ""
         if action == "create":
-            redirect_abs_url = url_for("admin.create_blogpost", _external=True)
+            redirect_url_abs = url_for("admin.create_blogpost", _external=True)
         elif action == "edit":
-            redirect_abs_url = url_for("admin.search_blogpost", _external=True)
+            redirect_url_abs = url_for("admin.search_blogpost", _external=True)
         elif action == "change_admin_password":
-            redirect_abs_url = url_for("admin.change_admin_password", _external=True)
+            redirect_url_abs = url_for("admin.change_admin_password", _external=True)
         else:
             return jsonify(flash_message="Sneaky…")
 
-        return jsonify(redirect_abs_url=redirect_abs_url)
+        return jsonify(redirect_url_abs=redirect_url_abs)
 
     return "If you see this message, please panic."
 
@@ -173,7 +173,7 @@ def create_blogpost():
         except Exception as e:
             return jsonify(flash_message=f"Image upload exception: {str(e)}")
 
-        return jsonify(redirect_abs_url=url_for(f"blog.{post.blog_id}.post",
+        return jsonify(redirect_url_abs=url_for(f"blog.{post.blog_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post created successfully!") # view completed post
 
@@ -197,7 +197,7 @@ def search_blogpost():
         post_id = request.form.get("post")
         if post_id is None:
             return jsonify(flash_message="You somehow managed to choose nothing, congratulations.")
-        return jsonify(redirect_abs_url=url_for("admin.edit_blogpost", post_id=post_id, _external=True))
+        return jsonify(redirect_url_abs=url_for("admin.edit_blogpost", post_id=post_id, _external=True))
 
     return "If you see this message, please panic."
 
@@ -207,7 +207,7 @@ def search_blogpost():
 def edit_blogpost():
     post = db.session.get(Post, request.args.get("post_id"))
     if post is None:
-        return jsonify(redirect_abs_url=url_for("admin.search_blogpost", _external=True),
+        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
                 flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you?")
     
     images_path = os.path.join(current_app.root_path,
@@ -241,7 +241,7 @@ def edit_blogpost():
                     shutil.rmtree(images_path)
             except Exception as e:
                 return jsonify(flash_message=f"Directory delete exception: {str(e)}")
-            return jsonify(redirect_abs_url=url_for(f"blog.{post.blog_id}.index", _external=True),
+            return jsonify(redirect_url_abs=url_for(f"blog.{post.blog_id}.index", _external=True),
                     flash_message="Post deleted successfully!")
 
         # handle post editing otherwise
@@ -312,7 +312,7 @@ def edit_blogpost():
             # assuming it's called after blog_id is updated
         db.session.commit()
 
-        return jsonify(redirect_abs_url=url_for(f"blog.{post.blog_id}.post",
+        return jsonify(redirect_url_abs=url_for(f"blog.{post.blog_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post edited successfully!") # view edited post
 
@@ -345,7 +345,7 @@ def change_admin_password():
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()
         logout_user()
-        return jsonify(redirect_abs_url=url_for("main.index", _external=True),
+        return jsonify(redirect_url_abs=url_for("main.index", _external=True),
                 flash_message="Your password has been changed!")
 
     return "If you see this message, please panic."
@@ -359,7 +359,7 @@ def logout():
     previous = request.args.get("previous")
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
         if previous.startswith(url):
-            return jsonify(redirect_abs_url=url_for("main.index", _external=True), 
+            return jsonify(redirect_url_abs=url_for("main.index", _external=True), 
                     flash_message="Mischief managed.")
 
     return jsonify(flash_message="Mischief managed.")

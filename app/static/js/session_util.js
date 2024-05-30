@@ -37,7 +37,7 @@ $(document).ready(function() {
         var formData = new FormData(e.target, e.originalEvent.submitter);
         $.ajax({
             type: "POST",
-            url: URL_login,
+            url: URL_POST_ABS_LOGIN,
             crossDomain: true,
             data: formData,
             processData: false,
@@ -58,7 +58,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "GET",
-            url: URL_logout,
+            url: URL_POST_ABS_LOGOUT,
             crossDomain: true,
             data: {
                 previous: window.location.hostname + window.location.pathname // to determine if we need to redirect away
@@ -66,8 +66,8 @@ $(document).ready(function() {
             dataType: "json"
         })
         .done(function(response) {
-            if (response.redirect_abs_url) {
-                var newURL = new URL(decodeURIComponent(response.redirect_abs_url));
+            if (response.redirect_url_abs) {
+                var newURL = new URL(decodeURIComponent(response.redirect_url_abs));
                 if (response.flash_message) {
                     newURL.searchParams.append("flash", encodeURIComponent(response.flash_message));
                 }
@@ -80,5 +80,12 @@ $(document).ready(function() {
                 hideAuthElems();
             }
         });
+    });
+
+    $("#login-modal").on("show.bs.modal", function(e) {
+        if (window.location.href.startsWith(URL_GET_ABS_LOGIN)) {
+            e.preventDefault();
+            customFlash("You're already on the login page, you doofus.");
+        }
     });
 });

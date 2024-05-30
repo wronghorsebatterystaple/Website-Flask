@@ -16,8 +16,8 @@ function processStandardAjaxResponse(response, e) {
         return;
     }
 
-    if (response.redirect_abs_url) {
-        var newURL = new URL(decodeURIComponent(response.redirect_abs_url));
+    if (response.redirect_url_abs) {
+        var newURL = new URL(decodeURIComponent(response.redirect_url_abs));
         if (response.flash_message) {
             newURL.searchParams.append("flash", encodeURIComponent(response.flash_message));
         }

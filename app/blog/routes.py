@@ -17,7 +17,7 @@ def index():
 @bp.route("/add-comment", methods=["POST"])
 def add_comment():
     if not turnstile.verify():
-        return jsonify(redirect_abs_url=url_for("main.bot_jail", _external=True))
+        return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
 
     add_comment_form = AddCommentForm()
     if not add_comment_form.validate():

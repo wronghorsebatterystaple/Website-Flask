@@ -103,8 +103,9 @@
 
       <!-- Variables (from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
-          const URL_login = "{{ url_for('admin.login') }}";
-          const URL_logout = "{{ url_for('admin.logout') }}";
+          const URL_GET_ABS_LOGIN = "{{ url_for(config['LOGIN_VIEW'], _external=True) }}";
+          const URL_POST_ABS_LOGIN = "{{ url_for('admin.login', _external=True) }}";
+          const URL_POST_ABS_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
           {%- block vars -%}{%- endblock -%}
       </script>
 
@@ -141,14 +142,14 @@
             </li>
           </ul>
 
+          <ul id="auth-reload-navbar-3" class="auth-false navbar-nav mb-0 mb-lg-0" {%- if current_user.is_authenticated %} hidden{%- endif %}>
+            <li class="nav-item">
+              <a id="login-link" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
+            </li>
+          </ul>
           <ul id="auth-reload-navbar-2" class="auth-true navbar-nav mb-0 mb-lg-0"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
             <li class="nav-item">
               <a id="logout-link" class="nav-link pe-0" href="#">Logout please :3</a>
-            </li>
-          </ul>
-          <ul id="auth-reload-navbar-3" class="auth-false navbar-nav mb-0 mb-lg-0" {%- if current_user.is_authenticated %} hidden{%- endif %}>
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
             </li>
           </ul>
         </div>
