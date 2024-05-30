@@ -23,5 +23,10 @@ $(document).ready(function() {
     postContent_elem.find("h2").addClass("post-h2");
     postContent_elem.find("img").addClass("post-img");
 
+    // Images in posts use alt text as hover text too
+    postContent_elem.find("img[alt]").each(function() {
+        $(this).attr("title", $(this).attr("alt"));
+    });
+
     applyCommentStyles();
 });
