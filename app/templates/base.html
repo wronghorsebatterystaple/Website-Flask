@@ -15,14 +15,11 @@
           crossorigin="anonymous">
       </script>
 
-      <!-- MathJax -->
-      <script src="{{ url_for('static', filename='config/MathJax/config.js') }}" defer></script>
+      <!-- DarkReader -->
       <script
-          type="text/javascript"
-          id="MathJax-script"
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-          integrity="sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei"
-          crossorigin="anonymous" defer>
+          src=" https://cdn.jsdelivr.net/npm/darkreader@4.9.85/darkreader.min.js"
+          integrity="sha384-flfeXFGSp501CI6Fn9Hw2v39t1xgyVR6HOVPrN759b+KcjH1reD6joELwSRuovyX"
+          crossorigin="anonymous">
       </script>
 
       <!-- Flask-Moment (JS bundling moment.js to Flask is included separately for CSP) -->
@@ -38,6 +35,16 @@
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Varela+Round&display=swap&family=Workbench&display=swap" rel="stylesheet">
+
+      <!-- MathJax -->
+      <script src="{{ url_for('static', filename='config/MathJax/config.js') }}" defer></script>
+      <script
+          type="text/javascript"
+          id="MathJax-script"
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+          integrity="sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei"
+          crossorigin="anonymous" defer>
+      </script>
 
     <!-- CSS -->
       <!-- Bootstrap -->
@@ -94,6 +101,7 @@
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js') }}"></script>
       <script src="{{ url_for('static', filename='js/ajax_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/dark_mode.js') }}"></script>
       <script src="{{ url_for('static', filename='js/display_customization.js') }}"></script>
       <script src="{{ url_for('static', filename='js/form_util.js') }}"></script>
       <script src="{{ url_for('static', filename='js/onclick_utils.js') }}"></script>
@@ -126,28 +134,37 @@
         </button>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+          <ul class="navbar-nav me-2">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
                 {%- for k, v in config.BLOG_ID_TO_TITLE.items() %}
-                  <li{%- if k in config.LOGIN_REQUIRED_BLOG_IDS %} id="auth-reload-navbar-0" class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
+                  <li{%- if k in config.LOGIN_REQUIRED_BLOG_IDS %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
                     <a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a>
                   </li>
                 {%- endfor %}
               </ul>
             </li>
-            <li id="auth-reload-navbar-1" class="auth-true nav-item" {%- if not current_user.is_authenticated %} hidden{%- endif %}>
+            <li class="auth-true nav-item" {%- if not current_user.is_authenticated %} hidden{%- endif %}>
               <a class="nav-link" href="{{ url_for('admin.choose_action') }}">Secrets of the Universe</a>
             </li>
           </ul>
 
-          <ul id="auth-reload-navbar-3" class="auth-false navbar-nav mb-0 mb-lg-0" {%- if current_user.is_authenticated %} hidden{%- endif %}>
+          <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a id="login-link" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
+              <div class="form-check form-switch mb-0">
+                <input id="dark-mode-switch" class="form-check-input" type="checkbox" role="switch">
+                <label class="nav-link form-check-label p-0" for="dark-mode-switch">Dark mode</label>
+              </div>
             </li>
           </ul>
-          <ul id="auth-reload-navbar-2" class="auth-true navbar-nav mb-0 mb-lg-0"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
+
+          <ul class="auth-false navbar-nav" {%- if current_user.is_authenticated %} hidden{%- endif %}>
+            <li class="nav-item">
+              <a id="login-link" class="nav-link pe-0" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
+            </li>
+          </ul>
+          <ul class="auth-true navbar-nav"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
             <li class="nav-item">
               <a id="logout-link" class="nav-link pe-0" href="#">Logout please :3</a>
             </li>

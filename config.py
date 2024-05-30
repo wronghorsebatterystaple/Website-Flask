@@ -10,30 +10,34 @@ class Config(object):
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
     csp_self = ["\'self\'", SERVER_NAME, f"*.{SERVER_NAME}"]
+    csp_default_src = csp_self
     CSP = {
-        "default-src": csp_self,
-        "font-src": csp_self + [
+        "default-src": csp_default_src,
+        "connect-src": csp_default_src + [
+            "data:"                                         # DarkReader
+        ],
+        "font-src": csp_default_src + [
             "cdn.jsdelivr.net",
             "fonts.googleapis.com",
             "fonts.gstatic.com"
         ],
-        "img-src": csp_self + [
-            "data:"
+        "img-src": csp_default_src + [
+            "data:"                                         # Bootstrap, DarkReader
         ],
-        "script-src": csp_self + [
+        "script-src": csp_default_src + [
             "cdn.jsdelivr.net",
             "cdnjs.cloudflare.com",
-            "code.jquery.com"
+            "code.jquery.com",
         ],
-        "style-src": csp_self + [
+        "style-src": csp_default_src + [
             "cdn.jsdelivr.net",
             "cdnjs.cloudflare.com",
             "code.jquery.com",
             "fonts.googleapis.com",
-            "\'unsafe-inline\'" # MATHJAX PLEASE REMOVE YOUR INLINE CSS I BEG YOU!!!
+            "\'unsafe-inline\'"                             # MathJax >:(
         ],
-        "base-uri": csp_self,
-        "frame-ancestors": csp_self
+        "base-uri": csp_default_src,
+        "frame-ancestors": csp_default_src
     }
 
     # Flask cookies

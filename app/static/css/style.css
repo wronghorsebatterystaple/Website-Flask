@@ -7,11 +7,11 @@
 
     /* "light" is saturation on HSV while "dark" is value */
     /* Decreasing value is used for link hovers, while decreasing saturation is for button hovers */
-    --custom-blue: DeepSkyBlue;
+    --custom-blue: #00bfff;
     --custom-blue-light: #47d1ff;
     --custom-blue-dark: #00ace6;
 
-    --custom-green: #77d900;
+    --custom-green: #76d600;
     --custom-green-light: #8cff00;
     --custom-green-xlight: #b8ff61;
     --custom-green-xxlight: #ecffd5;
@@ -26,9 +26,9 @@
     --custom-pink-xxlight: #fff5fc;
     --custom-pink-dark: #e88ec8;
 
-    --customcolor-code: navy;
-    --customcolor-thm: navy;
-    --customcolor-thm-border: #a1a1ff;
+    --color-code: navy;
+    --color-thm: navy;
+    --color-thm-border: #a1a1ff;
 }
 
 .min-height-full {
@@ -249,7 +249,7 @@ blockquote p {
 }
 
 code {
-    color: var(--customcolor-code) !important;
+    color: var(--color-code) !important;
     font-size: 97.5% !important;
 }
 pre {
@@ -318,8 +318,16 @@ td, th {
     width: 100%; /* <pre> overrides */
 }
 .md-thm {
-    color: var(--customcolor-thm) !important;
-    border-left: 3.5px solid var(--customcolor-thm-border) !important;
+    color: var(--color-thm) !important;
+    border-left: 3.5px solid var(--color-thm-border) !important;
+}
+
+.navbar-link-color {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.navbar-color {
+    color: var(--bs-navbar-color);
 }
 
 .password-vis-toggle {
@@ -361,4 +369,8 @@ td, th {
 }
 .tooltip-text-align-left .tooltip-inner {
     text-align: left;
+}
+
+#dark-mode-switch {
+    margin-top: 0.1875em !important;
 }

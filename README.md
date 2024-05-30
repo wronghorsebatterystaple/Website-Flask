@@ -39,6 +39,9 @@
   - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode, and Flask will check `custom_unauthorized()` on attempts to access these.
   - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real** verified checkmark!!!).
 
+### CSP documentation:
+- Refer to [config.py](config.py) for CSP; should be commented!
+
 ### XSS sanitization documentation:
 - Comments:
   - Python's [bleach](https://pypi.org/project/bleach/) is the main library used for XSS sanitization during Markdown to HTML rendering for comments (`sanitize_comment_html()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py)).
