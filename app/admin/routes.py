@@ -308,7 +308,8 @@ def edit_blogpost():
                             post.blog_id, "images", str(post.id)))
                 except Exception as e:
                     return jsonify(flash_message=f"Image move exception: {str(e)}")
-            post.update_image_markdown_blog_id(old_blog_id) # shouldn't be needed but just in case?
+            # updating image path in Markdown should be handled by expand_image_markdown(),
+            # assuming it's called after blog_id is updated
         db.session.commit()
 
         return jsonify(redirect_abs_url=url_for(f"blog.{post.blog_id}.post",
