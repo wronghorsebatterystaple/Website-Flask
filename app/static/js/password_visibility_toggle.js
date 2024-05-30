@@ -1,5 +1,5 @@
 function togglePasswordVisibility(targetId, visToggleId) {
-    var target_elem = $(`#${targetId}`);
+    const target_elem = $(`#${targetId}`);
     if (target_elem.attr("type") == "password") {
         target_elem.attr("type", "text");
     } else {
@@ -11,7 +11,7 @@ function togglePasswordVisibility(targetId, visToggleId) {
 
 $(document).ready(function() {
     $(".password-vis-toggle").on("click", function(e) {
-        var visToggle_elem = $(e.target);
+        const visToggle_elem = $(e.target);
         togglePasswordVisibility(visToggle_elem.attr("data-target"), visToggle_elem.attr("id"));
     });
 });

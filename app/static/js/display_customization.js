@@ -4,8 +4,8 @@ function genFootnoteTooltips() {
 
     $(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
-        var footnote_dom = document.getElementById($(this).attr("href").replace("#", ""));
-        var footnote_html = $(footnote_dom).find("p").html().replace(REMOVE_BACKREF_RE, "");
+        const footnote_dom = document.getElementById($(this).attr("href").replace("#", ""));
+        const footnote_html = $(footnote_dom).find("p").html().replace(REMOVE_BACKREF_RE, "");
         
         // replace serialized MathML HTML with its corresponding original LaTeX
         // to render with MathJax.typeset() on mouseover
@@ -72,7 +72,7 @@ function applyGlobalStyles(root_selector) {
     });
 
     // Footnote tweaks
-    var footnotes_elem = root_elem.find(".footnote").first();
+    const footnotes_elem = root_elem.find(".footnote").first();
     if (footnotes_elem) {
         footnotes_elem.attr("id", "footnotes");
         footnotes_elem.find("p").addClass("mb-1");
@@ -85,7 +85,7 @@ function applyGlobalStyles(root_selector) {
 
     // Footnotes collapsible opens if footnote link clicked on and the collapsible is closed
     root_elem.find(".footnote-ref").on("click", function(e) {
-        var footnoteDetails_elem = root_elem.find("#footnotes-details");
+        const footnoteDetails_elem = root_elem.find("#footnotes-details");
         if (!footnoteDetails_elem.attr("open")) {
             footnoteDetails_elem.attr("open", "");
         }
@@ -104,7 +104,7 @@ function applyGlobalStyles(root_selector) {
     // No extra spaces at the bottom of details/sumary and first line of summary starts inline
     root_elem.find("details").each(function() {
         $(this).children(".md-details-contents").children().last().addClass("mb-0");
-        var summary_elem = $(this).find("summary");
+        const summary_elem = $(this).find("summary");
         summary_elem.find("p").first().addClass("d-inline");
         summary_elem.children().last().addClass("mb-0");
     });

@@ -40,7 +40,11 @@
 .post-img {
     display: block;
     max-width: 100%;
+    border: 1px solid transparent;
     margin: 1rem auto 1rem auto;
+}
+.post-img:hover {
+    border: 1px solid LightGray;
 }
 .post-img:not([width]) {
     width: 100%;

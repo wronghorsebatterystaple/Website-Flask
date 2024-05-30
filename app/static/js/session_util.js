@@ -18,7 +18,7 @@ function onLoginAjaxDone(response, e) {
 }
 
 $(document).ready(function() {
-    var loginModal_elem = $("#login-modal");
+    const loginModal_elem = $("#login-modal");
     // Security - wipe contents on hide
     loginModal_elem.on("hidden.bs.modal", function(e) {
         $(e.target).find("#password-input").val("");
