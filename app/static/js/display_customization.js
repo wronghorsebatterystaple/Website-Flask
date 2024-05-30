@@ -71,18 +71,7 @@ function applyGlobalStyles(root_selector) {
         $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
     });
 
-    $.merge(root_elem.find("th"), root_elem.find("td")).each(function() {
-        $(this).find("p").last().addClass("mb-0");
-    });
-    root_elem.find("details").each(function() {
-        var summaryParagraphs_elem = $(this).find("summary").find("p");
-        if (summaryParagraphs_elem) {
-            summaryParagraphs_elem.first().addClass("d-inline");
-            summaryParagraphs_elem.last().addClass("mb-0");
-        }
-        $(this).find("p").last().addClass("mb-0");
-    });
-
+    // Footnote tweaks
     var footnotes_elem = root_elem.find(".footnote").first();
     if (footnotes_elem) {
         footnotes_elem.attr("id", "footnotes");
@@ -100,6 +89,24 @@ function applyGlobalStyles(root_selector) {
         if (!footnoteDetails_elem.attr("open")) {
             footnoteDetails_elem.attr("open", "");
         }
+    });
+
+    // No extra space at the bottom of table cells
+    $.merge(root_elem.find("th"), root_elem.find("td")).each(function() {
+        $(this).children().last().addClass("mb-0");
+    });
+
+    // No extra space between lists and their "heading" text
+    $.merge(root_elem.find("ul"), root_elem.find("ol")).each(function() {
+        $(this).prev("p").addClass("mb-0"); // no spacing between lists and their "heading" text
+    });
+
+    // No extra spaces at the bottom of details/sumary and first line of summary starts inline
+    root_elem.find("details").each(function() {
+        $(this).children(".md-details-contents").children().last().addClass("mb-0");
+        var summary_elem = $(this).find("summary");
+        summary_elem.find("p").first().addClass("d-inline");
+        summary_elem.children().last().addClass("mb-0");
     });
 }
 

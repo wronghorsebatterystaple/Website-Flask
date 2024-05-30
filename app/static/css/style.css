@@ -78,6 +78,9 @@
 .navy {
     color: navy !important;
 }
+.red {
+    color: red !important;
+}
 .custom-blue {
     color: var(--custom-blue) !important;
 }
@@ -205,7 +208,8 @@
 }
 
 .scroll-overflow-x {
-    overflow-x: auto;
+    overflow-x: auto !important;
+    overflow-y: hidden; /* For MathJax center math with \\[pt] extra spacings */
     margin-bottom: 0.5rem;
 }
 
