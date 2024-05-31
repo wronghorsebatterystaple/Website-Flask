@@ -374,3 +374,7 @@ td, th {
 #dark-mode-switch {
     margin-top: 0.1875em !important;
 }
+
+#navbar-logo {
+    margin-bottom: 0.175em !important;
+}
