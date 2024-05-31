@@ -5,20 +5,20 @@ function genFootnoteTooltips() {
     $(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
         const footnote_dom = document.getElementById($(this).attr("href").replace("#", ""));
-        var footnote_html = $(footnote_dom).find("p").html().replace(REMOVE_BACKREF_RE, "");
+        var tooltipContent_HTML = $(footnote_dom).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
 
         // replace serialized MathML HTML with its corresponding original LaTeX
         // to render with MathJax.typeset() on mouseover
         const mathItems = MathJax.startup.document.getMathItemsWithin(footnote_dom);
-        const matches = footnote_html.match(MATCH_MATHJAX_RE);
+        const matches = tooltipContent_HTML.match(MATCH_MATHJAX_RE);
         if (matches != null) {
             for (var i = 0; i < matches.length; i++) {
                 var match = matches[i];
-                footnote_html = footnote_html.replace(match, `\\(${mathItems[i].math}\\)`);
+                tooltipContent_HTML = tooltipContent_HTML.replace(match, `\\(${mathItems[i].math}\\)`);
             }
         }
 
-        $(this).attr("data-bs-title", footnote_html);
+        $(this).attr("data-bs-title", tooltipContent_HTML);
     });
 
     refreshTooltips();
@@ -84,11 +84,15 @@ function applyGlobalStyles(root_selector) {
     const footnotes_elem = root_elem.find(".footnote").first();
     if (footnotes_elem) {
         footnotes_elem.attr("id", "footnotes");
-        footnotes_elem.find("p").addClass("mb-1");
         footnotes_elem.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
         footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
+
         footnotes_elem.children("hr").first().addClass("footnote-hr");
-        footnotes_elem.children("ol").first().addClass("mb-0");
+        footnotes_elem.find("p").addClass("mb-0");
+        const footnotesList_elem = footnotes_elem.children("ol").first();
+        footnotesList_elem.addClass("mb-0");
+        footnotesList_elem.children("li").addClass("mb-1");
+
         genFootnoteTooltips();
     }
 
