@@ -68,7 +68,7 @@ window.MathJax = {
         ready: function() {
             MathJax.startup.defaultReady();
             MathJax.startup.promise.then(function() {
-                styleMathJaxAfterTypeset();
+                onMathJaxTypeset("body");
             });
         }
     }

@@ -12,10 +12,15 @@ function loadCommentHiddenIds() {
 function onCommentReload() {
     flask_moment_render_all();
     loadCommentHiddenIds();
-    MathJax.typeset(["#commentlist"]); // render any LaTeX in comments
+
+    MathJax.typesetPromise(["#commentlist"]).then(function() { // render any LaTeX in comments
+        onMathJaxTypeset("#commentlist");
+    });
+
     $("input[data-confirm-submit][type='submit']").on("click", function() { // refresh listeners
         return confirm("Sanity check");
     });
+
     applyGlobalStyles("#commentlist");
     applyCommentStyles();
 }
