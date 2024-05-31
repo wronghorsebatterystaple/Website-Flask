@@ -1,11 +1,11 @@
 // Populate comments' hidden fields for comment addition and deletion
 function loadCommentHiddenIds() {
-    $(".comment-add-form").find("#post_id").val(postId);
+    $(".comment-add-form").find("#post_id").val(POST_ID);
 
     $(".comment-delete-form").each(function() {
         var id = $(this).attr("id").match(/\d+/)[0];
         $(this).find("#comment_id").val(id);
-        $(this).find("#post_id").val(postId);
+        $(this).find("#post_id").val(POST_ID);
     });
 }
 
@@ -18,23 +18,6 @@ function onCommentReload() {
     });
     applyGlobalStyles("#commentlist");
     applyCommentStyles();
-}
-
-function onCommentAjaxDone(response, e) {
-    processStandardAjaxResponse(response, e);
-
-    if (response.success) {
-        $(e.target).find("*").filter(function() {
-            return this.id.match(/.*-input/);
-        }).each(function() {
-            // clear input fields and reset height
-            $(this).val("");
-            if ($(this).is("textarea")) {
-                adjustTextareaHeight($(this).get(0), false);
-            }
-        });
-        $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
-    }
 }
 
 $(document).ready(loadCommentHiddenIds);
@@ -54,25 +37,30 @@ $(document).on("submit", ".comment-reply-form", function(e) {
     asteriskRequiredFields();
 });
 
-$(document).on("submit", ".ajax-add-comment", function(e) {
+$(document).on("submit", ".ajax-add-comment", async function(e) {
     e.preventDefault();
 
     var formData = new FormData($(e.target).get(0));
-    $.ajax({
-        type: "POST",
-        url: URL_addComment,
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json"
-    })
-    .done(function(response) {
-        onCommentAjaxDone(response, e);
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-        var self = this;
-        handleAjaxErrors(jqXHR, formData, e, self, onCommentAjaxDone);
+    const responseJSON = await fetchWrapper(URL_ABS_ADD_COMMENT, {
+        method: "POST",
+        data: formData
     });
+
+    processStandardAjaxResponse(responseJSON, e);
+    if (responseJSON.success) {
+        // clear input fields and reset height
+        $(e.target).find("*").filter(function() {
+            return this.id.match(/.*-input/);
+        }).each(function() {
+            $(this).val("");
+            if ($(this).is("textarea")) {
+                adjustTextareaHeight($(this).get(0), false);
+            }
+        });
+
+        // reload comment section
+        $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
+    }
 });
 
 $(document).on("submit", ".ajax-delete-comment", function(e) {
@@ -81,7 +69,7 @@ $(document).on("submit", ".ajax-delete-comment", function(e) {
     var formData = new FormData($(e.target).get(0));
     $.ajax({
         type: "POST",
-        url: URL_deleteComment,
+        url: URL_ABS_DELETE_COMMENT,
         data: formData,
         processData: false,
         contentType: false,

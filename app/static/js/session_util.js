@@ -8,15 +8,6 @@ function hideAuthElems() {
     $(".auth-false").removeAttr("hidden");
 }
 
-function onLoginAjaxDone(response, e) {
-    processStandardAjaxResponse(response, e);
-
-    if (response.success) {
-        showAuthElems();
-        $("#login-modal").modal("hide");
-    }
-}
-
 $(document).ready(function() {
     const loginModal_elem = $("#login-modal");
     // Security - wipe contents on hide
@@ -31,55 +22,35 @@ $(document).ready(function() {
     // Differentiate modal vs. non-modal logins for redirect
     loginModal_elem.find("#is_modal").val("yes");
 
-    $("#login-form-modal").on("submit", function(e) {
+    $("#login-form-modal").on("submit", async function(e) {
         e.preventDefault();
 
         var formData = new FormData(e.target, e.originalEvent.submitter);
-        $.ajax({
-            type: "POST",
-            url: URL_POST_ABS_LOGIN,
-            crossDomain: true,
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "json"
-        })
-        .done(function(response) {
-            onLoginAjaxDone(response, e);
-        })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-            var self = this;
-            handleAjaxErrors(jqXHR, formData, e, self, onLoginAjaxDone);
+        const responseJSON = await fetchWrapper(URL_POST_ABS_LOGIN, {
+            method: "POST",
+            body: formData
         });
+
+        processStandardAjaxResponse(responseJSON, e);
+        if (responseJSON.success) {
+            showAuthElems();
+            $("#login-modal").modal("hide");
+        }
     });
 
-    $("#logout-link").on("click", function(e) {
+    $("#logout-link").on("click", async function(e) {
         e.preventDefault();
 
-        $.ajax({
-            type: "GET",
-            url: URL_POST_ABS_LOGOUT,
-            crossDomain: true,
-            data: {
-                previous: window.location.hostname + window.location.pathname // to determine if we need to redirect away
-            },
-            dataType: "json"
-        })
-        .done(function(response) {
-            if (response.redirect_url_abs) {
-                var newURL = new URL(decodeURIComponent(response.redirect_url_abs));
-                if (response.flash_message) {
-                    newURL.searchParams.append("flash", encodeURIComponent(response.flash_message));
-                }
-            window.location.href = newURL;
-            } else {
-                if (response.flash_message) {
-                    customFlash(response.flash_message);
-                }
-
-                hideAuthElems();
-            }
+        const responseJSON = await fetchWrapper(URL_POST_ABS_LOGOUT, {
+            method: "GET"
+        }, {
+            previous: window.location.hostname + window.location.pathname
         });
+
+        processStandardAjaxResponse(responseJSON, e);
+        if (!responseJSON.redirect_url_abs) {
+            hideAuthElems();
+        }
     });
 
     $("#login-modal").on("show.bs.modal", function(e) {

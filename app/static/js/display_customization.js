@@ -5,7 +5,7 @@ function genFootnoteTooltips() {
     $(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
         const footnote_dom = document.getElementById($(this).attr("href").replace("#", ""));
-        const footnote_html = $(footnote_dom).find("p").html().replace(REMOVE_BACKREF_RE, "");
+        var footnote_html = $(footnote_dom).find("p").html().replace(REMOVE_BACKREF_RE, "");
         
         // replace serialized MathML HTML with its corresponding original LaTeX
         // to render with MathJax.typeset() on mouseover
@@ -41,7 +41,7 @@ function applyGlobalStyles(root_selector) {
 
     // Tables and non-table code blocks scroll horizontally on overflow
     root_elem.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
-    root_elem.find("pre").each(function(e) {
+    root_elem.find("pre").each(function() {
         if ($(this).parents("table").length === 0) {
             $(this).wrap(HORIZ_SCOLL_DIV_HTML);
         }

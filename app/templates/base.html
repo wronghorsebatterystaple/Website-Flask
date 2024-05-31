@@ -68,10 +68,6 @@
       <!-- global custom JS -->
       <script nonce="{{ csp_nonce() }}">
           var csrf_token = "{{ csrf_token() }}";
-          function reloadCSRF(newToken) {
-              csrf_token = newToken;
-              $("input[name='csrf_token']").val(csrf_token); // reload hidden fields
-          }
 
           function handleAjaxErrors(jqXHR, formData, e, self, doneFunc) {
               if (jqXHR.status === 429) {

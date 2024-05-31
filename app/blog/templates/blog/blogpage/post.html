@@ -3,9 +3,9 @@
 
 {%- block vars -%}
 {{ super() }}
-const URL_addComment = "{{ url_for('blog.add_comment') }}";
-const URL_deleteComment = "{{ url_for('blog.delete_comment') }}";
-const postId = "{{ post.id }}";
+const URL_ABS_ADD_COMMENT = "{{ url_for('blog.add_comment', _external=True) }}";
+const URL_ABS_DELETE_COMMENT = "{{ url_for('blog.delete_comment', _external=True) }}";
+const POST_ID = "{{ post.id }}";
 {%- endblock -%}
 
 {%- block title -%}
