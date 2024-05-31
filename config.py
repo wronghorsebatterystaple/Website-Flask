@@ -79,7 +79,7 @@ class Config(object):
     # Other "conventional" configs
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     IMAGE_EXTENSIONS = [".gif", ".jpg", ".png"]
-    POSTS_PER_PAGE = 15
+    POSTS_PER_PAGE = 20
 
     # Scuffed configs
     LOGIN_REQUIRED_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for displaying and Flask access control
