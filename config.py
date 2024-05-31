@@ -14,7 +14,7 @@ class Config(object):
     CSP = {
         "default-src": csp_default_src,
         "connect-src": csp_default_src + [
-            "data:"                                         # DarkReader
+            "data:"                         # DarkReader
         ],
         "font-src": csp_default_src + [
             "cdn.jsdelivr.net",
@@ -22,7 +22,7 @@ class Config(object):
             "fonts.gstatic.com"
         ],
         "img-src": csp_default_src + [
-            "data:"                                         # Bootstrap, DarkReader
+            "data:"                         # Bootstrap, DarkReader
         ],
         "script-src": csp_default_src + [
             "cdn.jsdelivr.net",
@@ -34,7 +34,7 @@ class Config(object):
             "cdnjs.cloudflare.com",
             "code.jquery.com",
             "fonts.googleapis.com",
-            "\'unsafe-inline\'"                             # MathJax >:(
+            "\'unsafe-inline\'"             # MathJax >:(
         ],
         "base-uri": csp_default_src,
         "frame-ancestors": csp_default_src
