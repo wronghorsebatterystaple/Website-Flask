@@ -3,7 +3,7 @@ function reloadCSRF(newToken) {
     $("input[name='csrf_token']").val(csrf_token); // reload hidden form fields
 }
 
-async function fetchWrapper(URL, options, paramsDict=null) {
+async function fetchWrapper(baseURL, options, paramsDict=null) {
     if (!options) {
         options = {};
     }
@@ -13,25 +13,29 @@ async function fetchWrapper(URL, options, paramsDict=null) {
     options.headers["X-CSRFToken"] = csrf_token;
     options.headers["Accept"] = "application/json";
     options.credentials = "include";
+    options.mode = "cors";
 
-    var URLWithParams = URL;
+    var URLWithParams = new URL(baseURL);
     if (paramsDict) {
-        URLWithParams += "?" + new URLSearchParams(paramsDict);
+        for (var key in paramsDict) {
+            URLWithParams.searchParams.append(key, encodeURIComponent(paramsDict[key]));
+        }
     }
+
     var response = await fetch(URLWithParams, options);
 
     // catch HTTP errors, including custom errors, and make sure we don't try to .json() an errored response
     if (!response.ok) {
-        console.log(response.status);
         if (response.status === 499) {
-            reloadCSRF(response.body);
+            var newToken = await response.text();
+            reloadCSRF(newToken);
             hideAuthElems(); // session must have expired for CSRF expiry
 
-            // resend request recursively with updated CSRF token
+            // resend request with updated CSRF token in FormData (header refresh handled by recursive call)
             if (options.body && options.body instanceof FormData) {
                 options.body.set("csrf_token", csrf_token);
             }
-            return fetchWrapper(URL, options, paramsDict);
+            return fetchWrapper(baseURL, options, paramsDict);
         }
 
         if (response.status === 429) {
@@ -43,19 +47,7 @@ async function fetchWrapper(URL, options, paramsDict=null) {
     return response.json();
 }
 
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrf_token);
-      }
-    }
-});
-
-$.ajaxPrefilter(function(options) {
-    options.xhrFields = {withCredentials: true};
-});
-
-function processStandardAjaxResponse(responseJSON, e) {
+function doBaseAjaxResponse(responseJSON, e) {
     if (responseJSON.error) {
         return;
     }

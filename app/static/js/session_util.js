@@ -1,3 +1,9 @@
+function relogin() {
+    customFlash("Your session has expired (or you were being sneaky…). Please log in again.");
+    hideAuthElems();
+    $("#login-modal").modal("show");
+}
+
 function showAuthElems() {
     $(".auth-false").attr("hidden", "");
     $(".auth-true").removeAttr("hidden");
@@ -31,7 +37,7 @@ $(document).ready(function() {
             body: formData
         });
 
-        processStandardAjaxResponse(responseJSON, e);
+        doBaseAjaxResponse(responseJSON, e);
         if (responseJSON.success) {
             showAuthElems();
             $("#login-modal").modal("hide");
@@ -47,7 +53,7 @@ $(document).ready(function() {
             previous: window.location.hostname + window.location.pathname
         });
 
-        processStandardAjaxResponse(responseJSON, e);
+        doBaseAjaxResponse(responseJSON, e);
         if (!responseJSON.redirect_url_abs) {
             hideAuthElems();
         }

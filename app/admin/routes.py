@@ -84,7 +84,7 @@ def login():
 
         # assumes next is always within the same blueprint (request.url_root)!
         if request.args.get("next", "") != "":
-            return jsonify(success=True, redirect_url_abs=request.args.get("next"),
+            return jsonify(success=True, redirect_url_abs=request.args.get("next"), # keeping the URL encoded works
                     flash_message="The universe is at your fingertips…")
         elif request.form.get("is_modal") == "yes":
             return jsonify(success=True, flash_message="The universe is at your fingertips…")
@@ -135,7 +135,7 @@ def create_blogpost():
         # automatically populate from query string if detected
         if request.args.get("blog_id") is not None \
                 and request.args.get("blog_id") != current_app.config["ALL_POSTS_BLOG_ID"]:
-            form.blog_id.data = request.args.get("blog_id")
+            form.blog_id.data = request.args.get("blog_id") # don't need decoding URL here; will use first option if invalid
         return render_template("admin/form-base.html", title="Create post",
                 prompt="Create post", form=form)
 
@@ -356,7 +356,7 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
 
-    previous = request.args.get("previous")
+    previous = util.decode_URI_component(request.args.get("previous"))
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
         if previous.startswith(url):
             return jsonify(redirect_url_abs=url_for("main.index", _external=True), 

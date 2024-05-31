@@ -1,9 +1,5 @@
-function onAdminFormAjaxDone(response, e) {
-    processStandardAjaxResponse(response, e);
-}
-
 $(document).ready(function() {
-    $("#main-form").on("submit", function(e) {
+    $("#main-form").on("submit", async function(e) {
         e.preventDefault();
       
         if (e.originalEvent.submitter.id === "cancel-images-btn") {
@@ -12,20 +8,11 @@ $(document).ready(function() {
         }
 
         var formData = new FormData(e.target, e.originalEvent.submitter);
-        $.ajax({
-            type: "POST",
-            url: window.location.pathname + window.location.search,
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "json"
-        })
-        .done(function(response) {
-            onAdminFormAjaxDone(response, e);
-        })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-            var self = this;
-            handleAjaxErrors(jqXHR, formData, e, self, onAdminFormAjaxDone);
+        const responseJSON = await fetchWrapper(window.location.pathname + window.location.search, {
+            method: "POST",
+            data: formData
         });
+
+        doBaseAjaxResponse(response, e);
     });
 });

@@ -20,6 +20,24 @@ function onCommentReload() {
     applyCommentStyles();
 }
 
+function onCommentAjaxDone(responseJSON, e) {
+    doBaseAjaxResponse(responseJSON, e);
+    if (responseJSON.success) {
+        // clear input fields and reset height
+        $(e.target).find("*").filter(function() {
+            return this.id.match(/.*-input/);
+        }).each(function() {
+            $(this).val("");
+            if ($(this).is("textarea")) {
+                adjustTextareaHeight($(this).get(0), false);
+            }
+        });
+
+        // reload comment section
+        $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
+    }
+}
+
 $(document).ready(loadCommentHiddenIds);
 
 // No $(document).ready listener attachments for the remaining listeners since comments can be reloaded with load()
@@ -46,41 +64,17 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
         data: formData
     });
 
-    processStandardAjaxResponse(responseJSON, e);
-    if (responseJSON.success) {
-        // clear input fields and reset height
-        $(e.target).find("*").filter(function() {
-            return this.id.match(/.*-input/);
-        }).each(function() {
-            $(this).val("");
-            if ($(this).is("textarea")) {
-                adjustTextareaHeight($(this).get(0), false);
-            }
-        });
-
-        // reload comment section
-        $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
-    }
+    onCommentAjaxDone(responseJSON, e);
 });
 
-$(document).on("submit", ".ajax-delete-comment", function(e) {
+$(document).on("submit", ".ajax-delete-comment", async function(e) {
     e.preventDefault();
 
     var formData = new FormData($(e.target).get(0));
-    $.ajax({
-        type: "POST",
-        url: URL_ABS_DELETE_COMMENT,
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json"
-    })
-    .done(function(response) {
-        onCommentAjaxDone(response, e);
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-        var self = this;
-        handleAjaxErrors(jqXHR, formData, e, self, onCommentAjaxDone);
+    const response = await fetchWrapper(URL_ABS_DELETE_COMMENT, {
+        method: "POST",
+        data: formData
     });
-});
 
+    onCommentAjaxDone(responseJSON, e);
+});
