@@ -63,10 +63,10 @@ $(document).on("submit", ".comment-reply-form", function(e) {
 $(document).on("submit", ".ajax-add-comment", async function(e) {
     e.preventDefault();
 
-    var formData = new FormData($(e.target).get(0));
+    var formData = new FormData(e.target);
     const responseJSON = await fetchWrapper(URL_ABS_ADD_COMMENT, {
         method: "POST",
-        data: formData
+        body: formData
     });
 
     onCommentAjaxDone(responseJSON, e);
@@ -75,10 +75,10 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
 $(document).on("submit", ".ajax-delete-comment", async function(e) {
     e.preventDefault();
 
-    var formData = new FormData($(e.target).get(0));
-    const response = await fetchWrapper(URL_ABS_DELETE_COMMENT, {
+    var formData = new FormData(e.target);
+    const responseJSON = await fetchWrapper(URL_ABS_DELETE_COMMENT, {
         method: "POST",
-        data: formData
+        body: formData
     });
 
     onCommentAjaxDone(responseJSON, e);

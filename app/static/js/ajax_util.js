@@ -3,7 +3,7 @@ function reloadCSRF(newToken) {
     $("input[name='csrf_token']").val(csrf_token); // reload hidden form fields
 }
 
-async function fetchWrapper(baseURL, options, paramsDict=null) {
+async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
     if (!options) {
         options = {};
     }
@@ -15,14 +15,14 @@ async function fetchWrapper(baseURL, options, paramsDict=null) {
     options.credentials = "include";
     options.mode = "cors";
 
-    var URLWithParams = new URL(baseURL);
+    var URLWithParams_abs = new URL(baseURL_abs);
     if (paramsDict) {
         for (var key in paramsDict) {
-            URLWithParams.searchParams.append(key, encodeURIComponent(paramsDict[key]));
+            URLWithParams_abs.searchParams.append(key, encodeURIComponent(paramsDict[key]));
         }
     }
 
-    var response = await fetch(URLWithParams, options);
+    var response = await fetch(URLWithParams_abs, options);
 
     // catch HTTP errors, including custom errors, and make sure we don't try to .json() an errored response
     if (!response.ok) {
@@ -35,7 +35,7 @@ async function fetchWrapper(baseURL, options, paramsDict=null) {
             if (options.body && options.body instanceof FormData) {
                 options.body.set("csrf_token", csrf_token);
             }
-            return fetchWrapper(baseURL, options, paramsDict);
+            return fetchWrapper(baseURL_abs, options, paramsDict);
         }
 
         if (response.status === 429) {

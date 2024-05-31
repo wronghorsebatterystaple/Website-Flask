@@ -8,11 +8,11 @@ $(document).ready(function() {
         }
 
         var formData = new FormData(e.target, e.originalEvent.submitter);
-        const responseJSON = await fetchWrapper(window.location.pathname + window.location.search, {
+        const responseJSON = await fetchWrapper(window.location.href, {
             method: "POST",
-            data: formData
+            body: formData
         });
 
-        doBaseAjaxResponse(response, e);
+        doBaseAjaxResponse(responseJSON, e);
     });
 });
