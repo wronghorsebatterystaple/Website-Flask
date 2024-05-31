@@ -7,7 +7,7 @@ function applyCommentStyles() {
 $(document).ready(function() {
     // Add comment hover tooltip for syntax guide
     var contentFieldLabel_elem = $("#content-field").find("label").first();
-    contentFieldLabel_elem.html(`<a data-bs-toggle=\"tooltip\" data-bs-custom-class="tooltip-text-align-left" data-bs-html=\"true\" data-bs-title=\"<ul class='mb-0'><li>Markdown<ul><li>Tables: GFM, or reStructuredText Grid with line separators</li><li>No images</li><li>Links are not rendered; use plain text & no footnotes</li></ul></li><li>LaTeX (via MathJax)<ul><li>Needs escaping: \\\\\\\\(, \\\\\\\\), \\\\\\\\[, \\\\\\\\], \\\\\\\\\\\\\\\\, and anything like \\\\* that may be interpreted as Markdown</li></ul></li><li>My custom Markdown syntax if you figure it out :]</li></ul>\">${contentFieldLabel_elem.text()} (hover to see formatting options)</a>`)
+    contentFieldLabel_elem.html(`<a data-bs-toggle=\"tooltip\" data-bs-custom-class="tooltip-text-align-left" data-bs-html=\"true\" data-bs-title=\"<ul class='mb-0'><li>Markdown<ul><li>Tables: GFM, or reStructuredText Grid with line separators</li><li>No images</li><li>Links are not rendered; use plain text & no footnotes</li></ul></li><li>LaTeX (via MathJax)<ul><li>Needs escaping: \\\\\\\\(, \\\\\\\\), \\\\\\\\[, \\\\\\\\], \\\\\\\\\\\\\\\\, and anything like \\\\* that may be interpreted as Markdown</li></ul></li><li>My custom Markdown syntax if you can figure it out :]</li></ul>\">${contentFieldLabel_elem.text()} (hover to see formatting options)</a>`)
     refreshTooltips();
 
     var postContent_elem = $("#post-content");
