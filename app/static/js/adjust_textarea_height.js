@@ -1,5 +1,5 @@
 function adjustTextareaHeight(textarea_dom, initial) {
-    var maxHeight = $(window).height() * 0.5;
+    var maxHeight = $(window).height() * 0.6;
     // don't change if increasing from above maxHeight
     // can't seem to catch decreasing to above maxHeight because scrollHeight is not updated until `height = "0"`
     // but scroll snap on deleting text should be minimal since maxHeight forces the whole textarea to be on screen
@@ -10,7 +10,7 @@ function adjustTextareaHeight(textarea_dom, initial) {
     }
 
     textarea_dom.style.height = "0";
-    // clamp size between 7rem (roughly 4 rows) and 50vh
+    // clamp size between 7rem (roughly 4 rows) and 60vh
     var height_px = Math.max(7 * parseFloat(getComputedStyle(document.documentElement).fontSize),
             Math.min(maxHeight, textarea_dom.scrollHeight));
     textarea_dom.style.height = `${height_px + 1.5}px`; // + 1.5 to hide scrollbar
