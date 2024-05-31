@@ -94,7 +94,7 @@
     <div id="background-img">
       <div class="narrow-container container min-vh-100">
       <!-- navbar -->
-      <nav class="navbar navbar-expand-sm">
+      <nav class="navbar navbar-expand-md">
         <a class="navbar-brand" href="{{ url_for('main.index') }}">
           <img class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}" alt="favicon" width="30" height="30">Home
         </a>
@@ -115,14 +115,14 @@
               </ul>
             </li>
             <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <a class="nav-link" href="{{ url_for('admin.choose_action') }}">Secrets</a>
+              <a class="nav-link" href="{{ url_for('admin.choose_action') }}">Secrets of the Universe</a>
             </li>
 
             <li class="auth-false nav-item"{%- if current_user.is_authenticated %} hidden{%- endif %}>
               <a id="login-link" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
             </li>
             <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <a id="logout-link" class="nav-link" href="#">Logout please :3</a>
+              <a id="logout-link" class="nav-link" href="#">Logout pls :3</a>
             </li>
           </ul>
 
