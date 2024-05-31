@@ -39,11 +39,8 @@ def add_comment():
 
 
 @bp.route("/delete-comment", methods=["POST"])
+@util.custom_login_required(request)
 def delete_comment():
-    result = util.custom_unauthorized(request)
-    if result:
-        return result
-
     comment = db.session.get(Comment, request.form["comment_id"])
     if comment is None:
         return jsonify(success=True, flash_message=f"That comment doesn't exist.")
