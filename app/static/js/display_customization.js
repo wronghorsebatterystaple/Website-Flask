@@ -6,7 +6,7 @@ function genFootnoteTooltips() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
         const footnote_dom = document.getElementById($(this).attr("href").replace("#", ""));
         var footnote_html = $(footnote_dom).find("p").html().replace(REMOVE_BACKREF_RE, "");
-        
+
         // replace serialized MathML HTML with its corresponding original LaTeX
         // to render with MathJax.typeset() on mouseover
         const mathItems = MathJax.startup.document.getMathItemsWithin(footnote_dom);
@@ -24,17 +24,22 @@ function genFootnoteTooltips() {
     refreshTooltips();
 }
 
+const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
+const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
+function styleMathJaxAfterTypeset() {
+    // Make font of \[\] LaTeX blocks shrink on mobile and make them scroll horizontally on overflow
+    $("body").find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML);
+    $("body").find("mjx-math[width='full']").each(function() {
+        $(this).parent("mjx-container").css("min-width", ""); // can cause overflow problems
+        $(this).addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
+    });
+}
+
 function applyGlobalStyles(root_selector) {
     const root_elem = $(root_selector);
     if (!root_elem) {
         return;
     }
-
-    // Make font of \[\] LaTeX blocks shrink on mobile and make them scroll horizontally on overflow
-    const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
-    const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
-    root_elem.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML);
-    root_elem.find("mjx-math[width='full']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
 
     // Tables' font also shrinks on mobile
     root_elem.find("table").addClass("shrinking-font-15")
