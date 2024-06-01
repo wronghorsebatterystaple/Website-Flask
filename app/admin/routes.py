@@ -272,6 +272,11 @@ def edit_blogpost():
                 pass
             else:
                 post.edited_timestamp = datetime.now(timezone.utc)
+
+            if request.form.get("unpublish") \
+                    and request.form.get("blog_id") in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+                post.edited_timestamp = None
+                post.published = False
         else:
             # mark post as published and editable if not published and moving to published blogpage
             if request.form.get("blog_id") not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
