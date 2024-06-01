@@ -273,17 +273,18 @@ def edit_blogpost():
             else:
                 post.edited_timestamp = datetime.now(timezone.utc)
 
-            if request.form.get("unpublish") \
-                    and request.form.get("blog_id") in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+            if request.form.get("unpublish"):
                 post.edited_timestamp = None
                 post.published = False
+                if request.form.get("blog_id") not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+                    post.blog_id = "-" + post.blog_id
         else:
             # mark post as published and editable if not published and moving to published blogpage
             if request.form.get("blog_id") not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
                 post.published = True
             # keep updating created time instead of updated time if not published
             post.timestamp = datetime.now(timezone.utc)
-        post.expand_image_markdown()
+        post.expand_image_markdown() # must be done after post.blog_id is finalized for image markdown updating!
 
         # upload images if any
         try:
@@ -313,8 +314,6 @@ def edit_blogpost():
                             post.blog_id, "images", str(post.id)))
                 except Exception as e:
                     return jsonify(flash_message=f"Image move exception: {str(e)}")
-            # updating image path in Markdown should be handled by expand_image_markdown(),
-            # assuming it's called after blog_id is updated
         db.session.commit()
 
         return jsonify(redirect_url_abs=url_for(f"blog.{post.blog_id}.post",
