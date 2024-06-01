@@ -108,6 +108,7 @@
     - `<pre><code></code></pre>` for multiline code blocks in a table
     - `<small></small>` for small text
     - `<p></p>` for paragraphs and line breaks (note: not supported in footnotes; use `<br><br>` instead)
+      - E.g. lists, which have had the space between it and the previous paragraph removed by default
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas
 - Emojis will probably not work and might give HTTP error code 500
 
