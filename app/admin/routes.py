@@ -273,11 +273,10 @@ def edit_blogpost():
             else:
                 post.edited_timestamp = datetime.now(timezone.utc)
 
-            if request.form.get("unpublish"):
-                post.edited_timestamp = None
+            # unpublish if moving back to backrooms
+            if request.form.get("blog_id") in current_app.config["UNPUBLISHED_BLOG_IDS"]:
                 post.published = False
-                if request.form.get("blog_id") not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
-                    post.blog_id = "-" + post.blog_id
+                post.edited_timestamp = None
         else:
             # mark post as published and editable if not published and moving to published blogpage
             if request.form.get("blog_id") not in current_app.config["UNPUBLISHED_BLOG_IDS"]:

@@ -52,7 +52,6 @@ class EditBlogpostForm(FlaskForm):
     delete_images = SelectMultipleField("Delete images")
     dont_update_edited_timestamp = BooleanField("Don't update edited timestamp")
     remove_edited_timestamps = BooleanField("Remove all edited timestamps")
-    unpublish = BooleanField("Unpublish")
     submit = SubmitField("Submit")
     delete = SubmitField("Delete Post", render_kw={"data-confirm-submit": ""})
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
