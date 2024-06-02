@@ -127,7 +127,7 @@ class Config(object):
         "2": "all the posts that don't really belong anywhere else",
         "3": "intution, explanations, and details about computer science and math topics unlike any class you've taken.",
         "6": "the",
-        "7": "creative writing dumps or random pieces of vent."
+        "7": "creative writing dumps or random venting."
     }
     BLOG_ID_TO_COLOR_CLASS = {
         "2": "custom-blue",
