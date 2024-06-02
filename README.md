@@ -81,7 +81,7 @@
 
 ### Changing image static paths:
 - Update Markdown expansion/collapse regex in [app/models.py](app/models.py).
-- Update image paths in [app/admin/routes.py](app/admin/routes.py).
+- Update image paths in [app/admin/routes.py](app/admin/routes.py). Important to make sure we don't accidentally delete/move important files!
 - Update image paths for all existing images in db.
 
 # Blog writer notes
