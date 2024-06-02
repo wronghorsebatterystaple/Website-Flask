@@ -3,7 +3,7 @@
 /**********************************/
 
 :root {
-    --narrow-max-width: clamp(672px, 672px, 100vw);
+    --narrow-max-width: clamp(0px, 672px, 100vw);
 
     /* "light" is saturation on HSV while "dark" is value */
     /* Decreasing value is used for link hovers, while decreasing saturation is for button hovers */
