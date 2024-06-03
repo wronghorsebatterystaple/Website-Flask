@@ -1,6 +1,8 @@
 function enableDarkMode() {
      DarkReader.setFetchMethod(window.fetch); // solves CORS issue
-     DarkReader.enable();
+     DarkReader.enable({
+        contrast: 120
+     });
 }
 
 function disableDarkMode() {
