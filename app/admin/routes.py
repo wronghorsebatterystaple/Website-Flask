@@ -147,7 +147,6 @@ def create_blogpost():
         post = Post(blog_id=request.form.get("blog_id"), title=request.form.get("title"),
                 subtitle=request.form.get("subtitle"), content=request.form.get("content"))
         post.sanitize_title()
-        post.expand_image_markdown()
 
         # check that title still exists after sanitization
         if post.sanitized_title == "":
@@ -162,6 +161,8 @@ def create_blogpost():
         else:
             post.published = False
         db.session.add(post)
+        db.session.flush() # must do this before expand_image_markdown so post gets automatically assigned an id!
+        post.expand_image_markdown()
         db.session.commit()
 
         # upload images if any
