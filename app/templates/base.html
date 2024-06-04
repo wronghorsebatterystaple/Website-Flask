@@ -89,6 +89,7 @@
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js') }}" defer></script>
       <script src="{{ url_for('static', filename='js/session_util.js') }}" defer></script>
       <script src="{{ url_for('static', filename='js/tooltip_util.js') }}" defer></script>
+      {%- block js %}{%- endblock %}
 
     <title>{%- block title %}{%- endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}">
@@ -169,8 +170,6 @@
       </div>
     </div>
   </div>
-
-  {%- block js %}{%- endblock %}
 
   <!-- CDNs -->
     <!-- Bootstrap -->
