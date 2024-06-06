@@ -23,7 +23,7 @@ def post_by_id(post_id):
         return redirect(url_for(f"blog.index",
                 flash=util.encode_URI_component("That post doesn't exist.")))
 
-    return redirect(url_for(f"blog.{post.blog_id}.post", post_sanitized_title=post.sanitized_title))
+    return redirect(url_for(f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title))
 
 
 @bp.route("/add-comment", methods=["POST"])

@@ -21,7 +21,7 @@ class ChooseActionForm(FlaskForm):
 
 
 class CreateBlogpostForm(FlaskForm):
-    blog_id = SelectField("Blog", validators=[InputRequired()])
+    blogpage_id = SelectField("Blog", coerce=int, validators=[InputRequired()])
     title = StringField("Title", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
@@ -34,13 +34,13 @@ class CreateBlogpostForm(FlaskForm):
 
 class SearchBlogpostForm(FlaskForm):
     post = QuerySelectField("Post", validators=[InputRequired()],
-            query_factory=lambda: db.session.query(Post), get_label="title")
+            query_factory=lambda: db.session.query(Post).order_by(Post.title), get_label="title")
     submit = SubmitField("Submit")
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
 
 
 class EditBlogpostForm(FlaskForm):
-    blog_id = SelectField("Blog", validators=[InputRequired()])
+    blogpage_id = SelectField("Blog", validators=[InputRequired()])
     title = StringField("Title", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_TITLE"])])
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])

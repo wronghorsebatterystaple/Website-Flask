@@ -1,12 +1,23 @@
 from flask import jsonify, render_template, url_for
 from flask_wtf.csrf import generate_csrf
+import sqlalchemy as sa
 
+from app import db
 from app.forms import *
+from app.models import *
 from config import Config
 
 
 def inject_login_form():
     return dict(login_form=LoginForm())
+
+
+# For navbar
+def inject_blogpages_from_db():
+    all_blogpages_query = db.session.query(Blogpage)
+    all_blogpages = all_blogpages_query.order_by(Blogpage.ordering).all()
+    login_required_blogpages = all_blogpages_query.filter_by(login_required=True).all()
+    return dict(all_blogpages=all_blogpages, login_required_blogpages=login_required_blogpages)
 
 
 # Regenerate CSRF token on token (tied to session) expire

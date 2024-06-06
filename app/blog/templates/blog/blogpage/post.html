@@ -9,13 +9,13 @@ const POST_ID = "{{ post.id }}";
 {%- endblock -%}
 
 {%- block title -%}
-{{ post.title }} - {{ blog_title }}
+{{ post.title }} - {{ blogpage.title }}
 {%- endblock -%}
 
 {%- block content %}
 <div class="pt-2 shrinking-font-14">
     <h1 class="post-title custom-green mb-0">{{ post.title }}</h1>
-  {%- if post.subtitle != "" %}
+  {%- if post.subtitle is not none %}
     <h2 class="post-subtitle custom-orange mt-1 mb-0">{{ post.subtitle }}</h2>
   {%- endif %}
   {%- if post.edited_timestamp is not none %}

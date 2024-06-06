@@ -14,14 +14,29 @@ from app import login_manager
 from config import Config
 
 
-class Blog(db.Model):
+class Blogpage(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=False)
+    ordering: so.Mapped[int] = so.mapped_column(sa.Integer(), unique=True, index=True)
+    url_path: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_URL_PATH"]))
+    title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_TITLE"]))
+    subtitle: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_SUBTITLE"]),
+            nullable=True, default=None)
+    meta_description: so.Mapped[str] = so.mapped_column(sa.String(
+            Config.DB_CONFIGS["MAXLEN_BLOGPAGE_META_DESCRIPTION"]), nullable=True, default=None)
+    color_html_class: so.Mapped[str] = so.mapped_column(sa.String(
+            Config.DB_CONFIGS["MAXLEN_BLOGPAGE_COLOR_HTML_CLASS"]), nullable=True, default=None)
 
+    login_required: so.Mapped[bool] = so.mapped_column(sa.Boolean, default=True)
+    unpublished: so.Mapped[bool] = so.mapped_column(sa.Boolean, default=True)
+    writeable: so.Mapped[bool] = so.mapped_column(sa.Boolean, default=False)
+
+    posts: so.WriteOnlyMapped["Post"] = so.relationship(back_populates="blogpage",
+            cascade="all, delete, delete-orphan", passive_deletes=True)
 
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    blog_id: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_BLOG_ID"]), index=True)
+    blogpage_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Blogpage.id, ondelete="CASCADE"))
     published: so.Mapped[bool] = so.mapped_column(default=False)
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
@@ -34,6 +49,8 @@ class Post(db.Model):
             nullable=True, default=None)
     content: so.Mapped[Text()] = so.mapped_column(Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]))
 
+    blogpage: so.Mapped[Blogpage] = so.relationship(back_populates="posts")
+
     comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post",
             cascade="all, delete, delete-orphan", passive_deletes=True)
 
@@ -43,10 +60,10 @@ class Post(db.Model):
 
     def expand_image_markdown(self):
         self.content = re.sub(r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
-                fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blog_id}/images/{self.id}/\2)", self.content)
+                fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/\2)", self.content)
 
     def collapse_image_markdown(self) -> str:
-        return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blog_id}/images/{self.id}/([\S\s]+?)\)",
+        return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/([\S\s]+?)\)",
                 r"\1(\2)", self.content)
 
     def are_titles_unique(self) -> bool:

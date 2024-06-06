@@ -127,15 +127,17 @@ def choose_action():
 @bp.route("/create-blogpost", methods=["GET", "POST"])
 @util.custom_login_required(request)
 def create_blogpost():
+    blogpage_id = int(request.args.get("blogpage_id", default=None))
+
     form = CreateBlogpostForm()
     # set choices dynamically so we can access current_app context; also must do before POST handling so validation works?
-    form.blog_id.choices = [(k, v) for k, v in current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
+    all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
+    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
 
     if request.method == "GET":
         # automatically populate from query string if detected
-        if request.args.get("blog_id") is not None \
-                and request.args.get("blog_id") != current_app.config["ALL_POSTS_BLOG_ID"]:
-            form.blog_id.data = request.args.get("blog_id") # don't need decoding URL here; will use first option if invalid
+        if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOG_ID"]:
+            form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
         return render_template("admin/form-base.html", title="Create post",
                 prompt="Create post", form=form)
 
@@ -144,9 +146,13 @@ def create_blogpost():
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        post = Post(blog_id=request.form.get("blog_id"), title=request.form.get("title"),
+        post = Post(blogpage_id=request.form.get("blogpage_id"), title=request.form.get("title"),
                 subtitle=request.form.get("subtitle"), content=request.form.get("content"))
+        if post.subtitle == "": # standardize to None/NULL
+            post.subtitle = None
         post.sanitize_title()
+        db.session.flush() # must do this before expand_image_markdown so post gets automatically assigned an id
+                           # must also do this to auto populate blogpage relationship from foreign key to use later
 
         # check that title still exists after sanitization
         if post.sanitized_title == "":
@@ -156,25 +162,25 @@ def create_blogpost():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
         # mark post as published and editable if creating on published blogpage
-        if post.blog_id not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+        if not post.blogpage.unpublished:
             post.published = True
         else:
             post.published = False
+
         db.session.add(post)
-        db.session.flush() # must do this before expand_image_markdown so post gets automatically assigned an id!
         post.expand_image_markdown()
         db.session.commit()
 
         # upload images if any
         try:
             res = upload_images(request.files.getlist("images"), os.path.join(current_app.root_path,
-                    current_app.config["ROOT_TO_BLOGPAGE_STATIC"], post.blog_id, "images", str(post.id)))
+                    current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(post.blogpage_id), "images", str(post.id)))
             if not res == "success":
                 return jsonify(flash_message=res)
         except Exception as e:
             return jsonify(flash_message=f"Image upload exception: {str(e)}")
 
-        return jsonify(redirect_url_abs=url_for(f"blog.{post.blog_id}.post",
+        return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post created successfully!") # view completed post
 
@@ -213,10 +219,11 @@ def edit_blogpost():
     
     images_path = os.path.join(current_app.root_path,
             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-            post.blog_id, "images", str(post.id))
-    form = EditBlogpostForm(obj=post) # pre-populate fields
-    form.blog_id.choices = [(k, v) for k, v in \
-            current_app.config["BLOG_ID_TO_TITLE_WRITEABLE"].items()]
+            str(post.blogpage_id), "images", str(post.id))
+
+    form = EditBlogpostForm(obj=post) # pre-populate fields by name
+    all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
+    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
     if os.path.exists(images_path) and os.path.isdir(images_path):
         images_choices = [(f, f) for f in os.listdir(images_path) \
                 if os.path.isfile(os.path.join(images_path, f))]
@@ -242,11 +249,11 @@ def edit_blogpost():
                     shutil.rmtree(images_path)
             except Exception as e:
                 return jsonify(flash_message=f"Directory delete exception: {str(e)}")
-            return jsonify(redirect_url_abs=url_for(f"blog.{post.blog_id}.index", _external=True),
+            return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.index", _external=True),
                     flash_message="Post deleted successfully!")
 
         # handle post editing otherwise
-        old_blog_id = post.blog_id
+        old_blogpage_id = post.blogpage_id
         old_sanitized_title = post.sanitized_title
 
         post_temp = Post()
@@ -260,11 +267,15 @@ def edit_blogpost():
             if not post_temp.are_titles_unique():
                 return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
-        post.blog_id = request.form.get("blog_id")
+        post.blogpage_id = request.form.get("blogpage_id")
+        db.session.flush() # must do this to auto populate blogpage relationship from foreign key to use later
         post.title = post_temp.title
         post.sanitized_title = post_temp.sanitized_title
         post.subtitle = request.form.get("subtitle")
+        if post.subtitle == "": # standardize to None/NULL
+            post.subtitle = None
         post.content = request.form.get("content")
+
         # update edited time if editing a published post
         if post.published:
             if request.form.get("remove_edited_timestamps"):
@@ -275,16 +286,16 @@ def edit_blogpost():
                 post.edited_timestamp = datetime.now(timezone.utc)
 
             # unpublish if moving back to backrooms
-            if request.form.get("blog_id") in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+            if post.blogpage.unpublished:
                 post.published = False
                 post.edited_timestamp = None
         else:
             # mark post as published and editable if not published and moving to published blogpage
-            if request.form.get("blog_id") not in current_app.config["UNPUBLISHED_BLOG_IDS"]:
+            if not post.blogpage.unpublished:
                 post.published = True
             # keep updating created time instead of updated time if not published
             post.timestamp = datetime.now(timezone.utc)
-        post.expand_image_markdown() # must be done after post.blog_id is finalized for image markdown updating!
+        post.expand_image_markdown() # must be done after post.blogpage_id is finalized for image markdown updating!
 
         # upload images if any
         try:
@@ -306,17 +317,17 @@ def edit_blogpost():
             return jsonify(flash_message=f"Image delete exception: {str(e)}")
         
         # move images if moving blogpost
-        if post.blog_id != old_blog_id:
+        if post.blogpage_id != old_blogpage_id:
             if os.path.exists(images_path):
                 try:
                     shutil.move(images_path, os.path.join(current_app.root_path,
                             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-                            post.blog_id, "images", str(post.id)))
+                            post.blogpage_id, "images", str(post.id)))
                 except Exception as e:
                     return jsonify(flash_message=f"Image move exception: {str(e)}")
         db.session.commit()
 
-        return jsonify(redirect_url_abs=url_for(f"blog.{post.blog_id}.post",
+        return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post edited successfully!") # view edited post
 

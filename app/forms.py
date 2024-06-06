@@ -2,11 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import HiddenField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length
 
-from app.db_config import db_config
+from config import Config
 
 
 class LoginForm(FlaskForm):
     is_modal = HiddenField(default="no")
     password = PasswordField("Password", validators=[InputRequired(),
-            Length(max=db_config["MAXLEN_USER_PASSWORD"])])
+            Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
     submit = SubmitField("Submit")

@@ -112,9 +112,9 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
-                {%- for k, v in config.BLOG_ID_TO_TITLE.items() %}
-                  <li{%- if k in config.LOGIN_REQUIRED_BLOG_IDS %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
-                    <a class="dropdown-item" href="{{ url_for('blog.' ~ k ~ '.index') }}">{{ v }}</a>
+                {%- for blogpage in all_blogpages %}
+                  <li{%- if blogpage in login_required_blogpages %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
+                    <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index') }}">{{ blogpage.title }}</a>
                   </li>
                 {%- endfor %}
               </ul>

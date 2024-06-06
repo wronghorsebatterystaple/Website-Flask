@@ -10,7 +10,6 @@ from flask_talisman import Talisman
 from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect, CSRFError
 
-from app.routes import *
 from app.util import *
 
 import secrets
@@ -28,6 +27,8 @@ login_manager.session_protection = "strong" # deletes session cookie on IP/UA ch
 talisman = Talisman()
 turnstile = Turnstile()
 
+from app.routes import * # here to prevent circular imports
+
 def create_app(config_class=Config):
     # create app variable (Flask instance)
     app = Flask(__name__)
@@ -42,7 +43,7 @@ def create_app(config_class=Config):
 
     from app.blog import bp as blog_bp
     from app.blog.blogpage import bp as blog_blogpage_bp
-    # "name" param must match blog_id in "Post" db table
+    # "name" param must match blogpage_id in "Post" db table
     # This makes the endpoints "blog.0.index", "blog.1.index" etc.
     for k, v in config_class.BLOG_ID_TO_PATH.items():
         blog_bp.register_blueprint(blog_blogpage_bp, url_prefix=v, name=k)
@@ -50,6 +51,7 @@ def create_app(config_class=Config):
 
     # register global routes and stuff
     app.context_processor(inject_login_form)
+    app.context_processor(inject_blogpages_from_db)
     app.register_error_handler(CSRFError, handle_csrf_error)
 
     # init extensions after all that
@@ -66,4 +68,4 @@ def create_app(config_class=Config):
     return app
 
 
-from app import models # imports done at bottom to prevent circular imports
+from app import models # prevent circular imports

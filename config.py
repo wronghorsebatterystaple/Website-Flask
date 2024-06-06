@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
 class Config(object):
+
     # Basics
     SERVER_NAME = "anonymousrand.xyz"
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
@@ -41,31 +42,36 @@ class Config(object):
     }
 
     # Flask cookies
+    PERMANENT_SESSION_LIFETIME = 86400
     SESSION_COOKIE_DOMAIN = f".{SERVER_NAME}"
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = True
     SESSION_REFRESH_EACH_REQUEST = False
-    PERMANENT_SESSION_LIFETIME = 86400
 
     # Flask-WTF
-    WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
+    WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
 
     # Database
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     DB_CONFIGS = {
-        "MAXLEN_USER_USERNAME": 25,
-        "MAXLEN_USER_EMAIL": 512,
-        "MAXLEN_USER_PASSWORD": 50,
-        "MAXLEN_USER_PASSWORD_HASH": 256,
-        "MAXLEN_COMMENT_AUTHOR": 100,
-        "MAXLEN_COMMENT_CONTENT": 5000,
+        "MAXLEN_BLOGPAGE_URL_PATH": 50,
+        "MAXLEN_BLOGPAGE_TITLE": 50,
+        "MAXLEN_BLOGPAGE_SUBTITLE": 100,
+        "MAXLEN_BLOGPAGE_META_DESCRIPTION": 500,
+        "MAXLEN_BLOGPAGE_COLOR_HTML_CLASS": 100,
         "MAXLEN_POST_BLOG_ID": 5,
         "MAXLEN_POST_TITLE": 150,
         "MAXLEN_POST_SUBTITLE": 150,
-        "MAXLEN_POST_CONTENT": 100000
+        "MAXLEN_POST_CONTENT": 100000,
+        "MAXLEN_COMMENT_AUTHOR": 100,
+        "MAXLEN_COMMENT_CONTENT": 5000,
+        "MAXLEN_USER_USERNAME": 25,
+        "MAXLEN_USER_EMAIL": 512,
+        "MAXLEN_USER_PASSWORD": 50,
+        "MAXLEN_USER_PASSWORD_HASH": 256
     }
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
     # Custom errors
     CUSTOM_ERRORS = {
@@ -73,19 +79,18 @@ class Config(object):
     }
 
     # Paths
-    ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
+    ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
 
     # Other "conventional" configs
-    MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     IMAGE_EXTENSIONS = [".gif", ".jpg", ".png"]
+    MAX_CONTENT_LENGTH = 100 * 1024 * 1024
+    LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20
 
     # Scuffed configs
-    LOGIN_REQUIRED_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for displaying and Flask access control
-    UNPUBLISHED_BLOG_IDS = ["-2", "-3", "-6", "-7"] # for published dates on blogs
-    ALL_POSTS_BLOG_ID = "1"
-    BLOG_ID_TO_PATH = {
+    ALL_POSTS_BLOG_ID = 1
+    BLOG_ID_TO_PATH = { # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys because negatives
         "1": "/all",
         "2": "/misc",
         "3": "/professor-google",
@@ -96,48 +101,6 @@ class Config(object):
         "-6": "/writers-block-backrooms",
         "-7": "/writers-unblock-backrooms"
     }
-    BLOG_ID_TO_TITLE = {
-        "1": "All Posts",
-        "2": "/misc/",
-        "-2": "/misc/ - The Backrooms",
-        "3": "Professor Google",
-        "-3": "Professor Google - The Backrooms",
-        "6": "Writer's Block",
-        "-6": "Writer's Block - The Backrooms",
-        "7": "Writer's Unblock",
-        "-7": "Writer's Unblock - The Backrooms"
-    }
-    BLOG_ID_TO_TITLE_WRITEABLE = { # exclude All Posts
-        "2": BLOG_ID_TO_TITLE["2"],
-        "-2": BLOG_ID_TO_TITLE["-2"],
-        "3": BLOG_ID_TO_TITLE["3"],
-        "-3": BLOG_ID_TO_TITLE["-3"],
-        "6": BLOG_ID_TO_TITLE["6"],
-        "-6": BLOG_ID_TO_TITLE["-6"],
-        "7": BLOG_ID_TO_TITLE["7"],
-        "-7": BLOG_ID_TO_TITLE["-7"]
-    }
-    BLOG_ID_TO_SUBTITLE = {
-        "2": "ANYTHING THAT COMES TO MIND UNREASONABLY STRONGLY",
-        "3": "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
-        "6": "yes I stole this idea",
-        "7": "creative writing and existential dumps from 3am"
-    }
-    BLOG_ID_TO_DESCRIPTION = {
-        "1": "all posts by AnonymousRand.",
-        "2": "all the posts that don't really fit anywhere else.",
-        "3": "intution, explanations, and details about computer science and math topics hopefully unlike any class you've taken.",
-        "6": "the",
-        "7": "creative writing dumps or random venting."
-    }
-    BLOG_ID_TO_COLOR_CLASS = {
-        "2": "custom-blue",
-        "3": "custom-green",
-        "6": "custom-pink",
-        "7": "custom-pink"
-    }
-
-    LOGIN_VIEW = "admin.login"
     LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-2']}",

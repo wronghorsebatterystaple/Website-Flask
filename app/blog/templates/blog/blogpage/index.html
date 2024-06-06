@@ -6,21 +6,21 @@ const totalPages = {{ total_pages }};
 {%- endblock -%}
 
 {%- block title -%}
-{{ title }}{%- if page > 1 %} (page {{ page }}){%- endif %}
+{{ blogpage.title }}{%- if page > 1 %} (page {{ page }}){%- endif %}
 {{ super() }}
 {%- endblock -%}
 
 {%- block content %}
 <div class="pt-3">
-  <h1 class="blogpage-name shrinking-font-14">{{ title }}</h1>
-  {%- if subtitle != "" %}
-    <h2 class="blogpage-subname shrinking-font-14 mt-2">{{ subtitle }}</h2>
+  <h1 class="blogpage-name shrinking-font-14">{{ blogpage.title }}</h1>
+  {%- if blogpage.subtitle is not none %}
+    <h2 class="blogpage-subname shrinking-font-14 mt-2">{{ blogpage.subtitle }}</h2>
   {%- endif %}
 
   {%- if current_user.is_authenticated %}
-    <a class="auth-true btn-custom-orange shrinking-font-14 btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blog_id=unpublished_blog_id) }}" role="button">Create post</a>
+    <a class="auth-true btn-custom-orange shrinking-font-14 btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button">Create post</a>
   {%- else %}
-    <a class="auth-true btn-custom-orange shrinking-font-14 btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blog_id=unpublished_blog_id) }}" role="button" hidden>Create post</a>
+    <a class="auth-true btn-custom-orange shrinking-font-14 btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button" hidden>Create post</a>
   {%- endif %}
 </div>
 <hr>
@@ -29,21 +29,21 @@ const totalPages = {{ total_pages }};
   {%- for post in posts %}
     <div>
       {%- if all_posts %}
-        {%- set color = config["BLOG_ID_TO_COLOR_CLASS"][post.blog_id] %}
-        <a class="underline-on-hover-only underline-{{ color }} shrinking-font-14" href="{{ url_for('blog.' ~ post.blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        {%- set color = post.blogpage.color_html_class %}
+        <a class="underline-on-hover-only underline-{{ color }} shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <h1 class="postlist-post-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-1">{{ post.title }}</h1>
-            <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-9 text-end ms-auto"> {{ config["BLOG_ID_TO_TITLE"][post.blog_id] }}</h1>
+            <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-9 text-end ms-auto"> {{ blogpage.title }}</h1>
           </div>
-          {%- if post.subtitle != "" %}
+          {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top">
                 <h2 class="postlist-post-subtitle {{ color }} flex-basis-80 flex-shrink-0 mb-1">{{ post.subtitle }}</h2>
             </div>
           {%- endif %}
       {%- else %}
-        <a class="underline-on-hover-only underline-custom-green shrinking-font-14" href="{{ url_for('blog.' ~ blog_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="underline-on-hover-only underline-custom-green shrinking-font-14" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <h1 class="postlist-post-title custom-green mb-1">{{ post.title }}</h1>
-          {%- if post.subtitle != "" %}
+          {%- if post.subtitle is not none %}
             <h2 class="postlist-post-subtitle custom-orange mb-1">{{ post.subtitle }}</h2>
           {%- endif %}
       {%- endif %}

@@ -16,8 +16,9 @@ import app.util as util
 from app.markdown_ext.myextensions import MyExtensions
 
 
-def get_blog_id(blueprint_name) -> str:
-    return blueprint_name.split('.')[-1]
+# Gets blog id from request.blueprint
+def get_blogpage_id(blueprint_name) -> int:
+    return int(blueprint_name.split('.')[-1])
 
 
 # Markdown tweaks round 2: non-custom-syntax stuff easier from here than from JQuery in round 3, like regex replaces
@@ -46,12 +47,22 @@ def sanitize_comment_html(c) -> str:
     return c
 
 
+@bp.context_processor
+def inject_blogpage_from_db():
+    blogpage = db.session.query(Blogpage).filter(Blogpage.id==get_blogpage_id(request.blueprint)).first()
+    return dict(blogpage=blogpage, blogpage_id=blogpage.id)
+
+
 @bp.route("/")
 def index():
-    blog_id = get_blog_id(request.blueprint)
+    blogpage_id = get_blogpage_id(request.blueprint)
+    blogpage = db.session.get(Blogpage, blogpage_id)
+    if blogpage is None:
+        return redirect(url_for(f"main.index",
+                flash=util.encode_URI_component("That blogpage doesn't exist.")))
     
     # require login to access private blogs
-    if blog_id in current_app.config["LOGIN_REQUIRED_BLOG_IDS"]:
+    if blogpage.login_required:
         result = util.custom_unauthorized(request)
         if result:
             return result
@@ -62,39 +73,44 @@ def index():
     posts = None
     all_posts = False
 
-    if blog_id == current_app.config["ALL_POSTS_BLOG_ID"]:
+    if blogpage.id == current_app.config["ALL_POSTS_BLOG_ID"]:
         all_posts = True
-        posts = db.paginate(db.session.query(Post).filter(Post.blog_id \
-                .notin_(current_app.config["LOGIN_REQUIRED_BLOG_IDS"])).order_by(sa.desc(Post.timestamp)),
-                page=page, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
+        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.login_required==False)
+                .order_by(sa.desc(Post.timestamp)), page=page,
+                per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
     else:
         all_posts = False
-        posts = db.paginate(db.session.query(Post).filter_by(blog_id=blog_id).order_by(sa.desc(Post.timestamp)),
-                page=page, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
+        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.id==blogpage_id)
+                .order_by(sa.desc(Post.timestamp)), page=page,
+                per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
 
     if posts is None or (page > posts.pages and posts.pages > 0): # prevent funny query string shenanigans, 2.0
         return "", 204
-    next_page_url = url_for(f"blog.{blog_id}.index", page=posts.next_num) if posts.has_next else None
-    prev_page_url = url_for(f"blog.{blog_id}.index", page=posts.prev_num) if posts.has_prev else None
-    unpublished_blog_id = blog_id
-    if not blog_id in current_app.config["UNPUBLISHED_BLOG_IDS"] \
-            and "-" + blog_id in current_app.config["UNPUBLISHED_BLOG_IDS"]:
-        unpublished_blog_id = "-" + blog_id
+    next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num) if posts.has_next else None
+    prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num) if posts.has_prev else None
+
+    unpublished_blogpage_id = blogpage_id
+    if not blogpage.unpublished:
+        blogpage_temp = db.session.get(Blogpage, -blogpage_id)
+        if blogpage_temp is not None and blogpage_temp.unpublished:
+            unpublished_blogpage_id = -blogpage_id
+
     return render_template("blog/blogpage/index.html",
-            blog_id=blog_id, unpublished_blog_id=unpublished_blog_id,
-            page=page, total_pages=posts.pages, all_posts=all_posts,
-            title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
-            subtitle=current_app.config["BLOG_ID_TO_SUBTITLE"].get(blog_id, ""),
-            posts=posts, next_page_url=next_page_url, prev_page_url=prev_page_url,
-            get_comment_count=Post.get_comment_count)
+            unpublished_blogpage_id=unpublished_blogpage_id, page=page, total_pages=posts.pages,
+            all_posts=all_posts, posts=posts, next_page_url=next_page_url,
+            prev_page_url=prev_page_url, get_comment_count=Post.get_comment_count)
 
 
 @bp.route("/<string:post_sanitized_title>")
 def post(post_sanitized_title):
-    blog_id = get_blog_id(request.blueprint)
+    blogpage_id = get_blogpage_id(request.blueprint)
+    blogpage = db.session.get(Blogpage, blogpage_id)
+    if blogpage is None:
+        return redirect(url_for(f"main.index",
+                flash=util.encode_URI_component("That blogpage doesn't exist.")))
 
     # require login to access private blogs
-    if blog_id in current_app.config["LOGIN_REQUIRED_BLOG_IDS"]:
+    if blogpage.login_required:
         result = util.custom_unauthorized(request)
         if result:
             return result
@@ -119,9 +135,6 @@ def post(post_sanitized_title):
         comment.content = sanitize_comment_html(comment.content)
 
     return render_template("blog/blogpage/post.html",
-            blog_id=blog_id, blog_title=current_app.config["BLOG_ID_TO_TITLE"][blog_id],
             post=post, comments=comments, add_comment_form=add_comment_form,
-            reply_comment_button = reply_comment_button,
-            delete_comment_button = delete_comment_button,
-            get_comment_count=Post.get_comment_count,
-            get_descendants_list=Comment.get_descendants_list)
+            reply_comment_button = reply_comment_button, delete_comment_button = delete_comment_button,
+            get_comment_count=Post.get_comment_count, get_descendants_list=Comment.get_descendants_list)

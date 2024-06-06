@@ -38,4 +38,3 @@ def custom_login_required(request):
             return func(*args, **kwargs)
         return wrapped
     return inner_decorator
-
