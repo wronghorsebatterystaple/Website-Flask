@@ -224,21 +224,17 @@ def edit_blogpost():
     except Exception:
         if request.method == "GET":
             return redirect(url_for("blog.index", flash=util.encode_URI_component("Good try."), _external=True))
-        elif request.method == "POST":
-            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                    flash_message="That post no longer exists. Did you hit the back button? Regret it, did you?")
         else:
-            return "If you see this message, please panic."
+            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
+                    flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
 
     post = db.session.get(Post, post_id)
     if post is None:
         if request.method == "GET":
             return redirect(url_for("blog.index", flash=util.encode_URI_component("Good try."), _external=True))
-        elif request.method == "POST":
-            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                    flash_message="That post no longer exists. Did you hit the back button? Regret it, did you?")
         else:
-            return "If you see this message, please panic."
+            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
+                    flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
 
     images_path = os.path.join(current_app.root_path,
             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
@@ -282,15 +278,13 @@ def edit_blogpost():
         post.sanitize_title()
         db.session.flush()
 
-        # check that title still exists after sanitization
         if post.sanitized_title == "":
             return jsonify(flash_message="Post must have alphanumeric characters in its title.")
-        # check that titles are unique
         if not post.are_titles_unique():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
         post.subtitle = request.form.get("subtitle")
-        if post.subtitle == "": # standardize to None/NULL
+        if post.subtitle == "":
             post.subtitle = None
         post.content = request.form.get("content")
 
