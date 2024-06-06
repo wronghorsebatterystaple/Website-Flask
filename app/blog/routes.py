@@ -11,7 +11,7 @@ import app.util as util
 
 @bp.route("/")
 def index():
-    return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index"))
+    return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOGPAGE_ID']}.index"))
 
 
 # For more permanent links that don't change if a post changes title/moves between blogs

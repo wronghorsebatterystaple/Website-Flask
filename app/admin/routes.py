@@ -136,7 +136,7 @@ def create_blogpost():
 
     if request.method == "GET":
         # automatically populate from query string if detected
-        if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOG_ID"]:
+        if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
             form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
         return render_template("admin/form-base.html", title="Create post",
                 prompt="Create post", form=form)

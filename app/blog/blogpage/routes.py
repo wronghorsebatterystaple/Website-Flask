@@ -73,7 +73,7 @@ def index():
     posts = None
     all_posts = False
 
-    if blogpage.id == current_app.config["ALL_POSTS_BLOG_ID"]:
+    if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
         all_posts = True
         posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.login_required==False)
                 .order_by(sa.desc(Post.timestamp)), page=page,

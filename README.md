@@ -36,8 +36,8 @@
   - Refer to [app/admin/routes.py](app/admin/routes.py) and [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py) for example usages.
 - [config.py](config.py) contains settings that must be up-to-date for access control:
   - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out.
-  - `PRIVATE_BLOG_IDS`: These are the blogpages hidden from the navbar in non-admin mode, and Flask will check `custom_unauthorized()` on attempts to access these.
   - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real** verified checkmark!!!).
+- Each blogpage in the database has a boolean `login_required` column that must be up-to-date; Flask uses this to check login redirection on attempt to access these blogpages
 
 ### CSP documentation:
 - Refer to [config.py](config.py) for CSP; should be commented!
@@ -56,9 +56,10 @@
   - Inline styles are unfortunately still allowed because I could not figure out how to get MathJax to work without them.
 
 ### Adding new blogpages:
-- Update [config.py](config.py) with proper `blog_id`, and add a developer/backrooms blogpage too with its `blog_id` being the negative of the public one.
-  - `blog_id` is stored and used as a string
-  - To avoid negative signs from being interpreted as an argument on the command line when they are the first element in a filepath, preface filepath with `./`. Alternatively, disable further option processing with `--` option.
+- Add to database
+  - Add a developer/backrooms blogpage too with its `blogpage_id` being the negative of the public one.
+  - `blog_id` is always an integer except for the commented cases in [config.py](config.py), where they must be strings to avoid confusion with negative values and list/dictionary accessing.
+- Update [config.py](config.py)'s `BLOGPAGE_ID_TO_PATH` with the same paths that you gave the new blogpage and its developer blogpage in the database
 - Create new static directories for it in [app/blog/static/blog/blogpage/](app/blog/static/blog/blogpage/) from the [template](app/blog/static/blog/blogpage/blogpage_template/), and update other static directory names if necessary.
 
 ### Adding new forms:

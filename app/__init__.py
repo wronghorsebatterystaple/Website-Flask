@@ -29,10 +29,10 @@ turnstile = Turnstile()
 
 from app.routes import * # here to prevent circular imports
 
-def create_app(config_class=Config):
+def create_app():
     # create app variable (Flask instance)
     app = Flask(__name__)
-    app.config.from_object(config_class)
+    app.config.from_object(Config)
 
     # register blueprints
     from app.main import bp as main_bp
@@ -45,7 +45,7 @@ def create_app(config_class=Config):
     from app.blog.blogpage import bp as blog_blogpage_bp
     # "name" param must match blogpage_id in "Post" db table
     # This makes the endpoints "blog.0.index", "blog.1.index" etc.
-    for k, v in config_class.BLOG_ID_TO_PATH.items():
+    for k, v in Config.BLOGPAGE_ID_TO_PATH.items():
         blog_bp.register_blueprint(blog_blogpage_bp, url_prefix=v, name=k)
     app.register_blueprint(blog_bp, subdomain="blog")
 
@@ -61,7 +61,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     moment.init_app(app)
     login_manager.init_app(app)
-    talisman.init_app(app, content_security_policy=config_class.CSP,
+    talisman.init_app(app, content_security_policy=Config.CSP,
             content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
     turnstile.init_app(app)
 

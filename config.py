@@ -60,7 +60,6 @@ class Config(object):
         "MAXLEN_BLOGPAGE_SUBTITLE": 100,
         "MAXLEN_BLOGPAGE_META_DESCRIPTION": 500,
         "MAXLEN_BLOGPAGE_COLOR_HTML_CLASS": 100,
-        "MAXLEN_POST_BLOG_ID": 5,
         "MAXLEN_POST_TITLE": 150,
         "MAXLEN_POST_SUBTITLE": 150,
         "MAXLEN_POST_CONTENT": 100000,
@@ -89,8 +88,8 @@ class Config(object):
     POSTS_PER_PAGE = 20
 
     # Scuffed configs
-    ALL_POSTS_BLOG_ID = 1
-    BLOG_ID_TO_PATH = { # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys because negatives
+    ALL_POSTS_BLOGPAGE_ID = 1
+    BLOGPAGE_ID_TO_PATH = { # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys because negatives
         "1": "/all",
         "2": "/misc",
         "3": "/professor-google",
@@ -103,9 +102,9 @@ class Config(object):
     }
     LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
         f"{SERVER_NAME}/admin",
-        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-2']}",
-        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-3']}",
-        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-6']}",
-        f"blog.{SERVER_NAME}{BLOG_ID_TO_PATH['-7']}"
+        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-2']}",
+        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-3']}",
+        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-6']}",
+        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-7']}"
     ]
     VERIFIED_AUTHOR = "originalposter" # lowercase and no spaces for easier comparison
