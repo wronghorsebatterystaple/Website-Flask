@@ -77,10 +77,6 @@ class Config(object):
         "REFRESH_CSRF": (499, "CSRF Error")
     }
 
-    # Paths
-    BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
-    ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
-
     # Other "conventional" configs
     IMAGE_EXTENSIONS = [".gif", ".jpg", ".png"]
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
@@ -88,6 +84,10 @@ class Config(object):
     POSTS_PER_PAGE = 20
 
     # Scuffed configs
+    # Paths
+    BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
+    ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
+
     ALL_POSTS_BLOGPAGE_ID = 1
     BLOGPAGE_ID_TO_PATH = { # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys because negatives
         "1": "/all",
