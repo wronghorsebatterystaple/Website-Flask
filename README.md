@@ -89,7 +89,7 @@
 - Update `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js)
 
 ### Other notes:
-- MySQL does not change ids (primary keys) on row delete; this is used to our advantage by having a `blog.post_by_id` view function serving permanent id-based links to posts
+- MySQL does not change ids (primary keys) on row delete; this is used to our advantage by having a `blog.post_by_id` view function serving permanent id-based links to posts. Keep this is mind if planning to change databases in the future.
 
 # Blog writer notes
 
