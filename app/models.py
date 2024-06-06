@@ -14,6 +14,11 @@ from app import login_manager
 from config import Config
 
 
+class Blog(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=False)
+
+
+
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     blog_id: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_BLOG_ID"]), index=True)

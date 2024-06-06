@@ -118,14 +118,15 @@ class Config(object):
         "-7": BLOG_ID_TO_TITLE["-7"]
     }
     BLOG_ID_TO_SUBTITLE = {
+        "2": "ANYTHING THAT COMES TO MIND UNREASONABLY STRONGLY",
         "3": "THE BLOG WHERE I TEACH MYSELF CS AND MATH",
         "6": "yes I stole this idea",
         "7": "creative writing and existential dumps from 3am"
     }
     BLOG_ID_TO_DESCRIPTION = {
         "1": "all posts by AnonymousRand.",
-        "2": "all the posts that don't really belong anywhere else",
-        "3": "intution, explanations, and details about computer science and math topics unlike any class you've taken.",
+        "2": "all the posts that don't really fit anywhere else.",
+        "3": "intution, explanations, and details about computer science and math topics hopefully unlike any class you've taken.",
         "6": "the",
         "7": "creative writing dumps or random venting."
     }

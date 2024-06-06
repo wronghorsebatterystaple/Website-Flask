@@ -84,6 +84,9 @@
 - Update image paths in [app/admin/routes.py](app/admin/routes.py). Important to make sure we don't accidentally delete/move important files!
 - Update image paths for all existing images in db.
 
+### Other notes:
+- MySQL does not change ids (primary keys) on row delete; this is used to our advantage by having a `blog.post_by_id` view function serving permanent id-based links to posts
+
 # Blog writer notes
 
 ### Custom Markdown syntax:

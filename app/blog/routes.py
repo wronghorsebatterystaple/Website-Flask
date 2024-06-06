@@ -14,6 +14,18 @@ def index():
     return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOG_ID']}.index"))
 
 
+# For more permanent links that don't change if a post changes title/moves between blogs
+# MySQL also does not change id on delete
+@bp.route("/<int:post_id>")
+def post_by_id(post_id):
+    post = db.session.get(Post, post_id)
+    if post is None:
+        return redirect(url_for(f"blog.index",
+                flash=util.encode_URI_component("That post doesn't exist.")))
+
+    return redirect(url_for(f"blog.{post.blog_id}.post", post_sanitized_title=post.sanitized_title))
+
+
 @bp.route("/add-comment", methods=["POST"])
 def add_comment():
     if not turnstile.verify():
