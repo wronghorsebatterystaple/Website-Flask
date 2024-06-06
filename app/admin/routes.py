@@ -127,17 +127,23 @@ def choose_action():
 @bp.route("/create-blogpost", methods=["GET", "POST"])
 @util.custom_login_required(request)
 def create_blogpost():
-    blogpage_id = int(request.args.get("blogpage_id", default=None))
-
+    # must create form outside of POST handling or else validate() throws 500 for some reason?
     form = CreateBlogpostForm()
-    # set choices dynamically so we can access current_app context; also must do before POST handling so validation works?
     all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
 
     if request.method == "GET":
-        # automatically populate from query string if detected
+        try:
+            blogpage_id = int(request.args.get("blogpage_id", default=None))
+        except Exception:
+            return redirect(url_for("blog.index",
+                    flash=util.encode_URI_component("Good try."),
+                    _external=True))
+
+        # automatically populate blogpage form field from query string if detected
         if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
             form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
+
         return render_template("admin/form-base.html", title="Create post",
                 prompt="Create post", form=form)
 
@@ -151,13 +157,15 @@ def create_blogpost():
         if post.subtitle == "": # standardize to None/NULL
             post.subtitle = None
         post.sanitize_title()
+        db.session.add(post)
         db.session.flush() # must do this before expand_image_markdown so post gets automatically assigned an id
                            # must also do this to auto populate blogpage relationship from foreign key to use later
+                           # must also do add() before are_titles_unique(), as specified by are_titles_unique()
 
         # check that title still exists after sanitization
         if post.sanitized_title == "":
             return jsonify(flash_message="Post must have alphanumeric characters in its title.")
-        # check that title is unique (sanitized is unique => non-sanitized is unique)
+        # check that titles are unique
         if not post.are_titles_unique():
             return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
@@ -167,7 +175,6 @@ def create_blogpost():
         else:
             post.published = False
 
-        db.session.add(post)
         post.expand_image_markdown()
         db.session.commit()
 
@@ -212,16 +219,32 @@ def search_blogpost():
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
 @util.custom_login_required(request)
 def edit_blogpost():
-    post = db.session.get(Post, request.args.get("post_id"))
+    try:
+        post_id = int(request.args.get("post_id"))
+    except Exception:
+        if request.method == "GET":
+            return redirect(url_for("blog.index", flash=util.encode_URI_component("Good try."), _external=True))
+        elif request.method == "POST":
+            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
+                    flash_message="That post no longer exists. Did you hit the back button? Regret it, did you?")
+        else:
+            return "If you see this message, please panic."
+
+    post = db.session.get(Post, post_id)
     if post is None:
-        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                flash_message="That post no longer exists. Did you hit the back button? Regret your choice, did you?")
-    
+        if request.method == "GET":
+            return redirect(url_for("blog.index", flash=util.encode_URI_component("Good try."), _external=True))
+        elif request.method == "POST":
+            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
+                    flash_message="That post no longer exists. Did you hit the back button? Regret it, did you?")
+        else:
+            return "If you see this message, please panic."
+
     images_path = os.path.join(current_app.root_path,
             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
             str(post.blogpage_id), "images", str(post.id))
 
-    form = EditBlogpostForm(obj=post) # pre-populate fields by name
+    form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
     all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
     if os.path.exists(images_path) and os.path.isdir(images_path):
@@ -254,23 +277,18 @@ def edit_blogpost():
 
         # handle post editing otherwise
         old_blogpage_id = post.blogpage_id
-        old_sanitized_title = post.sanitized_title
+        post.blogpage_id = request.form.get("blogpage_id")
+        post.title = request.form.get("title")
+        post.sanitize_title()
+        db.session.flush()
 
-        post_temp = Post()
-        post_temp.title = request.form.get("title")
-        post_temp.sanitize_title()
         # check that title still exists after sanitization
         if post.sanitized_title == "":
             return jsonify(flash_message="Post must have alphanumeric characters in its title.")
-        # check that sanitized title is unique if changed; temp for unique check to work
-        if post_temp.sanitized_title != old_sanitized_title:
-            if not post_temp.are_titles_unique():
-                return jsonify(flash_message="There is already a post with that title or sanitized title.")
+        # check that titles are unique
+        if not post.are_titles_unique():
+            return jsonify(flash_message="There is already a post with that title or sanitized title.")
 
-        post.blogpage_id = request.form.get("blogpage_id")
-        db.session.flush() # must do this to auto populate blogpage relationship from foreign key to use later
-        post.title = post_temp.title
-        post.sanitized_title = post_temp.sanitized_title
         post.subtitle = request.form.get("subtitle")
         if post.subtitle == "": # standardize to None/NULL
             post.subtitle = None
@@ -284,7 +302,6 @@ def edit_blogpost():
                 pass
             else:
                 post.edited_timestamp = datetime.now(timezone.utc)
-
             # unpublish if moving back to backrooms
             if post.blogpage.unpublished:
                 post.published = False

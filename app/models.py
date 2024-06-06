@@ -41,10 +41,8 @@ class Post(db.Model):
     timestamp: so.Mapped[datetime] = so.mapped_column(
             index=True, default=lambda: datetime.now(timezone.utc))
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None)
-    title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]),
-            unique=True)
-    sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]),
-            unique=True)
+    title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]))
+    sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]))
     subtitle: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"]),
             nullable=True, default=None)
     content: so.Mapped[Text()] = so.mapped_column(Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]))
@@ -58,6 +56,10 @@ class Post(db.Model):
         self.sanitized_title = ("-".join(self.title.split())).lower()
         self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title)
 
+    # must be done after add() and flush()!!! Hence why `unique=True` not enforced for title and sanitized title
+    def are_titles_unique(self) -> bool:
+        return len(db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).all()) == 1
+
     def expand_image_markdown(self):
         self.content = re.sub(r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
                 fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/\2)", self.content)
@@ -65,9 +67,6 @@ class Post(db.Model):
     def collapse_image_markdown(self) -> str:
         return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/([\S\s]+?)\)",
                 r"\1(\2)", self.content)
-
-    def are_titles_unique(self) -> bool:
-        return db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).first() is None
 
     # god bless Miguel Grinberg https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers
     def get_comment_count(self) -> int:

@@ -59,7 +59,8 @@ def index():
     blogpage = db.session.get(Blogpage, blogpage_id)
     if blogpage is None:
         return redirect(url_for(f"main.index",
-                flash=util.encode_URI_component("That blogpage doesn't exist.")))
+                flash=util.encode_URI_component("That blogpage doesn't exist."),
+                _external=True))
     
     # require login to access private blogs
     if blogpage.login_required:
@@ -86,8 +87,10 @@ def index():
 
     if posts is None or (page > posts.pages and posts.pages > 0): # prevent funny query string shenanigans, 2.0
         return "", 204
-    next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num) if posts.has_next else None
-    prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num) if posts.has_prev else None
+    next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) \
+            if posts.has_next else None
+    prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) \
+            if posts.has_prev else None
 
     unpublished_blogpage_id = blogpage_id
     if not blogpage.unpublished:
@@ -107,7 +110,8 @@ def post(post_sanitized_title):
     blogpage = db.session.get(Blogpage, blogpage_id)
     if blogpage is None:
         return redirect(url_for(f"main.index",
-                flash=util.encode_URI_component("That blogpage doesn't exist.")))
+                flash=util.encode_URI_component("That blogpage doesn't exist."),
+                _external=True))
 
     # require login to access private blogs
     if blogpage.login_required:
@@ -121,7 +125,8 @@ def post(post_sanitized_title):
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
-                flash=util.encode_URI_component("That post doesn't exist.")))
+                flash=util.encode_URI_component("That post doesn't exist."),
+                _external=True))
 
     MD_EXTENSIONS = ["extra", "markdown_grid_tables", MyExtensions()]
     post.content = markdown.markdown(post.content, extensions=MD_EXTENSIONS)

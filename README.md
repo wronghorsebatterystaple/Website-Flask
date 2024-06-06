@@ -90,6 +90,7 @@
 
 ### Other notes:
 - MySQL does not change ids (primary keys) on row delete; this is used to our advantage by having a `blog.post_by_id` view function serving permanent id-based links to posts. Keep this is mind if planning to change databases in the future.
+- `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` to simplify the cross-origin nature of having a blog subdomain
 
 # Blog writer notes
 
