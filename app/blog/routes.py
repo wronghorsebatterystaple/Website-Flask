@@ -12,7 +12,8 @@ import app.util as util
 @bp.route("/")
 def index():
     query_string = ""
-    if request.query_string.decode != "":
+    # preserve query string
+    if request.query_string.decode() != "":
         query_string = "?" + request.query_string.decode()
 
     return redirect(url_for(f"blog.{current_app.config['ALL_POSTS_BLOGPAGE_ID']}.index", _external=True) \

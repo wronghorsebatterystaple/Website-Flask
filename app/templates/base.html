@@ -30,7 +30,7 @@
           referrerpolicy="no-referrer"
           defer>
       </script>
-      <script src="{{ url_for('static', filename='js/flask_moment_for_csp.js') }}" defer></script>
+      <script src="{{ url_for('static', filename='js/flask_moment_for_csp.js', _external=True) }}" defer></script>
 
       <!-- Fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +38,7 @@
       <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Varela+Round&display=swap&family=Workbench&display=swap" rel="stylesheet">
 
       <!-- MathJax -->
-      <script src="{{ url_for('static', filename='config/MathJax/config.js') }}" defer></script>
+      <script src="{{ url_for('static', filename='config/MathJax/config.js', _external=True) }}" defer></script>
       <script
           type="text/javascript"
           id="MathJax-script"
@@ -64,7 +64,7 @@
           defer>
 
       <!-- global custom CSS -->
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
 
       {%- block css %}{%- endblock %}
 
@@ -72,27 +72,27 @@
       <!-- Variables (from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
           var csrf_token = "{{ csrf_token() }}";
-          const URL_GET_ABS_LOGIN = "{{ url_for(config['LOGIN_VIEW']) }}";
-          const URL_POST_ABS_LOGIN = "{{ url_for('admin.login') }}";
-          const URL_POST_ABS_LOGOUT = "{{ url_for('admin.logout') }}";
+          const URL_ABS_GET_LOGIN = "{{ url_for(config['LOGIN_VIEW'], _external=True) }}";
+          const URL_ABS_POST_LOGIN = "{{ url_for('admin.login', _external=True) }}";
+          const URL_ABS_POST_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
           {%- block vars -%}{%- endblock -%}
       </script>
 
       <!-- global custom JS -->
-      <script src="{{ url_for('static', filename='js/adjust_textarea_height.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/ajax_util.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/custom_flash.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/dark_mode.js') }}"></script> <!-- no defer to avoid flash -->
-      <script src="{{ url_for('static', filename='js/display_customization.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/form_util.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/onclick_utils.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/password_visibility_toggle.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/session_util.js') }}" defer></script>
-      <script src="{{ url_for('static', filename='js/tooltip_util.js') }}" defer></script>
+      <script src="{{ url_for('static', filename='js/adjust_textarea_height.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/ajax_util.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/custom_flash.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script> <!-- no defer to avoid flash -->
+      <script src="{{ url_for('static', filename='js/display_customization.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/form_util.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/onclick_utils.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/password_visibility_toggle.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/session_util.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/tooltip_util.js', _external=True) }}" defer></script>
       {%- block js %}{%- endblock %}
 
     <title>{%- block title %}{%- endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon_colorful_32.ico', _external=True) }}">
   </head>
 
   <body class="font-varela-round">
@@ -100,8 +100,8 @@
       <div class="narrow-container container min-vh-100">
       <!-- navbar -->
       <nav class="navbar navbar-expand-md">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">
-          <img id="navbar-logo" class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon_colorful_32.ico') }}" alt="favicon" width="30" height="30">Home
+        <a class="navbar-brand" href="{{ url_for('main.index', _external=True) }}">
+          <img id="navbar-logo" class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon_colorful_32.ico', _external=True) }}" alt="favicon" width="30" height="30">Home
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -114,13 +114,13 @@
               <ul class="dropdown-menu">
                 {%- for blogpage in all_blogpages %}
                   <li{%- if blogpage in login_required_blogpages %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
-                    <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index') }}">{{ blogpage.title }}</a>
+                    <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index', _external=True) }}">{{ blogpage.title }}</a>
                   </li>
                 {%- endfor %}
               </ul>
             </li>
             <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <a class="nav-link" href="{{ url_for('admin.choose_action') }}">Secrets of the Universe</a>
+              <a class="nav-link" href="{{ url_for('admin.choose_action', _external=True) }}">Secrets of the Universe</a>
             </li>
 
             <li class="auth-false nav-item"{%- if current_user.is_authenticated %} hidden{%- endif %}>

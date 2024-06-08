@@ -3,9 +3,9 @@
 
 {%- block vars -%}
 {{ super() }}
-const URL_ABS_ADD_COMMENT = "{{ url_for('blog.add_comment') }}";
-const URL_ABS_DELETE_COMMENT = "{{ url_for('blog.delete_comment') }}";
-const URL_ABS_BLOGS_BASE = "{{ url_for('blog.index') }}";
+const URL_ABS_ADD_COMMENT = "{{ url_for('blog.add_comment', _external=True) }}";
+const URL_ABS_DELETE_COMMENT = "{{ url_for('blog.delete_comment', _external=True) }}";
+const URL_ABS_POST_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 const POST_ID = "{{ post.id }}";
 {%- endblock -%}
 
@@ -25,7 +25,7 @@ const POST_ID = "{{ post.id }}";
     {%- else %}
       <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</h3>
     {%- endif %}
-    <input id="copy-permanent-link" class="ms-auto" type="image" src="{{ url_for('static', filename='images/link.svg') }}" title="Copy permanent link" width=20px height=20px></input>
+    <input id="copy-permanent-link" class="ms-auto" type="image" src="{{ url_for('static', filename='images/link.svg', _external=True) }}" title="Copy permanent link" width=20px height=20px></input>
   </div>
 
   {%- if current_user.is_authenticated %}
@@ -62,7 +62,7 @@ const POST_ID = "{{ post.id }}";
           <div class="comment card border-custom-orange border-3px{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
                 <h3 class="comment-author d-flex align-items-center me-1">
-                  <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/verified_checkmark.svg') }}" title="Actually verified, unlike Twitter.">
+                  <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/verified_checkmark.svg', _external=True) }}" title="Actually verified, unlike Twitter.">
                 </h3>
           {%- else %}
           <div class="comment card{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
@@ -102,5 +102,5 @@ const POST_ID = "{{ post.id }}";
 
 {%- block js %}
 {{ super() }}
-<script src="{{ url_for('blog.static', filename='blog/blogpage/js/comments.js') }}"></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/comments.js', _external=True) }}"></script>
 {%- endblock %}

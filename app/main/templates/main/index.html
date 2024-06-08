@@ -7,6 +7,6 @@ Home
 
 {%- block content %}
 <h1 class="custom-green">Hi!</h1>
-<p>The main page is a work in progress. Check out my <a href="{{ url_for('blog.index') }}">blogs</a> instead!</p>
+<p>The main page is a work in progress. Check out my <a href="{{ url_for('blog.index', _external=True) }}">blogs</a> instead!</p>
 <p>:]</p>
 {%- endblock %}

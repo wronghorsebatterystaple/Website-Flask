@@ -32,7 +32,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var formData = new FormData(e.target, e.originalEvent.submitter);
-        const responseJSON = await fetchWrapper(URL_POST_ABS_LOGIN, {
+        const responseJSON = await fetchWrapper(URL_ABS_POST_LOGIN, {
             method: "POST",
             body: formData
         });
@@ -47,7 +47,7 @@ $(document).ready(function() {
     $("#logout-link").on("click", async function(e) {
         e.preventDefault();
 
-        const responseJSON = await fetchWrapper(URL_POST_ABS_LOGOUT, {
+        const responseJSON = await fetchWrapper(URL_ABS_POST_LOGOUT, {
             method: "GET"
         }, {
             previous: window.location.hostname + window.location.pathname
@@ -60,7 +60,7 @@ $(document).ready(function() {
     });
 
     $("#login-modal").on("show.bs.modal", function(e) {
-        if (window.location.href.startsWith(URL_GET_ABS_LOGIN)) {
+        if (window.location.href.startsWith(URL_ABS_GET_LOGIN)) {
             e.preventDefault();
             customFlash("You're already on the login page, you doofus.");
         }

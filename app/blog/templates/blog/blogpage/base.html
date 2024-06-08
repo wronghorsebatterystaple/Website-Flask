@@ -7,12 +7,12 @@
 
 {%- block css %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/css/style.css') }}">
-<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/' ~ blogpage_id ~ '/css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/css/style.css', _external=True) }}">
+<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/' ~ blogpage_id ~ '/css/style.css', _external=True) }}">
 {%- endblock %}
 
 {%- block js %}
-<script src="{{ url_for('blog.static', filename='blog/blogpage/js/display_customization.js') }}" defer></script>
-<script src="{{ url_for('blog.static', filename='blog/blogpage/js/goto_page_form.js') }}" defer></script>
-<script src="{{ url_for('blog.static', filename='blog/blogpage/js/onclick_util.js') }}" defer></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/display_customization.js', _external=True) }}" defer></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/goto_page_form.js', _external=True) }}" defer></script>
+<script src="{{ url_for('blog.static', filename='blog/blogpage/js/onclick_util.js', _external=True) }}" defer></script>
 {%- endblock %}

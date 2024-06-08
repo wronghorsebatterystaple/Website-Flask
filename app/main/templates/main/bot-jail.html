@@ -19,7 +19,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
       <!-- Custom CSS -->
-      <link href="{{ url_for('main.static', filename='main/css/style.css') }}" rel="stylesheet">
+      <link href="{{ url_for('main.static', filename='main/css/style.css', _external=True) }}" rel="stylesheet">
 
     <title>bot jail</title>
   </head>
@@ -27,7 +27,7 @@
   <body>
     <div class="container" style="text-align: center">
       <h1 class="font-workbench">There is an imposter among us.</h1>
-      <img class="center-block" src="{{ url_for('main.static', filename='main/images/amogus.webp') }}" alt="amogus" style="max-width: 50vw; max-height: 50vh;">
+      <img class="center-block" src="{{ url_for('main.static', filename='main/images/amogus.webp', _external=True) }}" alt="amogus" style="max-width: 50vw; max-height: 50vh;">
     </div>
 
     <!-- Bootstrap CDN -->
