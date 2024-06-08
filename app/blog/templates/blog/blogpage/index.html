@@ -33,7 +33,7 @@ const totalPages = {{ total_pages }};
         <a class="underline-on-hover-only underline-{{ color }} shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <h1 class="postlist-post-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-1">{{ post.title }}</h1>
-            <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-9 text-end ms-auto"> {{ blogpage.title }}</h1>
+            <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-9 text-end ms-auto"> {{ post.blogpage.title }}</h1>
           </div>
           {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top">
