@@ -3,8 +3,9 @@
 
 {%- block vars -%}
 {{ super() }}
-const URL_ABS_ADD_COMMENT = "{{ url_for('blog.add_comment', _external=True) }}";
-const URL_ABS_DELETE_COMMENT = "{{ url_for('blog.delete_comment', _external=True) }}";
+const URL_ABS_ADD_COMMENT = "{{ url_for('blog.add_comment') }}";
+const URL_ABS_DELETE_COMMENT = "{{ url_for('blog.delete_comment') }}";
+const URL_ABS_BLOGS_BASE = "{{ url_for('blog.index') }}";
 const POST_ID = "{{ post.id }}";
 {%- endblock -%}
 
@@ -18,11 +19,14 @@ const POST_ID = "{{ post.id }}";
   {%- if post.subtitle is not none %}
     <h2 class="post-subtitle custom-orange mt-1 mb-0">{{ post.subtitle }}</h2>
   {%- endif %}
-  {%- if post.edited_timestamp is not none %}
-    <h3 class="post-timestamp black mt-2half mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</h3>
-  {%- else %}
-    <h3 class="post-timestamp black mt-2half mb-0">{{ moment(post.timestamp).format("l") }}</h3>
-  {%- endif %}
+  <div class="d-flex align-items-center mt-2half">
+    {%- if post.edited_timestamp is not none %}
+      <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</h3>
+    {%- else %}
+      <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</h3>
+    {%- endif %}
+    <input id="copy-permanent-link" class="ms-auto" type="image" src="{{ url_for('static', filename='images/link.svg') }}" title="Copy permanent link" width=20px height=20px></input>
+  </div>
 
   {%- if current_user.is_authenticated %}
     <a class="auth-true btn-custom-orange btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>

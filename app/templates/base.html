@@ -72,9 +72,9 @@
       <!-- Variables (from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
           var csrf_token = "{{ csrf_token() }}";
-          const URL_GET_ABS_LOGIN = "{{ url_for(config['LOGIN_VIEW'], _external=True) }}";
-          const URL_POST_ABS_LOGIN = "{{ url_for('admin.login', _external=True) }}";
-          const URL_POST_ABS_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
+          const URL_GET_ABS_LOGIN = "{{ url_for(config['LOGIN_VIEW']) }}";
+          const URL_POST_ABS_LOGIN = "{{ url_for('admin.login') }}";
+          const URL_POST_ABS_LOGOUT = "{{ url_for('admin.logout') }}";
           {%- block vars -%}{%- endblock -%}
       </script>
 

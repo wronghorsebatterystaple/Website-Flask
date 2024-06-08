@@ -42,7 +42,7 @@
 }
 
 #background-img {
-    background-image: url("/static/images/background/background_0.svg");
+    background-image: url("/static/images/background_0.svg");
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
