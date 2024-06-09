@@ -42,7 +42,7 @@
 }
 
 #background-img {
-    background-image: url("/static/images/background_0.svg");
+    background-image: url("/static/images/background_default.svg");
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
@@ -173,6 +173,9 @@
     flex-basis: 80% !important;
 }
 
+.ms-2half {
+    margin-left: 0.75rem !important;
+}
 .mt-2half {
     margin-top: 0.75rem !important;
 }

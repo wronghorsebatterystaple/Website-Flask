@@ -13,15 +13,15 @@ function onCommentReload() {
     flask_moment_render_all();
     loadCommentHiddenIds();
 
-    MathJax.typesetPromise(["#commentlist"]).then(function() { // render any LaTeX in comments
-        onMathJaxTypeset("#commentlist");
+    MathJax.typesetPromise(["#comment-list"]).then(function() { // render any LaTeX in comments
+        onMathJaxTypeset("#comment-list");
     });
 
     $("input[data-confirm-submit][type='submit']").on("click", function() { // refresh listeners
         return confirm("Sanity check");
     });
 
-    applyGlobalStyles("#commentlist");
+    applyGlobalStyles("#comment-list");
     applyCommentStyles();
 }
 
@@ -39,7 +39,7 @@ function onCommentAjaxDone(responseJSON, e) {
         });
 
         // reload comment section
-        $("#commentlist").load(window.location.href + " #commentlist > *", onCommentReload);
+        $("#comment-list").load(window.location.href + " #comment-list > *", onCommentReload);
     }
 }
 

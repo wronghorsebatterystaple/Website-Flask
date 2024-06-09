@@ -14,10 +14,10 @@ const POST_ID = "{{ post.id }}";
 {%- endblock -%}
 
 {%- block content %}
-<div class="pt-2 shrinking-font-14">
-    <h1 class="post-title custom-green mb-0">{{ post.title }}</h1>
+<div class="pt-2">
+    <h1 class="post-title custom-green shrinking-font-14 mb-0">{{ post.title }}</h1>
   {%- if post.subtitle is not none %}
-    <h2 class="post-subtitle custom-orange mt-1 mb-0">{{ post.subtitle }}</h2>
+    <h2 class="post-subtitle custom-orange shrinking-font-14 mt-1 mb-0">{{ post.subtitle }}</h2>
   {%- endif %}
   <div class="d-flex align-items-center mt-2half">
     {%- if post.edited_timestamp is not none %}
@@ -25,7 +25,8 @@ const POST_ID = "{{ post.id }}";
     {%- else %}
       <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</h3>
     {%- endif %}
-    <input id="copy-permanent-link" class="ms-auto" type="image" src="{{ url_for('static', filename='images/link.svg', _external=True) }}" title="Copy permanent link" width=20px height=20px></input>
+    <a class="ms-2half" href="#leave-a-comment"><img src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment_custom_blue.svg', _external=True) }}" title="yapping" width=16px height=16px></img></a>
+    <input id="copy-permanent-link" class="ms-2" type="image" src="{{ url_for('static', filename='images/icon_link.svg', _external=True) }}" title="Copy permanent link (free malware included)" width=20px height=20px></input>
   </div>
 
   {%- if current_user.is_authenticated %}
@@ -42,13 +43,13 @@ const POST_ID = "{{ post.id }}";
 
 <hr class="doublehr">
 
-<div>
+<div id="leave-a-comment">
   <h2 class="comment-section-headers shrinking-font-14">Leave a comment</h2>
   {{ wtf.quick_form(add_comment_form, class="comment-add-form ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
 </div>
 <hr>
 
-<div id="commentlist" class="pb-3">
+<div id="comment-list" class="pb-3">
   <h2 class="comment-section-headers shrinking-font-14 mb-0">Comments <span class="gray">({{ post.get_comment_count() }})</span></h2>
   <div class="d-flex flex-shrink-0">
     <div class="w-100 flex-shrink-0">
@@ -62,7 +63,7 @@ const POST_ID = "{{ post.id }}";
           <div class="comment card border-custom-orange border-3px{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
                 <h3 class="comment-author d-flex align-items-center me-1">
-                  <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/verified_checkmark.svg', _external=True) }}" title="Actually verified, unlike Twitter.">
+                  <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_verified.svg', _external=True) }}" title="Actually verified, unlike Twitter.">
                 </h3>
           {%- else %}
           <div class="comment card{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
