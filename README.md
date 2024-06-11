@@ -99,7 +99,7 @@
   - `__[text]__` to underline
   - `~~[text]~~` to strikethrough
   - `'''[text]'''` to do code in gray 
-- Blocks (all delimiters must be surrounded by one blank line):
+- Blocks (all delimiters must be surrounded by one blank line). Nesting may cause unexpected consequences such as incorrect parsing or 500 error!:
   - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
   - `\textbox` and `\endtextbox` to put everything inside a 1-cell table
   - `\thm` and `\endthm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code

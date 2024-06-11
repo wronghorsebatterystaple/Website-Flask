@@ -129,14 +129,13 @@ def post(post_sanitized_title):
                 _external=True))
 
     MD_EXTENSIONS = ["extra", "markdown_grid_tables", MyExtensions()]
-    post.content = markdown.markdown(post.content, extensions=MD_EXTENSIONS)
+    post.content = markdown.markdown(post.content, extensions=["extra", "markdown_grid_tables", MyExtensions()])
     post.content = additional_markdown_processing(post.content)
 
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
-    for comment in comments:
-        comment.content = markdown.markdown(comment.content, extensions=MD_EXTENSIONS)
-        comment.content = additional_markdown_processing(comment.content)
+    for comment in comments: # no custom Markdown becuase there are some ways to 500 the page that I don't wanna fix
+        comment.content = markdown.markdown(comment.content, extensions=["extra", "markdown_grid_tables"])
         comment.content = sanitize_comment_html(comment.content)
 
     return render_template("blog/blogpage/post.html",
