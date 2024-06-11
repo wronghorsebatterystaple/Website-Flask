@@ -48,6 +48,7 @@
     border-bottom: 1px solid var(--custom-orange);
     margin-bottom: 0.75rem;
     padding-bottom: 0.25rem;
+    width: fit-content;
 }
 .post-img {
     display: block;
