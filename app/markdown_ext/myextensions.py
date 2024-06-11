@@ -14,12 +14,15 @@ class GrayCodeInlineProcessor(InlineProcessor):
         return elem, m.start(0), m.end(0)
 
 
-class ImageWidthInlineProcessor(InlineProcessor):
+class ImageInlineProcessor(InlineProcessor):
     def handleMatch(self, m, data):
         elem = etree.Element("img")
-        elem.set("src", m.group(3))
-        elem.set("alt", m.group(2))
-        elem.set("width", m.group(1))
+        elem.set("src", m.group(5))
+        elem.set("alt", m.group(4))
+        if m.group(2):
+            elem.set("width", m.group(2))
+        if m.group(3):
+            elem.set("class", "md-image-inline")
         return elem, m.start(0), m.end(0)
 
 
@@ -167,8 +170,10 @@ class MyExtensions(Extension):
         md.inlinePatterns.register(GrayCodeInlineProcessor(r"'''([\S\s]*?)'''", md), "gray_code", 999)
 
         # !\[<span data-width="[number]%">[alt text]</span>\]([image src]) for images with custom width
-        md.inlinePatterns.register(ImageWidthInlineProcessor("!\\[<span data-width=\"([0-9]+?%)\">([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)",
-            md), "image_width", 999)
+        # !\[<span data-inline>[alt text]</span>\]([image src]) for images with "display: inline"
+        # If both are present, "data-inline" must be after "data-width"
+        md.inlinePatterns.register(ImageInlineProcessor("!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)",
+            md), "image", 999)
 
         # add "\dropdown\summary\endsummary\enddropdown" for
         # <details class="md-details"><summary class="md-summary"></summary></details>

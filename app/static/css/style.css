@@ -318,6 +318,10 @@ td, th {
 .md-details-summary {
     color: var(--custom-blue) !important;
 }
+.md-image-inline {
+    display: inline !important;
+    margin: 0 !important;
+}
 .md-textbox {
     width: 100%; /* <pre> overrides */
 }
