@@ -320,7 +320,7 @@ td, th {
 }
 .md-image-inline {
     display: inline !important;
-    margin: 0 !important;
+    margin: 0.25rem !important;
 }
 .md-textbox {
     width: 100%; /* <pre> overrides */
