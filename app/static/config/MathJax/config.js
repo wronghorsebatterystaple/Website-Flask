@@ -16,6 +16,7 @@ function onMathJaxTypeset(root_selector) {
 
 window.MathJax = {
     tex: {
+        tags: "ams",
         macros: {
             // simple math symbols
             divs: "\\mid",

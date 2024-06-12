@@ -26,6 +26,15 @@ class ImageInlineProcessor(InlineProcessor):
         return elem, m.start(0), m.end(0)
 
 
+class LinkTargetInlineProcessor(InlineProcessor):
+    def handleMatch(self, m, data):
+        elem = etree.Element("a")
+        elem.set("data-same-page", "")
+        elem.set("href", m.group(2))
+        elem.text = m.group(1)
+        return elem, m.start(0), m.end(0)
+
+
 class DropdownBlockProcessor(BlockProcessor):
     DROPDOWN_START_RE = r"\\dropdown$"
     DROPDOWN_END_RE = r"\\enddropdown$"
@@ -173,7 +182,11 @@ class MyExtensions(Extension):
         # !\[<span data-inline>[alt text]</span>\]([image src]) for images with "display: inline"
         # If both are present, "data-inline" must be after "data-width"
         md.inlinePatterns.register(ImageInlineProcessor("!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)",
-            md), "image", 999)
+                md), "image", 999)
+
+        # \[<span data-same-page>[display text]</span>\]([link href]) for links that open on same page (non-default)
+        md.inlinePatterns.register(LinkTargetInlineProcessor(r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)",
+                md), "link_target", 999)
 
         # add "\dropdown\summary\endsummary\enddropdown" for
         # <details class="md-details"><summary class="md-summary"></summary></details>

@@ -85,6 +85,7 @@ function applyGlobalStyles(root_selector) {
     root_elem.find(".footnote-ref").on("click", function(e) {
         const footnoteDetails_elem = root_elem.find("#footnotes-details");
         if (!footnoteDetails_elem.attr("open")) {
+            console.log("closed");
             footnoteDetails_elem.attr("open", "");
         }
     });
