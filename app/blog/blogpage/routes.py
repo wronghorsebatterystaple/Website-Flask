@@ -13,7 +13,7 @@ from app.blog.blogpage import bp
 from app.blog.forms import *
 from app.models import *
 import app.util as util
-from app.markdown_ext.myextensions import MyExtensions
+from app.markdown_ext.myextensions import MyBlockExtensions, MyInlineExtensions
 
 
 # Gets blog id from request.blueprint
@@ -128,14 +128,16 @@ def post(post_sanitized_title):
                 flash=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 
-    MD_EXTENSIONS = ["extra", "markdown_grid_tables", MyExtensions()]
-    post.content = markdown.markdown(post.content, extensions=["extra", "markdown_grid_tables", MyExtensions()])
+    post.content = markdown.markdown(post.content, extensions=["extra", "markdown_grid_tables",
+            MyInlineExtensions(), MyBlockExtensions()])
     post.content = additional_markdown_processing(post.content)
 
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
-    for comment in comments: # no custom Markdown becuase there are some ways to 500 the page that I don't wanna fix
-        comment.content = markdown.markdown(comment.content, extensions=["extra", "markdown_grid_tables"])
+    for comment in comments: # no custom block Markdown because there ways to 500 the page that I don't wanna fix
+        comment.content = markdown.markdown(comment.content, extensions=["extra", "markdown_grid_tables",
+                MyInlineExtensions()])
+        comment.content = additional_markdown_processing(comment.content)
         comment.content = sanitize_comment_html(comment.content)
 
     return render_template("blog/blogpage/post.html",

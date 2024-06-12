@@ -167,7 +167,7 @@ class ThmBlockProcessor(BlockProcessor):
 
 
 # Markdown tweaks round 1: custom syntax only!
-class MyExtensions(Extension):
+class MyInlineExtensions(Extension):
     def extendMarkdown(self, md):
         # __[text]__ for underline
         md.inlinePatterns.register(SimpleTagInlineProcessor(r"()__([\S\s]*?)__", "u"), "underline", 105)
@@ -188,6 +188,9 @@ class MyExtensions(Extension):
         md.inlinePatterns.register(LinkTargetInlineProcessor(r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)",
                 md), "link_target", 999)
 
+
+class MyBlockExtensions(Extension):
+    def extendMarkdown(self, md):
         # add "\dropdown\summary\endsummary\enddropdown" for
         # <details class="md-details"><summary class="md-summary"></summary></details>
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)

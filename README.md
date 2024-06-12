@@ -103,13 +103,15 @@
   - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
   - `\textbox` and `\endtextbox` to put everything inside a 1-cell table
   - `\thm` and `\endthm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code
-- Tables:
-  - Insert any inline tag like `<span>` with attribute `data-col-width="[something]"` inside any table cell to control width for its column (accepted units: all). Use this to force word wrapping in tables too, otherwise they default to scrolling horizontally if too wide (note that `<pre>` cannot be wrapped).
-  - Insert any inline tag like `<span>` with attributes `data-align-[center/right/top/bottom]` inside any table cell to control its non-default vertical and horizontal alignment
 - Images:
   - Insert `<span data-width="[number]%"></span>` around the alt text portion (within the square brackets) of images to customize image width (default 100%; accepted units: %)
   - Insert `<span data-inline></span> around the alt text portion of images to make it inline with no extra top/bottom margins. If both `data-width` and `data-inline` are present, `data-width` must be first.
   - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!)
+- Links:
+  - Insert `<span data-same-page></span>` around the display text portion (within the square brackets) of links to override the default of opening them in a new tab
+- Tables:
+  - Insert any inline tag like `<span>` with attribute `data-col-width="[something]"` inside any table cell to control width for its column (accepted units: all). Use this to force word wrapping in tables too, otherwise they default to scrolling horizontally if too wide (note that `<pre>` cannot be wrapped).
+  - Insert any inline tag like `<span>` with attributes `data-align-[center/right/top/bottom]` inside any table cell to control its non-default vertical and horizontal alignment
 
 ### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, which is useful for additional styling or in environments where Markdown equivalents may not always work (footnotes, tables, blockquotes etc.). Examples:
