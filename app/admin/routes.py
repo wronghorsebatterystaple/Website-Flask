@@ -308,14 +308,6 @@ def edit_blogpost():
             post.timestamp = datetime.now(timezone.utc)
         post.expand_image_markdown() # must be done after post.blogpage_id is finalized for image markdown updating!
 
-        # upload images if any
-        try:
-            res = upload_images(request.files.getlist("images"), images_path)
-            if not res == "success":
-                return jsonify(flash_message=res)
-        except Exception as e:
-            return jsonify(flash_message=f"Image upload exception: {str(e)}")
-
         # delete images if any
         try:
             for image in request.form.getlist("delete_images"):
@@ -326,7 +318,30 @@ def edit_blogpost():
                 shutil.rmtree(images_path)
         except Exception as e:
             return jsonify(flash_message=f"Image delete exception: {str(e)}")
+
+        # delete unused images if that is checked; do this after deleting normally
+        # but before uploading to make sure newly-uploaded images aren't immediately scrapped
+        if request.form.get("delete_unused_images"):
+            try:
+                if os.path.exists(images_path):
+                    images = os.listdir(images_path)
+                    for image in images:
+                        if image not in post.content:
+                            os.remove(os.path.join(images_path, image))
+
+                    if len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
+                        shutil.rmtree(images_path)
+            except Exception as e:
+                return jsonify(flash_message=f"Image delete unused exception: {str(e)}")
         
+        # upload images if any
+        try:
+            res = upload_images(request.files.getlist("images"), images_path)
+            if not res == "success":
+                return jsonify(flash_message=res)
+        except Exception as e:
+            return jsonify(flash_message=f"Image upload exception: {str(e)}")
+
         # move images if moving blogpost
         if post.blogpage_id != old_blogpage_id:
             if os.path.exists(images_path):
