@@ -19,8 +19,18 @@ $(document).ready(function() {
     });
 
     // Markdown tweaks round 3
-    postContent_elem.find("h1").addClass("post-h1");
-    postContent_elem.find("h2").addClass("post-h2");
+    var h1_headingId = 0;
+    var h2_headingId = 0;
+    postContent_elem.find("h1").each(function() {
+        $(this).addClass("post-h1");
+        $(this).attr("id", "h1-" + h1_headingId); // allow linking
+        h1_headingId++;
+    });
+    postContent_elem.find("h2").each(function() {
+        $(this).addClass("post-h2");
+        $(this).attr("id", "h2-" + h2_headingId);
+        h2_headingId++;
+    });
     postContent_elem.find("img").addClass("post-img");
 
     // Images in posts use alt text as hover text too
