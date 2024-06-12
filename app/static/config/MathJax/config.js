@@ -77,7 +77,8 @@ window.MathJax = {
             st: "\\text{ s.t. }",
             t: "\\text",
             // other
-            p: ["\\phantom{#1}", 1]
+            p: ["\\phantom{#1}", 1],
+            r: ["\\textcolor{red}{#1}", 1]
         }
     },
     startup: {

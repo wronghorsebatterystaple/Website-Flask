@@ -121,6 +121,9 @@
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas
 - Emojis will probably not work, so use HTML character entities instead
 
+### Other general notes:
+- If you want a heading to be linkable, make sure it's name is unique; otherwise, the `id` attribute will clash
+
 ### Tables:
 - Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked.
 - Use [reStructuredText grid tables](https://tableconvert.com/restructuredtext-generator) with "Force separate lines" checked for features such as:
