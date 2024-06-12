@@ -78,9 +78,26 @@
 .navy {
     color: navy !important;
 }
+
 .red {
     color: red !important;
 }
+.orange {
+    color: orange !important;
+}
+.yellow {
+    color: yellow !important;
+}
+.green {
+    color: green !important;
+}
+.blue {
+    color: blue !important;
+}
+.purple {
+    color: purple !important;
+}
+
 .custom-blue {
     color: var(--custom-blue) !important;
 }

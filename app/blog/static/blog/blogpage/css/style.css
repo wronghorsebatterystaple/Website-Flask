@@ -47,7 +47,7 @@
     font-size: 1.4em;
     border-bottom: 1px solid var(--custom-orange);
     margin-bottom: 1rem;
-    padding-bottom: 0.125rem;
+    padding-bottom: 0.25rem;
     width: fit-content;
 }
 .post-img {
