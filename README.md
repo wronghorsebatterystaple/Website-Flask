@@ -108,7 +108,7 @@
   - Insert `<span data-inline></span> around the alt text portion of images to make it inline with no extra top/bottom margins. If both `data-width` and `data-inline` are present, `data-width` must be first.
   - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!)
 - Links:
-  - Insert `<span data-same-page></span>` around the display text portion (within the square brackets) of links to override the default of opening them in a new tab
+  - Insert `<span data-same-page></span>` around the display text portion (within the square brackets) of links to override the default of opening them in a new tab. Note that URL fragment links (starting with '#') are automatically opened in the same page.
 - Tables:
   - Insert any inline tag like `<span>` with attribute `data-col-width="[something]"` inside any table cell to control width for its column (accepted units: all). Use this to force word wrapping in tables too, otherwise they default to scrolling horizontally if too wide (note that `<pre>` cannot be wrapped).
   - Insert any inline tag like `<span>` with attributes `data-align-[center/right/top/bottom]` inside any table cell to control its non-default vertical and horizontal alignment
