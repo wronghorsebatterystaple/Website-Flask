@@ -16,7 +16,6 @@ function onMathJaxTypeset(root_selector) {
 
 window.MathJax = {
     tex: {
-        tags: "ams",
         macros: {
             // simple math symbols
             divs: "\\mid",
@@ -77,9 +76,11 @@ window.MathJax = {
             orr: "\\text{ or }",
             st: "\\text{ s.t. }",
             t: "\\text",
+            // colors
+            b: ["\\textcolor{blue}{#1}", 1],
+            r: ["\\textcolor{red}{#1}", 1],
             // other
-            p: ["\\phantom{#1}", 1],
-            r: ["\\textcolor{red}{#1}", 1]
+            p: ["\\phantom{#1}", 1]
         }
     },
     startup: {
