@@ -54,8 +54,7 @@
     display: block;
     max-width: 100%;
     border: 2px solid black;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem auto 1rem auto;
 }
 .post-img:not([width]) {
     width: 100%;
