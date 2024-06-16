@@ -12,11 +12,11 @@ class AddCommentForm(FlaskForm):
     parent = HiddenField(default=None)
     content = TextAreaField("Comment",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"])])
-    submit = SubmitField("Submit")
+    add_comment_form_submit = SubmitField("Submit")
 
 
 class ReplyCommentButton(FlaskForm):
-    submit = SubmitField("Reply")
+    reply_comment_button_submit = SubmitField("Reply")
 
 
 class DeleteCommentButton(FlaskForm):

@@ -238,7 +238,7 @@
     text-decoration: none;
 }
 .underline-on-hover-only:hover {
-    text-decoration: underline;
+    text-decoration: underline 1px;
 }
 
 /****************************************/
@@ -257,6 +257,7 @@ a:hover {
 
 body {
     overflow-wrap: anywhere;
+    text-decoration-thickness: 1px !important;
 }
 
 blockquote {

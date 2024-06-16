@@ -11,13 +11,13 @@ from config import Config
 class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
-    submit = SubmitField("Submit")
+    login_form_submit = SubmitField("Submit")
 
 
 class ChooseActionForm(FlaskForm):
     action = RadioField("Actions", choices=[("create", "Create post"), ("edit", "Edit/delete post"),
             ("change_admin_password", "Change admin password")], validators=[InputRequired()])
-    submit = SubmitField("Submit")
+    choose_action_form_submit = SubmitField("Submit")
 
 
 class CreateBlogpostForm(FlaskForm):
@@ -28,14 +28,14 @@ class CreateBlogpostForm(FlaskForm):
     content = TextAreaField("Content", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     images = MultipleFileField("Upload images")
-    submit = SubmitField("Submit")
+    create_blogpost_form_submit = SubmitField("Submit")
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
 
 
 class SearchBlogpostForm(FlaskForm):
     post = QuerySelectField("Post", validators=[InputRequired()],
             query_factory=lambda: db.session.query(Post).order_by(Post.title), get_label="title")
-    submit = SubmitField("Submit")
+    search_blogpost_form_submit = SubmitField("Submit")
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
 
 
@@ -56,7 +56,7 @@ class EditBlogpostForm(FlaskForm):
     delete_unused_images = BooleanField("Delete unused images")
     dont_update_edited_timestamp = BooleanField("Don't update edited timestamp")
     remove_edited_timestamps = BooleanField("Remove all edited timestamps")
-    submit = SubmitField("Submit")
+    edit_blogpost_form_submit = SubmitField("Submit")
     delete = SubmitField("Delete Post", render_kw={"data-confirm-submit": ""})
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
 
@@ -68,5 +68,5 @@ class ChangeAdminPasswordForm(FlaskForm):
             Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
     new_password_2 = PasswordField("Repeat new password", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_USER_PASSWORD"])])
-    submit = SubmitField("Submit")
+    change_admin_password_submit = SubmitField("Submit")
     back = SubmitField("Back", render_kw={"data-back-btn": ""})
