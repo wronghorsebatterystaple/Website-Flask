@@ -270,12 +270,15 @@ blockquote p {
 }
 
 code {
-    color: var(--color-code) !important;
+    color: var(--color-code); /* Overridable by Highlight.js */
     font-size: 97.5% !important;
 }
 pre {
     font-size: 100%;
     margin-bottom: 0;
+}
+pre code {
+    color: var(--color-code);
 }
 
 table {

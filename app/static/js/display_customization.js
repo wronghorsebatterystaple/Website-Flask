@@ -24,6 +24,14 @@ function genFootnoteTooltips() {
     refreshTooltips();
 }
 
+function syntaxHighlightNonTable(root_selector) {
+    $(root_selector).find("pre code").each(function() {
+        if ($(this).parents("table").length === 0) {
+            hljs.highlightElement($(this).get(0));
+        }
+    });
+}
+
 function applyGlobalStyles(root_selector) {
     const root_elem = $(root_selector);
     if (!root_elem) {
@@ -106,6 +114,9 @@ function applyGlobalStyles(root_selector) {
         summary_elem.find("p").first().addClass("d-inline");
         summary_elem.children().last().addClass("mb-0");
     });
+
+    // Code block syntax highlighting
+    syntaxHighlightNonTable(root_selector);
 }
 
 $(document).ready(function() {

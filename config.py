@@ -15,7 +15,8 @@ class Config(object):
     CSP = {
         "default-src": csp_default_src,
         "connect-src": csp_default_src + [
-            "data:"                         # DarkReader
+            "data:",                        # DarkReader
+            "cdnjs.cloudflare.com"          # Highlight.js
         ],
         "font-src": csp_default_src + [
             "cdn.jsdelivr.net",

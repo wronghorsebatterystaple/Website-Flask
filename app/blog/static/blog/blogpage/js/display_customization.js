@@ -2,6 +2,9 @@ function applyCommentStyles() {
     var commentContent_elems = $(".comment-content");
     commentContent_elems.find("h1").addClass("post-h1");
     commentContent_elems.find("h2").addClass("post-h2");
+
+    // Code block syntax highlighting
+    syntaxHighlightNonTable("#comment-list");
 }
 
 $(document).ready(function() {
