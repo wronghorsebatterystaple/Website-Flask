@@ -1,31 +1,31 @@
 .blogpage-name {
-    font-size: 3.5em !important;
+    font-size: 3.5em;
 }
 .blogpage-subname {
-    font-size: 1.5em !important;
+    font-size: 1.5em;
 }
 
 .postlist-post-blogtitle {
-    font-size: 0.9em !important;
+    font-size: 0.9em;
 }
 .postlist-post-title {
-    font-size: 2em !important;
+    font-size: 2em;
 }
 .postlist-post-subtitle {
-    font-size: 1.1em !important;
+    font-size: 1.1em;
 }
 .postlist-post-timestamp {
-    font-size: 1em !important;
+    font-size: 1em;
 }
 
 .post-title {
-    font-size: 2.5em !important;
+    font-size: 2.5em;
 }
 .post-subtitle {
-    font-size: 1.3em !important;
+    font-size: 1.3em;
 }
 .post-timestamp {
-    font-size: 1em !important;
+    font-size: 1em;
 }
 
 .post-codebox {
@@ -61,17 +61,17 @@
 }
 
 .comment-section-headers {
-    font-size: 2.2em !important;
+    font-size: 2.2em;
 }
 .comment-author {
-    font-size: 1.25em !important;
+    font-size: 1.25em;
 }
 .comment-nest-limit-text {
-    font-size: 0.95em !important;
+    font-size: 0.95em;
 }
 input[value="Reply"][value="Delete"] {
-    font-size: 0.95em !important;
-    margin-bottom: 0em !important;
+    font-size: 0.95em;
+    margin-bottom: 0em;
 }
 
 .img-comment-icon {

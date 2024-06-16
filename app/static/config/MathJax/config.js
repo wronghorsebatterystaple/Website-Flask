@@ -6,11 +6,11 @@ function onMathJaxTypeset(root_selector) {
     if (!root_elem) {
         return;
     }
-    // Make font of \[\] LaTeX blocks shrink on mobile and make them scroll horizontally on overflow
-    root_elem.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML);
+    // Make \[\] LaTeX blocks scroll horizontally on overflow
+    root_elem.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").wrap(HORIZ_SCOLL_DIV_HTML);
     root_elem.find("mjx-math[width='full']").each(function() {
         $(this).parent("mjx-container").css("min-width", ""); // can cause overflow problems
-        $(this).addClass("shrinking-font-15").wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
+        $(this).wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
     });
 }
 

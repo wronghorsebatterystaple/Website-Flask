@@ -38,9 +38,6 @@ function applyGlobalStyles(root_selector) {
         return;
     }
 
-    // Tables' font also shrinks on mobile
-    root_elem.find("table").addClass("shrinking-font-15")
-
     // Tables and non-table code blocks scroll horizontally on overflow
     root_elem.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
     root_elem.find("pre").each(function() {

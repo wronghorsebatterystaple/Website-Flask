@@ -22,6 +22,18 @@
           crossorigin="anonymous">
       </script> <!-- no defer to avoid flash -->
 
+      <!-- Highlight.js -->
+      <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+          integrity="sha384-4Y0nObtF3CbKnh+lpzmAVdAMtQXl+ganWiiv73RcGVdRdfVIya8Cao1C8ZsVRRDz"
+          crossorigin="anonymous">
+      <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
+          integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
+          crossorigin="anonymous" defer>
+      </script>
+
       <!-- Flask-Moment (JS bundling moment.js to Flask is included separately for CSP) -->
       <script
           src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"
@@ -35,11 +47,8 @@
       <!-- Fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Varela+Round&display=swap&family=Workbench&display=swap"
-          integrity="sha384-v+bHJb+fDYHu8GoBWyXLp392+kvtmB3iduWFZiK/CClkyODxXoSY9B59/q31ruBp"
-          crossorigin="anonymous">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Varela+Round&display=swap&family=Workbench&display=swap">
+
       <!-- MathJax -->
       <script src="{{ url_for('static', filename='config/MathJax/config.js', _external=True) }}" defer></script>
       <script
@@ -49,18 +58,6 @@
           integrity="sha384-Wuix6BuhrWbjDBs24bXrjf4ZQ5aFeFWBuKkFekO2t8xFU0iNaLQfp2K6/1Nxveei"
           crossorigin="anonymous"
           defer>
-      </script>
-
-      <!-- Highlight.js -->
-      <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
-          integrity="sha384-4Y0nObtF3CbKnh+lpzmAVdAMtQXl+ganWiiv73RcGVdRdfVIya8Cao1C8ZsVRRDz"
-          crossorigin="anonymous">
-      <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
-          integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
-          crossorigin="anonymous" defer>
       </script>
 
     <!-- CSS -->
