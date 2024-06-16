@@ -48,8 +48,11 @@ class EditBlogpostForm(FlaskForm):
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
     SUPPORTED_IMAGE_FORMATS = ", ".join(Config.IMAGE_EXTENSIONS).replace(".", "")
     images = MultipleFileField(f"Upload images (supported formats: {SUPPORTED_IMAGE_FORMATS})")
-    cancel_images = SubmitField("Clear images to upload", render_kw={"id": "cancel-images-btn"})
+    cancel_images = SubmitField("Clear images to upload",
+            render_kw={"id": "cancel-images-btn", "data-no-submit": ""})
     delete_images = SelectMultipleField("Delete images")
+    cancel_delete_images = SubmitField("Clear images to delete",
+            render_kw={"id": "cancel-delete-images-btn", "data-no-submit": ""})
     delete_unused_images = BooleanField("Delete unused images")
     dont_update_edited_timestamp = BooleanField("Don't update edited timestamp")
     remove_edited_timestamps = BooleanField("Remove all edited timestamps")

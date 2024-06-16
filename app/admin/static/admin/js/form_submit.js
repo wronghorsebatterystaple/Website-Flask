@@ -2,8 +2,16 @@ $(document).ready(function() {
     $("#main-form").on("submit", async function(e) {
         e.preventDefault();
       
-        if (e.originalEvent.submitter.id === "cancel-images-btn") {
-            $("#images-input").val("");
+        const submitter_elem = $(e.originalEvent.submitter);
+        if (submitter_elem.is("[data-no-submit]")) {
+            switch (submitter_elem.attr("id")) {
+                case "cancel-images-btn":
+                    $("#images-input").val("");
+                    break;
+                case "cancel-delete-images-btn":
+                    $("#delete_images-input").val("");
+                    break;
+            }
             return;
         }
 

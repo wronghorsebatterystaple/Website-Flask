@@ -14,7 +14,7 @@ $(document).ready(function() {
     // Make all links except footnotes and footnote backrefs open in new tab
     postContent_elem.find("a").each(function() {
         if (!$(this).hasClass("footnote-ref") && !$(this).hasClass("footnote-backref")
-                && !$(this).attr("href").startsWith("#") && !$(this).is("[data-same-page]")) { // attr() instead of is() doesn't work?
+                && !$(this).attr("href").startsWith("#") && !$(this).is("[data-same-page]")) {
             $(this).attr("target", "_blank");
         }
     });
