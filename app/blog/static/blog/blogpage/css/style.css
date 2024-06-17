@@ -37,14 +37,14 @@
 }
 .post-h1 {
     color: var(--custom-green);
-    font-size: 2em;
+    font-size: 2.25em;
     border-bottom: 1px solid var(--custom-green);
     margin-bottom: 1rem;
     padding-bottom: 0.25rem;
 }
 .post-h2 {
     color: var(--custom-orange);
-    font-size: 1.4em;
+    font-size: 1.5em;
     border-bottom: 1px solid var(--custom-orange);
     margin-bottom: 1rem;
     padding-bottom: 0.25rem;
@@ -61,7 +61,7 @@
 }
 
 .comment-section-headers {
-    font-size: 2.2em;
+    font-size: 2.25em;
 }
 .comment-author {
     font-size: 1.25em;
