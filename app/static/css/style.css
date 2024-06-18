@@ -353,6 +353,10 @@ td, th {
     color: var(--bs-navbar-color);
 }
 
+.code-block-outside {
+    margin-bottom: 0.5rem;
+}
+
 .password-vis-toggle {
     display: flex;
     align-items: center;

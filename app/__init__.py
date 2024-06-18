@@ -23,7 +23,7 @@ migrate = Migrate()
 moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = Config.LOGIN_VIEW
-login_manager.session_protection = "strong" # deletes session cookie on IP/UA change
+#login_manager.session_protection = "strong" # deletes session cookie on IP/UA change
 talisman = Talisman()
 turnstile = Turnstile()
 

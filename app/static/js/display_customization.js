@@ -28,6 +28,7 @@ function syntaxHighlightNonTable(root_selector) {
     $(root_selector).find("pre code").each(function() {
         if ($(this).parents("table").length === 0) {
             hljs.highlightElement($(this).get(0));
+            $(this).addClass("code-block-outside"); // also maintain same bottom margin as top margin from <p> etc.
         }
     });
 }
