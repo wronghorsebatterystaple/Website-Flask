@@ -4,6 +4,20 @@
 
 [Blog page](https://blog.anonymousrand.xyz) (don't click this one)
 
+# Setup if it's ever needed
+
+I hope I'm not reading this because I bricked a machine again.
+
+1. Set up things like MySql and Docker and Nginx on host machine
+    * MySql accounts: 'root'@'localhost' and 'anonrand'@'%' accounts should be present
+2. `git clone`
+. Add back gitignored files:
+    * `docker/flask/envs/.env`: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
+    * `docker/mysql/envs/.mysqlenv`: nothing yet (no environment variables if bind mounting existing `/var/lib/mysql/`)
+    * `db_backup.sh`: reference private notes
+4. Navigate to [docker/](docker/) and run `deploy.sh`
+5. That should be all; for development, create a Python virtualenv in the repo's folder too
+
 # Developer notes to compensate for possibly scuffed code
 
 ### IMPORTANT:
