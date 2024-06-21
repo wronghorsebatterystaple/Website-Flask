@@ -3,7 +3,8 @@ docker/flask/envs/*
 !docker/flask/envs/.flaskenv
 docker/mysql/envs
 db_backup.sh
-backup*.sql # SYNC: host backup path in db backup scripts
+# SYNC: host backup path in db backup scripts
+backup*.sql
 
 # should be ignored by default but just to be safe
 # instead do pip install -r requirements.txt on clone
