@@ -1,5 +1,6 @@
 services:
   flask:
+    container_name: flask-website-flask
     build:
       context: ../                                            # must be parent; Dockerfile can't access parent dirs
       dockerfile: docker/flask/Dockerfile_flask               # SYNC: path
@@ -14,6 +15,7 @@ services:
         target: /flask-website/app/blog/static/blog/blogpage/ # SYNC with Dockerfile: path "/flask-website/"
     restart: always
   mysql:
+    container_name: flask-website-mysql
     image: "mysql:8.0.37"
     env_file:
       - ./mysql/envs/.mysqlenv                                # SYNC: env file paths
