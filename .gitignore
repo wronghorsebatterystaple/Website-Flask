@@ -1,7 +1,7 @@
 # security ignores
-docker/envs/*
-!docker/envs/.flaskenv
-docker/mysql-bind/
+docker/flask/envs/*
+!docker/flask/envs/.flaskenv
+docker/mysql/envs
 db_backup_1.sh
 db_backup_2.sh
 

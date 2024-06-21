@@ -1,11 +1,11 @@
 services:
   flask:
     build:
-      context: ./flask/                                       # SYNC: context and Dockerfile name
-      dockerfile: Dockerfile_flask
+      context: ../                                            # must be parent; Dockerfile can't access parent dirs
+      dockerfile: docker/flask/Dockerfile_flask               # SYNC: path
     env_file:                                                 # SYNC: env file paths
-      - ./envs/.env
-      - ./envs/.flaskenv
+      - ./flask/envs/.env
+      - ./flask/envs/.flaskenv
     ports:
       - "8008:8008"                                           # SYNC with Nginx and Gunicorn in entrypoint: ports
     volumes:                                                  # for persisting uploaded images in static folders
@@ -14,11 +14,14 @@ services:
         target: /flask-website/app/blog/static/blog/blogpage/ # SYNC with Dockerfile: path "/flask-website/"
     restart: always
   mysql:
-    image: "mysql:latest"
+    image: "mysql:8.0.37"
     env_file:
-      - ./envs/.mysqlenv                                      # SYNC: env file paths
+      - ./mysql/envs/.mysqlenv                                # SYNC: env file paths
+    ports:
+      - "3306:3306"
+      - "33060:33060"
     volumes:                                                  # for persisting database
       - type: bind
-        source: ./mysql-bind/                                 # SYNC: path
+        source: /var/lib/mysql/
         target: /var/lib/mysql/
     restart: always
