@@ -1,0 +1,15 @@
+FROM python:3.10
+
+RUN mkdir flask-website/
+WORKDIR flask-website/
+
+COPY ../../requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY ../../app/ app/
+COPY ../../migrations/ migrations/
+COPY ../../flask-website.py ../../config.py docker_entrypoint_flask.sh ./
+RUN chmod a+x docker_entrypoint_flask.sh
+
+EXPOSE 8008
+ENTRYPOINT ["./docker_entrypoint_flask.sh"]

@@ -1,0 +1,24 @@
+services:
+  flask:
+    build:
+      context: ./flask/                                       # SYNC: context and Dockerfile name
+      dockerfile: Dockerfile_flask
+    env_file:                                                 # SYNC: env file paths
+      - ./envs/.env
+      - ./envs/.flaskenv
+    ports:
+      - "8008:8008"                                           # SYNC with Nginx and Gunicorn in entrypoint: ports
+    volumes:                                                  # for persisting uploaded images in static folders
+      - type: bind
+        source: ../app/blog/static/blog/blogpage/             # SYNC: path
+        target: /flask-website/app/blog/static/blog/blogpage/ # SYNC with Dockerfile: path "/flask-website/"
+    restart: always
+  mysql:
+    image: "mysql:latest"
+    env_file:
+      - ./envs/.mysqlenv                                      # SYNC: env file paths
+    volumes:                                                  # for persisting database
+      - type: bind
+        source: ./mysql-bind/                                 # SYNC: path
+        target: /var/lib/mysql/
+    restart: always
