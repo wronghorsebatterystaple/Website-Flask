@@ -21,7 +21,7 @@ migrate = Migrate()
 moment = Moment()
 login_manager = LoginManager()
 login_manager.login_view = Config.LOGIN_VIEW
-#login_manager.session_protection = "strong" # deletes session cookie on IP/UA change
+login_manager.session_protection = "strong" # deletes session cookie on IP/UA change
 talisman = Talisman()
 turnstile = Turnstile()
 
@@ -60,7 +60,7 @@ def create_app():
     moment.init_app(app)
     login_manager.init_app(app)
     talisman.init_app(app, content_security_policy=Config.CSP,
-            content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"],
+            content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
     turnstile.init_app(app)
 
     return app
