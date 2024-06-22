@@ -22,7 +22,7 @@ I hope I'm not reading this because I bricked a machine again.
 # Developer notes to compensate for possibly scuffed code
 
 ### IMPORTANT:
-- Always make sure gitignore is up to date!
+- Always make sure [.gitignore](.gitignore) is up to date! If using automatic image backups to Git, always preemptively add new files to [.gitignore](.gitignore) to avoid badly-timed auto-commits!
 - Always make sure [config.py](config.py) is updated and has the correct filename/path (some Python files import it directly as a module)!
 - Always make sure access control is correct (see documentation below)!
 - Always make sure this README is updated!
