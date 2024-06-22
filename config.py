@@ -1,16 +1,12 @@
 import os
 from dotenv import load_dotenv
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(basedir, ".env"))
-
 class Config(object):
-
     # Basics
     SERVER_NAME = "anonymousrand.xyz"
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    csp_self = ["\'self\'", SERVER_NAME, f"*.{SERVER_NAME}"]
+    csp_self = ["\'self\'", SERVER_NAME, f"blog.{SERVER_NAME}"]
     csp_default_src = csp_self
     CSP = {
         "default-src": csp_default_src,

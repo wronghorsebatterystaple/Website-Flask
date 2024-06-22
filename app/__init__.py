@@ -12,8 +12,6 @@ from flask_wtf.csrf import CSRFProtect, CSRFError
 
 from app.util import *
 
-import secrets
-
 
 # declare extension instances outside so blueprints can still do `from app import db` etc.
 cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
@@ -62,7 +60,7 @@ def create_app():
     moment.init_app(app)
     login_manager.init_app(app)
     talisman.init_app(app, content_security_policy=Config.CSP,
-            content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
+            content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"],
     turnstile.init_app(app)
 
     return app
