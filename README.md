@@ -10,17 +10,19 @@ I hope I'm not reading this because I bricked a machine again.
 
 1. Set up things like MySql and Docker and Nginx on host machine
     * MySql accounts: 'root'@'localhost' and 'anonrand'@'%' accounts should be present
+    * Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts
 2. `git clone`
 3. Add back gitignored files:
     * `docker/flask/envs/.env`: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
     * `docker/mysql/envs/.mysqlenv`: nothing yet (no environment variables if bind mounting existing `/var/lib/mysql/`)
-    * `db_backup.sh`: reference private notes
+    * `db_backup_config.sh`: set the variables referenced in `db_backup.sh`
 4. Navigate to [docker/](docker/) and run `deploy.sh`
 5. For development purposes, create a Python virtualenv in the repo's folder too
 
 # Developer notes to compensate for possibly scuffed code
 
 ### IMPORTANT:
+- Always make sure gitignore is up to date!
 - Always make sure [config.py](config.py) is updated and has the correct filename/path (some Python files import it directly as a module)!
 - Always make sure access control is correct (see documentation below)!
 - Always make sure this README is updated!
@@ -103,6 +105,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Update `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js)
 
 ### Other notes:
+- Always make sure [docker/compose.yaml](docker/compose.yaml) is synced/updated as per comments
 - MySQL does not change ids (primary keys) on row delete; this is used to our advantage by having a `blog.post_by_id` view function serving permanent id-based links to posts. Keep this is mind if planning to change databases in the future.
 - `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` in both HTML templates and Flask to simplify the cross-origin nature of having a blog subdomain.
 
