@@ -10,7 +10,7 @@ I hope I'm not reading this because I bricked a machine again.
 
 1. Set up things like MySql and Docker and Nginx on host machine
     * MySql accounts: 'root'@'localhost' and 'anonrand'@'%' accounts should be present
-    * Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts
+    * Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
 2. `git clone`
 3. Add back gitignored files:
     * `docker/flask/envs/.env`: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
