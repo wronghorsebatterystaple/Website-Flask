@@ -1,10 +1,11 @@
+from hashlib import sha512
 import bleach
 import markdown
 import markdown_grid_tables
 import re
 import shutil
 
-from flask import current_app, jsonify, redirect, render_template, request, url_for
+from flask import current_app, jsonify, redirect, render_template, request, url_for, session
 from flask_login import current_user
 import sqlalchemy as sa
 
@@ -140,7 +141,36 @@ def post(post_sanitized_title):
         comment.content = additional_markdown_processing(comment.content)
         comment.content = sanitize_comment_html(comment.content)
 
+    def _create_identifier():
+        h = sha512()
+        h.update(f"{request.remote_addr}|{request.user_agent.string}".encode())
+        return h.hexdigest()
+
+
+    def _session_protection_failed():
+        sess = session._get_current_object()
+
+        app = current_app._get_current_object()
+        mode = "strong"
+
+        if not mode or mode not in ["basic", "strong"]:
+            return "no session protection, not failed"
+
+        ident = current_app.login_manager._session_identifier_generator()
+        # if the sess is empty, it's an anonymous user or just logged out
+        # so we can skip this
+        if sess and ident != sess.get("_id", None):
+            if mode == "basic" or sess.permanent:
+                return f"no match, session has {sess.get('_id', None)}, newly generated is {ident}"
+            elif mode == "strong":
+                return f"no match, session has {sess.get('_id', None)}, newly generated is {ident}"
+
+        return "all is well :)"
+
+    temp = _session_protection_failed()
+
     return render_template("blog/blogpage/post.html",
             post=post, comments=comments, add_comment_form=add_comment_form,
             reply_comment_button = reply_comment_button, delete_comment_button = delete_comment_button,
-            get_comment_count=Post.get_comment_count, get_descendants_list=Comment.get_descendants_list)
+            get_comment_count=Post.get_comment_count, get_descendants_list=Comment.get_descendants_list,
+            temp=request.remote_addr + " " + request.user_agent.string + " " + str(session.get("_fresh", "")) + "                                                  " + temp)

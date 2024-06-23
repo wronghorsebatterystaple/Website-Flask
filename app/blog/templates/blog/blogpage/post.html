@@ -14,6 +14,9 @@ const POST_ID = "{{ post.id }}";
 {%- endblock -%}
 
 {%- block content %}
+<script nonce="{{ csp_nonce() }}">
+    addEventListener("load", (event) => {customFlash("{{ temp }}");});
+</script>
 <div class="pt-2">
     <h1 class="post-title custom-green mb-0">{{ post.title }}</h1>
   {%- if post.subtitle is not none %}
