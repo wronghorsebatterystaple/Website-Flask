@@ -18,8 +18,7 @@ cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
 db = SQLAlchemy()
 login_manager = LoginManager()
-login_manager.login_view = Config.LOGIN_VIEW
-# login_manager.session_protection = "strong" # deletes session cookie on IP/UA change; causes random logouts on no change?
+login_manager.login_view = Config.LOGIN_VIEW # not using session_protection="strong" to avoid potential security mess of finding original IP through Cloudflare and Nginx; and IPv4 vs. IPv6 hell too
 migrate = Migrate()
 moment = Moment()
 talisman = Talisman()
