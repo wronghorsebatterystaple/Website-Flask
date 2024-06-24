@@ -21,6 +21,6 @@ services:
       - ./mysql/envs/.mysqlenv                                # SYNC: env file paths
     volumes:
       - type: bind                                            # for persisting database
-        source: /var/lib/mysql/
+        source: ./mysql/mysql-data-dir/                       # SYNC: MySql data directory for persistence
         target: /var/lib/mysql/
     restart: always

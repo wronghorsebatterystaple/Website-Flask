@@ -1,7 +1,8 @@
 # security ignores
-docker/flask/envs/*
+docker/flask/envs/
 !docker/flask/envs/.flaskenv
-docker/mysql/envs
+docker/mysql/envs/
+docker/mysql/mysql-data-dir/
 db_backup_config.sh
 # SYNC: host backup path in db backup scripts
 backup*.sql
