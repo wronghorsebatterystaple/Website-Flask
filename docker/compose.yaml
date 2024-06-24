@@ -8,11 +8,11 @@ services:
       - ./flask/envs/.env
       - ./flask/envs/.flaskenv
     ports:
-      - "8008:8008"                                           # SYNC with Nginx and Gunicorn in entrypoint: ports
+      - "8008:8008"                                           # SYNC: Nginx and entrypoint Gunicorn ports
     volumes:
       - type: bind                                            # for persisting uploaded images in static folders
         source: ../app/blog/static/blog/blogpage/             # SYNC: path
-        target: /flask-website/app/blog/static/blog/blogpage/ # SYNC with Dockerfile: path "/flask-website/"
+        target: /flask-website/app/blog/static/blog/blogpage/ # SYNC: Dockerfile WORKDIR
     restart: always
   mysql:
     container_name: flask-website-mysql
