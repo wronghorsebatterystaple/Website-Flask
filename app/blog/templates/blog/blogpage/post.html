@@ -25,7 +25,7 @@ const POST_ID = "{{ post.id }}";
     {%- else %}
       <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</h3>
     {%- endif %}
-    <a class="ms-2half" href="#leave-a-comment"><img src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment_custom_blue.svg', _external=True) }}" title="Go to the yap section" width=16px height=16px></img></a>
+    <a class="ms-2half" href="#leave-a-comment"><img src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment_custom_blue.svg', _external=True) }}" title="yapping" width=16px height=16px></img></a>
     <input id="copy-permanent-link" class="ms-2" type="image" src="{{ url_for('static', filename='images/icon_link.svg', _external=True) }}" title="Copy permanent link (free malware included)" width=20px height=20px></input>
   </div>
 
