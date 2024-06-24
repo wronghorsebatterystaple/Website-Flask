@@ -4,7 +4,7 @@ import shutil
 import urllib.parse as ul
 from werkzeug.utils import escape, secure_filename
 
-from flask import current_app, flash, jsonify, redirect, render_template, request, url_for
+from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_user, logout_user
 import sqlalchemy as sa
 from wtforms.form import Form
@@ -79,13 +79,8 @@ def login():
                     ["No, the password is not \"solarwinds123\"."]})
         # No persistent cookies, so session expires on both browser close (if it isn't running in background)
         # and PERMANENT_SESSION_LIFETIME timeout (check README for cookie explanation)
-        login_user(user, remember=False, force=True)
+        login_user(user, remember=False)
         session.permanent = False
-
-        def _create_identifier():
-            h = sha512()
-            h.update(f"{request.remote_addr}|{request.user_agent.string}".encode())
-            return h.hexdigest()
 
         # assumes next is always within the same blueprint (request.url_root)!
         if request.args.get("next", "") != "":
