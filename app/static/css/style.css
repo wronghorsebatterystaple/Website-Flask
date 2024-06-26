@@ -3,6 +3,8 @@
 /**********************************/
 
 :root {
+    --default-border-block: 2px solid black;
+
     --narrow-max-width: clamp(0px, 672px, 100vw);
 
     /* "light" is saturation on HSV while "dark" is value */
@@ -358,6 +360,7 @@ textarea {
 }
 
 .code-block-outside {
+    border: var(--default-border-block);
     margin-bottom: 0.5rem;
 }
 

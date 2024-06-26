@@ -53,7 +53,7 @@
 .post-img {
     display: block;
     max-width: 100%;
-    border: 2px solid black;
+    border: var(--default-border-block);
     margin: 1rem auto 1rem auto;
 }
 .post-img:not([width]) {
