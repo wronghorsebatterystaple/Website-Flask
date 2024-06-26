@@ -3,7 +3,7 @@
 /**********************************/
 
 :root {
-    --default-border-block: 2px solid black;
+    --default-border-block: 1px solid black;
 
     --narrow-max-width: clamp(0px, 672px, 100vw);
 
