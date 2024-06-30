@@ -46,7 +46,7 @@ class EditBlogpostForm(FlaskForm):
     subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"])])
     content = TextAreaField("Content", validators=[InputRequired(),
             Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])])
-    SUPPORTED_IMAGE_FORMATS = ", ".join(Config.IMAGE_EXTENSIONS).replace(".", "")
+    SUPPORTED_IMAGE_FORMATS = ", ".join(Config.IMAGE_EXTENSIONS)
     images = MultipleFileField(f"Upload images (supported formats: {SUPPORTED_IMAGE_FORMATS})")
     cancel_images = SubmitField("Clear images to upload",
             render_kw={"id": "cancel-images-btn", "data-no-submit": ""})

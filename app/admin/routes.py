@@ -43,8 +43,9 @@ def upload_images(images, path_before_filename) -> str:
 
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in current_app.config["IMAGE_EXTENSIONS"] \
-                or file_ext != validate_image(image.stream):
-            return "Invalid image."
+                or (file_ext in current_app.config["IMAGE_EXTENSIONS_CAN_VALIDATE"] \
+                and not file_ext != validate_image(image.stream)): # imghdr can't check SVG; trustable since admin-only?
+            return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hate heic and webp theyre so annoying i hate th"
 
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist

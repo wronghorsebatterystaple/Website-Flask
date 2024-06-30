@@ -75,7 +75,8 @@ class Config(object):
     }
 
     # Other "conventional" configs
-    IMAGE_EXTENSIONS = [".gif", ".jpg", ".png"]
+    IMAGE_EXTENSIONS = [".gif", ".jpg", ".png", ".svg"]
+    IMAGE_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpg", ".png"]
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20

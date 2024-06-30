@@ -15,7 +15,7 @@ I hope I'm not reading this because I bricked a machine again.
 3. Add back gitignored files:
     * `docker/flask/envs/.env`: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
     * `docker/mysql/envs/.mysqlenv`: nothing yet (no environment variables if bind-mounting existing `/var/lib/mysql/`)
-    * `db_backup_config.sh`: set the variables referenced in `db_backup.sh`
+    * `backup-scripts/db_backup_config.sh`: set the variables referenced in `db_backup.sh`
 4. Navigate to [docker/](docker/) and run `deploy.sh`
 5. For development purposes, create a Python virtualenv in the repo's folder
 
@@ -25,6 +25,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Always make sure [.gitignore](.gitignore) is up to date with the correct paths and items! If using automatic image backups to Git, always preemptively add new files to [.gitignore](.gitignore) to avoid badly-timed auto-commits!
 - Always make sure access control is correct (see documentation below)!
 - Always make sure [config.py](config.py) is updated and has the correct filename/path (some Python files import it directly as a module)!
+- Always make sure backup scripts in [backup-scripts/](backup-scripts/) have the correct paths and configs!
 - Always make sure this README is updated!
 - Always make sure Cloudflare firewall rules etc. still use the right URLs!
 

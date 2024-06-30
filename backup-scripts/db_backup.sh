@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source db_backup_config.sh
+source $PWD/backup-scripts/db_backup_config.sh
 
 if [[ $1 == "1" ]]; then
     REMOTE_BACKUP_LOCATION=$REMOTE_BACKUP_LOCATION_1
