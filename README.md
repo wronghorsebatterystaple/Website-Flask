@@ -29,6 +29,10 @@ I hope I'm not reading this because I bricked a machine again.
 - Always make sure this README is updated!
 - Always make sure Cloudflare firewall rules etc. still use the right URLs!
 
+### Docker maintenance:
+- Always make sure [docker/compose.yaml](docker/compose.yaml) is synced/updated as per comments
+- Always make sure Dockerfiles and entrypoint scripts and environment variables are up to date (especially the relative paths...check Docker Compose `context`s and stuff)
+
 ### Access control documentation:
 - Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
   - On GET to a restricted page, this function redirects to the login view as established in [config.py](config.py), with the `next` parameter set to an absolute URL instead of `@login_required`'s relative URLs. This allows for cross-domain redirects.
@@ -106,7 +110,6 @@ I hope I'm not reading this because I bricked a machine again.
 - Update `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js)
 
 ### Other notes:
-- Always make sure [docker/compose.yaml](docker/compose.yaml) is synced/updated as per comments
 - MySQL does not change ids (primary keys) on row delete; this is used to our advantage by having a `blog.post_by_id` view function serving permanent id-based links to posts. Keep this is mind if planning to change databases in the future.
 - `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` in both HTML templates and Flask to simplify the cross-origin nature of having a blog subdomain.
 

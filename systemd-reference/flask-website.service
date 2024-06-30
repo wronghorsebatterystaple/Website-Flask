@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Group=docker
-WorkingDirectory=[REPLACE: PATH TO GIT REPO BASE]
-ExecStart=/bin/bash docker/deploy.sh
+WorkingDirectory=[REPLACE: PATH TO DOCKER FOLDER IN GIT REPO]
+ExecStart=/bin/bash deploy.sh
 
 [Install]
 WantedBy=multi-user.target
