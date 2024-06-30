@@ -1,0 +1,8 @@
+[Unit]
+Description=Periodic backup of Flask-Website's static images
+
+[Service]
+Type=oneshot
+User=[REPLACE: LINUX USER THAT CAN GIT PUSH]
+WorkingDirectory=[REPLACE: PATH TO GIT REPO BASE]
+ExecStart=/bin/bash backup-scripts/image_backup.sh

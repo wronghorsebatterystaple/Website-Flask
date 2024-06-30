@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for Flask-Website's first database backup
+
+[Timer]
+OnUnitActiveSec=4h
+OnBootSec=1m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

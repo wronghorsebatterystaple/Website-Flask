@@ -16,7 +16,7 @@ I hope I'm not reading this because I bricked a machine again.
     * `docker/flask/envs/.env`: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
     * `docker/mysql/envs/.mysqlenv`: nothing yet (no environment variables if bind-mounting existing `/var/lib/mysql/`)
     * `backup-scripts/db_backup_config.sh`: set the variables referenced in `db_backup.sh`
-4. Navigate to [docker/](docker/) and run `deploy.sh`
+4. Navigate to [docker/](docker/) and run `deploy.sh` (or use a `systemd` service)
 5. For development purposes, create a Python virtualenv in the repo's folder
 
 # Developer notes to compensate for possibly scuffed code
