@@ -1,0 +1,11 @@
+[Unit]
+Description=Deploy Docker Compose for Flask-Website
+After=network.target
+
+[Service]
+Group=docker
+WorkingDirectory=[REPLACE: PATH TO GIT REPO BASE]
+ExecStart=/bin/bash docker/deploy.sh
+
+[Install]
+WantedBy=multi-user.target
