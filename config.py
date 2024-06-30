@@ -81,7 +81,6 @@ class Config(object):
     POSTS_PER_PAGE = 20
 
     # Scuffed configs
-    # Paths
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
 
