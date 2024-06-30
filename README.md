@@ -31,7 +31,7 @@ I hope I'm not reading this because I bricked a machine again.
 
 ### Docker maintenance:
 - Always make sure [docker/compose.yaml](docker/compose.yaml) is synced/updated as per comments
-- Always make sure Dockerfiles and entrypoint scripts and environment variables are up to date (especially the relative paths...check Docker Compose `context`s and stuff)
+- Always make sure Dockerfiles and entrypoint scripts and environment variables are up to date (especially the relative paths: Dockerfile host paths are relative to Docker Compose's `context`)
 
 ### Access control documentation:
 - Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
