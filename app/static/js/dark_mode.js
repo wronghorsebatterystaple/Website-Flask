@@ -6,14 +6,26 @@ DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 function enableDarkMode(isManual) {
     if (isManual) {
         localStorage.setItem("darkMode", "true");
+    } else {
+        const darkModeSwitch_elem = $("#dark-mode-switch");
+        if (darkModeSwitch_elem) {
+            darkModeSwitch_elem.prop("checked", true);
+        }
     }
+
     DarkReader.enable(DARKREADER_CONFIG);
 }
 
 function disableDarkMode(isManual) {
     if (isManual) {
         localStorage.setItem("darkMode", "false");
+    } else {
+        const darkModeSwitch_elem = $("#dark-mode-switch");
+        if (darkModeSwitch_elem) {
+            darkModeSwitch_elem.prop("checked", false);
+        }
     }
+
     DarkReader.disable();
 }
 
@@ -27,15 +39,13 @@ $(document).ready(function() {
         darkModeSwitch_elem.prop("checked", false);
     }
 
-    // default to system settings; control using switch state
+    // if defaulting to system setting, detect change in system setting
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
         if (localStorage.getItem("darkMode") === null) {
             var newColorScheme = e.matches ? "dark" : "light";
             if (e.matches) {
-                darkModeSwitch_elem.prop("checked", true);
                 enableDarkMode(false);
             } else {
-                darkModeSwitch_elem.prop("checked", false);
                 disableDarkMode(false);
             }
         }
