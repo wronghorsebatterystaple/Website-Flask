@@ -59,7 +59,7 @@ def index():
     blogpage = db.session.get(Blogpage, blogpage_id)
     if blogpage is None:
         return redirect(url_for(f"main.index",
-                flash=util.encode_URI_component("That blogpage doesn't exist."),
+            flash=util.encode_URI_component("That blogpage doesn't exist :/"),
                 _external=True))
     
     # require login to access private blogs
