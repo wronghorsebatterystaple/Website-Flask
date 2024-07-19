@@ -3,10 +3,11 @@
 /**********************************/
 
 :root {
+    /* General */
     --default-border-block: 1px solid black;
-
     --narrow-max-width: clamp(0px, 672px, 100vw);
 
+    /* Colors */
     /* "light" is saturation on HSV while "dark" is value */
     /* Decreasing value is used for link hovers, while decreasing saturation is for button hovers */
     --custom-blue: #00bfff;
@@ -19,7 +20,7 @@
     --custom-green-xxlight: #ecffd5;
     --custom-green-dark: #6fc900;
 
-    --custom-orange: #ffc107; /* BS warning color */
+    --custom-orange: #ffc107;
     --custom-orange-light: #ffcf4a;
     --custom-orange-dark: #ebb207;
 
@@ -31,6 +32,12 @@
     --color-code: navy;
     --color-thm: navy;
     --color-thm-border: #a1a1ff;
+}
+
+body {
+    font-size: 16px;
+    overflow-wrap: anywhere;
+    text-decoration-thickness: 1px;
 }
 
 .min-height-full {
@@ -49,22 +56,6 @@
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
-}
-
-/*********/
-/* Fonts */
-/*********/
-
-.font-comic-neue {
-    font-family: "Comic Neue", sans-serif !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
-}
-
-.font-varela-round {
-    font-family: "Varela Round", sans-serif !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
 }
 
 /**********/
@@ -179,6 +170,24 @@
 .underline-custom-pink {
     text-decoration-color: var(--custom-pink) !important;
 }
+.underline-gray {
+    text-decoration-color: gray !important;
+}
+
+/*********/
+/* Fonts */
+/*********/
+
+.font-varela-round {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.font-varela-round-important {
+    font-family: "Varela Round", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
 
 /**************************/
 /* Size and spacing utils */
@@ -188,8 +197,8 @@
     border-width: 3px !important;
 }
 
-.flex-basis-80 {
-    flex-basis: 80% !important;
+.flex-basis-75 {
+    flex-basis: 75% !important;
 }
 
 .ms-2half {
@@ -248,12 +257,6 @@ a {
 a:hover {
     color: var(--custom-blue-dark);
     text-decoration-color: var(--custom-blue-dark);
-}
-
-body {
-    font-size: clamp(15px, 2.5vw, 16px) !important; /* shrinks slightly on mobile */
-    overflow-wrap: anywhere;
-    text-decoration-thickness: 1px !important;
 }
 
 blockquote {

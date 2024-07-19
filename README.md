@@ -80,8 +80,11 @@ I hope I'm not reading this because I bricked a machine again.
 - Add to database (reference current database entries)
   - Add a developer/backrooms blogpage too with its `blogpage_id` being the negative of the public one
   - `blogpage_id` is always an integer except for the commented cases in [config.py](config.py), where they must be strings to avoid confusion with negative values and list/dictionary accessing
-- Update [config.py](config.py)'s `BLOGPAGE_ID_TO_PATH` with the same paths that you gave the new blogpage and its developer blogpage in the database; this is used for blueprint initialization (we can't access database before app context is fully created)
+- Update [config.py](config.py):
+  - Update `BLOGPAGE_ID_TO_PATH` with the same paths that you gave the new blogpage and its developer blogpage in the database; this is used for blueprint initialization (we can't access database before app context is fully created)
+  - Update `LOGIN_REQUIRED_URLS` with the backrooms blogpage
 - Create new static directories for it in [app/blog/static/blog/blogpage/](app/blog/static/blog/blogpage/) from the [template](app/blog/static/blog/blogpage/blogpage_template/), and update other static directory names if necessary
+  - Remember that since HTML templates are the same for every blogpage, things like font or background image customizations must be done through static files like CSS, which are imported individually per blogpage
 
 ### Changing blogpage IDs/blogpage static paths:
 - Change the static directories, obviously

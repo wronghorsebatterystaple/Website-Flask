@@ -11,7 +11,7 @@ const totalPages = {{ total_pages }};
 {%- endblock -%}
 
 {%- block content %}
-<div class="pt-3">
+<div class="pt-3 shrinking-font-14">
   <h1 class="blogpage-name">{{ blogpage.title }}</h1>
   {%- if blogpage.subtitle is not none %}
     <h2 class="blogpage-subname mt-2">{{ blogpage.subtitle }}</h2>
@@ -30,29 +30,29 @@ const totalPages = {{ total_pages }};
     <div>
       {%- if all_posts %}
         {%- set color = post.blogpage.color_html_class %}
-        <a class="underline-on-hover-only underline-{{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="underline-on-hover-only underline-{{ color }} shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
-            <h1 class="postlist-post-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-1">{{ post.title }}</h1>
+            <h1 class="postlist-post-title {{ color }} flex-basis-75 flex-shrink-0 me-3 mb-1">{{ post.title }}</h1>
             <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-9 text-end ms-auto"> {{ post.blogpage.title }}</h1>
           </div>
           {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top">
-                <h2 class="postlist-post-subtitle {{ color }} flex-basis-80 flex-shrink-0 mb-1">{{ post.subtitle }}</h2>
+                <h2 class="postlist-post-subtitle {{ color }} flex-basis-75 flex-shrink-0 mb-1">{{ post.subtitle }}</h2>
             </div>
           {%- endif %}
       {%- else %}
-        <a class="underline-on-hover-only underline-custom-green" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="underline-on-hover-only underline-custom-green shrinking-font-14" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <h1 class="postlist-post-title custom-green mb-1">{{ post.title }}</h1>
           {%- if post.subtitle is not none %}
             <h2 class="postlist-post-subtitle custom-orange mb-1">{{ post.subtitle }}</h2>
           {%- endif %}
       {%- endif %}
 
-          <div class="d-flex align-items-center pt-2">
+          <div class="d-flex align-items-center pt-1">
             {%- if post.edited_timestamp is not none %}
-              <h3 class="postlist-post-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</h3>
+              <h3 class="postlist-post-timestamp black flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</h3>
             {%- else %}
-              <h3 class="postlist-post-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
+              <h3 class="postlist-post-timestamp black flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</h3>
             {%- endif %}
             <span class="gray d-flex align-items-center ms-auto">
               <span class="me-1">{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment.svg', _external=True) }}" alt="comments">
@@ -70,10 +70,10 @@ const totalPages = {{ total_pages }};
     <div class="d-flex align-items-center justify-content-center mx-auto">
       {%- if prev_page_url %}
         <a class="link-custom-blue" href="{{ prev_page_url }}">--</a>
-        <span class="pipe ms-4 me-4"></span>
+        <span class="pipe mx-3"></span>
       {%- else %} <!-- to preserve spacing -->
         <a class="link-custom-blue invisible">--</a>
-        <span class="pipe ms-4 me-4 invisible"></span>
+        <span class="pipe mx-3 invisible"></span>
       {%- endif %}
     
       <form id="goto-page-form">
@@ -88,10 +88,10 @@ const totalPages = {{ total_pages }};
       </form>
     
       {%- if next_page_url %}
-        <span class="pipe ms-4 me-4"></span>
+        <span class="pipe mx-3"></span>
         <a class="link-custom-blue" href="{{ next_page_url }}">++</a>
       {%- else %}
-        <span class="pipe ms-4 me-4 invisible"></span>
+        <span class="pipe mx-3 invisible"></span>
         <a class="link-custom-blue invisible">++</a>
       {%- endif %}
     </div>

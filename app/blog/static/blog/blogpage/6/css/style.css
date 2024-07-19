@@ -5,10 +5,9 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
-#non-navbar {
-    font-family: "Comic Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+
+body {
+    font-family: "Comic Neue", sans-serif !important;
 }
 
 .blogpage-name {

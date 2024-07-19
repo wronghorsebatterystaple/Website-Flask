@@ -4,6 +4,10 @@
 - AnonymousRand blogs
 {%- endblock -%}
 
+{%- block fonts %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap">
+{%- endblock %}
+
 {%- block css %}
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/css/style.css', _external=True) }}">
 {%- endblock %}

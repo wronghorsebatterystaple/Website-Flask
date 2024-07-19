@@ -90,17 +90,20 @@ class Config(object):
         "1": "/all",
         "2": "/misc",
         "3": "/professor-google",
+        "5": "/the-fake-news-network",
         "6": "/writers-block",
         "7": "/writers-unblock",
         "-2": "/misc-backrooms",
-        "-3": "/professor-google-backrooms",
-        "-6": "/writers-block-backrooms",
-        "-7": "/writers-unblock-backrooms"
+        "-3": "/professor-google/backrooms",
+        "-5": "/the-fake-news-network/backrooms",
+        "-6": "/writers-block/backrooms",
+        "-7": "/writers-unblock/backrooms"
     }
     LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-2']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-3']}",
+        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-5']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-6']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-7']}"
     ]

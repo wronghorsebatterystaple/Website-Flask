@@ -14,7 +14,7 @@ const POST_ID = "{{ post.id }}";
 {%- endblock -%}
 
 {%- block content %}
-<div class="pt-2">
+<div class="pt-2 shrinking-font-14">
     <h1 class="post-title custom-green mb-0">{{ post.title }}</h1>
   {%- if post.subtitle is not none %}
     <h2 class="post-subtitle custom-orange mt-1 mb-0">{{ post.subtitle }}</h2>
@@ -44,13 +44,13 @@ const POST_ID = "{{ post.id }}";
 <hr class="doublehr">
 
 <div id="leave-a-comment">
-  <h2 class="comment-section-headers">Leave a comment</h2>
+  <h2 class="comment-section-headers shrinking-font-14">Leave a comment</h2>
   {{ wtf.quick_form(add_comment_form, class="comment-add-form ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
 </div>
 <hr>
 
 <div id="comment-list" class="pb-3">
-  <h2 class="comment-section-headers mb-0">Comments <span class="gray">({{ post.get_comment_count() }})</span></h2>
+  <h2 class="comment-section-headers shrinking-font-14 mb-0">Comments <span class="gray">({{ post.get_comment_count() }})</span></h2>
   <div class="d-flex flex-shrink-0">
     <div class="w-100 flex-shrink-0">
       {%- for comment in comments recursive %}

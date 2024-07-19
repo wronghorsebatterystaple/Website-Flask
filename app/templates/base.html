@@ -47,7 +47,8 @@
       <!-- Fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Varela+Round&display=swap&family=Workbench&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap">
+      {%- block fonts %}{%- endblock %}
 
       <!-- MathJax -->
       <script src="{{ url_for('static', filename='config/MathJax/config.js', _external=True) }}" defer></script>
@@ -111,7 +112,7 @@
     <div id="background-img">
       <div class="narrow-container container min-vh-100">
       <!-- navbar -->
-      <nav class="navbar navbar-expand-md">
+      <nav class="font-varela-round-important navbar navbar-expand-md">
         <a class="navbar-brand" href="{{ url_for('main.index', _external=True) }}">
           <img id="navbar-logo" class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon_colorful_32.ico', _external=True) }}" alt="favicon" width="30" height="30">Home
         </a>
