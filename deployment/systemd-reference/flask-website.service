@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Group=docker
-WorkingDirectory=[REPLACE: PATH TO DOCKER FOLDER IN GIT REPO]
+WorkingDirectory=[REPLACE: PATH TO `docker/` FOLDER]
 ExecStart=/bin/bash deploy.sh
 
 [Install]

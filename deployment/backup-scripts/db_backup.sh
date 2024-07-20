@@ -1,13 +1,13 @@
 #!/bin/bash
 
-source $PWD/backup-scripts/db_backup_config.sh
+source ./db_backup_config.sh
 
 if [[ $1 == "1" ]]; then
     REMOTE_BACKUP_LOCATION=$REMOTE_BACKUP_LOCATION_1
 elif [[ $1 == "2" ]]; then
     REMOTE_BACKUP_LOCATION=$REMOTE_BACKUP_LOCATION_2
 else
-    echo "Invalid option \"$1\""
+    echo "Invalid option: \"$1\""
     exit 1
 fi
 

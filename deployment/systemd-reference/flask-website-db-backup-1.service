@@ -4,5 +4,5 @@ Description=Periodic first backup of Flask-Website's database
 [Service]
 Type=oneshot
 Group=docker
-WorkingDirectory=[REPLACE: PATH TO GIT REPO BASE]
-ExecStart=/bin/bash backup-scripts/db_backup.sh 1
+WorkingDirectory=[REPLACE: PATH TO `backup-scripts/` FOLDER]
+ExecStart=/bin/bash db_backup.sh 1
