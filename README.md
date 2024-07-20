@@ -32,9 +32,15 @@ I hope I'm not reading this because I bricked a machine again.
 - Always make sure this README is updated!
 - Always make sure Cloudflare firewall rules etc. still use the right URLs!
 
-### Docker maintenance:
-- Always make sure [docker/compose.yaml](docker/compose.yaml) is synced/updated as per comments
-- Always make sure Dockerfiles and entrypoint scripts and environment variables are up to date (especially the relative paths: Dockerfile host paths are relative to Docker Compose's `context`)
+### Deployment maintenance:
+- Sync/keep up-to-date according to comments and common sense:
+    - [deployment/docker/compose.yaml](deployment/docker/compose.yaml)
+    - Dockerfiles
+    - Docker entrypoint scripts
+    - Docker environment variables
+    - [deployment/backup-scripts/db_backup_config.sh](deployment/backup-scripts/db_backup_config.sh) configs (not commented; sync all of them!)
+    - Backup scripts
+    - `systemd` services
 
 ### Access control documentation:
 - Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.

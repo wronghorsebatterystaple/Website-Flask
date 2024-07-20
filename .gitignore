@@ -2,9 +2,9 @@
 deployment/docker/flask/envs/*
 !deployment/docker/flask/envs/.flaskenv
 deployment/docker/mysql/envs/
-deployment/docker/mysql/mysql_data_dir/
-deployment/backup_scripts/db_backup_config.sh
-deployment/backup_scripts/backup*.sql
+deployment/docker/mysql/mysql-data-dir/
+deployment/backup-scripts/db_backup_config.sh
+deployment/backup-scripts/backup*.sql
 
 # package manager ignores
 venv/

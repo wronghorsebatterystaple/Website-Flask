@@ -12,7 +12,7 @@ services:
     volumes:
       - type: bind                                            # for persisting uploaded images in static folders
         source: ../../app/blog/static/blog/blogpage/          # SYNC: path
-        target: /flask_website/app/blog/static/blog/blogpage/ # SYNC: Dockerfile WORKDIR
+        target: /flask-website/app/blog/static/blog/blogpage/ # SYNC: Dockerfile WORKDIR
     restart: always
   mysql:
     container_name: flask-website-mysql
@@ -21,6 +21,6 @@ services:
       - ./mysql/envs/.mysqlenv                                # SYNC: env file paths
     volumes:
       - type: bind                                            # for persisting database
-        source: ./mysql/mysql_data_dir/                       # SYNC: MySql data directory for persistence
+        source: ./mysql/mysql-data-dir/                       # SYNC: MySql data directory for persistence
         target: /var/lib/mysql/
     restart: always

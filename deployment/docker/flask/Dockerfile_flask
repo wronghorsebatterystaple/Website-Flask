@@ -1,7 +1,7 @@
 FROM python:3.10
 
-RUN mkdir flask_website/
-WORKDIR /flask_website/
+RUN mkdir flask-website/
+WORKDIR /flask-website/
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
