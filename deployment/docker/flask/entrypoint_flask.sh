@@ -9,4 +9,4 @@ while true; do
     sleep 5
 done
 
-exec gunicorn -b :8008 -m 007 -w 4 --forwarded-allow-ips="*" --access-logfile - --error-logfile - flask-website:app
+exec gunicorn -b :8008 -m 007 -w 4 --forwarded-allow-ips="*" --access-logfile - --error-logfile - flask_website:app

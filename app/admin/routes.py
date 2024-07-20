@@ -62,7 +62,7 @@ def login():
         logout_user()
 
     if request.method == "GET":
-        return render_template("admin/form-base.html", title="Login",
+        return render_template("admin/form_base.html", title="Login",
                 prompt="Access the Secrets of the Universe", form=form)
 
     # Ajax: FormData

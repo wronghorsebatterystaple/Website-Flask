@@ -1,14 +1,14 @@
 FROM python:3.10
 
-RUN mkdir flask-website/
-WORKDIR /flask-website/
+RUN mkdir flask_website/
+WORKDIR /flask_website/
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 COPY app/ app/
 COPY migrations/ migrations/
-COPY flask-website.py config.py docker/flask/entrypoint_flask.sh ./
+COPY flask_website.py config.py docker/flask/entrypoint_flask.sh ./
 RUN chmod a+x entrypoint_flask.sh
 
 EXPOSE 8008
