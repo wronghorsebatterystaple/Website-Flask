@@ -13,7 +13,7 @@ from app.blog.blogpage import bp
 from app.blog.forms import *
 from app.models import *
 import app.util as util
-from app.markdown_ext.myextensions import MyBlockExtensions, MyInlineExtensions
+from app.markdown_extensions.myextensions import MyBlockExtensions, MyInlineExtensions
 
 
 # Gets blog id from request.blueprint

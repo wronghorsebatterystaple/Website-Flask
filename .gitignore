@@ -12,3 +12,4 @@ app/static/node_modules/
 
 # Python ignores
 __pycache__/
+*.egg-info
