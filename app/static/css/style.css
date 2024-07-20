@@ -297,8 +297,21 @@ textarea {
     font-family: var(--bs-font-monospace);
 }
 
+.btn {
+    font-weight: 500;
+}
+
 .btn-link {
     padding: 0;
+}
+
+.code-block-outside {
+    border: var(--default-border-block);
+    margin-bottom: 0.5rem;
+}
+
+.dropdown-item {
+    font-weight: 500;
 }
 
 .flash {
@@ -360,11 +373,6 @@ textarea {
 
 .navbar-color {
     color: var(--bs-navbar-color);
-}
-
-.code-block-outside {
-    border: var(--default-border-block);
-    margin-bottom: 0.5rem;
 }
 
 .password-vis-toggle {
