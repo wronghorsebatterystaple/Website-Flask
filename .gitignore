@@ -9,6 +9,7 @@ deployment/backup-scripts/backup*.sql
 # package manager ignores
 venv/
 app/static/node_modules/
+app/static/css/custom_bootstrap.*
 
 # Python ignores
 __pycache__/
