@@ -77,6 +77,7 @@ input[value="Reply"][value="Delete"] {
 .img-comment-icon {
     width: 1em;
     height: 1em;
+    margin-top: 0.1875em;
 }
 .img-verified-checkmark {
     width: 0.8em;

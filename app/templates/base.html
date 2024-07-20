@@ -47,7 +47,7 @@
       <!-- Fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap">
       {%- block fonts %}{%- endblock %}
 
       <!-- MathJax -->
@@ -108,11 +108,11 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon_colorful_32.ico', _external=True) }}">
   </head>
 
-  <body class="font-varela-round">
+  <body class="font-default">
     <div id="background-img">
       <div class="narrow-container container min-vh-100">
       <!-- navbar -->
-      <nav class="font-varela-round-important navbar navbar-expand-md">
+      <nav class="font-default-important navbar navbar-expand-md">
         <a class="navbar-brand" href="{{ url_for('main.index', _external=True) }}">
           <img id="navbar-logo" class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon_colorful_32.ico', _external=True) }}" alt="favicon" width="30" height="30">Home
         </a>
