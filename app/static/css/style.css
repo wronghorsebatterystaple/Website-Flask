@@ -174,21 +174,6 @@ body {
     text-decoration-color: gray !important;
 }
 
-/*********/
-/* Fonts */
-/*********/
-
-.font-default {
-    font-family: "Quicksand", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-}
-.font-default-important {
-    font-family: "Quicksand", sans-serif !important;
-    font-weight: 500 !important;
-    font-style: normal !important;
-}
-
 /**************************/
 /* Size and spacing utils */
 /**************************/
@@ -297,10 +282,6 @@ textarea {
     font-family: var(--bs-font-monospace);
 }
 
-.btn {
-    font-weight: 500;
-}
-
 .btn-link {
     padding: 0;
 }
@@ -308,10 +289,6 @@ textarea {
 .code-block-outside {
     border: var(--default-border-block);
     margin-bottom: 0.5rem;
-}
-
-.dropdown-item {
-    font-weight: 500;
 }
 
 .flash {

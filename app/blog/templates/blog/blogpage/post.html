@@ -21,9 +21,9 @@ const POST_ID = "{{ post.id }}";
   {%- endif %}
   <div class="d-flex align-items-center mt-2half">
     {%- if post.edited_timestamp is not none %}
-      <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</h3>
+      <span class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
     {%- else %}
-      <h3 class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</h3>
+      <span class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</span>
     {%- endif %}
     <a class="ms-2half" href="#leave-a-comment"><img src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment_custom_blue.svg', _external=True) }}" title="yapping" width=16px height=16px></img></a>
     <input id="copy-permanent-link" class="ms-2" type="image" src="{{ url_for('static', filename='images/icon_link.svg', _external=True) }}" title="Copy permanent link (free malware included)" width=20px height=20px></input>
@@ -58,13 +58,14 @@ const POST_ID = "{{ post.id }}";
           {%- if comment.depth != 0 %}
             <div class="flex-grow-1 ms-3">
           {%- endif %}
+
           {%- set descendants = comment.get_descendants_list(post) %}
           {%- if comment.author.lower() |replace(" ", "") == config["VERIFIED_AUTHOR"] %}
           <div class="comment card border-custom-orange border-3px{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
-                <h3 class="comment-author d-flex align-items-center me-1">
-                  <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_verified.svg', _external=True) }}" title="Actually verified, unlike Twitter.">
-                </h3>
+              <h3 class="comment-author d-flex align-items-center me-1">
+                <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_verified.svg', _external=True) }}" title="Actually verified, unlike Twitter.">
+              </h3>
           {%- else %}
           <div class="comment card{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
