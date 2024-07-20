@@ -35,6 +35,7 @@ const totalPages = {{ total_pages }};
             <h1 class="postlist-post-title {{ color }} flex-basis-75 flex-shrink-0 me-3 mb-1">{{ post.title }}</h1>
             <h1 class="postlist-post-blogtitle {{ color }} flex-shrink-9 text-end ms-auto"> {{ post.blogpage.title }}</h1>
           </div>
+
           {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top">
                 <h2 class="postlist-post-subtitle {{ color }} flex-basis-75 flex-shrink-0 mb-1">{{ post.subtitle }}</h2>
@@ -43,6 +44,7 @@ const totalPages = {{ total_pages }};
       {%- else %}
         <a class="underline-on-hover-only underline-custom-green shrinking-font-14" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <h1 class="postlist-post-title custom-green mb-1">{{ post.title }}</h1>
+
           {%- if post.subtitle is not none %}
             <h2 class="postlist-post-subtitle custom-orange mb-1">{{ post.subtitle }}</h2>
           {%- endif %}
