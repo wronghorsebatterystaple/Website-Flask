@@ -22,7 +22,7 @@ I hope I'm not reading this because I bricked a machine again.
     - [backup-scripts/db_backup_config.sh](backup-scripts/db_backup_config.sh): set the variables referenced in `db_backup.sh`
 5. Navigate to [docker/](docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd_reference/flask-website.service](deployment/systemd_reference/flask-website.service))
 
-# Developer notes to compensate for possibly scuffed code
+# Developer notes to compensate for possibly scuffed coding practices
 
 ### IMPORTANT:
 - Always make sure [.gitignore](.gitignore) is up to date with the correct paths and items! If using automatic image backups to Git, always stop the service until all new files have been added appropraitely to [.gitignore](.gitignore) to avoid badly-timed auto-commits!
