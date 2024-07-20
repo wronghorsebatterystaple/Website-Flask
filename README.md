@@ -10,6 +10,7 @@ I hope I'm not reading this because I bricked a machine again.
 
 1. Set up things like MySQL and Docker and Nginx on host machine
     - MySQL data directory should be in the bind-mounted directory specified in [docker/compose.yaml](docker/compose.yaml)
+        - Recover database data from backups
     - Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
 2. `git clone`
 3. Install packages:
@@ -17,9 +18,9 @@ I hope I'm not reading this because I bricked a machine again.
     - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
 4. Add back gitignored files:
     - [docker/flask/envs/.env](docker/flask/envs/.env): randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
-    - [docker/mysql/envs/.mysqlenv](docker/mysql/envs/.mysqlenv): nothing yet (no environment variables if bind-mounting existing `/var/lib/mysql/`)
+    - [docker/mysql/envs/.mysqlenv](docker/mysql/envs/.mysqlenv): nothing yet (no environment variables if bind-mounting existing MySQL data directory)
     - [backup-scripts/db_backup_config.sh](backup-scripts/db_backup_config.sh): set the variables referenced in `db_backup.sh`
-5. Navigate to [docker/](docker/) and run `deploy.sh` (or use a `systemd` service)
+5. Navigate to [docker/](docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd_reference/flask-website.service](deployment/systemd_reference/flask-website.service))
 
 # Developer notes to compensate for possibly scuffed code
 
