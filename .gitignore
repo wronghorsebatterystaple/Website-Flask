@@ -6,9 +6,9 @@ docker/mysql/mysql-data-dir/
 backup-scripts/db_backup_config.sh
 backup-scripts/backup*.sql
 
-# should be ignored by default but just to be safe
-# instead do pip install -r requirements.txt on clone
+# package manager ignores
 venv/
+app/static/node_modules/
 
 # Python ignores
 __pycache__/

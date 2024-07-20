@@ -9,15 +9,17 @@
 I hope I'm not reading this because I bricked a machine again.
 
 1. Set up things like MySql and Docker and Nginx on host machine
-    * MySql data directory should be in the bind-mounted directory specified in [docker/compose.yaml](docker/compose.yaml)
-    * Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
+    - MySql data directory should be in the bind-mounted directory specified in [docker/compose.yaml](docker/compose.yaml)
+    - Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
 2. `git clone`
-3. Add back gitignored files:
-    * [docker/flask/envs/.env](docker/flask/envs/.env): randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
-    * [docker/mysql/envs/.mysqlenv](docker/mysql/envs/.mysqlenv): nothing yet (no environment variables if bind-mounting existing `/var/lib/mysql/`)
-    * [backup-scripts/db_backup_config.sh](backup-scripts/db_backup_config.sh): set the variables referenced in `db_backup.sh`
-4. Navigate to [docker/](docker/) and run `deploy.sh` (or use a `systemd` service)
-5. For development purposes, create a Python virtualenv in the repo's folder
+3. Install packages:
+    - Install Python modules from [requirements.txt](requirements.txt) by running `pip install -r requirements.txt` (ideally within a virtualenv)
+    - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
+4. Add back gitignored files:
+    - [docker/flask/envs/.env](docker/flask/envs/.env): randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
+    - [docker/mysql/envs/.mysqlenv](docker/mysql/envs/.mysqlenv): nothing yet (no environment variables if bind-mounting existing `/var/lib/mysql/`)
+    - [backup-scripts/db_backup_config.sh](backup-scripts/db_backup_config.sh): set the variables referenced in `db_backup.sh`
+5. Navigate to [docker/](docker/) and run `deploy.sh` (or use a `systemd` service)
 
 # Developer notes to compensate for possibly scuffed code
 
@@ -57,7 +59,7 @@ I hope I'm not reading this because I bricked a machine again.
   - Refer to [app/admin/routes.py](app/admin/routes.py) and [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py) for example usages
 - [config.py](config.py) contains settings that must be up-to-date for access control:
   - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out
-  - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real** verified checkmark!!!)
+  - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real*- verified checkmark!!!)
 - Each blogpage in the database has a boolean `login_required` column that must be up-to-date; Flask uses this to check login redirection on attempt to access these blogpages
 
 ### CSP documentation:

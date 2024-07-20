@@ -5,16 +5,16 @@
     font-size: 1.5em;
 }
 
-.postlist-post-blogtitle {
+.postlist-blogtitle {
     font-size: 0.8em;
 }
-.postlist-post-title {
+.postlist-title {
     font-size: 1.9em;
 }
-.postlist-post-subtitle {
+.postlist-subtitle {
     font-size: 1.05em;
 }
-.postlist-post-timestamp {
+.postlist-timestamp {
     font-size: 1em;
 }
 
@@ -26,6 +26,7 @@
 }
 .post-timestamp {
     font-size: 1em;
+    margin-right: 0.625rem;
 }
 
 .post-codebox {

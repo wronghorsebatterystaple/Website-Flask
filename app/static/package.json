@@ -1,0 +1,17 @@
+{
+  "name": "flask-website",
+  "version": "1.0.0",
+  "description": "using npm with flask is a bad idea, they said",
+  "main": "index.js",
+  "scripts": {
+    "compile_bootstrap": "sass scss/custom.scss css/custom_bootstrap.css"
+  },
+  "author": "AnonymousRand",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.77.8"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
