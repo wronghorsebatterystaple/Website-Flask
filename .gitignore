@@ -1,5 +1,5 @@
 # security ignores
-deployment/docker/flask/envs/
+deployment/docker/flask/envs/*
 !deployment/docker/flask/envs/.flaskenv
 deployment/docker/mysql/envs/
 deployment/docker/mysql/mysql-data-dir/
