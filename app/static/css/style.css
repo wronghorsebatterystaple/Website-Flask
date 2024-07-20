@@ -407,11 +407,3 @@ textarea {
 .tooltip-text-align-left .tooltip-inner {
     text-align: left;
 }
-
-#dark-mode-switch {
-    margin-top: 0.25em !important;
-}
-
-#navbar-logo {
-    margin-bottom: 0.175em !important;
-}
