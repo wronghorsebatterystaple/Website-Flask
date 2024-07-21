@@ -5,8 +5,8 @@ while true; do
     if [[ "$?" == "0" ]]; then
         break
     fi
-    echo Upgrade command failed, retrying in 5 secs...
-    sleep 5
+    echo Upgrade command failed, retrying in 3 secs...
+    sleep 3
 done
 
 exec gunicorn -b :8008 -m 007 -w 4 --forwarded-allow-ips="*" --access-logfile - --error-logfile - flask_website:app

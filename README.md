@@ -183,7 +183,7 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
   - Custom Markdown extensions in [app/markdown_ext/myextensions.py](app/markdown_ext/myextensions.py)
     - Custom Markdown syntax
   - Custom `additional_markdown_processing()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py)
-    - Non-custom-syntax stuff that is easier to handle from Flask than from JQuery in round 3, like regex replaces on the raw HTML
+    - Non-custom-syntax stuff that is easier to handle from Flask than from JQuery in round 3, like regex replaces on invalid/unparsable HTML (offload work to JQuery whenever possible)
   - Custom JQuery in [app/static/js/display_customization.js](app/static/js/display_customization.js) and [app/blog/static/blog/blogpage/js/display_customization.js](app/blog/static/blog/blogpage/js/display_customization.js)
     - Non-custom-syntax stuff that is easier to handle from JQuery, like adding classes for styling or traversing DOM
 
