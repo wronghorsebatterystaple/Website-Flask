@@ -102,16 +102,19 @@ function applyGlobalStyles(root_selector) {
 
     // No extra space between lists and their "heading" text
     $.merge(root_elem.find("ul"), root_elem.find("ol")).each(function() {
-        $(this).prev("p").addClass("mb-0"); // no spacing between lists and their "heading" text
+        $(this).prev("p").addClass("mb-0");
     });
 
-    // No extra spaces at the bottom of details/sumary and first line of summary starts inline
+    // No extra space at the end of custom details/summary, and first line of summary starts inline
     root_elem.find("details").each(function() {
         $(this).children(".md-details-contents").children().last().addClass("mb-0");
         const summary_elem = $(this).find("summary");
         summary_elem.find("p").first().addClass("d-inline");
         summary_elem.children().last().addClass("mb-0");
     });
+
+    // No extra <p> tags in custom figures/captions
+    root_elem.find("figure").find("p").children("img").unwrap();
 
     // Code block syntax highlighting
     syntaxHighlightNonTable(root_selector);

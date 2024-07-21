@@ -8,7 +8,8 @@ RUN pip install -r requirements.txt
 
 COPY app/ app/
 COPY migrations/ migrations/
-COPY flask_website.py config.py docker/flask/entrypoint_flask.sh ./
+# SYNC: entrypoint script path
+COPY flask_website.py config.py deployment/docker/flask/entrypoint_flask.sh ./
 RUN chmod a+x entrypoint_flask.sh
 
 EXPOSE 8008

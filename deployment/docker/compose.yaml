@@ -3,7 +3,7 @@ services:
     container_name: flask-website-flask
     build:
       context: ../../                                         # must be parent; Dockerfile can't access parent dirs
-      dockerfile: docker/flask/Dockerfile_flask               # SYNC: path
+      dockerfile: deployment/docker/flask/Dockerfile_flask    # SYNC: path, relative to `context`
     env_file:                                                 # SYNC: env file paths
       - ./flask/envs/.env
       - ./flask/envs/.flaskenv

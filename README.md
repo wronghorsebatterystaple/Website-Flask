@@ -133,7 +133,8 @@ I hope I'm not reading this because I bricked a machine again.
   - `__[text]__` to underline
   - `~~[text]~~` to strikethrough
   - `'''[text]'''` to do code in gray 
-- Blocks (all delimiters must be surrounded by one blank line). Nesting may cause unexpected consequences such as incorrect parsing or 500 error!:
+- Blocks (all delimiters must be surrounded by one blank line, and these are only available to posts and not commentors due to the potential for unexpected crashes and exploits if the syntax is wrong):
+  - `\figure` and `\figure` with `\caption` and `\endcaption` somewhere inside to do a captioned figure
   - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
   - `\textbox` and `\endtextbox` to put everything inside a 1-cell table
   - `\thm` and `\endthm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code
@@ -205,9 +206,7 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
     - `background-position`
     - `background-repeat`
     - `background-size`
-  - `overflow-wrap`
-  - `text-decoration`
-  - Other specific ones like `overflow-x` in alphabetical order
+  - Other specific ones like `overflow-x`, `text-align`, and `text-decoration`, in alphabetical order
 - "General":
   - `position`
     - `top`

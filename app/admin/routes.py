@@ -42,10 +42,12 @@ def upload_images(images, path_before_filename) -> str:
             return "Image name was reduced to atoms by sanitization."
 
         file_ext = os.path.splitext(filename)[1]
-        if file_ext not in current_app.config["IMAGE_EXTENSIONS"] \
+        invalid = \
+                file_ext not in current_app.config["IMAGE_EXTENSIONS"] \
                 or (file_ext in current_app.config["IMAGE_EXTENSIONS_CAN_VALIDATE"] \
-                and not file_ext != validate_image(image.stream)): # imghdr can't check SVG; trustable since admin-only?
-            return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hate heic and webp theyre so annoying i hate th"
+                and file_ext != validate_image(image.stream)) # imghdr can't check SVG; trustable since admin-only?
+        if invalid:
+            return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hate heic and webp theyre so annoying i hat"
 
         path = os.path.join(path_before_filename, filename)
         os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
@@ -101,7 +103,7 @@ def choose_action():
     form = ChooseActionForm()
 
     if request.method == "GET":
-        return render_template("admin/form-base.html", title="Choose action",
+        return render_template("admin/form_base.html", title="Choose action",
                 prompt="42", form=form)
 
     # Ajax: FormData
@@ -145,7 +147,7 @@ def create_blogpost():
         if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
             form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
 
-        return render_template("admin/form-base.html", title="Create post",
+        return render_template("admin/form_base.html", title="Create post",
                 prompt="Create post", form=form)
 
     # Ajax: FormData
@@ -201,7 +203,7 @@ def search_blogpost():
     form = SearchBlogpostForm()
 
     if request.method == "GET":
-        return render_template("admin/form-base.html", title="Search Posts",
+        return render_template("admin/form_base.html", title="Search Posts",
                 prompt="Search posts", form=form)
 
     # Ajax: FormData
@@ -252,7 +254,7 @@ def edit_blogpost():
     form.content.data = post.collapse_image_markdown()
 
     if request.method == "GET":
-        return render_template("admin/form-base.html", title=f"Edit Post: {post.title}",
+        return render_template("admin/form_base.html", title=f"Edit Post: {post.title}",
                 prompt=f"Edit post: {post.title}", form=form)
 
     # Ajax: FormData
@@ -367,7 +369,7 @@ def change_admin_password():
     form = ChangeAdminPasswordForm()
 
     if request.method == "GET":
-        return render_template("admin/form-base.html", title="Change Admin Password",
+        return render_template("admin/form_base.html", title="Change Admin Password",
                 prompt="Do not make it password123456", form=form)
 
     # Ajax: FormData

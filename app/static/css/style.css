@@ -329,13 +329,25 @@ textarea {
 .md-details-summary {
     color: var(--custom-blue) !important;
 }
+
+.md-figure-figcaption {
+    color: gray;
+    font-size: 0.975rem;
+    text-align: center;
+}
+.md-figure img {
+    margin-bottom: 0.375rem;
+}
+
 .md-image-inline {
     display: inline !important;
     margin: 0.25rem !important;
 }
+
 .md-textbox {
-    width: 100%; /* <pre> overrides */
+    width: 100%;
 }
+
 .md-thm {
     color: var(--color-thm) !important;
     border-left: 3.5px solid var(--color-thm-border) !important;
