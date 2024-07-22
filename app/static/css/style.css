@@ -11,7 +11,7 @@
     /* link hover darkens, button hover lightens */
     --custom-blue: #00eaff;             /* hue 185 */
     --custom-blue-light: #80f4ff;
-    --custom-blue-xlight: #adf8ff;
+    --custom-blue-xlight: #b3f9ff;
     --custom-blue-xxlight: #bffaff;
     --custom-blue-deep: #00bfff;        /* hue 195 */
     --custom-blue-deep-light: #47d1ff;
@@ -32,7 +32,7 @@
 
     --custom-pink: #ffa6e6;             /* hue 317 */
     --custom-pink-light: #ffbfed;
-    --custom-pink-xlight: #ffd9f4;
+    --custom-pink-xlight: #ffdbf5;
     --custom-pink-xxlight: #fff5fc;
 
     --color-code: navy;
@@ -41,6 +41,12 @@
 }
 
 ::selection {
+    background-color: var(--highlight-color);
+}
+::-webkit-selection {
+    background-color: var(--highlight-color);
+}
+::-moz-selection {
     background-color: var(--highlight-color);
 }
 
@@ -202,6 +208,9 @@ body {
 
 .w-20 {
     width: 20% !important;
+}
+.w-2rem {
+    width: 2rem !important;
 }
 
 /***************/
