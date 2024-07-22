@@ -9,7 +9,7 @@
 I hope I'm not reading this because I bricked a machine again.
 
 1. Set up things like MySQL and Docker and Nginx on host machine
-    - MySQL data directory should be in the bind-mounted directory specified in [docker/compose.yaml](docker/compose.yaml)
+    - MySQL data directory should be in the bind-mounted directory specified in [deployment/docker/compose.yaml](deployment/docker/compose.yaml)
         - Recover database data from backups
     - Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
 2. `git clone`
@@ -17,11 +17,11 @@ I hope I'm not reading this because I bricked a machine again.
     - Install Python modules from [requirements.txt](requirements.txt) by running `pip install -r requirements.txt` (ideally within a virtualenv)
     - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
 4. Add back gitignored files:
-    - [docker/flask/envs/.env](docker/flask/envs/.env): randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
-    - [docker/mysql/envs/.mysqlenv](docker/mysql/envs/.mysqlenv): nothing yet (no environment variables if bind-mounting existing MySQL data directory)
-    - [backup-scripts/db_backup_config.sh](backup-scripts/db_backup_config.sh): set the variables referenced in `db_backup.sh`
-    - [app/static/css/custom_bootstrap.css](app/static/css/custom_bootstrap.css) and [app/static/css/custom_bootstrap.css.map](app/static/css/custom_bootstrap.css.map): run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
-5. Navigate to [docker/](docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd_reference/flask-website.service](deployment/systemd_reference/flask-website.service))
+    - **deployment/docker/flask/envs/.env**: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
+    - **deployment/docker/mysql/envs/.mysqlenv**: nothing yet (no environment variables if bind-mounting existing MySQL data directory)
+    - **deployment/backup-scripts/db_backup_config.sh**: set the variables referenced in `db_backup.sh`
+    - **app/static/css/custom_bootstrap.css** and **app/static/css/custom_bootstrap.css.map**: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
+5. Navigate to [deployment/docker/](deployment/docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd-reference/flask-website.service](deployment/systemd-reference/flask-website.service))
 
 # Developer notes to compensate for possibly scuffed coding practices
 
@@ -29,7 +29,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Always make sure [.gitignore](.gitignore) is up to date with the correct paths and items! If using automatic image backups to Git, always stop the service until all new files have been added appropriately to [.gitignore](.gitignore) to avoid badly-timed auto-commits!
 - Always make sure access control is correct (see documentation below)!
 - Always make sure [config.py](config.py) is updated and has the correct filename/path (some Python files import it directly as a module)!
-- Always make sure backup scripts in [backup-scripts/](backup-scripts/) have the correct paths and configs!
+- Always make sure backup scripts in [deployment/backup-scripts/](deployment/backup-scripts/) have the correct paths and configs!
 - Always make sure this README is updated!
 - Always make sure Cloudflare firewall rules etc. still use the right URLs!
 
