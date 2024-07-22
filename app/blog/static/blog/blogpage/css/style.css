@@ -37,16 +37,16 @@
     padding: 0.5rem;
 }
 .post-h1 {
-    color: var(--custom-green);
+    color: var(--custom-green-deep-dark);
     font-size: 2.25em;
-    border-bottom: 1px solid var(--custom-green);
+    border-bottom: 1px solid var(--custom-green-deep-dark);
     margin-bottom: 1rem;
     padding-bottom: 0.25rem;
 }
 .post-h2 {
-    color: var(--custom-orange);
+    color: var(--custom-orange-deep);
     font-size: 1.5em;
-    border-bottom: 1px solid var(--custom-orange);
+    border-bottom: 1px solid var(--custom-orange-deep);
     margin-bottom: 1rem;
     padding-bottom: 0.25rem;
     width: fit-content;

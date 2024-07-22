@@ -101,7 +101,7 @@
       {%- block js %}{%- endblock %}
 
     <title>{%- block title %}{%- endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon_colorful_32.ico', _external=True) }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico', _external=True) }}">
   </head>
 
   <body class="font-default">
@@ -110,7 +110,7 @@
       <!-- navbar -->
       <nav class="font-default-important navbar navbar-expand-md">
         <a class="navbar-brand" href="{{ url_for('main.index', _external=True) }}">
-          <img id="navbar-logo" class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon_colorful_32.ico', _external=True) }}" alt="favicon" width="30" height="30">Home
+          <img id="navbar-logo" class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" width="30" height="30">Home
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

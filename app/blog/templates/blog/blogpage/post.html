@@ -15,9 +15,9 @@ const POST_ID = "{{ post.id }}";
 
 {%- block content %}
 <div class="pt-2 shrinking-font-14">
-    <h1 class="post-title custom-green mb-0">{{ post.title }}</h1>
+    <h1 class="post-title custom-green-deep-dark mb-0">{{ post.title }}</h1>
   {%- if post.subtitle is not none %}
-    <h2 class="post-subtitle custom-orange mt-2 mb-0">{{ post.subtitle }}</h2>
+    <h2 class="post-subtitle custom-orange-deep mt-2 mb-0">{{ post.subtitle }}</h2>
   {%- endif %}
   <div class="d-flex align-items-center mt-2">
     {%- if post.edited_timestamp is not none %}
@@ -25,14 +25,14 @@ const POST_ID = "{{ post.id }}";
     {%- else %}
       <span class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</span>
     {%- endif %}
-    <a class="me-2" href="#leave-a-comment"><img src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment_custom_blue.svg', _external=True) }}" title="yapping" width=16px height=16px></img></a>
-    <input id="copy-permanent-link" type="image" src="{{ url_for('static', filename='images/icon_link.svg', _external=True) }}" title="Copy permanent link (free malware included)" width=20px height=20px></input>
+    <a class="me-2" href="#leave-a-comment"><img src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment_custom_blue_deep.svg', _external=True) }}" title="yapping" width=16px height=16px></img></a>
+    <input id="copy-permanent-link" type="image" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_link.svg', _external=True) }}" title="Copy permanent link (free malware included)" width=20px height=20px></input>
   </div>
 
   {%- if current_user.is_authenticated %}
-    <a class="auth-true btn-custom-orange btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
+    <a class="auth-true btn-custom-orange-deep btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
   {%- else %}
-    <a class="auth-true btn-custom-orange btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button" hidden>Edit/delete post</a>
+    <a class="auth-true btn-custom-orange-deep btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button" hidden>Edit/delete post</a>
   {%- endif %}
 </div>
 <hr>
@@ -61,7 +61,7 @@ const POST_ID = "{{ post.id }}";
 
           {%- set descendants = comment.get_descendants_list(post) %}
           {%- if comment.author.lower() |replace(" ", "") == config["VERIFIED_AUTHOR"] %}
-          <div class="comment card border-custom-orange border-3px{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
+          <div class="comment card border-custom-orange-deep border-3px{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
             <div class="card-body pb-2">
               <h3 class="comment-author d-flex align-items-center me-1">
                 <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_verified.svg', _external=True) }}" title="Actually verified, unlike Twitter.">
@@ -75,10 +75,10 @@ const POST_ID = "{{ post.id }}";
               <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
               
               {%- if comment.depth < 6 %}
-                {{ wtf.quick_form(reply_comment_button, id="comment-reply-form-" ~ comment.id, class="comment-reply-form", btn_type="link-no-underline", btn_color="custom-orange", bottom_margin=0) }}
+                {{ wtf.quick_form(reply_comment_button, id="comment-reply-form-" ~ comment.id, class="comment-reply-form", btn_type="link-no-underline", btn_color="custom-orange-deep", bottom_margin=0) }}
                 {{ wtf.quick_form(add_comment_form, id="comment-reply-add-form-" ~ comment.id, class="comment-add-form ajax-add-comment", bottom_margin=2, hidden=true) }}
               {%- else %}
-                <p class="comment-nest-limit-text custom-orange mb-0">It's gonna get ugly if you keep replying…</p>
+                <p class="comment-nest-limit-text custom-orange-deep mb-0">It's gonna get ugly if you keep replying…</p>
               {%- endif %}
 
               {%- if current_user.is_authenticated %}

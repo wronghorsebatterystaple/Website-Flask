@@ -195,6 +195,7 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
   - `content`
   - `opacity`
   - `color`
+  - `background`
     - `background-color`
   - Font:
     - `font-family`
