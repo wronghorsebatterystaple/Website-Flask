@@ -8,7 +8,6 @@
     --narrow-max-width: clamp(0px, 672px, 100vw);
 
     /* Colors */
-    /* "light" is saturation on HSV, "dark" is value, and "deep" is hue, all rounded to nearest 8-bit RGB */
     /* link hover darkens, button hover lightens */
     --custom-blue: #00eaff;             /* hue 185 */
     --custom-blue-light: #80f4ff;
@@ -27,7 +26,7 @@
     --custom-green-deep-dark: #77d900;
 
     --custom-orange: #ffd500;           /* hue 50 */
-    --custom-orange-light: #ffe14d;
+    --custom-orange-light: #ffe359;
     --custom-orange-deep: #ffc800;      /* hue 47 */
     --custom-orange-deep-light: #ffd747;
 
@@ -113,19 +112,6 @@ body {
 }
 .custom-pink {
     color: var(--custom-pink) !important;
-}
-
-.set-hl-custom-blue-xlight {
-    --highlight-color: var(--custom-blue-xlight);
-}
-.set-hl-custom-green-deep-xlight {
-    --highlight-color: var(--custom-green-deep-xlight);
-}
-.set-hl-custom-pink-xlight {
-    --highlight-color: var(--custom-pink-xlight);
-}
-.set-hl-custom-orange-light {
-    --highlight-color: var(--custom-orange-light);
 }
 
 .border-custom-orange-deep {

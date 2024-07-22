@@ -122,7 +122,8 @@ function applyGlobalStyles(root_selector) {
 
 function randomizeHighlightColor() {
     const colorChoices = ["custom-blue-xlight", "custom-green-deep-xlight", "custom-orange-light", "custom-pink-xlight"];
-    $("html").addClass(`set-hl-${colorChoices[Math.floor(Math.random() * 4)]}`);
+    var color = window.getComputedStyle(document.documentElement).getPropertyValue(`--${colorChoices[Math.floor(Math.random() * 4)]}`);
+    document.documentElement.style.setProperty("--highlight-color", color);
 }
 
 $(document).ready(function() {
