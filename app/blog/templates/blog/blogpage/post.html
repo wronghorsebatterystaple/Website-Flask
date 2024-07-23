@@ -19,7 +19,7 @@ const POST_ID = "{{ post.id }}";
   {%- if post.subtitle is not none %}
     <h2 class="post-subtitle custom-orange-deep mt-2 mb-0">{{ post.subtitle }}</h2>
   {%- endif %}
-  <div class="d-flex align-items-center mt-2">
+  <div class="d-flex align-items-center mt-2half">
     {%- if post.edited_timestamp is not none %}
       <span class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
     {%- else %}
@@ -30,7 +30,7 @@ const POST_ID = "{{ post.id }}";
   </div>
 
   {%- if current_user.is_authenticated %}
-    <a class="auth-true btn-custom-orange-deep btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
+    <a class="auth-true btn-custom-orange-deep btn btn-primary mt-2half" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button">Edit/delete post</a>
   {%- else %}
     <a class="auth-true btn-custom-orange-deep btn btn-primary mt-2" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button" hidden>Edit/delete post</a>
   {%- endif %}

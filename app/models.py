@@ -15,42 +15,121 @@ from config import Config
 
 
 class Blogpage(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=False)
-    ordering: so.Mapped[int] = so.mapped_column(sa.Integer(), unique=True, index=True)
-    url_path: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_URL_PATH"]))
-    title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_TITLE"]))
-    subtitle: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_SUBTITLE"]),
-            nullable=True, default=None)
-    meta_description: so.Mapped[str] = so.mapped_column(sa.String(
-            Config.DB_CONFIGS["MAXLEN_BLOGPAGE_META_DESCRIPTION"]), nullable=True, default=None)
-    color_html_class: so.Mapped[str] = so.mapped_column(sa.String(
-            Config.DB_CONFIGS["MAXLEN_BLOGPAGE_COLOR_HTML_CLASS"]), nullable=True, default=None)
+    id: \
+        so.Mapped[int] = so.mapped_column(
+            primary_key=True,
+            autoincrement=False
+        )    
+    ordering: \
+        so.Mapped[int] = so.mapped_column(
+            sa.Integer(),
+            unique=True,
+            index=True
+        )
+    url_path: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_URL_PATH"])
+        )
+    title: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_TITLE"])
+        )
+    subtitle: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_SUBTITLE"]),
+            nullable=True,
+            default=None
+        )
+    meta_description: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_META_DESCRIPTION"]),
+            nullable=True,
+            default=None
+        )
+    html_color_class: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_COLOR_HTML_CLASS"]),
+            nullable=True,
+            default=None
+        )
 
-    login_required: so.Mapped[bool] = so.mapped_column(sa.Boolean, default=True)
-    unpublished: so.Mapped[bool] = so.mapped_column(sa.Boolean, default=True)
-    writeable: so.Mapped[bool] = so.mapped_column(sa.Boolean, default=False)
+    login_required: so.Mapped[bool] = so.mapped_column(
+        sa.Boolean,
+        default=True
+    )
+    unpublished: \
+        so.Mapped[bool] = so.mapped_column(
+            sa.Boolean,
+            default=True
+        )
+    writeable: \
+        so.Mapped[bool] = so.mapped_column(
+            sa.Boolean,
+            default=False
+        )
 
-    posts: so.WriteOnlyMapped["Post"] = so.relationship(back_populates="blogpage",
-            cascade="all, delete, delete-orphan", passive_deletes=True)
+    posts: \
+        so.WriteOnlyMapped["Post"] = so.relationship(
+            back_populates="blogpage",
+            cascade="all, delete, delete-orphan",
+            passive_deletes=True
+        )
 
 
 class Post(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    blogpage_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Blogpage.id, ondelete="CASCADE"))
-    published: so.Mapped[bool] = so.mapped_column(default=False)
-    timestamp: so.Mapped[datetime] = so.mapped_column(
-            index=True, default=lambda: datetime.now(timezone.utc))
-    edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None)
-    title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]))
-    sanitized_title: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"]))
-    subtitle: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"]),
-            nullable=True, default=None)
-    content: so.Mapped[Text()] = so.mapped_column(Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]))
+    id: \
+        so.Mapped[int] = so.mapped_column(
+            primary_key=True
+        )
+    blogpage_id: \
+        so.Mapped[int] = so.mapped_column(
+            sa.ForeignKey(Blogpage.id, ondelete="CASCADE")
+        )
+    published: \
+        so.Mapped[bool] = so.mapped_column(
+            default=False
+        )
+    timestamp: \
+        so.Mapped[datetime] = so.mapped_column(
+            index=True,
+            default=lambda: datetime.now(timezone.utc)
+        )
+    edited_timestamp: \
+        so.Mapped[datetime] = so.mapped_column(
+            nullable=True,
+            default=None
+        )
+    title: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
+        )
+    sanitized_title: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
+        )
+    subtitle: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"]),
+            nullable=True,
+            default=None
+        )
+    content: \
+        so.Mapped[Text()] = so.mapped_column(
+            Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]),
+            nullable=True
+        )
 
-    blogpage: so.Mapped[Blogpage] = so.relationship(back_populates="posts")
+    blogpage: \
+        so.Mapped[Blogpage] = so.relationship(
+            back_populates="posts"
+        )
 
-    comments: so.WriteOnlyMapped["Comment"] = so.relationship(back_populates="post",
-            cascade="all, delete, delete-orphan", passive_deletes=True)
+    comments: \
+        so.WriteOnlyMapped["Comment"] = so.relationship(
+            back_populates="post",
+            cascade="all, delete, delete-orphan",
+            passive_deletes=True
+        )
 
     def sanitize_title(self):
         self.sanitized_title = ("-".join(self.title.split())).lower()
@@ -78,19 +157,48 @@ class Post(db.Model):
 
 
 class Comment(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id, ondelete="CASCADE"))
-    timestamp: so.Mapped[datetime] = so.mapped_column(
-            index=True, default=lambda: datetime.now(timezone.utc))
-    author: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"]))
-    content: so.Mapped[Text()] = so.mapped_column(Text(Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"]))
+    id: \
+        so.Mapped[int] = so.mapped_column(
+            primary_key=True
+        )
+    post_id: \
+        so.Mapped[int] = so.mapped_column(
+            sa.ForeignKey(Post.id, ondelete="CASCADE")
+        )
+    timestamp: \
+        so.Mapped[datetime] = so.mapped_column(
+            index=True,
+            default=lambda: datetime.now(timezone.utc)
+        )
+    author: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"])
+        )
+    content: \
+        so.Mapped[Text()] = so.mapped_column(
+            Text(Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"])
+        )
 
-    post: so.Mapped[Post] = so.relationship(back_populates="comments")
+    post: \
+        so.Mapped[Post] = so.relationship(
+            back_populates="comments"
+        )
 
-    # nested set; quite the beautiful data structure
-    left: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
-    right: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
-    depth: so.Mapped[int] = so.mapped_column(sa.Integer)
+        # nested set; quite the beautiful data structure
+    left: \
+        so.Mapped[int] = so.mapped_column(
+            sa.Integer,
+            index=True
+        )
+    right: \
+        so.Mapped[int] = so.mapped_column(
+            sa.Integer,
+            index=True
+        )
+    depth: \
+        so.Mapped[int] = so.mapped_column(
+            sa.Integer
+        )
 
     def insert_comment(self, post, parent) -> bool:
         if parent is None: # add child with left = max of right for that post + 1
@@ -146,12 +254,24 @@ class Comment(db.Model):
 
 
 class User(UserMixin, db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    username: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_USER_USERNAME"]),
-            unique=True)
-    email: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_USER_EMAIL"]),
-            unique=True)
-    password_hash: so.Mapped[str] = so.mapped_column(sa.String(Config.DB_CONFIGS["MAXLEN_USER_PASSWORD_HASH"]))
+    id: \
+        so.Mapped[int] = so.mapped_column(
+            primary_key=True
+        )
+    username: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_USER_USERNAME"]),
+            unique=True
+        )
+    email: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_USER_EMAIL"]),
+            unique=True
+        )
+    password_hash: \
+        so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["MAXLEN_USER_PASSWORD_HASH"])
+        )
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

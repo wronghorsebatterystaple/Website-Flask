@@ -17,7 +17,8 @@ I hope I'm not reading this because I bricked a machine again.
     - Install Python modules from [requirements.txt](requirements.txt) by running `pip install -r requirements.txt` (ideally within a virtualenv)
     - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
 4. Add back gitignored files:
-    - **deployment/docker/flask/envs/.env**: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference)
+    - **.env**: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference) for connecting to MySQL from host
+    - **deployment/docker/flask/envs/.env**: same as **.env** but with `DATABASE_URL` modified to connect to the MySQL Docker container
     - **deployment/docker/mysql/envs/.mysqlenv**: nothing yet (no environment variables if bind-mounting existing MySQL data directory)
     - **deployment/backup-scripts/db_backup_config.sh**: set the variables referenced in `db_backup.sh`
     - **app/static/css/custom_bootstrap.css** and **app/static/css/custom_bootstrap.css.map**: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
@@ -42,6 +43,13 @@ I hope I'm not reading this because I bricked a machine again.
     - [deployment/backup-scripts/db_backup_config.sh](deployment/backup-scripts/db_backup_config.sh) configs (not commented; sync all of them!)
     - Backup scripts
     - `systemd` services
+- To connect to the MySQL instance running in Docker from the host:
+    - Make sure the MySQL port (default 3306) is exposed from Docker and there is a **.env** file on the host with `DATABASE_URL` pointing to `localhost`
+    - Use `mysql --protocol=tcp` to connect so it doesn't try to use a Unix socket; make sure to use the MySQL user that has `%` as its host (because that means it can connect from any host, whereas `localhost` would mean that it can only connect from within the Docker container)
+- To change [app/models.py](app/models.py):
+    - Edit [app/models.py](app/models.py) on the host
+    - Run `flask db migrate` on the host; this requires MySQL connectivity from the host
+    - Restart the Docker containers; it copies in [migrations/](migrations/) and handles `flask db upgrade`
 
 ### Access control documentation:
 - Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.

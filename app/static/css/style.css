@@ -202,6 +202,9 @@ body {
     flex-basis: 80% !important;
 }
 
+.mt-2half {
+    margin-top: 0.75rem !important;
+}
 .ms-2half {
     margin-left: 0.75rem !important;
 }
