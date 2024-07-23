@@ -4,7 +4,6 @@
 
 :root {
     /* General */
-    --default-border-block: 1px solid black;
     --narrow-max-width: clamp(0px, 672px, 100vw);
 
     /* Colors */
@@ -306,7 +305,7 @@ textarea {
 }
 
 .code-block-outside {
-    border: var(--default-border-block);
+    border: 1px solid black;
     margin-bottom: 0.5rem;
 }
 

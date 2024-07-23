@@ -94,10 +94,10 @@ class Config(object):
         "6": "/writers-block",
         "7": "/writers-unblock",
         "-2": "/misc-backrooms",
-        "-3": "/professor-google/backrooms",
-        "-5": "/the-fake-news-network/backrooms",
-        "-6": "/writers-block/backrooms",
-        "-7": "/writers-unblock/backrooms"
+        "-3": "/professor-google-backrooms",
+        "-5": "/the-fake-news-network-backrooms",
+        "-6": "/writers-block-backrooms",
+        "-7": "/writers-unblock-backrooms"
     }
     LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
         f"{SERVER_NAME}/admin",
