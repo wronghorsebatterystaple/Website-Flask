@@ -1,0 +1,34 @@
+.hljs {
+    background: white;
+}
+
+.hljs-comment {
+    color: var(--custom-green-deep-dark);
+}
+
+.hljs-addition,
+.hljs-bullet,
+.hljs-code,
+.hljs-keyword,
+.hljs-meta,
+.hljs-type {
+    color: var(--custom-pink);
+}
+
+.hljs-deletion,
+.hljs-literal,
+.hljs-meta .hljs-string,
+.hljs-number,
+.hljs-quote,
+.hljs-selector-class,
+.hljs-selector-id,
+.hljs-string,
+.hljs-template-tag {
+    color: var(--custom-blue-deep);
+}
+
+.hljs-built_in,
+.hljs-section,
+.hljs-title {
+    color: var(--custom-orange-deep-dark);
+}

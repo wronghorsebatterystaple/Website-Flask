@@ -73,7 +73,9 @@
           defer>
 
       <!-- global custom CSS -->
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css', _external=True) }}">
       <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_hljs.css', _external=True) }}">
 
       {%- block css %}{%- endblock %}
 

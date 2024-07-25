@@ -28,7 +28,7 @@ function syntaxHighlightNonTable(root_selector) {
     $(root_selector).find("pre code").each(function() {
         if ($(this).parents("table").length === 0) {
             hljs.highlightElement($(this).get(0));
-            $(this).addClass("code-block-outside"); // also maintain same bottom margin as top margin from <p> etc.
+            $(this).addClass("code-block-outside");
         }
     });
 }
@@ -121,7 +121,7 @@ function applyGlobalStyles(root_selector) {
 }
 
 function randomizeHighlightColor() {
-    const colorChoices = ["custom-blue-xlight", "custom-green-deep-xlight", "custom-orange-light", "custom-pink-xlight"];
+    const colorChoices = ["custom-blue-xlight", "custom-green-deep-xlight", "custom-orange-light", "custom-pink-xxlight"];
     var color = window.getComputedStyle(document.documentElement).getPropertyValue(`--${colorChoices[Math.floor(Math.random() * 4)]}`);
     document.documentElement.style.setProperty("--highlight-color", `${color}F0`); // 240 / 256 opacity
 }

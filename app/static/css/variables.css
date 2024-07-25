@@ -1,0 +1,38 @@
+:root {
+    /* General */
+    --narrow-max-width: clamp(0px, 672px, 100vw);
+
+    /* Colors */
+    /* link hover darkens, button hover lightens */
+    --custom-blue: #00eaff;             /* hue 185 */
+    --custom-blue-light: #80f4ff;
+    --custom-blue-xlight: #c0faff;
+    --custom-blue-xxlight: #bffaff;
+    --custom-blue-deep: #00bfff;        /* hue 195 */
+    --custom-blue-deep-light: #47d1ff;
+    --custom-blue-deep-xlight: #b3ecff;
+    --custom-blue-deep-dark: #00ace6;
+
+    --custom-green: #b7ff00;            /* hue 77 */
+    --custom-green-deep: #8cff00;       /* hue 87 */
+    --custom-green-deep-light: #a9ff40;
+    --custom-green-deep-xlight: #c0ff73;
+    --custom-green-deep-xxlight: #ecffd5;
+    --custom-green-deep-dark: #77d900;
+
+    --custom-orange: #ffd500;           /* hue 50 */
+    --custom-orange-light: #ffe14d;
+    --custom-orange-deep: #ffc800;      /* hue 47 */
+    --custom-orange-deep-light: #ffd747;
+    --custom-orange-deep-dark: #f2be00;
+
+    --custom-pink: #ff59d0;             /* hue 317 */
+    --custom-pink-light: #ffa6e6;
+    --custom-pink-xlight: #ffbfed;
+    --custom-pink-xxlight: #ffe6f8;
+    --custom-pink-xxxlight: #fff5fc;
+
+    --color-code: navy;
+    --color-thm: navy;
+    --color-thm-border: #a1a1ff;
+}

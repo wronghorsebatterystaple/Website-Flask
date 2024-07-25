@@ -41,7 +41,7 @@
     font-size: 2.25em;
     border-bottom: 3px solid var(--custom-green-deep-dark);
     margin-bottom: 1rem;
-    padding-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
 }
 .post-h2 {
     color: var(--custom-orange-deep);
