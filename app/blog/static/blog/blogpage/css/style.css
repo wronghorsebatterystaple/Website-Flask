@@ -39,7 +39,7 @@
 .post-h1 {
     color: var(--custom-green-deep-dark);
     font-size: 2.25em;
-    border-bottom: 2px solid var(--custom-green-deep-dark);
+    border-bottom: 3px solid var(--custom-green-deep-dark);
     margin-bottom: 1rem;
     padding-bottom: 0.25rem;
 }

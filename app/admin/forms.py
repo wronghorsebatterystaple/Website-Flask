@@ -52,7 +52,7 @@ class CreateBlogpostForm(FlaskForm):
         validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])]
     )
     images = MultipleFileField(
-        "Upload images"
+        f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})"
     )
     create_blogpost_form_submit = SubmitField(
         "Submit"
@@ -95,11 +95,11 @@ class EditBlogpostForm(FlaskForm):
         validators=[Length(max=Config.DB_CONFIGS["MAXLEN_POST_CONTENT"])]
     )
     images = MultipleFileField(
-        f"Upload images (supported formats: {', '.join(Config.IMAGE_EXTENSIONS)})"
+        f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})"
     )
-    cancel_images = SubmitField(
+    cancel_image_uploads = SubmitField(
         "Clear images to upload",
-        render_kw={"id": "cancel-images-btn", "data-no-submit": ""}
+        render_kw={"id": "cancel-image-uploads-btn", "data-no-submit": ""}
     )
     delete_images = SelectMultipleField(
         "Delete images"

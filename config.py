@@ -75,8 +75,9 @@ class Config(object):
     }
 
     # Other "conventional" configs
-    IMAGE_EXTENSIONS = [".gif", ".jpg", ".png", ".svg"]
-    IMAGE_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpg", ".png"]
+    IMAGE_UPLOAD_EXTENSIONS = [".gif", ".jpg", ".png", ".svg", ".xcf"]
+    IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpg", ".png"]
+    IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED = [".gif", ".jpg", ".png", ".svg"]
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20
@@ -86,7 +87,7 @@ class Config(object):
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
 
     ALL_POSTS_BLOGPAGE_ID = 1
-    BLOGPAGE_ID_TO_PATH = { # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys because negatives
+    BLOGPAGE_ID_TO_PATH = {      # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys
         "1": "/all",
         "2": "/misc",
         "3": "/professor-google",
@@ -99,7 +100,7 @@ class Config(object):
         "-6": "/writers-block-backrooms",
         "-7": "/writers-unblock-backrooms"
     }
-    LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
+    LOGIN_REQUIRED_URLS = [      # for Flask access control on logout
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-2']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-3']}",
@@ -107,4 +108,4 @@ class Config(object):
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-6']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-7']}"
     ]
-    VERIFIED_AUTHOR = "originalposter" # lowercase and no spaces for easier comparison
+    VERIFIED_AUTHOR = "anonrand" # lowercase and no spaces for easier comparison

@@ -39,19 +39,19 @@ def upload_images(images, path_before_filename) -> str:
 
         filename = sanitize_filename(image.filename)
         if filename == "":
-            return "Image name was reduced to atoms by sanitization."
+            return "File name was reduced to atoms by sanitization."
 
         file_ext = os.path.splitext(filename)[1]
         invalid = \
-                file_ext not in current_app.config["IMAGE_EXTENSIONS"] \
-                or (file_ext in current_app.config["IMAGE_EXTENSIONS_CAN_VALIDATE"] \
+                file_ext not in current_app.config["IMAGE_UPLOAD_EXTENSIONS"] \
+                or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
                 and file_ext != validate_image(image.stream)) # imghdr can't check SVG; trustable since admin-only?
         if invalid:
             return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hate heic and webp theyre so annoying i hat"
 
         path = os.path.join(path_before_filename, filename)
-        os.makedirs(path_before_filename, exist_ok=True) # mkdir -p if not exist
-        image.save(path) # replaces image if it's already there
+        os.makedirs(path_before_filename, exist_ok=True)      # mkdir -p if not exist
+        image.save(path)                                      # replaces image if it's already there
 
     return "success"
 
@@ -139,7 +139,7 @@ def create_blogpost():
         try:
             blogpage_id = int(request.args.get("blogpage_id", default=None))
         except Exception:
-            return redirect(url_for("blog.index",
+            return jsonify(redirect_url_abs=url_for("blog.index",
                     flash=util.encode_URI_component("Good try."),
                     _external=True))
 
@@ -183,12 +183,14 @@ def create_blogpost():
 
         # upload images if any
         try:
-            res = upload_images(request.files.getlist("images"), os.path.join(current_app.root_path,
-                    current_app.config["ROOT_TO_BLOGPAGE_STATIC"], str(post.blogpage_id), "images", str(post.id)))
+            images_path = os.path.join(current_app.root_path,
+                    current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+                    str(post.blogpage_id), "images", str(post.id))
+            res = upload_images(request.files.getlist("images"), images_path)
             if not res == "success":
                 return jsonify(flash_message=res)
         except Exception as e:
-            return jsonify(flash_message=f"Image upload exception: {str(e)}")
+            return jsonify(flash_message=f"File upload exception: {str(e)}")
 
         return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
@@ -225,19 +227,13 @@ def edit_blogpost():
     try:
         post_id = int(request.args.get("post_id"))
     except Exception:
-        if request.method == "GET":
-            return redirect(url_for("blog.index", flash=util.encode_URI_component("Good try."), _external=True))
-        else:
-            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                    flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
+        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
+                flash_message="Good try.")
 
     post = db.session.get(Post, post_id)
     if post is None:
-        if request.method == "GET":
-            return redirect(url_for("blog.index", flash=util.encode_URI_component("Good try."), _external=True))
-        else:
-            return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                    flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
+        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
+                flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
 
     images_path = os.path.join(current_app.root_path,
             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
@@ -246,12 +242,12 @@ def edit_blogpost():
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
     all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
+    form.content.data = post.collapse_image_markdown()
     if os.path.exists(images_path) and os.path.isdir(images_path):
         images_choices = [(f, f) for f in os.listdir(images_path) \
                 if os.path.isfile(os.path.join(images_path, f))]
         images_choices.sort(key=lambda t: t[0])
         form.delete_images.choices = images_choices
-    form.content.data = post.collapse_image_markdown()
 
     if request.method == "GET":
         return render_template("admin/form_base.html", title=f"Edit Post: {post.title}",
@@ -320,7 +316,7 @@ def edit_blogpost():
             if os.path.exists(images_path) and len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
                 shutil.rmtree(images_path)
         except Exception as e:
-            return jsonify(flash_message=f"Image delete exception: {str(e)}")
+            return jsonify(flash_message=f"File delete exception: {str(e)}")
 
         # delete unused images if that is checked; do this after deleting normally
         # but before uploading to make sure newly-uploaded images aren't immediately scrapped
@@ -328,14 +324,17 @@ def edit_blogpost():
             try:
                 if os.path.exists(images_path):
                     images = os.listdir(images_path)
+                    # todo check without extension?
                     for image in images:
-                        if image not in post.content:
+                        file_ext = os.path.splitext(image)[1]
+                        if file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED"] \
+                                and image not in post.content:
                             os.remove(os.path.join(images_path, image))
 
                     if len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
                         shutil.rmtree(images_path)
             except Exception as e:
-                return jsonify(flash_message=f"Image delete unused exception: {str(e)}")
+                return jsonify(flash_message=f"File delete unused exception: {str(e)}")
         
         # upload images if any
         try:
@@ -343,17 +342,15 @@ def edit_blogpost():
             if not res == "success":
                 return jsonify(flash_message=res)
         except Exception as e:
-            return jsonify(flash_message=f"Image upload exception: {str(e)}")
+            return jsonify(flash_message=f"File upload exception: {str(e)}")
 
         # move images if moving blogpost
         if post.blogpage_id != old_blogpage_id:
             if os.path.exists(images_path):
                 try:
-                    shutil.move(images_path, os.path.join(current_app.root_path,
-                            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-                            post.blogpage_id, "images", str(post.id)))
+                    shutil.move(images_path, os.path.join(os.path.split(images_path)[0], str(post.id)))
                 except Exception as e:
-                    return jsonify(flash_message=f"Image move exception: {str(e)}")
+                    return jsonify(flash_message=f"File move exception: {str(e)}")
         db.session.commit()
 
         return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
