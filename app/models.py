@@ -135,9 +135,36 @@ class Post(db.Model):
         self.sanitized_title = ("-".join(self.title.split())).lower()
         self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title)
 
-    # must be done after add() and flush()!!! Hence why `unique=True` not enforced for title and sanitized title
-    def are_titles_unique(self) -> bool:
-        return len(db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).all()) == 1
+    # must be done after db.session.add()
+    def check_titles(self) -> str:
+        # check that title still exists after sanitization
+        if self.sanitized_title == "":
+            return "Post must have alphanumeric characters in its title."
+        # check that titles are unique
+        if len(db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).all()) != 1:
+            return "There is already a post with that title or sanitized title."
+
+        if self.subtitle == "": # standardize to None/NULL
+            self.subtitle = None
+
+        return None
+
+    def add_timestamps(self, remove_edited_timestamps, dont_update_edited_timestamp):
+        ## must flush() before expand_image_markdown so post gets automatically assigned an id
+        ## must also flush() to auto populate blogpage relationship from foreign key to use later
+        #db.session.flush()
+        originally_published = self.published
+        self.published = not self.blogpage.unpublished
+        if self.published and originally_published:
+            # update edited time if editing an already-published post
+            if remove_edited_timestamps:
+                self.edited_timestamp = None
+            elif not dont_update_edited_timestamp:
+                self.edited_timestamp = datetime.now(timezone.utc)
+        else:
+            # keep updating created time instead of edited time if not already published
+            self.timestamp = datetime.now(timezone.utc)
+            self.edited_timestamp = None
 
     def expand_image_markdown(self):
         self.content = re.sub(r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",

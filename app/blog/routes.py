@@ -51,7 +51,7 @@ def add_comment():
     comment = Comment(author=request.form["author"], content=request.form["content"],
             post=post) # SQLAlchemy automatically generates post_id ForeignKey from post relationship()
     if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
-        return jsonify(flash_message="Sneaky…")
+        return jsonify(flash_message="Nice try.")
     db.session.add(comment)
     db.session.commit()
 

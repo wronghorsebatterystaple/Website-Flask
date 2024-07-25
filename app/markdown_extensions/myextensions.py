@@ -244,7 +244,7 @@ class ThmBlockProcessor(BlockProcessor):
         return False
 
 
-# Markdown tweaks round 1: custom syntax only!
+# Markdown tweaks round 1
 class MyInlineExtensions(Extension):
     def extendMarkdown(self, md):
         # `__[text]__` for underline

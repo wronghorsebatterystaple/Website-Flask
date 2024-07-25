@@ -85,7 +85,6 @@ class Config(object):
     # Scuffed configs
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
-
     ALL_POSTS_BLOGPAGE_ID = 1
     BLOGPAGE_ID_TO_PATH = {      # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys
         "1": "/all",
@@ -108,4 +107,4 @@ class Config(object):
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-6']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-7']}"
     ]
-    VERIFIED_AUTHOR = "anonrand" # lowercase and no spaces for easier comparison
+    VERIFIED_AUTHOR = "anonymousrand" # lowercase and no spaces for easier comparison
