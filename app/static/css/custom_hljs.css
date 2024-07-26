@@ -2,10 +2,6 @@
     background: white;
 }
 
-.hljs-comment {
-    color: var(--custom-green-deep-dark);
-}
-
 .hljs-addition,
 .hljs-bullet,
 .hljs-code,
@@ -13,6 +9,16 @@
 .hljs-meta,
 .hljs-type {
     color: var(--custom-pink);
+}
+
+.hljs-built_in,
+.hljs-section,
+.hljs-title {
+    color: var(--custom-orange-deep-dark);
+}
+
+.hljs-comment {
+    color: var(--custom-green-deep-dark);
 }
 
 .hljs-deletion,
@@ -25,10 +31,4 @@
 .hljs-string,
 .hljs-template-tag {
     color: var(--custom-blue-deep);
-}
-
-.hljs-built_in,
-.hljs-section,
-.hljs-title {
-    color: var(--custom-orange-deep-dark);
 }
