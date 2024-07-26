@@ -266,7 +266,10 @@ def edit_blogpost():
         if post.blogpage_id != old_blogpage_id:
             if os.path.exists(images_path):
                 try:
-                    shutil.move(images_path, os.path.join(os.path.split(images_path)[0], str(post.id)))
+                    new_images_path = os.path.join(current_app.root_path,
+                            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+                            str(post.blogpage_id), "images", str(post.id))
+                    shutil.move(images_path, new_images_path)
                 except Exception as e:
                     return jsonify(flash_message=f"Image move exception: {str(e)}")
 

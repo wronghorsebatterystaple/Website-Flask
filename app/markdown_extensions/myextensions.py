@@ -1,9 +1,9 @@
 from markdown.extensions import Extension
 from markdown.blockprocessors import BlockProcessor
 from markdown.inlinepatterns import InlineProcessor, SimpleTagInlineProcessor
-import xml.etree.ElementTree as etree
 
 import re
+import xml.etree.ElementTree as etree
 
 
 class GrayCodeInlineProcessor(InlineProcessor):
