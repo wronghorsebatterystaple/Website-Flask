@@ -8,7 +8,7 @@
 
 I hope I'm not reading this because I bricked a machine again.
 
-1. Set up things like MySQL and Docker and Nginx on host machine
+1. Set up Docker, MySQL, and Nginx on host machine
     - MySQL data directory should be in the bind-mounted directory specified in [deployment/docker/compose.yaml](deployment/docker/compose.yaml)
         - Recover database data from backups
     - Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
