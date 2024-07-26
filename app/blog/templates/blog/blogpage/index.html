@@ -32,13 +32,14 @@ const totalPages = {{ total_pages }};
         {%- set color = post.blogpage.html_color_class %}
         <a class="{{ color }} underline-{{ color }} underline-on-hover-only shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
-            <h1 class="postlist-title flex-basis-80 flex-shrink-0 me-3 mb-0">{{ post.title }}</h1>
+            <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
+            <h1 class="postlist-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-0">{{ post.title }}</h1>
             <span class="postlist-blogtitle flex-shrink-9 text-end ms-auto mb-0"> {{ post.blogpage.title }}</span>
           </div>
 
           {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top mt-1">
-                <h2 class="postlist-subtitle flex-basis-80 flex-shrink-0 mb-0">{{ post.subtitle }}</h2>
+                <h2 class="postlist-subtitle {{ color }} flex-basis-80 flex-shrink-0 mb-0">{{ post.subtitle }}</h2>
             </div>
           {%- endif %}
 
