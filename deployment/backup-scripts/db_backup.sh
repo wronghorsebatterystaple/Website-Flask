@@ -2,7 +2,6 @@
 
 source ./db_backup_config.sh
 
-# Uncomment for debugging
 set -x
 
 case "$1" in

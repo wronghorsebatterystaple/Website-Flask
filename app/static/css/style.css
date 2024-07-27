@@ -1,7 +1,3 @@
-/**********************************/
-/* General/root-/body-level stuff */
-/**********************************/
-
 ::selection {
     background-color: var(--highlight-color);
 }
@@ -11,209 +7,6 @@
 ::-moz-selection {
     background-color: var(--highlight-color);
 }
-
-body {
-    font-size: 16px;
-    overflow-wrap: anywhere;
-    text-decoration-thickness: 1px;
-}
-
-.min-height-full {
-    min-height: 100vh;
-}
-
-.narrow-container {
-    overflow-x: auto;
-    max-width: var(--narrow-max-width) !important;
-    margin: auto;
-}
-
-#background-img {
-    background-image: url("/static/images/background_default.svg");
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-}
-
-/**********/
-/* Colors */
-/**********/
-
-.black {
-    color: black !important;
-}
-.gray {
-    color: gray !important;
-}
-.navy {
-    color: navy !important;
-}
-
-.red {
-    color: red !important;
-}
-.orange {
-    color: orange !important;
-}
-.yellow {
-    color: yellow !important;
-}
-.green {
-    color: green !important;
-}
-.blue {
-    color: blue !important;
-}
-.purple {
-    color: purple !important;
-}
-
-.custom-blue-deep {
-    color: var(--custom-blue-deep) !important;
-}
-.custom-green-deep-dark {
-    color: var(--custom-green-deep-dark) !important;
-}
-.custom-orange-deep {
-    color: var(--custom-orange-deep) !important;
-}
-.custom-pink-light {
-    color: var(--custom-pink-light) !important;
-}
-
-.border-custom-orange-deep {
-    border-color: var(--custom-orange-deep) !important;
-}
-
-.btn-custom-blue-deep {
-    --bs-btn-color: black !important;
-    --bs-btn-bg: var(--custom-blue-deep) !important;
-    --bs-btn-border-color: var(--custom-blue-deep) !important;
-    --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-blue-deep-light) !important;
-    --bs-btn-hover-border-color: var(--custom-blue-deep-light) !important;
-    --bs-btn-focus-shadow-rgb: var(--custom-blue-deep) !important;
-    --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--custom-blue-deep) !important;
-    --bs-btn-active-border-color: var(--custom-blue-deep) !important;
-    --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custom-blue-deep-light) !important;
-    --bs-btn-disabled-border-color: var(--custom-blue-deep-light) !important;
-}
-.btn-custom-orange-deep {
-    --bs-btn-color: black !important;
-    --bs-btn-bg: var(--custom-orange-deep) !important;
-    --bs-btn-border-color: var(--custom-orange-deep) !important;
-    --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-orange-deep-light) !important;
-    --bs-btn-hover-border-color: var(--custom-orange-deep-light) !important;
-    --bs-btn-focus-shadow-rgb: var(--custom-orange-deep) !important;
-    --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--custom-orange-deep) !important;
-    --bs-btn-active-border-color: var(--custom-orange-deep) !important;
-    --bs-btn-disabled-color: gray !important;
-    --bs-btn-disabled-bg: var(--custom-orange-deep-light) !important;
-    --bs-btn-disabled-border-color: var(--custom-orange-deep-light) !important;
-}
-.btn-custom-blue-deep-link {
-    --bs-btn-color: var(--custom-blue-deep) !important;
-    --bs-btn-hover-color: var(--custom-blue-deep-dark) !important;
-    --bs-btn-active-color: var(--custom-blue-deep) !important;
-}
-
-/* btn-link-no-underline also simulates button hover behavior (turning less saturated/lighter) instead of btn-link's link behavior (turning less luminous/darker) */
-.btn-custom-orange-deep-link-no-underline {
-    --bs-btn-color: var(--custom-orange-deep) !important;
-    --bs-btn-hover-color: var(--custom-orange-deep-light) !important;
-    --bs-btn-active-color: var(--custom-orange-deep) !important;
-    text-decoration: none;
-}
-.btn-custom-pink-link-no-underline {
-    --bs-btn-color: var(--custom-pink-light) !important;
-    --bs-btn-hover-color: var(--custom-pink-xlight) !important;
-    --bs-btn-active-color: var(--custom-pink-light) !important;
-    text-decoration: none;
-}
-
-.underline-custom-blue-deep {
-    text-decoration-color: var(--custom-blue-deep) !important;
-}
-.underline-custom-green-deep-dark {
-    text-decoration-color: var(--custom-green-deep-dark) !important;
-}
-.underline-custom-orange-deep {
-    text-decoration-color: var(--custom-orange-deep) !important;
-}
-.underline-custom-pink-light {
-    text-decoration-color: var(--custom-pink-light) !important;
-}
-.underline-gray {
-    text-decoration-color: gray !important;
-}
-
-/**************************/
-/* Size and spacing utils */
-/**************************/
-
-.border-3px {
-    border-width: 3px !important;
-}
-
-.flex-basis-80 {
-    flex-basis: 80% !important;
-}
-
-.mt-2half {
-    margin-top: 0.75rem !important;
-}
-.ms-2half {
-    margin-left: 0.75rem !important;
-}
-
-.w-20 {
-    width: 20% !important;
-}
-.w-2rem {
-    width: 2rem !important;
-}
-
-/***************/
-/* Other utils */
-/***************/
-
-.doublehr {
-    height: 6px;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-}
-
-.link-style {
-    color: var(--custom-blue-deep);
-    text-decoration: underline;
-}
-
-.pipe {
-    height: 1.5em;
-    border-left: 2px solid black;
-}
-
-.scroll-overflow-x {
-    overflow-x: auto !important;
-    overflow-y: hidden; /* For MathJax center math with \\[pt] extra spacings */
-    margin-bottom: 0.5rem;
-}
-
-.underline-on-hover-only {
-    text-decoration: none;
-}
-.underline-on-hover-only:hover {
-    text-decoration: underline 1px;
-}
-
-/****************************************/
-/* Changes to specific tags/classes/IDs */
-/****************************************/
 
 /* Links default to custom-blue-deep, but can be overwritten with !important */
 a {
@@ -233,6 +26,12 @@ blockquote {
 }
 blockquote p {
     margin-top: 1rem;
+}
+
+body {
+    font-size: 16px;
+    overflow-wrap: anywhere;
+    text-decoration-thickness: 1px;
 }
 
 code {
@@ -386,3 +185,12 @@ textarea {
 .tooltip-text-align-left .tooltip-inner {
     text-align: left;
 }
+
+#background-img {
+    background-image: url("/static/images/background_default.svg");
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Uncomment for debugging
 set -x
 
 # SYNC: relative path to Git repo base
