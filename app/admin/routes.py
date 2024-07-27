@@ -225,8 +225,8 @@ def edit_blogpost():
         res = post.check_titles()
         if res is not None:
             return jsonify(flash_message=res)
-        post.add_timestamps(request.form.get("remove_edited_timestamps"), # todo make sure works
-                request.form.get("dont_update_edited_timestamp"))
+        post.add_timestamps(request.form.get("remove_edited_timestamp"), # todo make sure works
+                request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
         db.session.commit()
 
@@ -246,8 +246,7 @@ def edit_blogpost():
         except Exception as e:
             return jsonify(flash_message=f"Image delete exception: {str(e)}")
 
-        # delete unused images if applicable; do this after deleting normally but before uploading
-        # to make sure newly-uploaded images aren't immediately scrapped
+        # delete unused images if applicable; we assume any image whose filename is not in the Markdown is unused
         if request.form.get("delete_unused_images") and os.path.exists(images_path):
             try:
                 images = os.listdir(images_path)

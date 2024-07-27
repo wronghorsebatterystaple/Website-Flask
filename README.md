@@ -27,7 +27,7 @@ I hope I'm not reading this because I bricked a machine again.
 # Developer notes to compensate for possibly scuffed coding practices
 
 ### IMPORTANT:
-- Always make sure [.gitignore](.gitignore) is up to date with the correct paths and items! If using automatic image backups to Git, always stop the service until all new files have been added appropriately to [.gitignore](.gitignore) to avoid badly-timed auto-commits!
+- Always make sure [.gitignore](.gitignore) is up to date with the correct paths and items!
 - Always make sure access control is correct (see documentation below)!
 - Always make sure [config.py](config.py) is updated and has the correct filename/path (some Python files import it directly as a module)!
 - Always make sure backup scripts in [deployment/backup-scripts/](deployment/backup-scripts/) have the correct paths and configs!

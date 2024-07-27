@@ -149,17 +149,13 @@ class Post(db.Model):
 
         return None
 
-    def add_timestamps(self, remove_edited_timestamps, dont_update_edited_timestamp):
-        ## must flush() before expand_image_markdown so post gets automatically assigned an id
-        ## must also flush() to auto populate blogpage relationship from foreign key to use later
-        #db.session.flush()
+    def add_timestamps(self, remove_edited_timestamp, update_edited_timestamp):
         originally_published = self.published
         self.published = not self.blogpage.unpublished
         if self.published and originally_published:
-            # update edited time if editing an already-published post
-            if remove_edited_timestamps:
+            if remove_edited_timestamp:
                 self.edited_timestamp = None
-            elif not dont_update_edited_timestamp:
+            elif update_edited_timestamp:
                 self.edited_timestamp = datetime.now(timezone.utc)
         else:
             # keep updating created time instead of edited time if not already published

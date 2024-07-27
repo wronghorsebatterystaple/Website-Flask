@@ -111,11 +111,11 @@ class EditBlogpostForm(FlaskForm):
     delete_unused_images = BooleanField(
         "Delete unused images"
     )
-    dont_update_edited_timestamp = BooleanField(
-        "Don't update edited timestamp"
+    update_edited_timestamp = BooleanField(
+        "Update edited timestamp"
     )
-    remove_edited_timestamps = BooleanField(
-        "Remove all edited timestamps"
+    remove_edited_timestamp = BooleanField(
+        "Remove edited timestamp"
     )
     edit_blogpost_form_submit = SubmitField(
         "Submit"
