@@ -121,9 +121,9 @@ function applyGlobalStyles(root_selector) {
 }
 
 function randomizeHighlightColor() {
-    const colorChoices = ["custom-blue-xlight", "custom-green-deep-xlight", "custom-orange-light", "custom-pink-xxlight"];
+    const colorChoices = ["custom-blue-xlight", "custom-green-deep-xlight", "custom-pink-xxlight"];
     var color = window.getComputedStyle(document.documentElement).getPropertyValue(`--${colorChoices[Math.floor(Math.random() * 4)]}`);
-    document.documentElement.style.setProperty("--highlight-color", `${color}F0`); // 240 / 256 opacity
+    document.documentElement.style.setProperty("--highlight-color", `${color}F0`); // 240/256 opacity
 }
 
 $(document).ready(function() {
