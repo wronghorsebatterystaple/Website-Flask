@@ -6,10 +6,10 @@ source ./db_backup_config.sh
 set -x
 
 case "$1" in
-    '1')
+    1)
         REMOTE_BACKUP_LOCATION="$REMOTE_BACKUP_LOCATION_1"
         ;;
-    '2')
+    2)
         REMOTE_BACKUP_LOCATION="$REMOTE_BACKUP_LOCATION_2"
         ;;
     *)
