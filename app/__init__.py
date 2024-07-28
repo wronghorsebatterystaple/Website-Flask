@@ -65,4 +65,4 @@ def create_app():
     return app
 
 
-from app import models # prevent circular imports
+from app import models # at the bottom to prevent circular imports

@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 import re
-from typing import Optional
 
 from flask import current_app
 from flask_login import UserMixin
