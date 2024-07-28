@@ -7,3 +7,17 @@
 {%- block css %}
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/css/style.css', _external=True) }}">
 {%- endblock %}
+
+{%- block js %}
+<script nonce="{{ csp_nonce() }}">
+    const URL_ABS_POST_GET_POSTS_WITH_UNREAD_COMMENTS = "{{ url_for('blog.get_posts_with_unread_comments', _external=True) }}"
+</script>
+<script src="{{ url_for('blog.static', filename='blog/js/unread_comments_dropdown.js', _external=True) }}" defer></script>
+{%- endblock %}
+
+{%- block navbar_additions %}
+<li class="auth-true nav-item dropdown"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
+  <a id="unread-comments-dropdown-btn" class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">bell</a>
+  <ul id="unread-comments-dropdown" class="dropdown-menu"></ul>
+</li>
+{%- endblock %}

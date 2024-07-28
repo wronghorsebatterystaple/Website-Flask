@@ -6,9 +6,6 @@ from config import Config
 
 
 class AddCommentForm(FlaskForm):
-    post_id = HiddenField(
-        default=None
-    )
     author = StringField(
         "Name",
         validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"])]
@@ -32,12 +29,6 @@ class ReplyCommentButton(FlaskForm):
 
 
 class DeleteCommentButton(FlaskForm):
-    comment_id = HiddenField(
-        default=None
-    )
-    post_id = HiddenField(
-        default=None
-    )
     delete = SubmitField(
         "Delete",
         render_kw={"data-confirm-submit": ""}

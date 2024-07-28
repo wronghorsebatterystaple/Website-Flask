@@ -32,4 +32,4 @@ def handle_csrf_error(e):
     # the error description in as the new csrf_token in JS
     # shouldn't be a security issue since CSRF token sent in POST anyways
     # (most scuffed CSRF refresh in history)
-    return csrf_token, code
+    return jsonify(new_csrf_token=csrf_token), code

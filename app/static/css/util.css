@@ -47,6 +47,9 @@
 .border-custom-orange-deep {
     border-color: var(--custom-orange-deep) !important;
 }
+.border-custom-pink-light {
+    border-color: var(--custom-pink-light) !important;
+}
 
 .btn-custom-blue-deep {
     --bs-btn-color: black !important;

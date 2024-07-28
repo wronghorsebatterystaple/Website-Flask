@@ -225,7 +225,7 @@ def edit_blogpost():
         res = post.check_titles()
         if res is not None:
             return jsonify(flash_message=res)
-        post.add_timestamps(request.form.get("remove_edited_timestamp"), # todo make sure works
+        post.add_timestamps(request.form.get("remove_edited_timestamp"),
                 request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
         db.session.commit()
@@ -325,7 +325,7 @@ def logout():
 
 
 ###################################################################################################
-# Helper functions
+# Helper Functions
 ###################################################################################################
 
 

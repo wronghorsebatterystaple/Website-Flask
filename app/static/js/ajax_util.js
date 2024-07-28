@@ -22,12 +22,26 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
         }
     }
 
-    var response = await fetch(URLWithParams_abs, options);
+    const response = await fetch(URLWithParams_abs, options);
+    const responseText = await response.text();
+    var responseJSON;
+    try {
+        responseJSON = JSON.parse(responseText);
+    } catch (e) {
+        responseJSON = null;
+    }
+
+    if (response.ok && responseJSON !== null) {
+        return responseJSON;
+    }
 
     // catch HTTP errors, including custom errors, and make sure we don't try to .json() an errored response
-    if (!response.ok) {
-        if (response.status === 499) {
-            var newToken = await response.text();
+    switch(response.status) {
+        case 429:
+            customFlash("Please slow down :3");
+            break;
+        case 499:
+            var newToken = responseJSON.new_csrf_token;
             reloadCSRF(newToken);
             hideAuthElems(); // session must have expired for CSRF expiry
 
@@ -36,15 +50,10 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
                 options.body.set("csrf_token", csrf_token);
             }
             return fetchWrapper(baseURL_abs, options, paramsDict);
-        }
-
-        if (response.status === 429) {
-            customFlash("Please slow down :3");
-        }
-        return {error: true}
+            break;
     }
 
-    return response.json();
+    return {error: true}
 }
 
 function doBaseAjaxResponse(responseJSON, e) {

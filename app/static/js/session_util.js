@@ -1,7 +1,10 @@
-function relogin() {
-    customFlash("Your session has expired (or you were being sneaky). Please log in.");
+function onLoginAsync() {
+    showAuthElems();
+    $("#login-modal").modal("hide");
+}
+
+function onLogoutAsync() {
     hideAuthElems();
-    $("#login-modal").modal("show");
 }
 
 function showAuthElems() {
@@ -12,6 +15,12 @@ function showAuthElems() {
 function hideAuthElems() {
     $(".auth-true").attr("hidden", "");
     $(".auth-false").removeAttr("hidden");
+}
+
+function relogin() {
+    customFlash("Your session has expired (or you were being sneaky). Please log in.");
+    hideAuthElems();
+    $("#login-modal").modal("show");
 }
 
 $(document).ready(function() {
@@ -39,8 +48,7 @@ $(document).ready(function() {
 
         doBaseAjaxResponse(responseJSON, e);
         if (responseJSON.success) {
-            showAuthElems();
-            $("#login-modal").modal("hide");
+            onLoginAsync();
         }
     });
 
@@ -49,13 +57,14 @@ $(document).ready(function() {
 
         const responseJSON = await fetchWrapper(URL_ABS_POST_LOGOUT, {
             method: "GET"
-        }, {
-            previous: window.location.hostname + window.location.pathname
+        },
+        {
+            previous: getCurrentURLNoQS()
         });
 
         doBaseAjaxResponse(responseJSON, e);
         if (!responseJSON.redirect_url_abs) {
-            hideAuthElems();
+            onLogoutAsync();
         }
     });
 

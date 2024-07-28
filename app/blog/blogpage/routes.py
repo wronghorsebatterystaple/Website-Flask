@@ -8,7 +8,7 @@ from flask import current_app, jsonify, redirect, render_template, request, url_
 from flask_login import current_user
 import sqlalchemy as sa
 
-from app import db
+from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.forms import *
 from app.models import *
@@ -70,7 +70,7 @@ def index():
     return render_template("blog/blogpage/index.html",
             unpublished_blogpage_id=unpublished_blogpage_id, page=page, total_pages=posts.pages,
             all_posts=all_posts, posts=posts, next_page_url=next_page_url,
-            prev_page_url=prev_page_url, get_comment_count=Post.get_comment_count)
+            prev_page_url=prev_page_url)
 
 
 @bp.route("/<string:post_sanitized_title>")
@@ -88,22 +88,28 @@ def post(post_sanitized_title):
         if result:
             return result
 
-    add_comment_form = AddCommentForm()
-    reply_comment_button = ReplyCommentButton()
-    delete_comment_button = DeleteCommentButton()
-    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title).first()
+    # Get post from URL, making sure it's valid and matches the whole URL
+    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
+            Post.blogpage_id == blogpage_id).first() # must check blogpage_id too as that's part of the URL
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
                 flash=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 
+    add_comment_form = AddCommentForm()
+    reply_comment_button = ReplyCommentButton()
+    delete_comment_button = DeleteCommentButton()
+
+    # Render Markdown for post content
     post.content = markdown.markdown(post.content, extensions=["extra", "markdown_grid_tables",
             MyInlineExtensions(), MyBlockExtensions()])
     post.content = additional_markdown_processing(post.content)
 
+    # Render Markdown for comment content
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
-    for comment in comments: # no custom block Markdown because there ways to 500 the page that I don't wanna fix
+    for comment in comments:
+        # no custom block Markdown because there are ways to 500 the page that I don't wanna fix
         comment.content = markdown.markdown(comment.content, extensions=["extra", "markdown_grid_tables",
                 MyInlineExtensions()])
         comment.content = additional_markdown_processing(comment.content)
@@ -111,16 +117,92 @@ def post(post_sanitized_title):
 
     return render_template("blog/blogpage/post.html",
             post=post, comments=comments, add_comment_form=add_comment_form,
-            reply_comment_button = reply_comment_button, delete_comment_button = delete_comment_button,
-            get_comment_count=Post.get_comment_count, get_descendants_list=Comment.get_descendants_list)
+            reply_comment_button=reply_comment_button, delete_comment_button=delete_comment_button)
+
+
+@bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
+def add_comment(post_sanitized_title):
+    if not turnstile.verify():
+        return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
+
+    add_comment_form = AddCommentForm()
+    if not add_comment_form.validate():
+        return jsonify(submission_errors=add_comment_form.errors)
+    # make sure non-admin users can't masquerade as verified author
+    is_verified_author = request.form["author"].lower().replace(" ", "") == current_app.config["VERIFIED_AUTHOR"]
+    if is_verified_author and not current_user.is_authenticated:
+        return jsonify(submission_errors={"author": ["$8 isn't going to buy you a verified checkmark here."]})
+
+    # Get post from URL, making sure it's valid and matches the whole URL
+    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
+            Post.blogpage_id == get_blogpage_id(request.blueprint)).first()
+    if post is None:
+        return redirect(url_for(f"{request.blueprint}.index",
+                flash=util.encode_URI_component("That post doesn't exist."),
+                _external=True))
+
+    comment = Comment(author=request.form["author"], content=request.form["content"], post=post,
+            unread=not is_verified_author) # so I don't see my own comments as unread when I add them, cause duh
+    with db.session.no_autoflush: # otherwise there's a warning
+        if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
+            return jsonify(flash_message="Nice try.")
+    db.session.add(comment)
+    db.session.commit()
+
+    return jsonify(success=True, flash_message="Comment added successfully!")
+
+
+@bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
+@util.custom_login_required(request)
+def delete_comment(post_sanitized_title):
+    comment = db.session.get(Comment, request.args.get("comment_id"))
+    if comment is None:
+        return jsonify(success=True, flash_message=f"That comment doesn't exist.")
+
+    # Get post from URL, making sure it's valid and matches the whole URL
+    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
+            Post.blogpage_id == get_blogpage_id(request.blueprint)).first()
+    if post is None:
+        return redirect(url_for(f"{request.blueprint}.index",
+                flash=util.encode_URI_component("That post doesn't exist."),
+                _external=True))
+
+    descendants = comment.get_descendants(post)
+    if not comment.remove_comment(post):
+        return jsonify(flash_message="Sneaky…")
+    for descendant in descendants:
+        db.session.delete(descendant)
+    db.session.delete(comment)
+    db.session.commit()
+
+    return jsonify(success=True, flash_message="1984 established!")
+
+
+@bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
+def mark_comments_as_read(post_sanitized_title):
+    # Get post from URL, making sure it's valid and matches the whole URL
+    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
+            Post.blogpage_id == get_blogpage_id(request.blueprint)).first()
+    if post is None:
+        return redirect(url_for(f"{request.blueprint}.index",
+                flash=util.encode_URI_component("That post doesn't exist."),
+                _external=True))
+
+    comments_unread_query = post.comments.select().filter_by(unread=True)
+    comments_unread = db.session.scalars(comments_unread_query).all()
+    for comment in comments_unread:
+        comment.unread=False
+    db.session.commit()
+
+    return jsonify() # since we're expecting Ajax for everything
 
 
 ###################################################################################################
-# Helper functions
+# Helper Functions
 ###################################################################################################
 
 
-# Gets blog id from request.blueprint
+# Gets blogpage id from request.blueprint
 def get_blogpage_id(blueprint_name) -> int:
     return int(blueprint_name.split('.')[-1])
 

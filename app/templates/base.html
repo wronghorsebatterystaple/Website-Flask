@@ -47,7 +47,6 @@
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap">
-      {%- block fonts %}{%- endblock %}
 
       <!-- MathJax -->
       <script src="{{ url_for('static', filename='config/MathJax/config.js', _external=True) }}" defer></script>
@@ -97,6 +96,7 @@
       <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script> <!-- no defer to avoid flash -->
       <script src="{{ url_for('static', filename='js/display_customization.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/form_util.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/misc.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/onclick_util.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/session_util.js', _external=True) }}" defer></script>
@@ -139,8 +139,10 @@
               <a id="login-link" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
             </li>
             <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <a id="logout-link" class="nav-link" href="#">Logout please :3</a>
+              <a id="logout-link" class="nav-link" href="#">Logout pls :3</a>
             </li>
+
+            {%- block navbar_additions %}{%- endblock %}
           </ul>
 
           <ul class="navbar-nav">

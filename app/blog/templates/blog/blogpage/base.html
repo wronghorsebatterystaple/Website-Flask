@@ -12,6 +12,7 @@
 {%- endblock %}
 
 {%- block js %}
+{{ super() }}
 <script src="{{ url_for('blog.static', filename='blog/blogpage/js/display_customization.js', _external=True) }}" defer></script>
 <script src="{{ url_for('blog.static', filename='blog/blogpage/js/goto_page_form.js', _external=True) }}" defer></script>
 <script src="{{ url_for('blog.static', filename='blog/blogpage/js/onclick_util.js', _external=True) }}" defer></script>

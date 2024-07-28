@@ -24,7 +24,7 @@ moment = Moment()
 talisman = Talisman()
 turnstile = Turnstile()
 
-from app.routes import * # here to prevent circular imports
+from app.routes import * # after initializing global extension variables to prevent circular imports
 
 def create_app():
     # create app variable (Flask instance)
@@ -47,9 +47,7 @@ def create_app():
     app.register_blueprint(blog_bp, subdomain="blog")
 
     # register global routes and stuff
-    app.context_processor(inject_login_form)
-    app.context_processor(inject_blogpages_from_db)
-    app.register_error_handler(CSRFError, handle_csrf_error)
+    register_global_routes(app) # todo might need app = ?
 
     # init extensions after all that
     cors.init_app(app)
@@ -64,5 +62,10 @@ def create_app():
 
     return app
 
-
 from app import models # at the bottom to prevent circular imports
+
+# Can't use `@app.route` in global routes.py (no global `app` variable), hence doing it this way
+def register_global_routes(app):
+    app.context_processor(inject_login_form)
+    app.context_processor(inject_blogpages_from_db)
+    app.register_error_handler(CSRFError, handle_csrf_error)

@@ -15,120 +15,117 @@ from config import Config
 
 class Blogpage(db.Model):
     id: \
-        so.Mapped[int] = so.mapped_column(
-            primary_key=True,
-            autoincrement=False
-        )    
+            so.Mapped[int] = so.mapped_column(
+                primary_key=True,
+                autoincrement=False
+            )    
     ordering: \
-        so.Mapped[int] = so.mapped_column(
-            sa.Integer(),
-            unique=True,
-            index=True
-        )
+            so.Mapped[int] = so.mapped_column(
+                unique=True,
+                index=True
+            )
     url_path: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_URL_PATH"])
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_URL_PATH"])
+            )
     title: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_TITLE"])
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_TITLE"])
+            )
     subtitle: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_SUBTITLE"]),
-            nullable=True,
-            default=None
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_SUBTITLE"]),
+                nullable=True,
+                default=None
+            )
     meta_description: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_META_DESCRIPTION"]),
-            nullable=True,
-            default=None
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_META_DESCRIPTION"]),
+                nullable=True,
+                default=None
+            )
     html_color_class: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_COLOR_HTML_CLASS"]),
-            nullable=True,
-            default=None
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_COLOR_HTML_CLASS"]),
+                nullable=True,
+                default=None
+            )
 
-    login_required: so.Mapped[bool] = so.mapped_column(
-        sa.Boolean,
-        default=True
-    )
+    login_required: \
+            so.Mapped[bool] = so.mapped_column(
+                default=True
+            )
     unpublished: \
-        so.Mapped[bool] = so.mapped_column(
-            sa.Boolean,
-            default=True
-        )
+            so.Mapped[bool] = so.mapped_column(
+                default=True
+            )
     writeable: \
-        so.Mapped[bool] = so.mapped_column(
-            sa.Boolean,
-            default=False
-        )
+            so.Mapped[bool] = so.mapped_column(
+                default=False
+            )
 
     posts: \
-        so.WriteOnlyMapped["Post"] = so.relationship(
-            back_populates="blogpage",
-            cascade="all, delete, delete-orphan",
-            passive_deletes=True
-        )
+            so.WriteOnlyMapped["Post"] = so.relationship(
+                back_populates="blogpage",
+                cascade="all, delete-orphan",
+                passive_deletes=True
+            )
 
 
 class Post(db.Model):
     id: \
-        so.Mapped[int] = so.mapped_column(
-            primary_key=True
-        )
-    blogpage_id: \
-        so.Mapped[int] = so.mapped_column(
-            sa.ForeignKey(Blogpage.id, ondelete="CASCADE")
-        )
-    published: \
-        so.Mapped[bool] = so.mapped_column(
-            default=False
-        )
-    timestamp: \
-        so.Mapped[datetime] = so.mapped_column(
-            index=True,
-            default=lambda: datetime.now(timezone.utc)
-        )
-    edited_timestamp: \
-        so.Mapped[datetime] = so.mapped_column(
-            nullable=True,
-            default=None
-        )
-    title: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
-        )
-    sanitized_title: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
-        )
-    subtitle: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"]),
-            nullable=True,
-            default=None
-        )
+            so.Mapped[int] = so.mapped_column(
+                primary_key=True
+            )
     content: \
-        so.Mapped[Text()] = so.mapped_column(
-            Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]),
-            nullable=True
-        )
+            so.Mapped[Text()] = so.mapped_column(
+                Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]),
+                nullable=True
+            )
+    edited_timestamp: \
+            so.Mapped[datetime] = so.mapped_column(
+                nullable=True,
+                default=None
+            )
+    published: \
+            so.Mapped[bool] = so.mapped_column(
+                default=False
+            )
+    sanitized_title: \
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
+            )
+    subtitle: \
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"]),
+                nullable=True,
+                default=None
+            )
+    timestamp: \
+            so.Mapped[datetime] = so.mapped_column(
+                index=True,
+                default=lambda: datetime.now(timezone.utc)
+            )
+    title: \
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
+            )
 
+    blogpage_id: \
+            so.Mapped[int] = so.mapped_column(
+                sa.ForeignKey(Blogpage.id, ondelete="CASCADE")
+            )
     blogpage: \
-        so.Mapped[Blogpage] = so.relationship(
-            back_populates="posts"
-        )
+            so.Mapped[Blogpage] = so.relationship(
+                back_populates="posts"
+            )
 
     comments: \
-        so.WriteOnlyMapped["Comment"] = so.relationship(
-            back_populates="post",
-            cascade="all, delete, delete-orphan",
-            passive_deletes=True
-        )
+            so.WriteOnlyMapped["Comment"] = so.relationship(
+                back_populates="post",
+                cascade="all, delete-orphan",
+                passive_deletes=True
+            )
 
     def sanitize_title(self):
         self.sanitized_title = ("-".join(self.title.split())).lower()
@@ -174,53 +171,57 @@ class Post(db.Model):
         return db.session.scalar(sa.select(sa.func.count()).select_from(
             self.comments.select().subquery()))
 
+    def get_comment_unread_count(self) -> int:
+        return db.session.scalar(sa.select(sa.func.count()).select_from(
+            self.comments.select().filter_by(unread=True).subquery()))
+
     def __repr__(self):
         return f"<Post {self.id} with title \"{self.title}\" and subtitle \"{self.subtitle}\">"
 
 
 class Comment(db.Model):
     id: \
-        so.Mapped[int] = so.mapped_column(
-            primary_key=True
-        )
-    post_id: \
-        so.Mapped[int] = so.mapped_column(
-            sa.ForeignKey(Post.id, ondelete="CASCADE")
-        )
-    timestamp: \
-        so.Mapped[datetime] = so.mapped_column(
-            index=True,
-            default=lambda: datetime.now(timezone.utc)
-        )
+            so.Mapped[int] = so.mapped_column(
+                primary_key=True
+            )
     author: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"])
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"])
+            )
     content: \
-        so.Mapped[Text()] = so.mapped_column(
-            Text(Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"])
-        )
+            so.Mapped[Text()] = so.mapped_column(
+                Text(Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"])
+            )
+    timestamp: \
+            so.Mapped[datetime] = so.mapped_column(
+                index=True,
+                default=lambda: datetime.now(timezone.utc)
+            )
+    unread: \
+            so.Mapped[bool] = so.mapped_column(
+                default=True
+            )
 
+    post_id: \
+            so.Mapped[int] = so.mapped_column(
+                sa.ForeignKey(Post.id, ondelete="CASCADE")
+            )
     post: \
-        so.Mapped[Post] = so.relationship(
-            back_populates="comments"
-        )
+            so.Mapped[Post] = so.relationship(
+                back_populates="comments"
+            )
 
         # nested set; quite the beautiful data structure
-    left: \
-        so.Mapped[int] = so.mapped_column(
-            sa.Integer,
-            index=True
-        )
-    right: \
-        so.Mapped[int] = so.mapped_column(
-            sa.Integer,
-            index=True
-        )
     depth: \
-        so.Mapped[int] = so.mapped_column(
-            sa.Integer
-        )
+            so.Mapped[int] = so.mapped_column()
+    left: \
+            so.Mapped[int] = so.mapped_column(
+                index=True
+            )
+    right: \
+            so.Mapped[int] = so.mapped_column(
+                index=True
+            )
 
     def insert_comment(self, post, parent) -> bool:
         if parent is None: # add child with left = max of right for that post + 1
@@ -253,7 +254,7 @@ class Comment(db.Model):
         if self.post_id != post.id: # sanity check
             return False
 
-        descendants = self.get_descendants_list(post)
+        descendants = self.get_descendants(post)
         for descendant in descendants:
             if not descendant.remove_comment(post):
                 return False
@@ -266,7 +267,7 @@ class Comment(db.Model):
             comment.right -= 2
         return True
 
-    def get_descendants_list(self, post) -> list:
+    def get_descendants(self, post) -> list:
         comments_query = post.comments.select().filter(sa.and_(
                 Comment.left > self.left, Comment.right < self.right))
         return db.session.scalars(comments_query).all()
@@ -277,23 +278,23 @@ class Comment(db.Model):
 
 class User(UserMixin, db.Model):
     id: \
-        so.Mapped[int] = so.mapped_column(
-            primary_key=True
-        )
-    username: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_USER_USERNAME"]),
-            unique=True
-        )
+            so.Mapped[int] = so.mapped_column(
+                primary_key=True
+            )
     email: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_USER_EMAIL"]),
-            unique=True
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_USER_EMAIL"]),
+                unique=True
+            )
     password_hash: \
-        so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["MAXLEN_USER_PASSWORD_HASH"])
-        )
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_USER_PASSWORD_HASH"])
+            )
+    username: \
+            so.Mapped[str] = so.mapped_column(
+                sa.String(Config.DB_CONFIGS["MAXLEN_USER_USERNAME"]),
+                unique=True
+            )
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

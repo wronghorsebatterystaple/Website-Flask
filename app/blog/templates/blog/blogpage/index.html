@@ -50,7 +50,7 @@ const totalPages = {{ total_pages }};
               <span class="postlist-timestamp flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
             <span class="gray d-flex align-items-center ms-auto">
-              <span class="me-1">{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment.svg', _external=True) }}" alt="comments">
+              <span class="me-1">{{ post.get_comment_count() }}{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %} <span class="custom-pink-light">({{ post.get_comment_unread_count() }})</span>{%- endif %}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment.svg', _external=True) }}" alt="comments">
             </span>
           </div>
       {%- else %}
@@ -68,7 +68,7 @@ const totalPages = {{ total_pages }};
               <span class="postlist-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
             <span class="gray d-flex align-items-center ms-auto">
-              <span class="me-1">{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment.svg', _external=True) }}" alt="comments">
+              <span class="me-1">{{ post.get_comment_count() }}{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %} <span class="custom-pink-light auth-true">({{ post.get_comment_unread_count() }})</span>{%- endif %}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment.svg', _external=True) }}" alt="comments">
             </span>
           </div>
       {%- endif %}
