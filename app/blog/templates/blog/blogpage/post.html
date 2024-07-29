@@ -55,7 +55,7 @@ const URL_ABS_POST_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.
 <hr>
 
 <div id="comment-list" class="pb-3">
-  <h2 class="comment-section-headers shrinking-font-14 mb-0">Comments <span class="gray">({{ post.get_comment_count() }}{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="auth-true">, <span class="custom-pink-light">{{ post.get_comment_unread_count() }} unread</span></span>{%- endif %})</span></h2>
+  <h2 class="comment-section-headers shrinking-font-14 mb-0">Comments <span class="gray">({{ post.get_comment_count() }}{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="auth-true">, <span class="custom-pink">{{ post.get_comment_unread_count() }} unread</span></span>{%- endif %})</span></h2>
   <div class="d-flex flex-shrink-0">
     <div class="w-100 flex-shrink-0">
       {%- for comment in comments recursive %}
@@ -66,7 +66,7 @@ const URL_ABS_POST_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.
 
           {%- set descendants = comment.get_descendants(post) %}
           {%- if comment.author.lower() |replace(" ", "") == config["VERIFIED_AUTHOR"] %}
-            <div class="comment card border-custom-orange-deep border-3px{%- if comment.depth == 0 %} mt-3{%- else %} mt-1{%- endif %}">
+            <div class="comment card border-custom-orange-deep border-3px mt-3">
               <div class="card-body pb-2">
                 <h3 class="comment-author d-flex align-items-center me-1">
                   <span class="me-2">{{ comment.author }}</span><img class="img-verified-checkmark" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_verified.svg', _external=True) }}" title="Actually verified, unlike Twitter.">

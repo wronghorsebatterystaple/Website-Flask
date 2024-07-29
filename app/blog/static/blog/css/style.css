@@ -1,0 +1,7 @@
+#unread-comments-dropdown {
+    left: var(--unread-comments-dropdown-left);
+}
+#unread-comments-dropdown-btn-img {
+    width: 1.25rem;
+    height: 1.25rem;
+}

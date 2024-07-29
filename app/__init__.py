@@ -10,24 +10,26 @@ from flask_talisman import Talisman
 from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect, CSRFError
 
-from app.util import *
-
 
 # declare extension instances outside so blueprints can still do `from app import db` etc.
 cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
-db = SQLAlchemy()
+db = SQLAlchemy(session_options={"autoflush": True}) # autoflush allows our post editing code to work properly
 login_manager = LoginManager()
-login_manager.login_view = Config.LOGIN_VIEW # not using session_protection="strong" to avoid potential security mess of finding original IP through Cloudflare and Nginx; and IPv4 vs. IPv6 hell too
+# not using session_protection="strong" to avoid potential security mess of finding original IP through Cloudflare
+# and Nginx; and more crucially IPv4 vs. IPv6 hell
+login_manager.login_view = Config.LOGIN_VIEW
 migrate = Migrate()
 moment = Moment()
 talisman = Talisman()
 turnstile = Turnstile()
 
+
 from app.routes import * # after initializing global extension variables to prevent circular imports
 
+
 def create_app():
-    # create app variable (Flask instance)
+    # create app variable
     app = Flask(__name__)
     app.config.from_object(Config)
 
@@ -62,7 +64,9 @@ def create_app():
 
     return app
 
+
 from app import models # at the bottom to prevent circular imports
+
 
 # Can't use `@app.route` in global routes.py (no global `app` variable), hence doing it this way
 def register_global_routes(app):

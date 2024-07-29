@@ -234,8 +234,8 @@ class Comment(db.Model):
             self.right = max_right + 2
             self.depth = 0
             return True
-
-        if self.post_id != parent.post_id or self.post_id != post.id: # sanity check
+        elif post.id != parent.post_id:
+            # make sure people aren't tampering with the packet and screwing up the db relationships
             return False
 
         self.left = parent.right

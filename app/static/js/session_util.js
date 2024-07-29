@@ -59,7 +59,7 @@ $(document).ready(function() {
             method: "GET"
         },
         {
-            previous: getCurrentURLNoQS()
+            previous: getCurrentURLNoQS(false)
         });
 
         doBaseAjaxResponse(responseJSON, e);

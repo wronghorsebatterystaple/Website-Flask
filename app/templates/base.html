@@ -109,11 +109,12 @@
 
   <body class="font-default">
     <div id="background-img">
-      <div class="narrow-container container min-vh-100">
+      <div class="content-container container min-vh-100">
       <!-- navbar -->
       <nav class="font-default-important navbar navbar-expand-md">
-        <a class="navbar-brand" href="{{ url_for('main.index', _external=True) }}">
-          <img id="navbar-logo" class="d-inline-block align-text-middle me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" width="30" height="30">Home
+        <a id="navbar-home" class="navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
+          <img class="me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" width="32px" height="32px">
+          <span>Home</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -132,7 +133,7 @@
               </ul>
             </li>
             <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <a class="nav-link" href="{{ url_for('admin.choose_action', _external=True) }}">Secrets of the Universe</a>
+              <a class="nav-link" href="{{ url_for('admin.choose_action', _external=True) }}">Secrets</a>
             </li>
 
             <li class="auth-false nav-item"{%- if current_user.is_authenticated %} hidden{%- endif %}>
@@ -141,15 +142,15 @@
             <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
               <a id="logout-link" class="nav-link" href="#">Logout pls :3</a>
             </li>
-
-            {%- block navbar_additions %}{%- endblock %}
           </ul>
 
           <ul class="navbar-nav">
-            <li class="nav-item">
+            {%- block navbar_additions_right %}{%- endblock %}
+
+            <li class="nav-item d-inline-flex align-items-center">
               <div class="form-check form-switch mb-0">
                 <input id="dark-mode-switch" class="form-check-input" type="checkbox" role="switch">
-                <label class="nav-link form-check-label p-0" for="dark-mode-switch">Dark mode<span class="auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>/high contrast</span></label>
+                <label class="nav-link form-check-label p-0" for="dark-mode-switch">Dark mode<span class="auth-false"{%- if current_user.is_authenticated %} hidden{%-endif %}>/high contrast</span></label>
               </div>
             </li>
           </ul>

@@ -69,11 +69,13 @@ function doBaseAjaxResponse(responseJSON, e) {
     if (responseJSON.redirect_url_abs) {
         var newURL = new URL(decodeURIComponent(responseJSON.redirect_url_abs));
         if (responseJSON.flash_message) {
-            newURL.searchParams.append("flash", encodeURIComponent(responseJSON.flash_message));
+            // flash message after page load by appending message to URL as custom `flash_message` param
+            newURL.searchParams.append("flash_message", encodeURIComponent(responseJSON.flash_message));
         }
         window.location.href = newURL;
     } else {
         if (responseJSON.flash_message) {
+            // async flash message
             customFlash(responseJSON.flash_message);
         }
         

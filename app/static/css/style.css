@@ -35,7 +35,7 @@ body {
 }
 
 code {
-    color: var(--color-code); /* Overridable by Highlight.js */
+    color: var(--color-code); /* overridable by Highlight.js */
     font-size: 97.5% !important;
 }
 pre {
@@ -44,6 +44,14 @@ pre {
 }
 pre code {
     color: var(--color-code);
+}
+
+/* Prevent dropdowns from overflowing if dropdown not collapsed; positioning is left to JS */
+nav .dropdown-menu {
+    @media (min-width: 768px) { /* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
+        width: max-content;
+        max-width: calc(0.8 * var(--content-container-max-width));
+    }
 }
 
 table {
@@ -72,19 +80,23 @@ textarea {
     margin-bottom: 0.5rem;
 }
 
+.dropdown-item {
+    white-space: normal;
+}
+
 .flash {
     color: black;
     background-color: var(--custom-green-deep-xxlight);
     position: fixed;
     top: 1rem;
-    width: calc(var(--narrow-max-width) - (var(--bs-gutter-x)));
+    width: calc(var(--content-container-max-width) - (var(--bs-gutter-x)));
     border: 2px solid var(--custom-green-deep);
     z-index: 9999;
 }
 
 .footnote {
     color: gray; 
-    font-size: 0.9em;
+    font-size: 0.9rem;
 }
 .footnotes-details {
     margin-bottom: 1rem;
@@ -194,3 +206,7 @@ textarea {
     background-repeat: no-repeat;
 }
 
+/* For centering (it has bigger font size) todo why is -2 cenetered*/
+#navbar-home {
+    margin-top: -2px;
+}

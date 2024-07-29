@@ -101,7 +101,7 @@ def create_blogpost():
             blogpage_id = int(request.args.get("blogpage_id", default=None))
         except Exception:
             return jsonify(redirect_url_abs=url_for("blog.index",
-                    flash=util.encode_URI_component("Nice try."),
+                    flash_message=util.encode_URI_component("Nice try."),
                     _external=True))
 
         # automatically populate blogpage form field from query string if detected

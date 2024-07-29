@@ -4,7 +4,7 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from wtforms.validators import InputRequired, Length
 
 from app import db
-from app.models import Post
+from app.models import *
 from config import Config
 
 

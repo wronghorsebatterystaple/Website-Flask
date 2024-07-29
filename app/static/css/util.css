@@ -40,6 +40,9 @@
 .custom-orange-deep {
     color: var(--custom-orange-deep) !important;
 }
+.custom-pink{
+    color: var(--custom-pink) !important;
+}
 .custom-pink-light {
     color: var(--custom-pink-light) !important;
 }
@@ -140,9 +143,9 @@
     min-height: 100vh;
 }
 
-.narrow-container {
+.content-container {
     overflow-x: auto;
-    max-width: var(--narrow-max-width) !important;
+    max-width: var(--content-container-max-width) !important;
     margin: auto;
 }
 

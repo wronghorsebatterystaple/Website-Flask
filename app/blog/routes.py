@@ -27,7 +27,7 @@ def post_by_id(post_id):
     post = db.session.get(Post, post_id)
     if post is None:
         return redirect(url_for(f"blog.index",
-                flash=util.encode_URI_component("That post doesn't exist."),
+                flash_message=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 
     return redirect(url_for(f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title,
@@ -35,11 +35,16 @@ def post_by_id(post_id):
 
 
 @bp.route("/get-posts-with-unread-comments", methods=["POST"])
+@util.custom_login_required(request)
 def get_posts_with_unread_comments():
     posts_with_unread_comments = {}
     posts_all = db.session.query(Post).all()
     for post in posts_all:
-        if post.get_comment_unread_count() > 0:
-            posts_with_unread_comments[post.title] = url_for("blog.post_by_id", post_id=post.id, _external=True)
+        comment_unread_count = post.get_comment_unread_count()
+        if comment_unread_count > 0:
+            posts_with_unread_comments[post.title] = {
+                "unread_count": comment_unread_count,
+                "url": url_for("blog.post_by_id", post_id=post.id, _external=True)
+            }
 
     return jsonify(posts_with_unread_comments)

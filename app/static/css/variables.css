@@ -1,6 +1,6 @@
 :root {
     /* General */
-    --narrow-max-width: clamp(0px, 672px, 100vw);
+    --content-container-max-width: clamp(0px, 672px, 100vw);
 
     /* Colors */
     /* link hover darkens, button hover lightens */
