@@ -5,7 +5,7 @@
 {%- endblock -%}
 
 {%- block css %}
-<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/css/style.css', _external=True) }}">
+<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/css/style.css', _external=True) }}" />
 {%- endblock %}
 
 {%- block js %}
@@ -15,6 +15,9 @@
     const URL_ABS_IMG_BELL_WITHOUT_NOTIF = "{{ url_for('blog.static', filename='blog/images/bell_without_notif.svg', _external=True) }}";
 </script>
 <script src="{{ url_for('blog.static', filename='blog/js/unread_comments_dropdown.js', _external=True) }}" defer></script>
+{%- if current_user.is_authenticated %} <!-- selective loading works since this script only runs something on `$(document).ready` -->
+  <script src="{{ url_for('blog.static', filename='blog/js/unread_comments_dropdown_on_ready.js', _external=True) }}" defer></script>
+{%- endif %}
 {%- endblock %}
 
 {%- block navbar_additions_right %}

@@ -25,9 +25,13 @@ function relogin() {
 
 $(document).ready(function() {
     const loginModal_elem = $("#login-modal");
-    // Security - wipe contents on hide
+    // Security - wipe contents and toggle password visibility off on hide
     loginModal_elem.on("hidden.bs.modal", function(e) {
-        $(e.target).find("#password-input").val("");
+        const passwordInput_elem = $(e.target).find("#password-input");
+        passwordInput_elem.val("");
+        if (passwordInput_elem.attr("type") !== "password") {
+            togglePasswordVisibility(passwordInput_elem.attr("id"), "password-show");
+        }
     });
 
     loginModal_elem.on("shown.bs.modal", function(e) {

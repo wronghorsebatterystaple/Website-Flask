@@ -10,4 +10,4 @@ def index():
 
 @bp.route("/bot-jail")
 def bot_jail():
-    return render_template("main/bot-jail.html")
+    return render_template("main/bot_jail.html")

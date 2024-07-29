@@ -18,19 +18,22 @@
      stroke-width="1.5"
      stroke-linecap="round"
      stroke-linejoin="round"
-     id="path1" />
+     id="path1"
+     style="stroke:#000000;stroke-opacity:0.65098" />
   <path
      d="m 16.74984,6.75 c 1.6569,0 3,-1.34315 3,-3 0,-1.65685 -1.3431,-3 -3,-3 -1.6569,0 -3,1.34315 -3,3 0,1.65685 1.3431,3 3,3 z"
      stroke="#000000"
      stroke-width="1.5"
      stroke-linecap="round"
      stroke-linejoin="round"
-     id="path2" />
+     id="path2"
+     style="stroke:#000000;stroke-opacity:0.65098" />
   <path
      d="m 11.47984,19.75 c -0.1758,0.3031 -0.4281,0.5547 -0.7318,0.7295 -0.3036,0.1749 -0.6478,0.267 -0.9981997,0.267 -0.3504,0 -0.6946,-0.0921 -0.9982,-0.267 -0.3036,-0.1748 -0.556,-0.4264 -0.7318,-0.7295"
      stroke="#000000"
      stroke-width="1.5"
      stroke-linecap="round"
      stroke-linejoin="round"
-     id="path3" />
+     id="path3"
+     style="stroke:#000000;stroke-opacity:0.65098" />
 </svg>

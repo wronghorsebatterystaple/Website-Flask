@@ -83,7 +83,7 @@ I hope I'm not reading this because I bricked a machine again.
 
 ### XSS sanitization documentation:
 - Comments:
-    - Python's [bleach](https://pypi.org/project/bleach/) is the main library used for XSS sanitization during Markdown to HTML rendering for comments (`sanitize_comment_html()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py))
+    - Python's [bleach](https://pypi.org/project/bleach/) is the main library used for XSS sanitization during Markdown to HTML rendering for comments (`sanitize_untrusted_html()` in [app/blog/blogpage/util.py](app/blog/blogpage/util.py))
         - Yes it's deprecated, but there is no good alternative atm, and both bleach and its main dependency html5lib are still being maintained
         - Links and images are not allowed; full list of allowed tags is in the code linked above
 - `flash` query string parameter:

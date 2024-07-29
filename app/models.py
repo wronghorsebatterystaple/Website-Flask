@@ -146,14 +146,14 @@ class Post(db.Model):
         return None
 
     def add_timestamps(self, remove_edited_timestamp, update_edited_timestamp):
+        if remove_edited_timestamp:
+            self.edited_timestamp = None
+        elif update_edited_timestamp:
+            self.edited_timestamp = datetime.now(timezone.utc)
+
         originally_published = self.published
         self.published = not self.blogpage.unpublished
-        if self.published and originally_published:
-            if remove_edited_timestamp:
-                self.edited_timestamp = None
-            elif update_edited_timestamp:
-                self.edited_timestamp = datetime.now(timezone.utc)
-        else:
+        if not originally_published:
             # keep updating created time instead of edited time if not already published
             self.timestamp = datetime.now(timezone.utc)
             self.edited_timestamp = None

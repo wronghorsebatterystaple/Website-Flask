@@ -1,6 +1,6 @@
 function togglePasswordVisibility(targetId, visToggleId) {
     const target_elem = $(`#${targetId}`);
-    if (target_elem.attr("type") == "password") {
+    if (target_elem.attr("type") === "password") {
         target_elem.attr("type", "text");
     } else {
         target_elem.attr("type", "password");

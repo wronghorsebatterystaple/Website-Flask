@@ -1,8 +1,5 @@
-import imghdr
 import os
 import shutil
-import urllib.parse as ul
-from werkzeug.utils import escape, secure_filename
 
 from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_user, logout_user
@@ -12,6 +9,7 @@ from wtforms.form import Form
 from app import db, turnstile
 from app.admin import bp
 from app.admin.forms import *
+import app.admin.util as admin_util
 from app.models import *
 from app.forms import *
 import app.util as util
@@ -101,7 +99,7 @@ def create_blogpost():
             blogpage_id = int(request.args.get("blogpage_id", default=None))
         except Exception:
             return jsonify(redirect_url_abs=url_for("blog.index",
-                    flash_message=util.encode_URI_component("Nice try."),
+                flash_message=util.encode_URI_component("hax0r :3"),
                     _external=True))
 
         # automatically populate blogpage form field from query string if detected
@@ -126,16 +124,16 @@ def create_blogpost():
             return jsonify(flash_message=res)
         post.add_timestamps(False, True)
         post.expand_image_markdown()
-        db.session.commit()
 
         # upload images if any
         images_path = os.path.join(current_app.root_path,
                     current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
                     str(post.blogpage_id), "images", str(post.id))
-        res = upload_images(request.files.getlist("images"), images_path)
+        res = admin_util.upload_images(request.files.getlist("images"), images_path)
         if res is not None:
             return jsonify(flash_message=res)
 
+        db.session.commit() # commit at very end when success is guaranteed
         return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post created successfully!") # view completed post
@@ -172,7 +170,7 @@ def edit_blogpost():
         post_id = int(request.args.get("post_id"))
     except Exception:
         return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                flash_message="Nice try.")
+                flash_message="hax0r :3")
 
     post = db.session.get(Post, post_id)
     if post is None:
@@ -228,10 +226,9 @@ def edit_blogpost():
         post.add_timestamps(request.form.get("remove_edited_timestamp"),
                 request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
-        db.session.commit()
 
         # upload images if any
-        res = upload_images(request.files.getlist("images"), images_path)
+        res = admin_util.upload_images(request.files.getlist("images"), images_path)
         if res is not None:
             return jsonify(flash_message=res)
         
@@ -272,6 +269,7 @@ def edit_blogpost():
                 except Exception as e:
                     return jsonify(flash_message=f"Image move exception: {str(e)}")
 
+        db.session.commit()
         return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post edited successfully!") # view edited post
@@ -322,50 +320,3 @@ def logout():
                     flash_message="Mischief managed.")
 
     return jsonify(flash_message="Mischief managed.")
-
-
-###################################################################################################
-# Helper Functions
-###################################################################################################
-
-
-def sanitize_filename(filename):
-    filename = escape(secure_filename(filename))
-    filename = filename.replace("(", "").replace(")", "") # for Markdown parsing
-    return filename
-
-
-def validate_image(image):
-    header = image.read(512)
-    image.seek(0)
-    format = imghdr.what(None, header)
-    if not format:
-        return None
-    return "." + (format if format != "jpeg" else "jpg")
-
-
-def upload_images(images, images_path) -> str:
-    try:
-        for image in images:
-            if image.filename == "": # this happens when no image is submitted
-                continue
-
-            filename = sanitize_filename(image.filename)
-            if filename == "":
-                return "Image name was reduced to atoms by sanitization."
-
-            file_ext = os.path.splitext(filename)[1]
-            invalid = \
-                    file_ext not in current_app.config["IMAGE_UPLOAD_EXTENSIONS"] \
-                    or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
-                    and file_ext != validate_image(image.stream)) # imghdr can't check SVG; trustable since admin-only?
-            if invalid:
-                return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hate heic and webp theyre so annoying i hat"
-
-            path = os.path.join(images_path, filename)
-            os.makedirs(images_path, exist_ok=True)               # mkdir -p if not exist
-            image.save(path)                                      # replaces image if it's already there
-    except Exception as e:
-        return f"Image upload exception: {str(e)}"
-    
-    return None

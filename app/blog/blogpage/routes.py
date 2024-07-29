@@ -1,8 +1,5 @@
-import bleach
 import markdown
 import markdown_grid_tables
-import re
-import shutil
 
 from flask import current_app, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user
@@ -19,13 +16,13 @@ import app.util as util
 
 @bp.context_processor
 def inject_blogpage_from_db():
-    blogpage = db.session.query(Blogpage).filter(Blogpage.id==get_blogpage_id(request.blueprint)).first()
+    blogpage = db.session.query(Blogpage).filter(Blogpage.id==blogpage_util.get_blogpage_id(request.blueprint)).first()
     return dict(blogpage=blogpage, blogpage_id=blogpage.id)
 
 
 @bp.route("/")
 def index():
-    blogpage_id = get_blogpage_id(request.blueprint)
+    blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
     blogpage = db.session.get(Blogpage, blogpage_id)
     if blogpage is None:
         return redirect(url_for(f"main.index",
@@ -78,7 +75,7 @@ def index():
 @bp.route("/<string:post_sanitized_title>")
 @blogpage_util.login_required_check_blogpage(request)
 def post(post_sanitized_title):
-    blogpage_id = get_blogpage_id(request.blueprint)
+    blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
 
     # Get post from URL, making sure it's valid and matches the whole URL
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
@@ -95,7 +92,7 @@ def post(post_sanitized_title):
     # Render Markdown for post content
     post.content = markdown.markdown(post.content, extensions=["extra", "markdown_grid_tables",
             MyInlineExtensions(), MyBlockExtensions()])
-    post.content = additional_markdown_processing(post.content)
+    post.content = blogpage_util.additional_markdown_processing(post.content)
 
     # Render Markdown for comment content
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
@@ -104,8 +101,8 @@ def post(post_sanitized_title):
         # no custom block Markdown because there are ways to 500 the page that I don't wanna fix
         comment.content = markdown.markdown(comment.content, extensions=["extra", "markdown_grid_tables",
                 MyInlineExtensions()])
-        comment.content = additional_markdown_processing(comment.content)
-        comment.content = sanitize_comment_html(comment.content)
+        comment.content = blogpage_util.additional_markdown_processing(comment.content)
+        comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
 
     return render_template("blog/blogpage/post.html",
             post=post, comments=comments, add_comment_form=add_comment_form,
@@ -122,13 +119,12 @@ def add_comment(post_sanitized_title):
     if not add_comment_form.validate():
         return jsonify(submission_errors=add_comment_form.errors)
     # make sure non-admin users can't masquerade as verified author
-    is_verified_author = request.form["author"].lower().replace(" ", "") == current_app.config["VERIFIED_AUTHOR"]
+    is_verified_author = request.form["author"].replace(" ", "") == current_app.config["VERIFIED_AUTHOR"]
     if is_verified_author and not current_user.is_authenticated:
         return jsonify(submission_errors={"author": ["$8 isn't going to buy you a verified checkmark here."]})
 
     # Get post from URL, making sure it's valid and matches the whole URL
-    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
-            Post.blogpage_id == get_blogpage_id(request.blueprint)).first()
+    post = blogpage_util.getPostFromURL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
                 flash_message=util.encode_URI_component("That post doesn't exist."),
@@ -138,7 +134,7 @@ def add_comment(post_sanitized_title):
             unread=not is_verified_author) # so I don't see my own comments as unread when I add them, cause duh
     with db.session.no_autoflush: # otherwise there's a warning
         if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
-            return jsonify(flash_message="Nice try.")
+            return jsonify(flash_message="hax0r :3")
     db.session.add(comment)
     db.session.commit()
 
@@ -152,9 +148,8 @@ def delete_comment(post_sanitized_title):
     if comment is None:
         return jsonify(success=True, flash_message=f"That comment doesn't exist.")
 
-    # Get post from URL, making sure it's valid and matches the whole URL
     post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
-            Post.blogpage_id == get_blogpage_id(request.blueprint)).first()
+            Post.blogpage_id == blogpage_util.get_blogpage_id(request.blueprint)).first()
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
                 flash_message=util.encode_URI_component("That post doesn't exist."),
@@ -162,7 +157,7 @@ def delete_comment(post_sanitized_title):
 
     descendants = comment.get_descendants(post)
     if not comment.remove_comment(post):
-        return jsonify(flash_message="Sneaky…")
+        return jsonify(flash_message="hax0r :3")
     for descendant in descendants:
         db.session.delete(descendant)
     db.session.delete(comment)
@@ -174,9 +169,7 @@ def delete_comment(post_sanitized_title):
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
 @util.custom_login_required(request)
 def mark_comments_as_read(post_sanitized_title):
-    # Get post from URL, making sure it's valid and matches the whole URL
-    post = db.session.query(Post).filter(Post.sanitized_title == post_sanitized_title,
-            Post.blogpage_id == get_blogpage_id(request.blueprint)).first()
+    post = blogpage_util.getPostFromURL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
         return redirect(url_for(f"{request.blueprint}.index",
                 flash_message=util.encode_URI_component("That post doesn't exist."),
@@ -189,37 +182,3 @@ def mark_comments_as_read(post_sanitized_title):
     db.session.commit()
 
     return jsonify() # since we're expecting Ajax for everything
-
-
-###################################################################################################
-# Helper Functions
-###################################################################################################
-
-
-# Gets blogpage id from request.blueprint
-def get_blogpage_id(blueprint_name) -> int:
-    return int(blueprint_name.split('.')[-1])
-
-
-# Markdown tweaks round 2
-# Changes:
-#   Remove extra `<p>` tags generated by 3rd-party extension `markdown_grid_tables` around `<pre>` tags that mess up table spacing and don't seem to be JQuery-parsable
-def additional_markdown_processing(s) -> str:
-    s = s.replace("</pre></p>", "</pre>")
-    # using regex to not take chances here with attributes and stuff
-    s = re.sub(r"<p><pre([\S\s]*?)>", r"<pre\1>", s)
-
-    return s
-
-
-# Markdown sanitization for comments (XSS etc.)
-# Bleach is deprecated because html5lib is, but both seem to still be mostly active
-def sanitize_comment_html(c) -> str:
-    # MathJax should be processed client-side after this so no need to allow those tags
-    c = bleach.clean(c,
-            tags={"abbr", "acronym", "b", "blockquote", "br", "center", "code", "details", "div", "em",
-                "h1", "h2", "h3", "i", "li", "p", "pre", "ol", "small", "span", "strong", "sub", "summary",
-                "sup", "table", "tbody", "td", "th", "thead", "tr", "ul"},
-            attributes=["class", "colspan", "data-align-bottom", "data-align-center", "data-align-right",
-                "data-align-top", "data-col-width", "height", "rowspan", "title", "width"])
-    return c

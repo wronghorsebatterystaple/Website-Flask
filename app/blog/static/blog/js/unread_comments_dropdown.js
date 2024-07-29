@@ -59,9 +59,7 @@ function alignDropdownLeftwards(records) {
     document.documentElement.style.setProperty("--unread-comments-dropdown-left", `-${offset}px`);
 }
 
-$(document).ready(async function() {
-    setBellNotifStatus();
-
+$(document).ready(function() {
     // Observe for changes in innerHTML to re-align the dropdown leftwards
     const mutationObserver = new MutationObserver(alignDropdownLeftwards);
     mutationObserver.observe(document.querySelector("#unread-comments-dropdown"), {
@@ -69,7 +67,7 @@ $(document).ready(async function() {
     });
 
     // Listen to refresh notifications on click
-    $("#unread-comments-dropdown-btn").on("click", async function() {
+    $("#unread-comments-dropdown-btn").on("click", function() {
         setBellWithoutNotif();
         populateDropdown();
     });

@@ -107,4 +107,4 @@ class Config(object):
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-6']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-7']}"
     ]
-    VERIFIED_AUTHOR = "anonymousrand" # lowercase and no spaces for easier comparison
+    VERIFIED_AUTHOR = "AnonymousRand"

@@ -5,7 +5,7 @@ function getCommentId(form_dom) {
 function onCommentReload() {
     flask_moment_render_all();
 
-    MathJax.typesetPromise(["#comment-list"]).then(function() { // render any LaTeX in comments
+    MathJax.typesetPromise(["#comment-list"]).then(function() {             // render LaTeX in comments
         onMathJaxTypeset("#comment-list");
     });
 

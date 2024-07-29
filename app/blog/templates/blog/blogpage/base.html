@@ -7,8 +7,8 @@
 
 {%- block css %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/css/style.css', _external=True) }}">
-<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/' ~ blogpage_id ~ '/css/style.css', _external=True) }}">
+<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/css/style.css', _external=True) }}" />
+<link rel="stylesheet" href="{{ url_for('blog.static', filename='blog/blogpage/' ~ blogpage_id ~ '/css/style.css', _external=True) }}" />
 {%- endblock %}
 
 {%- block js %}
