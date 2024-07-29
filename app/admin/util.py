@@ -3,6 +3,8 @@ import os
 import imghdr
 from werkzeug.utils import escape, secure_filename
 
+from flask import current_app
+
 def sanitize_filename(filename):
     filename = escape(secure_filename(filename))
     filename = filename.replace("(", "").replace(")", "") # for Markdown parsing
@@ -20,12 +22,14 @@ def upload_images(images, images_path) -> str:
                 return "Image name was reduced to atoms by sanitization."
 
             file_ext = os.path.splitext(filename)[1]
+            if file_ext == ".jpg": # since `validate_image()` (`imghdr.what()`) returns everything as `jpeg`
+                file_ext = ".jpeg"
             invalid = \
                     file_ext not in current_app.config["IMAGE_UPLOAD_EXTENSIONS"] \
                     or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
                     and file_ext != validate_image(image.stream)) # imghdr can't check SVG; trustable since admin-only?
             if invalid:
-                return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hate heic and webp theyre so annoying i hat"
+                return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god theyre so annoying i hat"
 
             path = os.path.join(images_path, filename)
             os.makedirs(images_path, exist_ok=True)               # mkdir -p if not exist
@@ -42,4 +46,4 @@ def validate_image(image):
     format = imghdr.what(None, header)
     if not format:
         return None
-    return "." + (format if format != "jpeg" else "jpg")
+    return f".{format}"

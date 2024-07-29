@@ -308,7 +308,7 @@ def change_admin_password():
     return "If you see this message, please panic."
 
 
-@bp.route("/logout")
+@bp.route("/logout", methods=["POST"])
 def logout():
     if current_user.is_authenticated:
         logout_user()

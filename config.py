@@ -75,9 +75,9 @@ class Config(object):
     }
 
     # Other "conventional" configs
-    IMAGE_UPLOAD_EXTENSIONS = [".gif", ".jpg", ".png", ".svg", ".xcf"]
-    IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpg", ".png"]
-    IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED = [".gif", ".jpg", ".png", ".svg"]
+    IMAGE_UPLOAD_EXTENSIONS = [".gif", ".jpeg", ".jpg", ".png", ".svg", ".xcf"]
+    IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpeg", ".jpg", ".png"]
+    IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED = [".gif", ".jpeg", ".jpg", ".png", ".svg"]
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20
