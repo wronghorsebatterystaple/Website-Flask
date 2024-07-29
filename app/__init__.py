@@ -49,7 +49,7 @@ def create_app():
     app.register_blueprint(blog_bp, subdomain="blog")
 
     # register global routes and stuff
-    register_global_routes(app) # todo might need app = ?
+    register_global_routes(app)
 
     # init extensions after all that
     cors.init_app(app)
