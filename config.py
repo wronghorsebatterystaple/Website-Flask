@@ -50,7 +50,7 @@ class Config(object):
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
     WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
 
-    # Database
+    # Flask-SQLAlchemy/database
     DB_CONFIGS = {
         "MAXLEN_BLOGPAGE_URL_PATH": 50,
         "MAXLEN_BLOGPAGE_TITLE": 50,

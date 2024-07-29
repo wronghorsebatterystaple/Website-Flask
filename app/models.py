@@ -4,8 +4,8 @@ import re
 from flask import current_app
 from flask_login import UserMixin
 import sqlalchemy as sa
+import sqlalchemy.dialects.mysql as sa_mysql
 import sqlalchemy.orm as so
-from sqlalchemy.types import Text
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
@@ -29,18 +29,24 @@ class Blogpage(db.Model):
                 sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_URL_PATH"])
             )
     title: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_TITLE"])
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_TITLE"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci")
             )
     subtitle: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_SUBTITLE"]),
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_SUBTITLE"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci"),
                 nullable=True,
                 default=None
             )
     meta_description: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_META_DESCRIPTION"]),
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_BLOGPAGE_META_DESCRIPTION"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci"),
                 nullable=True,
                 default=None
             )
@@ -78,8 +84,8 @@ class Post(db.Model):
                 primary_key=True
             )
     content: \
-            so.Mapped[Text()] = so.mapped_column(
-                Text(Config.DB_CONFIGS["MAXLEN_POST_CONTENT"]),
+            so.Mapped[sa_mysql.MEDIUMTEXT()] = so.mapped_column(
+                sa_mysql.MEDIUMTEXT(charset="utf8mb4", collation="utf8mb4_0900_ai_ci"),
                 nullable=True
             )
     edited_timestamp: \
@@ -92,12 +98,16 @@ class Post(db.Model):
                 default=False
             )
     sanitized_title: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_POST_TITLE"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci")
             )
     subtitle: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"]),
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_POST_SUBTITLE"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci"),
                 nullable=True,
                 default=None
             )
@@ -107,8 +117,10 @@ class Post(db.Model):
                 default=lambda: datetime.now(timezone.utc)
             )
     title: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_POST_TITLE"])
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_POST_TITLE"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci")
             )
 
     blogpage_id: \
@@ -146,10 +158,10 @@ class Post(db.Model):
         return None
 
     def add_timestamps(self, remove_edited_timestamp, update_edited_timestamp):
+        if update_edited_timestamp:
+            self.edited_timestamp = datetime.now(timezone.utc)
         if remove_edited_timestamp:
             self.edited_timestamp = None
-        elif update_edited_timestamp:
-            self.edited_timestamp = datetime.now(timezone.utc)
 
         originally_published = self.published
         self.published = not self.blogpage.unpublished
@@ -185,12 +197,16 @@ class Comment(db.Model):
                 primary_key=True
             )
     author: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"])
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci")
             )
     content: \
-            so.Mapped[Text()] = so.mapped_column(
-                Text(Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"])
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci")
             )
     timestamp: \
             so.Mapped[datetime] = so.mapped_column(
@@ -291,8 +307,10 @@ class User(UserMixin, db.Model):
                 sa.String(Config.DB_CONFIGS["MAXLEN_USER_PASSWORD_HASH"])
             )
     username: \
-            so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["MAXLEN_USER_USERNAME"]),
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                sa_mysql.VARCHAR(Config.DB_CONFIGS["MAXLEN_USER_USERNAME"],
+                        charset="utf8mb4",
+                        collation="utf8mb4_0900_ai_ci"),
                 unique=True
             )
 

@@ -49,7 +49,7 @@ I hope I'm not reading this because I bricked a machine again.
 - To change [app/models.py](app/models.py):
     - Edit [app/models.py](app/models.py) on the host
     - Run `flask db migrate` on the host; this requires MySQL connectivity from the host
-    - Restart the Docker containers; it copies in [migrations/](migrations/) and handles `flask db upgrade`
+    - Run `flask db upgrade` or restart the Docker containers
 
 ### Access control documentation:
 - Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
@@ -164,7 +164,6 @@ I hope I'm not reading this because I bricked a machine again.
     - `<p></p>` for paragraphs and line breaks (note: not supported in footnotes; use `<br><br>` instead)
       - E.g. lists, which have had the space between it and the previous paragraph removed by default
     - `<br>` for line breaks that aren't new paragraphs and don't leave extra space, like between lines in a stanza, and `<br>` surrounded by two empty lines for more space than a normal paragraph, like between stanzas
-- Emojis will probably not work, so use HTML character entities instead
 
 ### Tables:
 - Use [Markdown tables](https://www.tablesgenerator.com/markdown_tables#) whenever possible, with "Compact mode" and "Line breaks as \<br\>" checked.
