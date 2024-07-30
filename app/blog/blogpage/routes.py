@@ -122,7 +122,7 @@ def add_comment(post_sanitized_title):
         return jsonify(submission_errors=add_comment_form.errors)
 
     # make sure non-admin users can't masquerade as verified author
-    is_verified_author = request.form["author"].replace(" ", "") == current_app.config["VERIFIED_AUTHOR"]
+    is_verified_author = request.form["author"].strip() == current_app.config["VERIFIED_AUTHOR"]
     if is_verified_author and not current_user.is_authenticated:
         return jsonify(submission_errors={"author": ["$8 isn't going to buy you a verified checkmark here."]})
 

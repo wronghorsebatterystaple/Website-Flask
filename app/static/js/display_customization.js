@@ -33,7 +33,7 @@ function syntaxHighlightNonTable(root_selector) {
     });
 }
 
-function applyCustomMarkdown() {
+function applyCustomMarkdown(root_selector) {
     const root_elem = $(root_selector);
     if (!root_elem) {
         return;
