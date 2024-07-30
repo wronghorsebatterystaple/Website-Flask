@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 class Config(object):
-    # Basics
+    ## Basics
     SERVER_NAME = "anonymousrand.xyz"
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -38,7 +38,7 @@ class Config(object):
         "frame-ancestors": csp_default_src
     }
 
-    # Flask cookies
+    ## Cookies
     PERMANENT_SESSION_LIFETIME = 86400
     SESSION_COOKIE_DOMAIN = f".{SERVER_NAME}"
     SESSION_COOKIE_HTTPONLY = True
@@ -46,11 +46,11 @@ class Config(object):
     SESSION_COOKIE_SECURE = True
     SESSION_REFRESH_EACH_REQUEST = False
 
-    # Flask-WTF
+    ## Flask-WTF
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
     WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
 
-    # Flask-SQLAlchemy/database
+    ## Flask-SQLAlchemy/database
     DB_CONFIGS = {
         "MAXLEN_BLOGPAGE_URL_PATH": 50,
         "MAXLEN_BLOGPAGE_TITLE": 50,
@@ -59,6 +59,7 @@ class Config(object):
         "MAXLEN_BLOGPAGE_COLOR_HTML_CLASS": 100,
         "MAXLEN_POST_TITLE": 150,
         "MAXLEN_POST_SUBTITLE": 150,
+        # can't enforce this because it's MEDIUMTEXT so just don't be more than 2^24 - 1 Okayge
         "MAXLEN_POST_CONTENT": 100000,
         "MAXLEN_COMMENT_AUTHOR": 100,
         "MAXLEN_COMMENT_CONTENT": 5000,
@@ -69,12 +70,10 @@ class Config(object):
     }
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
-    # Custom errors
+    ## Other "conventional" configs
     CUSTOM_ERRORS = {
         "REFRESH_CSRF": (499, "CSRF Error")
     }
-
-    # Other "conventional" configs
     IMAGE_UPLOAD_EXTENSIONS = [".gif", ".jpeg", ".jpg", ".png", ".svg", ".xcf"]
     IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpeg", ".jpg", ".png"]
     IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED = [".gif", ".jpeg", ".jpg", ".png", ".svg"]
@@ -82,11 +81,11 @@ class Config(object):
     LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20
 
-    # Scuffed configs
+    ## Scuffed configs
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
     ALL_POSTS_BLOGPAGE_ID = 1
-    BLOGPAGE_ID_TO_PATH = {      # KEEP UPDATED WITH DB (for initializing blueprints) and use string keys
+    BLOGPAGE_ID_TO_PATH = { # SYNC: with db (for initializing blueprints)
         "1": "/all",
         "2": "/misc",
         "3": "/professor-google",
@@ -99,7 +98,7 @@ class Config(object):
         "-6": "/writers-block-backrooms",
         "-7": "/writers-unblock-backrooms"
     }
-    LOGIN_REQUIRED_URLS = [      # for Flask access control on logout
+    LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-2']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-3']}",

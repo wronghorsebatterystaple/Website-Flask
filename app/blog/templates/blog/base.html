@@ -11,8 +11,8 @@
 {%- block js %}
 <script nonce="{{ csp_nonce() }}">
     const URL_ABS_POST_GET_POSTS_WITH_UNREAD_COMMENTS = "{{ url_for('blog.get_posts_with_unread_comments', _external=True) }}";
-    const URL_ABS_IMG_BELL_WITH_NOTIF = "{{ url_for('blog.static', filename='blog/images/bell_with_notif.svg', _external=True) }}";
-    const URL_ABS_IMG_BELL_WITHOUT_NOTIF = "{{ url_for('blog.static', filename='blog/images/bell_without_notif.svg', _external=True) }}";
+    const URL_ABS_IMG_BELL_WITH_NOTIF = "{{ url_for('blog.static', filename='blog/images/icon_bell_with_notif.svg', _external=True) }}";
+    const URL_ABS_IMG_BELL_WITHOUT_NOTIF = "{{ url_for('blog.static', filename='blog/images/icon_bell_without_notif.svg', _external=True) }}";
 </script>
 <script src="{{ url_for('blog.static', filename='blog/js/unread_comments_dropdown.js', _external=True) }}" defer></script>
 {%- if current_user.is_authenticated %} <!-- selective loading works since this script only runs something on `$(document).ready` -->
@@ -22,7 +22,7 @@
 
 {%- block navbar_additions_right %}
 <li class="auth-true nav-item dropdown me-2"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-  <a id="unread-comments-dropdown-btn" class="nav-link dropdown" href="#" role=button data-bs-toggle="dropdown"><img id="unread-comments-dropdown-btn-img" src="{{ url_for('blog.static', filename='blog/images/bell_without_notif.svg', _external=True) }}" /></a>
+  <a id="unread-comments-dropdown-btn" class="nav-link dropdown" href="#" role=button data-bs-toggle="dropdown"><img id="unread-comments-dropdown-btn-img" src="{{ url_for('blog.static', filename='blog/images/icon_bell_without_notif.svg', _external=True) }}" /></a>
   <ul id="unread-comments-dropdown" class="dropdown-menu"></ul>
 </li>
 {%- endblock %}

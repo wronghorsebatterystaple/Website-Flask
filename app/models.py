@@ -143,8 +143,12 @@ class Post(db.Model):
         self.sanitized_title = ("-".join(self.title.split())).lower()
         self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title)
 
-    # must be done after db.session.add()
     def check_titles(self) -> str:
+        """
+        Preconditions:
+            - `db.session.add()`
+        """
+
         # check that title still exists after sanitization
         if self.sanitized_title == "":
             return "Post must have alphanumeric characters in its title."
@@ -152,7 +156,8 @@ class Post(db.Model):
         if len(db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).all()) != 1:
             return "There is already a post with that title or sanitized title."
 
-        if self.subtitle == "": # standardize to None/NULL
+        # standardize subtitles to None/NULL
+        if self.subtitle == "":
             self.subtitle = None
 
         return None
@@ -178,8 +183,8 @@ class Post(db.Model):
         return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/([\S\s]+?)\)",
                 r"\1(\2)", self.content)
 
-    # god bless Miguel Grinberg https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers
     def get_comment_count(self) -> int:
+        # god bless https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers
         return db.session.scalar(sa.select(sa.func.count()).select_from(
             self.comments.select().subquery()))
 
@@ -227,7 +232,7 @@ class Comment(db.Model):
                 back_populates="comments"
             )
 
-        # nested set; quite the beautiful data structure
+    # Nested set; quite the beautiful data structure
     depth: \
             so.Mapped[int] = so.mapped_column()
     left: \
@@ -240,7 +245,8 @@ class Comment(db.Model):
             )
 
     def insert_comment(self, post, parent) -> bool:
-        if parent is None: # add child with left = max of right for that post + 1
+        if parent is None:
+            # add child with left = max of right for that post + 1
             max_right_query = post.comments.select().order_by(sa.desc(Comment.right)).limit(1)
             max_right_comment = db.session.scalars(max_right_query).first()
             max_right = 0
@@ -267,7 +273,8 @@ class Comment(db.Model):
         return True
 
     def remove_comment(self, post) -> bool:
-        if self.post_id != post.id: # sanity check
+        # sanity check
+        if self.post_id != post.id:
             return False
 
         descendants = self.get_descendants(post)
@@ -288,7 +295,7 @@ class Comment(db.Model):
                 Comment.left > self.left, Comment.right < self.right))
         return db.session.scalars(comments_query).all()
 
-    def __repr(self):
+    def __repr__(self):
         return f"<Comment {self.id} for post {self.post_id} written by \"{self.author}\""
 
 

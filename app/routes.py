@@ -8,11 +8,12 @@ from app.models import *
 from config import Config
 
 
+## For login modal
 def inject_login_form():
     return dict(login_form=LoginForm())
 
 
-# For navbar
+## For navbar
 def inject_blogpages_from_db():
     all_blogpages_query = db.session.query(Blogpage)
     all_blogpages = all_blogpages_query.order_by(Blogpage.ordering).all()
@@ -20,16 +21,15 @@ def inject_blogpages_from_db():
     return dict(all_blogpages=all_blogpages, login_required_blogpages=login_required_blogpages)
 
 
-# Regenerate CSRF token on token (tied to session) expire
-# then let Ajax take it from there with custom error fail() handler
-# (non-auth action: resend request; auth action: show login modal for re-login)
+## Regenerate CSRF token on token (tied to session) expire
+## then let Ajax take it from there with custom error handler
+## (non-auth action: resend request; auth action: show login modal for re-login)
 def handle_csrf_error(e):
     csrf_token = generate_csrf()
     # don't use custom HTTPException since we can't `raise` here
-    (code, description) = Config.CUSTOM_ERRORS["REFRESH_CSRF"]
-    # return new token as description since csrf_token() in Jinja
-    # doesn't seem to update until page reload; so instead we pass
-    # the error description in as the new csrf_token in JS
+    code = Config.CUSTOM_ERRORS["REFRESH_CSRF"][0]
+    # return new token in Ajax response since csrf_token() in Jinja doesn't seem to update until page reload
+    # so instead we pass the error description in as the new csrf_token in JS
     # shouldn't be a security issue since CSRF token sent in POST anyways
     # (most scuffed CSRF refresh in history)
     return jsonify(new_csrf_token=csrf_token), code

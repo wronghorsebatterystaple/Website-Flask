@@ -55,7 +55,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
         for i, block in enumerate(blocks):
             if re.search(self.CAPTION_START_RE, block):
                 # remove ending delimiter and note which block captions started on
-                # (as captions can be at the end of the figure; not a must though (in case no figure ending deliminator))
+                # (as captions don't have to be at the end of the figure for intuition's sake)
                 caption_start_i = i
                 blocks[i] = re.sub(self.CAPTION_START_RE, "", block)
                 break
@@ -75,7 +75,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
             if re.search(self.CAPTION_END_RE, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.CAPTION_END_RE, "", block)
-                # put area between in <figcaption class="md-figure-figcaption"></figcaption>
+                # put area between in `<figcaption class="md-figure-figcaption"></figcaption>`
                 caption_elem = etree.Element("figcaption")
                 caption_elem.set("class", "md-figure-figcaption")
                 self.parser.parseBlocks(caption_elem, blocks[caption_start_i + 1:i + 1])
@@ -139,7 +139,7 @@ class DropdownBlockProcessor(BlockProcessor):
             if re.search(self.SUMMARY_END_RE, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.SUMMARY_END_RE, "", block)
-                # put area between in <summary class="md-summary"></summary>
+                # put area between in `<summary class="md-summary"></summary>`
                 summary_elem = etree.Element("summary")
                 summary_elem.set("class", "md-details-summary")
                 self.parser.parseBlocks(summary_elem, blocks[0:i + 1])
@@ -194,7 +194,8 @@ class TextboxBlockProcessor(BlockProcessor):
             if re.search(self.TEXTBOX_END_RE, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.TEXTBOX_END_RE, "", block)
-                # put area between in <table class="textbox"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+                # put area between in `<table class="textbox"><tbody><tr><td colspan="1" rowspan="1">
+                # </td></tr></tbody></table>`
                 table_elem = etree.SubElement(parent, "table")
                 table_elem.set("class", "md-textbox")
                 tbody_elem = etree.SubElement(table_elem, "tbody")
@@ -230,7 +231,7 @@ class ThmBlockProcessor(BlockProcessor):
             if re.search(self.THM_END_RE, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.THM_END_RE, "", block)
-                # put area between in <blockquote class="md-thm"></blockquote>
+                # put area between in `<blockquote class="md-thm"></blockquote>`
                 elem = etree.SubElement(parent, "blockquote")
                 elem.set("class", "md-thm")
                 self.parser.parseBlocks(elem, blocks[0:i + 1])
@@ -244,7 +245,7 @@ class ThmBlockProcessor(BlockProcessor):
         return False
 
 
-# Markdown tweaks round 1
+"""Markdown tweaks round 1."""
 class MyInlineExtensions(Extension):
     def extendMarkdown(self, md):
         # `__[text]__` for underline
@@ -262,7 +263,7 @@ class MyInlineExtensions(Extension):
         md.inlinePatterns.register(ImageInlineProcessor("!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)",
                 md), "image", 999)
 
-        # `\[<span data-same-page>[display text]</span>\]([link href])` for links that open on same page (non-default)
+        # `\[<span data-same-page>[display text]</span>\]([link href])` for links that open on same page
         md.inlinePatterns.register(LinkTargetInlineProcessor(r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)",
                 md), "link_target", 999)
 

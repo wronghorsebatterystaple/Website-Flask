@@ -25,8 +25,6 @@ def login():
     if request.method == "GET":
         return render_template("admin/form_base.html", title="Login",
                 prompt="Access the Secrets of the Universe", form=form)
-
-    # Ajax: FormData
     elif request.method == "POST":
         if not turnstile.verify():
             return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
@@ -39,12 +37,12 @@ def login():
             # display in submission errors section instead of flash
             return jsonify(submission_errors={"password":
                     ["No, the password is not \"solarwinds123\"."]})
-        # No persistent cookies, so session expires on both browser close (if it isn't running in background)
+        # no persistent cookies, so session expires on both browser close (if it isn't running in background)
         # and PERMANENT_SESSION_LIFETIME timeout (check README for cookie explanation)
         login_user(user, remember=False)
         session.permanent = False
 
-        # assumes next is always within the same blueprint (request.url_root)!
+        # assumes next is always within the same blueprint (request.url_root)! todo what
         if request.args.get("next", "") != "":
             return jsonify(success=True, redirect_url_abs=request.args.get("next"), # keeping the URL encoded works
                     flash_message="The universe is at your fingertips…")
@@ -64,8 +62,6 @@ def choose_action():
     if request.method == "GET":
         return render_template("admin/form_base.html", title="Choose action",
                 prompt="42", form=form)
-
-    # Ajax: FormData
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -89,7 +85,6 @@ def choose_action():
 @bp.route("/create-blogpost", methods=["GET", "POST"])
 @util.custom_login_required(request)
 def create_blogpost():
-    # must create form outside of POST handling or else validate() throws 500 for some reason?
     form = CreateBlogpostForm()
     all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
@@ -108,8 +103,6 @@ def create_blogpost():
 
         return render_template("admin/form_base.html", title="Create post",
                 prompt="Create post", form=form)
-
-    # Ajax: FormData
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -133,7 +126,7 @@ def create_blogpost():
         if res is not None:
             return jsonify(flash_message=res)
 
-        db.session.commit() # commit at very end when success is guaranteed
+        db.session.commit()                                 # commit at very end when success is guaranteed
         return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post created successfully!") # view completed post
@@ -149,8 +142,6 @@ def search_blogpost():
     if request.method == "GET":
         return render_template("admin/form_base.html", title="Search Posts",
                 prompt="Search posts", form=form)
-
-    # Ajax: FormData
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -194,8 +185,6 @@ def edit_blogpost():
     if request.method == "GET":
         return render_template("admin/form_base.html", title=f"Edit Post: {post.title}",
                 prompt=f"Edit post: {post.title}", form=form)
-
-    # Ajax: FormData
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -285,14 +274,12 @@ def change_admin_password():
     if request.method == "GET":
         return render_template("admin/form_base.html", title="Change Admin Password",
                 prompt="Do not make it password123456", form=form)
-
-    # Ajax: FormData
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
-        # check given password
+        # check old password
         if user is None or not user.check_password(request.form.get("old_password")):
             return jsonify(flash_message="Old password is not correct.")
         # check new passwords are identical
