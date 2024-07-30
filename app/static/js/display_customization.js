@@ -33,26 +33,13 @@ function syntaxHighlightNonTable(root_selector) {
     });
 }
 
-function applyGlobalStyles(root_selector) {
+function applyCustomMarkdown() {
     const root_elem = $(root_selector);
     if (!root_elem) {
         return;
     }
 
-    // Tables and non-table code blocks scroll horizontally on overflow
-    root_elem.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
-    root_elem.find("pre").each(function() {
-        if ($(this).parents("table").length === 0) {
-            $(this).wrap(HORIZ_SCOLL_DIV_HTML);
-        }
-    });
-
-    // Inline CSS used by Markdown tables converted to class for CSP
-    root_elem.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
-    root_elem.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
-    
-    // Markdown tweaks round 3
-    // Custom table horizontal and vertical align syntax
+    // custom table horizontal and vertical align syntax
     root_elem.find("[data-align-center]").each(function() {
         $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-center");
     });
@@ -66,12 +53,52 @@ function applyGlobalStyles(root_selector) {
         $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-bottom");
     });
 
-    // Custom table column width syntax
+    // custom table column width syntax
     root_elem.find("[data-col-width]").each(function() {
         $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
     });
 
-    // Footnote tweaks
+    // no extra space at the end of custom details/summary, and first line of summary starts inline
+    root_elem.find("details").each(function() {
+        $(this).children(".md-details-contents").children().last().addClass("mb-0");
+        const summary_elem = $(this).find("summary");
+        summary_elem.find("p").first().addClass("d-inline");
+        summary_elem.children().last().addClass("mb-0");
+    });
+
+    // no extra <p> tags in custom figures/captions
+    root_elem.find("figure").find("p").children("img").unwrap();
+}
+
+function applyGlobalStyles(root_selector) {
+    const root_elem = $(root_selector);
+    if (!root_elem) {
+        return;
+    }
+
+    // tables and non-table code blocks scroll horizontally on overflow
+    root_elem.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
+    root_elem.find("pre").each(function() {
+        if ($(this).parents("table").length === 0) {
+            $(this).wrap(HORIZ_SCOLL_DIV_HTML);
+        }
+    });
+
+    // inline CSS used by Markdown tables converted to class for CSP
+    root_elem.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
+    root_elem.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
+
+    // no extra space at the bottom of table cells
+    $.merge(root_elem.find("th"), root_elem.find("td")).each(function() {
+        $(this).children().last().addClass("mb-0");
+    });
+
+    // no extra space between lists and their "heading" text
+    $.merge(root_elem.find("ul"), root_elem.find("ol")).each(function() {
+        $(this).prev("p").addClass("mb-0");
+    });
+
+    // footnote tweaks
     const footnotes_elem = root_elem.find(".footnote").first();
     if (footnotes_elem) {
         footnotes_elem.attr("id", "footnotes");
@@ -87,36 +114,15 @@ function applyGlobalStyles(root_selector) {
         genFootnoteTooltips();
     }
 
-    // Footnotes collapsible opens if footnote link clicked on and the collapsible is closed
+    // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
     root_elem.find(".footnote-ref").on("click", function(e) {
         const footnoteDetails_elem = root_elem.find("#footnotes-details");
         if (!footnoteDetails_elem.is("[open]")) {
             footnoteDetails_elem.attr("open", "");
         }
     });
-
-    // No extra space at the bottom of table cells
-    $.merge(root_elem.find("th"), root_elem.find("td")).each(function() {
-        $(this).children().last().addClass("mb-0");
-    });
-
-    // No extra space between lists and their "heading" text
-    $.merge(root_elem.find("ul"), root_elem.find("ol")).each(function() {
-        $(this).prev("p").addClass("mb-0");
-    });
-
-    // No extra space at the end of custom details/summary, and first line of summary starts inline
-    root_elem.find("details").each(function() {
-        $(this).children(".md-details-contents").children().last().addClass("mb-0");
-        const summary_elem = $(this).find("summary");
-        summary_elem.find("p").first().addClass("d-inline");
-        summary_elem.children().last().addClass("mb-0");
-    });
-
-    // No extra <p> tags in custom figures/captions
-    root_elem.find("figure").find("p").children("img").unwrap();
-
-    // Code block syntax highlighting
+    
+    applyCustomMarkdown(root_selector); // Markdown tweaks round 3
     syntaxHighlightNonTable(root_selector);
 }
 
@@ -129,7 +135,7 @@ function randomizeHighlightColor() {
 $(document).ready(function() {
     applyGlobalStyles("body");
 
-    // Randomize highlight color because all of them look too nice; don't put in applyGlobalStyles() as that can be
+    // randomize highlight color because all of them look too nice; don't put in applyGlobalStyles() as that can be
     // called multiple times for async changes, but we want all the highlight colors on a page to be consistent
     randomizeHighlightColor();
 });

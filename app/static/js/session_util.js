@@ -25,7 +25,7 @@ function relogin() {
 
 $(document).ready(function() {
     const loginModal_elem = $("#login-modal");
-    // Security - wipe contents and toggle password visibility off on hide
+    // security - wipe contents and toggle password visibility off on hide
     loginModal_elem.on("hidden.bs.modal", function(e) {
         const passwordInput_elem = $(e.target).find("#password-input");
         passwordInput_elem.val("");
@@ -38,7 +38,7 @@ $(document).ready(function() {
         $(e.target).find("#password-input").focus();
     });
 
-    // Differentiate modal vs. non-modal logins for redirect
+    // differentiate modal vs. non-modal logins for redirect
     loginModal_elem.find("#is_modal").val("yes");
 
     $("#login-form-modal").on("submit", async function(e) {
@@ -60,7 +60,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         const responseJSON = await fetchWrapper(URL_ABS_POST_LOGOUT, {
-            method: "POST"
+            rethod: "POST"
         },
         {
             previous: getCurrentURLNoQS(false)

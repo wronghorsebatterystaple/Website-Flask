@@ -25,12 +25,12 @@ def additional_markdown_processing(s) -> str:
 
 
 def get_blogpage_id(blueprint_name) -> int:
-    """Get blogpage id from `request.blueprint`."""
+    """Gets blogpage id from `request.blueprint`."""
     return int(blueprint_name.split('.')[-1])
 
 
 def login_required_check_blogpage(request):
-    """Require login to access private blogpages."""
+    """Enforces login to access private blogpages."""
     def inner_decorator(func):
         @wraps(func)
         def wrapped(*args, **kwargs):
@@ -67,6 +67,6 @@ def sanitize_untrusted_html(c) -> str:
     return c
 
 def getPostFromURL(URL_post_sanitized_title, URL_blogpage_id):
-    """Get post from URL, making sure it's valid and matches the whole URL."""
+    """Gets post from URL, making sure it's valid and matches the whole URL."""
     return db.session.query(Post).filter(Post.sanitized_title == URL_post_sanitized_title,
             Post.blogpage_id == URL_blogpage_id).first()

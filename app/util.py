@@ -6,17 +6,17 @@ from flask_login import current_user
 
 
 def encode_URI_component(s: str) -> str:
-    """Mimic JavaScript's encodeURIComponent()."""
+    """Mimics JavaScript's encodeURIComponent()."""
     return parse.quote(s, safe="~!*()'")
 
 
 def decode_URI_component(s: str) -> str:
-    """Mimic JavaScript's decodeURIComponent()."""
+    """Mimics JavaScript's decodeURIComponent()."""
     return parse.unquote(s)
 
 
 def custom_unauthorized(request):
-    """Make sure `current_user` is authenticated.
+    """Makes sure `current_user` is authenticated.
 
     If not authenticated:
         - GET requests (meaning page has not been loaded yet) redirect to login with absolute `next` URL

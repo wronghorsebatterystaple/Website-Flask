@@ -35,8 +35,11 @@ function onCommentAjaxDone(responseJSON, e) {
     }
 }
 
-// No $(document).ready listener attachments for the remaining listeners since comments can be reloaded with load()
-// Reveal fields for comment on clicking a reply button
+// no $(document).ready listener attachments for the remaining listeners since comments can be reloaded with load()
+
+/*
+ * Reveals fields for adding the comment on clicking a reply button.
+ */
 $(document).on("submit", ".comment-reply-form", function(e) {
     e.preventDefault();
 

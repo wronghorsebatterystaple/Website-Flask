@@ -2,7 +2,7 @@ async function populateDropdown() {
     const unreadCommentsDropdown_elem = $("#unread-comments-dropdown");
     unreadCommentsDropdown_elem.html("<span class=\"dropdown-item\">Loading…</span>");
 
-    // Get posts with unread comments
+    // get posts with unread comments
     const responseJSON = await fetchWrapper(URL_ABS_POST_GET_POSTS_WITH_UNREAD_COMMENTS, {
         method: "POST"
     });
@@ -52,7 +52,9 @@ function setBellWithoutNotif() {
     $("#unread-comments-dropdown-btn-img").attr("src", `${URL_ABS_IMG_BELL_WITHOUT_NOTIF}`);
 }
 
-// Align dropdown to the left of its button (since it's on the right of the screen; we don't want overflow)
+/**
+ * Aligns dropdown to the left of its button (since it's on the right of the screen; we don't want overflow).
+ */
 function alignDropdownLeftwards(records) {
     const dropdown_dom = records[0].target;
     var offset = dropdown_dom.offsetWidth - document.querySelector("#unread-comments-dropdown-btn").offsetWidth;
@@ -60,13 +62,13 @@ function alignDropdownLeftwards(records) {
 }
 
 $(document).ready(function() {
-    // Observe for changes in innerHTML to re-align the dropdown leftwards
+    // observe for changes in innerHTML to re-align the dropdown leftwards
     const mutationObserver = new MutationObserver(alignDropdownLeftwards);
     mutationObserver.observe(document.querySelector("#unread-comments-dropdown"), {
         childList: true
     });
 
-    // Listen to refresh notifications on click
+    // listen to refresh notifications on click
     $("#unread-comments-dropdown-btn").on("click", function() {
         setBellWithoutNotif();
         populateDropdown();

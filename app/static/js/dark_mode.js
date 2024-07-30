@@ -3,30 +3,30 @@ const DARKREADER_CONFIG = {
 };
 DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 
-function enableDarkMode(isManual) {
-    if (isManual) {
-        localStorage.setItem("darkMode", "true");
-    } else {
-        const darkModeSwitch_elem = $("#dark-mode-switch");
-        if (darkModeSwitch_elem) {
-            darkModeSwitch_elem.prop("checked", true);
-        }
+function enableDarkMode(isVoluntary) {
+    DarkReader.enable(DARKREADER_CONFIG);
+
+    const darkModeSwitch_elem = $("#dark-mode-switch");
+    if (!darkModeSwitch_elem.prop("checked")) {
+        darkModeSwitch_elem.prop("checked", true);
     }
 
-    DarkReader.enable(DARKREADER_CONFIG);
+    if (isVoluntary) {
+        localStorage.setItem("darkMode", "true");
+    }
 }
 
-function disableDarkMode(isManual) {
-    if (isManual) {
-        localStorage.setItem("darkMode", "false");
-    } else {
-        const darkModeSwitch_elem = $("#dark-mode-switch");
-        if (darkModeSwitch_elem) {
-            darkModeSwitch_elem.prop("checked", false);
-        }
+function disableDarkMode(isVoluntary) {
+    DarkReader.disable();
+
+    const darkModeSwitch_elem = $("#dark-mode-switch");
+    if (darkModeSwitch_elem.prop("checked")) {
+        darkModeSwitch_elem.prop("checked", false);
     }
 
-    DarkReader.disable();
+    if (isVoluntary) {
+        localStorage.setItem("darkMode", "false");
+    }
 }
 
 $(document).ready(function() {
@@ -35,7 +35,7 @@ $(document).ready(function() {
     // if set to dark mode on JS load (below), make sure to sync switch state once the switch loads in
     if (DarkReader.isEnabled()) {
         darkModeSwitch_elem.prop("checked", true);
-    } else { // if you delete the localStorage item and refresh, it can be light mode but switch checked
+    } else {
         darkModeSwitch_elem.prop("checked", false);
     }
 
@@ -61,10 +61,11 @@ $(document).ready(function() {
     });
 });
 
-// Out here so it's immediately applied on JS load instead of at $(document).ready
+/* Out here so it's immediately applied on JS load instead of at $(document).ready */
 if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
-} else if (localStorage.getItem("darkMode") === null && window.matchMedia
-        && window.matchMedia("(prefers-color-scheme: dark)").matches) { // if defaulting to system setting
+} else if (localStorage.getItem("darkMode") === null
+        && window.matchMedia
+        && window.matchMedia("(prefers-color-scheme: dark)").matches) { // default to system setting
     enableDarkMode(false);
 }
