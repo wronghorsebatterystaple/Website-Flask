@@ -281,10 +281,15 @@ def change_admin_password():
         user = db.session.scalar(sa.select(User).where(User.username == "admin"))
         # check old password
         if user is None or not user.check_password(request.form.get("old_password")):
-            return jsonify(flash_message="Old password is not correct.")
+            return jsonify(submission_errors={
+                "old_password": ["Incorrect password, uh oh."]
+            })
         # check new passwords are identical
         if request.form.get("new_password_1") != request.form.get("new_password_2"):
-            return jsonify(flash_message="New passwords do not match.")
+            return jsonify(submission_errors={
+                "new_password_1": ["Passwords do not match."],
+                "new_password_2": ["Passwords do not match."]
+            })
         
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()

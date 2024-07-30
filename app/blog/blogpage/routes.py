@@ -124,7 +124,9 @@ def add_comment(post_sanitized_title):
     # make sure non-admin users can't masquerade as verified author
     is_verified_author = request.form["author"].strip() == current_app.config["VERIFIED_AUTHOR"]
     if is_verified_author and not current_user.is_authenticated:
-        return jsonify(submission_errors={"author": ["$8 isn't going to buy you a verified checkmark here."]})
+        return jsonify(submission_errors={
+            "author": ["$8 isn't going to buy you a verified checkmark here."]
+        })
 
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.getPostFromURL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
