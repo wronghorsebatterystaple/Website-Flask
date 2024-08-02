@@ -1,11 +1,5 @@
 ::selection {
-    background-color: var(--highlight-color);
-}
-::-webkit-selection {
-    background-color: var(--highlight-color);
-}
-::-moz-selection {
-    background-color: var(--highlight-color);
+    background-color: var(--custom-green-xlight);
 }
 
 /* Links default to custom-blue-deep, but can be overwritten with !important */

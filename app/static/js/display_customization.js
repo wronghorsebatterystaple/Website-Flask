@@ -126,16 +126,6 @@ function applyGlobalStyles(root_selector) {
     syntaxHighlightNonTable(root_selector);
 }
 
-function randomizeHighlightColor() {
-    const colorChoices = ["custom-blue-xlight", "custom-green-deep-xlight", "custom-pink-xxlight"];
-    var color = window.getComputedStyle(document.documentElement).getPropertyValue(`--${colorChoices[Math.floor(Math.random() * 3)]}`);
-    document.documentElement.style.setProperty("--highlight-color", `${color}F0`); // 240/256 opacity
-}
-
 $(document).ready(function() {
     applyGlobalStyles("body");
-
-    // randomize highlight color because all of them look too nice; don't put in applyGlobalStyles() as that can be
-    // called multiple times for async changes, but we want all the highlight colors on a page to be consistent
-    randomizeHighlightColor();
 });
