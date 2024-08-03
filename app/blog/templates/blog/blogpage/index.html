@@ -28,7 +28,7 @@ const totalPages = {{ total_pages }};
 <div>
   {%- for post in posts %}
     <div>
-      {%- if all_posts %}
+      {%- if posts_all %}
         {%- set color = post.blogpage.html_color_class %}
         <a class="{{ color }} underline-{{ color }} underline-on-hover-only shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">

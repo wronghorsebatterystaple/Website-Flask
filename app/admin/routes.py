@@ -86,8 +86,8 @@ def choose_action():
 @util.custom_login_required(request)
 def create_blogpost():
     form = CreateBlogpostForm()
-    all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
+    blogpages_all = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
+    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages_all if blogpage.writeable]
 
     if request.method == "GET":
         try:
@@ -169,8 +169,8 @@ def edit_blogpost():
                 flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
     
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
-    all_blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in all_blogpages if blogpage.writeable]
+    blogpages_all = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
+    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages_all if blogpage.writeable]
     form.content.data = post.collapse_image_markdown()
     
     images_path = os.path.join(current_app.root_path,

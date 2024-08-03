@@ -8,14 +8,14 @@ from config import Config
 class AddCommentForm(FlaskForm):
     author = StringField(
         "Name",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_COMMENT_AUTHOR"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_COMMENT_AUTHOR"])]
     )
     parent = HiddenField(
         default=None
     )
     content = TextAreaField(
         "Comment",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["MAXLEN_COMMENT_CONTENT"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_COMMENT_CONTENT"])]
     )
     add_comment_form_submit = SubmitField(
         "Submit"

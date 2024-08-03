@@ -125,7 +125,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
               <ul class="dropdown-menu">
-                {%- for blogpage in all_blogpages %}
+                {%- for blogpage in blogpages_all %}
                   <li{%- if blogpage in login_required_blogpages %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
                     <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index', _external=True) }}">{{ blogpage.title }}</a>
                   </li>

@@ -52,21 +52,21 @@ class Config(object):
 
     ## Flask-SQLAlchemy/database
     DB_CONFIGS = {
-        "MAXLEN_BLOGPAGE_URL_PATH": 50,
-        "MAXLEN_BLOGPAGE_TITLE": 50,
-        "MAXLEN_BLOGPAGE_SUBTITLE": 100,
-        "MAXLEN_BLOGPAGE_META_DESCRIPTION": 500,
-        "MAXLEN_BLOGPAGE_COLOR_HTML_CLASS": 100,
-        "MAXLEN_POST_TITLE": 150,
-        "MAXLEN_POST_SUBTITLE": 150,
-        # can't enforce this because it's MEDIUMTEXT so just don't be more than 2^24 - 1 Okayge
-        "MAXLEN_POST_CONTENT": 100000,
-        "MAXLEN_COMMENT_AUTHOR": 100,
-        "MAXLEN_COMMENT_CONTENT": 5000,
-        "MAXLEN_USER_USERNAME": 25,
-        "MAXLEN_USER_EMAIL": 512,
-        "MAXLEN_USER_PASSWORD": 50,
-        "MAXLEN_USER_PASSWORD_HASH": 256
+        "LENMAX_BLOGPAGE_URL_PATH": 50,
+        "LENMAX_BLOGPAGE_TITLE": 50,
+        "LENMAX_BLOGPAGE_SUBTITLE": 100,
+        "LENMAX_BLOGPAGE_META_DESCRIPTION": 500,
+        "LENMAX_BLOGPAGE_COLOR_HTML_CLASS": 100,
+        "LENMAX_POST_TITLE": 150,
+        "LENMAX_POST_SUBTITLE": 150,
+        # can't enforce this db-side because it's MEDIUMTEXT so just don't be more than 2^24 - 1 Okayge
+        "LENMAX_POST_CONTENT": 100000,
+        "LENMAX_COMMENT_AUTHOR": 100,
+        "LENMAX_COMMENT_CONTENT": 5000,
+        "LENMAX_USER_USERNAME": 25,
+        "LENMAX_USER_EMAIL": 512,
+        "LENMAX_USER_PASSWORD": 50,
+        "LENMAX_USER_PASSWORD_HASH": 256
     }
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
