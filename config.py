@@ -91,8 +91,8 @@ class Config(object):
     POSTS_PER_PAGE = 20
 
     ## Scuffed configs
-    BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
-    ROOT_TO_BLOGPAGE_STATIC = "blog/static/blog/blogpage"
+    BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blogpage"
+    ROOT_TO_BLOGPAGE_STATIC = "blog/static/blogpage"
     ALL_POSTS_BLOGPAGE_ID = 1
     BLOGPAGE_ID_TO_PATH = { # SYNC: with db (for initializing blueprints)
         "1": "/all",

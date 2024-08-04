@@ -101,7 +101,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Update [config.py](config.py):
     - Update `BLOGPAGE_ID_TO_PATH` with the same paths that you gave the new blogpage and its developer blogpage in the database; this is used for blueprint initialization (we can't access database before app context is fully created)
     - Update `LOGIN_REQUIRED_URLS` with the backrooms blogpage
-- Create new static directories for it in [app/blog/static/blog/blogpage/](app/blog/static/blog/blogpage/) from the [template](app/blog/static/blog/blogpage/blogpage_template/), and update other static directory names if necessary
+- Create new static directories for it in [app/blog/static/blogpage/](app/blog/static/blogpage/) from the [template](app/blog/static/blogpage/blogpage_template/), and update other static directory names if necessary
     - Remember that since HTML templates are the same for every blogpage, things like font or background image customizations must be done through static files like CSS, which are imported individually per blogpage
 
 ### Changing blogpage IDs/blogpage static paths:
@@ -117,12 +117,12 @@ I hope I'm not reading this because I bricked a machine again.
     - These should not modify server-side state!
     - Usage guidelines:
         - Do not implement a CSRF Token hidden field to avoid leaking token in the URL (per OWASP guidelines). This means that we shouldn't use the `boostrap_wtf.quick_form()` macro for GET forms!
-    - Refer to [app/blog/static/blog/blogpage/js/goto_page_form.js](app/blog/static/blog/blogpage/js/goto_page_form.js) and its associated [app/blog/templates/blog/blogpage/index.html](app/blog/templates/blog/blogpage/index.html) for an example of a GET form
+    - Refer to [app/blog/static/blogpage/js/goto_page_form.js](app/blog/static/blogpage/js/goto_page_form.js) and its associated [app/blog/templates/blog/blogpage/index.html](app/blog/templates/blog/blogpage/index.html) for an example of a GET form
 - POST forms:
     - All other forms
     - Usage guidelines:
         - Must be Ajax, using `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js) and sending FormData (since the CSRF error handling is designed only for FormData)
-    - Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/admin/js/form_submit.js](app/admin/static/admin/js/form_submit.js), and [app/blog/static/blog/blogpage/js/comments.js](app/blog/static/blog/blogpage/js/comments.js) for examples of POST forms
+    - Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/js/form_submit.js](app/admin/static/js/form_submit.js), and [app/blog/static/blogpage/js/comments.js](app/blog/static/blogpage/js/comments.js) for examples of POST forms
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed
 
 ### Updating HTML custom errors:
@@ -189,7 +189,7 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
         - Custom Markdown syntax
     2. Custom `additional_markdown_processing()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py)
         - Non-custom-syntax stuff that is easier to handle from Flask than from JQuery in round 3, like regex replaces on invalid/unparsable HTML (offload work to JQuery whenever possible)
-    3. Custom JQuery in [app/static/js/display_customization.js](app/static/js/display_customization.js) and [app/blog/static/blog/blogpage/js/display_customization.js](app/blog/static/blog/blogpage/js/display_customization.js)
+    3. Custom JQuery in [app/static/js/display_customization.js](app/static/js/display_customization.js) and [app/blog/static/blogpage/js/display_customization.js](app/blog/static/blogpage/js/display_customization.js)
         - Non-custom-syntax stuff that is easier to handle from JQuery, like adding classes for styling or traversing DOM
 
 ### CSS property order (currently-used properties):

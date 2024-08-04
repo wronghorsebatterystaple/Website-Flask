@@ -12,9 +12,9 @@ const URL_ABS_POST_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.
 
 {%- block js %}
 {{ super() }}
-<script src="{{ url_for('blog.static', filename='blog/blogpage/js/comments.js', _external=True) }}"></script>
+<script src="{{ url_for('blog.static', filename='blogpage/js/comments.js', _external=True) }}"></script>
 {%- if current_user.is_authenticated %} <!-- selective loading works since this script only runs something on `$(document).ready`-->
-  <script src="{{ url_for('blog.static', filename='blog/blogpage/js/mark_comments_as_read.js', _external=True) }}"></script>
+  <script src="{{ url_for('blog.static', filename='blogpage/js/mark_comments_as_read.js', _external=True) }}"></script>
 {%- endif %}
 {%- endblock %}
 
