@@ -76,13 +76,13 @@ const totalPages = {{ total_pages }};
 
 {%- if total_pages > 0 %}
   <div class="text-center mx-auto mt-4 mb-4">
-    <p class="mb-2">Page {{ page }} of {{ total_pages }}</p>
+    <p class="mb-3">Page {{ page }} of {{ total_pages }}</p>
     <div class="d-flex align-items-center justify-content-center mx-auto">
       {%- if prev_page_url %}
-        <a class="link-custom-blue-deep w-2rem text-end" href="{{ prev_page_url }}">--</a>
+        <a class="link-custom-blue-deep no-underline w-2rem text-end" href="{{ prev_page_url }}">--</a>
         <span class="pipe mx-3"></span>
-      {%- else %} <!-- to preserve spacing -->
-        <a class="link-custom-blue-deep w-2rem text-end invisible">--</a>
+      {%- else %}
+        <a class="link-custom-blue-deep no-underline w-2rem text-end invisible">--</a>
         <span class="pipe mx-3 invisible"></span>
       {%- endif %}
     
@@ -92,17 +92,17 @@ const totalPages = {{ total_pages }};
             <input class="form-control" id="page-input" maxlength="5" name="page" type="text" size="1" value="" />
           </div>
           <div class="ps-2">
-            <input class="btn btn-link btn-custom-blue-deep-link" id="goto-page-form-submit" name="submit" type="submit" value="Go!" />
+            <input id="goto-page-form-submit" class="btn btn-link btn-custom-blue-deep-link no-underline" name="submit" type="submit" value="Go :]" />
           </div>
         </div>
       </form>
     
       {%- if next_page_url %}
         <span class="pipe mx-3"></span>
-        <a class="link-custom-blue-deep w-2rem text-start" href="{{ next_page_url }}">++</a>
+        <a class="link-custom-blue-deep no-underline w-2rem text-start" href="{{ next_page_url }}">++</a>
       {%- else %}
         <span class="pipe mx-3 invisible"></span>
-        <a class="link-custom-blue-deep w-2rem text-start invisible">++</a>
+        <a class="link-custom-blue-deep no-underline w-2rem text-start invisible">++</a>
       {%- endif %}
     </div>
   </div>

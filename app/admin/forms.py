@@ -11,7 +11,7 @@ from config import Config
 class LoginForm(FlaskForm):
     password = PasswordField(
         "Password",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_USER_PASSWORD"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_LENMAX"])]
     )
     login_form_submit = SubmitField(
         "Submit"
@@ -41,15 +41,15 @@ class CreateBlogpostForm(FlaskForm):
     )
     title = StringField(
         "Title",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_POST_TITLE"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_LENMAX"])]
     )
     subtitle = StringField(
         "Subtitle",
-        validators=[Length(max=Config.DB_CONFIGS["LENMAX_POST_SUBTITLE"])]
+        validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"])]
     )
     content = TextAreaField(
         "Content",
-        validators=[Length(max=Config.DB_CONFIGS["LENMAX_POST_CONTENT"])]
+        validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_LENMAX"])]
     )
     images = MultipleFileField(
         f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})"
@@ -84,15 +84,15 @@ class EditBlogpostForm(FlaskForm):
     )
     title = StringField(
         "Title",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_POST_TITLE"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_LENMAX"])]
     )
     subtitle = StringField(
         "Subtitle",
-        validators=[Length(max=Config.DB_CONFIGS["LENMAX_POST_SUBTITLE"])]
+        validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"])]
     )
     content = TextAreaField(
         "Content",
-        validators=[Length(max=Config.DB_CONFIGS["LENMAX_POST_CONTENT"])]
+        validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_LENMAX"])]
     )
     images = MultipleFileField(
         f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})"
@@ -133,15 +133,15 @@ class EditBlogpostForm(FlaskForm):
 class ChangeAdminPasswordForm(FlaskForm):
     old_password = PasswordField(
         "Old password",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_USER_PASSWORD"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_LENMAX"])]
     )
     new_password_1 = PasswordField(
         "New password",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_USER_PASSWORD"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_LENMAX"])]
     )
     new_password_2 = PasswordField(
         "Repeat new password",
-        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["LENMAX_USER_PASSWORD"])]
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_LENMAX"])]
     )
     change_admin_password_submit = SubmitField(
         "Submit"

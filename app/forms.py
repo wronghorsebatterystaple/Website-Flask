@@ -8,5 +8,5 @@ from config import Config
 class LoginForm(FlaskForm):
     is_modal = HiddenField(default="no")
     password = PasswordField("Password", validators=[InputRequired(),
-            Length(max=Config.DB_CONFIGS["LENMAX_USER_PASSWORD"])])
+            Length(max=Config.DB_CONFIGS["USER_PASSWORD_LENMAX"])])
     login_modal_submit = SubmitField("Submit")

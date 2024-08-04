@@ -52,21 +52,21 @@ class Config(object):
 
     ## Flask-SQLAlchemy/database
     DB_CONFIGS = {
-        "LENMAX_BLOGPAGE_URL_PATH": 50,
-        "LENMAX_BLOGPAGE_TITLE": 50,
-        "LENMAX_BLOGPAGE_SUBTITLE": 100,
-        "LENMAX_BLOGPAGE_META_DESCRIPTION": 500,
-        "LENMAX_BLOGPAGE_COLOR_HTML_CLASS": 100,
-        "LENMAX_POST_TITLE": 150,
-        "LENMAX_POST_SUBTITLE": 150,
+        "BLOGPAGE_URL_PATH_LENMAX": 50,
+        "BLOGPAGE_TITLE_LENMAX": 50,
+        "BLOGPAGE_SUBTITLE_LENMAX": 100,
+        "BLOGPAGE_META_DESCRIPTION_LENMAX": 500,
+        "BLOGPAGE_COLOR_HTML_CLASS_LENMAX": 100,
+        "POST_TITLE_LENMAX": 150,
+        "POST_SUBTITLE_LENMAX": 150,
         # can't enforce this db-side because it's MEDIUMTEXT so just don't be more than 2^24 - 1 Okayge
-        "LENMAX_POST_CONTENT": 100000,
-        "LENMAX_COMMENT_AUTHOR": 100,
-        "LENMAX_COMMENT_CONTENT": 5000,
-        "LENMAX_USER_USERNAME": 25,
-        "LENMAX_USER_EMAIL": 512,
-        "LENMAX_USER_PASSWORD": 50,
-        "LENMAX_USER_PASSWORD_HASH": 256
+        "POST_CONTENT_LENMAX": 100000,
+        "COMMENT_AUTHOR_LENMAX": 100,
+        "COMMENT_CONTENT_LENMAX": 5000,
+        "USER_USERNAME_LENMAX": 25,
+        "USER_EMAIL_LENMAX": 512,
+        "USER_PASSWORD_LENMAX": 50,
+        "USER_PASSWORD_HASH_LENMAX": 256
     }
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
@@ -79,7 +79,7 @@ class Config(object):
     IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED = [".gif", ".jpeg", ".jpg", ".png", ".svg"]
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     LOGIN_VIEW = "admin.login"
-    POSTS_PER_PAGE = 10
+    POSTS_PER_PAGE = 20
 
     ## Scuffed configs
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blog/blogpage"
