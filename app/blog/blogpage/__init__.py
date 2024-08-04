@@ -1,5 +1,6 @@
 from flask import Blueprint
 
-bp = Blueprint("blogpage", __name__)
+blueprint_name = "blogpage"
+bp = Blueprint(blueprint_name, __name__, template_folder="templates/", static_folder="static/")
 
-from app.blog.blogpage import routes
+from . import routes
