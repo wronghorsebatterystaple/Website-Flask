@@ -123,7 +123,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role=button data-bs-toggle="dropdown">Blogs</a>
+              <button type="button" class="btn nav-link dropdown-toggle" data-bs-toggle="dropdown">Blogs</button>
               <ul class="dropdown-menu">
                 {%- for blogpage in blogpages_all %}
                   <li{%- if blogpage in login_required_blogpages %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
@@ -137,10 +137,10 @@
             </li>
 
             <li class="auth-false nav-item"{%- if current_user.is_authenticated %} hidden{%- endif %}>
-              <a id="login-link" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</a>
+              <button type="button" id="login-link" class="btn nav-link" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
             </li>
             <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <a id="logout-link" class="nav-link" href="#">Logout pls :3</a>
+              <button type="button" id="logout-link" class="btn nav-link">Logout pls :3</button>
             </li>
           </ul>
 

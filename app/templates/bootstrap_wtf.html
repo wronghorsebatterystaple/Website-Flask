@@ -35,16 +35,10 @@
     </div>
 
   {%- elif field.type == "SubmitField" %}
-    {%- if btn_color == "original" %}
-      {{ field(class="btn btn-" ~ btn_type ~ " mb-" ~ bottom_margin) }}
+    {%- if btn_type == "no-bg" %}
+      {{ field(class="btn btn-link btn-link-" ~ btn_color ~ " no-underline mb-" ~ bottom_margin) }}
     {%- else %}
-      {%- if btn_type == "link" %}
-        {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ "-link mb-" ~ bottom_margin) }}
-      {%- elif btn_type == "link-no-underline" %}
-        {{ field(class="btn btn-link btn-" ~ btn_color ~ "-link-no-underline mb-" ~ bottom_margin) }}
-      {%- else %}
-        {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ " mb-" ~ bottom_margin) }}
-      {%- endif %}
+      {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ " mb-" ~ bottom_margin) }}
     {%- endif %}
 
   {%- else %}
@@ -58,7 +52,7 @@
         {%- endif %}
 
         {%- if field.type == "PasswordField" %}
-        <i id="{{ field.name }}-show" class="password-vis-toggle bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
+          <i id="{{ field.name }}-show" class="password-vis-toggle bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
         {%- endif %}
 
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>

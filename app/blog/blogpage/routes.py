@@ -39,15 +39,15 @@ def index():
     if page <= 0: # prevent funny query string shenanigans
         return "", 204
     posts = None
-    all_posts = False
+    posts_all = False
 
     if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
-        all_posts = True
+        posts_all = True
         posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.login_required==False)
                 .order_by(sa.desc(Post.timestamp)), page=page,
                 per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
     else:
-        all_posts = False
+        posts_all = False
         posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.id==blogpage_id)
                 .order_by(sa.desc(Post.timestamp)), page=page,
                 per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
@@ -68,7 +68,7 @@ def index():
 
     return render_template("blog/blogpage/index.html",
             unpublished_blogpage_id=unpublished_blogpage_id, page=page, total_pages=posts.pages,
-            all_posts=all_posts, posts=posts, next_page_url=next_page_url,
+            posts_all=posts_all, posts=posts, next_page_url=next_page_url,
             prev_page_url=prev_page_url)
 
 

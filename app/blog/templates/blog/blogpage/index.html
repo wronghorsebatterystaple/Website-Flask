@@ -17,11 +17,7 @@ const totalPages = {{ total_pages }};
     <h2 class="blogpage-subname mt-2">{{ blogpage.subtitle }}</h2>
   {%- endif %}
 
-  {%- if current_user.is_authenticated %}
-    <a class="auth-true btn-custom-orange-deep btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button">Create post</a>
-  {%- else %}
-    <a class="auth-true btn-custom-orange-deep btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button" hidden>Create post</a>
-  {%- endif %}
+  <a class="auth-true btn-custom-orange-deep btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
 </div>
 <hr />
 
@@ -50,7 +46,7 @@ const totalPages = {{ total_pages }};
               <span class="postlist-timestamp flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
             <span class="gray d-flex align-items-center ms-auto">
-              <span class="me-1">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment.svg', _external=True) }}" alt="comments" />
+              <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
             </span>
           </div>
       {%- else %}
@@ -68,7 +64,7 @@ const totalPages = {{ total_pages }};
               <span class="postlist-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
             <span class="gray d-flex align-items-center ms-auto">
-              <span class="me-1">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><img class="img-comment-icon" src="{{ url_for('blog.static', filename='blog/blogpage/images/icon_comment.svg', _external=True) }}" alt="comments" />
+              <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
             </span>
           </div>
       {%- endif %}

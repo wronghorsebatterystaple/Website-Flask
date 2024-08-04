@@ -8,8 +8,9 @@
 .postlist-blogtitle {
     font-size: 0.8rem;
 }
-.postlist-title {
-    font-size: 1.9rem;
+.postlist-icon-comment {
+    font-size: 14px;
+    margin-bottom: -0.25rem;
 }
 .postlist-subtitle {
     font-size: 1.05rem;
@@ -17,16 +18,8 @@
 .postlist-timestamp {
     font-size: 1rem;
 }
-
-.post-title {
-    font-size: 2.5rem;
-}
-.post-subtitle {
-    font-size: 1.3rem;
-}
-.post-timestamp {
-    font-size: 1rem;
-    margin-right: 0.625rem;
+.postlist-title {
+    font-size: 1.9rem;
 }
 
 .post-codebox {
@@ -60,9 +53,20 @@
 .post-img:not([width]) {
     width: 100%;
 }
+.post-subtitle {
+    font-size: 1.3rem;
+}
+.post-timestamp {
+    font-size: 1rem;
+    margin-right: 0.625rem;
+}
+.post-title {
+    font-size: 2.5rem;
+}
 
-.comment-section-headers {
-    font-size: 2.25rem;
+input[value="Reply"][value="Delete"] {
+    font-size: 0.95rem;
+    margin-bottom: 0rem;
 }
 .comment-author {
     font-size: 1.25rem;
@@ -70,19 +74,16 @@
 .comment-nest-limit-text {
     font-size: 0.95rem;
 }
-input[value="Reply"][value="Delete"] {
-    font-size: 0.95rem;
-    margin-bottom: 0rem;
+.comment-list-header,
+.leave-a-comment-header{
+    font-size: 2.25rem;
 }
 
-.img-comment-icon {
-    width: 1rem;
-    height: 1rem;
-    margin-top: 0.1875rem;
+#link-copy-permanent-link {
+    margin-bottom: -0.125rem;
 }
-.img-verified-checkmark {
-    width: 0.8rem;
-    height: 0.8rem;
+#link-go-to-comments {
+    margin-bottom: -0.1875rem;
 }
 
 #page-input {

@@ -1,3 +1,24 @@
+const unreadCommentsDropdownBtnIcon_elem = $("#unread-comments-dropdown-btn-icon");
+
+async function checkForNotifs() {
+    var notifCount = await populateDropdown();
+    if (notifCount > 0) {
+        setBellWithNotif();
+    } else {
+        setBellWithoutNotif();
+    }
+}
+
+function setBellWithNotif() {
+    unreadCommentsDropdownBtnIcon_elem.removeClass("bi-bell");
+    unreadCommentsDropdownBtnIcon_elem.addClass("bi-bell-fill");
+}
+
+function setBellWithoutNotif() {
+    unreadCommentsDropdownBtnIcon_elem.removeClass("bi-bell-fill");
+    unreadCommentsDropdownBtnIcon_elem.addClass("bi-bell");
+}
+
 async function populateDropdown() {
     const unreadCommentsDropdown_elem = $("#unread-comments-dropdown");
     unreadCommentsDropdown_elem.html("<span class=\"dropdown-item\">Loading…</span>");
@@ -35,23 +56,6 @@ async function populateDropdown() {
     return postCount;
 }
 
-async function setBellNotifStatus() {
-    var notifCount = await populateDropdown();
-    if (notifCount > 0) {
-        setBellWithNotif();
-    } else {
-        setBellWithoutNotif();
-    }
-}
-
-function setBellWithNotif() {
-    $("#unread-comments-dropdown-btn-img").attr("src", `${URL_ABS_IMG_BELL_WITH_NOTIF}`);
-}
-
-function setBellWithoutNotif() {
-    $("#unread-comments-dropdown-btn-img").attr("src", `${URL_ABS_IMG_BELL_WITHOUT_NOTIF}`);
-}
-
 /**
  * Aligns dropdown to the left of its button (since it's on the right of the screen; we don't want overflow).
  */
@@ -68,9 +72,8 @@ $(document).ready(function() {
         childList: true
     });
 
-    // listen to refresh notifications on click
+    // refresh notifications on click
     $("#unread-comments-dropdown-btn").on("click", function() {
-        setBellWithoutNotif();
-        populateDropdown();
+        checkForNotifs();
     });
 });

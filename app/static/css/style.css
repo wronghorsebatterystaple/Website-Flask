@@ -66,12 +66,22 @@ textarea {
 }
 
 .btn-link {
+    --bs-btn-color: var(--custom-blue-deep); /* default */
+    --bs-btn-hover-color: var(--custom-blue-deep-light);
+    --bs-btn-active-color: var(--custom-blue-deep);
+    text-decoration: underline;
     padding: 0;
 }
 
 .code-block-outside {
     border: 1px solid black;
     margin-bottom: 0.5rem;
+}
+
+.content-container {
+    overflow-x: auto !important;
+    max-width: var(--content-container-max-width) !important;
+    margin: auto !important;
 }
 
 .dropdown-item {
@@ -143,12 +153,8 @@ textarea {
     border-left: 3.5px solid var(--color-thm-border) !important;
 }
 
-.navbar-link-color {
-    color: rgba(0, 0, 0, 0.65);
-}
-
-.navbar-color {
-    color: var(--bs-navbar-color);
+.nav-link {
+    border-width: 0;
 }
 
 .password-vis-toggle {

@@ -3,5 +3,5 @@ $(document).ready(async function() {
         method: "POST",
     });
 
-    setBellNotifStatus(); // update notification icon after marking comments as read
+    checkForNotifs(); // update notification icon after marking comments as read
 });

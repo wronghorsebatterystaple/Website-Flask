@@ -61,11 +61,9 @@
     --bs-btn-hover-color: black !important;
     --bs-btn-hover-bg: var(--custom-blue-deep-light) !important;
     --bs-btn-hover-border-color: var(--custom-blue-deep-light) !important;
-    --bs-btn-focus-shadow-rgb: var(--custom-blue-deep) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-blue-deep) !important;
     --bs-btn-active-border-color: var(--custom-blue-deep) !important;
-    --bs-btn-disabled-color: gray !important;
     --bs-btn-disabled-bg: var(--custom-blue-deep-light) !important;
     --bs-btn-disabled-border-color: var(--custom-blue-deep-light) !important;
 }
@@ -76,32 +74,22 @@
     --bs-btn-hover-color: black !important;
     --bs-btn-hover-bg: var(--custom-orange-deep-light) !important;
     --bs-btn-hover-border-color: var(--custom-orange-deep-light) !important;
-    --bs-btn-focus-shadow-rgb: var(--custom-orange-deep) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-orange-deep) !important;
     --bs-btn-active-border-color: var(--custom-orange-deep) !important;
-    --bs-btn-disabled-color: gray !important;
     --bs-btn-disabled-bg: var(--custom-orange-deep-light) !important;
     --bs-btn-disabled-border-color: var(--custom-orange-deep-light) !important;
 }
-.btn-custom-blue-deep-link {
-    --bs-btn-color: var(--custom-blue-deep) !important;
-    --bs-btn-hover-color: var(--custom-blue-deep-dark) !important;
-    --bs-btn-active-color: var(--custom-blue-deep) !important;
-}
 
-/* btn-link-no-underline also simulates button hover behavior (turning less saturated/lighter) instead of btn-link's link behavior (turning less luminous/darker) */
-.btn-custom-orange-deep-link-no-underline {
+.btn-link-custom-orange-deep {
     --bs-btn-color: var(--custom-orange-deep) !important;
     --bs-btn-hover-color: var(--custom-orange-deep-light) !important;
     --bs-btn-active-color: var(--custom-orange-deep) !important;
-    text-decoration: none;
 }
-.btn-custom-pink-link-no-underline {
+.btn-link-custom-pink {
     --bs-btn-color: var(--custom-pink-light) !important;
     --bs-btn-hover-color: var(--custom-pink-xlight) !important;
     --bs-btn-active-color: var(--custom-pink-light) !important;
-    text-decoration: none;
 }
 
 .underline-custom-blue-deep {
@@ -140,13 +128,7 @@
 }
 
 .min-height-full {
-    min-height: 100vh;
-}
-
-.content-container {
-    overflow-x: auto;
-    max-width: var(--content-container-max-width) !important;
-    margin: auto;
+    min-height: 100vh !important;
 }
 
 .w-20 {
@@ -161,30 +143,29 @@
 /*********/
 
 .doublehr {
-    height: 6px;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    height: 6px !important;
+    border-top: 2px solid black !important;
+    border-bottom: 2px solid black !important;
 }
 
-.link-style {
-    color: var(--custom-blue-deep);
-    text-decoration: underline;
+.no-underline {
+    text-decoration: none !important;
 }
 
 .pipe {
     height: 1.5em;
-    border-left: 2px solid black;
+    border-left: 2px solid black !important;
 }
 
 .scroll-overflow-x {
     overflow-x: auto !important;
-    overflow-y: hidden; /* For MathJax center math with \\[pt] extra spacings */
-    margin-bottom: 0.5rem;
+    overflow-y: hidden !important; /* for MathJax center math with \\[pt] extra spacings */
+    margin-bottom: 0.5rem !important;
 }
 
 .underline-on-hover-only {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 .underline-on-hover-only:hover {
-    text-decoration: underline 1px;
+    text-decoration: underline 1px !important;
 }
