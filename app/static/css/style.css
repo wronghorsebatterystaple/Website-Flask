@@ -66,18 +66,13 @@ textarea {
 }
 
 .btn-link {
-    color: var(--custom-blue-deep); /* default */
+    /* default; change Bootstrap vars to avoid CSS priority hell */
+    --bs-btn-color: var(--custom-blue-deep);
+    --bs-btn-active-color: var(--custom-blue-deep);
+    --bs-btn-disabled-color: var(--custom-blue-deep-light);
+    --bs-btn-hover-color: var(--custom-blue-deep-light);
     text-decoration: underline;
     padding: 0;
-}
-.btn-link:active {
-    color: var(--custom-blue-deep);
-}
-.btn-link:disabled {
-    color: var(--custom-blue-deep-light);
-}
-.btn-link:hover {
-    color: var(--custom-blue-deep-light);
 }
 
 .code-block-outside {

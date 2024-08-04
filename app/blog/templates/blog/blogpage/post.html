@@ -30,8 +30,8 @@ const URL_ABS_POST_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.
     {%- else %}
       <span class="post-timestamp black mb-0">{{ moment(post.timestamp).format("l") }}</span>
     {%- endif %}
-    <a id="link-go-to-comments" class="me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
-    <button type="button" id="link-copy-permanent-link" class="btn btn-link" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
+    <a id="go-to-comments-link" class="me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
+    <button type="button" id="copy-permanent-link-btn" class="btn btn-link" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
   </div>
 
   <a class="auth-true btn-custom-orange-deep btn btn-primary mt-2half" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>

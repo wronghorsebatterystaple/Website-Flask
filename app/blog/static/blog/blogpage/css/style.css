@@ -79,10 +79,11 @@ input[value="Reply"][value="Delete"] {
     font-size: 2.25rem;
 }
 
-#link-copy-permanent-link {
+#copy-permanent-link-btn {
     margin-bottom: -0.125rem;
 }
-#link-go-to-comments {
+
+#go-to-comments-link {
     margin-bottom: -0.1875rem;
 }
 

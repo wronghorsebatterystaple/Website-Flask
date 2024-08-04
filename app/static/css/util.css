@@ -63,43 +63,37 @@
 /****************/
 
 .btn-custom-blue-deep {
-    color: black !important;
-    background-color: var(--custom-blue-deep) !important;
-    border-color: var(--custom-blue-deep) !important;
-}
-.btn-custom-blue-deep:active {
-    color: black !important;
-    background-color: var(--custom-blue-deep) !important;
-    border-color: var(--custom-blue-deep) !important;
-}
-.btn-custom-blue-deep:disabled {
-    background-color: var(--custom-blue-deep-light) !important;
-    border-color: var(--custom-blue-deep-light) !important;
-}
-.btn-custom-blue-deep:hover {
-    color: black !important;
-    background-color: var(--custom-blue-deep-light) !important;
-    border-color: var(--custom-blue-deep-light) !important;
+    --bs-btn-color: black !important;
+    --bs-btn-bg: var(--custom-blue-deep) !important;
+    --bs-btn-border-color: var(--custom-blue-deep) !important;
+
+    --bs-btn-active-color: black !important;
+    --bs-btn-active-bg: var(--custom-blue-deep) !important;
+    --bs-btn-active-border-color: var(--custom-blue-deep) !important;
+
+    --bs-btn-disabled-bg: var(--custom-blue-deep-light) !important;
+    --bs-btn-disabled-border-color: var(--custom-blue-deep-light) !important;
+
+    --bs-btn-hover-color: black !important;
+    --bs-btn-hover-bg: var(--custom-blue-deep-light) !important;
+    --bs-btn-hover-border-color: var(--custom-blue-deep-light) !important;
 }
 
 .btn-custom-orange-deep {
-    color: black !important;
-    background-color: var(--custom-orange-deep) !important;
-    border-color: var(--custom-orange-deep) !important;
-}
-.btn-custom-orange-deep:active {
-    color: black !important;
-    background-color: var(--custom-orange-deep) !important;
-    border-color: var(--custom-orange-deep) !important;
-}
-.btn-custom-orange-deep:disabled {
-    background-color: var(--custom-orange-deep-light) !important;
-    border-color: var(--custom-orange-deep-light) !important;
-}
-.btn-custom-orange-deep:hover {
-    color: black !important;
-    background-color: var(--custom-orange-deep-light) !important;
-    border-color: var(--custom-orange-deep-light) !important;
+    --bs-btn-color: black !important;
+    --bs-btn-bg: var(--custom-orange-deep) !important;
+    --bs-btn-border-color: var(--custom-orange-deep) !important;
+
+    --bs-btn-active-color: black !important;
+    --bs-btn-active-bg: var(--custom-orange-deep) !important;
+    --bs-btn-active-border-color: var(--custom-orange-deep) !important;
+
+    --bs-btn-disabled-bg: var(--custom-orange-deep-light) !important;
+    --bs-btn-disabled-border-color: var(--custom-orange-deep-light) !important;
+
+    --bs-btn-hover-color: black !important;
+    --bs-btn-hover-bg: var(--custom-orange-deep-light) !important;
+    --bs-btn-hover-border-color: var(--custom-orange-deep-light) !important;
 }
 
 /*********************/
@@ -107,29 +101,17 @@
 /*********************/
 
 .btn-link-custom-orange-deep {
-    color: var(--custom-orange-deep) !important;
-}
-.btn-link-custom-orange-deep:active {
-    color: var(--custom-orange-deep) !important;
-}
-.btn-link-custom-orange-deep:disabled {
-    color: var(--custom-orange-deep-light) !important;
-}
-.btn-link-custom-orange-deep:hover {
-    color: var(--custom-orange-deep-light) !important;
+    --bs-btn-color: var(--custom-orange-deep) !important;
+    --bs-btn-active-color: var(--custom-orange-deep) !important;
+    --bs-btn-disabled-color: var(--custom-orange-deep-light) !important;
+    --bs-btn-hover-color: var(--custom-orange-deep-light) !important;
 }
 
 .btn-link-custom-pink-light {
-    color: var(--custom-pink-light) !important;
-}
-.btn-link-custom-pink-light:active {
-    color: var(--custom-pink-light) !important;
-}
-.btn-link-custom-pink-light:disabled {
-    color: var(--custom-pink-xlight) !important;
-}
-.btn-link-custom-pink-light:hover {
-    color: var(--custom-pink-xlight) !important;
+    --bs-btn-color: var(--custom-pink-light) !important;
+    --bs-btn-active-color: var(--custom-pink-light) !important;
+    --bs-btn-disabled-color: var(--custom-pink-xlight) !important;
+    --bs-btn-hover-color: var(--custom-pink-xlight) !important;
 }
 
 /*********************/
