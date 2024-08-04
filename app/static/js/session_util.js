@@ -60,7 +60,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         const responseJSON = await fetchWrapper(URL_ABS_POST_LOGOUT, {
-            rethod: "POST"
+            method: "POST"
         },
         {
             previous: getCurrentURLNoQS(false)

@@ -1,9 +1,8 @@
-import os
-import os
 import imghdr
-from werkzeug.utils import escape, secure_filename
+import os
 
 from flask import current_app
+from werkzeug.utils import escape, secure_filename
 
 
 def sanitize_filename(filename):
@@ -26,10 +25,9 @@ def upload_images(images, images_path) -> str:
             if file_ext == ".jpg":                  # `validate_image()` (`imghdr.what()`) returns `jpg` as `jpeg`
                 file_ext = ".jpeg"
             # imghdr can't check SVG; trustable since admin-only
-            invalid = \
-                    file_ext not in current_app.config["IMAGE_UPLOAD_EXTENSIONS"] \
-                    or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
-                    and file_ext != validate_image(image.stream))
+            invalid = file_ext not in current_app.config["IMAGE_UPLOAD_EXTENSIONS"] \
+                      or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
+                      and file_ext != validate_image(image.stream))
             if invalid:
                 return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hat"
 
@@ -49,3 +47,12 @@ def validate_image(image):
     if not format:
         return None
     return f".{format}"
+
+
+def get_images_path(post):
+    return os.path.join(
+            current_app.root_path,
+            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+            str(post.blogpage_id),
+            "images",
+            str(post.id))

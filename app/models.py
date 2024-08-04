@@ -1,143 +1,126 @@
 from datetime import datetime, timezone
 import re
 
-from flask import current_app
-from flask_login import UserMixin
 import sqlalchemy as sa
 import sqlalchemy.dialects.mysql as sa_mysql
 import sqlalchemy.orm as so
+from flask import current_app
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import db
-from app import login_manager
+from app import db, login_manager
 from config import Config
 
 
 class Blogpage(db.Model):
     id: \
             so.Mapped[int] = so.mapped_column(
-                primary_key=True,
-                autoincrement=False
-            )    
+                    primary_key=True,
+                    autoincrement=False)    
     ordering: \
             so.Mapped[int] = so.mapped_column(
-                unique=True,
-                index=True
-            )
+                    unique=True,
+                    index=True)
     url_path: \
             so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["BLOGPAGE_URL_PATH_LENMAX"])
-            )
+                    sa.String(Config.DB_CONFIGS["BLOGPAGE_URL_PATH_LENMAX"]))
     title: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["BLOGPAGE_TITLE_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci")
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["BLOGPAGE_TITLE_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"))
     subtitle: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["BLOGPAGE_SUBTITLE_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci"),
-                nullable=True,
-                default=None
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["BLOGPAGE_SUBTITLE_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"),
+                    nullable=True,
+                    default=None)
     meta_description: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["BLOGPAGE_META_DESCRIPTION_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci"),
-                nullable=True,
-                default=None
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["BLOGPAGE_META_DESCRIPTION_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"),
+                    nullable=True,
+                    default=None)
     html_color_class: \
             so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["BLOGPAGE_COLOR_HTML_CLASS_LENMAX"]),
-                nullable=True,
-                default=None
-            )
+                    sa.String(Config.DB_CONFIGS["BLOGPAGE_COLOR_HTML_CLASS_LENMAX"]),
+                    nullable=True,
+                    default=None)
 
     login_required: \
             so.Mapped[bool] = so.mapped_column(
-                default=True
-            )
+                    default=True)
     unpublished: \
             so.Mapped[bool] = so.mapped_column(
-                default=True
-            )
+                    default=True)
     writeable: \
             so.Mapped[bool] = so.mapped_column(
-                default=False
-            )
+                    default=False)
 
     posts: \
             so.WriteOnlyMapped["Post"] = so.relationship(
-                back_populates="blogpage",
-                cascade="all, delete-orphan",
-                passive_deletes=True
-            )
+                    back_populates="blogpage",
+                    cascade="all, delete-orphan",
+                    passive_deletes=True)
 
 
 class Post(db.Model):
     id: \
             so.Mapped[int] = so.mapped_column(
-                primary_key=True
-            )
+                    primary_key=True)
     content: \
             so.Mapped[sa_mysql.MEDIUMTEXT()] = so.mapped_column(
-                sa_mysql.MEDIUMTEXT(charset="utf8mb4", collation="utf8mb4_0900_ai_ci"),
-                nullable=True
-            )
+                    sa_mysql.MEDIUMTEXT(charset="utf8mb4", collation="utf8mb4_0900_ai_ci"),
+                    nullable=True)
     edited_timestamp: \
             so.Mapped[datetime] = so.mapped_column(
-                nullable=True,
-                default=None
-            )
+                    nullable=True,
+                    default=None)
     published: \
             so.Mapped[bool] = so.mapped_column(
-                default=False
-            )
+                    default=False)
     sanitized_title: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["POST_TITLE_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci")
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["POST_TITLE_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"))
     subtitle: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci"),
-                nullable=True,
-                default=None
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"),
+                    nullable=True,
+                    default=None)
     timestamp: \
             so.Mapped[datetime] = so.mapped_column(
-                index=True,
-                default=lambda: datetime.now(timezone.utc)
-            )
+                    index=True,
+                    default=lambda: datetime.now(timezone.utc))
     title: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["POST_TITLE_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci")
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["POST_TITLE_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"))
 
     blogpage_id: \
             so.Mapped[int] = so.mapped_column(
-                sa.ForeignKey(Blogpage.id, ondelete="CASCADE")
-            )
+                    sa.ForeignKey(Blogpage.id, ondelete="CASCADE"))
     blogpage: \
             so.Mapped[Blogpage] = so.relationship(
-                back_populates="posts"
-            )
+                    back_populates="posts")
 
     comments: \
             so.WriteOnlyMapped["Comment"] = so.relationship(
-                back_populates="post",
-                cascade="all, delete-orphan",
-                passive_deletes=True
-            )
+                    back_populates="post",
+                    cascade="all, delete-orphan",
+                    passive_deletes=True)
 
     def sanitize_title(self):
         self.sanitized_title = ("-".join(self.title.split())).lower()
@@ -176,21 +159,25 @@ class Post(db.Model):
             self.edited_timestamp = None
 
     def expand_image_markdown(self):
-        self.content = re.sub(r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
-                fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/\2)", self.content)
+        self.content = re.sub(
+                r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
+                fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/\2)", 
+                self.content)
 
     def collapse_image_markdown(self) -> str:
-        return re.sub(fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/([\S\s]+?)\)",
-                r"\1(\2)", self.content)
+        return re.sub(
+                fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/([\S\s]+?)\)",
+                r"\1(\2)",
+                self.content)
 
     def get_comment_count(self) -> int:
         # god bless https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-viii-followers
-        return db.session.scalar(sa.select(sa.func.count()).select_from(
-            self.comments.select().subquery()))
+        query = sa.select(sa.func.count()).select_from(self.comments.select().subquery())
+        return db.session.scalar(query)
 
     def get_comment_unread_count(self) -> int:
-        return db.session.scalar(sa.select(sa.func.count()).select_from(
-            self.comments.select().filter_by(unread=True).subquery()))
+        query = sa.select(sa.func.count()).select_from(self.comments.select().filter_by(unread=True).subquery())
+        return db.session.scalar(query)
 
     def __repr__(self):
         return f"<Post {self.id} with title \"{self.title}\" and subtitle \"{self.subtitle}\">"
@@ -199,50 +186,43 @@ class Post(db.Model):
 class Comment(db.Model):
     id: \
             so.Mapped[int] = so.mapped_column(
-                primary_key=True
-            )
+                    primary_key=True)
     author: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["COMMENT_AUTHOR_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci")
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["COMMENT_AUTHOR_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"))
     content: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["COMMENT_CONTENT_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci")
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["COMMENT_CONTENT_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"))
     timestamp: \
             so.Mapped[datetime] = so.mapped_column(
-                index=True,
-                default=lambda: datetime.now(timezone.utc)
-            )
+                    index=True,
+                    default=lambda: datetime.now(timezone.utc))
     unread: \
             so.Mapped[bool] = so.mapped_column(
-                default=True
-            )
+                    default=True)
 
     post_id: \
             so.Mapped[int] = so.mapped_column(
-                sa.ForeignKey(Post.id, ondelete="CASCADE")
-            )
+                    sa.ForeignKey(Post.id, ondelete="CASCADE"))
     post: \
             so.Mapped[Post] = so.relationship(
-                back_populates="comments"
-            )
+                    back_populates="comments")
 
     # Nested set; quite the beautiful data structure
     depth: \
             so.Mapped[int] = so.mapped_column()
     left: \
             so.Mapped[int] = so.mapped_column(
-                index=True
-            )
+                    index=True)
     right: \
             so.Mapped[int] = so.mapped_column(
-                index=True
-            )
+                    index=True)
 
     def insert_comment(self, post, parent) -> bool:
         if parent is None:
@@ -302,24 +282,21 @@ class Comment(db.Model):
 class User(UserMixin, db.Model):
     id: \
             so.Mapped[int] = so.mapped_column(
-                primary_key=True
-            )
+                    primary_key=True)
     email: \
             so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["USER_EMAIL_LENMAX"]),
-                unique=True
-            )
+                    sa.String(Config.DB_CONFIGS["USER_EMAIL_LENMAX"]),
+                    unique=True)
     password_hash: \
             so.Mapped[str] = so.mapped_column(
-                sa.String(Config.DB_CONFIGS["USER_PASSWORD_HASH_LENMAX"])
-            )
+                    sa.String(Config.DB_CONFIGS["USER_PASSWORD_HASH_LENMAX"]))
     username: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                sa_mysql.VARCHAR(Config.DB_CONFIGS["USER_USERNAME_LENMAX"],
-                        charset="utf8mb4",
-                        collation="utf8mb4_0900_ai_ci"),
-                unique=True
-            )
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["USER_USERNAME_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"),
+                    unique=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -330,4 +307,4 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(id):
-	return db.session.get(User, int(id))
+    return db.session.get(User, int(id))

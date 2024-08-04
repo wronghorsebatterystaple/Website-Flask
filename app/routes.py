@@ -1,6 +1,6 @@
+import sqlalchemy as sa
 from flask import jsonify, render_template, url_for
 from flask_wtf.csrf import generate_csrf
-import sqlalchemy as sa
 
 from app import db
 from app.forms import *

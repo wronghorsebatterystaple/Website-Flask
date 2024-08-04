@@ -1,6 +1,4 @@
 from flask import Flask, jsonify, redirect, url_for
-from config import Config
-
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_moment import Moment
@@ -10,8 +8,10 @@ from flask_talisman import Talisman
 from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect, CSRFError
 
+from config import Config
 
-# declare extension instances outside so blueprints can still do `from app import db` etc.
+
+## Declare extension instances outside so blueprints can still do `from app import db` etc.
 cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
 db = SQLAlchemy(session_options={"autoflush": True}) # autoflush allows our post editing code to work properly
@@ -58,7 +58,9 @@ def create_app():
     migrate.init_app(app, db)
     moment.init_app(app)
     login_manager.init_app(app)
-    talisman.init_app(app, content_security_policy=Config.CSP,
+    talisman.init_app(
+            app,
+            content_security_policy=Config.CSP,
             content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
     turnstile.init_app(app)
 

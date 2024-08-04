@@ -1,17 +1,17 @@
 import markdown
 import markdown_grid_tables
 
+import sqlalchemy as sa
 from flask import current_app, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user
-import sqlalchemy as sa
 
+import app.blog.blogpage.util as blogpage_util
+import app.util as util
 from app import db, turnstile
 from app.blog.blogpage import bp
-import app.blog.blogpage.util as blogpage_util
-from app.blog.forms import *
+from app.blog.blogpage.forms import *
 from app.markdown_extensions.myextensions import MyBlockExtensions, MyInlineExtensions
 from app.models import *
-import app.util as util
 
 
 @bp.context_processor
@@ -20,13 +20,14 @@ def inject_blogpage_from_db():
     return dict(blogpage=blogpage, blogpage_id=blogpage.id)
 
 
-@bp.route("/")
+@bp.route("/", methods=["GET"])
 def index():
     blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
     blogpage = db.session.get(Blogpage, blogpage_id)
     if blogpage is None:
-        return redirect(url_for(f"main.index",
-            flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
+        return redirect(url_for(
+                f"main.index",
+                flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
                 _external=True))
     
     # require login to access private blogs
@@ -44,20 +45,26 @@ def index():
     if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
         posts_all = True
         posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.login_required==False)
-                .order_by(sa.desc(Post.timestamp)), page=page,
-                per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
+                .order_by(
+                        sa.desc(Post.timestamp)),
+                        page=page,
+                        per_page=current_app.config["POSTS_PER_PAGE"],
+                        error_out=False)
     else:
         posts_all = False
         posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.id==blogpage_id)
-                .order_by(sa.desc(Post.timestamp)), page=page,
-                per_page=current_app.config["POSTS_PER_PAGE"], error_out=False)
+                .order_by(
+                        sa.desc(Post.timestamp)),
+                        page=page,
+                        per_page=current_app.config["POSTS_PER_PAGE"],
+                        error_out=False)
     if posts is None or (page > posts.pages and posts.pages > 0): # prevent funny query string shenanigans, 2.0
         return "", 204
 
-    next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) \
-            if posts.has_next else None
-    prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) \
-            if posts.has_prev else None
+    next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
+                    else None
+    prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) if posts.has_prev \
+                    else None
 
     # generate corresponding unpublished blogpage ID for "Create Post" button
     unpublished_blogpage_id = blogpage_id
@@ -66,28 +73,34 @@ def index():
         if blogpage_temp is not None and blogpage_temp.unpublished:
             unpublished_blogpage_id = -blogpage_id
 
-    return render_template("blog/blogpage/index.html",
-            unpublished_blogpage_id=unpublished_blogpage_id, page=page, total_pages=posts.pages,
-            posts_all=posts_all, posts=posts, next_page_url=next_page_url,
+    return render_template(
+            "blog/blogpage/index.html",
+            unpublished_blogpage_id=unpublished_blogpage_id,
+            page=page,
+            total_pages=posts.pages,
+            posts_all=posts_all,
+            posts=posts,
+            next_page_url=next_page_url,
             prev_page_url=prev_page_url)
 
 
-@bp.route("/<string:post_sanitized_title>")
+@bp.route("/<string:post_sanitized_title>", methods=["GET"])
 @blogpage_util.login_required_check_blogpage(request)
 def post(post_sanitized_title):
     blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
 
     # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.getPostFromURL(post_sanitized_title, blogpage_id)
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_id)
     if post is None:
-        return redirect(url_for(f"{request.blueprint}.index",
+        return redirect(url_for(
+                f"{request.blueprint}.index",
                 flash_message=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 
     # render Markdown for post content
-    post.content = markdown.markdown(post.content,
-            extensions=["extra", "markdown_grid_tables",
-            MyInlineExtensions(), MyBlockExtensions()])
+    post.content = markdown.markdown(
+            post.content,
+            extensions=["extra", "markdown_grid_tables", MyInlineExtensions(), MyBlockExtensions()])
     post.content = blogpage_util.additional_markdown_processing(post.content)
 
     # render Markdown for comment content
@@ -95,18 +108,27 @@ def post(post_sanitized_title):
     comments = db.session.scalars(comments_query).all()
     for comment in comments:
         # no custom block Markdown because there are ways to 500 the page that I don't wanna fix
-        comment.content = markdown.markdown(comment.content,
-                extensions=["extra", "markdown_grid_tables",
-                MyInlineExtensions()])
+        comment.content = markdown.markdown(
+                comment.content,
+                extensions=["extra", "markdown_grid_tables", MyInlineExtensions()])
         comment.content = blogpage_util.additional_markdown_processing(comment.content)
         comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
 
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
     delete_comment_button = DeleteCommentButton()
-    return render_template("blog/blogpage/post.html",
-            post=post, comments=comments, add_comment_form=add_comment_form,
-            reply_comment_button=reply_comment_button, delete_comment_button=delete_comment_button)
+    return render_template(
+            "blog/blogpage/post.html",
+            post=post,
+            comments=comments,
+            add_comment_form=add_comment_form,
+            reply_comment_button=reply_comment_button,
+            delete_comment_button=delete_comment_button)
+
+
+###################################################################################################
+# POST Endpoints
+###################################################################################################
 
 
 @bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
@@ -129,14 +151,18 @@ def add_comment(post_sanitized_title):
         })
 
     # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.getPostFromURL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(f"{request.blueprint}.index",
+        return redirect(url_for(
+                f"{request.blueprint}.index",
                 flash_message=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 
     # add comment
-    comment = Comment(author=request.form["author"], content=request.form["content"], post=post,
+    comment = Comment(
+            author=request.form["author"],
+            content=request.form["content"],
+            post=post,
             unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
     with db.session.no_autoflush: # otherwise there's a warning
         if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
@@ -156,9 +182,10 @@ def delete_comment(post_sanitized_title):
         return jsonify(success=True, flash_message=f"That comment doesn't exist.")
 
     # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.getPostFromURL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(f"{request.blueprint}.index",
+        return redirect(url_for(
+                f"{request.blueprint}.index",
                 flash_message=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 
@@ -178,9 +205,10 @@ def delete_comment(post_sanitized_title):
 @util.custom_login_required(request)
 def mark_comments_as_read(post_sanitized_title):
     # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.getPostFromURL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(f"{request.blueprint}.index",
+        return redirect(url_for(
+                f"{request.blueprint}.index",
                 flash_message=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 

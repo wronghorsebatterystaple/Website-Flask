@@ -1,30 +1,32 @@
 import os
 import shutil
 
+import sqlalchemy as sa
 from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_user, logout_user
-import sqlalchemy as sa
 from wtforms.form import Form
 
+import app.admin.util as admin_util
+import app.util as util
 from app import db, turnstile
 from app.admin import bp
 from app.admin.forms import *
-import app.admin.util as admin_util
-from app.models import *
 from app.forms import *
-import app.util as util
+from app.models import *
 
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-
     if current_user.is_authenticated:
         logout_user()
 
     if request.method == "GET":
-        return render_template("admin/form_base.html", title="Login",
-                prompt="Access the Secrets of the Universe", form=form)
+        return render_template(
+                "admin/form_base.html",
+                title="Login",
+                prompt="Access the Secrets of the Universe",
+                form=form)
     elif request.method == "POST":
         if not turnstile.verify():
             return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
@@ -35,21 +37,20 @@ def login():
         # check admin password
         if user is None or not user.check_password(request.form.get("password")):
             # display in submission errors section instead of flash
-            return jsonify(submission_errors={"password":
-                    ["No, the password is not \"solarwinds123\"."]})
+            return jsonify(submission_errors={
+                "password": ["No, the password is not \"solarwinds123\"."]
+            })
+
         # no persistent cookies, so session expires on both browser close (if it isn't running in background)
         # and PERMANENT_SESSION_LIFETIME timeout (check README for cookie explanation)
         login_user(user, remember=False)
         session.permanent = False
 
-        # assumes next is always within the same blueprint (request.url_root)! todo what
-        if request.args.get("next", "") != "":
-            return jsonify(success=True, redirect_url_abs=request.args.get("next"), # keeping the URL encoded works
-                    flash_message="The universe is at your fingertips…")
-        elif request.form.get("is_modal") == "yes":
+        if request.form.get("is_modal") == "yes":
             return jsonify(success=True, flash_message="The universe is at your fingertips…")
-        return jsonify(success=True, redirect_url_abs=url_for("main.index", _external=True),
-                flash_message="The universe is at your fingertips…")
+
+        next_url = request.args.get("next", url_for("admin.choose_action", _external=True))
+        return jsonify(success=True, redirect_url_abs=next_url, flash_message="The universe is at your fingertips…")
 
     return "If you see this message, please panic."
 
@@ -60,22 +61,22 @@ def choose_action():
     form = ChooseActionForm()
 
     if request.method == "GET":
-        return render_template("admin/form_base.html", title="Choose action",
-                prompt="42", form=form)
+        return render_template("admin/form_base.html", title="Choose action", prompt="42", form=form)
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
         action = request.form.get("action")
         redirect_url_abs = ""
-        if action == "create":
-            redirect_url_abs = url_for("admin.create_blogpost", _external=True)
-        elif action == "edit":
-            redirect_url_abs = url_for("admin.search_blogpost", _external=True)
-        elif action == "change_admin_password":
-            redirect_url_abs = url_for("admin.change_admin_password", _external=True)
-        else:
-            return jsonify(flash_message="Sneaky…")
+        match action:
+            case "create":
+                redirect_url_abs = url_for("admin.create_blogpost", _external=True)
+            case "edit":
+                redirect_url_abs = url_for("admin.search_blogpost", _external=True)
+            case "change_admin_password":
+                redirect_url_abs = url_for("admin.change_admin_password", _external=True)
+            case _:
+                return jsonify(flash_message="hax0r :3")
 
         return jsonify(redirect_url_abs=redirect_url_abs)
 
@@ -93,22 +94,25 @@ def create_blogpost():
         try:
             blogpage_id = int(request.args.get("blogpage_id", default=None))
         except Exception:
-            return jsonify(redirect_url_abs=url_for("blog.index",
-                flash_message=util.encode_URI_component("hax0r :3"),
+            return jsonify(redirect_url_abs=url_for(
+                    "blog.index",
+                    flash_message=util.encode_URI_component("hax0r :3"),
                     _external=True))
 
         # automatically populate blogpage form field from query string if detected
         if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
             form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
 
-        return render_template("admin/form_base.html", title="Create post",
-                prompt="Create post", form=form)
+        return render_template("admin/form_base.html", title="Create post", prompt="Create post", form=form)
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        post = Post(blogpage_id=request.form.get("blogpage_id"), title=request.form.get("title"),
-                subtitle=request.form.get("subtitle"), content=request.form.get("content"))
+        post = Post(
+                blogpage_id=request.form.get("blogpage_id"),
+                title=request.form.get("title"),
+                subtitle=request.form.get("subtitle"),
+                content=request.form.get("content"))
         
         post.sanitize_title()
         db.session.add(post)
@@ -119,15 +123,14 @@ def create_blogpost():
         post.expand_image_markdown()
 
         # upload images if any
-        images_path = os.path.join(current_app.root_path,
-                    current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-                    str(post.blogpage_id), "images", str(post.id))
+        images_path = admin_util.get_images_path(post)
         res = admin_util.upload_images(request.files.getlist("images"), images_path)
         if res is not None:
             return jsonify(flash_message=res)
 
         db.session.commit()                                 # commit at very end when success is guaranteed
-        return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
+        return jsonify(redirect_url_abs=url_for(
+                f"blog.{post.blogpage_id}.post",
                 post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post created successfully!") # view completed post
 
@@ -140,8 +143,7 @@ def search_blogpost():
     form = SearchBlogpostForm()
 
     if request.method == "GET":
-        return render_template("admin/form_base.html", title="Search Posts",
-                prompt="Search posts", form=form)
+        return render_template("admin/form_base.html", title="Search Posts", prompt="Search posts", form=form)
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -160,12 +162,12 @@ def edit_blogpost():
     try:
         post_id = int(request.args.get("post_id"))
     except Exception:
-        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                flash_message="hax0r :3")
+        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True), flash_message="hax0r :3")
 
     post = db.session.get(Post, post_id)
     if post is None:
-        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True),
+        return jsonify(
+                redirect_url_abs=url_for("admin.search_blogpost", _external=True),
                 flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
     
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
@@ -173,18 +175,18 @@ def edit_blogpost():
     form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages_all if blogpage.writeable]
     form.content.data = post.collapse_image_markdown()
     
-    images_path = os.path.join(current_app.root_path,
-            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-            str(post.blogpage_id), "images", str(post.id))
+    images_path = admin_util.get_images_path(post)
     if os.path.exists(images_path) and os.path.isdir(images_path):
-        images_choices = [(f, f) for f in os.listdir(images_path) \
-                if os.path.isfile(os.path.join(images_path, f))]
+        images_choices = [(f, f) for f in os.listdir(images_path) if os.path.isfile(os.path.join(images_path, f))]
         images_choices.sort(key=lambda t: t[0])
         form.delete_images.choices = images_choices
 
     if request.method == "GET":
-        return render_template("admin/form_base.html", title=f"Edit Post: {post.title}",
-                prompt=f"Edit post: {post.title}", form=form)
+        return render_template(
+                "admin/form_base.html",
+                title=f"Edit Post: {post.title}",
+                prompt=f"Edit post: {post.title}",
+                form=form)
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -212,7 +214,8 @@ def edit_blogpost():
         res = post.check_titles()
         if res is not None:
             return jsonify(flash_message=res)
-        post.add_timestamps(request.form.get("remove_edited_timestamp"),
+        post.add_timestamps(
+                request.form.get("remove_edited_timestamp"),
                 request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
 
@@ -251,16 +254,17 @@ def edit_blogpost():
         if post.blogpage_id != old_blogpage_id:
             if os.path.exists(images_path):
                 try:
-                    new_images_path = os.path.join(current_app.root_path,
-                            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-                            str(post.blogpage_id), "images", str(post.id))
+                    new_images_path = admin_util.get_images_path(post)
                     shutil.move(images_path, new_images_path)
                 except Exception as e:
                     return jsonify(flash_message=f"Image move exception: {str(e)}")
 
         db.session.commit()
-        return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.post",
-                post_sanitized_title=post.sanitized_title, _external=True),
+        return jsonify(
+                redirect_url_abs=url_for(
+                        f"blog.{post.blogpage_id}.post",
+                        post_sanitized_title=post.sanitized_title,
+                        _external=True),
                 flash_message="Post edited successfully!") # view edited post
 
     return "If you see this message, please panic."
@@ -272,8 +276,11 @@ def change_admin_password():
     form = ChangeAdminPasswordForm()
 
     if request.method == "GET":
-        return render_template("admin/form_base.html", title="Change Admin Password",
-                prompt="Do not make it password123456", form=form)
+        return render_template(
+                "admin/form_base.html",
+                title="Change Admin Password",
+                prompt="Don't make it \"solarwinds123\" or else my incorrect password message doesn't wo",
+                form=form)
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -294,10 +301,16 @@ def change_admin_password():
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()
         logout_user()
-        return jsonify(redirect_url_abs=url_for("main.index", _external=True),
+        return jsonify(
+                redirect_url_abs=url_for("main.index", _external=True),
                 flash_message="Your password has been changed!")
 
     return "If you see this message, please panic."
+
+
+###################################################################################################
+# POST Endpoints
+###################################################################################################
 
 
 @bp.route("/logout", methods=["POST"])
@@ -308,7 +321,8 @@ def logout():
     previous = util.decode_URI_component(request.args.get("previous"))
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
         if previous.startswith(url):
-            return jsonify(redirect_url_abs=url_for("main.index", _external=True), 
+            return jsonify(
+                    redirect_url_abs=url_for("main.index", _external=True), 
                     flash_message="Mischief managed.")
 
     return jsonify(flash_message="Mischief managed.")

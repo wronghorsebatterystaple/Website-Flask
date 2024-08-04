@@ -6,36 +6,36 @@ class Config(object):
     SERVER_NAME = "anonymousrand.xyz"
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    csp_self = ["\'self\'", SERVER_NAME, f"blog.{SERVER_NAME}"]
-    csp_default_src = csp_self
+    _CSP_SELF = ["\'self\'", SERVER_NAME, f"blog.{SERVER_NAME}"]
+    _CSP_DEFAULT_SRC = _CSP_SELF
     CSP = {
-        "default-src": csp_default_src,
-        "connect-src": csp_default_src + [
+        "default-src": _CSP_DEFAULT_SRC,
+        "connect-src": _CSP_DEFAULT_SRC + [
             "data:",                        # DarkReader
             "cdnjs.cloudflare.com"          # Highlight.js
         ],
-        "font-src": csp_default_src + [
+        "font-src": _CSP_DEFAULT_SRC + [
             "cdn.jsdelivr.net",
             "fonts.googleapis.com",
             "fonts.gstatic.com"
         ],
-        "img-src": csp_default_src + [
+        "img-src": _CSP_DEFAULT_SRC + [
             "data:"                         # Bootstrap, DarkReader
         ],
-        "script-src": csp_default_src + [
+        "script-src": _CSP_DEFAULT_SRC + [
             "cdn.jsdelivr.net",
             "cdnjs.cloudflare.com",
             "code.jquery.com",
         ],
-        "style-src": csp_default_src + [
+        "style-src": _CSP_DEFAULT_SRC + [
             "cdn.jsdelivr.net",
             "cdnjs.cloudflare.com",
             "code.jquery.com",
             "fonts.googleapis.com",
             "\'unsafe-inline\'"             # MathJax >:(
         ],
-        "base-uri": csp_default_src,
-        "frame-ancestors": csp_default_src
+        "base-uri": _CSP_DEFAULT_SRC,
+        "frame-ancestors": _CSP_DEFAULT_SRC
     }
 
     ## Cookies
@@ -71,6 +71,15 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
     ## Other "conventional" configs
+    POST_COMMENT_ALLOWED_TAGS = {
+        "abbr", "acronym", "b", "blockquote", "br", "center", "code", "details", "div", "em", "h1", "h2", "h3", "i",
+        "li", "p", "pre", "ol", "small", "span", "strong", "sub", "summary", "sup", "table", "tbody", "td", "th",
+        "thead", "tr", "ul"
+    }
+    POST_COMMENT_ALLOWED_ATTRIBUTES = [
+        "class", "colspan", "data-align-bottom", "data-align-center", "data-align-right", "data-align-top",
+        "data-col-width", "height", "rowspan", "title", "width"
+    ]
     CUSTOM_ERRORS = {
         "REFRESH_CSRF": (499, "CSRF Error")
     }
