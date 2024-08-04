@@ -66,11 +66,18 @@ textarea {
 }
 
 .btn-link {
-    --bs-btn-color: var(--custom-blue-deep); /* default */
-    --bs-btn-hover-color: var(--custom-blue-deep-light);
-    --bs-btn-active-color: var(--custom-blue-deep);
+    color: var(--custom-blue-deep); /* default */
     text-decoration: underline;
     padding: 0;
+}
+.btn-link:active {
+    color: var(--custom-blue-deep);
+}
+.btn-link:disabled {
+    color: var(--custom-blue-deep-light);
+}
+.btn-link:hover {
+    color: var(--custom-blue-deep-light);
 }
 
 .code-block-outside {
