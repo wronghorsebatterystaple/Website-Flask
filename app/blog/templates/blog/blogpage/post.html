@@ -70,9 +70,9 @@ const URL_ABS_POST_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.
           {%- else %}
             <div class="comment card{%- if current_user.is_authenticated and comment.unread %} border-custom-pink-light border-3px{%- endif %} mt-{%- if comment.depth == 0 -%}3{%- else -%}1{%- endif -%}">
               <div class="card-body pb-2">
-                <h3 class="comment-author">{{ comment.author }}</h3>
+                <h3 class="comment-author mb-2">{{ comment.author }}</h3>
           {%- endif %}
-              <div class="comment-content gray">{{ comment.content|safe }}</div>
+              <div class="comment-content gray mb-3">{{ comment.content|safe }}</div>
               <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
               
               {%- if comment.depth < 6 %}
