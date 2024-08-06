@@ -103,6 +103,7 @@ I hope I'm not reading this because I bricked a machine again.
     - Update `LOGIN_REQUIRED_URLS` with the backrooms blogpage
 - Create new static directories for it in [app/blog/static/blogpage/](app/blog/static/blogpage/) from the [template](app/blog/static/blogpage/blogpage_template/), and update other static directory names if necessary
     - Remember that since HTML templates are the same for every blogpage, things like font or background image customizations must be done through static files like CSS, which are imported individually per blogpage
+    - If overriding default background image, change `backgroundImgOverrideName` in a JS file belonging to this new blueprint. This is then handled rather clumsily by [app/blog/static/blogpage/js/try_override_background_img.js](app/blog/static/blogpage/js/try_override_background_img.js) by updating `URL_backgroundImgOverride`, which is finally used by [app/static/js/set_background_img.js](app/static/js/set_background_img.js) to update the CSS variable `--background-img`. I'm just trying to make it as easy as possible to override the background image…never mind the 12 layers of abstraction in the middle.
 
 ### Changing blogpage IDs/blogpage static paths:
 - Change the static directories, obviously

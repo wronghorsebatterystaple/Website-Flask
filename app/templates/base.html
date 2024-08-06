@@ -83,10 +83,12 @@
       <!-- Variables (from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
           var csrf_token = "{{ csrf_token() }}";
-          const URL_ABS_GET_LOGIN = "{{ url_for(config['LOGIN_VIEW'], _external=True) }}";
-          const URL_ABS_POST_LOGIN = "{{ url_for('admin.login', _external=True) }}";
-          const URL_ABS_POST_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
-          {%- block vars -%}{%- endblock -%}
+          const URL_BACKGROUND_IMG_DEFAULT = "{{ url_for('static', filename='images/background_default.svg', _external=True) }}";
+          const URL_LOGIN = "{{ url_for('admin.login', _external=True) }}";
+          const URL_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
+          var URL_backgroundImgOverride = "";
+
+          {%- block js_inline -%}{%- endblock -%}
       </script>
 
       <!-- global custom JS -->
@@ -100,6 +102,7 @@
       <script src="{{ url_for('static', filename='js/onclick_util.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/session_util.js', _external=True) }}" defer></script>
+      <script src="{{ url_for('static', filename='js/set_background_img.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/tooltip_util.js', _external=True) }}" defer></script>
       {%- block js %}{%- endblock %}
 

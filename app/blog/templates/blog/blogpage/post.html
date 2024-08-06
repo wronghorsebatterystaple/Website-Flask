@@ -1,7 +1,7 @@
 {%- extends "blog/blogpage/base.html" -%}
 {%- import "bootstrap_wtf.html" as wtf -%}
 
-{%- block vars -%}
+{%- block js_inline -%}
 {{ super() }}
 const URL_ABS_POST_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {%- endblock -%}

@@ -201,7 +201,6 @@ textarea {
 }
 
 #background-img {
-    background-image: url("/static/images/background_default.svg");
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
