@@ -31,7 +31,7 @@ def post_by_id(post_id):
                 _external=True))
 
     return redirect(url_for(
-        f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True))
+            f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True))
 
 
 ###################################################################################################
@@ -43,8 +43,8 @@ def post_by_id(post_id):
 @util.custom_login_required(request)
 def get_posts_with_unread_comments():
     posts_with_unread_comments = {}
-    posts_all = db.session.query(Post).all()
-    for post in posts_all:
+    posts = db.session.query(Post).all()
+    for post in posts:
         comment_unread_count = post.get_comment_unread_count()
         if comment_unread_count > 0:
             posts_with_unread_comments[post.title] = {

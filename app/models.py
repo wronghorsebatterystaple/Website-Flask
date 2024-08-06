@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
 import re
+from datetime import datetime, timezone
 
 import sqlalchemy as sa
 import sqlalchemy.dialects.mysql as sa_mysql
@@ -17,35 +17,6 @@ class Blogpage(db.Model):
             so.Mapped[int] = so.mapped_column(
                     primary_key=True,
                     autoincrement=False)    
-    ordering: \
-            so.Mapped[int] = so.mapped_column(
-                    unique=True,
-                    index=True)
-    url_path: \
-            so.Mapped[str] = so.mapped_column(
-                    sa.String(Config.DB_CONFIGS["BLOGPAGE_URL_PATH_LENMAX"]))
-    title: \
-            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                    sa_mysql.VARCHAR(
-                            Config.DB_CONFIGS["BLOGPAGE_TITLE_LENMAX"],
-                            charset="utf8mb4",
-                            collation="utf8mb4_0900_ai_ci"))
-    subtitle: \
-            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                    sa_mysql.VARCHAR(
-                            Config.DB_CONFIGS["BLOGPAGE_SUBTITLE_LENMAX"],
-                            charset="utf8mb4",
-                            collation="utf8mb4_0900_ai_ci"),
-                    nullable=True,
-                    default=None)
-    meta_description: \
-            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
-                    sa_mysql.VARCHAR(
-                            Config.DB_CONFIGS["BLOGPAGE_META_DESCRIPTION_LENMAX"],
-                            charset="utf8mb4",
-                            collation="utf8mb4_0900_ai_ci"),
-                    nullable=True,
-                    default=None)
     html_color_class: \
             so.Mapped[str] = so.mapped_column(
                     sa.String(Config.DB_CONFIGS["BLOGPAGE_COLOR_HTML_CLASS_LENMAX"]),
@@ -55,9 +26,38 @@ class Blogpage(db.Model):
     login_required: \
             so.Mapped[bool] = so.mapped_column(
                     default=True)
+    meta_description: \
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["BLOGPAGE_META_DESCRIPTION_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"),
+                    nullable=True,
+                    default=None)
+    ordering: \
+            so.Mapped[int] = so.mapped_column(
+                    unique=True,
+                    index=True)
+    subtitle: \
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["BLOGPAGE_SUBTITLE_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"),
+                    nullable=True,
+                    default=None)
+    title: \
+            so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+                    sa_mysql.VARCHAR(
+                            Config.DB_CONFIGS["BLOGPAGE_TITLE_LENMAX"],
+                            charset="utf8mb4",
+                            collation="utf8mb4_0900_ai_ci"))
     unpublished: \
             so.Mapped[bool] = so.mapped_column(
                     default=True)
+    url_path: \
+            so.Mapped[str] = so.mapped_column(
+                    sa.String(Config.DB_CONFIGS["BLOGPAGE_URL_PATH_LENMAX"]))
     writeable: \
             so.Mapped[bool] = so.mapped_column(
                     default=False)

@@ -16,7 +16,7 @@ from app.models import *
 
 @bp.context_processor
 def inject_blogpage_from_db():
-    blogpage = db.session.query(Blogpage).filter(Blogpage.id==blogpage_util.get_blogpage_id(request.blueprint)).first()
+    blogpage = db.session.query(Blogpage).filter_by(id=blogpage_util.get_blogpage_id(request.blueprint)).first()
     return dict(blogpage=blogpage, blogpage_id=blogpage.id)
 
 
@@ -36,29 +36,29 @@ def index():
         if result:
             return result
 
-    page = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
-    if page <= 0: # prevent funny query string shenanigans
+    page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
+    if page_num <= 0:                                # prevent funny query string shenanigans
         return "", 204
     posts = None
-    posts_all = False
+    all_posts = False
 
     if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
-        posts_all = True
-        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.login_required==False)
+        all_posts = True
+        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter_by(login_required=False)
                 .order_by(
                         sa.desc(Post.timestamp)),
-                        page=page,
+                        page=page_num,
                         per_page=current_app.config["POSTS_PER_PAGE"],
                         error_out=False)
     else:
-        posts_all = False
-        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter(Blogpage.id==blogpage_id)
+        all_posts = False
+        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
                 .order_by(
                         sa.desc(Post.timestamp)),
-                        page=page,
+                        page=page_num,
                         per_page=current_app.config["POSTS_PER_PAGE"],
                         error_out=False)
-    if posts is None or (page > posts.pages and posts.pages > 0): # prevent funny query string shenanigans, 2.0
+    if posts is None or (posts.pages > 0 and page_num > posts.pages): # prevent funny query string shenanigans, 2.0
         return "", 204
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
@@ -75,13 +75,13 @@ def index():
 
     return render_template(
             "blog/blogpage/index.html",
-            unpublished_blogpage_id=unpublished_blogpage_id,
-            page=page,
-            total_pages=posts.pages,
-            posts_all=posts_all,
-            posts=posts,
             next_page_url=next_page_url,
-            prev_page_url=prev_page_url)
+            page_num=page_num,
+            all_posts=all_posts,
+            posts=posts,
+            prev_page_url=prev_page_url,
+            total_pages=posts.pages,
+            unpublished_blogpage_id=unpublished_blogpage_id)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
@@ -119,11 +119,11 @@ def post(post_sanitized_title):
     delete_comment_button = DeleteCommentButton()
     return render_template(
             "blog/blogpage/post.html",
-            post=post,
-            comments=comments,
             add_comment_form=add_comment_form,
-            reply_comment_button=reply_comment_button,
-            delete_comment_button=delete_comment_button)
+            comments=comments,
+            delete_comment_button=delete_comment_button,
+            post=post,
+            reply_comment_button=reply_comment_button)
 
 
 ###################################################################################################
@@ -166,11 +166,11 @@ def add_comment(post_sanitized_title):
             unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
     with db.session.no_autoflush: # otherwise there's a warning
         if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
-            return jsonify(flash_message="hax0r :3")
+            return jsonify(flash_message="haker :3")
     db.session.add(comment)
     db.session.commit()
 
-    return jsonify(success=True, flash_message="Comment added successfully!")
+    return jsonify(flash_message="Comment added successfully!", success=True)
 
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
@@ -179,7 +179,7 @@ def delete_comment(post_sanitized_title):
     # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
     if comment is None:
-        return jsonify(success=True, flash_message=f"That comment doesn't exist.")
+        return jsonify(flash_message=f"That comment doesn't exist.", success=True)
 
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
@@ -192,13 +192,13 @@ def delete_comment(post_sanitized_title):
     # delete comment
     descendants = comment.get_descendants(post)
     if not comment.remove_comment(post):
-        return jsonify(flash_message="hax0r :3")
+        return jsonify(flash_message="haker :3")
     for descendant in descendants:
         db.session.delete(descendant)
     db.session.delete(comment)
     db.session.commit()
 
-    return jsonify(success=True, flash_message="1984 established!")
+    return jsonify(flash_message="1984 established!", success=True)
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])

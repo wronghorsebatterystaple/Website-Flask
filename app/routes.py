@@ -15,10 +15,8 @@ def inject_login_form():
 
 ## For navbar
 def inject_blogpages_from_db():
-    blogpages_all_query = db.session.query(Blogpage)
-    blogpages_all = blogpages_all_query.order_by(Blogpage.ordering).all()
-    login_required_blogpages = blogpages_all_query.filter_by(login_required=True).all()
-    return dict(blogpages_all=blogpages_all, login_required_blogpages=login_required_blogpages)
+    blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
+    return dict(blogpages=blogpages)
 
 
 ## Regenerate CSRF token on token (tied to session) expire

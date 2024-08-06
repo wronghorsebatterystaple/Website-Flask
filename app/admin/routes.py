@@ -24,9 +24,9 @@ def login():
     if request.method == "GET":
         return render_template(
                 "admin/form_base.html",
-                title="Login",
+                form=form,
                 prompt="Access the Secrets of the Universe",
-                form=form)
+                title="Login")
     elif request.method == "POST":
         if not turnstile.verify():
             return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
@@ -47,10 +47,10 @@ def login():
         session.permanent = False
 
         if request.form.get("is_modal") == "yes":
-            return jsonify(success=True, flash_message="The universe is at your fingertips…")
+            return jsonify(flash_message="The universe is at your fingertips…", success=True)
 
         next_url = request.args.get("next", url_for("admin.choose_action", _external=True))
-        return jsonify(success=True, redirect_url_abs=next_url, flash_message="The universe is at your fingertips…")
+        return jsonify(flash_message="The universe is at your fingertips…", redirect_url_abs=next_url, success=True)
 
     return "If you see this message, please panic."
 
@@ -61,7 +61,7 @@ def choose_action():
     form = ChooseActionForm()
 
     if request.method == "GET":
-        return render_template("admin/form_base.html", title="Choose action", prompt="42", form=form)
+        return render_template("admin/form_base.html", form=form, prompt="42", title="Choose action")
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -76,7 +76,7 @@ def choose_action():
             case "change_admin_password":
                 redirect_url_abs = url_for("admin.change_admin_password", _external=True)
             case _:
-                return jsonify(flash_message="hax0r :3")
+                return jsonify(flash_message="haker :3")
 
         return jsonify(redirect_url_abs=redirect_url_abs)
 
@@ -87,8 +87,8 @@ def choose_action():
 @util.custom_login_required(request)
 def create_blogpost():
     form = CreateBlogpostForm()
-    blogpages_all = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages_all if blogpage.writeable]
+    blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
+    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages if blogpage.writeable]
 
     if request.method == "GET":
         try:
@@ -96,14 +96,14 @@ def create_blogpost():
         except Exception:
             return jsonify(redirect_url_abs=url_for(
                     "blog.index",
-                    flash_message=util.encode_URI_component("hax0r :3"),
+                    flash_message=util.encode_URI_component("haker :3"),
                     _external=True))
 
         # automatically populate blogpage form field from query string if detected
         if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
             form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
 
-        return render_template("admin/form_base.html", title="Create post", prompt="Create post", form=form)
+        return render_template("admin/form_base.html", form=form, prompt="Create post", title="Create post")
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -128,11 +128,13 @@ def create_blogpost():
         if res is not None:
             return jsonify(flash_message=res)
 
-        db.session.commit()                                 # commit at very end when success is guaranteed
-        return jsonify(redirect_url_abs=url_for(
-                f"blog.{post.blogpage_id}.post",
-                post_sanitized_title=post.sanitized_title, _external=True),
-                flash_message="Post created successfully!") # view completed post
+        db.session.commit()              # commit at very end when success is guaranteed
+        return jsonify(
+                flash_message="Post created successfully!",
+                redirect_url_abs=url_for(
+                        f"blog.{post.blogpage_id}.post",
+                        post_sanitized_title=post.sanitized_title,
+                        _external=True)) # view completed post
 
     return "If you see this message, please panic."
 
@@ -162,31 +164,32 @@ def edit_blogpost():
     try:
         post_id = int(request.args.get("post_id"))
     except Exception:
-        return jsonify(redirect_url_abs=url_for("admin.search_blogpost", _external=True), flash_message="hax0r :3")
+        return jsonify(flash_message="haker :3", redirect_url_abs=url_for("admin.search_blogpost", _external=True))
 
     post = db.session.get(Post, post_id)
     if post is None:
         return jsonify(
-                redirect_url_abs=url_for("admin.search_blogpost", _external=True),
-                flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
+                flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?",
+                redirect_url_abs=url_for("admin.search_blogpost", _external=True))
     
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
-    blogpages_all = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages_all if blogpage.writeable]
+    blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
+    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages if blogpage.writeable]
     form.content.data = post.collapse_image_markdown()
     
     images_path = admin_util.get_images_path(post)
     if os.path.exists(images_path) and os.path.isdir(images_path):
-        images_choices = [(f, f) for f in os.listdir(images_path) if os.path.isfile(os.path.join(images_path, f))]
+        images_choices = [(f, f) for f in os.listdir(images_path)
+                         if os.path.isfile(os.path.join(images_path, f)) and not f.startswith(".")]
         images_choices.sort(key=lambda t: t[0])
         form.delete_images.choices = images_choices
 
     if request.method == "GET":
         return render_template(
                 "admin/form_base.html",
-                title=f"Edit Post: {post.title}",
+                form=form,
                 prompt=f"Edit post: {post.title}",
-                form=form)
+                title=f"Edit Post: {post.title}")
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -200,8 +203,9 @@ def edit_blogpost():
                     shutil.rmtree(images_path)
             except Exception as e:
                 return jsonify(flash_message=f"Directory delete exception: {str(e)}")
-            return jsonify(redirect_url_abs=url_for(f"blog.{post.blogpage_id}.index", _external=True),
-                    flash_message="Post deleted successfully!")
+            return jsonify(
+                    flash_message="Post deleted successfully!",
+                    redirect_url_abs=url_for(f"blog.{post.blogpage_id}.index", _external=True))
 
         # handle post editing otherwise
         old_blogpage_id = post.blogpage_id
@@ -261,11 +265,11 @@ def edit_blogpost():
 
         db.session.commit()
         return jsonify(
+                flash_message="Post edited successfully!", # view edited post
                 redirect_url_abs=url_for(
                         f"blog.{post.blogpage_id}.post",
                         post_sanitized_title=post.sanitized_title,
-                        _external=True),
-                flash_message="Post edited successfully!") # view edited post
+                        _external=True))
 
     return "If you see this message, please panic."
         
@@ -278,9 +282,9 @@ def change_admin_password():
     if request.method == "GET":
         return render_template(
                 "admin/form_base.html",
-                title="Change Admin Password",
+                form=form,
                 prompt="Don't make it \"solarwinds123\" or else my incorrect password message doesn't wo",
-                form=form)
+                title="Change admin password")
     elif request.method == "POST":
         if not form.validate():
             return jsonify(submission_errors=form.errors)
@@ -302,8 +306,8 @@ def change_admin_password():
         db.session.commit()
         logout_user()
         return jsonify(
-                redirect_url_abs=url_for("main.index", _external=True),
-                flash_message="Your password has been changed!")
+                flash_message="Your password has been changed!",
+                redirect_url_abs=url_for("main.index", _external=True))
 
     return "If you see this message, please panic."
 
@@ -322,7 +326,7 @@ def logout():
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
         if previous.startswith(url):
             return jsonify(
-                    redirect_url_abs=url_for("main.index", _external=True), 
-                    flash_message="Mischief managed.")
+                    flash_message="Mischief managed.",
+                    redirect_url_abs=url_for("main.index", _external=True))
 
     return jsonify(flash_message="Mischief managed.")

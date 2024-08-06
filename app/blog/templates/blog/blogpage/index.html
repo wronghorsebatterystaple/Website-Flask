@@ -6,7 +6,7 @@ const totalPages = {{ total_pages }};
 {%- endblock -%}
 
 {%- block title -%}
-{{ blogpage.title }}{%- if page > 1 %} (page {{ page }}){%- endif %}
+{{ blogpage.title }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %}
 {{ super() }}
 {%- endblock -%}
 
@@ -24,7 +24,7 @@ const totalPages = {{ total_pages }};
 <div>
   {%- for post in posts %}
     <div>
-      {%- if posts_all %}
+      {%- if all_posts %}
         {%- set color = post.blogpage.html_color_class %}
         <a class="{{ color }} underline-{{ color }} underline-on-hover-only shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
@@ -76,7 +76,7 @@ const totalPages = {{ total_pages }};
 
 {%- if total_pages > 0 %}
   <div class="text-center mx-auto mt-4 mb-4">
-    <p class="mb-3">Page {{ page }} of {{ total_pages }}</p>
+    <p class="mb-3">Page {{ page_num }} of {{ total_pages }}</p>
     <div class="d-flex align-items-center justify-content-center mx-auto">
       {%- if prev_page_url %}
         <a class="link-custom-blue-deep no-underline w-2rem text-end" href="{{ prev_page_url }}">--</a>
