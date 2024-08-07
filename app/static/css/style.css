@@ -157,6 +157,7 @@ textarea {
 
 .nav-link {
     border-width: 0;
+    background-color: transparent !important;
 }
 
 .password-vis-toggle {
