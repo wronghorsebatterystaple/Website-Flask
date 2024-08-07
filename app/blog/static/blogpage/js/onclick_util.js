@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $("#copy-permanent-link-btn").on("click", function() {
-        navigator.clipboard.writeText(URL__PERMANENT_LINK);
+        navigator.clipboard.writeText(URL_PERMANENT_LINK);
         customFlash("Link copied!");
     });
 });

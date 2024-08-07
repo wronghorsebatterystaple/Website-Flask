@@ -10,7 +10,7 @@ import app.util as util
 from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
-from app.markdown_extensions.myextensions import MyBlockExtensions, MyInlineExtensions
+from app.markdown_extensions.custom_extensions import CustomBlockExtensions, CustomInlineExtensions
 from app.models import *
 
 
@@ -100,19 +100,26 @@ def post(post_sanitized_title):
     # render Markdown for post content
     post.content = markdown.markdown(
             post.content,
-            extensions=["extra", "markdown_grid_tables", MyInlineExtensions(), MyBlockExtensions()])
+            extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
     post.content = blogpage_util.additional_markdown_processing(post.content)
 
     # render Markdown for comment content
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
     for comment in comments:
-        # no custom block Markdown because there are ways to 500 the page that I don't wanna fix
-        comment.content = markdown.markdown(
-                comment.content,
-                extensions=["extra", "markdown_grid_tables", MyInlineExtensions()])
-        comment.content = blogpage_util.additional_markdown_processing(comment.content)
-        comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
+        if comment.author == current_app.config["VERIFIED_AUTHOR"]:
+            comment.content = markdown.markdown(
+                    comment.content,
+                    extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
+            comment.content = blogpage_util.additional_markdown_processing(comment.content)
+        else:
+            # no custom block Markdown because there are ways to 500 the page that I don't wanna fix
+            comment.content = markdown.markdown(
+                    comment.content,
+                    extensions=["extra", "markdown_grid_tables", CustomInlineExtensions()])
+            comment.content = blogpage_util.additional_markdown_processing(comment.content)
+            comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
+
 
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
@@ -140,11 +147,16 @@ def add_comment(post_sanitized_title):
 
     # validate form submission
     add_comment_form = AddCommentForm()
+    # let admin user leave author field blank to fill in their name by default
+    author = request.form["author"]
+    if current_user.is_authenticated and not author:
+        author = current_app.config["VERIFIED_AUTHOR"];
+        add_comment_form.author.raw_data[0] = author # to avoid this being interpreted as a validation error
     if not add_comment_form.validate():
         return jsonify(submission_errors=add_comment_form.errors)
 
     # make sure non-admin users can't masquerade as verified author
-    is_verified_author = request.form["author"].strip() == current_app.config["VERIFIED_AUTHOR"]
+    is_verified_author = author.strip() == current_app.config["VERIFIED_AUTHOR"]
     if is_verified_author and not current_user.is_authenticated:
         return jsonify(submission_errors={
             "author": ["$8 isn't going to buy you a verified checkmark here."]
@@ -160,7 +172,7 @@ def add_comment(post_sanitized_title):
 
     # add comment
     comment = Comment(
-            author=request.form["author"],
+            author=author,
             content=request.form["content"],
             post=post,
             unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh

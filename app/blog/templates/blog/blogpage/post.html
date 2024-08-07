@@ -3,7 +3,7 @@
 
 {%- block js_inline -%}
 {{ super() }}
-const URL__PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
+const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {%- endblock -%}
 
 {%- block title -%}
