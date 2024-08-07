@@ -6,15 +6,15 @@ const totalPages = {{ total_pages }};
 {%- endblock -%}
 
 {%- block title -%}
-{{ blogpage.title }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %}
+{{ blogpage.name }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %}
 {{ super() }}
 {%- endblock -%}
 
 {%- block content %}
 <div class="pt-3 shrinking-font-14">
-  <h1 class="blogpage-name">{{ blogpage.title }}</h1>
-  {%- if blogpage.subtitle is not none %}
-    <h2 class="blogpage-subname mt-2">{{ blogpage.subtitle }}</h2>
+  <h1 class="blogpage-name">{{ blogpage.name }}</h1>
+  {%- if blogpage.subname is not none %}
+    <h2 class="blogpage-subname mt-2">{{ blogpage.subname }}</h2>
   {%- endif %}
 
   <a class="auth-true btn-custom-orange-deep btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
@@ -30,7 +30,7 @@ const totalPages = {{ total_pages }};
           <div class="d-flex align-items-top">
             <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
             <h1 class="postlist-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-0">{{ post.title }}</h1>
-            <span class="postlist-blogtitle flex-shrink-9 text-end ms-auto mb-0"> {{ post.blogpage.title }}</span>
+            <span class="postlist-blogtitle flex-shrink-9 text-end ms-auto mb-0"> {{ post.blogpage.name }}</span>
           </div>
 
           {%- if post.subtitle is not none %}

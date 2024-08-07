@@ -38,18 +38,18 @@ class Blogpage(db.Model):
             so.Mapped[int] = so.mapped_column(
                     unique=True,
                     index=True)
-    subtitle: \
+    subname: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
                     sa_mysql.VARCHAR(
-                            Config.DB_CONFIGS["BLOGPAGE_SUBTITLE_LENMAX"],
+                            Config.DB_CONFIGS["BLOGPAGE_SUBNAME_LENMAX"],
                             charset="utf8mb4",
                             collation="utf8mb4_0900_ai_ci"),
                     nullable=True,
                     default=None)
-    title: \
+    name: \
             so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
                     sa_mysql.VARCHAR(
-                            Config.DB_CONFIGS["BLOGPAGE_TITLE_LENMAX"],
+                            Config.DB_CONFIGS["BLOGPAGE_NAME_LENMAX"],
                             charset="utf8mb4",
                             collation="utf8mb4_0900_ai_ci"))
     unpublished: \

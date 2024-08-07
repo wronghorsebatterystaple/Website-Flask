@@ -88,7 +88,7 @@ def choose_action():
 def create_blogpost():
     form = CreateBlogpostForm()
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages if blogpage.writeable]
+    form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.writeable]
 
     if request.method == "GET":
         try:
@@ -174,7 +174,7 @@ def edit_blogpost():
     
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.title) for blogpage in blogpages if blogpage.writeable]
+    form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.writeable]
     form.content.data = post.collapse_image_markdown()
     
     images_path = admin_util.get_images_path(post)

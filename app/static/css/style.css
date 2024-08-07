@@ -207,8 +207,7 @@ textarea {
     background-repeat: no-repeat;
 }
 
-/* For centering due to larger font (probably a visual approximation) */
-#navbar-home {
+#navbar-home { /* for centering due to larger font (probably a visual approximation) */
     margin-top: -0.1em;
 }
 #navbar-logo {

@@ -43,7 +43,7 @@
       </script>
       <script src="{{ url_for('static', filename='js/flask_moment_for_csp.js', _external=True) }}" defer></script>
 
-      <!-- Fonts -->
+      <!-- fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" />
@@ -80,7 +80,7 @@
       {%- block css %}{%- endblock %}
 
     <!-- JS -->
-      <!-- Variables (from Jinja to JS, for example) -->
+      <!-- inline (passing vars from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
           var csrf_token = "{{ csrf_token() }}";
           const URL_BACKGROUND_IMG_DEFAULT = "{{ url_for('static', filename='images/background_default.svg', _external=True) }}";
@@ -92,18 +92,20 @@
       </script>
 
       <!-- global custom JS -->
+      <script src="{{ url_for('static', filename='js/util.js', _external=True) }}"></script> <!-- no defer because it's util -->
+      <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script> <!-- no defer to avoid flash -->
+
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/ajax_util.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js', _external=True) }}" defer></script>
-      <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script> <!-- no defer to avoid flash -->
       <script src="{{ url_for('static', filename='js/display_customization.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/form_util.js', _external=True) }}" defer></script>
-      <script src="{{ url_for('static', filename='js/misc.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/onclick_util.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/session_util.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/set_background_img.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/tooltip_util.js', _external=True) }}" defer></script>
+
       {%- block js %}{%- endblock %}
 
     <title>{%- block title %}{%- endblock %}</title>
@@ -130,7 +132,7 @@
               <ul class="dropdown-menu">
                 {%- for blogpage in blogpages %}
                   <li{%- if blogpage.login_required %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
-                    <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index', _external=True) }}">{{ blogpage.title }}</a>
+                    <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index', _external=True) }}">{{ blogpage.name }}</a>
                   </li>
                 {%- endfor %}
               </ul>

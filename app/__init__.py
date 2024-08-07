@@ -61,7 +61,14 @@ def create_app():
     talisman.init_app(
             app,
             content_security_policy=Config.CSP,
-            content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
+            content_security_policy_nonce_in=[
+                "script-src",
+                "script-src-attr",
+                "script-src-elem",
+            #    "style-src",
+            #    "style-src-attr",
+            #    "style-src-elem"
+            ])
     turnstile.init_app(app)
 
     return app

@@ -48,7 +48,7 @@ I hope I'm not reading this because I bricked a machine again.
     - Use `mysql --protocol=tcp` to connect so it doesn't try to use a Unix socket; make sure to use the MySQL user that has `%` as its host (because that means it can connect from any host, whereas `localhost` would mean that it can only connect from within the Docker container)
 - To change [app/models.py](app/models.py):
     - Edit [app/models.py](app/models.py) on the host
-    - Run `flask db migrate` on the host; this requires MySQL connectivity from the host
+    - Run `flask db migrate` on the host in the Python venv; this requires MySQL connectivity from the host
     - Run `flask db upgrade` or restart the Docker containers
 
 ### Access control documentation:
