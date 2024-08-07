@@ -20,7 +20,7 @@ I hope I'm not reading this because I bricked a machine again.
     - **.env**: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference) for connecting to MySQL from host
     - **deployment/docker/flask/envs/.env**: same as **.env** but with `DATABASE_URL` modified to connect to the MySQL Docker container
     - **deployment/docker/mysql/envs/.mysqlenv**: nothing yet (no environment variables if bind-mounting existing MySQL data directory)
-    - **deployment/backup-scripts/db_backup_config.sh**: set the variables referenced in `db_backup.sh`
+    - **deployment/backup-scripts/db_backup_config.sh**: set the variables referenced in [deployment/backup-scripts/db_backup.sh](deployment/backup-scripts/db_backup_config.sh)
     - **app/static/css/custom_bootstrap.css** and **app/static/css/custom_bootstrap.css.map**: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
 5. Navigate to [deployment/docker/](deployment/docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd-reference/flask-website.service](deployment/systemd-reference/flask-website.service))
 
