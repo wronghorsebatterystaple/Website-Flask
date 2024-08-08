@@ -1,13 +1,14 @@
 {%- extends "blog/blogpage/base.html" -%}
 {%- import "bootstrap_wtf.html" as wtf -%}
 
-{%- block js_inline -%}
-{{ super() }}
-const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
+{%- block title -%}
+{{ post.title }} | {{ blogpage.name }}
 {%- endblock -%}
 
-{%- block title -%}
-{{ post.title }} - {{ blogpage.name }}
+{%- block js_inline -%}
+{{ super() }}
+const URL_MARK_COMMENTS_AS_READ = "{{ url_for('blog.' ~ blogpage_id ~ '.mark_comments_as_read', post_sanitized_title=post.sanitized_title, _external=True) }}";
+const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {%- endblock -%}
 
 {%- block js %}

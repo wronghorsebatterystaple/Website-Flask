@@ -45,10 +45,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var formData = new FormData(e.target, e.originalEvent.submitter);
-        const responseJSON = await fetchWrapper(URL_LOGIN, {
-            method: "POST",
-            body: formData
-        });
+        const responseJSON = await fetchWrapper(URL_LOGIN, { method: "POST", body: formData });
 
         doBaseAjaxResponse(responseJSON, e);
         if (responseJSON.success) {
@@ -59,12 +56,10 @@ $(document).ready(function() {
     $("#logout-link").on("click", async function(e) {
         e.preventDefault();
 
-        const responseJSON = await fetchWrapper(URL_LOGOUT, {
-            method: "POST"
-        },
-        {
-            previous: getCurrentURLNoQS(false)
-        });
+        const responseJSON = await fetchWrapper(
+                URL_LOGOUT,
+                { method: "POST" },
+                { previous: getCurrentURLNoQS(false) });
 
         doBaseAjaxResponse(responseJSON, e);
         if (!responseJSON.redirect_url_abs) {

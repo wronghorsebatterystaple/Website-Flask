@@ -1,3 +1,7 @@
+"""
+Use this blueprint instead of `blog.blogpage` for things that are not on a per-blogpage basis.
+"""
+
 from flask import Blueprint
 
 blueprint_name = "blog"

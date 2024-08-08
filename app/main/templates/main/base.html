@@ -1,13 +1,14 @@
 {%- extends "base.html" -%}
 
 {%- block meta_description -%}
-AnonymousRand blogs, projects, and more.
+AnonymousRand blogs, blogs, and more.
 {%- endblock -%}
 
 {%- block title -%}
-- AnonymousRand
+| AnonymousRand
 {%- endblock -%}
 
 {%- block css %}
+{{ super() }}
 <link rel="stylesheet" href="{{ url_for('main.static', filename='css/style.css', _external=True) }}" />
 {%- endblock %}

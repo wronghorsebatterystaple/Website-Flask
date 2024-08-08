@@ -1,13 +1,13 @@
 {%- extends "blog/blogpage/base.html" -%}
 
-{%- block js_inline -%}
-{{ super() }}
-const totalPages = {{ total_pages }};
-{%- endblock -%}
-
 {%- block title -%}
 {{ blogpage.name }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %}
 {{ super() }}
+{%- endblock -%}
+
+{%- block js_inline -%}
+{{ super() }}
+const totalPages = {{ total_pages }};
 {%- endblock -%}
 
 {%- block content %}

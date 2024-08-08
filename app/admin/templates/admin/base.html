@@ -1,13 +1,14 @@
 {%- extends "base.html" -%}
 
 {%- block meta_description -%}
-If you're seeing this on a search engine, something's very, very, wrong.
+if you're seeing this on a search engine, something's very, very, wrong.
 {%- endblock -%}
 
 {%- block title -%}
-- AnonymousRand admin
+| AnonymousRand admin
 {%- endblock -%}
 
 {%- block css %}
+{{ super() }}
 <link rel="stylesheet" href="{{ url_for('admin.static', filename='css/style.css', _external=True) }}" />
 {%- endblock %}

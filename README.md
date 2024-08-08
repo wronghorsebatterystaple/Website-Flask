@@ -48,6 +48,7 @@ I hope I'm not reading this because I bricked a machine again.
     - Use `mysql --protocol=tcp` to connect so it doesn't try to use a Unix socket; make sure to use the MySQL user that has `%` as its host (because that means it can connect from any host, whereas `localhost` would mean that it can only connect from within the Docker container)
 - To change [app/models.py](app/models.py):
     - Edit [app/models.py](app/models.py) on the host
+        - IMPORTANT: if renaming columns, you will probably have to edit the Alembic script in [migrations/versions/](migrations/versions/) to use `alter_column()`! `existing_type` is a required argument; reference [migrations/versions/79665802aa08_rename_blogpage_title_and_subtitle_to_.py](migrations/versions/79665802aa08_rename_blogpage_title_and_subtitle_to_.py).
     - Run `flask db migrate` on the host in the Python venv; this requires MySQL connectivity from the host
     - Run `flask db upgrade` or restart the Docker containers
 
@@ -133,7 +134,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Update `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js)
 
 ### Other notes:
-- `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` in both HTML templates and Flask to simplify the cross-origin nature of having a blog subdomain.
+- `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` in both HTML templates and Flask to simplify the cross-origin nature of having a blog subdomain
 
 # Blog writer notes
 
