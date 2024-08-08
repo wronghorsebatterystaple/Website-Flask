@@ -1,5 +1,6 @@
-const TEXTAREA_HEIGHT_MAX = $(window).height() * 0.6;
 function adjustTextareaHeight(domTextarea, initial) {
+    const TEXTAREA_HEIGHT_MAX = $(window).height() * 0.6;
+
     // `scrollHeight` is real-time content height, `offsetHeight` is visual height that must be adjusted to `scrollheight`
     // don't change if increasing from above TEXTAREA_HEIGHT_MAX
     // hard to catch decreasing to above TEXTAREA_HEIGHT_MAX because scrollHeight is not updated until `height` is 0
@@ -13,7 +14,7 @@ function adjustTextareaHeight(domTextarea, initial) {
 
     domTextarea.style.height = "0";
     // clamp size between 7rem (roughly 4 rows) and 60vh
-    var height_px = Math.max(
+    let height_px = Math.max(
             7 * parseFloat(getComputedStyle(document.documentElement).fontSize),
             Math.min(TEXTAREA_HEIGHT_MAX, domTextarea.scrollHeight));
     domTextarea.style.height = `${height_px + 1.5}px`; // + 1.5 to hide scrollbar

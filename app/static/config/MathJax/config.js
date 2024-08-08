@@ -1,8 +1,8 @@
 const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
 const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
 
-function onMathJaxTypeset(selector_root) {
-    const elemRoot = $(selector_root);
+function onMathJaxTypeset(rootSelector) {
+    const elemRoot = $(rootSelector);
     if (!elemRoot) {
         return;
     }

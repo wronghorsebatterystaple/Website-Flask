@@ -1,7 +1,7 @@
 const elemUnreadCommentsDropdownBtnIcon = $("#unread-comments-dropdown-btn-icon");
 
 async function checkForNotifs() {
-    var notifCount = await populateDropdown();
+    let notifCount = await populateDropdown();
     if (notifCount > 0) {
         setBellWithNotif();
     } else {
@@ -37,16 +37,16 @@ async function populateDropdown() {
         return -1;
     }
 
-    var postCount = Object.keys(responseJSON).length;
+    let postCount = Object.keys(responseJSON).length;
     if (postCount === 0) {
         elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
         return postCount;
     }
 
-    var html = "";
+    let html = "";
     Object.keys(responseJSON).forEach(postTitle => {
-        var postURL = responseJSON[postTitle].url;
-        var postUnreadCount = responseJSON[postTitle].unread_count;
+        let postURL = responseJSON[postTitle].url;
+        let postUnreadCount = responseJSON[postTitle].unread_count;
         html += `<a class="dropdown-item" href="${postURL}"><span class="custom-pink">(${postUnreadCount})</span> ${postTitle}</a>`;
     });
     elemUnreadCommentsDropdown.html(html);
@@ -59,7 +59,7 @@ async function populateDropdown() {
  */
 function alignDropdownLeftwards(records) {
     const domDropdown = records[0].target;
-    var offset = domDropdown.offsetWidth - document.querySelector("#unread-comments-dropdown-btn").offsetWidth;
+    let offset = domDropdown.offsetWidth - document.querySelector("#unread-comments-dropdown-btn").offsetWidth;
     document.documentElement.style.setProperty("--unread-comments-dropdown-left", `-${offset}px`);
 }
 

@@ -1,8 +1,3 @@
-function reloadCSRF(newToken) {
-    csrf_token = newToken;
-    $("input[name='csrf_token']").val(csrf_token); // reload hidden form fields
-}
-
 async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
     if (!options) {
         options = {};
@@ -15,16 +10,16 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
     options.credentials = "include";
     options.mode = "cors";
 
-    var URLWithParams_abs = new URL(baseURL_abs);
+    let URLWithParams_abs = new URL(baseURL_abs);
     if (paramsDict) {
-        for (var key in paramsDict) {
+        for (let key in paramsDict) {
             URLWithParams_abs.searchParams.append(key, encodeURIComponent(paramsDict[key]));
         }
     }
 
     const response = await fetch(URLWithParams_abs, options);
     const responseText = await response.text();
-    var responseJSON;
+    let responseJSON;
     try {
         responseJSON = JSON.parse(responseText);
     } catch (e) {
@@ -41,7 +36,7 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
             customFlash("Please slow down :3");
             break;
         case 499:
-            var newToken = responseJSON.new_csrf_token;
+            let newToken = responseJSON.new_csrf_token;
             reloadCSRF(newToken);
             hideAuthElems(); // session must have expired for CSRF expiry
 
@@ -67,7 +62,7 @@ function doBaseAjaxResponse(responseJSON, e) {
     }
 
     if (responseJSON.redirect_url_abs) {
-        var newURL = new URL(decodeURIComponent(responseJSON.redirect_url_abs));
+        let newURL = new URL(decodeURIComponent(responseJSON.redirect_url_abs));
         if (responseJSON.flash_message) {
             // flash message after page load by appending message to URL as custom `flash_message` param
             newURL.searchParams.append("flash_message", encodeURIComponent(responseJSON.flash_message));
@@ -82,10 +77,15 @@ function doBaseAjaxResponse(responseJSON, e) {
         if (responseJSON.submission_errors) { 
             errors = responseJSON.submission_errors;
             Object.keys(errors).forEach((field_name) => {
-                var elemField = $(e.target).find(`#${field_name}-field`)
+                let elemField = $(e.target).find(`#${field_name}-field`)
                 elemField.find(`#${field_name}-input`).addClass("is-invalid");
                 elemField.find(".invalid-feedback").text(errors[field_name][0]);
             });
         }
     }
+}
+
+function reloadCSRF(newToken) {
+    csrf_token = newToken;
+    $("input[name='csrf_token']").val(csrf_token); // reload hidden form fields
 }

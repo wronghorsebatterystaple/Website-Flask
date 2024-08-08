@@ -16,8 +16,8 @@ function asteriskRequiredFields() {
  * Converts <form> element and its data to a JSON for Ajax.
  */
 function formToJSON(formObj) {
-    var array = formObj.serializeArray();
-    var json = {};
+    let array = formObj.serializeArray();
+    let json = {};
   
     $.map(array, function(n, i) {
         json[n["name"]] = n["value"];

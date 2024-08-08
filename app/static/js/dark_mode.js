@@ -5,6 +5,15 @@ DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 
 var onDarkModeChange = function() {};
 
+/* Out here so it's immediately applied on JS load instead of at `$(document).ready` */
+if (localStorage.getItem("darkMode") === "true") {
+    enableDarkMode(false);
+} else if (localStorage.getItem("darkMode") === null
+        && window.matchMedia
+        && window.matchMedia("(prefers-color-scheme: dark)").matches) { // default to system setting
+    enableDarkMode(false);
+}
+
 function enableDarkMode(isVoluntary) {
     DarkReader.enable(DARKREADER_CONFIG);
 
@@ -48,7 +57,7 @@ $(document).ready(function() {
     // if defaulting to system setting, detect change in system setting
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
         if (localStorage.getItem("darkMode") === null) {
-            var newColorScheme = e.matches ? "dark" : "light";
+            let newColorScheme = e.matches ? "dark" : "light";
             if (e.matches) {
                 enableDarkMode(false);
             } else {
@@ -66,12 +75,3 @@ $(document).ready(function() {
         }
     });
 });
-
-/* Out here so it's immediately applied on JS load instead of at `$(document).ready` */
-if (localStorage.getItem("darkMode") === "true") {
-    enableDarkMode(false);
-} else if (localStorage.getItem("darkMode") === null
-        && window.matchMedia
-        && window.matchMedia("(prefers-color-scheme: dark)").matches) { // default to system setting
-    enableDarkMode(false);
-}

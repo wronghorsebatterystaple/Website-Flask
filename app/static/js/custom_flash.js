@@ -4,8 +4,8 @@ function customFlash(message) {
 }
 
 function renderQueryStringFlash() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var flash = urlParams.get("flash_message");
+    let urlParams = new URLSearchParams(window.location.search);
+    let flash = urlParams.get("flash_message");
     if (flash) {
         customFlash(decodeURIComponent(flash));
     }
@@ -13,8 +13,8 @@ function renderQueryStringFlash() {
 
 $(document).ready(renderQueryStringFlash);
 
-/** Regenerates flash element on dismiss so we can flash again.
- *
+/**
+ * Regenerates flash element on dismiss so we can flash again.
  * We do this instead of changing close button behavior to preserve the fade animation.
  */
 $(document).on("close.bs.alert", "#flash", function() {

@@ -1,3 +1,9 @@
+function relogin() {
+    customFlash("Your session has expired (or you were being sneaky). Please log in.");
+    hideAuthElems();
+    $("#login-modal").modal("show");
+}
+
 function onLoginAsync() {
     showAuthElems();
     $("#login-modal").modal("hide");
@@ -15,12 +21,6 @@ function showAuthElems() {
 function hideAuthElems() {
     $(".auth-true").attr("hidden", "");
     $(".auth-false").removeAttr("hidden");
-}
-
-function relogin() {
-    customFlash("Your session has expired (or you were being sneaky). Please log in.");
-    hideAuthElems();
-    $("#login-modal").modal("show");
 }
 
 $(document).ready(function() {
@@ -44,7 +44,7 @@ $(document).ready(function() {
     $("#login-form-modal").on("submit", async function(e) {
         e.preventDefault();
 
-        var formData = new FormData(e.target, e.originalEvent.submitter);
+        let formData = new FormData(e.target, e.originalEvent.submitter);
         const responseJSON = await fetchWrapper(URL_LOGIN, { method: "POST", body: formData });
 
         doBaseAjaxResponse(responseJSON, e);

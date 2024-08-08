@@ -43,8 +43,8 @@ function onCommentAjaxDone(responseJSON, e) {
 $(document).on("submit", ".comment-reply-form", function(e) {
     e.preventDefault();
 
-    var id = getCommentId(e.target);
-    var elemCommentReplyAddForm = $(`#comment-reply-add-form-${id}`);
+    let id = getCommentId(e.target);
+    let elemCommentReplyAddForm = $(`#comment-reply-add-form-${id}`);
     elemCommentReplyAddForm.removeAttr("hidden");
     elemCommentReplyAddForm.find("#parent").val(id); // insert under right parent
     elemCommentReplyAddForm.find("#author-input").focus();
@@ -56,7 +56,7 @@ $(document).on("submit", ".comment-reply-form", function(e) {
 $(document).on("submit", ".ajax-add-comment", async function(e) {
     e.preventDefault();
 
-    var formData = new FormData(e.target);
+    let formData = new FormData(e.target);
     const responseJSON = await fetchWrapper(
             `${getCurrentURLNoQS()}/add-comment`,
             { method: "POST", body: formData });
@@ -67,7 +67,7 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
 $(document).on("submit", ".ajax-delete-comment", async function(e) {
     e.preventDefault();
 
-    var formData = new FormData(e.target);
+    let formData = new FormData(e.target);
     const responseJSON = await fetchWrapper(
             `${getCurrentURLNoQS()}/delete-comment`,
             { method: "POST", body: formData },

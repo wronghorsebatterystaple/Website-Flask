@@ -1,40 +1,5 @@
-function genFootnoteTooltips() {
-    const REMOVE_BACKREF_RE = /<a class=["&quot;]+?footnote-backref[\S\s]*?<\/a>/;
-    const MATCH_MATHJAX_RE = /<mjx-container[\S\s]*?<\/mjx-container>/g;
-
-    $(".footnote-ref").each(function() {
-        $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
-        const domFootnote = document.getElementById($(this).attr("href").replace("#", ""));
-        var tooltipContent_HTML = $(domFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
-
-        // replace serialized MathML HTML with its corresponding original LaTeX
-        // to render with MathJax.typeset() on mouseover
-        const mathItems = MathJax.startup.document.getMathItemsWithin(domFootnote);
-        const matches = tooltipContent_HTML.match(MATCH_MATHJAX_RE);
-        if (matches != null) {
-            for (var i = 0; i < matches.length; i++) {
-                var match = matches[i];
-                tooltipContent_HTML = tooltipContent_HTML.replace(match, `\\(${mathItems[i].math}\\)`);
-            }
-        }
-
-        $(this).attr("data-bs-title", tooltipContent_HTML);
-    });
-
-    refreshTooltips();
-}
-
-function syntaxHighlightNonTable(selector_root) {
-    $(selector_root).find("pre code").each(function() {
-        if ($(this).parents("table").length === 0) {
-            hljs.highlightElement($(this).get(0));
-            $(this).addClass("code-block-outside");
-        }
-    });
-}
-
-function applyCustomMarkdown(selector_root) {
-    const elemRoot = $(selector_root);
+function applyCustomMarkdown(rootSelector) {
+    const elemRoot = $(rootSelector);
     if (!elemRoot) {
         return;
     }
@@ -70,8 +35,8 @@ function applyCustomMarkdown(selector_root) {
     elemRoot.find("figure").find("p").children("img").unwrap();
 }
 
-function applyGlobalStyles(selector_root) {
-    const elemRoot = $(selector_root);
+function applyGlobalStyles(rootSelector) {
+    const elemRoot = $(rootSelector);
     if (!elemRoot) {
         return;
     }
@@ -122,8 +87,43 @@ function applyGlobalStyles(selector_root) {
         }
     });
     
-    applyCustomMarkdown(selector_root); // Markdown tweaks round 3
-    syntaxHighlightNonTable(selector_root);
+    applyCustomMarkdown(rootSelector); // Markdown tweaks round 3
+    syntaxHighlightNonTable(rootSelector);
+}
+
+function genFootnoteTooltips() {
+    const REMOVE_BACKREF_RE = /<a class=["&quot;]+?footnote-backref[\S\s]*?<\/a>/;
+    const MATCH_MATHJAX_RE = /<mjx-container[\S\s]*?<\/mjx-container>/g;
+
+    $(".footnote-ref").each(function() {
+        $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
+        const domFootnote = document.getElementById($(this).attr("href").replace("#", ""));
+        let tooltipContent_HTML = $(domFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
+
+        // replace serialized MathML HTML with its corresponding original LaTeX
+        // to render with MathJax.typeset() on mouseover
+        const mathItems = MathJax.startup.document.getMathItemsWithin(domFootnote);
+        const matches = tooltipContent_HTML.match(MATCH_MATHJAX_RE);
+        if (matches != null) {
+            for (let i = 0; i < matches.length; i++) {
+                let match = matches[i];
+                tooltipContent_HTML = tooltipContent_HTML.replace(match, `\\(${mathItems[i].math}\\)`);
+            }
+        }
+
+        $(this).attr("data-bs-title", tooltipContent_HTML);
+    });
+
+    refreshTooltips();
+}
+
+function syntaxHighlightNonTable(rootSelector) {
+    $(rootSelector).find("pre code").each(function() {
+        if ($(this).parents("table").length === 0) {
+            hljs.highlightElement($(this).get(0));
+            $(this).addClass("code-block-outside");
+        }
+    });
 }
 
 $(document).ready(function() {

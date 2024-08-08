@@ -1,4 +1,5 @@
 moment.locale("en");
+
 function flask_moment_render(elem) {{
     const timestamp = moment(elem.dataset.timestamp);
     const func = elem.dataset.function;
@@ -7,20 +8,27 @@ function flask_moment_render(elem) {{
     const no_suffix = elem.dataset.nosuffix;
     const units = elem.dataset.units;
     let args = [];
-    if (format)
+
+    if (format) {
         args.push(format);
-    if (timestamp2)
+    }
+    if (timestamp2) {
         args.push(moment(timestamp2));
-    if (no_suffix)
+    }
+    if (no_suffix) {
         args.push(no_suffix);
-    if (units)
+    }
+    if (units) {
         args.push(units);
+    }
+
     elem.textContent = timestamp[func].apply(timestamp, args);
-    elem.classList.remove('flask-moment');
+    elem.classList.remove("flask-moment");
     elem.style.display = "";
 }}
+
 function flask_moment_render_all() {{
-    const moments = document.querySelectorAll('.flask-moment');
+    const moments = document.querySelectorAll(".flask-moment");
     moments.forEach(function(moment) {{
         flask_moment_render(moment);
         const refresh = moment.dataset.refresh;
@@ -33,4 +41,5 @@ function flask_moment_render_all() {{
         }}
     }})
 }}
-document.addEventListener("DOMContentLoaded", flask_moment_render_all);
+
+$(document).ready(flask_moment_render_all);
