@@ -1,30 +1,30 @@
 function togglePasswordVisibility(passwordInputId, visToggleId) {
-    const passwordInput_elem = $(`#${passwordInputId}`);
+    const elemPasswordInput = $(`#${passwordInputId}`);
 
-    if (passwordInput_elem.attr("type") === "password") {
-        passwordInput_elem.attr("type", "text");
+    if (elemPasswordInput.attr("type") === "password") {
+        elemPasswordInput.attr("type", "text");
         setEyeWithoutSlash(visToggleId);
     } else {
-        passwordInput_elem.attr("type", "password");
+        elemPasswordInput.attr("type", "password");
         setEyeWithSlash(visToggleId);
     }
 }
 
 function setEyeWithSlash(visToggleId) {
-    const visToggle_elem = $(`#${visToggleId}`);
-    visToggle_elem.removeClass("bi-eye");
-    visToggle_elem.addClass("bi-eye-slash");
+    const elemVisToggle = $(`#${visToggleId}`);
+    elemVisToggle.removeClass("bi-eye");
+    elemVisToggle.addClass("bi-eye-slash");
 }
 
 function setEyeWithoutSlash(visToggleId) {
-    const visToggle_elem = $(`#${visToggleId}`);
-    visToggle_elem.removeClass("bi-eye-slash");
-    visToggle_elem.addClass("bi-eye");
+    const elemVisToggle = $(`#${visToggleId}`);
+    elemVisToggle.removeClass("bi-eye-slash");
+    elemVisToggle.addClass("bi-eye");
 }
 
 $(document).ready(function() {
     $(".password-vis-toggle").on("click", function(e) {
-        const visToggle_elem = $(e.target);
-        togglePasswordVisibility(visToggle_elem.attr("data-target"), visToggle_elem.attr("id"));
+        const elemVisToggle = $(e.target);
+        togglePasswordVisibility(elemVisToggle.attr("data-target"), elemVisToggle.attr("id"));
     });
 });

@@ -1,14 +1,14 @@
 const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
 const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
 
-function onMathJaxTypeset(root_selector) {
-    const root_elem = $(root_selector);
-    if (!root_elem) {
+function onMathJaxTypeset(selector_root) {
+    const elemRoot = $(selector_root);
+    if (!elemRoot) {
         return;
     }
     // Make \[\] LaTeX blocks scroll horizontally on overflow
-    root_elem.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").wrap(HORIZ_SCOLL_DIV_HTML);
-    root_elem.find("mjx-math[width='full']").each(function() {
+    elemRoot.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").wrap(HORIZ_SCOLL_DIV_HTML);
+    elemRoot.find("mjx-math[width='full']").each(function() {
         $(this).parent("mjx-container").css("min-width", ""); // can cause overflow problems
         $(this).wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
     });

@@ -1,4 +1,4 @@
-const unreadCommentsDropdownBtnIcon_elem = $("#unread-comments-dropdown-btn-icon");
+const elemUnreadCommentsDropdownBtnIcon = $("#unread-comments-dropdown-btn-icon");
 
 async function checkForNotifs() {
     var notifCount = await populateDropdown();
@@ -10,36 +10,36 @@ async function checkForNotifs() {
 }
 
 function setBellWithNotif() {
-    unreadCommentsDropdownBtnIcon_elem.removeClass("bi-bell");
-    unreadCommentsDropdownBtnIcon_elem.addClass("bi-bell-fill");
+    elemUnreadCommentsDropdownBtnIcon.removeClass("bi-bell");
+    elemUnreadCommentsDropdownBtnIcon.addClass("bi-bell-fill");
 }
 
 function setBellWithoutNotif() {
-    unreadCommentsDropdownBtnIcon_elem.removeClass("bi-bell-fill");
-    unreadCommentsDropdownBtnIcon_elem.addClass("bi-bell");
+    elemUnreadCommentsDropdownBtnIcon.removeClass("bi-bell-fill");
+    elemUnreadCommentsDropdownBtnIcon.addClass("bi-bell");
 }
 
 async function populateDropdown() {
-    const unreadCommentsDropdown_elem = $("#unread-comments-dropdown");
-    unreadCommentsDropdown_elem.html("<span class=\"dropdown-item\">Loading…</span>");
+    const elemUnreadCommentsDropdown = $("#unread-comments-dropdown");
+    elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Loading…</span>");
 
     // get posts with unread comments
     const responseJSON = await fetchWrapper(URL_GET_POSTS_WITH_UNREAD_COMMENTS, { method: "POST" });
 
     if (responseJSON.error) {
-        unreadCommentsDropdown_elem.html("<span class=\"dropdown-item\">! Unable to load posts. Please panic. !</span>");
+        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">! Unable to load posts. Please panic. !</span>");
         return -1;
     }
 
     if (responseJSON.relogin) {
         relogin();
-        unreadCommentsDropdown_elem.html("<span class=\"dropdown-item\">Not so fast :]</span>");
+        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Not so fast :]</span>");
         return -1;
     }
 
     var postCount = Object.keys(responseJSON).length;
     if (postCount === 0) {
-        unreadCommentsDropdown_elem.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
+        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
         return postCount;
     }
 
@@ -49,7 +49,7 @@ async function populateDropdown() {
         var postUnreadCount = responseJSON[postTitle].unread_count;
         html += `<a class="dropdown-item" href="${postURL}"><span class="custom-pink">(${postUnreadCount})</span> ${postTitle}</a>`;
     });
-    unreadCommentsDropdown_elem.html(html);
+    elemUnreadCommentsDropdown.html(html);
 
     return postCount;
 }
@@ -58,8 +58,8 @@ async function populateDropdown() {
  * Aligns dropdown to the left of its button (since it's on the right of the screen; we don't want overflow).
  */
 function alignDropdownLeftwards(records) {
-    const dropdown_dom = records[0].target;
-    var offset = dropdown_dom.offsetWidth - document.querySelector("#unread-comments-dropdown-btn").offsetWidth;
+    const domDropdown = records[0].target;
+    var offset = domDropdown.offsetWidth - document.querySelector("#unread-comments-dropdown-btn").offsetWidth;
     document.documentElement.style.setProperty("--unread-comments-dropdown-left", `-${offset}px`);
 }
 

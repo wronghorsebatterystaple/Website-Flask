@@ -24,22 +24,22 @@ function relogin() {
 }
 
 $(document).ready(function() {
-    const loginModal_elem = $("#login-modal");
+    const elemLoginModal = $("#login-modal");
     // security - wipe contents and toggle password visibility off on hide
-    loginModal_elem.on("hidden.bs.modal", function(e) {
-        const passwordInput_elem = $(e.target).find("#password-input");
-        passwordInput_elem.val("");
-        if (passwordInput_elem.attr("type") !== "password") {
-            togglePasswordVisibility(passwordInput_elem.attr("id"), "password-show");
+    elemLoginModal.on("hidden.bs.modal", function(e) {
+        const elemPasswordInput = $(e.target).find("#password-input");
+        elemPasswordInput.val("");
+        if (elemPasswordInput.attr("type") !== "password") {
+            togglePasswordVisibility(elemPasswordInput.attr("id"), "password-show");
         }
     });
 
-    loginModal_elem.on("shown.bs.modal", function(e) {
+    elemLoginModal.on("shown.bs.modal", function(e) {
         $(e.target).find("#password-input").focus();
     });
 
     // differentiate modal vs. non-modal logins for redirect
-    loginModal_elem.find("#is_modal").val("yes");
+    elemLoginModal.find("#is_modal").val("yes");
 
     $("#login-form-modal").on("submit", async function(e) {
         e.preventDefault();

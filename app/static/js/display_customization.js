@@ -4,12 +4,12 @@ function genFootnoteTooltips() {
 
     $(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
-        const footnote_dom = document.getElementById($(this).attr("href").replace("#", ""));
-        var tooltipContent_HTML = $(footnote_dom).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
+        const domFootnote = document.getElementById($(this).attr("href").replace("#", ""));
+        var tooltipContent_HTML = $(domFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
 
         // replace serialized MathML HTML with its corresponding original LaTeX
         // to render with MathJax.typeset() on mouseover
-        const mathItems = MathJax.startup.document.getMathItemsWithin(footnote_dom);
+        const mathItems = MathJax.startup.document.getMathItemsWithin(domFootnote);
         const matches = tooltipContent_HTML.match(MATCH_MATHJAX_RE);
         if (matches != null) {
             for (var i = 0; i < matches.length; i++) {
@@ -24,8 +24,8 @@ function genFootnoteTooltips() {
     refreshTooltips();
 }
 
-function syntaxHighlightNonTable(root_selector) {
-    $(root_selector).find("pre code").each(function() {
+function syntaxHighlightNonTable(selector_root) {
+    $(selector_root).find("pre code").each(function() {
         if ($(this).parents("table").length === 0) {
             hljs.highlightElement($(this).get(0));
             $(this).addClass("code-block-outside");
@@ -33,97 +33,97 @@ function syntaxHighlightNonTable(root_selector) {
     });
 }
 
-function applyCustomMarkdown(root_selector) {
-    const root_elem = $(root_selector);
-    if (!root_elem) {
+function applyCustomMarkdown(selector_root) {
+    const elemRoot = $(selector_root);
+    if (!elemRoot) {
         return;
     }
 
     // custom table horizontal and vertical align syntax
-    root_elem.find("[data-align-center]").each(function() {
+    elemRoot.find("[data-align-center]").each(function() {
         $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-center");
     });
-    root_elem.find("[data-align-right]").each(function() {
+    elemRoot.find("[data-align-right]").each(function() {
         $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-end");
     });
-    root_elem.find("[data-align-top]").each(function() {
+    elemRoot.find("[data-align-top]").each(function() {
         $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-top");
     });
-    root_elem.find("[data-align-bottom]").each(function() {
+    elemRoot.find("[data-align-bottom]").each(function() {
         $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-bottom");
     });
 
     // custom table column width syntax
-    root_elem.find("[data-col-width]").each(function() {
+    elemRoot.find("[data-col-width]").each(function() {
         $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
     });
 
     // no extra space at the end of custom details/summary, and first line of summary starts inline
-    root_elem.find("details").each(function() {
+    elemRoot.find("details").each(function() {
         $(this).children(".md-details-contents").children().last().addClass("mb-0");
-        const summary_elem = $(this).find("summary");
-        summary_elem.find("p").first().addClass("d-inline");
-        summary_elem.children().last().addClass("mb-0");
+        const elemSummary = $(this).find("summary");
+        elemSummary.find("p").first().addClass("d-inline");
+        elemSummary.children().last().addClass("mb-0");
     });
 
     // no extra <p> tags in custom figures/captions
-    root_elem.find("figure").find("p").children("img").unwrap();
+    elemRoot.find("figure").find("p").children("img").unwrap();
 }
 
-function applyGlobalStyles(root_selector) {
-    const root_elem = $(root_selector);
-    if (!root_elem) {
+function applyGlobalStyles(selector_root) {
+    const elemRoot = $(selector_root);
+    if (!elemRoot) {
         return;
     }
 
     // tables and non-table code blocks scroll horizontally on overflow
-    root_elem.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
-    root_elem.find("pre").each(function() {
+    elemRoot.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
+    elemRoot.find("pre").each(function() {
         if ($(this).parents("table").length === 0) {
             $(this).wrap(HORIZ_SCOLL_DIV_HTML);
         }
     });
 
     // inline CSS used by Markdown tables converted to class for CSP
-    root_elem.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
-    root_elem.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
+    elemRoot.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
+    elemRoot.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
 
     // no extra space at the bottom of table cells
-    $.merge(root_elem.find("th"), root_elem.find("td")).each(function() {
+    $.merge(elemRoot.find("th"), elemRoot.find("td")).each(function() {
         $(this).children().last().addClass("mb-0");
     });
 
     // no extra space between lists and their "heading" text
-    $.merge(root_elem.find("ul"), root_elem.find("ol")).each(function() {
+    $.merge(elemRoot.find("ul"), elemRoot.find("ol")).each(function() {
         $(this).prev("p").addClass("mb-0");
     });
 
     // footnote tweaks
-    const footnotes_elem = root_elem.find(".footnote").first();
-    if (footnotes_elem) {
-        footnotes_elem.attr("id", "footnotes");
-        footnotes_elem.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
-        footnotes_elem.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
+    const elemFootnotes = elemRoot.find(".footnote").first();
+    if (elemFootnotes) {
+        elemFootnotes.attr("id", "footnotes");
+        elemFootnotes.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
+        elemFootnotes.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
 
-        footnotes_elem.children("hr").first().addClass("footnote-hr");
-        footnotes_elem.find("p").addClass("mb-0");
-        const footnotesList_elem = footnotes_elem.children("ol").first();
-        footnotesList_elem.addClass("mb-0");
-        footnotesList_elem.children("li").addClass("mb-1");
+        elemFootnotes.children("hr").first().addClass("footnote-hr");
+        elemFootnotes.find("p").addClass("mb-0");
+        const elemFootnotesList = elemFootnotes.children("ol").first();
+        elemFootnotesList.addClass("mb-0");
+        elemFootnotesList.children("li").addClass("mb-1");
 
         genFootnoteTooltips();
     }
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
-    root_elem.find(".footnote-ref").on("click", function(e) {
-        const footnoteDetails_elem = root_elem.find("#footnotes-details");
-        if (!footnoteDetails_elem.is("[open]")) {
-            footnoteDetails_elem.attr("open", "");
+    elemRoot.find(".footnote-ref").on("click", function(e) {
+        const elemFootnoteDetails = elemRoot.find("#footnotes-details");
+        if (!elemFootnoteDetails.is("[open]")) {
+            elemFootnoteDetails.attr("open", "");
         }
     });
     
-    applyCustomMarkdown(root_selector); // Markdown tweaks round 3
-    syntaxHighlightNonTable(root_selector);
+    applyCustomMarkdown(selector_root); // Markdown tweaks round 3
+    syntaxHighlightNonTable(selector_root);
 }
 
 $(document).ready(function() {

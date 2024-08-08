@@ -82,9 +82,9 @@ function doBaseAjaxResponse(responseJSON, e) {
         if (responseJSON.submission_errors) { 
             errors = responseJSON.submission_errors;
             Object.keys(errors).forEach((field_name) => {
-                var field_elem = $(e.target).find(`#${field_name}-field`)
-                field_elem.find(`#${field_name}-input`).addClass("is-invalid");
-                field_elem.find(".invalid-feedback").text(errors[field_name][0]);
+                var elemField = $(e.target).find(`#${field_name}-field`)
+                elemField.find(`#${field_name}-input`).addClass("is-invalid");
+                elemField.find(".invalid-feedback").text(errors[field_name][0]);
             });
         }
     }

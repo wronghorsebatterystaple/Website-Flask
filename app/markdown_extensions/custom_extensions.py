@@ -70,22 +70,22 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
             return False
 
         # find and remove caption ending delimiter, and extract element
-        caption_elem = None
+        elem_caption = None
         for i, block in enumerate(blocks):
             if re.search(self.CAPTION_END_RE, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.CAPTION_END_RE, "", block)
                 # put area between in `<figcaption class="md-figure-figcaption"></figcaption>`
-                caption_elem = etree.Element("figcaption")
-                caption_elem.set("class", "md-figure-figcaption")
-                self.parser.parseBlocks(caption_elem, blocks[caption_start_i + 1:i + 1])
+                elem_caption = etree.Element("figcaption")
+                elem_caption.set("class", "md-figure-figcaption")
+                self.parser.parseBlocks(elem_caption, blocks[caption_start_i + 1:i + 1])
                 # remove used blocks
                 for _ in range(caption_start_i + 1, i + 1):
                     blocks.pop(caption_start_i + 1)
                 break
 
         # if no ending delimiter for caption, restore and do nothing
-        if caption_elem is None:
+        if elem_caption is None:
             blocks.clear()
             blocks.extend(org_blocks)
             return False
@@ -96,10 +96,10 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.FIGURE_END_RE, "", block)
                 # build <figure class="md-figure">[image Markdown to be processed later][figcaption]</figure>
-                figure_elem = etree.SubElement(parent, "figure")
-                figure_elem.set("class", "md-figure")
-                self.parser.parseBlocks(figure_elem, blocks[0:i + 1])
-                figure_elem.append(caption_elem) # make sure captions come after everything else
+                elem_figure = etree.SubElement(parent, "figure")
+                elem_figure.set("class", "md-figure")
+                self.parser.parseBlocks(elem_figure, blocks[0:i + 1])
+                elem_figure.append(elem_caption) # make sure captions come after everything else
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)
@@ -134,22 +134,22 @@ class DropdownBlockProcessor(BlockProcessor):
         blocks[1] = re.sub(self.SUMMARY_START_RE, "", blocks[1])
 
         # find and remove summary ending delimiter, and extract element
-        summary_elem = None
+        elem_summary = None
         for i, block in enumerate(blocks):
             if re.search(self.SUMMARY_END_RE, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.SUMMARY_END_RE, "", block)
                 # put area between in `<summary class="md-summary"></summary>`
-                summary_elem = etree.Element("summary")
-                summary_elem.set("class", "md-details-summary")
-                self.parser.parseBlocks(summary_elem, blocks[0:i + 1])
+                elem_summary = etree.Element("summary")
+                elem_summary.set("class", "md-details-summary")
+                self.parser.parseBlocks(elem_summary, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)
                 break
 
         # if no ending delimiter for summary, restore and do nothing
-        if summary_elem is None:
+        if elem_summary is None:
             blocks.clear()
             blocks.extend(org_blocks)
             return False
@@ -160,12 +160,12 @@ class DropdownBlockProcessor(BlockProcessor):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.DROPDOWN_END_RE, "", block)
                 # build <details class="md-details">[summary]<span class="md-details-contents">[contents]</span></details>
-                details_elem = etree.SubElement(parent, "details")
-                details_elem.set("class", "md-details")
-                details_elem.append(summary_elem)
-                details_contents_elem = etree.SubElement(details_elem, "div")
-                details_contents_elem.set("class", "md-details-contents")
-                self.parser.parseBlocks(details_contents_elem, blocks[0:i + 1])
+                elem_details = etree.SubElement(parent, "details")
+                elem_details.set("class", "md-details")
+                elem_details.append(elem_summary)
+                elem_details_contents = etree.SubElement(elem_details, "div")
+                elem_details_contents.set("class", "md-details-contents")
+                self.parser.parseBlocks(elem_details_contents, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)
@@ -196,14 +196,14 @@ class TextboxBlockProcessor(BlockProcessor):
                 blocks[i] = re.sub(self.TEXTBOX_END_RE, "", block)
                 # put area between in `<table class="textbox"><tbody><tr><td colspan="1" rowspan="1">
                 # </td></tr></tbody></table>`
-                table_elem = etree.SubElement(parent, "table")
-                table_elem.set("class", "md-textbox")
-                tbody_elem = etree.SubElement(table_elem, "tbody")
-                tr_elem = etree.SubElement(tbody_elem, "tr")
-                td_elem = etree.SubElement(tr_elem, "td")
-                td_elem.set("colspan", "1")
-                td_elem.set("rowspan", "1")
-                self.parser.parseBlocks(td_elem, blocks[0:i + 1])
+                elem_table = etree.SubElement(parent, "table")
+                elem_table.set("class", "md-textbox")
+                elem_tbody = etree.SubElement(elem_table, "tbody")
+                elem_tr = etree.SubElement(elem_tbody, "tr")
+                elem_td = etree.SubElement(elem_tr, "td")
+                elem_td.set("colspan", "1")
+                elem_td.set("rowspan", "1")
+                self.parser.parseBlocks(elem_td, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)

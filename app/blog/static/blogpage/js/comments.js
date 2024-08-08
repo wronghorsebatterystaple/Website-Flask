@@ -1,5 +1,5 @@
-function getCommentId(form_dom) {
-    return $(form_dom).attr("id").match(/\d+/)[0];
+function getCommentId(domForm) {
+    return $(domForm).attr("id").match(/\d+/)[0];
 }
 
 function onCommentReload() {
@@ -44,10 +44,10 @@ $(document).on("submit", ".comment-reply-form", function(e) {
     e.preventDefault();
 
     var id = getCommentId(e.target);
-    var commentReplyAddForm_elem = $(`#comment-reply-add-form-${id}`);
-    commentReplyAddForm_elem.removeAttr("hidden");
-    commentReplyAddForm_elem.find("#parent").val(id); // insert under right parent
-    commentReplyAddForm_elem.find("#author-input").focus();
+    var elemCommentReplyAddForm = $(`#comment-reply-add-form-${id}`);
+    elemCommentReplyAddForm.removeAttr("hidden");
+    elemCommentReplyAddForm.find("#parent").val(id); // insert under right parent
+    elemCommentReplyAddForm.find("#author-input").focus();
     e.target.setAttribute("hidden", "");
 
     asteriskRequiredFields();
