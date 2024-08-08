@@ -36,6 +36,7 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
             customFlash("Please slow down :3");
             break;
         case 499:
+            // CSRF token expiry; refresh CSRF token and resend the request if this is the case
             let newToken = responseJSON.new_csrf_token;
             reloadCSRF(newToken);
             hideAuthElems(); // session must have expired for CSRF expiry

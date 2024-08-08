@@ -19,10 +19,16 @@ def inject_blogpages_from_db():
     return dict(blogpages=blogpages)
 
 
-## Regenerate CSRF token on token (tied to session) expire
-## then let Ajax take it from there with custom error handler
-## (non-auth action: resend request; auth action: show login modal for re-login)
+def bot_jail():
+    return render_template("bot_jail.html")
+
+
 def handle_csrf_error(e):
+    """
+    Regenerates CSRF token on token (tied to session) expire, then let Ajax take it from there with standard
+    `fetchWrapper()`.
+    """
+
     csrf_token = generate_csrf()
     # don't use custom HTTPException since we can't `raise` here
     code = Config.CUSTOM_ERRORS["REFRESH_CSRF"][0]

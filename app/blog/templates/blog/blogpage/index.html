@@ -1,8 +1,7 @@
 {%- extends "blog/blogpage/base.html" -%}
 
 {%- block title -%}
-{{ blogpage.name }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %}
-{{ super() }}
+{{ blogpage.name }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %} - AnonymousRand blogs
 {%- endblock -%}
 
 {%- block js_inline -%}

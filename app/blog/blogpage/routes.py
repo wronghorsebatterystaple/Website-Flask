@@ -143,7 +143,7 @@ def post(post_sanitized_title):
 def add_comment(post_sanitized_title):
     # captcha
     if not turnstile.verify():
-        return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
+        return jsonify(redirect_url_abs=url_for("bot_jail", _external=True))
 
     # validate form submission
     add_comment_form = AddCommentForm()

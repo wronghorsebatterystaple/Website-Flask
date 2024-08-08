@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="{%- block meta_description %}{%- endblock %}" />
+    <title>{%- block title %}{%- endblock %}</title>
 
     <!-- CDNs -->
       <!-- JQuery -->
@@ -16,11 +17,12 @@
       </script>
 
       <!-- DarkReader -->
+      <!-- no defer to avoid flash -->
       <script
           src=" https://cdn.jsdelivr.net/npm/darkreader@4.9.85/darkreader.min.js"
           integrity="sha384-flfeXFGSp501CI6Fn9Hw2v39t1xgyVR6HOVPrN759b+KcjH1reD6joELwSRuovyX"
           crossorigin="anonymous">
-      </script> <!-- no defer to avoid flash -->
+      </script>
 
       <!-- Highlight.js -->
       <link
@@ -92,8 +94,10 @@
       </script>
 
       <!-- global custom JS -->
-      <script src="{{ url_for('static', filename='js/util.js', _external=True) }}"></script> <!-- no defer because it's util -->
-      <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script> <!-- no defer to avoid flash -->
+      <!-- no defer because it's util -->
+      <script src="{{ url_for('static', filename='js/util.js', _external=True) }}"></script>
+      <!-- no defer to avoid flash -->
+      <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script>
 
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/ajax_util.js', _external=True) }}" defer></script>
@@ -107,8 +111,6 @@
       <script src="{{ url_for('static', filename='js/tooltip_util.js', _external=True) }}" defer></script>
 
       {%- block js %}{%- endblock %}
-
-    <title>{%- block title %}{%- endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" />
   </head>
 

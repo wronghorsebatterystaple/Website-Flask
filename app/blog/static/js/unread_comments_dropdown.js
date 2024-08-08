@@ -1,7 +1,7 @@
 const elemUnreadCommentsDropdownBtnIcon = $("#unread-comments-dropdown-btn-icon");
 
-async function checkForNotifs() {
-    let notifCount = await populateDropdown();
+async function updateUnreadCommentsNotifs() {
+    let notifCount = await updateUnreadCommentsDropdown();
     if (notifCount > 0) {
         setBellWithNotif();
     } else {
@@ -19,7 +19,7 @@ function setBellWithoutNotif() {
     elemUnreadCommentsDropdownBtnIcon.addClass("bi-bell");
 }
 
-async function populateDropdown() {
+async function updateUnreadCommentsDropdown() {
     const elemUnreadCommentsDropdown = $("#unread-comments-dropdown");
     elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Loading…</span>");
 
@@ -72,6 +72,6 @@ $(document).ready(function() {
 
     // refresh notifications on click
     $("#unread-comments-dropdown-btn").on("click", function() {
-        checkForNotifs();
+        updateUnreadCommentsNotifs();
     });
 });

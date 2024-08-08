@@ -25,7 +25,7 @@ talisman = Talisman()
 turnstile = Turnstile()
 
 
-from app.routes import * # after initializing global extension variables to prevent circular imports
+import app.routes as global_routes # after initializing global extension variables to prevent circular imports
 
 
 def create_app():
@@ -79,6 +79,7 @@ from app import models # at the bottom to prevent circular imports
 
 # Can't use `@app.route` in global routes.py (no global `app` variable), hence doing it this way
 def register_global_routes(app):
-    app.context_processor(inject_login_form)
-    app.context_processor(inject_blogpages_from_db)
-    app.register_error_handler(CSRFError, handle_csrf_error)
+    app.context_processor(global_routes.inject_login_form)
+    app.context_processor(global_routes.inject_blogpages_from_db)
+    app.add_url_rule("/bot-jail", view_func=global_routes.bot_jail, methods=["GET"])
+    app.register_error_handler(CSRFError, global_routes.handle_csrf_error)

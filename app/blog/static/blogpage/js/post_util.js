@@ -1,8 +1,31 @@
+/**
+ * When logging in on a post page, this refreshes comments to make sure we are seeing all the comments, and then
+ * marks all of them as read.
+ *
+ * Don't pass `markCommentsAsRead()` separately to `addToFunction()`, as then we can't guarantee comments are fully 
+ * reloaded before marking them as read, which can cause the comment section heading to not display the number of
+ * unread comments when it should.
+ */
+onModalLogin = addToFunction(onModalLogin, function() {
+    reloadComments(true);
+});
+
+async function markCommentsAsRead() {
+    await fetchWrapper(URL_MARK_COMMENTS_AS_READ, { method: "POST" });
+    updateUnreadCommentsNotifs(); // update notification icon after marking comments as read
+}
+
 function getCommentId(domForm) {
     return $(domForm).attr("id").match(/\d+/)[0];
 }
 
-function onCommentReload() {
+function reloadComments(shouldMarkAsRead=false) {
+    $("#comment-list").load(window.location.href + " #comment-list > *", function() {
+        onCommentReload(shouldMarkAsRead);
+    });
+}
+
+function onCommentReload(shouldMarkAsRead=false) {
     flask_moment_render_all();
 
     MathJax.typesetPromise(["#comment-list"]).then(function() {             // render LaTeX in comments
@@ -15,6 +38,10 @@ function onCommentReload() {
 
     applyGlobalStyles("#comment-list");
     applyCommentStyles();
+
+    if (shouldMarkAsRead) {
+        markCommentsAsRead();
+    }
 }
 
 function onCommentAjaxDone(responseJSON, e) {
@@ -31,11 +58,11 @@ function onCommentAjaxDone(responseJSON, e) {
         });
 
         // reload comment section
-        $("#comment-list").load(window.location.href + " #comment-list > *", onCommentReload);
+        reloadComments();
     }
 }
 
-// no $(document).ready listener attachments for the remaining listeners since comments can be reloaded with load()
+/* No $(document).ready listener attachments for the remaining listeners since comments can be reloaded with load() */
 
 /*
  * Reveals fields for adding the comment on clicking a reply button.

@@ -29,7 +29,7 @@ def login():
                 title="Login")
     elif request.method == "POST":
         if not turnstile.verify():
-            return jsonify(redirect_url_abs=url_for("main.bot_jail", _external=True))
+            return jsonify(redirect_url_abs=url_for("bot_jail", _external=True))
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
