@@ -6,6 +6,14 @@ function applyCommentStyles() {
     elemCommentContents.find("h2").addClass("post-h2");
 }
 
+/**
+ * Replaces whitespace with hyphens and removes all non-alphanumeric and non-hyphen characters.
+ */
+function sanitizeHeadingForURL(heading) {
+    heading = heading.split(/\s+/).join("-");
+    return heading.replace(/[^A-Za-z0-9-]/g, "");
+}
+
 $(document).ready(function() {
     // add comment hover tooltip for syntax guide
     let elemContentFieldLabel = $("#content-field").find("label").first();
@@ -22,17 +30,11 @@ $(document).ready(function() {
     });
 
     // add CSS classes for extra styling
-    let h1_headingId = 0;
-    let h2_headingId = 0;
-    elemPostContent.find("h1").each(function() {
-        $(this).addClass("post-h1");
-        $(this).attr("id", "h1-" + h1_headingId); // allow linking via URL fragments
-        h1_headingId++;
-    });
-    elemPostContent.find("h2").each(function() {
-        $(this).addClass("post-h2");
-        $(this).attr("id", "h2-" + h2_headingId);
-        h2_headingId++;
+    elemPostContent.find("h1").addClass("post-h1");
+    elemPostContent.find("h2").addClass("post-h2");
+    // allows linking via URL fragments
+    $.merge($("h1"), $("h2")).each(function() {
+        $(this).attr("id", sanitizeHeadingForURL($(this).text()));
     });
     elemPostContent.find("img").addClass("post-img");
 

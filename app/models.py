@@ -123,6 +123,11 @@ class Post(db.Model):
                     passive_deletes=True)
 
     def sanitize_title(self):
+        """
+        Replaces whitespace with hyphens, uses all lowercase, and removes all non-alphanumeric and non-hypthen
+        characters.
+        """
+
         self.sanitized_title = ("-".join(self.title.split())).lower()
         self.sanitized_title = re.sub("[^A-Za-z0-9-]", "", self.sanitized_title)
 
