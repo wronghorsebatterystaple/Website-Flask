@@ -43,7 +43,7 @@ function onCommentAjaxDone(responseJSON, e) {
 $(document).on("submit", ".comment-reply-form", function(e) {
     e.preventDefault();
 
-    var id = $(this).attr("id").match(/\d+/)[0]; // todo convert to get id?
+    var id = getCommentId(e.target);
     var commentReplyAddForm_elem = $(`#comment-reply-add-form-${id}`);
     commentReplyAddForm_elem.removeAttr("hidden");
     commentReplyAddForm_elem.find("#parent").val(id); // insert under right parent
