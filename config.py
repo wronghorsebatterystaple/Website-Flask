@@ -89,6 +89,7 @@ class Config(object):
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024
     LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20
+    COMMENTS_PER_LOAD = 3
 
     ## Scuffed configs
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blogpage"

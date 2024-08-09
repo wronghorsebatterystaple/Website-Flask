@@ -2,7 +2,7 @@ import markdown
 import markdown_grid_tables
 
 import sqlalchemy as sa
-from flask import current_app, jsonify, redirect, render_template, request, url_for
+from flask import current_app, get_template_attribute, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user
 
 import app.blog.blogpage.util as blogpage_util
@@ -21,45 +21,37 @@ def inject_blogpage_from_db():
 
 
 @bp.route("/", methods=["GET"])
+@blogpage_util.login_required_check_blogpage(request)
 def index():
-    blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
-    blogpage = db.session.get(Blogpage, blogpage_id)
-    if blogpage is None:
-        return redirect(url_for(
-                f"main.index",
-                flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
-                _external=True))
-    
-    # require login to access private blogs
-    if blogpage.login_required:
-        result = util.custom_unauthorized(request)
-        if result:
-            return result
-
     page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     if page_num <= 0:                                # prevent funny query string shenanigans
-        return "", 204
+        return "", 418
+
+    blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
+    blogpage = db.session.get(Blogpage, blogpage_id)
     posts = None
-    all_posts = False
+    is_all_posts = False
 
     if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
-        all_posts = True
-        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter_by(login_required=False)
-                .order_by(
-                        sa.desc(Post.timestamp)),
+        is_all_posts = True
+        posts = \
+                db.paginate(
+                        db.session.query(Post).join(Post.blogpage).filter_by(login_required=False)
+                                .order_by(sa.desc(Post.timestamp)),
                         page=page_num,
                         per_page=current_app.config["POSTS_PER_PAGE"],
                         error_out=False)
     else:
-        all_posts = False
-        posts = db.paginate(db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
-                .order_by(
-                        sa.desc(Post.timestamp)),
+        is_all_posts = False
+        posts = \
+                db.paginate(
+                        db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
+                                .order_by(sa.desc(Post.timestamp)),
                         page=page_num,
                         per_page=current_app.config["POSTS_PER_PAGE"],
                         error_out=False)
     if posts is None or (posts.pages > 0 and page_num > posts.pages): # prevent funny query string shenanigans, 2.0
-        return "", 204
+        return "", 418
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
                     else None
@@ -77,7 +69,7 @@ def index():
             "blog/blogpage/index.html",
             next_page_url=next_page_url,
             page_num=page_num,
-            all_posts=all_posts,
+            is_all_posts=is_all_posts,
             posts=posts,
             prev_page_url=prev_page_url,
             total_pages=posts.pages,
@@ -97,15 +89,30 @@ def post(post_sanitized_title):
                 flash_message=util.encode_URI_component("That post doesn't exist."),
                 _external=True))
 
-    # render Markdown for post content
+    # render Markdown for post
     post.content = markdown.markdown(
             post.content,
             extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
     post.content = blogpage_util.additional_markdown_processing(post.content)
 
-    # render Markdown for comment content
+    add_comment_form = AddCommentForm()
+    return render_template("blog/blogpage/post.html", post=post, add_comment_form=add_comment_form)
+
+
+@bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
+@blogpage_util.login_required_check_blogpage(request)
+def get_comments(post_sanitized_title):
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    if post is None:
+        return redirect(url_for(
+                f"{request.blueprint}.index",
+                flash_message=util.encode_URI_component("That post doesn't exist."),
+                _external=True))
+
+    # get comments from db and render Markdown
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
+
     for comment in comments:
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
@@ -119,18 +126,17 @@ def post(post_sanitized_title):
                     extensions=["extra", "markdown_grid_tables", CustomInlineExtensions()])
             comment.content = blogpage_util.additional_markdown_processing(comment.content)
             comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
-
-
+ 
     add_comment_form = AddCommentForm()
     reply_comment_button = ReplyCommentButton()
     delete_comment_button = DeleteCommentButton()
-    return render_template(
-            "blog/blogpage/post.html",
-            add_comment_form=add_comment_form,
+    return jsonify(html=render_template(
+            "blog/blogpage/comments.html",
             comments=comments,
-            delete_comment_button=delete_comment_button,
             post=post,
-            reply_comment_button=reply_comment_button)
+            add_comment_form=add_comment_form,
+            delete_comment_button=delete_comment_button,
+            reply_comment_button=reply_comment_button))
 
 
 ###################################################################################################

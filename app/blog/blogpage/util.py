@@ -45,7 +45,7 @@ def login_required_check_blogpage(request):
             if blogpage is None:
                 return redirect(url_for(
                         f"main.index",
-                        flash_message=util.encode_URI_component("That blogpage doesn't exist."),
+                        flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
                         _external=True))
 
             if blogpage.login_required:

@@ -5,7 +5,7 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
     if (!options.headers) {
         options.headers = {};
     }
-    options.headers["X-CSRFToken"] = csrf_token;
+    options.headers["X-CSRFToken"] = csrfToken;
     options.headers["Accept"] = "application/json";
     options.credentials = "include";
     options.mode = "cors";
@@ -43,7 +43,7 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
 
             // resend request with updated CSRF token in FormData (header refresh handled by recursive call)
             if (options.body && options.body instanceof FormData) {
-                options.body.set("csrf_token", csrf_token);
+                options.body.set("csrf_token", csrfToken);
             }
             return fetchWrapper(baseURL_abs, options, paramsDict);
             break;
@@ -87,6 +87,6 @@ function doBaseAjaxResponse(responseJSON, e) {
 }
 
 function reloadCSRF(newToken) {
-    csrf_token = newToken;
-    $("input[name='csrf_token']").val(csrf_token); // reload hidden form fields
+    csrfToken = newToken;
+    $("input[name='csrf_token']").val(csrfToken); // reload hidden form fields
 }

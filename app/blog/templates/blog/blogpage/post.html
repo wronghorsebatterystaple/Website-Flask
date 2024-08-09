@@ -1,5 +1,6 @@
 {%- extends "blog/blogpage/base.html" -%}
 {%- import "bootstrap_wtf.html" as wtf -%}
+{%- import "blog/blogpage/comments.html" as comments -%}
 
 {%- block title -%}
 {{ post.title }} - {{ blogpage.name }}
@@ -7,17 +8,14 @@
 
 {%- block js_inline -%}
 {{ super() }}
+const URL_GET_COMMENTS = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comments', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_MARK_COMMENTS_AS_READ = "{{ url_for('blog.' ~ blogpage_id ~ '.mark_comments_as_read', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {%- endblock -%}
 
 {%- block js %}
 {{ super() }}
-<script src="{{ url_for('blog.static', filename='blogpage/js/post_util.js', _external=True) }}" defer></script>
-<!-- selective loading works since this script only runs something on `$(document).ready` -->
-{%- if current_user.is_authenticated %}
-  <script src="{{ url_for('blog.static', filename='blogpage/js/post_mark_comments_as_read_on_ready.js', _external=True) }}" defer></script>
-{%- endif %}
+<script src="{{ url_for('blog.static', filename='blogpage/js/post_comments.js', _external=True) }}" defer></script>
 {%- endblock %}
 
 {%- block content %}
@@ -54,53 +52,8 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
 <div id="comment-list" class="mb-3">
   <h2 id="comment-list-header" class="shrinking-font-14 mb-0">Comments <span class="gray">({{ post.get_comment_count() }}{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="auth-true">, <span class="custom-pink">{{ post.get_comment_unread_count() }} unread</span></span>{%- endif %})</span></h2>
-  <div class="d-flex flex-shrink-0">
-    <div class="w-100 flex-shrink-0">
-      {%- for comment in comments recursive %}
-        {%- if comment.depth == loop.depth0 %}
-          {%- if comment.depth != 0 %}
-            <div class="flex-grow-1 ms-3">
-          {%- endif %}
-
-          {%- set descendants = comment.get_descendants(post) %}
-          {%- if comment.author|trim == config["VERIFIED_AUTHOR"] %}
-            <div class="comment card border-custom-orange-deep border-3px mt-{%- if comment.depth == 0 -%}3{%- else -%}1{%- endif -%}">
-              <div class="card-body pb-2">
-                <h3 class="comment-author d-flex align-items-center me-1">
-                  <span class="me-2">{{ comment.author }}</span><i class="bi bi-check-circle" title="Actually verified, unlike Twitter."></i>
-                </h3>
-          {%- else %}
-            <div class="comment card{%- if current_user.is_authenticated and comment.unread %} border-custom-pink-light border-3px{%- endif %} mt-{%- if comment.depth == 0 -%}3{%- else -%}1{%- endif -%}">
-              <div class="card-body pb-2">
-                <h3 class="comment-author mb-2">{{ comment.author }}</h3>
-          {%- endif %}
-              <div class="comment-content gray mb-3">{{ comment.content|safe }}</div>
-              <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
-              
-              {%- if comment.depth < 6 %}
-                {{ wtf.quick_form(reply_comment_button, id="comment-reply-form-" ~ comment.id, class="comment-reply-form", btn_type="no-bg", btn_color="custom-orange-deep", bottom_margin=0) }}
-                {{ wtf.quick_form(add_comment_form, id="comment-reply-add-form-" ~ comment.id, class="comment-add-form ajax-add-comment", bottom_margin=2, hidden=true) }}
-              {%- else %}
-                <p class="comment-nest-limit-text custom-orange-deep mb-0">It's gonna get ugly if you keep replying…</p>
-              {%- endif %}
-
-              {%- if current_user.is_authenticated %}
-                {{ wtf.quick_form(delete_comment_button, id="comment-delete-form-" ~ comment.id, class="auth-true ajax-delete-comment comment-delete-form", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0) }}
-              {%- else %}
-                {{ wtf.quick_form(delete_comment_button, id="comment-delete-form-" ~ comment.id, class="auth-true ajax-delete-comment comment-delete-form", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0, hidden=true) }}
-              {%- endif %}
-            </div>
-          </div>
-          {%- if descendants %}
-            <div>{{ loop(descendants) }}</div>
-          {%- endif %}
-
-          {%- if comment.depth != 0 %}
-            </div>
-          {%- endif %}
-        {%- endif %}
-      {%- endfor %}
-    </div>
+  <!-- populate after page load with JS to avoid slow initial loads -->
+  <div id="comment-list-main" class="d-flex flex-column flex-shrink-0">
   </div>
 </div>
 {%- endblock %}
