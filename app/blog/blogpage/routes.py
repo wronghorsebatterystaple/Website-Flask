@@ -84,10 +84,11 @@ def post(post_sanitized_title):
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_id)
     if post is None:
-        return redirect(url_for(
-                f"{request.blueprint}.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
-                _external=True))
+        return redirect(
+                url_for(
+                        f"{request.blueprint}.index",
+                        flash_message=util.encode_URI_component("That post doesn't exist."),
+                        _external=True))
 
     # render Markdown for post
     post.content = markdown.markdown(

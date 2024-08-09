@@ -124,7 +124,7 @@ I hope I'm not reading this because I bricked a machine again.
 - POST forms:
     - All other forms
     - Usage guidelines:
-        - Must be Ajax, using `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js) and sending FormData (since the CSRF error handling is designed only for FormData)
+        - Must be Ajax, using `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js) and sending FormData (since the CSRF error handling is designed only for FormData). See `doAjaxResponseBase()` in the same file for documentation on the basic, always-supported JSON keys that the backend can return.
     - Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/js/form_submit.js](app/admin/static/js/form_submit.js), and [app/blog/static/blogpage/js/comments.js](app/blog/static/blogpage/js/comments.js) for examples of POST forms
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed
 

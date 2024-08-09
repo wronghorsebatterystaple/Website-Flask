@@ -54,6 +54,12 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
     return { error: true }
 }
 
+/**
+ * Always-supported JSON keys:
+ *     - relogin      : boolean
+ *     - redirect_url : string
+ *     - flash_message: string
+ */
 function doAjaxResponseBase(responseJSON) {
     if (responseJSON.relogin) {
         relogin();
