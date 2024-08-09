@@ -1,8 +1,6 @@
 const elemUnreadCommentsDropdownBtnIcon = $("#unread-comments-dropdown-btn-icon");
 
-/*
- * When logging in via modal on a `blog.` page/opening a `blog.` page as admin, check for notifications.
- */
+/* When logging in via modal on a `blog.` page/opening a `blog.` page as admin, check for notifications */
 onModalLogin = addToFunction(onModalLogin, function() {
     updateUnreadCommentsNotifs();
 });

@@ -1,9 +1,7 @@
 let commentLoadIntervalId;
 
-/*
- * When logging in via modal on a post page/opening a post page as admin and scrolling to the bottom, reload
- * comments to make sure we are seeing all the comments, and then mark all of them as read.
- */
+/* When logging in via modal on a post page/opening a post page as admin and scrolling to the bottom, reload
+ * comments to make sure we are seeing all the comments, and then mark all of them as read */
 onModalLogin = addToFunction(onModalLogin, function() {
     reloadComments();
 });
@@ -14,6 +12,11 @@ $(document).ready(function() {
             reloadComments();
         }
     }, 1000);
+});
+
+/* When logging out via modal on a post page, reload comments to clear unread indications (borders) */
+onModalLogout = addToFunction(onModalLogout, function() {
+    reloadComments();
 });
 
 async function reloadComments() {
