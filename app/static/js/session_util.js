@@ -48,8 +48,8 @@ $(document).ready(function() {
 
         let formData = new FormData(e.target, e.originalEvent.submitter);
         const responseJSON = await fetchWrapper(URL_LOGIN, { method: "POST", body: formData });
+        doAjaxResponseForm(responseJSON, e);
 
-        doBaseAjaxResponse(responseJSON, e);
         if (responseJSON.success) {
             onModalLogin();
         }
@@ -62,9 +62,9 @@ $(document).ready(function() {
                 URL_LOGOUT,
                 { method: "POST" },
                 { previous: getCurrentURLNoQS(false) });
+        doAjaxResponseForm(responseJSON, e);
 
-        doBaseAjaxResponse(responseJSON, e);
-        if (!responseJSON.redirect_url_abs) {
+        if (!responseJSON.redirect_url) {
             onModalLogout();
         }
     });

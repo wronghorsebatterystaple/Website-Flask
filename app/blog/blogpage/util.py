@@ -43,10 +43,18 @@ def login_required_check_blogpage(request):
         def wrapped(*args, **kwargs):
             blogpage = db.session.get(Blogpage, get_blogpage_id(request.blueprint))
             if blogpage is None:
-                return redirect(url_for(
-                        f"main.index",
-                        flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
-                        _external=True))
+                match request.method:
+                    case "GET":
+                        return redirect(url_for(
+                                f"main.index",
+                                flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
+                                _external=True))
+                    case "POST":
+                        return jsonify(
+                                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                                flash_message="That post doesn't exist :/")
+                    case _:
+                        return "", 500
 
             if blogpage.login_required:
                 result = util.custom_unauthorized(request)

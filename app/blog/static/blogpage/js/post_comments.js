@@ -24,10 +24,18 @@ async function reloadComments() {
     let commentCount = 0;
     let commentUnreadCount = 0;
     let responseJSON = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "POST" });
-    commentCount = responseJSON.count;
+    if (!responseJSON.error) {
+        commentCount = responseJSON.count;
+    } else {
+        customFlash("There was an error retrieving comment count :/");
+    }
     if (isUserAuthenticated) {
         responseJSON = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "POST" });
-        commentUnreadCount = responseJSON.count;
+        if (!responseJSON.error) {
+            commentUnreadCount = responseJSON.count;
+        } else {
+            customFlash("There was an error retrieving comment unread count :/");
+        }
     }
 
     let HTML = `(${commentCount}`;
@@ -39,7 +47,11 @@ async function reloadComments() {
     
     // load in comments
     responseJSON = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
-    $("#comment-list").html(responseJSON.html);
+    if (!responseJSON.error) {
+        $("#comment-list").html(responseJSON.html);
+    } else {
+        customFlash("There was an error retrieving comments :/");
+    }
 
     // make sure we don't keep polling for scroll position if the comments have already been loaded
     if (commentLoadIntervalId) {
@@ -67,7 +79,8 @@ async function markCommentsAsRead() {
 }
 
 function onCommentAjaxDone(responseJSON, e) {
-    doBaseAjaxResponse(responseJSON, e);
+    doAjaxResponseForm(responseJSON, e);
+
     if (responseJSON.success) {
         // clear input fields and reset height
         $(e.target).find("*").filter(function() {

@@ -31,10 +31,13 @@ def custom_unauthorized(request):
     """
 
     if not current_user.is_authenticated:
-        if request.method == "GET":
-            return redirect(url_for(current_app.config["LOGIN_VIEW"], next=encode_URI_component(request.url)))
-        elif request.method == "POST":
-            return jsonify(relogin=True)
+        match request.method:
+            case "GET":
+                return redirect(url_for(current_app.config["LOGIN_VIEW"], next=encode_URI_component(request.url)))
+            case "POST":
+                return jsonify(relogin=True)
+            case _:
+                return "", 500
     return None
 
 

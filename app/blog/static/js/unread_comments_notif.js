@@ -1,4 +1,4 @@
-const elemUnreadCommentsDropdownBtnIcon = $("#unread-comments-dropdown-btn-icon");
+const elemUnreadCommentsDropdownBtnIcon = $("#unread-comments-notif-btn-icon");
 
 /* When logging in via modal on a `blog.` page/opening a `blog.` page as admin, check for notifications */
 onModalLogin = addToFunction(onModalLogin, function() {
@@ -42,7 +42,6 @@ async function updateUnreadCommentsDropdown() {
     }
 
     if (responseJSON.relogin) {
-        relogin();
         elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Not so fast :]</span>");
         return -1;
     }
@@ -69,7 +68,7 @@ async function updateUnreadCommentsDropdown() {
  */
 function alignDropdownLeftwards(records) {
     const domDropdown = records[0].target;
-    let offset = domDropdown.offsetWidth - document.querySelector("#unread-comments-dropdown-btn").offsetWidth;
+    let offset = domDropdown.offsetWidth - document.querySelector("#unread-comments-notif-btn").offsetWidth;
     document.documentElement.style.setProperty("--unread-comments-dropdown-left", `-${offset}px`);
 }
 
@@ -81,7 +80,7 @@ $(document).ready(function() {
     });
 
     // refresh notifications on click
-    $("#unread-comments-dropdown-btn").on("click", function() {
+    $("#unread-comments-notif-btn").on("click", function() {
         updateUnreadCommentsNotifs();
     });
 });

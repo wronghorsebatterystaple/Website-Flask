@@ -104,10 +104,9 @@ def post(post_sanitized_title):
 def get_comments(post_sanitized_title):
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(
-                f"{request.blueprint}.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
-                _external=True))
+        return jsonify(
+                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                flash_message="That post doesn't exist :/")
 
     # get comments from db and render Markdown
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
@@ -149,7 +148,7 @@ def get_comments(post_sanitized_title):
 def add_comment(post_sanitized_title):
     # captcha
     if not turnstile.verify():
-        return jsonify(redirect_url_abs=url_for("bot_jail", _external=True))
+        return jsonify(redirect_url=url_for("bot_jail", _external=True))
 
     # validate form submission
     add_comment_form = AddCommentForm()
@@ -171,10 +170,9 @@ def add_comment(post_sanitized_title):
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(
-                f"{request.blueprint}.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
-                _external=True))
+        return jsonify(
+                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                flash_message="That post doesn't exist :/")
 
     # add comment
     comment = Comment(
@@ -197,15 +195,14 @@ def delete_comment(post_sanitized_title):
     # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
     if comment is None:
-        return jsonify(flash_message=f"That comment doesn't exist.", success=True)
+        return jsonify(flash_message=f"That comment doesn't exist :/", success=True)
 
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(
-                f"{request.blueprint}.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
-                _external=True))
+        return jsonify(
+                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                flash_message="That post doesn't exist :/")
 
     # delete comment
     descendants = comment.get_descendants(post)
@@ -225,10 +222,9 @@ def mark_comments_as_read(post_sanitized_title):
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(
-                f"{request.blueprint}.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
-                _external=True))
+        return jsonify(
+                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                flash_message="That post doesn't exist :/")
 
     # mark comments under current post as read
     comments_unread_query = post.comments.select().filter_by(unread=True)
@@ -245,10 +241,9 @@ def mark_comments_as_read(post_sanitized_title):
 def get_comment_count(post_sanitized_title):
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(
-                f"{request.blueprint}.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
-                _external=True))
+        return jsonify(
+                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                flash_message="That post doesn't exist :/")
 
     return jsonify(count=post.get_comment_count())
 
@@ -258,9 +253,8 @@ def get_comment_count(post_sanitized_title):
 def get_comment_unread_count(post_sanitized_title):
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
     if post is None:
-        return redirect(url_for(
-                f"{request.blueprint}.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
-                _external=True))
+        return jsonify(
+                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                flash_message="That post doesn't exist :/")
 
     return jsonify(count=post.get_comment_unread_count())

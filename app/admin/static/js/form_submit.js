@@ -17,7 +17,6 @@ $(document).ready(function() {
 
         let formData = new FormData(e.target, e.originalEvent.submitter);
         const responseJSON = await fetchWrapper(window.location.href, { method: "POST", body: formData });
-
-        doBaseAjaxResponse(responseJSON, e);
+        doAjaxResponseForm(responseJSON, e);
     });
 });
