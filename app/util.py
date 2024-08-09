@@ -1,8 +1,16 @@
-from functools import wraps
 import urllib.parse as parse
+from enum import Enum
+from functools import wraps
 
-from flask import current_app, jsonify, redirect, url_for
+from flask import current_app, jsonify, redirect, request, url_for
 from flask_login import current_user
+
+
+class ContentType(Enum):
+    ## String values are not used; just a reference
+    HTML = "text/html"
+    JSON = "application/json"
+    DEPENDS_ON_REQUEST_METHOD = "text/html if GET, otherwise application/json"
 
 
 def encode_URI_component(s: str) -> str:
@@ -21,27 +29,30 @@ def decode_URI_component(s: str) -> str:
     return parse.unquote(s)
 
 
-def custom_unauthorized(request):
+def custom_unauthorized(content_type):
     """
     Makes sure `current_user` is authenticated.
 
     If not authenticated:
-        - GET requests (meaning page has not been loaded yet) redirect to login with absolute `next` URL
-        - POST requests (meaning page is already loaded) show login modal again via Ajax/fetch response
+        - `Content-Type: text/html` responses redirect to login with absolute `next` URL
+        - `Content-Type: application/json` responses show login modal again via base Ajax response
     """
 
     if not current_user.is_authenticated:
-        match request.method:
-            case "GET":
+        if content_type == ContentType.DEPENDS_ON_REQUEST_METHOD:
+            content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
+
+        match content_type:
+            case ContentType.HTML:
                 return redirect(url_for(current_app.config["LOGIN_VIEW"], next=encode_URI_component(request.url)))
-            case "POST":
+            case ContentType.JSON:
                 return jsonify(relogin=True)
             case _:
-                return "", 500
+                return "app/util.py: custom_unauthorized() reached end of switch statement, gg", 500
     return None
 
 
-def custom_login_required(request):
+def custom_login_required(content_type):
     """
     Same functionality as custom_unauthorized(), but as a decorator.
     """
@@ -49,7 +60,7 @@ def custom_login_required(request):
     def inner_decorator(func):
         @wraps(func) # this allows double decorator to work if this is the second decorator
         def wrapped(*args, **kwargs):
-            result = custom_unauthorized(request)
+            result = custom_unauthorized(content_type)
             if result:
                 return result
             return func(*args, **kwargs)

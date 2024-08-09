@@ -2,7 +2,7 @@ import bleach
 import re
 from functools import wraps
 
-from flask import current_app, redirect, url_for
+from flask import current_app, jsonify, redirect, request, url_for
 
 import app.util as util
 from app import db
@@ -25,15 +25,15 @@ def additional_markdown_processing(s) -> str:
     return s
 
 
-def get_blogpage_id(blueprint_name) -> int:
+def get_blogpage_id() -> int:
     """
     Gets blogpage id from `request.blueprint`.
     """
 
-    return int(blueprint_name.split('.')[-1])
+    return int(request.blueprint.split('.')[-1])
 
 
-def login_required_check_blogpage(request):
+def login_required_check_blogpage(content_type):
     """
     Enforces login to access private blogpages.
     """
@@ -41,23 +41,23 @@ def login_required_check_blogpage(request):
     def inner_decorator(func):
         @wraps(func)
         def wrapped(*args, **kwargs):
-            blogpage = db.session.get(Blogpage, get_blogpage_id(request.blueprint))
+            blogpage = db.session.get(Blogpage, get_blogpage_id())
             if blogpage is None:
                 match request.method:
-                    case "GET":
+                    case util.ContentType.HTML:
                         return redirect(url_for(
                                 f"main.index",
                                 flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
                                 _external=True))
-                    case "POST":
+                    case util.ContentType.JSON:
                         return jsonify(
                                 redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
                                 flash_message="That post doesn't exist :/")
                     case _:
-                        return "", 500
+                        return "app/blog/blogpage/util.py: login_required_check_blogpage() reached end of switch statement, gg", 500
 
             if blogpage.login_required:
-                result = util.custom_unauthorized(request)
+                result = util.custom_unauthorized(content_type)
                 if result:
                     return result
 
@@ -81,6 +81,7 @@ def sanitize_untrusted_html(c) -> str:
             attributes=current_app.config["POST_COMMENT_ALLOWED_ATTRIBUTES"])
     return c
 
+
 def get_post_from_URL(URL_post_sanitized_title, URL_blogpage_id):
     """
     Gets post from URL, making sure it's valid and matches the whole URL.
@@ -90,3 +91,22 @@ def get_post_from_URL(URL_post_sanitized_title, URL_blogpage_id):
                 sanitized_title=URL_post_sanitized_title,
                 blogpage_id=URL_blogpage_id
             ).first()
+
+
+def post_nonexistent_response(content_type):
+    if content_type == ContentType.DEPENDS_ON_REQUEST_METHOD:
+        content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
+
+    match content_type:
+        case util.ContentType.HTML:
+            return redirect(
+                    url_for(
+                            f"{request.blueprint}.index",
+                            flash_message=util.encode_URI_component("That post doesn't exist."),
+                            _external=True))
+        case util.ContentType.JSON:
+            return jsonify(
+                    redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
+                    flash_message="That post doesn't exist :/")
+        case _:
+            return "app/blog/blogpage/util.py: return_post_nonexistent() reached end of switch statement, gg", 500

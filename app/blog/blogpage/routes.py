@@ -16,26 +16,25 @@ from app.models import *
 
 @bp.context_processor
 def inject_blogpage_from_db():
-    blogpage = db.session.query(Blogpage).filter_by(id=blogpage_util.get_blogpage_id(request.blueprint)).first()
+    blogpage = db.session.query(Blogpage).filter_by(id=blogpage_util.get_blogpage_id()).first()
     return dict(blogpage=blogpage, blogpage_id=blogpage.id)
 
 
 @bp.route("/", methods=["GET"])
-@blogpage_util.login_required_check_blogpage(request)
+@blogpage_util.login_required_check_blogpage(content_type=util.ContentType.HTML)
 def index():
     page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     if page_num <= 0:                                # prevent funny query string shenanigans
         return "", 418
 
-    blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
+    blogpage_id = blogpage_util.get_blogpage_id()
     blogpage = db.session.get(Blogpage, blogpage_id)
     posts = None
     is_all_posts = False
 
     if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
         is_all_posts = True
-        posts = \
-                db.paginate(
+        posts = db.paginate(
                         db.session.query(Post).join(Post.blogpage).filter_by(login_required=False)
                                 .order_by(sa.desc(Post.timestamp)),
                         page=page_num,
@@ -43,8 +42,7 @@ def index():
                         error_out=False)
     else:
         is_all_posts = False
-        posts = \
-                db.paginate(
+        posts = db.paginate(
                         db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
                                 .order_by(sa.desc(Post.timestamp)),
                         page=page_num,
@@ -77,18 +75,14 @@ def index():
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
-@blogpage_util.login_required_check_blogpage(request)
+@blogpage_util.login_required_check_blogpage(content_type=util.ContentType.HTML)
 def post(post_sanitized_title):
-    blogpage_id = blogpage_util.get_blogpage_id(request.blueprint)
+    blogpage_id = blogpage_util.get_blogpage_id()
 
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_id)
     if post is None:
-        return redirect(
-                url_for(
-                        f"{request.blueprint}.index",
-                        flash_message=util.encode_URI_component("That post doesn't exist."),
-                        _external=True))
+        return post_nonexistent_response(util.ContentType.HTML)
 
     # render Markdown for post
     post.content = markdown.markdown(
@@ -101,13 +95,11 @@ def post(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
-@blogpage_util.login_required_check_blogpage(request)
+@blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
 def get_comments(post_sanitized_title):
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
-        return jsonify(
-                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                flash_message="That post doesn't exist :/")
+        return post_nonexistent_response(util.ContentType.JSON)
 
     # get comments from db and render Markdown
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
@@ -139,13 +131,33 @@ def get_comments(post_sanitized_title):
             reply_comment_button=reply_comment_button))
 
 
+@bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
+@blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+def get_comment_count(post_sanitized_title):
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    if post is None:
+        return post_nonexistent_response(util.ContentType.JSON)
+
+    return jsonify(count=post.get_comment_count())
+
+
+@bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
+@blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+def get_comment_unread_count(post_sanitized_title):
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    if post is None:
+        return post_nonexistent_response(util.ContentType.JSON)
+
+    return jsonify(count=post.get_comment_unread_count())
+
+
 ###################################################################################################
 # POST Endpoints
 ###################################################################################################
 
 
 @bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
-@blogpage_util.login_required_check_blogpage(request)
+@blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
 def add_comment(post_sanitized_title):
     # captcha
     if not turnstile.verify():
@@ -169,11 +181,9 @@ def add_comment(post_sanitized_title):
         })
 
     # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
-        return jsonify(
-                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                flash_message="That post doesn't exist :/")
+        return post_nonexistent_response(util.ContentType.JSON)
 
     # add comment
     comment = Comment(
@@ -191,7 +201,7 @@ def add_comment(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
-@util.custom_login_required(request)
+@util.custom_login_required(content_type=util.ContentType.JSON)
 def delete_comment(post_sanitized_title):
     # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
@@ -199,11 +209,9 @@ def delete_comment(post_sanitized_title):
         return jsonify(flash_message=f"That comment doesn't exist :/", success=True)
 
     # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
-        return jsonify(
-                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                flash_message="That post doesn't exist :/")
+        return post_nonexistent_response(util.ContentType.JSON)
 
     # delete comment
     descendants = comment.get_descendants(post)
@@ -218,14 +226,12 @@ def delete_comment(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
-@util.custom_login_required(request)
+@util.custom_login_required(content_type=util.ContentType.JSON)
 def mark_comments_as_read(post_sanitized_title):
     # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
-        return jsonify(
-                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                flash_message="That post doesn't exist :/")
+        return post_nonexistent_response(util.ContentType.JSON)
 
     # mark comments under current post as read
     comments_unread_query = post.comments.select().filter_by(unread=True)
@@ -234,28 +240,4 @@ def mark_comments_as_read(post_sanitized_title):
         comment.unread=False
     db.session.commit()
 
-    return jsonify() # since we're expecting Ajax for everything
-
-
-@bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["POST"])
-@blogpage_util.login_required_check_blogpage(request)
-def get_comment_count(post_sanitized_title):
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
-    if post is None:
-        return jsonify(
-                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                flash_message="That post doesn't exist :/")
-
-    return jsonify(count=post.get_comment_count())
-
-
-@bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["POST"])
-@blogpage_util.login_required_check_blogpage(request)
-def get_comment_unread_count(post_sanitized_title):
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
-    if post is None:
-        return jsonify(
-                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                flash_message="That post doesn't exist :/")
-
-    return jsonify(count=post.get_comment_unread_count())
+    return jsonify(success=True)

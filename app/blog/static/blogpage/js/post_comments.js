@@ -23,14 +23,14 @@ async function reloadComments() {
     // refresh the comment counts in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
     let commentCount = 0;
     let commentUnreadCount = 0;
-    let responseJSON = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "POST" });
+    let responseJSON = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "GET" });
     if (!responseJSON.error) {
         commentCount = responseJSON.count;
     } else {
         customFlash("There was an error retrieving comment count :/");
     }
     if (isUserAuthenticated) {
-        responseJSON = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "POST" });
+        responseJSON = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "GET" });
         if (!responseJSON.error) {
             commentUnreadCount = responseJSON.count;
         } else {
