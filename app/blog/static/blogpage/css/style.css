@@ -74,8 +74,8 @@ input[value="Reply"][value="Delete"] {
 .comment-nest-limit-text {
     font-size: 0.95rem;
 }
-.comment-list-header,
-.leave-a-comment-header{
+.comment-list-heading,
+.leave-a-comment-heading {
     font-size: 2.25rem;
 }
 

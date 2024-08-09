@@ -33,7 +33,7 @@ $(document).ready(function() {
     elemPostContent.find("h1").addClass("post-h1");
     elemPostContent.find("h2").addClass("post-h2");
     // allows linking via URL fragments
-    $.merge($("h1"), $("h2")).each(function() {
+    $.merge($(".post-h1"), $(".post-h2")).each(function() {
         $(this).attr("id", sanitizeHeadingForURL($(this).text()));
     });
     elemPostContent.find("img").addClass("post-img");

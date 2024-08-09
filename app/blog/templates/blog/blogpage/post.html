@@ -1,6 +1,5 @@
 {%- extends "blog/blogpage/base.html" -%}
 {%- import "bootstrap_wtf.html" as wtf -%}
-{%- import "blog/blogpage/comments.html" as comments -%}
 
 {%- block title -%}
 {{ post.title }} - {{ blogpage.name }}
@@ -9,12 +8,15 @@
 {%- block js_inline -%}
 {{ super() }}
 const URL_GET_COMMENTS = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comments', post_sanitized_title=post.sanitized_title, _external=True) }}";
+const URL_GET_COMMENT_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_count', post_sanitized_title=post.sanitized_title, _external=True) }}";
+const URL_GET_COMMENT_UNREAD_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_unread_count', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_MARK_COMMENTS_AS_READ = "{{ url_for('blog.' ~ blogpage_id ~ '.mark_comments_as_read', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {%- endblock -%}
 
 {%- block js %}
 {{ super() }}
+<script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}" defer></script>
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_comments.js', _external=True) }}" defer></script>
 {%- endblock %}
 
@@ -45,15 +47,14 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 <hr class="doublehr">
 
 <div id="leave-a-comment">
-  <h2 id="leave-a-comment-header" class="shrinking-font-14">Leave a comment</h2>
+  <h2 id="leave-a-comment-heading" class="shrinking-font-14">Leave a comment</h2>
   {{ wtf.quick_form(add_comment_form, class="comment-add-form ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
 </div>
 <hr />
 
-<div id="comment-list" class="mb-3">
-  <h2 id="comment-list-header" class="shrinking-font-14 mb-0">Comments <span class="gray">({{ post.get_comment_count() }}{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="auth-true">, <span class="custom-pink">{{ post.get_comment_unread_count() }} unread</span></span>{%- endif %})</span></h2>
+<div class="mb-3">
   <!-- populate after page load with JS to avoid slow initial loads -->
-  <div id="comment-list-main" class="d-flex flex-column flex-shrink-0">
-  </div>
+  <h2 id="comment-list-heading" class="shrinking-font-14 mb-0">Comments <span id="comment-list-heading-counts" class="gray"></span></h2>
+  <div id="comment-list" class="d-flex flex-column flex-shrink-0"></div>
 </div>
 {%- endblock %}

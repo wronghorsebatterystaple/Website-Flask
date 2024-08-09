@@ -131,7 +131,7 @@ def get_comments(post_sanitized_title):
     reply_comment_button = ReplyCommentButton()
     delete_comment_button = DeleteCommentButton()
     return jsonify(html=render_template(
-            "blog/blogpage/comments.html",
+            "blog/blogpage/post_comments.html",
             comments=comments,
             post=post,
             add_comment_form=add_comment_form,
@@ -238,3 +238,29 @@ def mark_comments_as_read(post_sanitized_title):
     db.session.commit()
 
     return jsonify() # since we're expecting Ajax for everything
+
+
+@bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["POST"])
+@blogpage_util.login_required_check_blogpage(request)
+def get_comment_count(post_sanitized_title):
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    if post is None:
+        return redirect(url_for(
+                f"{request.blueprint}.index",
+                flash_message=util.encode_URI_component("That post doesn't exist."),
+                _external=True))
+
+    return jsonify(count=post.get_comment_count())
+
+
+@bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["POST"])
+@blogpage_util.login_required_check_blogpage(request)
+def get_comment_unread_count(post_sanitized_title):
+    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id(request.blueprint))
+    if post is None:
+        return redirect(url_for(
+                f"{request.blueprint}.index",
+                flash_message=util.encode_URI_component("That post doesn't exist."),
+                _external=True))
+
+    return jsonify(count=post.get_comment_unread_count())

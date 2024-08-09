@@ -17,31 +17,45 @@ $(document).ready(function() {
 });
 
 async function reloadComments() {
-    // `load()` clears the div's `innerHTML` and refreshes the unread count in the heading
-    $("#comment-list").load(window.location.href + " #comment-list > *", async function() {
-        // load in comments
-        let responseJSON = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
-        $("#comment-list-main").html(responseJSON.html);
+    // refresh the comment counts in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
+    let commentCount = 0;
+    let commentUnreadCount = 0;
+    let responseJSON = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "POST" });
+    commentCount = responseJSON.count;
+    if (isUserAuthenticated) {
+        responseJSON = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "POST" });
+        commentUnreadCount = responseJSON.count;
+    }
 
-        // make sure we don't keep polling for scroll position if the comments have already been loaded
-        if (commentLoadIntervalId) {
-            clearInterval(commentLoadIntervalId);
-        }
+    let HTML = `(${commentCount}`;
+    if (isUserAuthenticated && commentUnreadCount > 0) {
+        HTML += `<span class="auth-true">, <span class="custom-pink">${commentUnreadCount} unread</span></span>`;
+    }
+    HTML += ")";
+    $("#comment-list-heading-counts").html(HTML);
+    
+    // load in comments
+    responseJSON = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
+    $("#comment-list").html(responseJSON.html);
 
-        // apply CSS to comments
-        applyGlobalStyles("#comment-list");
-        applyCommentStyles();
+    // make sure we don't keep polling for scroll position if the comments have already been loaded
+    if (commentLoadIntervalId) {
+        clearInterval(commentLoadIntervalId);
+    }
 
-        // render timestamps and LaTeX in comments
-        flask_moment_render_all();
-        MathJax.typesetPromise(["#comment-list"]).then(function() {
-            onMathJaxTypeset("#comment-list");
-        });
+    // apply CSS to comments
+    applyGlobalStyles("#comment-list");
+    applyCommentStyles();
 
-        if (isUserAuthenticated) {
-            markCommentsAsRead();
-        }
+    // render timestamps and LaTeX in comments
+    flask_moment_render_all();
+    MathJax.typesetPromise(["#comment-list"]).then(function() {
+        onMathJaxTypeset("#comment-list");
     });
+
+    if (isUserAuthenticated) {
+        markCommentsAsRead();
+    }
 }
 
 async function markCommentsAsRead() {
