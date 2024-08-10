@@ -6,36 +6,31 @@ class Config(object):
     SERVER_NAME = "anonymousrand.xyz"
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    _CSP_SELF = ["\'self\'", SERVER_NAME, f"blog.{SERVER_NAME}"]
-    _CSP_DEFAULT_SRC = _CSP_SELF
+    _csp_self = ["\'self\'", SERVER_NAME, f"blog.{SERVER_NAME}"]
+    _csp_default_src = _csp_self
     CSP = {
-        "default-src": _CSP_DEFAULT_SRC,
-        "connect-src": _CSP_DEFAULT_SRC + [
+        "default-src": _csp_default_src,
+        "connect-src": _csp_default_src + [
             "data:",                        # DarkReader
             "cdnjs.cloudflare.com"          # Highlight.js
         ],
-        "font-src": _CSP_DEFAULT_SRC + [
-            "cdn.jsdelivr.net",
-            "fonts.googleapis.com",
-            "fonts.gstatic.com"
-        ],
-        "img-src": _CSP_DEFAULT_SRC + [
+        "img-src": _csp_default_src + [
             "data:"                         # Bootstrap, DarkReader
         ],
-        "script-src": _CSP_DEFAULT_SRC + [
+        "script-src": _csp_default_src + [
             "cdn.jsdelivr.net",
             "cdnjs.cloudflare.com",
             "code.jquery.com",
         ],
-        "style-src": _CSP_DEFAULT_SRC + [
+        "style-src": _csp_default_src + [
             "cdn.jsdelivr.net",
             "cdnjs.cloudflare.com",
             "code.jquery.com",
             "fonts.googleapis.com",
             "\'unsafe-inline\'"             # MathJax >:(
         ],
-        "base-uri": _CSP_DEFAULT_SRC,
-        "frame-ancestors": _CSP_DEFAULT_SRC
+        "base-uri": _csp_default_src,
+        "frame-ancestors": _csp_default_src
     }
 
     ## Cookies

@@ -11,8 +11,8 @@
     <!-- CDNs -->
       <!-- JQuery -->
       <script
-          src="https://code.jquery.com/jquery-3.7.1.js"
-          integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+          integrity="sha384-5AkRS45j4ukf+JbWAfHL8P4onPA9p0KwwP7pUdjSQA3ss9edbJUJc/XcYAiheSSz"
           crossorigin="anonymous">
       </script>
 
@@ -44,11 +44,6 @@
           defer>
       </script>
       <script src="{{ url_for('static', filename='js/flask_moment_for_csp.js', _external=True) }}" defer></script>
-
-      <!-- Fonts -->
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" />
 
       <!-- MathJax -->
       <script src="{{ url_for('static', filename='config/MathJax/config.js', _external=True) }}" defer></script>
