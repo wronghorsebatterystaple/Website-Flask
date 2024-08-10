@@ -1,9 +1,31 @@
-function applyCommentStyles() {
-    const elemCommentContents = $(".comment-content");
+function applyPostAndCommentStyles(baseSelector) {
+    const elemBase = $(baseSelector);
+    const elemPostContent = elemBase.find("#post-content");
+    const elemCommentContents = elemBase.find(".comment-content");
+    const elemPostAndCommentContents = $.merge(elemPostContent, elemCommentContents);
+
+    // make all links except footnotes and footnote backrefs open in new tab
+    elemPostAndCommentContents.find("a").each(function() {
+        if (!$(this).hasClass("footnote-ref") && !$(this).hasClass("footnote-backref")
+                && !$(this).attr("href").startsWith("#") && !$(this).is("[data-same-page]")) {
+            $(this).attr("target", "_blank");
+        }
+    });
 
     // add CSS classes for extra styling
-    elemCommentContents.find("h1").addClass("post-h1");
-    elemCommentContents.find("h2").addClass("post-h2");
+    elemPostAndCommentContents.find("h1").addClass("post-h1");
+    elemPostAndCommentContents.find("h2").addClass("post-h2");
+    elemPostAndCommentContents.find("img").addClass("post-img");
+
+    // images use alt text as hover text too
+    elemPostAndCommentContents.find("img[alt]").each(function() {
+        $(this).attr("title", $(this).attr("alt"));
+    });
+
+    // allows linking to post `<h1>` and `<h2>` headings via URL fragments
+    $.merge($(".post-h1"), $(".post-h2")).each(function() {
+        $(this).attr("id", sanitizeHeadingForURL($(this).text()));
+    });
 }
 
 /**
@@ -15,30 +37,6 @@ function sanitizeHeadingForURL(heading) {
 }
 
 $(document).ready(function() {
-    const elemPostContent = $("#post-content");
-
-    // make all links except footnotes and footnote backrefs open in new tab
-    elemPostContent.find("a").each(function() {
-        if (!$(this).hasClass("footnote-ref") && !$(this).hasClass("footnote-backref")
-                && !$(this).attr("href").startsWith("#") && !$(this).is("[data-same-page]")) {
-            $(this).attr("target", "_blank");
-        }
-    });
-
-    // add CSS classes for extra styling
-    elemPostContent.find("h1").addClass("post-h1");
-    elemPostContent.find("h2").addClass("post-h2");
-    // allows linking via URL fragments
-    $.merge($(".post-h1"), $(".post-h2")).each(function() {
-        $(this).attr("id", sanitizeHeadingForURL($(this).text()));
-    });
-    elemPostContent.find("img").addClass("post-img");
-
-    // images in posts use alt text as hover text too
-    elemPostContent.find("img[alt]").each(function() {
-        $(this).attr("title", $(this).attr("alt"));
-    });
-
     // add comment hover tooltip for syntax guide
     let text = "";
     $("[data-comment-formatting-tooltip]").first().parent().prev().each(function() {
@@ -69,5 +67,5 @@ $(document).ready(function() {
             `);
     refreshTooltips();
 
-    applyCommentStyles();
+    applyPostAndCommentStyles("body");
 });

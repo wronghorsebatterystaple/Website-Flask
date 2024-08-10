@@ -60,7 +60,7 @@ async function reloadComments() {
 
     // apply CSS to comments
     applyGlobalStyles("#comment-list");
-    applyCommentStyles();
+    applyPostAndCommentStyles("#comment-list");
 
     // render timestamps and LaTeX in comments
     flask_moment_render_all();
