@@ -31,9 +31,9 @@ function setBellWithoutNotif() {
 
 async function updateUnreadCommentsDropdown() {
     const elemUnreadCommentsDropdown = $("#unread-comments-dropdown");
-    elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Loading…</span>");
 
     // get posts with unread comments
+    elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Loading…</span>");
     const responseJSON = await fetchWrapper(URL_GET_POSTS_WITH_UNREAD_COMMENTS, { method: "POST" });
 
     if (responseJSON.error) {
