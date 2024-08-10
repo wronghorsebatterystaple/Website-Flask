@@ -4,10 +4,10 @@
 {{ blogpage.name }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %} - AnonymousRand blogs
 {%- endblock -%}
 
-{%- block js_inline -%}
+{%- block js_inline %}
 {{ super() }}
 const totalPages = {{ total_pages }};
-{%- endblock -%}
+{%- endblock %}
 
 {%- block content %}
 <div class="pt-3 shrinking-font-14">

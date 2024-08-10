@@ -5,12 +5,12 @@
 {{ blogpage.name ~ ": " ~ blogpage.meta_description }}
 {%- endblock -%}
 
-{%- block js_inline -%}
+{%- block js_inline %}
 {{ super() }}
 /* Pieces for optionally piecing together `URLBackgroundImageOverride` */
 const URL_BACKGROUND_IMG_OVERRIDE_BASE = "{{ url_for('blog.static', filename='blogpage/' ~ blogpage_id ~ '/images/', _external=True) }}";
 var backgroundImgOverrideName = "";
-{%- endblock -%}
+{%- endblock %}
 
 {%- block css %}
 {{ super() }}
