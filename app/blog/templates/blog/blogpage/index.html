@@ -1,8 +1,8 @@
-{%- extends "blog/blogpage/base.html" -%}
+{%- extends "blog/blogpage/base.html" %}
 
-{%- block title -%}
+{%- block title %}
 {{ blogpage.name }}{%- if page_num > 1 %} (page {{ page_num }}){%- endif %} - AnonymousRand blogs
-{%- endblock -%}
+{%- endblock %}
 
 {%- block js_inline %}
 {{ super() }}
@@ -24,7 +24,7 @@ const totalPages = {{ total_pages }};
   {%- for post in posts %}
     <div>
       {%- if is_all_posts %}
-        {%- set color = post.blogpage.html_color_class %}
+        {%- set color = post.blogpage.html_color_class -%}
         <a class="{{ color }} underline-{{ color }} underline-on-hover-only shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->

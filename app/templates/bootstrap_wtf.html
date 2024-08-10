@@ -51,14 +51,14 @@
           {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
         {%- endif %}
 
-        {%- if field.type == "PasswordField" -%}
+        {%- if field.type == "PasswordField" %}
           <i id="{{ field.name }}-show" class="password-vis-toggle bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
         {%- endif %}
 
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
-  {%- endif -%}
+  {%- endif %}
 {%- endmacro %}
 
 
@@ -78,7 +78,7 @@
       <div id="{{ field.name }}-field">
         {%- if not loop.last %}
           {{ form_field(field, btn_type, btn_color, 3, ns.first_field and autofocus_first) }}
-        {%- else -%}
+        {%- else %}
           {{ form_field(field, btn_type, btn_color, bottom_margin, ns.first_field and autofocus_first) }}
         {%- endif %}
         {%- set ns.first_field = false -%}

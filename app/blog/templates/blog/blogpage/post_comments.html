@@ -6,15 +6,15 @@
       <div class="flex-grow-1 ms-3">
     {%- endif %}
 
-    {%- set descendants = comment.get_descendants(post) %}
+    {%- set descendants = comment.get_descendants(post) -%}
     {%- if comment.author|trim == config["VERIFIED_AUTHOR"] %}
-      <div class="comment card border-custom-orange-deep border-3px mt-{%- if comment.depth == 0 -%}3{%- else -%}1{%- endif -%}">
+      <div class="comment card border-custom-orange-deep border-3px mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %}">
         <div class="card-body pb-2">
           <h3 class="comment-author d-flex align-items-center me-1">
             <span class="me-2">{{ comment.author }}</span><i class="bi bi-check-circle" title="Actually verified, unlike Twitter."></i>
           </h3>
     {%- else %}
-      <div class="comment card{%- if current_user.is_authenticated and comment.unread %} border-custom-pink-light border-3px{%- endif %} mt-{%- if comment.depth == 0 -%}3{%- else -%}1{%- endif -%}">
+      <div class="comment card{%- if current_user.is_authenticated and comment.unread %} border-custom-pink-light border-3px{%- endif %} mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %}">
         <div class="card-body pb-2">
           <h3 class="comment-author mb-2">{{ comment.author }}</h3>
     {%- endif %}

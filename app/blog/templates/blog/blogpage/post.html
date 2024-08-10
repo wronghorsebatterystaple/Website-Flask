@@ -1,9 +1,9 @@
 {%- extends "blog/blogpage/base.html" -%}
 {%- import "bootstrap_wtf.html" as wtf -%}
 
-{%- block title -%}
+{%- block title %}
 {{ post.title }} - {{ blogpage.name }}
-{%- endblock -%}
+{%- endblock %}
 
 {%- block js_inline %}
 {{ super() }}
