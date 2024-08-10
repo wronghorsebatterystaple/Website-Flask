@@ -1,12 +1,12 @@
 {%- macro form_field(field, btn_type, btn_color, bottom_margin, autofocus_first) %}
-  {%- if field.type == "BooleanField" %}
+  {%- if field.type == "BooleanField" -%}
   <div class="form-check mb-{{ bottom_margin }}">
      {{ field(id=field.name ~ "-input", class="form-check-input") }}
      {{ field.label(class="form-check-label") }}
      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
    </div>
 
-  {%- elif field.type == "RadioField" %}
+  {%- elif field.type == "RadioField" -%}
     {{ field.label(class="form-label") }}
     {%- for item in field %}
     <div class="form-check{%- if loop.last %} mb-{{ bottom_margin }}{%- endif %}">
@@ -15,12 +15,12 @@
     </div>
     {%- endfor %}
 
-  {%- elif field.type == "SelectField" %}
+  {%- elif field.type == "SelectField" -%}
     {{ field.label(class="form-label") }}
     {{ field(id=field.name ~ "-input", class="form-select mb-" ~ bottom_margin) }}
     <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
 
-  {%- elif field.type == "TextAreaField" %}
+  {%- elif field.type == "TextAreaField" -%}
   <div class="mb-{{ bottom_margin }}">
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
@@ -34,14 +34,14 @@
       </div>
     </div>
 
-  {%- elif field.type == "SubmitField" %}
+  {%- elif field.type == "SubmitField" -%}
     {%- if btn_type == "no-bg" %}
       {{ field(class="btn btn-link btn-link-" ~ btn_color ~ " no-underline mb-" ~ bottom_margin) }}
     {%- else %}
       {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_color ~ " mb-" ~ bottom_margin) }}
     {%- endif %}
 
-  {%- else %}
+  {%- else -%}
     <div class="mb-{{ bottom_margin }}">
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
@@ -51,14 +51,14 @@
           {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
         {%- endif %}
 
-        {%- if field.type == "PasswordField" %}
+        {%- if field.type == "PasswordField" -%}
           <i id="{{ field.name }}-show" class="password-vis-toggle bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
         {%- endif %}
 
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
-  {%- endif %}
+  {%- endif -%}
 {%- endmacro %}
 
 
@@ -72,16 +72,16 @@
     {%- if hidden %} hidden{%- endif %}>
 
     {{ form.hidden_tag() }}
-    {%- set ns = namespace(first_field=true) %}
+    {%- set ns = namespace(first_field=true) -%}
 
     {%- for field in form if field.widget.input_type != "hidden" %}
       <div id="{{ field.name }}-field">
         {%- if not loop.last %}
           {{ form_field(field, btn_type, btn_color, 3, ns.first_field and autofocus_first) }}
-        {%- else %}
+        {%- else -%}
           {{ form_field(field, btn_type, btn_color, bottom_margin, ns.first_field and autofocus_first) }}
         {%- endif %}
-        {%- set ns.first_field = false %}
+        {%- set ns.first_field = false -%}
       </div>
     {%- endfor %}
 

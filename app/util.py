@@ -32,10 +32,16 @@ def decode_URI_component(s: str) -> str:
 def custom_unauthorized(content_type):
     """
     Makes sure `current_user` is authenticated.
-
     If not authenticated:
         - `Content-Type: text/html` responses redirect to login with absolute `next` URL
         - `Content-Type: application/json` responses show login modal again via base Ajax response
+
+    Usage:
+        ```
+        result = util.custom_unauthorized(request)
+        if result:
+            return result
+        ```
     """
 
     if not current_user.is_authenticated:
@@ -55,6 +61,14 @@ def custom_unauthorized(content_type):
 def custom_login_required(content_type):
     """
     Same functionality as custom_unauthorized(), but as a decorator.
+
+    Usage:
+        ```
+        @bp.route(...)
+        @util.custom_login_required(request)
+        def view_func():
+            pass
+        ```
     """
 
     def inner_decorator(func):

@@ -1,4 +1,4 @@
-async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
+async function fetchWrapper(URLBase, options, paramsDict=null) {
     if (!options) {
         options = {};
     }
@@ -10,7 +10,7 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
     options.credentials = "include";
     options.mode = "cors";
 
-    let URLWithParams_abs = new URL(baseURL_abs);
+    let URLWithParams_abs = new URL(URLBase);
     if (paramsDict) {
         for (let key in paramsDict) {
             URLWithParams_abs.searchParams.append(key, encodeURIComponent(paramsDict[key]));
@@ -19,7 +19,7 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
 
     const response = await fetch(URLWithParams_abs, options);
     const responseText = await response.text();
-    let responseJSON;
+    let responseJSON = null;
     try {
         responseJSON = JSON.parse(responseText);
     } catch (e) {
@@ -47,7 +47,7 @@ async function fetchWrapper(baseURL_abs, options, paramsDict=null) {
             if (options.body && options.body instanceof FormData) {
                 options.body.set("csrf_token", csrfToken);
             }
-            return fetchWrapper(baseURL_abs, options, paramsDict);
+            return fetchWrapper(URLBase, options, paramsDict);
             break;
     }
 

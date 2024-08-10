@@ -87,10 +87,11 @@ def get_post_from_URL(URL_post_sanitized_title, URL_blogpage_id):
     Gets post from URL, making sure it's valid and matches the whole URL.
     """
 
-    return db.session.query(Post).filter_by(
-                sanitized_title=URL_post_sanitized_title,
-                blogpage_id=URL_blogpage_id
-            ).first()
+    return db.session.query(Post) \
+            .filter_by(
+                    sanitized_title=URL_post_sanitized_title,
+                    blogpage_id=URL_blogpage_id) \
+            .first()
 
 
 def post_nonexistent_response(content_type):

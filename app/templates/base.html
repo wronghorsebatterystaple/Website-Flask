@@ -17,7 +17,7 @@
       </script>
 
       <!-- DarkReader -->
-      <!-- no defer to avoid flash -->
+      <!-- No defer to avoid flash -->
       <script
           src=" https://cdn.jsdelivr.net/npm/darkreader@4.9.85/darkreader.min.js"
           integrity="sha384-flfeXFGSp501CI6Fn9Hw2v39t1xgyVR6HOVPrN759b+KcjH1reD6joELwSRuovyX"
@@ -45,7 +45,7 @@
       </script>
       <script src="{{ url_for('static', filename='js/flask_moment_for_csp.js', _external=True) }}" defer></script>
 
-      <!-- fonts -->
+      <!-- Fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" />
@@ -73,7 +73,7 @@
           crossorigin="anonymous"
           defer />
 
-      <!-- global custom CSS -->
+      <!-- Global custom CSS -->
       <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_hljs.css', _external=True) }}" />
       <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', _external=True) }}" />
       <link rel="stylesheet" href="{{ url_for('static', filename='css/util.css', _external=True) }}" />
@@ -82,22 +82,22 @@
       {%- block css %}{%- endblock %}
 
     <!-- JS -->
-      <!-- inline (passing vars from Jinja to JS, for example) -->
+      <!-- Inline (passing vars from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
           var csrfToken = "{{ csrf_token() }}";
           var isUserAuthenticated = {%- if current_user.is_authenticated -%}true{%- else -%}false{%- endif -%};
           const URL_BACKGROUND_IMG_DEFAULT = "{{ url_for('static', filename='images/background_default.svg', _external=True) }}";
           const URL_LOGIN = "{{ url_for('admin.login', _external=True) }}";
           const URL_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
-          var URL_backgroundImgOverride = "";
+          var URLBackgroundImageOverride = "";
 
           {%- block js_inline -%}{%- endblock -%}
       </script>
 
-      <!-- global custom JS -->
-      <!-- no defer because it's util -->
+      <!-- Global custom JS -->
+      <!-- No defer because it's util -->
       <script src="{{ url_for('static', filename='js/util.js', _external=True) }}"></script>
-      <!-- no defer to avoid flash -->
+      <!-- No defer to avoid flash -->
       <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script>
 
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js', _external=True) }}" defer></script>
@@ -118,7 +118,7 @@
   <body class="font-default">
     <div id="background-img">
       <div class="content-container container min-vh-100">
-      <!-- navbar -->
+      <!-- Navbar -->
       <nav class="font-default-important navbar navbar-expand-md">
         <a id="navbar-home" class="navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
           <img id="navbar-logo" class="me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" />
@@ -166,7 +166,7 @@
       </nav>
 
       <div id="non-navbar" class="mt-2">
-        <!-- display flash()ed messages as alerts -->
+        <!-- Display flash()ed messages as alerts -->
         <div id="flash" class="flash alert alert-info alert-dismissible fade show" role="alert" hidden>
           <span id="flash-text"></span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Dismiss"></button>

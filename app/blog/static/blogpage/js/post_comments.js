@@ -1,4 +1,4 @@
-let commentLoadIntervalId;
+let commentLoadIntervalId = 0;
 
 /* When logging in via modal on a post page/opening a post page as admin and scrolling to the bottom, reload
  * comments to make sure we are seeing all the comments, and then mark all of them as read */

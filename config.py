@@ -70,6 +70,10 @@ class Config(object):
     }
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
+    ## Jinja (not implictly configured though)
+    JINJA_LSTRIP_BLOCKS = True
+    JINJA_TRIM_BLOCKS = True
+
     ## Other "conventional" configs
     POST_COMMENT_ALLOWED_TAGS = {
         "abbr", "acronym", "b", "blockquote", "br", "center", "code", "details", "div", "em", "h1", "h2", "h3", "i",

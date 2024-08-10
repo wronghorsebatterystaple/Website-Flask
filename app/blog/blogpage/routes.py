@@ -65,13 +65,13 @@ def index():
 
     return render_template(
             "blog/blogpage/index.html",
-            next_page_url=next_page_url,
-            page_num=page_num,
             is_all_posts=is_all_posts,
             posts=posts,
-            prev_page_url=prev_page_url,
+            unpublished_blogpage_id=unpublished_blogpage_id,
             total_pages=posts.pages,
-            unpublished_blogpage_id=unpublished_blogpage_id)
+            page_num=page_num,
+            prev_page_url=prev_page_url,
+            next_page_url=next_page_url)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
@@ -124,8 +124,8 @@ def get_comments(post_sanitized_title):
     delete_comment_button = DeleteCommentButton()
     return jsonify(html=render_template(
             "blog/blogpage/post_comments.html",
-            comments=comments,
             post=post,
+            comments=comments,
             add_comment_form=add_comment_form,
             delete_comment_button=delete_comment_button,
             reply_comment_button=reply_comment_button))
@@ -197,7 +197,7 @@ def add_comment(post_sanitized_title):
     db.session.add(comment)
     db.session.commit()
 
-    return jsonify(flash_message="Comment added successfully!", success=True)
+    return jsonify(success=True, flash_message="Comment added successfully!")
 
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
@@ -206,7 +206,7 @@ def delete_comment(post_sanitized_title):
     # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
     if comment is None:
-        return jsonify(flash_message=f"That comment doesn't exist :/", success=True)
+        return jsonify(success=True, flash_message=f"That comment doesn't exist :/")
 
     # get post from URL, making sure it's valid and matches the whole URL
     post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
@@ -222,7 +222,7 @@ def delete_comment(post_sanitized_title):
     db.session.delete(comment)
     db.session.commit()
 
-    return jsonify(flash_message="1984 established!", success=True)
+    return jsonify(success=True, flash_message="literally 1984 by eric arthur blair")
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])

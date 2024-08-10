@@ -30,10 +30,9 @@ def handle_csrf_error(e):
     """
 
     csrf_token = generate_csrf()
-    # don't use custom HTTPException since we can't `raise` here
     code = Config.CUSTOM_ERRORS["REFRESH_CSRF"][0]
-    # return new token in Ajax response since csrf_token() in Jinja doesn't seem to update until page reload
-    # so instead we pass the error description in as the new csrf_token in JS
-    # shouldn't be a security issue since CSRF token sent in POST anyways
+    # return new token in Ajax response since csrf_token() in Jinja doesn't update asynchronously,
+    # so instead we pass the error description in as the new csrf_token in JS.
+    # Shouldn't be a security issue since CSRF token sent in POST anyways.
     # (most scuffed CSRF refresh in history)
     return jsonify(new_csrf_token=csrf_token), code

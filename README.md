@@ -28,7 +28,7 @@ I hope I'm not reading this because I bricked a machine again.
 
 ### IMPORTANT:
 - Always make sure [.gitignore](.gitignore) is up to date with the correct paths and items!
-- Always make sure access control is correct (see documentation below)!
+- Always make sure access control is correct (see overview below)!
 - Always make sure [config.py](config.py) is updated and has the correct filename/path (some Python files import it directly as a module)!
 - Always make sure backup scripts in [deployment/backup-scripts/](deployment/backup-scripts/) have the correct paths and configs!
 - Always make sure this README is updated!
@@ -52,37 +52,17 @@ I hope I'm not reading this because I bricked a machine again.
     - Run `flask db migrate` on the host in the Python venv; this requires MySQL connectivity from the host
     - Run `flask db upgrade` or restart the Docker containers
 
-### Access control documentation:
-- Access control in view functions is achieved through the `@custom_login_required(request)` decorator and its equivalent function `custom_unauthorized(request)`, both provided in [app/util.py](app/util.py). These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
-    - On GET to a restricted page, this function redirects to the login view as established in [config.py](config.py), exactly like the built-in `@login_required` except with the `next` parameter set to an absolute URL instead of a relative URL. This allows for cross-domain redirects.
-    - On POST to a restricted page, this function returns a JSON with the key `relogin=True` that makes [app/static/js/ajax_utils.js](app/static/js/ajax_utils.js)'s `doBaseAjaxResponse()` show the login modal. This allows us to simply pop up the modal instead of redirecting away to a whole new page like `@login_required` or `login_manager.unauthorized()` would, potentially losing stuff we've put into a form (for example) in the process. In addition, returning the `relogin` key explicitly avoids the potentially bad practice of relying on CSRF token expiration and `fetchWrapper()`'s error handling in [app/static/js/ajax_util.js](app/static/js/ajax_util.js) to detect session expiry and show the modal.
-    - `@custom_login_required(request)` usage in view functions:
-  
-      ```py
-      @bp.route(...)
-      @util.custom_login_required(request)
-      def view_func():
-          pass
-      ```
-  
-    - `custom_unauthorized(request)` usage in view functions:
-  
-      ```py
-      result = util.custom_unauthorized(request)
-      if result:
-          return result
-      ```
-  
-    - Refer to [app/admin/routes.py](app/admin/routes.py) and [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py) for example usages
-  - [config.py](config.py) contains settings that must be up-to-date for access control:
+### Access control overview:
+- Access control in view functions is achieved through the `@custom_login_required()` decorator and its equivalent function `custom_unauthorized()`, both provided in [app/util.py](app/util.py); see that file for full documentation and usage. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
+- [config.py](config.py) contains settings that must be up-to-date for access control:
     - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out
     - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real*- verified checkmark!!!)
 - Each blogpage in the database has a boolean `login_required` column that must be up-to-date; Flask uses this to check login redirection on attempt to access these blogpages
 
-### CSP documentation:
+### CSP overview:
 - Refer to [config.py](config.py) for CSP; should be commented!
 
-### XSS sanitization documentation:
+### XSS sanitization overview:
 - Comments:
     - Python's [bleach](https://pypi.org/project/bleach/) is the main library used for XSS sanitization during Markdown to HTML rendering for comments (`sanitize_untrusted_html()` in [app/blog/blogpage/util.py](app/blog/blogpage/util.py))
         - Yes it's deprecated, but there is no good alternative atm, and both bleach and its main dependency html5lib are still being maintained

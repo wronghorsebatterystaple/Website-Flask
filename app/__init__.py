@@ -29,9 +29,12 @@ import app.routes as global_routes # after initializing global extension variabl
 
 
 def create_app():
-    # create app variable
+    # create app variable and config
     app = Flask(__name__)
     app.config.from_object(Config)
+
+    app.jinja_env.lstrip_blocks = Config.JINJA_LSTRIP_BLOCKS
+    app.jinja_env.trim_blocks = Config.JINJA_TRIM_BLOCKS
 
     # register blueprints
     from app.main import bp as main_bp
