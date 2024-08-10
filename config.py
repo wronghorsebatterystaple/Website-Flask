@@ -14,6 +14,9 @@ class Config(object):
             "data:",                        # DarkReader
             "cdnjs.cloudflare.com"          # Highlight.js
         ],
+        "font-src": _csp_default_src + [
+            "cdn.jsdelivr.net"              # MathJax
+        ],
         "img-src": _csp_default_src + [
             "data:"                         # Bootstrap, DarkReader
         ],
