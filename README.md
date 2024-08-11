@@ -115,6 +115,7 @@ I hope I'm not reading this because I bricked a machine again.
 
 ### Other notes:
 - `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` in both HTML templates and Flask to simplify the cross-origin nature of having a blog subdomain
+- Try not to modify any of the **forms.py**s, as some JS might rely on hardcoded values of the form fields. I don't do frontend, ok?
 
 # Blog writer notes
 

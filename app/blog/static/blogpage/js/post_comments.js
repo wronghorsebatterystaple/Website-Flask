@@ -1,7 +1,7 @@
 let commentLoadIntervalId = 0;
 
 /* When logging in via modal on a post page/opening a post page as admin and scrolling to the bottom, reload
- * comments to make sure we are seeing all the comments, and then mark all of them as read */
+ * comments to make sure we are seeing all of them, and then mark all of them as read */
 onModalLogin = addToFunction(onModalLogin, function() {
     reloadComments();
 });
@@ -20,6 +20,14 @@ onModalLogout = addToFunction(onModalLogout, function() {
 });
 
 async function reloadComments() {
+    // refresh the main leave a comment form's author autofill; don't do for replies as that should be easy enough
+    // manually and could be slow automatically if there's a lot of comments
+    if (isUserAuthenticated) {
+        $("#leave-a-comment").find("input[name='author']").first().val(VERIFIED_AUTHOR);
+    } else {
+        $("#leave-a-comment").find("input[name='author']").first().val("");
+    }
+    
     // refresh the comment counts in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
     let commentCount = 0;
     let commentUnreadCount = 0;
@@ -44,7 +52,7 @@ async function reloadComments() {
     }
     HTML += ")";
     $("#comment-list-heading-counts").html(HTML);
-    
+
     // load in comments
     responseJSON = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
     if (!responseJSON.error) {
@@ -58,15 +66,15 @@ async function reloadComments() {
         clearInterval(commentLoadIntervalId);
     }
 
-    // apply CSS to comments
-    applyGlobalStyles("#comment-list");
-    applyPostAndCommentStyles("#comment-list");
-
     // render timestamps and LaTeX in comments
     flask_moment_render_all();
     MathJax.typesetPromise(["#comment-list"]).then(function() {
         onMathJaxTypeset("#comment-list");
     });
+
+    // apply CSS to comments
+    applyGlobalStyles("#comment-list");
+    applyPostAndCommentStyles("#comment-list");
 
     if (isUserAuthenticated) {
         markCommentsAsRead();
@@ -117,7 +125,13 @@ $(document).on("submit", ".comment-reply-form", function(e) {
     let elemCommentReplyAddForm = $(`#comment-reply-add-form-${id}`);
     elemCommentReplyAddForm.removeAttr("hidden");
     elemCommentReplyAddForm.find("#parent").val(id); // insert under right parent
-    elemCommentReplyAddForm.find("#author-input").focus();
+    if (isUserAuthenticated) {
+        // automatically fill in username if admin
+        elemCommentReplyAddForm.find("input[name='author']").first().val(VERIFIED_AUTHOR);
+        elemCommentReplyAddForm.find("input[name='content']").first().focus();
+    } else {
+        elemCommentReplyAddForm.find("input[name='author']").first().focus();
+    }
     e.target.setAttribute("hidden", "");
 
     asteriskRequiredFields();

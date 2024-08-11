@@ -7,6 +7,7 @@
 
 {%- block js_inline %}
 {{ super() }}
+const VERIFIED_AUTHOR = "{{ config["VERIFIED_AUTHOR"] }}";
 const URL_GET_COMMENTS = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comments', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_GET_COMMENT_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_count', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_GET_COMMENT_UNREAD_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_unread_count', post_sanitized_title=post.sanitized_title, _external=True) }}";

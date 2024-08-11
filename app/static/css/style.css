@@ -209,7 +209,11 @@ textarea {
     background-repeat: no-repeat;
 }
 
-#navbar-home { /* for centering due to larger font (probably a visual approximation) */
+#dark-mode-switch { /* for (approx) centering due to low descender height and thus typefacing biasing upwards */
+    margin-top: 0.3125em;
+}
+
+#navbar-home { /* for (approx) centering due to larger font */
     margin-top: -0.1em;
 }
 #navbar-logo {

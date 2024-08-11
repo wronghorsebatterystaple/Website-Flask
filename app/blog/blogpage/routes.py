@@ -123,7 +123,7 @@ def get_comments(post_sanitized_title):
     reply_comment_button = ReplyCommentButton()
     delete_comment_button = DeleteCommentButton()
     return jsonify(html=render_template(
-            "blog/blogpage/post_comments.html",
+            "blog/blogpage/util_post_comments.html",
             post=post,
             comments=comments,
             add_comment_form=add_comment_form,
@@ -165,11 +165,6 @@ def add_comment(post_sanitized_title):
 
     # validate form submission
     add_comment_form = AddCommentForm()
-    # let admin user leave author field blank to fill in their name by default
-    author = request.form["author"]
-    if current_user.is_authenticated and not author:
-        author = current_app.config["VERIFIED_AUTHOR"];
-        add_comment_form.author.raw_data[0] = author # to avoid this being interpreted as a validation error
     if not add_comment_form.validate():
         return jsonify(submission_errors=add_comment_form.errors)
 

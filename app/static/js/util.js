@@ -2,7 +2,7 @@
  * Usage: `func1 = addToFunction(func1, func2);`
  */
 function addToFunction(functionBase, functionToAdd) {
-    functionBase = function() {
+    return function() {
         functionBase.apply(this, arguments);
         functionToAdd.apply(this, arguments);
     };
