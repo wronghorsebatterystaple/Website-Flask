@@ -13,22 +13,6 @@ class ContentType(Enum):
     DEPENDS_ON_REQUEST_METHOD = "text/html if GET, otherwise application/json"
 
 
-def encode_URI_component(s: str) -> str:
-    """
-    Mimics JavaScript's encodeURIComponent().
-    """
-
-    return parse.quote(s, safe="~!*()'")
-
-
-def decode_URI_component(s: str) -> str:
-    """
-    Mimics JavaScript's decodeURIComponent().
-    """
-
-    return parse.unquote(s)
-
-
 def custom_unauthorized(content_type):
     """
     Makes sure `current_user` is authenticated.
@@ -80,3 +64,19 @@ def custom_login_required(content_type):
             return func(*args, **kwargs)
         return wrapped
     return inner_decorator
+
+
+def encode_URI_component(s: str) -> str:
+    """
+    Mimics JavaScript's encodeURIComponent().
+    """
+
+    return parse.quote(s, safe="~!*()'")
+
+
+def decode_URI_component(s: str) -> str:
+    """
+    Mimics JavaScript's decodeURIComponent().
+    """
+
+    return parse.unquote(s)

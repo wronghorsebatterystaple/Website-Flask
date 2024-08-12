@@ -5,7 +5,16 @@ from flask import current_app
 from werkzeug.utils import escape, secure_filename
 
 
-def sanitize_filename(filename):
+def get_images_path(post) -> str:
+    return os.path.join(
+            current_app.root_path,
+            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+            str(post.blogpage_id),
+            "images",
+            str(post.id))
+
+
+def sanitize_filename(filename) -> str:
     filename = escape(secure_filename(filename))
     filename = filename.replace("(", "").replace(")", "") # for Markdown parsing
     return filename
@@ -40,19 +49,10 @@ def upload_images(images, images_path) -> str:
     return None
 
 
-def validate_image(image):
+def validate_image(image) -> str:
     header = image.read(512)
     image.seek(0)
     format = imghdr.what(None, header)
     if not format:
         return None
     return f".{format}"
-
-
-def get_images_path(post):
-    return os.path.join(
-            current_app.root_path,
-            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-            str(post.blogpage_id),
-            "images",
-            str(post.id))

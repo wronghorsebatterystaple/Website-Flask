@@ -6,12 +6,12 @@ from config import Config
 
 
 class AddCommentForm(FlaskForm):
+    parent = HiddenField(
+            default=None)
+
     author = StringField(
             "Name",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_AUTHOR_LENMAX"])])
-
-    parent = HiddenField(
-            default=None)
 
     content = TextAreaField(
             "Comment",
@@ -19,16 +19,15 @@ class AddCommentForm(FlaskForm):
             render_kw={"data-comment-formatting-tooltip": ""})
 
     add_comment_form_submit = SubmitField(
-
             "Submit")
 
 
-class ReplyCommentButton(FlaskForm):
-    reply_comment_button_submit = SubmitField(
+class ReplyCommentBtn(FlaskForm):
+    reply_comment_btn_submit = SubmitField(
             "Reply")
 
 
-class DeleteCommentButton(FlaskForm):
+class DeleteCommentBtn(FlaskForm):
     delete = SubmitField(
             "Delete",
             render_kw={"data-confirm-submit": ""})

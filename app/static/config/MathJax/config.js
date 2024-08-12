@@ -1,16 +1,17 @@
 const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
 const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
 
-function onMathJaxTypeset(rootSelector) {
+var onMathJaxTypeset = function(rootSelector) {
     const elemRoot = $(rootSelector);
     if (!elemRoot) {
         return;
     }
-    // Make \[\] LaTeX blocks scroll horizontally on overflow
+
+    // make \[\] LaTeX blocks scroll horizontally on overflow
     elemRoot.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").wrap(HORIZ_SCOLL_DIV_HTML);
     elemRoot.find("mjx-math[width='full']").each(function() {
         $(this).parent("mjx-container").css("min-width", ""); // can cause overflow problems
-        $(this).wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL); // for \tag{}ed
+        $(this).wrap(HORIZ_SCOLL_DIV_HTML_WIDTH_FULL);        // for \tag{}ed
     });
 }
 

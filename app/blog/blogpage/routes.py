@@ -94,8 +94,13 @@ def post(post_sanitized_title):
     post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
     post.content = blogpage_util.additional_markdown_processing(post.content)
 
+    post_title_no_markdown = blogpage_util.strip_markdown_from_html(post.title)
     add_comment_form = AddCommentForm()
-    return render_template("blog/blogpage/post.html", post=post, add_comment_form=add_comment_form)
+    return render_template(
+            "blog/blogpage/post.html",
+            post=post,
+            post_title_no_markdown=post_title_no_markdown,
+            add_comment_form=add_comment_form)
 
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
@@ -124,15 +129,15 @@ def get_comments(post_sanitized_title):
             comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
  
     add_comment_form = AddCommentForm()
-    reply_comment_button = ReplyCommentButton()
-    delete_comment_button = DeleteCommentButton()
+    reply_comment_btn = ReplyCommentBtn()
+    delete_comment_btn = DeleteCommentBtn()
     return jsonify(html=render_template(
             "blog/blogpage/util_post_comments.html",
             post=post,
             comments=comments,
             add_comment_form=add_comment_form,
-            delete_comment_button=delete_comment_button,
-            reply_comment_button=reply_comment_button))
+            delete_comment_btn=delete_comment_btn,
+            reply_comment_btn=reply_comment_btn))
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])

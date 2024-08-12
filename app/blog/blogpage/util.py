@@ -1,5 +1,6 @@
 import bleach
 import re
+from bs4 import BeautifulSoup
 from functools import wraps
 
 from flask import current_app, jsonify, redirect, request, url_for
@@ -31,6 +32,18 @@ def get_blogpage_id() -> int:
     """
 
     return int(request.blueprint.split('.')[-1])
+
+
+def get_post_from_URL(URL_post_sanitized_title, URL_blogpage_id):
+    """
+    Gets post from URL, making sure it's valid and matches the whole URL.
+    """
+
+    return db.session.query(Post) \
+            .filter_by(
+                    sanitized_title=URL_post_sanitized_title,
+                    blogpage_id=URL_blogpage_id) \
+            .first()
 
 
 def login_required_check_blogpage(content_type):
@@ -66,34 +79,6 @@ def login_required_check_blogpage(content_type):
     return inner_decorator
 
 
-def sanitize_untrusted_html(c) -> str:
-    """
-    Markdown sanitization for comments (XSS etc.).
-
-    Notes:
-        - Bleach is deprecated because html5lib is, but both seem to still be mostly active
-    """
-
-    # MathJax is processed client-side after this so no need to allow those tags
-    c = bleach.clean(
-            c,
-            tags=current_app.config["POST_COMMENT_ALLOWED_TAGS"],
-            attributes=current_app.config["POST_COMMENT_ALLOWED_ATTRIBUTES"])
-    return c
-
-
-def get_post_from_URL(URL_post_sanitized_title, URL_blogpage_id):
-    """
-    Gets post from URL, making sure it's valid and matches the whole URL.
-    """
-
-    return db.session.query(Post) \
-            .filter_by(
-                    sanitized_title=URL_post_sanitized_title,
-                    blogpage_id=URL_blogpage_id) \
-            .first()
-
-
 def post_nonexistent_response(content_type):
     if content_type == ContentType.DEPENDS_ON_REQUEST_METHOD:
         content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
@@ -111,3 +96,23 @@ def post_nonexistent_response(content_type):
                     flash_message="That post doesn't exist :/")
         case _:
             return "app/blog/blogpage/util.py: return_post_nonexistent() reached end of switch statement, gg", 500
+
+
+def sanitize_untrusted_html(c) -> str:
+    """
+    Markdown sanitization for comments (XSS etc.).
+
+    Notes:
+        - Bleach is deprecated because html5lib is, but both seem to still be mostly active
+    """
+
+    # MathJax is processed client-side after this so no need to allow those tags
+    c = bleach.clean(
+            c,
+            tags=current_app.config["POST_COMMENT_ALLOWED_TAGS"],
+            attributes=current_app.config["POST_COMMENT_ALLOWED_ATTRIBUTES"])
+    return c
+
+
+def strip_markdown_from_html(html) -> str:
+    return BeautifulSoup(html).get_text()

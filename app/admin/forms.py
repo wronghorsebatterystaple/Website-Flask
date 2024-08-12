@@ -38,11 +38,11 @@ class CreateBlogpostForm(FlaskForm):
             validators=[InputRequired()])
 
     title = StringField(
-            "Title (Markdown, LaTeX supported)",
+            "Title (Markdown supported)",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_LENMAX"])])
 
     subtitle = StringField(
-            "Subtitle (Markdown, LaTeX supported)",
+            "Subtitle (Markdown supported)",
             validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"])])
 
     content = TextAreaField(
@@ -81,11 +81,11 @@ class EditBlogpostForm(FlaskForm):
             validators=[InputRequired()])
 
     title = StringField(
-            "Title (Markdown, LaTeX supported)",
+            "Title (Markdown supported)",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_LENMAX"])])
 
     subtitle = StringField(
-            "Subtitle (Markdown, LaTeX supported)",
+            "Subtitle (Markdown supported)",
             validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"])])
 
     content = TextAreaField(
