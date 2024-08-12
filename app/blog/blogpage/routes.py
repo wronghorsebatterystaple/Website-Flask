@@ -85,9 +85,13 @@ def post(post_sanitized_title):
         return post_nonexistent_response(util.ContentType.HTML)
 
     # render Markdown for post
+    post.title = markdown.markdown(post.title, extensions=["extra", CustomInlineExtensions()])
+    post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
     post.content = markdown.markdown(
             post.content,
             extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
+    post.title = blogpage_util.additional_markdown_processing(post.title)
+    post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
     post.content = blogpage_util.additional_markdown_processing(post.content)
 
     add_comment_form = AddCommentForm()
@@ -112,7 +116,7 @@ def get_comments(post_sanitized_title):
                     extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
             comment.content = blogpage_util.additional_markdown_processing(comment.content)
         else:
-            # no custom block Markdown because there are ways to 500 the page that I don't wanna fix
+            # no custom block Markdown for non-admin because there are ways to 500 the page that I don't wanna fix
             comment.content = markdown.markdown(
                     comment.content,
                     extensions=["extra", "markdown_grid_tables", CustomInlineExtensions()])

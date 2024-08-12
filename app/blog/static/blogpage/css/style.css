@@ -56,12 +56,18 @@
 .post-subtitle {
     font-size: 1.3rem;
 }
+.post-subtitle p {
+    margin-bottom: 0rem;
+}
 .post-timestamp {
     font-size: 1rem;
     margin-right: 0.625rem;
 }
 .post-title {
     font-size: 2.5rem;
+}
+.post-title p {
+    margin-bottom: 0rem;
 }
 
 input[value="Reply"][value="Delete"] {

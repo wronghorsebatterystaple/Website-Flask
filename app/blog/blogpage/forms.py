@@ -6,31 +6,29 @@ from config import Config
 
 
 class AddCommentForm(FlaskForm):
-    author = \
-            StringField(
-                    "Name",
-                    validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_AUTHOR_LENMAX"])])
-    parent = \
-            HiddenField(
-                    default=None)
-    content = \
-            TextAreaField(
-                    "Comment",
-                    validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_LENMAX"])],
-                    render_kw={"data-comment-formatting-tooltip": ""})
-    add_comment_form_submit = \
-            SubmitField(
-                    "Submit")
+    author = StringField(
+            "Name",
+            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_AUTHOR_LENMAX"])])
+
+    parent = HiddenField(
+            default=None)
+
+    content = TextAreaField(
+            "Comment",
+            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_LENMAX"])],
+            render_kw={"data-comment-formatting-tooltip": ""})
+
+    add_comment_form_submit = SubmitField(
+
+            "Submit")
 
 
 class ReplyCommentButton(FlaskForm):
-    reply_comment_button_submit = \
-            SubmitField(
-                    "Reply")
+    reply_comment_button_submit = SubmitField(
+            "Reply")
 
 
 class DeleteCommentButton(FlaskForm):
-    delete = \
-            SubmitField(
-                    "Delete",
-                    render_kw={"data-confirm-submit": ""})
+    delete = SubmitField(
+            "Delete",
+            render_kw={"data-confirm-submit": ""})
