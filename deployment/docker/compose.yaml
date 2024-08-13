@@ -1,7 +1,7 @@
 services:
   flask:
     container_name: flask-website-flask
-    user: "${DOCKER_USER_STR}"
+    user: "$DOCKER_USER_STR"
     ports:
       - "8008:8008"                                           # SYNC: Nginx and entrypoint Gunicorn ports
     build:
@@ -17,7 +17,7 @@ services:
     restart: always
   mysql:
     container_name: flask-website-mysql
-    user: "${DOCKER_USER_STR}"
+    user: "$DOCKER_USER_STR"
     ports:
       - "3306:3306"
       - "33060:33060"
