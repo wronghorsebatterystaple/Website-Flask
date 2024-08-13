@@ -234,8 +234,9 @@ def edit_blogpost():
                 filepath = os.path.join(images_path, image)
                 if os.path.exists(filepath):
                     os.remove(filepath)
-            if os.path.exists(images_path) and len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
-                shutil.rmtree(images_path)
+
+            # delete image directory if now empty
+            admin_util.delete_dir_if_empty(images_path)
         except Exception as e:
             return jsonify(flash_message=f"Image delete exception: {str(e)}")
 
@@ -249,8 +250,7 @@ def edit_blogpost():
                             and image not in post.content:
                         os.remove(os.path.join(images_path, image))
 
-                if len(os.listdir(images_path)) == 0 and os.path.isdir(images_path):
-                    shutil.rmtree(images_path)
+                admin_util.delete_dir_if_empty(images_path)
             except Exception as e:
                 return jsonify(flash_message=f"Image delete unused exception: {str(e)}")
         

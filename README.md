@@ -17,11 +17,11 @@ I hope I'm not reading this because I bricked a machine again.
     - Install Python modules from [requirements.txt](requirements.txt) by running `pip install -r requirements.txt` (ideally within a virtualenv)
     - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
 4. Add back gitignored files:
-    - **.env**: randomly generated `SECRET_KEY` and pymysql `DATABASE_URL` (search private notes for reference) for connecting to MySQL from host
-        - Should be something like `mysql+pymysql://[db username]:[db password]@[hostname]:[port]/[database name]?charset=utf8mb4`
-    - **deployment/docker/flask/envs/.env**: same as **.env** but with `DATABASE_URL` modified to connect to the MySQL Docker container (i.e. the `host` part of the URL is the name of the MySQL container *service* in [deployment/docker/compose.yaml](deployment/docker/compose.yaml))
+    - **.env**: randomly generated `SECRET_KEY` and SQLAlchemy `DATABASE_URL` for connecting to MySQL from host
+        - `DATABASE_URL` should be something like `mysql+pymysql://[db username]:[db password]@[hostname]:[port]/[database name]?charset=utf8mb4`
+    - **deployment/docker/flask/envs/.env**: same as **.env** but with `DATABASE_URL` modified to connect to the MySQL Docker container (i.e. the `hostname` part of the URL is the name of the MySQL container *service* in [deployment/docker/compose.yaml](deployment/docker/compose.yaml), in this case `mysql`)
     - **deployment/docker/mysql/envs/.mysqlenv**: nothing yet (no environment variables if bind-mounting existing MySQL data directory)
-    - **deployment/docker/mysql/mysql-data-dir/**: MySQL data directory
+    - **deployment/docker/mysql/mysql-data-dir/**: MySQL data directory (bind-mounted by Docker; set up appropriately by creating database and then restoring from backup)
     - **deployment/backup-scripts/db_backup_config.sh**: set the variables referenced in [deployment/backup-scripts/db_backup.sh](deployment/backup-scripts/db_backup.sh)
     - **app/static/css/custom_bootstrap.css** and **app/static/css/custom_bootstrap.css.map**: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
 5. Navigate to [deployment/docker/](deployment/docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd-reference/flask-website.service](deployment/systemd-reference/flask-website.service))

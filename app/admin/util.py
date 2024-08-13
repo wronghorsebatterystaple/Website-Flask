@@ -1,8 +1,14 @@
 import imghdr
 import os
+import shutil
 
 from flask import current_app
 from werkzeug.utils import escape, secure_filename
+
+
+def delete_dir_if_empty(path) -> None:
+    if os.path.exists(path) and os.path.isdir(path) and len(os.listdir(path)) == 0:
+        shutil.rmtree(path)
 
 
 def get_images_path(post) -> str:

@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 Group=docker
+Environment=DOCKER_USER=[REPLACE: NAME OF USER THAT CONTAINER WILL RUN AS]
 WorkingDirectory=[REPLACE: PATH TO `docker/` FOLDER]
 ExecStart=/bin/bash deploy.sh
 

@@ -86,13 +86,15 @@ def post(post_sanitized_title):
 
     # render Markdown for post
     post.title = markdown.markdown(post.title, extensions=["extra", CustomInlineExtensions()])
-    post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
-    post.content = markdown.markdown(
-            post.content,
-            extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
     post.title = blogpage_util.additional_markdown_processing(post.title)
-    post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
-    post.content = blogpage_util.additional_markdown_processing(post.content)
+    if post.subtitle:
+        post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
+        post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
+    if post.content:
+        post.content = markdown.markdown(
+                post.content,
+                extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
+        post.content = blogpage_util.additional_markdown_processing(post.content)
 
     post_title_no_markdown = blogpage_util.strip_markdown_from_html(post.title)
     add_comment_form = AddCommentForm()
