@@ -8,7 +8,7 @@ function addToFunction(functionBase, functionToAdd) {
     };
 }
 
-function getCurrentURLNoQS(includeScheme=true) {
+function getCurrentUrlNoParams(includeScheme=true) {
     if (includeScheme) {
         return window.location.origin + window.location.pathname;
     } else {

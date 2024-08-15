@@ -54,9 +54,9 @@ async function updateUnreadCommentsDropdown() {
 
     let html = "";
     Object.keys(responseJSON).forEach(postTitle => {
-        let postURL = responseJSON[postTitle].url;
+        let postUrl = responseJSON[postTitle].url;
         let postUnreadCount = responseJSON[postTitle].unread_count;
-        html += `<a class="dropdown-item" href="${postURL}"><span class="custom-pink">(${postUnreadCount})</span> ${postTitle}</a>`;
+        html += `<a class="dropdown-item" href="${postUrl}"><span class="custom-pink">(${postUnreadCount})</span> ${postTitle}</a>`;
     });
     elemUnreadCommentsDropdown.html(html);
 

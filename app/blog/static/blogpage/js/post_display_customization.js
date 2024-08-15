@@ -24,14 +24,14 @@ function applyPostAndCommentStyles(baseSelector) {
 
     // allows linking to post `<h1>` and `<h2>` headings via URL fragments
     $.merge($(".post-h1"), $(".post-h2")).each(function() {
-        $(this).attr("id", sanitizeHeadingForURL($(this).text()));
+        $(this).attr("id", sanitizeHeadingForUrl($(this).text()));
     });
 }
 
 /**
  * Replaces whitespace with hyphens and removes all non-alphanumeric and non-hyphen characters.
  */
-function sanitizeHeadingForURL(heading) {
+function sanitizeHeadingForUrl(heading) {
     heading = heading.split(/\s+/).join("-");
     return heading.replace(/[^A-Za-z0-9-]/g, "");
 }

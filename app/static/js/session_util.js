@@ -61,7 +61,7 @@ $(document).ready(function() {
         const responseJSON = await fetchWrapper(
                 URL_LOGOUT,
                 { method: "POST" },
-                { previous: getCurrentURLNoQS(false) });
+                { previous: getCurrentUrlNoParams(false) });
         doAjaxResponseForm(responseJSON, e);
 
         if (!responseJSON.redirect_url) {

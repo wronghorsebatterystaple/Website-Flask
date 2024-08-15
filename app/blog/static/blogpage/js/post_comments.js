@@ -142,7 +142,7 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const responseJSON = await fetchWrapper(
-            `${getCurrentURLNoQS()}/add-comment`,
+            `${getCurrentUrlNoParams()}/add-comment`,
             { method: "POST", body: formData });
 
     onCommentAjaxDone(responseJSON, e);
@@ -153,7 +153,7 @@ $(document).on("submit", ".ajax-delete-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const responseJSON = await fetchWrapper(
-            `${getCurrentURLNoQS()}/delete-comment`,
+            `${getCurrentUrlNoParams()}/delete-comment`,
             { method: "POST", body: formData },
             { comment_id: getCommentId(e.target) });
 

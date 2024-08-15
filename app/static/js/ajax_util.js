@@ -1,4 +1,4 @@
-async function fetchWrapper(URLBase, options, paramsDict=null) {
+async function fetchWrapper(urlBase, options, paramsDict=null) {
     if (!options) {
         options = {};
     }
@@ -10,14 +10,14 @@ async function fetchWrapper(URLBase, options, paramsDict=null) {
     options.credentials = "include";
     options.mode = "cors";
 
-    let URLWithParams_abs = new URL(URLBase);
+    let urlWithParams = new URL(urlBase);
     if (paramsDict) {
         for (let key in paramsDict) {
-            URLWithParams_abs.searchParams.append(key, encodeURIComponent(paramsDict[key]));
+            urlWithParams.searchParams.append(key, encodeURIComponent(paramsDict[key]));
         }
     }
 
-    const response = await fetch(URLWithParams_abs, options);
+    const response = await fetch(urlWithParams, options);
     const responseText = await response.text();
     let responseJSON = null;
     try {
@@ -47,7 +47,7 @@ async function fetchWrapper(URLBase, options, paramsDict=null) {
             if (options.body && options.body instanceof FormData) {
                 options.body.set("csrf_token", csrfToken);
             }
-            return fetchWrapper(URLBase, options, paramsDict);
+            return fetchWrapper(urlBase, options, paramsDict);
             break;
     }
 
@@ -67,14 +67,14 @@ function doAjaxResponseBase(responseJSON) {
     }
 
     if (responseJSON.redirect_url) {
-        let newURL = new URL(decodeURIComponent(responseJSON.redirect_url));
+        let newUrl = new URL(decodeURIComponent(responseJSON.redirect_url));
 
         // flash message after page load by appending message to URL as custom `flash_message` param
         if (responseJSON.flash_message) {
-            newURL.searchParams.append("flash_message", encodeURIComponent(responseJSON.flash_message));
+            newUrl.searchParams.append("flash_message", encodeURIComponent(responseJSON.flash_message));
         }
 
-        window.location.href = newURL;
+        window.location.href = newUrl;
     } else {
         // async flash message
         if (responseJSON.flash_message) {

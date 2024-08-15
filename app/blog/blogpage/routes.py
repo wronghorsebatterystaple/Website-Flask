@@ -79,8 +79,8 @@ def index():
 def post(post_sanitized_title):
     blogpage_id = blogpage_util.get_blogpage_id()
 
-    # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_id)
+    # get post from url, making sure it's valid and matches the whole url
+    post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_id)
     if post is None:
         return post_nonexistent_response(util.ContentType.HTML)
 
@@ -108,7 +108,7 @@ def post(post_sanitized_title):
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
 @blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
 def get_comments(post_sanitized_title):
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
         return post_nonexistent_response(util.ContentType.JSON)
 
@@ -145,7 +145,7 @@ def get_comments(post_sanitized_title):
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
 @blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
 def get_comment_count(post_sanitized_title):
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
         return post_nonexistent_response(util.ContentType.JSON)
 
@@ -155,7 +155,7 @@ def get_comment_count(post_sanitized_title):
 @bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
 @blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
 def get_comment_unread_count(post_sanitized_title):
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
         return post_nonexistent_response(util.ContentType.JSON)
 
@@ -186,8 +186,8 @@ def add_comment(post_sanitized_title):
             "author": ["$8 isn't going to buy you a verified checkmark here."]
         })
 
-    # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    # get post from url, making sure it's valid and matches the whole url
+    post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
         return post_nonexistent_response(util.ContentType.JSON)
 
@@ -214,8 +214,8 @@ def delete_comment(post_sanitized_title):
     if comment is None:
         return jsonify(success=True, flash_message=f"That comment doesn't exist :/")
 
-    # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    # get post from url, making sure it's valid and matches the whole url
+    post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
         return post_nonexistent_response(util.ContentType.JSON)
 
@@ -234,8 +234,8 @@ def delete_comment(post_sanitized_title):
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
 @util.custom_login_required(content_type=util.ContentType.JSON)
 def mark_comments_as_read(post_sanitized_title):
-    # get post from URL, making sure it's valid and matches the whole URL
-    post = blogpage_util.get_post_from_URL(post_sanitized_title, blogpage_util.get_blogpage_id())
+    # get post from url, making sure it's valid and matches the whole url
+    post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
         return post_nonexistent_response(util.ContentType.JSON)
 
