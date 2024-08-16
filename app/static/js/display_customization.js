@@ -1,40 +1,3 @@
-function applyCustomMarkdown(baseSelector) {
-    const elemBase = $(baseSelector);
-    if (!elemBase) {
-        return;
-    }
-
-    // custom table horizontal and vertical align syntax
-    elemBase.find("[data-align-center]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-center");
-    });
-    elemBase.find("[data-align-right]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-end");
-    });
-    elemBase.find("[data-align-top]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-top");
-    });
-    elemBase.find("[data-align-bottom]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-bottom");
-    });
-
-    // custom table column width syntax
-    elemBase.find("[data-col-width]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
-    });
-
-    // no extra space at the end of custom details/summary, and first line of summary starts inline
-    elemBase.find("details").each(function() {
-        $(this).children(".md-details-contents").children().last().addClass("mb-0");
-        const elemSummary = $(this).find("summary");
-        elemSummary.find("p").first().addClass("d-inline");
-        elemSummary.children().last().addClass("mb-0");
-    });
-
-    // no extra <p> tags in custom figures/captions
-    elemBase.find("figure").find("p").children("img").unwrap();
-}
-
 function applyGlobalStyles(baseSelector) {
     const elemBase = $(baseSelector);
     if (!elemBase) {
@@ -88,7 +51,45 @@ function applyGlobalStyles(baseSelector) {
     });
     
     applyCustomMarkdown(baseSelector); // Markdown tweaks round 3
+    randomizeSelectionColor();
     syntaxHighlightNonTable(baseSelector);
+}
+
+function applyCustomMarkdown(baseSelector) {
+    const elemBase = $(baseSelector);
+    if (!elemBase) {
+        return;
+    }
+
+    // custom table horizontal and vertical align syntax
+    elemBase.find("[data-align-center]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-center");
+    });
+    elemBase.find("[data-align-right]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-end");
+    });
+    elemBase.find("[data-align-top]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-top");
+    });
+    elemBase.find("[data-align-bottom]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-bottom");
+    });
+
+    // custom table column width syntax
+    elemBase.find("[data-col-width]").each(function() {
+        $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
+    });
+
+    // no extra space at the end of custom details/summary, and first line of summary starts inline
+    elemBase.find("details").each(function() {
+        $(this).children(".md-details-contents").children().last().addClass("mb-0");
+        const elemSummary = $(this).find("summary");
+        elemSummary.find("p").first().addClass("d-inline");
+        elemSummary.children().last().addClass("mb-0");
+    });
+
+    // no extra <p> tags in custom figures/captions
+    elemBase.find("figure").find("p").children("img").unwrap();
 }
 
 function genFootnoteTooltips() {
@@ -115,6 +116,14 @@ function genFootnoteTooltips() {
     });
 
     refreshTooltips();
+}
+
+const styleSheetSelectionColor = new CSSStyleSheet();
+document.adoptedStyleSheets.push(styleSheetSelectionColor);
+function randomizeSelectionColor() {
+    const colorChoices = ["--custom-blue-xxlight", "--custom-green-deep-xlight", "--custom-pink-xxlight"];
+    let rand = Math.floor(Math.random() * colorChoices.length);
+    styleSheetSelectionColor.replaceSync(`::selection { background-color: var(${colorChoices[rand]}) }`);
 }
 
 function syntaxHighlightNonTable(baseSelector) {

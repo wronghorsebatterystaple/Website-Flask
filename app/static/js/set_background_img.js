@@ -1,14 +1,14 @@
 /* CSSStyleSheet used since URLs within CSS `var()` are not detected by DarkReader, and JQuery `css()` is inline
  * which we want to try and avoid */
-const backgroundImgStyleSheet = new CSSStyleSheet();
-document.adoptedStyleSheets.push(backgroundImgStyleSheet);
+const styleSheetBackgroundImg = new CSSStyleSheet();
+document.adoptedStyleSheets.push(styleSheetBackgroundImg);
 
 function reloadBackgroundImg() {
     if (urlBackgroundImageOverride !== "") {
-        backgroundImgStyleSheet.replaceSync(
+        styleSheetBackgroundImg.replaceSync(
                 `#background-img { background-image: url(${urlBackgroundImageOverride}) }`);
     } else {
-        backgroundImgStyleSheet.replaceSync(
+        styleSheetBackgroundImg.replaceSync(
                 `#background-img { background-image: url(${URL_BACKGROUND_IMG_DEFAULT}) }`);
     }
 }

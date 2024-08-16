@@ -1,7 +1,3 @@
-::selection {
-    background-color: var(--custom-green-xlight);
-}
-
 /* Links default to custom-blue-deep, but can be overwritten with !important */
 a {
     color: var(--custom-blue-deep);

@@ -109,6 +109,7 @@
 /* `btn-link` Colors */
 /*********************/
 
+/* (Link/`btn-link` hover darkens, `btn` hover lightens) */
 .btn-link-custom-orange-deep {
     --bs-btn-color: var(--custom-orange-deep) !important;
     --bs-btn-active-color: var(--custom-orange-deep) !important;

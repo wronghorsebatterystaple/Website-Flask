@@ -3,7 +3,6 @@
     --content-container-max-width: clamp(0px, 672px, 100vw);
 
     /* Colors */
-    /* link hover darkens, button hover lightens */
     --custom-blue: #00eaff;             /* hue 185 */
     --custom-blue-light: #80f4ff;
     --custom-blue-xxlight: #bffaff;
@@ -13,9 +12,9 @@
     --custom-blue-deep-dark: #00b0eb;
 
     --custom-green: #b7ff00;            /* hue 77 */
-    --custom-green-xlight: #d7ff73;
     --custom-green-deep: #8cff00;       /* hue 87 */
     --custom-green-deep-light: #a9ff40;
+    --custom-green-deep-xlight: #c0ff73;
     --custom-green-deep-xxlight: #ecffd5;
     --custom-green-deep-dark: #77d900;
     --custom-green-deep-xdark: #70cc00;
@@ -28,6 +27,7 @@
     --custom-pink: #ff59d0;             /* hue 317 */
     --custom-pink-light: #ffa6e6;
     --custom-pink-xlight: #ffbfed;
+    --custom-pink-xxlight: #ffe6f8;
     --custom-pink-xxxlight: #fff5fc;
 
     --color-code: navy;
