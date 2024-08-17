@@ -249,23 +249,26 @@ class ThmBlockProcessor(BlockProcessor):
 class CustomInlineExtensions(Extension):
     def extendMarkdown(self, md):
         # `__[text]__` for underline
-        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()__([\S\s]*?)__", "u"), "underline", 105)
+        reg = r"()__([\S\s]*?)__"
+        md.inlinePatterns.register(SimpleTagInlineProcessor(reg, "u"), "underline", 105)
 
         # `~~[text]~~` for strikethrough
-        md.inlinePatterns.register(SimpleTagInlineProcessor(r"()~~([\S\s]*?)~~", "del"), "strikethrough", 105)
+        reg = r"()~~([\S\s]*?)~~"
+        md.inlinePatterns.register(SimpleTagInlineProcessor(reg, "del"), "strikethrough", 105)
 
         # `'''[text]'''` for gray code
-        md.inlinePatterns.register(GrayCodeInlineProcessor(r"'''([\S\s]*?)'''", md), "gray_code", 999)
+        reg = r"'''([\S\s]*?)'''"
+        md.inlinePatterns.register(GrayCodeInlineProcessor(reg, md), "gray_code", 999)
 
         # `!\[<span data-width="[number]%">[alt text]</span>\]([image src])` for images with custom width
         # `!\[<span data-inline>[alt text]</span>\]([image src])` for images with "display: inline"
         # if both are present, `data-inline` must be after `data-width`
-        md.inlinePatterns.register(ImageInlineProcessor("!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)",
-                md), "image", 999)
+        reg = "!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)"
+        md.inlinePatterns.register(ImageInlineProcessor(reg, md), "image", 999)
 
         # `\[<span data-same-page>[display text]</span>\]([link href])` for links that open on same page
-        md.inlinePatterns.register(LinkTargetInlineProcessor(r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)",
-                md), "link_target", 999)
+        reg = r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)"
+        md.inlinePatterns.register(LinkTargetInlineProcessor(reg, md), "link_target", 999)
 
 
 class CustomBlockExtensions(Extension):

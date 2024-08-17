@@ -95,9 +95,7 @@ def create_blogpost():
             blogpage_id = int(request.args.get("blogpage_id", default=None))
         except Exception:
             return jsonify(redirect_url=url_for(
-                    "blog.index",
-                    flash_message=util.encode_URI_component("haker :3"),
-                    _external=True))
+                    "blog.index", flash_message=util.encode_uri_component("haker :3"), _external=True))
 
         # automatically populate blogpage form field from query string if detected
         if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
@@ -131,9 +129,7 @@ def create_blogpost():
         db.session.commit()                                 # commit at very end when success is guaranteed
         return jsonify(
                 redirect_url=url_for(
-                        f"blog.{post.blogpage_id}.post",
-                        post_sanitized_title=post.sanitized_title,
-                        _external=True),
+                        f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post created successfully!") # view completed post
 
     return "If you see this message, please panic."
@@ -180,7 +176,7 @@ def edit_blogpost():
     images_path = admin_util.get_images_path(post)
     if os.path.exists(images_path) and os.path.isdir(images_path):
         images_choices = [(f, f) for f in os.listdir(images_path)
-                         if os.path.isfile(os.path.join(images_path, f)) and not f.startswith(".")]
+                if os.path.isfile(os.path.join(images_path, f)) and not f.startswith(".")]
         images_choices.sort(key=lambda t: t[0])
         form.delete_images.choices = images_choices
 
@@ -219,8 +215,7 @@ def edit_blogpost():
         if res is not None:
             return jsonify(flash_message=res)
         post.add_timestamps(
-                request.form.get("remove_edited_timestamp"),
-                request.form.get("update_edited_timestamp"))
+                request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
 
         # upload images if any
@@ -266,9 +261,7 @@ def edit_blogpost():
         db.session.commit()
         return jsonify(
                 redirect_url=url_for(
-                        f"blog.{post.blogpage_id}.post",
-                        post_sanitized_title=post.sanitized_title,
-                        _external=True),
+                        f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
                 flash_message="Post edited successfully!") # view edited post
 
     return "If you see this message, please panic."
@@ -306,8 +299,7 @@ def change_admin_password():
         db.session.commit()
         logout_user()
         return jsonify(
-                redirect_url=url_for("main.index", _external=True),
-                flash_message="Your password has been changed!")
+                redirect_url=url_for("main.index", _external=True), flash_message="Your password has been changed!")
 
     return "If you see this message, please panic."
 
@@ -322,11 +314,10 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
 
-    previous = util.decode_URI_component(request.args.get("previous"))
+    previous = util.decode_uri_component(request.args.get("previous"))
     for url in current_app.config["LOGIN_REQUIRED_URLS"]:
         if previous.startswith(url):
             return jsonify(
-                    redirect_url=url_for("main.index", _external=True),
-                    flash_message="Mischief managed.")
+                    redirect_url=url_for("main.index", _external=True), flash_message="Mischief managed.")
 
     return jsonify(flash_message="Mischief managed.")

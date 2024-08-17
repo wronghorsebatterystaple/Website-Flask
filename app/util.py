@@ -34,7 +34,7 @@ def custom_unauthorized(content_type):
 
         match content_type:
             case ContentType.HTML:
-                return redirect(url_for(current_app.config["LOGIN_VIEW"], next=encode_URI_component(request.url)))
+                return redirect(url_for(current_app.config["LOGIN_VIEW"], next=encode_uri_component(request.url)))
             case ContentType.JSON:
                 return jsonify(relogin=True)
             case _:
@@ -66,7 +66,7 @@ def custom_login_required(content_type):
     return inner_decorator
 
 
-def encode_URI_component(s: str) -> str:
+def encode_uri_component(s: str) -> str:
     """
     Mimics JavaScript's encodeURIComponent().
     """
@@ -74,7 +74,7 @@ def encode_URI_component(s: str) -> str:
     return parse.quote(s, safe="~!*()'")
 
 
-def decode_URI_component(s: str) -> str:
+def decode_uri_component(s: str) -> str:
     """
     Mimics JavaScript's decodeURIComponent().
     """

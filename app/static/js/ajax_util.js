@@ -19,17 +19,17 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
 
     const response = await fetch(urlWithParams, options);
     const responseText = await response.text();
-    let responseJSON = null;
+    let responseJson = null;
     try {
-        responseJSON = JSON.parse(responseText);
+        responseJson = JSON.parse(responseText);
     } catch (e) {
-        responseJSON = null;
+        responseJson = null;
     }
 
     // no error
-    if (response.ok && responseJSON !== null) {
-        doAjaxResponseBase(responseJSON);
-        return responseJSON;
+    if (response.ok && responseJson !== null) {
+        doAjaxResponseBase(responseJson);
+        return responseJson;
     }
 
     // some error occurred
@@ -39,7 +39,7 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
             break;
         case 499:
             // CSRF token expiry; refresh CSRF token and resend the request if this is the case
-            let newToken = responseJSON.new_csrf_token;
+            let newToken = responseJson.new_csrf_token;
             reloadCSRF(newToken);
             hideAuthElems(); // session must have expired for CSRF expiry
 
@@ -60,32 +60,32 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
  *     - redirect_url : string
  *     - flash_message: string
  */
-function doAjaxResponseBase(responseJSON) {
-    if (responseJSON.relogin) {
+function doAjaxResponseBase(responseJson) {
+    if (responseJson.relogin) {
         relogin();
         return;
     }
 
-    if (responseJSON.redirect_url) {
-        let newUrl = new URL(decodeURIComponent(responseJSON.redirect_url));
+    if (responseJson.redirect_url) {
+        let newUrl = new URL(decodeURIComponent(responseJson.redirect_url));
 
         // flash message after page load by appending message to URL as custom `flash_message` param
-        if (responseJSON.flash_message) {
-            newUrl.searchParams.append("flash_message", encodeURIComponent(responseJSON.flash_message));
+        if (responseJson.flash_message) {
+            newUrl.searchParams.append("flash_message", encodeURIComponent(responseJson.flash_message));
         }
 
         window.location.href = newUrl;
     } else {
         // async flash message
-        if (responseJSON.flash_message) {
-            customFlash(responseJSON.flash_message);
+        if (responseJson.flash_message) {
+            customFlash(responseJson.flash_message);
         }
     }
 }
 
-function doAjaxResponseForm(responseJSON, submitEvent) {
-    if (!responseJSON.redirect_url && responseJSON.submission_errors) { 
-        let errors = responseJSON.submission_errors;
+function doAjaxResponseForm(responseJson, submitEvent) {
+    if (!responseJson.redirect_url && responseJson.submission_errors) { 
+        let errors = responseJson.submission_errors;
         Object.keys(errors).forEach((field_name) => {
             let elemField = $(submitEvent.target).find(`#${field_name}-field`)
             elemField.find(`#${field_name}-input`).addClass("is-invalid");

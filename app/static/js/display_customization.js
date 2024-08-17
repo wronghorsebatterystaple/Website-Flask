@@ -99,20 +99,20 @@ function genFootnoteTooltips() {
     $(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
         const domFootnote = document.getElementById($(this).attr("href").replace("#", ""));
-        let tooltipContent_HTML = $(domFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
+        let tooltipContents = $(domFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
 
         // replace serialized MathML HTML with its corresponding original LaTeX
         // to render with MathJax.typeset() on mouseover
         const mathItems = MathJax.startup.document.getMathItemsWithin(domFootnote);
-        const matches = tooltipContent_HTML.match(MATCH_MATHJAX_RE);
+        const matches = tooltipContents.match(MATCH_MATHJAX_RE);
         if (matches != null) {
             for (let i = 0; i < matches.length; i++) {
                 let match = matches[i];
-                tooltipContent_HTML = tooltipContent_HTML.replace(match, `\\(${mathItems[i].math}\\)`);
+                tooltipContents = tooltipContents.replace(match, `\\(${mathItems[i].math}\\)`);
             }
         }
 
-        $(this).attr("data-bs-title", tooltipContent_HTML);
+        $(this).attr("data-bs-title", tooltipContents);
     });
 
     refreshTooltips();

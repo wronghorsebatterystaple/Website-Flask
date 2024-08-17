@@ -40,9 +40,7 @@ def get_post_from_url(url_post_sanitized_title, url_blogpage_id):
     """
 
     return db.session.query(Post) \
-            .filter_by(
-                    sanitized_title=url_post_sanitized_title,
-                    blogpage_id=url_blogpage_id) \
+            .filter_by(sanitized_title=url_post_sanitized_title, blogpage_id=url_blogpage_id) \
             .first()
 
 
@@ -60,7 +58,7 @@ def login_required_check_blogpage(content_type):
                     case util.ContentType.HTML:
                         return redirect(url_for(
                                 f"main.index",
-                                flash_message=util.encode_URI_component("That blogpage doesn't exist :/"),
+                                flash_message=util.encode_uri_component("That blogpage doesn't exist :/"),
                                 _external=True))
                     case util.ContentType.JSON:
                         return jsonify(
@@ -85,11 +83,10 @@ def post_nonexistent_response(content_type):
 
     match content_type:
         case util.ContentType.HTML:
-            return redirect(
-                    url_for(
-                            f"{request.blueprint}.index",
-                            flash_message=util.encode_URI_component("That post doesn't exist."),
-                            _external=True))
+            return redirect(url_for(
+                    f"{request.blueprint}.index",
+                    flash_message=util.encode_uri_component("That post doesn't exist."),
+                    _external=True))
         case util.ContentType.JSON:
             return jsonify(
                     redirect_url=url_for(f"{request.blueprint}.index", _external=True), 

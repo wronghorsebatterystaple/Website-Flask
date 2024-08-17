@@ -27,7 +27,7 @@ def post_by_id(post_id):
     if post is None:
         return redirect(url_for(
                 f"blog.index",
-                flash_message=util.encode_URI_component("That post doesn't exist."),
+                flash_message=util.encode_uri_component("That post doesn't exist."),
                 _external=True))
 
     return redirect(url_for(

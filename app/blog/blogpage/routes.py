@@ -35,26 +35,26 @@ def index():
     if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
         is_all_posts = True
         posts = db.paginate(
-                        db.session.query(Post).join(Post.blogpage).filter_by(login_required=False)
-                                .order_by(sa.desc(Post.timestamp)),
-                        page=page_num,
-                        per_page=current_app.config["POSTS_PER_PAGE"],
-                        error_out=False)
+                db.session.query(Post).join(Post.blogpage).filter_by(login_required=False)
+                        .order_by(sa.desc(Post.timestamp)),
+                page=page_num,
+                per_page=current_app.config["POSTS_PER_PAGE"],
+                error_out=False)
     else:
         is_all_posts = False
         posts = db.paginate(
-                        db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
-                                .order_by(sa.desc(Post.timestamp)),
-                        page=page_num,
-                        per_page=current_app.config["POSTS_PER_PAGE"],
-                        error_out=False)
+                db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
+                        .order_by(sa.desc(Post.timestamp)),
+                page=page_num,
+                per_page=current_app.config["POSTS_PER_PAGE"],
+                error_out=False)
     if posts is None or (posts.pages > 0 and page_num > posts.pages): # prevent funny query string shenanigans, 2.0
         return "", 418
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
-                    else None
+            else None
     prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) if posts.has_prev \
-                    else None
+            else None
 
     # generate corresponding unpublished blogpage ID for "Create Post" button
     unpublished_blogpage_id = blogpage_id

@@ -34,28 +34,28 @@ async function updateUnreadCommentsDropdown() {
 
     // get posts with unread comments
     elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Loading…</span>");
-    const responseJSON = await fetchWrapper(URL_GET_POSTS_WITH_UNREAD_COMMENTS, { method: "POST" });
+    const responseJson = await fetchWrapper(URL_GET_POSTS_WITH_UNREAD_COMMENTS, { method: "POST" });
 
-    if (responseJSON.error) {
+    if (responseJson.error) {
         elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Unable to load posts ;-;</span>");
         return -1;
     }
 
-    if (responseJSON.relogin) {
+    if (responseJson.relogin) {
         elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Not so fast :]</span>");
         return -1;
     }
 
-    let postCount = Object.keys(responseJSON).length;
+    let postCount = Object.keys(responseJson).length;
     if (postCount === 0) {
         elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
         return postCount;
     }
 
     let html = "";
-    Object.keys(responseJSON).forEach(postTitle => {
-        let postUrl = responseJSON[postTitle].url;
-        let postUnreadCount = responseJSON[postTitle].unread_count;
+    Object.keys(responseJson).forEach(postTitle => {
+        let postUrl = responseJson[postTitle].url;
+        let postUnreadCount = responseJson[postTitle].unread_count;
         html += `<a class="dropdown-item" href="${postUrl}"><span class="custom-pink">(${postUnreadCount})</span> ${postTitle}</a>`;
     });
     elemUnreadCommentsDropdown.html(html);

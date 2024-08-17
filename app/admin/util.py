@@ -41,8 +41,8 @@ def upload_images(images, images_path) -> str:
                 file_ext = ".jpeg"
             # imghdr can't check SVG; trustable since admin-only
             invalid = file_ext not in current_app.config["IMAGE_UPLOAD_EXTENSIONS"] \
-                      or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
-                      and file_ext != validate_image(image.stream))
+                    or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
+                    and file_ext != validate_image(image.stream))
             if invalid:
                 return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hat"
 

@@ -31,16 +31,16 @@ async function reloadComments() {
     // refresh the comment counts in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
     let commentCount = 0;
     let commentUnreadCount = 0;
-    let responseJSON = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "GET" });
-    if (!responseJSON.error) {
-        commentCount = responseJSON.count;
+    let responseJson = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "GET" });
+    if (!responseJson.error) {
+        commentCount = responseJson.count;
     } else {
         customFlash("There was an error retrieving comment count :/");
     }
     if (isUserAuthenticated) {
-        responseJSON = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "GET" });
-        if (!responseJSON.error) {
-            commentUnreadCount = responseJSON.count;
+        responseJson = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "GET" });
+        if (!responseJson.error) {
+            commentUnreadCount = responseJson.count;
         } else {
             customFlash("There was an error retrieving comment unread count :/");
         }
@@ -54,9 +54,9 @@ async function reloadComments() {
     $("#comment-list-heading-counts").html(HTML);
 
     // load in comments
-    responseJSON = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
-    if (!responseJSON.error) {
-        $("#comment-list").html(responseJSON.html);
+    responseJson = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
+    if (!responseJson.error) {
+        $("#comment-list").html(responseJson.html);
     } else {
         customFlash("There was an error retrieving comments :/");
     }
@@ -86,10 +86,10 @@ async function markCommentsAsRead() {
     updateUnreadCommentsNotifs(); // update notification icon after marking comments as read
 }
 
-function onCommentAjaxDone(responseJSON, e) {
-    doAjaxResponseForm(responseJSON, e);
+function onCommentAjaxDone(responseJson, e) {
+    doAjaxResponseForm(responseJson, e);
 
-    if (responseJSON.success) {
+    if (responseJson.success) {
         // clear input fields and reset height
         $(e.target).find("*").filter(function() {
             return this.id.match(/.*-input/);
@@ -141,21 +141,21 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    const responseJSON = await fetchWrapper(
+    const responseJson = await fetchWrapper(
             `${getCurrentUrlNoParams()}/add-comment`,
             { method: "POST", body: formData });
 
-    onCommentAjaxDone(responseJSON, e);
+    onCommentAjaxDone(responseJson, e);
 });
 
 $(document).on("submit", ".ajax-delete-comment", async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    const responseJSON = await fetchWrapper(
+    const responseJson = await fetchWrapper(
             `${getCurrentUrlNoParams()}/delete-comment`,
             { method: "POST", body: formData },
             { comment_id: getCommentId(e.target) });
 
-    onCommentAjaxDone(responseJSON, e);
+    onCommentAjaxDone(responseJson, e);
 });
