@@ -19,6 +19,7 @@ blockquote p {
 }
 
 body {
+    font-family: "Quicksand", sans-serif;
     font-size: 16px;
     overflow-wrap: anywhere;
     text-decoration-thickness: 1px;
