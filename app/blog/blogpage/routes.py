@@ -180,6 +180,7 @@ def add_comment(post_sanitized_title):
         return jsonify(submission_errors=add_comment_form.errors)
 
     # make sure non-admin users can't masquerade as verified author
+    author = request.form.get("author")
     is_verified_author = author.strip() == current_app.config["VERIFIED_AUTHOR"]
     if is_verified_author and not current_user.is_authenticated:
         return jsonify(submission_errors={
@@ -194,11 +195,11 @@ def add_comment(post_sanitized_title):
     # add comment
     comment = Comment(
             author=author,
-            content=request.form["content"],
+            content=request.form.get("content"),
             post=post,
             unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
     with db.session.no_autoflush: # otherwise there's a warning
-        if not comment.insert_comment(post, db.session.get(Comment, request.form["parent"])):
+        if not comment.insert_comment(post, db.session.get(Comment, request.form.get("parent"))):
             return jsonify(flash_message="haker :3")
     db.session.add(comment)
     db.session.commit()
@@ -228,11 +229,11 @@ def delete_comment(post_sanitized_title):
     db.session.delete(comment)
     db.session.commit()
 
-    return jsonify(success=True, flash_message="literally 1984 by eric arthur blair")
+    return jsonify(success=True, flash_message="literally 1984")
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
-@util.custom_login_required(content_type=util.ContentType.JSON)
+@util.custom_login_required(content_type=util.ContentType.JSON, do_relogin=False)
 def mark_comments_as_read(post_sanitized_title):
     # get post from url, making sure it's valid and matches the whole url
     post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())

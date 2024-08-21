@@ -7,25 +7,37 @@ from flask_login import current_user
 
 
 class ContentType(Enum):
-    ## String values are not used; just a reference
-    HTML = "text/html"
-    JSON = "application/json"
-    DEPENDS_ON_REQUEST_METHOD = "text/html if GET, otherwise application/json"
+    """
+    Choices:
+        - `HTML`: `text/html`
+        - `JSON`: `application/json`
+        - `DEPENDS_ON_REQUEST_METHOD`: `text/html` if GET, otherwise `application/json`
+    """
+
+    HTML = 0
+    JSON = 1
+    DEPENDS_ON_REQUEST_METHOD = 2
 
 
-def custom_unauthorized(content_type):
+def custom_unauthorized(content_type, do_relogin=True):
     """
     Makes sure `current_user` is authenticated.
     If not authenticated:
-        - `Content-Type: text/html` responses redirect to login with absolute `next` URL
-        - `Content-Type: application/json` responses show login modal again via base Ajax response
+        - `Content-Type: text/html` responses redirect to login page with absolute `next` URL
+        - `Content-Type: application/json` responses return `relogin` Ajax response
 
     Usage:
         ```
-        result = util.custom_unauthorized(request)
+        result = util.custom_unauthorized(...)
         if result:
             return result
         ```
+
+    Params:
+        - `content_type`: specifies the `Content-Type` of the expected server response from the view function
+        - `do_relogin`: should be `False` iff the view function handles POST requests that are not manual (triggered
+          by a user action). This prevents users from seeing login modal pop up out of nowhere when an automated,
+          hard-to-detect action happens.
     """
 
     if not current_user.is_authenticated:
@@ -36,20 +48,23 @@ def custom_unauthorized(content_type):
             case ContentType.HTML:
                 return redirect(url_for(current_app.config["LOGIN_VIEW"], next=encode_uri_component(request.url)))
             case ContentType.JSON:
-                return jsonify(relogin=True)
+                if do_relogin:
+                    return jsonify(relogin=True)
+                else:
+                    return jsonify()
             case _:
                 return "app/util.py: custom_unauthorized() reached end of switch statement, gg", 500
     return None
 
 
-def custom_login_required(content_type):
+def custom_login_required(content_type, do_relogin=True):
     """
     Same functionality as custom_unauthorized(), but as a decorator.
 
     Usage:
         ```
         @bp.route(...)
-        @util.custom_login_required(request)
+        @util.custom_login_required(...)
         def view_func():
             pass
         ```
@@ -58,7 +73,7 @@ def custom_login_required(content_type):
     def inner_decorator(func):
         @wraps(func) # this allows double decorator to work if this is the second decorator
         def wrapped(*args, **kwargs):
-            result = custom_unauthorized(content_type)
+            result = custom_unauthorized(content_type, do_relogin)
             if result:
                 return result
             return func(*args, **kwargs)

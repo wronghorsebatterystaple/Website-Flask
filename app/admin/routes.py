@@ -315,7 +315,7 @@ def logout():
         logout_user()
 
     previous = util.decode_uri_component(request.args.get("previous"))
-    for url in current_app.config["LOGIN_REQUIRED_URLS"]:
+    for url in current_app.config["URLS_LOGIN_REQUIRED"]:
         if previous.startswith(url):
             return jsonify(
                     redirect_url=url_for("main.index", _external=True), flash_message="Mischief managed.")

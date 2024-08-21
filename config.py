@@ -109,7 +109,7 @@ class Config(object):
         "-6": "/writers-block-backrooms",
         "-7": "/writers-unblock-backrooms"
     }
-    LOGIN_REQUIRED_URLS = [ # for Flask access control on logout
+    URLS_LOGIN_REQUIRED = [ # for Flask and JS access control on logout
         f"{SERVER_NAME}/admin",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-2']}",
         f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-3']}",

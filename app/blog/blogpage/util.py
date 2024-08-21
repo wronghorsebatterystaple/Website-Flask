@@ -44,7 +44,7 @@ def get_post_from_url(url_post_sanitized_title, url_blogpage_id):
             .first()
 
 
-def login_required_check_blogpage(content_type):
+def login_required_check_blogpage(content_type, do_relogin=True):
     """
     Enforces login to access private blogpages.
     """
@@ -68,7 +68,7 @@ def login_required_check_blogpage(content_type):
                         return "app/blog/blogpage/util.py: login_required_check_blogpage() reached end of switch statement, gg", 500
 
             if blogpage.login_required:
-                result = util.custom_unauthorized(content_type)
+                result = util.custom_unauthorized(content_type, do_relogin)
                 if result:
                     return result
 

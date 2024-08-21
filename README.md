@@ -57,7 +57,7 @@ I hope I'm not reading this because I bricked a machine again.
 ### Access control overview:
 - Access control in view functions is achieved through the `@custom_login_required()` decorator and its equivalent function `custom_unauthorized()`, both provided in [app/util.py](app/util.py); see that file for full documentation and usage. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
 - [config.py](config.py) contains settings that must be up-to-date for access control:
-    - `LOGIN_REQUIRED_URLS`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out
+    - `URLS_LOGIN_REQUIRED`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out
     - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real*- verified checkmark!!!)
 - Each blogpage in the database has a boolean `login_required` column that must be up-to-date; Flask uses this to check login redirection on attempt to access these blogpages
 
@@ -83,7 +83,7 @@ I hope I'm not reading this because I bricked a machine again.
     - `blogpage_id` is always an integer except for the commented cases in [config.py](config.py), where they must be strings to avoid confusion with negative values and list/dictionary accessing
 - Update [config.py](config.py):
     - Update `BLOGPAGE_ID_TO_PATH` with the same paths that you gave the new blogpage and its developer blogpage in the database; this is used for blueprint initialization (we can't access database before app context is fully created)
-    - Update `LOGIN_REQUIRED_URLS` with the backrooms blogpage
+    - Update `URLS_LOGIN_REQUIRED` with the backrooms blogpage
 - Create new static directories for it in [app/blog/static/blogpage/](app/blog/static/blogpage/) from the [template](app/blog/static/blogpage/blogpage_template/), and update other static directory names if necessary
     - Remember that since HTML templates are the same for every blogpage, things like font or background image customizations must be done through static files like CSS, which are imported individually per blogpage
     - If overriding default background image, change `backgroundImgOverrideName` in a JS file belonging to this new blueprint

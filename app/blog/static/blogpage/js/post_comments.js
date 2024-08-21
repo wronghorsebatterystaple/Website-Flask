@@ -82,8 +82,10 @@ async function reloadComments() {
 }
 
 async function markCommentsAsRead() {
-    await fetchWrapper(URL_MARK_COMMENTS_AS_READ, { method: "POST" });
-    updateUnreadCommentsNotifs(); // update notification icon after marking comments as read
+    let responseJson = await fetchWrapper(URL_MARK_COMMENTS_AS_READ, { method: "POST" });
+    if (responseJson.success) {
+        updateUnreadCommentsNotifs(); // update notification icon after marking comments as read
+    }
 }
 
 function onCommentAjaxDone(responseJson, e) {
@@ -142,7 +144,7 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const responseJson = await fetchWrapper(
-            `${getCurrentUrlNoParams()}/add-comment`,
+            `${getCurrUrlNoParams()}/add-comment`,
             { method: "POST", body: formData });
 
     onCommentAjaxDone(responseJson, e);
@@ -153,7 +155,7 @@ $(document).on("submit", ".ajax-delete-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const responseJson = await fetchWrapper(
-            `${getCurrentUrlNoParams()}/delete-comment`,
+            `${getCurrUrlNoParams()}/delete-comment`,
             { method: "POST", body: formData },
             { comment_id: getCommentId(e.target) });
 

@@ -53,11 +53,9 @@ async function updateUnreadCommentsDropdown() {
     }
 
     let html = "";
-    Object.keys(responseJson).forEach(postTitle => {
-        let postUrl = responseJson[postTitle].url;
-        let postUnreadCount = responseJson[postTitle].unread_count;
-        html += `<a class="dropdown-item" href="${postUrl}"><span class="custom-pink">(${postUnreadCount})</span> ${postTitle}</a>`;
-    });
+    for (const [postTitle, v] of Object.entries(responseJson)) {
+        html += `<a class="dropdown-item" href="${v.url}"><span class="custom-pink">(${v.unread_count})</span> ${postTitle}</a>`;
+    }
     elemUnreadCommentsDropdown.html(html);
 
     return postCount;

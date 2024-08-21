@@ -56,9 +56,9 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
 
 /**
  * Always-supported JSON keys:
- *     - relogin      : boolean
- *     - redirect_url : string
- *     - flash_message: string
+ *     - `relogin`
+ *     - `redirect_url`
+ *     - `flash_message`
  */
 function doAjaxResponseBase(responseJson) {
     if (responseJson.relogin) {
@@ -86,11 +86,11 @@ function doAjaxResponseBase(responseJson) {
 function doAjaxResponseForm(responseJson, submitEvent) {
     if (!responseJson.redirect_url && responseJson.submission_errors) { 
         let errors = responseJson.submission_errors;
-        Object.keys(errors).forEach((field_name) => {
-            let elemField = $(submitEvent.target).find(`#${field_name}-field`)
-            elemField.find(`#${field_name}-input`).addClass("is-invalid");
-            elemField.find(".invalid-feedback").text(errors[field_name][0]);
-        });
+        for (const [fieldName, fieldErrors] of Object.entries(errors)) {
+            let elemField = $(submitEvent.target).find(`#${fieldName}-field`)
+            elemField.find(`#${fieldName}-input`).addClass("is-invalid");
+            elemField.find(".invalid-feedback").text(fieldErrors[0]);
+        }
     }
 }
 
