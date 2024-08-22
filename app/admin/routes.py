@@ -47,10 +47,10 @@ def login():
         session.permanent = False
 
         if request.form.get("is_modal") == "yes":
-            return jsonify(success=True, flash_message="The universe is at your fingertips…")
+            return jsonify(success=True)
 
         next_url = request.args.get("next", url_for("admin.choose_action", _external=True))
-        return jsonify(success=True, redirect_url=next_url, flash_message="The universe is at your fingertips…")
+        return jsonify(success=True, redirect_url=next_url)
 
     return "If you see this message, please panic."
 
@@ -299,7 +299,8 @@ def change_admin_password():
         db.session.commit()
         logout_user()
         return jsonify(
-                redirect_url=url_for("main.index", _external=True), flash_message="Your password has been changed!")
+                redirect_url=url_for("admin.login", _external=True),
+                flash_message="Your password has been changed!")
 
     return "If you see this message, please panic."
 
