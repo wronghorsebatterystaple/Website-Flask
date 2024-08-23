@@ -3,10 +3,10 @@
 source ./db_backup_config.sh
 
 case "$1" in
-    1)
+    '1')
         remote_backup_location="$remote_backup_location_1"
         ;;
-    2)
+    '2')
         remote_backup_location="$remote_backup_location_2"
         ;;
     *)
