@@ -39,13 +39,13 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
   <a class="auth-true btn-custom-orange-deep btn btn-primary mt-2half" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>
 </div>
-<hr class="double-hr"/>
+<hr />
 
 <div id="post-content" class="mt-2">
   {{ post.content|safe }}
 </div>
 
-<hr class="double-hr">
+<hr />
 
 <div id="leave-a-comment">
   <h2 id="leave-a-comment-heading" class="shrinking-font-14">Leave a comment</h2>
