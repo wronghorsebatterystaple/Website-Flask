@@ -194,8 +194,8 @@
 }
 
 .underline-on-hover-only {
-    text-decoration: none !important;
+    text-decoration-line: none !important;
 }
 .underline-on-hover-only:hover {
-    text-decoration: underline 1px !important;
+    text-decoration-line: underline !important;
 }
