@@ -16,7 +16,7 @@ const totalPages = {{ total_pages }};
     <h2 class="blogpage-subname mt-2">{{ blogpage.subname }}</h2>
   {%- endif %}
 
-  <a class="auth-true btn-custom-orange-deep btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
+  <a class="auth-true btn-custom-orange btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
 </div>
 <hr />
 

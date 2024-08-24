@@ -88,21 +88,21 @@
     --bs-btn-hover-border-color: var(--custom-blue-deep-light) !important;
 }
 
-.btn-custom-orange-deep {
+.btn-custom-orange {
     --bs-btn-color: black !important;
-    --bs-btn-bg: var(--custom-orange-deep) !important;
-    --bs-btn-border-color: var(--custom-orange-deep) !important;
+    --bs-btn-bg: var(--custom-orange) !important;
+    --bs-btn-border-color: var(--custom-orange) !important;
 
     --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--custom-orange-deep) !important;
-    --bs-btn-active-border-color: var(--custom-orange-deep) !important;
+    --bs-btn-active-bg: var(--custom-orange) !important;
+    --bs-btn-active-border-color: var(--custom-orange) !important;
 
-    --bs-btn-disabled-bg: var(--custom-orange-deep-light) !important;
-    --bs-btn-disabled-border-color: var(--custom-orange-deep-light) !important;
+    --bs-btn-disabled-bg: var(--custom-orange-light) !important;
+    --bs-btn-disabled-border-color: var(--custom-orange-light) !important;
 
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-orange-deep-light) !important;
-    --bs-btn-hover-border-color: var(--custom-orange-deep-light) !important;
+    --bs-btn-hover-bg: var(--custom-orange-light) !important;
+    --bs-btn-hover-border-color: var(--custom-orange-light) !important;
 }
 
 /*********************/
@@ -177,6 +177,16 @@
 /*********/
 /* Other */
 /*********/
+
+.btn-link {
+    --bs-btn-color: var(--custom-blue-deep);
+    --bs-btn-active-color: var(--custom-blue-deep);
+    --bs-btn-disabled-color: var(--custom-blue-deep-light);
+    --bs-btn-hover-color: var(--custom-blue-deep-light);
+    background-color: transparent !important;
+    text-decoration: underline;
+    padding: 0;
+}
 
 .no-underline {
     text-decoration: none !important;

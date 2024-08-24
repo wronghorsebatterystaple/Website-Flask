@@ -62,15 +62,35 @@ textarea {
     font-family: var(--bs-font-monospace);
 }
 
-.btn-link {
-    /* default; change Bootstrap vars to avoid CSS priority hell */
-    --bs-btn-color: var(--custom-blue-deep);
-    --bs-btn-active-color: var(--custom-blue-deep);
-    --bs-btn-disabled-color: var(--custom-blue-deep-light);
-    --bs-btn-hover-color: var(--custom-blue-deep-light);
-    background-color: transparent !important;
-    text-decoration: underline;
-    padding: 0;
+.bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
+    border-top-color: var(--custom-pink-light) !important;
+}
+.bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
+    border-right-color: var(--custom-pink-light) !important;
+}
+.bs-tooltip-bottom .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
+    border-bottom-color: var(--custom-pink-light) !important;
+}
+.bs-tooltip-left .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
+    border-left-color: var(--custom-pink-light) !important;
+}
+.tooltip {
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    font-style: inherit !important;
+}
+.tooltip .tooltip-inner {
+    color: #2b2b2b !important;
+    background-color: var(--custom-pink-xxxlight) !important;
+    max-width: 30rem !important;
+}
+.tooltip.show {
+    opacity: 100%;
+    border: 1px solid var(--custom-pink-xlight) !important;
+    border-radius: var(--bs-border-radius);
+}
+.tooltip-text-align-left .tooltip-inner {
+    text-align: left;
 }
 
 .code-block-outside {
@@ -168,37 +188,6 @@ textarea {
     color: red;
 }
 
-.bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
-    border-top-color: var(--custom-pink-light) !important;
-}
-.bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
-    border-right-color: var(--custom-pink-light) !important;
-}
-.bs-tooltip-bottom .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
-    border-bottom-color: var(--custom-pink-light) !important;
-}
-.bs-tooltip-left .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
-    border-left-color: var(--custom-pink-light) !important;
-}
-.tooltip {
-    font-family: inherit !important;
-    font-weight: inherit !important;
-    font-style: inherit !important;
-}
-.tooltip .tooltip-inner {
-    color: #2b2b2b !important;
-    background-color: var(--custom-pink-xxxlight) !important;
-    max-width: 30rem !important;
-}
-.tooltip.show {
-    opacity: 100%;
-    border: 1px solid var(--custom-pink-xlight) !important;
-    border-radius: var(--bs-border-radius);
-}
-.tooltip-text-align-left .tooltip-inner {
-    text-align: left;
-}
-
 #background-img {
     background-position: center center;
     background-size: cover;
@@ -216,4 +205,7 @@ textarea {
 #navbar-logo {
     width: 2rem;
     height: 2rem;
+}
+#navbar-toggler {
+    background-color: var(--custom-green-deep);
 }
