@@ -38,15 +38,15 @@ class CreateBlogpostForm(FlaskForm):
             validators=[InputRequired()])
 
     title = StringField(
-            "Title (Markdown supported)",
+            "Title (Markdown supported (inline))",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_LENMAX"])])
 
     subtitle = StringField(
-            "Subtitle (Markdown supported)",
+            "Subtitle (Markdown supported (inline))",
             validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"])])
 
     content = TextAreaField(
-            "Content (Markdown, LaTeX supported)",
+            "Content (Markdown (all), LaTeX supported)",
             validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_LENMAX"])])
 
     images = MultipleFileField(
@@ -81,15 +81,15 @@ class EditBlogpostForm(FlaskForm):
             validators=[InputRequired()])
 
     title = StringField(
-            "Title (Markdown supported)",
+            "Title (Markdown supported (inline))",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_LENMAX"])])
 
     subtitle = StringField(
-            "Subtitle (Markdown supported)",
+            "Subtitle (Markdown supported (inline))",
             validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_LENMAX"])])
 
     content = TextAreaField(
-            "Content (Markdown, LaTeX supported)",
+            "Content (Markdown (all), LaTeX supported)",
             validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_LENMAX"])])
 
     images = MultipleFileField(
