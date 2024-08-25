@@ -10,7 +10,7 @@ const totalPages = {{ total_pages }};
 {%- endblock %}
 
 {%- block content %}
-<div class="pt-3 shrinking-font-14">
+<div class="pt-3">
   <h1 class="blogpage-name">{{ blogpage.name }}</h1>
   {%- if blogpage.subname is not none %}
     <h2 class="blogpage-subname mt-2">{{ blogpage.subname }}</h2>
@@ -25,7 +25,7 @@ const totalPages = {{ total_pages }};
     <div>
       {%- if is_all_posts %}
         {%- set color = post.blogpage.html_color_class -%}
-        <a class="{{ color }} underline-{{ color }} underline-on-hover-only shrinking-font-14" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="{{ color }} underline-{{ color }} underline-on-hover-only" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
             <h1 class="postlist-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-0">{{ post.title }}</h1>
@@ -49,7 +49,7 @@ const totalPages = {{ total_pages }};
             </span>
           </div>
       {%- else %}
-        <a class="underline-on-hover-only underline-custom-green-deep-dark shrinking-font-14" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="underline-on-hover-only underline-custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <h1 class="postlist-title custom-green-deep-dark">{{ post.title }}</h1>
 
           {%- if post.subtitle is not none %}
