@@ -42,7 +42,6 @@
     border-bottom: 2px solid var(--custom-orange-deep);
     margin-bottom: 1rem;
     padding-bottom: 0.25rem;
-    width: fit-content;
 }
 .post-img {
     display: block;
