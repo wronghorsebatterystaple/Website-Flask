@@ -18,7 +18,7 @@ class Blogpage(db.Model):
             autoincrement=False)    
 
 
-    ## Basic attributes
+    # basic attributes
     name: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["BLOGPAGE_NAME_LENMAX"],
@@ -54,7 +54,7 @@ class Blogpage(db.Model):
             index=True)
 
 
-    ## Boolean attributes
+    # boolean attributes
     login_required: so.Mapped[bool] = so.mapped_column(
             default=True)
 
@@ -65,7 +65,7 @@ class Blogpage(db.Model):
             default=False)
 
 
-    ## Relationship: `Post`
+    # relationship: `Post`
     posts: so.WriteOnlyMapped["Post"] = so.relationship(
             back_populates="blogpage",
             cascade="all, delete-orphan",
@@ -77,7 +77,7 @@ class Post(db.Model):
             primary_key=True)
 
 
-    ## Basic attributes
+    # basic attributes
     title: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["POST_TITLE_LENMAX"],
@@ -114,7 +114,7 @@ class Post(db.Model):
             nullable=True)
 
 
-    ## Relationship: `Blogpage`
+    # relationship: `Blogpage`
     blogpage_id: so.Mapped[int] = so.mapped_column(
             sa.ForeignKey(Blogpage.id, ondelete="CASCADE"))
 
@@ -122,14 +122,14 @@ class Post(db.Model):
             back_populates="posts")
 
 
-    ## Relationship: `Comment`
+    # relationship: `Comment`
     comments: so.WriteOnlyMapped["Comment"] = so.relationship(
             back_populates="post",
             cascade="all, delete-orphan",
             passive_deletes=True)
 
 
-    ## Util functions
+    # util functions
     def sanitize_title(self):
         """
         Replaces whitespace with hyphens, uses all lowercase, and removes all non-alphanumeric and non-hypthen
@@ -201,7 +201,7 @@ class Comment(db.Model):
             primary_key=True)
 
 
-    ## Basic attributes
+    # basic attributes
     author: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["COMMENT_AUTHOR_LENMAX"],
@@ -222,7 +222,7 @@ class Comment(db.Model):
                     collation="utf8mb4_0900_ai_ci"))
 
 
-    ## Relationship: `Post`
+    # relationship: `Post`
     post_id: so.Mapped[int] = so.mapped_column(
             sa.ForeignKey(Post.id, ondelete="CASCADE"))
 
@@ -230,7 +230,7 @@ class Comment(db.Model):
             back_populates="comments")
 
 
-    ## Nested set; quite the beautiful data structure
+    # nested set; quite the beautiful data structure
     depth: so.Mapped[int] = so.mapped_column()
     left: so.Mapped[int] = so.mapped_column(
             index=True)
@@ -238,7 +238,7 @@ class Comment(db.Model):
             index=True)
 
 
-    ## Util functions
+    # util functions
     def insert_comment(self, post, parent) -> bool:
         if parent is None:
             # add child with left = max of right for that post + 1
@@ -299,7 +299,7 @@ class User(UserMixin, db.Model):
             primary_key=True)
 
     
-    ## Basic attributes
+    # basic attributes
     email: so.Mapped[str] = so.mapped_column(
             sa.String(Config.DB_CONFIGS["USER_EMAIL_LENMAX"]),
             unique=True)
@@ -315,7 +315,7 @@ class User(UserMixin, db.Model):
             sa.String(Config.DB_CONFIGS["USER_PASSWORD_HASH_LENMAX"]))
 
 
-    ## Util functions
+    # util functions
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -323,7 +323,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-## Required for Flask-Login
+# required for Flask-Login
 @login_manager.user_loader
 def load_user(id):
     return db.session.get(User, int(id))

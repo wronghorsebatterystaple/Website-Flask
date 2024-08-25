@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 class Config(object):
-    ## Basics
+    # basics
     SERVER_NAME = "anonymousrand.xyz"
     ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -36,7 +36,7 @@ class Config(object):
         "frame-ancestors": _csp_default_src
     }
 
-    ## Cookies
+    # cookies
     PERMANENT_SESSION_LIFETIME = 86400
     SESSION_COOKIE_DOMAIN = f".{SERVER_NAME}"
     SESSION_COOKIE_HTTPONLY = True
@@ -44,11 +44,11 @@ class Config(object):
     SESSION_COOKIE_SECURE = True
     SESSION_REFRESH_EACH_REQUEST = False
 
-    ## Flask-WTF
+    # Flask-WTF
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
     WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
 
-    ## Flask-SQLAlchemy/database
+    # Flask-SQLAlchemy/database
     DB_CONFIGS = {
         "BLOGPAGE_URL_PATH_LENMAX": 50,
         "BLOGPAGE_NAME_LENMAX": 50,
@@ -68,11 +68,11 @@ class Config(object):
     }
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
-    ## Jinja (not implictly configured though)
+    # Jinja (must be explicitly configured in `app/__init__.py`)
     JINJA_LSTRIP_BLOCKS = True
     JINJA_TRIM_BLOCKS = True
 
-    ## Other "conventional" configs
+    # other "conventional" configs
     POST_COMMENT_ALLOWED_TAGS = {
         "abbr", "acronym", "b", "blockquote", "br", "center", "code", "details", "div", "em", "h1", "h2", "h3", "i",
         "li", "p", "pre", "ol", "small", "span", "strong", "sub", "summary", "sup", "table", "tbody", "td", "th",
@@ -92,7 +92,7 @@ class Config(object):
     LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20
 
-    ## Scuffed configs
+    # scuffed configs
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blogpage"
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blogpage"
     ALL_POSTS_BLOGPAGE_ID = 1

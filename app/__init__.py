@@ -11,7 +11,7 @@ from flask_wtf.csrf import CSRFProtect, CSRFError
 from config import Config
 
 
-## Declare extension instances outside so blueprints can still do `from app import db` etc.
+# declare extension instances outside so blueprints can still do `from app import db` etc.
 cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
 db = SQLAlchemy(session_options={"autoflush": True}) # autoflush allows our post editing code to work properly
@@ -21,8 +21,8 @@ migrate = Migrate()
 moment = Moment()
 talisman = Talisman()
 turnstile = Turnstile()
-## Not using session_protection="strong" to avoid potential security mess of finding original IP through Cloudflare
-## and Nginx; and more crucially IPv4 vs. IPv6 hell
+# not using session_protection="strong" to avoid potential security mess of finding original IP through Cloudflare
+# and Nginx; and more crucially IPv4 vs. IPv6 hell
 
 
 import app.routes as global_routes # after initializing global extension variables to prevent circular imports

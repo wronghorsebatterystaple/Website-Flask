@@ -8,12 +8,12 @@ from app.models import *
 from config import Config
 
 
-## For login modal
+# for login modal
 def inject_login_form():
     return dict(login_form=LoginForm())
 
 
-## For navbar
+# for navbar
 def inject_blogpages_from_db():
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     return dict(blogpages=blogpages)

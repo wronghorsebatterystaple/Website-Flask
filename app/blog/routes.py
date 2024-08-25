@@ -19,8 +19,8 @@ def index():
             url_for(f"blog.{current_app.config['ALL_POSTS_BLOGPAGE_ID']}.index", _external=True) + query_string)
 
 
-## For more permanent links that don't change if a post changes title/moves between blogs
-## MySQL also does not change id on delete
+# for more permanent links that don't change if a post changes title/moves between blogs
+# MySQL also does not change id on delete
 @bp.route("/<int:post_id>", methods=["GET"])
 def post_by_id(post_id):
     post = db.session.get(Post, post_id)

@@ -18,12 +18,12 @@ I hope I'm not reading this because I bricked a machine again.
     - Install Python modules from [requirements.txt](requirements.txt) by running `pip install -r requirements.txt` (ideally within a virtualenv)
     - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
 4. Add back gitignored files:
-    - **.env**: randomly generated `SECRET_KEY` and SQLAlchemy `DATABASE_URL` for connecting to MySQL from host
+    - `.env`: randomly generated `SECRET_KEY` and SQLAlchemy `DATABASE_URL` for connecting to MySQL from host
         - `DATABASE_URL` should be something like `mysql+pymysql://[db username]:[db password]@[hostname]:[port]/[database name]?charset=utf8mb4`
-    - **deployment/docker/flask/envs/.env**: same as **.env** but with `DATABASE_URL` modified to connect to the MySQL Docker container (i.e. the `hostname` part of the URL is the name of the MySQL container *service* in [deployment/docker/compose.yaml](deployment/docker/compose.yaml), in this case `mysql`)
-    - **deployment/docker/mysql/envs/.mysqlenv**: nothing yet (no environment variables if bind-mounting existing MySQL data directory)
-    - **deployment/backup-scripts/db_backup_config.sh**: set the variables referenced in [deployment/backup-scripts/db_backup.sh](deployment/backup-scripts/db_backup.sh)
-    - **app/static/css/custom_bootstrap.css** and **app/static/css/custom_bootstrap.css.map**: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
+    - `deployment/docker/flask/envs/.env`: same as `.env` but with `DATABASE_URL` modified to connect to the MySQL Docker container (i.e. the `hostname` part of the URL is the name of the MySQL container *service* in [deployment/docker/compose.yaml](deployment/docker/compose.yaml), in this case `mysql`)
+    - `deployment/docker/mysql/envs/.mysqlenv`: nothing yet (no environment variables if bind-mounting existing MySQL data directory)
+    - `deployment/backup-scripts/db_backup_config.sh`: set the variables referenced in [deployment/backup-scripts/db_backup.sh](deployment/backup-scripts/db_backup.sh)
+    - `app/static/css/custom_bootstrap.css` and `app/static/css/custom_bootstrap.css.map`: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
 5. Navigate to [deployment/docker/](deployment/docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd-reference/flask-website.service](deployment/systemd-reference/flask-website.service))
 
 # Developer notes to compensate for possibly scuffed coding practices
@@ -46,7 +46,7 @@ I hope I'm not reading this because I bricked a machine again.
     - Backup scripts
     - `systemd` services
 - To connect to the MySQL instance running in Docker from the host:
-    - Make sure the MySQL port (default 3306) is exposed from Docker and there is a **.env** file on the host with `DATABASE_URL` pointing to `localhost`
+    - Make sure the MySQL port (default 3306) is exposed from Docker and there is a `.env` file on the host with `DATABASE_URL` pointing to `localhost`
     - Use `mysql --protocol=tcp` to connect so it doesn't try to use a Unix socket; make sure to use the MySQL user that has `%` as its host (because that means it can connect from any host, whereas `localhost` would mean that it can only connect from within the Docker container)
 - To change [app/models.py](app/models.py):
     - Edit [app/models.py](app/models.py) on the host
@@ -58,7 +58,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Access control in view functions is achieved through the `@custom_login_required()` decorator and its equivalent function `custom_unauthorized()`, both provided in [app/util.py](app/util.py); see that file for full documentation and usage. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
 - [config.py](config.py) contains settings that must be up-to-date for access control:
     - `URLS_LOGIN_REQUIRED`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out
-    - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real*- verified checkmark!!!)
+    - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real** verified checkmark!!!)
 - Each blogpage in the database has a boolean `login_required` column that must be up-to-date; Flask uses this to check login redirection on attempt to access these blogpages
 
 ### CSP overview:
@@ -117,7 +117,7 @@ I hope I'm not reading this because I bricked a machine again.
 
 ### Other notes:
 - `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` in both HTML templates and Flask to simplify the cross-origin nature of having a blog subdomain
-- Try not to modify any of the **forms.py**s, as some JS might rely on hardcoded values of the form fields. I don't do frontend, ok?
+- Try not to modify any of the `forms.py`s, as some JS might rely on hardcoded values of the form fields. I don't do frontend, ok?
 
 # Blog writer notes
 
