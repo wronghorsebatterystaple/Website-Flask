@@ -3,6 +3,6 @@ Description=Periodic backup of Flask-Website's static images
 
 [Service]
 Type=oneshot
-nser=[REPLACE: LINUX USER THAT CAN GIT PUSH]
-WorkingDirectory=[REPLACE: PATH TO `backup-scripts/` FOLDER]
+User=[REPLACE: linux user that can git push, like the current SSH user]
+WorkingDirectory=[REPLACE: path to backup-scripts/ folder]
 ExecStart=/bin/bash image_backup.sh

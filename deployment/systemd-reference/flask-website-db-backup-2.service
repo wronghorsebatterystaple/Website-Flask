@@ -4,5 +4,5 @@ Description=Periodic second backup of Flask-Website's database
 [Service]
 Type=oneshot
 User=[REPLACE: default, preferably non-root user like the current SSH user]
-WorkingDirectory=[REPLACE: PATH TO `backup-scripts` FOLDER]
-ExecStart=/bin/bash db_backup.sh [REPLACE: BACKUP DESTINATION PATH]
+WorkingDirectory=[REPLACE: path to backup-scripts folder]
+ExecStart=/bin/bash db_backup.sh [REPLACE: backup destination path]
