@@ -112,4 +112,4 @@ def sanitize_untrusted_html(c) -> str:
 
 
 def strip_markdown_from_html(html) -> str:
-    return BeautifulSoup(html).get_text()
+    return BeautifulSoup(html, "lxml").get_text()
