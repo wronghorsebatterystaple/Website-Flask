@@ -1,4 +1,3 @@
-/* Links default to custom-blue-deep, but can be overwritten with !important */
 a {
     color: var(--custom-blue-deep);
     text-decoration-color: var(--custom-blue-deep);
@@ -37,7 +36,7 @@ pre code {
     color: var(--color-code);
 }
 
-/* Prevent dropdowns from overflowing if dropdown not collapsed; positioning is left to JS */
+/* prevent dropdowns from overflowing if dropdown not collapsed; positioning is left to JS */
 nav .dropdown-menu {
     @media (min-width: 768px) { /* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
         width: max-content;
