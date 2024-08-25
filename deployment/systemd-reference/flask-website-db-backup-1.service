@@ -3,6 +3,6 @@ Description=Periodic first backup of Flask-Website's database
 
 [Service]
 Type=oneshot
-Group=docker
+User=[REPLACE: default, preferably non-root user like the current SSH user]
 WorkingDirectory=[REPLACE: PATH TO `backup-scripts/` FOLDER]
-ExecStart=/bin/bash db_backup.sh [REPLACE: BACKUP DESTINATION PATH]
+ExecStart=/bin/bash db_backup.sh [REPLACE: BACKUP DESTINATION PATH] 1
