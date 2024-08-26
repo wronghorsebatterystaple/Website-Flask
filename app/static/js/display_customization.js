@@ -1,6 +1,6 @@
 function applyGlobalStyles(baseSelector) {
     const elemBase = $(baseSelector);
-    if (!elemBase) {
+    if (elemBase.length <= 0) {
         return;
     }
 
@@ -28,7 +28,7 @@ function applyGlobalStyles(baseSelector) {
 
     // footnote tweaks
     const elemFootnotes = elemBase.find(".footnote").first();
-    if (elemFootnotes) {
+    if (elemFootnotes.length > 0) {
         elemFootnotes.attr("id", "footnotes");
         elemFootnotes.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
         elemFootnotes.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
@@ -39,7 +39,7 @@ function applyGlobalStyles(baseSelector) {
         elemFootnotesList.addClass("mb-0");
         elemFootnotesList.children("li").addClass("mb-1");
 
-        genFootnoteTooltips();
+        genFootnoteTooltips(baseSelector);
     }
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
@@ -51,13 +51,12 @@ function applyGlobalStyles(baseSelector) {
     });
     
     applyCustomMarkdown(baseSelector); // Markdown tweaks round 3
-    randomizeSelectionColor();
     syntaxHighlightNonTable(baseSelector);
 }
 
 function applyCustomMarkdown(baseSelector) {
     const elemBase = $(baseSelector);
-    if (!elemBase) {
+    if (elemBase.length <= 0) {
         return;
     }
 
@@ -92,11 +91,15 @@ function applyCustomMarkdown(baseSelector) {
     elemBase.find("figure").find("p").children("img").unwrap();
 }
 
-function genFootnoteTooltips() {
+function genFootnoteTooltips(baseSelector) {
+    const elemBase = $(baseSelector);
+    if (elemBase.length <= 0) {
+        return;
+    }
     const REMOVE_BACKREF_RE = /<a class=["&quot;]+?footnote-backref[\S\s]*?<\/a>/;
     const MATCH_MATHJAX_RE = /<mjx-container[\S\s]*?<\/mjx-container>/g;
 
-    $(".footnote-ref").each(function() {
+    elemBase.find(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
         const domFootnote = document.getElementById($(this).attr("href").replace("#", ""));
         let tooltipContents = $(domFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
@@ -115,7 +118,7 @@ function genFootnoteTooltips() {
         $(this).attr("data-bs-title", tooltipContents);
     });
 
-    refreshTooltips();
+    refreshTooltips(baseSelector);
 }
 
 const styleSheetSelectionColor = new CSSStyleSheet();

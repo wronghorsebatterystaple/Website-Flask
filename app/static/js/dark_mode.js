@@ -5,7 +5,7 @@ DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 
 var onDarkModeChange = function(isEnabled) {};
 
-/* Out here so it's immediately applied on JS load instead of at `$(document).ready` */
+// out here so it's immediately applied on JS load instead of at `$(document).ready`
 if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
 } else if (localStorage.getItem("darkMode") === null

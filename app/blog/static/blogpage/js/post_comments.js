@@ -1,12 +1,12 @@
 let commentLoadIntervalId = 0;
 
-/* When logging in via modal on a post page/opening a post page as admin and scrolling to the bottom, reload
- * comments to make sure we are seeing all of them, and then mark all of them as read */
+// when logging in via modal on a post page/opening a post page as admin and scrolling to the bottom, reload
+// comments to make sure we are seeing all of them, and then mark all of them as read
 onModalLogin = addToFunction(onModalLogin, function() {
     reloadComments();
 });
 $(document).ready(function() {
-    // we don't load in comments with the rest of the post to avoid long initial load times
+    // we don't load in comments with the rest of the post to avoid long load times; wait until scroll to bottom
     commentLoadIntervalId = setInterval(function() {
         if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 32.0) { // 32 px leeway
             reloadComments();
@@ -14,13 +14,13 @@ $(document).ready(function() {
     }, 1000);
 });
 
-/* When logging out via modal on a post page, reload comments to clear unread indications (borders) */
+// when logging out via modal on a post page, reload comments to clear unread indications (borders)
 onModalLogout = addToFunction(onModalLogout, function() {
     reloadComments();
 });
 
 async function reloadComments() {
-    // refresh the main leave a comment form's author autofill; don't do for replies as that should be easy enough
+    // refresh the main "leave a comment" form's author autofill; don't do for replies as that should be easy enough
     // manually and could be slow automatically if there's a lot of comments
     if (isUserAuthenticated) {
         $("#leave-a-comment").find("input[name='author']").first().val(VERIFIED_AUTHOR);
@@ -31,16 +31,16 @@ async function reloadComments() {
     // refresh the comment counts in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
     let commentCount = 0;
     let commentUnreadCount = 0;
-    let responseJson = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "GET" });
-    if (!responseJson.error) {
-        commentCount = responseJson.count;
+    let respJson = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "GET" });
+    if (!respJson.error) {
+        commentCount = respJson.count;
     } else {
         customFlash("There was an error retrieving comment count :/");
     }
     if (isUserAuthenticated) {
-        responseJson = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "GET" });
-        if (!responseJson.error) {
-            commentUnreadCount = responseJson.count;
+        respJson = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "GET" });
+        if (!respJson.error) {
+            commentUnreadCount = respJson.count;
         } else {
             customFlash("There was an error retrieving comment unread count :/");
         }
@@ -54,9 +54,9 @@ async function reloadComments() {
     $("#comment-list-heading-counts").html(HTML);
 
     // load in comments
-    responseJson = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
-    if (!responseJson.error) {
-        $("#comment-list").html(responseJson.html);
+    respJson = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
+    if (!respJson.error) {
+        $("#comment-list").html(respJson.html);
     } else {
         customFlash("There was an error retrieving comments :/");
     }
@@ -82,16 +82,16 @@ async function reloadComments() {
 }
 
 async function markCommentsAsRead() {
-    let responseJson = await fetchWrapper(URL_MARK_COMMENTS_AS_READ, { method: "POST" });
-    if (responseJson.success) {
+    let respJson = await fetchWrapper(URL_MARK_COMMENTS_AS_READ, { method: "POST" });
+    if (respJson.success) {
         updateUnreadCommentsNotifs(); // update notification icon after marking comments as read
     }
 }
 
-function onCommentAjaxDone(responseJson, e) {
-    doAjaxResponseForm(responseJson, e);
+function onCommentAjaxDone(respJson, e) {
+    doAjaxResponseForm(respJson, e);
 
-    if (responseJson.success) {
+    if (respJson.success) {
         // clear input fields and reset height
         $(e.target).find("*").filter(function() {
             return this.id.match(/.*-input/);
@@ -111,13 +111,13 @@ function getCommentId(domForm) {
     return $(domForm).attr("id").match(/\d+/)[0];
 }
 
-/* No $(document).ready listener attachments for the remaining listeners since comments can be reloaded */
+// no `$(document).ready` listener attachments for the remaining listeners since comments can be reloaded
 
 $(document).on("click", "input[data-confirm-submit][type='submit']", function() {
     return confirm("Sanity check");
 });
 
-/*
+/**
  * Reveals fields for adding the comment on clicking a reply button.
  */
 $(document).on("submit", ".comment-reply-form", function(e) {
@@ -143,21 +143,21 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    const responseJson = await fetchWrapper(
+    const respJson = await fetchWrapper(
             `${getCurrUrlNoParams()}/add-comment`,
             { method: "POST", body: formData });
 
-    onCommentAjaxDone(responseJson, e);
+    onCommentAjaxDone(respJson, e);
 });
 
 $(document).on("submit", ".ajax-delete-comment", async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    const responseJson = await fetchWrapper(
+    const respJson = await fetchWrapper(
             `${getCurrUrlNoParams()}/delete-comment`,
             { method: "POST", body: formData },
             { comment_id: getCommentId(e.target) });
 
-    onCommentAjaxDone(responseJson, e);
+    onCommentAjaxDone(respJson, e);
 });

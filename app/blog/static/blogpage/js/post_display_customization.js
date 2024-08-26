@@ -1,5 +1,8 @@
 function applyPostAndCommentStyles(baseSelector) {
     const elemBase = $(baseSelector);
+    if (elemBase.length <= 0) {
+        return;
+    }
     const elemPostContent = elemBase.find("#post-content");
     const elemCommentContents = elemBase.find(".comment-content");
     const elemPostAndCommentContents = $.merge(elemPostContent, elemCommentContents);
@@ -65,7 +68,7 @@ $(document).ready(function() {
                   <li>My custom inline Markdown syntax if you can figure it out :3</li>
                 </ul>
             `);
-    refreshTooltips();
+    refreshTooltips("#leave-a-comment");
 
     applyPostAndCommentStyles("body");
 });

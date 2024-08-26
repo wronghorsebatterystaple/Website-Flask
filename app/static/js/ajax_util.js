@@ -17,29 +17,29 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
         }
     }
 
-    const response = await fetch(urlWithParams, options);
-    const responseText = await response.text();
-    let responseJson = null;
+    const resp = await fetch(urlWithParams, options);
+    const respText = await resp.text();
+    let respJson = null;
     try {
-        responseJson = JSON.parse(responseText);
+        respJson = JSON.parse(respText);
     } catch (e) {
-        responseJson = null;
+        respJson = null;
     }
 
     // no error
-    if (response.ok && responseJson !== null) {
-        doAjaxResponseBase(responseJson);
-        return responseJson;
+    if (resp.ok && respJson !== null) {
+        doAjaxResponseBase(respJson);
+        return respJson;
     }
 
     // some error occurred
-    switch(response.status) {
+    switch(resp.status) {
         case 429:
             customFlash("Please slow down :3");
             break;
         case 499:
             // CSRF token expiry; refresh CSRF token and resend the request if this is the case
-            let newToken = responseJson.new_csrf_token;
+            let newToken = respJson.new_csrf_token;
             reloadCSRF(newToken);
             hideAuthElems(); // session must have expired for CSRF expiry
 
@@ -60,32 +60,32 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
  *     - `redirect_url`
  *     - `flash_message`
  */
-function doAjaxResponseBase(responseJson) {
-    if (responseJson.relogin) {
+function doAjaxResponseBase(respJson) {
+    if (respJson.relogin) {
         relogin();
         return;
     }
 
-    if (responseJson.redirect_url) {
-        let newUrl = new URL(decodeURIComponent(responseJson.redirect_url));
+    if (respJson.redirect_url) {
+        let newUrl = new URL(decodeURIComponent(respJson.redirect_url));
 
         // flash message after page load by appending message to URL as custom `flash_message` param
-        if (responseJson.flash_message) {
-            newUrl.searchParams.append("flash_message", encodeURIComponent(responseJson.flash_message));
+        if (respJson.flash_message) {
+            newUrl.searchParams.append("flash_message", encodeURIComponent(respJson.flash_message));
         }
 
         window.location.href = newUrl;
     } else {
         // async flash message
-        if (responseJson.flash_message) {
-            customFlash(responseJson.flash_message);
+        if (respJson.flash_message) {
+            customFlash(respJson.flash_message);
         }
     }
 }
 
-function doAjaxResponseForm(responseJson, submitEvent) {
-    if (!responseJson.redirect_url && responseJson.submission_errors) { 
-        let errors = responseJson.submission_errors;
+function doAjaxResponseForm(respJson, submitEvent) {
+    if (!respJson.redirect_url && respJson.submission_errors) { 
+        let errors = respJson.submission_errors;
         for (const [fieldName, fieldErrors] of Object.entries(errors)) {
             let elemField = $(submitEvent.target).find(`#${fieldName}-field`)
             elemField.find(`#${fieldName}-input`).addClass("is-invalid");

@@ -47,10 +47,10 @@ $(document).ready(function() {
         e.preventDefault();
 
         let formData = new FormData(e.target, e.originalEvent.submitter);
-        const responseJson = await fetchWrapper(URL_LOGIN, { method: "POST", body: formData });
-        doAjaxResponseForm(responseJson, e);
+        const respJson = await fetchWrapper(URL_LOGIN, { method: "POST", body: formData });
+        doAjaxResponseForm(respJson, e);
 
-        if (responseJson.success) {
+        if (respJson.success) {
             onModalLogin();
         }
     });
@@ -58,13 +58,13 @@ $(document).ready(function() {
     $("#logout-link").on("click", async function(e) {
         e.preventDefault();
 
-        const responseJson = await fetchWrapper(
+        const respJson = await fetchWrapper(
                 URL_LOGOUT,
                 { method: "POST" },
                 { previous: getCurrUrlNoParams(false) });
-        doAjaxResponseForm(responseJson, e);
+        doAjaxResponseForm(respJson, e);
 
-        if (!responseJson.redirect_url) {
+        if (!respJson.redirect_url) {
             onModalLogout();
         }
     });
