@@ -2,7 +2,7 @@
     /* general */
     --content-container-max-width: clamp(0px, 672px, 100vw);
 
-    /* colors */
+    /* custom colors */
     --custom-blue: #00eaff;             /* hue 185 */
     --custom-blue-light: #80f4ff;
     --custom-blue-xxlight: #bffaff;
@@ -31,6 +31,7 @@
     --custom-pink-xxlight: #ffdef6;
     --custom-pink-xxxlight: #fff5fc;
 
+    /* color settings */
     --color-code: navy;
     --color-thm: navy;
     --color-thm-border: #a1a1ff;

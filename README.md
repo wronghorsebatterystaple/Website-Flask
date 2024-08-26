@@ -181,58 +181,64 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 ### Jinja conventions
 - Always use `{%- %}` except for blocks that completely do not affect the HTML layout (e.g. `import`, `set`, `extends`)
 
-### CSS property order (alphabetical if priority tied):
+### CSS property order:
+
+I generally follow [Concentric CSS](https://github.com/brandon-rhodes/Concentric-CSS), where major properties are generally specified from outside to inside. I have tweaked some details to make more sense to me; only refer to the original Concentric-CSS for properties not listed here.
+
+Order (up to personal judgement if no other distinctions):
 - Custom variables:
     - Mine
     - Bootstrap's
-- `content`
-- `opacity`
-- `color`
-- `background`
-    - `background-color`
-- Font:
-    - `font-family`
-    - `font-weight`
-    - `font-style`
-    - `font-size`
-- `background-image`
-    - `background-attachment`
-    - `background-position`
-    - `background-repeat`
-    - `background-size`
-- Other specific ones like `overflow-x`, `text-align`, and `text-decoration`, in alphabetical order
-- `position`
-    - `top`
-    - `right`
-    - `bottom`
-    - `left`
-- `display`
-- `width`
-    - `min-width`
-    - `max-width`
-- `height`
-    - `min-height`
-    - `max-height`
-- `border`
-    - `border-width`
-    - `border-style`
-    - `border-color`
-    - `border-radius`
-- `margin`
-    - `margin-top`
-    - `margin-right`
-    - `margin-bottom`
-    - `margin-left`
-- `padding`
-    - `padding-top`
-    - `padding-right`
-    - `padding-bottom`
-    - `padding-left`
-- `z-index`
-- Browser-specific display stuff
+- Display:
+    - `display`
+- Positioning:
+    - `position`, `top`, `right`, `bottom`, `left`
+    - `float`
+    - `clear`
+- Visibility:
+    - `visibility`
+    - `opacity`
+    - `z-index`
+- Layout:
+    - `flex`
+    - `grid`
+    - `justify-content`
+    - `align-content`
+- Box model:
+    - `box-sizing`
+    - `margin`
+    - `box-shadow`
+    - `border`
+    - `background`
+    - `padding`
+    - `width`, `min-width`, `max-width`
+    - `height`
+    - `overflow`
+- Content:
+    - Alignment:
+        - `text-align`
+        - `vertical-align`
+    - Decoration:
+        - `text-decoration`
+    - Spacing and wrapping:
+        - `line-height`
+        - `overflow-wrap`
+        - `white-space`
+        - `word-break`
+    - `color`
+    - `font`
+    - `content`
+- Any other properties neither here nor specified by Concentric-CSS
+- Browser-specific stuff
 
-### HTML class order (alphabetical if priority tied):
+Default subproperty order:
+- `top`, `right`, `bottom`, `left`
+- `x`, `y`
+- `min`, `max`
+- Otherwise: by the order specified by the parent (shorthand) property
+
+### HTML class order:
 - One class describing exactly what the element is, like `id` except allowing for repeats (e.g. `post-h1`)
-- General properties/types from least to most specific (e.g. `d-flex`, or `nav-link btn btn-primary` in order)
-- Specific properties tweaking one thing in the order of CSS attributes (e.g. `gray flex-basis-50 mt-2` in order)
-- Identifiers used for JS with Ajax first (e.g. `ajax-add-comment auth-true` in order)
+- General types/multipurpose CSS classes from most general to most specific (e.g. `nav-link btn btn-primary`)
+- Specific CSS properties in the order of CSS (e.g. `d-flex flex-basis-50 mt-2 gray`)
+- Identifiers used for JS with Ajax first, and alphabetical otherwise (e.g. `ajax-add-comment auth-true`)

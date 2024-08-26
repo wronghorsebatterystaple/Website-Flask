@@ -9,31 +9,31 @@
 
 .post-codebox {
     display: block;
-    max-width: 100%;
-    border: 2px solid black;
     margin-bottom: 0.5rem;
+    border: 2px solid black;
     padding: 0.5rem;
+    max-width: 100%;
 }
 
 .post-h1 {
-    color: var(--custom-green-deep-dark);
-    border-bottom: 3px solid var(--custom-green-deep-dark);
     margin-bottom: 1rem;
+    border-bottom: 3px solid var(--custom-green-deep-dark);
     padding-bottom: 0.5rem;
+    color: var(--custom-green-deep-dark);
 }
 
 .post-h2 {
-    color: var(--custom-orange-deep);
-    border-bottom: 2px solid var(--custom-orange-deep);
     margin-bottom: 1rem;
+    border-bottom: 2px solid var(--custom-orange-deep);
     padding-bottom: 0.25rem;
+    color: var(--custom-orange-deep);
 }
 
 .post-img {
     display: block;
-    max-width: 100%;
-    border: 1px solid black;
     margin: 1rem auto 1rem auto;
+    border: 1px solid black;
+    max-width: 100%;
 }
 
 .post-img:not([width]) {
@@ -53,8 +53,8 @@
 }
 
 input[value="Reply"][value="Delete"] {
-    font-size: 0.95rem;
     margin-bottom: 0rem;
+    font-size: 0.95rem;
 }
 
 .comment-nest-limit-text {

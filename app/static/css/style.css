@@ -1,18 +1,18 @@
 a {
-    color: var(--custom-blue-deep);
     text-decoration-color: var(--custom-blue-deep);
+    color: var(--custom-blue-deep);
 }
 
 a:hover {
-    color: var(--custom-blue-deep-dark);
     text-decoration-color: var(--custom-blue-deep-dark);
+    color: var(--custom-blue-deep-dark);
 }
 
 blockquote {
-    color: gray;
-    border-left: 3.5px solid #cccccc;
     margin-left: 0rem;
+    border-left: 3.5px solid #cccccc;
     padding-left: 0.75rem;
+    color: gray;
 }
 
 blockquote p {
@@ -20,10 +20,10 @@ blockquote p {
 }
 
 body {
+    text-decoration-thickness: 1px;
+    overflow-wrap: anywhere;
     font-family: "Quicksand", sans-serif;
     font-size: 16px;
-    overflow-wrap: anywhere;
-    text-decoration-thickness: 1px;
 }
 
 code {
@@ -32,8 +32,8 @@ code {
 }
 
 pre {
-    font-size: 100%;
     margin-bottom: 0;
+    font-size: 100%;
 }
 
 pre code {
@@ -49,11 +49,11 @@ pre code {
 }
 
 table {
-    width: max-content;
-    min-width: 100%;
     margin-right: auto;
     margin-bottom: 0.5rem;
     margin-left: auto;
+    width: max-content;
+    min-width: 100%;
 }
 
 td,
@@ -89,9 +89,9 @@ textarea {
 }
 
 .tooltip .tooltip-inner {
-    color: #2b2b2b !important;
     background-color: var(--custom-pink-xxxlight) !important;
     max-width: 30rem !important;
+    color: #2b2b2b !important;
 }
 
 .tooltip.show {
@@ -105,14 +105,14 @@ textarea {
 }
 
 .code-block-outside {
-    border: 1px solid black;
     margin-bottom: 0.5rem;
+    border: 1px solid black;
 }
 
 .content-container {
-    overflow-x: auto !important;
-    max-width: var(--content-container-max-width) !important;
     margin: auto !important;
+    max-width: var(--content-container-max-width) !important;
+    overflow-x: auto !important;
 }
 
 .dropdown-item {
@@ -120,13 +120,13 @@ textarea {
 }
 
 .flash {
-    color: black;
-    background-color: var(--custom-green-deep-xxlight);
     position: fixed;
     top: 1rem;
-    width: calc(var(--content-container-max-width) - (var(--bs-gutter-x)));
-    border: 2px solid var(--custom-green-deep);
     z-index: 9999;
+    border: 2px solid var(--custom-green-deep);
+    background-color: var(--custom-green-deep-xxlight);
+    width: calc(var(--content-container-max-width) - (var(--bs-gutter-x)));
+    color: black;
 }
 
 .footnote {
@@ -147,15 +147,15 @@ textarea {
 }
 
 .md-details {
+    margin-bottom: 1rem;
     border: 2px solid var(--custom-blue-deep-light);
     border-radius: var(--bs-border-radius);
-    margin-bottom: 1rem;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
 }
 
 .md-details-contents {
-    color: gray !important;
     margin-top: 0.5rem;
+    color: gray !important;
 }
 
 .md-details-summary {
@@ -163,9 +163,9 @@ textarea {
 }
 
 .md-figure-figcaption {
+    text-align: center;
     color: gray;
     font-size: 0.95rem;
-    text-align: center;
 }
 
 .md-figure img {
@@ -182,8 +182,8 @@ textarea {
 }
 
 .md-thm {
-    color: var(--color-thm) !important;
     border-left: 3.5px solid var(--color-thm-border) !important;
+    color: var(--color-thm) !important;
 }
 
 .nav-link {
@@ -191,7 +191,7 @@ textarea {
     background-color: transparent !important;
 }
 
-/* for compability with both light and dark mode, as DarkReader doesn't change these well */
+/* these two selectors are for compability with both light and dark mode, as DarkReader doesn't change these well */
 .navbar-toggler {
     border-color: rgba(128, 128, 128, 0.4) !important;
 }
@@ -206,15 +206,15 @@ textarea {
 }
 
 .required-label:after {
-    content:" *";
     color: red;
+    content:" *";
 }
 
 #background-img {
     background-position: center center;
     background-size: cover;
-    background-attachment: fixed;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 #dark-mode-switch { /* for (approx) centering due to low descender height and thus typefacing biasing upwards */

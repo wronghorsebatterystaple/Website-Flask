@@ -130,9 +130,9 @@
     --bs-btn-hover-color: var(--custom-pink-xlight) !important;
 }
 
-/*********************/
+/**********************/
 /* `underline` Colors */
-/*********************/
+/**********************/
 
 .underline-custom-blue-deep {
     text-decoration-color: var(--custom-blue-deep) !important;
@@ -296,14 +296,14 @@
 }
 
 .pipe {
-    height: 1.5em;
     border-left: 2px solid black !important;
+    height: 1.5em;
 }
 
 .scroll-overflow-x {
-    overflow-x: auto !important;
-    overflow-y: hidden !important; /* for MathJax center math with \\[pt] extra spacings */
     margin-bottom: 0.5rem !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important; /* for MathJax equation environments with `\\[pt]` extra line spacing */
 }
 
 .underline-on-hover-only {
