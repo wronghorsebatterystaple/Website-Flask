@@ -144,7 +144,7 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const respJson = await fetchWrapper(
-            `${getCurrUrlNoParams()}/add-comment`,
+            URL_ADD_COMMENT,
             { method: "POST", body: formData });
 
     onCommentAjaxDone(respJson, e);
@@ -155,7 +155,7 @@ $(document).on("submit", ".ajax-delete-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const respJson = await fetchWrapper(
-            `${getCurrUrlNoParams()}/delete-comment`,
+            URL_DELETE_COMMENT,
             { method: "POST", body: formData },
             { comment_id: getCommentId(e.target) });
 
