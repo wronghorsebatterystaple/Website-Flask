@@ -64,10 +64,12 @@ async function updateUnreadCommentsDropdown() {
 /**
  * Aligns dropdown to the left of its button (since it's on the right of the screen; we don't want overflow).
  */
+const styleSheetDropdownAlign = new CSSStyleSheet();
+document.adoptedStyleSheets.push(styleSheetDropdownAlign);
 function alignDropdownLeftwards(records) {
     const domDropdown = records[0].target;
     let offset = domDropdown.offsetWidth - document.querySelector("#unread-comments-notif-btn").offsetWidth;
-    document.documentElement.style.setProperty("--unread-comments-dropdown-left", `-${offset}px`);
+    styleSheetDropdownAlign.replaceSync(`:root { --unread-comments-dropdown-left: -${offset}px; }`);
 }
 
 $(document).ready(function() {
