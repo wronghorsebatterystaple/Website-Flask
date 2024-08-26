@@ -33,6 +33,7 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
     }
 
     // some error occurred
+    let hasHandledError = true;
     switch(resp.status) {
         case 429:
             customFlash("Please slow down :3");
@@ -49,9 +50,11 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
             }
             return fetchWrapper(urlBase, options, paramsDict);
             break;
+        default:
+            hasHandledError = false;
     }
 
-    return { error: true }
+    return {errorStatus: resp.status, hasHandledError: hasHandledError}
 }
 
 /**

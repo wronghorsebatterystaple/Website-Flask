@@ -32,16 +32,16 @@ async function reloadComments() {
     let commentCount = 0;
     let commentUnreadCount = 0;
     let respJson = await fetchWrapper(URL_GET_COMMENT_COUNT, { method: "GET" });
-    if (!respJson.error) {
+    if (!respJson.errorStatus) {
         commentCount = respJson.count;
-    } else {
+    } else if (!respJson.hasHandledError) {
         customFlash("There was an error retrieving comment count :/");
     }
     if (isUserAuthenticated) {
         respJson = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, { method: "GET" });
-        if (!respJson.error) {
+        if (!respJson.errorStatus) {
             commentUnreadCount = respJson.count;
-        } else {
+        } else if (respJson.errorStatus !== 429) {
             customFlash("There was an error retrieving comment unread count :/");
         }
     }
@@ -55,9 +55,9 @@ async function reloadComments() {
 
     // load in comments
     respJson = await fetchWrapper(URL_GET_COMMENTS, { method: "GET" });
-    if (!respJson.error) {
+    if (!respJson.errorStatus) {
         $("#comment-list").html(respJson.html);
-    } else {
+    } else if (respJson.errorStatus !== 429) {
         customFlash("There was an error retrieving comments :/");
     }
 
