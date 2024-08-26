@@ -39,7 +39,7 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
     <button type="button" id="copy-permanent-link-btn" class="btn btn-link" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
   </div>
 
-  <a class="btn btn-primary btn-custom-orange mt-2half auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>
+  <a class="btn btn-primary btn-custom-orange mt-2half js-auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>
 </div>
 <hr />
 
@@ -51,7 +51,7 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
 <div id="leave-a-comment">
   <h2 class="fs-4">Leave a comment</h2>
-  {{ wtf.quick_form(add_comment_form, class="comment-add-form ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
+  {{ wtf.quick_form(add_comment_form, class="comment-add-form js-ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
 </div>
 <hr />
 

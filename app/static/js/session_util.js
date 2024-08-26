@@ -16,13 +16,13 @@ function relogin() {
 }
 
 function showAuthElems() {
-    $(".auth-false").attr("hidden", "");
-    $(".auth-true").removeAttr("hidden");
+    $(".js-auth-false").attr("hidden", "");
+    $(".js-auth-true").removeAttr("hidden");
 }
 
 function hideAuthElems() {
-    $(".auth-true").attr("hidden", "");
-    $(".auth-false").removeAttr("hidden");
+    $(".js-auth-true").attr("hidden", "");
+    $(".js-auth-false").removeAttr("hidden");
 }
 
 $(document).ready(function() {

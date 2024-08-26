@@ -23,15 +23,15 @@
         
         {%- if comment.depth < 6 %}
           {{ wtf.quick_form(reply_comment_btn, id="comment-reply-form-" ~ comment.id, class="comment-reply-form", btn_type="no-bg", btn_color="custom-orange-deep", bottom_margin=0) }}
-          {{ wtf.quick_form(add_comment_form, id="comment-reply-add-form-" ~ comment.id, class="comment-add-form ajax-add-comment", bottom_margin=2, hidden=true) }}
+          {{ wtf.quick_form(add_comment_form, id="comment-reply-add-form-" ~ comment.id, class="comment-add-form js-ajax-add-comment", bottom_margin=2, hidden=true) }}
         {%- else %}
           <p class="comment-nest-limit-text custom-orange-deep mb-0">It's gonna get ugly if you keep replying…</p>
         {%- endif %}
 
         {%- if current_user.is_authenticated %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment-delete-form-" ~ comment.id, class="comment-delete-form ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0) }}
+          {{ wtf.quick_form(delete_comment_btn, id="comment-delete-form-" ~ comment.id, class="comment-delete-form js-ajax-delete-comment js-auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0) }}
         {%- else %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment-delete-form-" ~ comment.id, class="comment-delete-form ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0, hidden=true) }}
+          {{ wtf.quick_form(delete_comment_btn, id="comment-delete-form-" ~ comment.id, class="comment-delete-form js-ajax-delete-comment js-auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0, hidden=true) }}
         {%- endif %}
       </div>
     </div>

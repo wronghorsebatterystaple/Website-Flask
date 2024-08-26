@@ -235,4 +235,4 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 - One class describing exactly what the element is, like `id` except allowing for repeats (e.g. `post-h1`)
 - General properties/types from least to most specific (e.g. `d-flex`, or `nav-link btn btn-primary` in order)
 - Specific properties tweaking one thing in the order of CSS attributes (e.g. `gray flex-basis-50 mt-2` in order)
-- Identifiers used for JS, Ajax first (e.g. `ajax-add-comment auth-true invisible` in order)
+- Identifiers used for JS with Ajax first (e.g. `js-ajax-add-comment js-auth-true` in order)

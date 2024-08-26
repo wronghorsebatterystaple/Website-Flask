@@ -48,7 +48,7 @@ async function reloadComments() {
 
     let HTML = `(${commentCount}`;
     if (isUserAuthenticated && commentUnreadCount > 0) {
-        HTML += `<span class="auth-true">, <span class="custom-pink">${commentUnreadCount} unread</span></span>`;
+        HTML += `<span class="js-auth-true">, <span class="custom-pink">${commentUnreadCount} unread</span></span>`;
     }
     HTML += ")";
     $("#comment-list-heading-counts").html(HTML);
@@ -139,7 +139,7 @@ $(document).on("submit", ".comment-reply-form", function(e) {
     asteriskRequiredFields();
 });
 
-$(document).on("submit", ".ajax-add-comment", async function(e) {
+$(document).on("submit", ".js-ajax-add-comment", async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
@@ -150,7 +150,7 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
     onCommentAjaxDone(respJson, e);
 });
 
-$(document).on("submit", ".ajax-delete-comment", async function(e) {
+$(document).on("submit", ".js-ajax-delete-comment", async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
