@@ -110,11 +110,11 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" />
   </head>
 
-  <body class="font-default">
+  <body>
     <div id="background-img">
-      <div class="content-container container min-vh-100">
+      <div class="container content-container min-vh-100">
       <!-- Navbar -->
-      <nav class="font-default-important navbar navbar-expand-md">
+      <nav class="navbar navbar-expand-md">
         <a id="navbar-home" class="navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
           <img id="navbar-logo" class="me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" />
           <span>Home</span>
@@ -126,7 +126,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
             <li class="nav-item dropdown">
-              <button type="button" class="btn nav-link dropdown-toggle" data-bs-toggle="dropdown">Blogs</button>
+              <button type="button" class="nav-link btn dropdown-toggle" data-bs-toggle="dropdown">Blogs</button>
               <ul class="dropdown-menu">
                 {%- for blogpage in blogpages %}
                   <li{%- if blogpage.login_required %} class="auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}{%- endif %}>
@@ -135,15 +135,15 @@
                 {%- endfor %}
               </ul>
             </li>
-            <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
+            <li class="nav-item auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
               <a class="nav-link" href="{{ url_for('admin.choose_action', _external=True) }}">Secrets</a>
             </li>
 
-            <li class="auth-false nav-item"{%- if current_user.is_authenticated %} hidden{%- endif %}>
-              <button type="button" id="login-link" class="btn nav-link" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
+            <li class="nav-item auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>
+              <button type="button" id="login-link" class="nav-link btn" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
             </li>
-            <li class="auth-true nav-item"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <button type="button" id="logout-link" class="btn nav-link">Logout pls :3</button>
+            <li class="nav-item auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
+              <button type="button" id="logout-link" class="nav-link btn">Logout pls :3</button>
             </li>
           </ul>
 

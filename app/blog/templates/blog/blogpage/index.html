@@ -16,7 +16,7 @@ const totalPages = {{ total_pages }};
     <h2 class="blogpage-subname mt-2">{{ blogpage.subname }}</h2>
   {%- endif %}
 
-  <a class="auth-true btn-custom-orange btn btn-primary mt-1" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
+  <a class="btn btn-primary bnt-custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
 </div>
 <hr />
 
@@ -25,7 +25,7 @@ const totalPages = {{ total_pages }};
     <div>
       {%- if is_all_posts %}
         {%- set color = post.blogpage.html_color_class -%}
-        <a class="{{ color }} underline-{{ color }} underline-on-hover-only" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="{{ color }} underline-on-hover-only underline-{{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
             <h1 class="postlist-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-0">{{ post.title }}</h1>
@@ -44,7 +44,7 @@ const totalPages = {{ total_pages }};
             {%- else %}
               <span class="postlist-timestamp flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
-            <span class="gray d-flex align-items-center ms-auto">
+            <span class="d-flex align-items-center gray ms-auto">
               <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
             </span>
           </div>
@@ -62,7 +62,7 @@ const totalPages = {{ total_pages }};
             {%- else %}
               <span class="postlist-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
-            <span class="gray d-flex align-items-center ms-auto">
+            <span class="d-flex align-items-center gray ms-auto">
               <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
             </span>
           </div>

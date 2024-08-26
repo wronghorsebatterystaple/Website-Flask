@@ -181,54 +181,58 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 ### Jinja conventions
 - Always use `{%- %}` except for blocks that completely do not affect the HTML layout (e.g. `import`, `set`, `extends`)
 
-### CSS property order (currently-used properties):
+### CSS property order (alphabetical if priority tied):
 - Custom variables:
     - Mine
     - Bootstrap's
-- "Specific":
-    - `content`
-    - `opacity`
-    - `color`
-    - `background`
-        - `background-color`
-    - Font:
-        - `font-family`
-        - `font-weight`
-        - `font-style`
-        - `font-size`
-    - `background-image`
-        - `background-attachment`
-        - `background-position`
-        - `background-repeat`
-        - `background-size`
-    - Other specific ones like `overflow-x`, `text-align`, and `text-decoration`, in alphabetical order
-- "General":
-    - `position`
-        - `top`
-        - `right`
-        - `bottom`
-        - `left`
-    - `display`
-    - `width`
-        - `min-width`
-        - `max-width`
-    - `height`
-        - `min-height`
-        - `max-height`
-    - `border`
-        - `border-width`
-        - `border-style`
-        - `border-color`
-        - `border-radius`
-    - `margin`
-        - `margin-top`
-        - `margin-right`
-        - `margin-bottom`
-        - `margin-left`
-    - `padding`
-        - `padding-top`
-        - `padding-right`
-        - `padding-bottom`
-        - `padding-left`
-    - `z-index`
+- `content`
+- `opacity`
+- `color`
+- `background`
+    - `background-color`
+- Font:
+    - `font-family`
+    - `font-weight`
+    - `font-style`
+    - `font-size`
+- `background-image`
+    - `background-attachment`
+    - `background-position`
+    - `background-repeat`
+    - `background-size`
+- Other specific ones like `overflow-x`, `text-align`, and `text-decoration`, in alphabetical order
+- `position`
+    - `top`
+    - `right`
+    - `bottom`
+    - `left`
+- `display`
+- `width`
+    - `min-width`
+    - `max-width`
+- `height`
+    - `min-height`
+    - `max-height`
+- `border`
+    - `border-width`
+    - `border-style`
+    - `border-color`
+    - `border-radius`
+- `margin`
+    - `margin-top`
+    - `margin-right`
+    - `margin-bottom`
+    - `margin-left`
+- `padding`
+    - `padding-top`
+    - `padding-right`
+    - `padding-bottom`
+    - `padding-left`
+- `z-index`
 - Browser-specific display stuff
+
+### HTML class order (alphabetical if priority tied):
+- One class describing exactly what the element is, like `id` except allowing for repeats (e.g. `post-h1`)
+- General properties/types from least to most specific (e.g. `d-flex`, or `nav-link btn btn-primary` in order)
+- Specific properties tweaking one thing in the order of CSS attributes (e.g. `gray flex-basis-50 mt-2` in order)
+- Identifiers used for JS, Ajax first (e.g. `ajax-add-comment auth-true invisible` in order)
