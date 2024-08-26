@@ -17,7 +17,7 @@
       </script>
 
       <!-- DarkReader -->
-      <!-- No defer to avoid flash -->
+      <!-- no defer to avoid flash -->
       <script
           src=" https://cdn.jsdelivr.net/npm/darkreader@4.9.85/darkreader.min.js"
           integrity="sha384-flfeXFGSp501CI6Fn9Hw2v39t1xgyVR6HOVPrN759b+KcjH1reD6joELwSRuovyX"
@@ -68,7 +68,7 @@
           crossorigin="anonymous"
           defer />
 
-      <!-- Global custom CSS -->
+      <!-- global custom CSS -->
       <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_hljs.css', _external=True) }}" />
       <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', _external=True) }}" />
       <link rel="stylesheet" href="{{ url_for('static', filename='css/util.css', _external=True) }}" />
@@ -77,7 +77,7 @@
       {%- block css %}{%- endblock %}
 
     <!-- JS -->
-      <!-- Inline (passing vars from Jinja to JS, for example) -->
+      <!-- inline (passing vars from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
           var csrfToken = "{{ csrf_token() }}";
           var isUserAuthenticated = {%- if current_user.is_authenticated %}true{%- else %}false{%- endif %};
@@ -89,10 +89,10 @@
           {%- block js_inline %}{%- endblock %}
       </script>
 
-      <!-- Global custom JS -->
-      <!-- No defer because it's util -->
+      <!-- global custom JS -->
+      <!-- no defer because it's util -->
       <script src="{{ url_for('static', filename='js/util.js', _external=True) }}"></script>
-      <!-- No defer to avoid flash -->
+      <!-- no defer to avoid flash -->
       <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script>
 
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js', _external=True) }}" defer></script>
@@ -113,7 +113,7 @@
   <body>
     <div id="background-img">
       <div class="container content-container min-vh-100">
-      <!-- Navbar -->
+      <!-- navbar -->
       <nav class="navbar navbar-expand-md">
         <a id="navbar-home" class="navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
           <img id="navbar-logo" class="me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" />
@@ -161,7 +161,7 @@
       </nav>
 
       <div id="non-navbar" class="mt-2">
-        <!-- Display flash()ed messages as alerts -->
+        <!-- display flash()ed messages as alerts -->
         <div id="flash" class="flash alert alert-info alert-dismissible fade show" role="alert" hidden>
           <span id="flash-text"></span>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Dismiss"></button>
@@ -174,7 +174,7 @@
     </div>
   </div>
 
-  <!-- Login modal -->
+  <!-- login modal -->
   <div id="login-modal" class="modal fade" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
