@@ -11,14 +11,14 @@ const totalPages = {{ total_pages }};
 
 {%- block content %}
 <div class="pt-3">
-  <h1 class="blogpage-name">{{ blogpage.name }}</h1>
+  <h1 class="fs-1">{{ blogpage.name }}</h1>
   {%- if blogpage.subname is not none %}
-    <h2 class="blogpage-subname mt-2">{{ blogpage.subname }}</h2>
+    <h2 class="fs-7 mt-2">{{ blogpage.subname }}</h2>
   {%- endif %}
 
-  <a class="btn btn-primary bnt-custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
+  <a class="btn btn-primary btn-custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
 </div>
-<hr />
+<hr class="mt-4" />
 
 <div>
   {%- for post in posts %}
@@ -28,21 +28,21 @@ const totalPages = {{ total_pages }};
         <a class="{{ color }} underline-on-hover-only underline-{{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
-            <h1 class="postlist-title {{ color }} flex-basis-80 flex-shrink-0 me-3 mb-0">{{ post.title }}</h1>
+            <h1 class="{{ color }} flex-basis-80 flex-shrink-0 fs-4 me-3 mb-0">{{ post.title }}</h1>
             <span class="postlist-blogtitle flex-shrink-9 text-end ms-auto mb-0"> {{ post.blogpage.name }}</span>
           </div>
 
           {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top mt-1">
-                <h2 class="postlist-subtitle {{ color }} flex-basis-80 flex-shrink-0 mb-0">{{ post.subtitle }}</h2>
+                <h2 class="{{ color }} flex-basis-80 fs-9 flex-shrink-0 mb-0">{{ post.subtitle }}</h2>
             </div>
           {%- endif %}
 
           <div class="d-flex align-items-center mt-2">
             {%- if post.edited_timestamp is not none %}
-              <span class="postlist-timestamp flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+              <span class="flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
             {%- else %}
-              <span class="postlist-timestamp flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
+              <span class="flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
             <span class="d-flex align-items-center gray ms-auto">
               <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
@@ -50,17 +50,17 @@ const totalPages = {{ total_pages }};
           </div>
       {%- else %}
         <a class="underline-on-hover-only underline-custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-          <h1 class="postlist-title custom-green-deep-dark">{{ post.title }}</h1>
+          <h1 class="custom-green-deep-dark fs-4">{{ post.title }}</h1>
 
           {%- if post.subtitle is not none %}
-            <h2 class="postlist-subtitle custom-orange-deep mt-1">{{ post.subtitle }}</h2>
+            <h2 class="custom-orange-deep fs-9 mt-1">{{ post.subtitle }}</h2>
           {%- endif %}
 
           <div class="d-flex align-items-center mt-2">
             {%- if post.edited_timestamp is not none %}
-              <span class="postlist-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+              <span class="black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
             {%- else %}
-              <span class="postlist-timestamp black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
+              <span class="black flex-basis-80 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
             <span class="d-flex align-items-center gray ms-auto">
               <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>

@@ -13,8 +13,8 @@ function applyPostAndCommentStyles(baseSelector) {
     });
 
     // add CSS classes for extra styling
-    elemPostAndCommentContents.find("h1").addClass("post-h1");
-    elemPostAndCommentContents.find("h2").addClass("post-h2");
+    elemPostAndCommentContents.find("h1").addClass("post-h1 fs-4");
+    elemPostAndCommentContents.find("h2").addClass("post-h2 fs-7");
     elemPostAndCommentContents.find("img").addClass("post-img");
 
     // images use alt text as hover text too

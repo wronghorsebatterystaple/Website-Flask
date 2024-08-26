@@ -1,25 +1,10 @@
-.blogpage-name {
-    font-size: 3.5rem;
-}
-.blogpage-subname {
-    font-size: 1.5rem;
-}
-
 .postlist-blogtitle {
     font-size: 0.8rem;
 }
+
 .postlist-icon-comment {
     font-size: 14px;
     margin-bottom: -0.25rem;
-}
-.postlist-subtitle {
-    font-size: 1.05rem;
-}
-.postlist-timestamp {
-    font-size: 1rem;
-}
-.postlist-title {
-    font-size: 1.9rem;
 }
 
 .post-codebox {
@@ -29,42 +14,40 @@
     margin-bottom: 0.5rem;
     padding: 0.5rem;
 }
+
 .post-h1 {
     color: var(--custom-green-deep-dark);
-    font-size: 2.25rem;
     border-bottom: 3px solid var(--custom-green-deep-dark);
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
 }
+
 .post-h2 {
     color: var(--custom-orange-deep);
-    font-size: 1.5rem;
     border-bottom: 2px solid var(--custom-orange-deep);
     margin-bottom: 1rem;
     padding-bottom: 0.25rem;
 }
+
 .post-img {
     display: block;
     max-width: 100%;
     border: 1px solid black;
     margin: 1rem auto 1rem auto;
 }
+
 .post-img:not([width]) {
     width: 100%;
 }
-.post-subtitle {
-    font-size: 1.3rem;
-}
+
 .post-subtitle p {
     margin-bottom: 0rem;
 }
+
 .post-timestamp {
-    font-size: 1rem;
     margin-right: 0.625rem;
 }
-.post-title {
-    font-size: 2.5rem;
-}
+
 .post-title p {
     margin-bottom: 0rem;
 }
@@ -73,15 +56,9 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
     margin-bottom: 0rem;
 }
-.comment-author {
-    font-size: 1.25rem;
-}
+
 .comment-nest-limit-text {
     font-size: 0.95rem;
-}
-.comment-list-heading,
-.leave-a-comment-heading {
-    font-size: 2.25rem;
 }
 
 #copy-permanent-link-btn {

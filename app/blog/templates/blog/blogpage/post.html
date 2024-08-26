@@ -23,9 +23,9 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
 {%- block content %}
 <div class="pt-2">
-  <h1 class="post-title custom-green-deep-dark mb-0">{{ post.title|safe }}</h1>
+  <h1 class="post-title custom-green-deep-dark fs-3 mb-0">{{ post.title|safe }}</h1>
   {%- if post.subtitle is not none %}
-    <h2 class="post-subtitle custom-orange-deep mt-2 mb-0">{{ post.subtitle|safe }}</h2>
+    <h2 class="post-subtitle custom-orange-deep fs-8 mt-2 mb-0">{{ post.subtitle|safe }}</h2>
   {%- endif %}
   <div class="d-flex align-items-center mt-2half">
     {%- if post.edited_timestamp is not none %}
@@ -48,14 +48,14 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 <hr />
 
 <div id="leave-a-comment">
-  <h2 id="leave-a-comment-heading">Leave a comment</h2>
+  <h2 class="fs-4">Leave a comment</h2>
   {{ wtf.quick_form(add_comment_form, class="comment-add-form ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
 </div>
 <hr />
 
 <div class="mb-3">
   <!-- populate after page load with JS to avoid slow initial loads -->
-  <h2 id="comment-list-heading" class="mb-0">Comments <span id="comment-list-heading-counts" class="gray"></span></h2>
+  <h2 class="fs-4 mb-0">Comments <span id="comment-list-heading-counts" class="gray"></span></h2>
   <div id="comment-list" class="d-flex flex-column flex-shrink-0"></div>
 </div>
 {%- endblock %}

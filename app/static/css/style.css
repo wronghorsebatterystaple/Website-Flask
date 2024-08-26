@@ -2,6 +2,7 @@ a {
     color: var(--custom-blue-deep);
     text-decoration-color: var(--custom-blue-deep);
 }
+
 a:hover {
     color: var(--custom-blue-deep-dark);
     text-decoration-color: var(--custom-blue-deep-dark);
@@ -13,6 +14,7 @@ blockquote {
     margin-left: 0rem;
     padding-left: 0.75rem;
 }
+
 blockquote p {
     margin-top: 1rem;
 }
@@ -28,17 +30,19 @@ code {
     color: var(--color-code); /* overridable by Highlight.js */
     font-size: 97.5% !important;
 }
+
 pre {
     font-size: 100%;
     margin-bottom: 0;
 }
+
 pre code {
     color: var(--color-code);
 }
 
 /* prevent dropdowns from overflowing if dropdown not collapsed; positioning is left to JS */
-nav .dropdown-menu {
-    @media (min-width: 768px) { /* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
+@media (min-width: 768px) { /* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
+    nav .dropdown-menu {
         width: max-content;
         max-width: calc(0.8 * var(--content-container-max-width));
     }
@@ -51,6 +55,7 @@ table {
     margin-bottom: 0.5rem;
     margin-left: auto;
 }
+
 td,
 th {
     border-width: 1px;
@@ -64,30 +69,37 @@ textarea {
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
     border-top-color: var(--custom-pink-light) !important;
 }
+
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
     border-right-color: var(--custom-pink-light) !important;
 }
+
 .bs-tooltip-bottom .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
     border-bottom-color: var(--custom-pink-light) !important;
 }
+
 .bs-tooltip-left .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
     border-left-color: var(--custom-pink-light) !important;
 }
+
 .tooltip {
     font-family: inherit !important;
     font-weight: inherit !important;
     font-style: inherit !important;
 }
+
 .tooltip .tooltip-inner {
     color: #2b2b2b !important;
     background-color: var(--custom-pink-xxxlight) !important;
     max-width: 30rem !important;
 }
+
 .tooltip.show {
     opacity: 100%;
     border: 1px solid var(--custom-pink-xlight) !important;
     border-radius: var(--bs-border-radius);
 }
+
 .tooltip-text-align-left .tooltip-inner {
     text-align: left;
 }
@@ -121,18 +133,17 @@ textarea {
     color: gray; 
     font-size: 0.9rem;
 }
+
 .footnotes-details {
     margin-bottom: 1rem;
 }
+
 .footnotes-details-summary {
     color: gray !important;
 }
+
 .footnote-hr {
     margin: 0.8rem 0;
-}
-
-.font-size-0 {
-    font-size: 0 !important;
 }
 
 .md-details {
@@ -141,10 +152,12 @@ textarea {
     margin-bottom: 1rem;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
 }
+
 .md-details-contents {
     color: gray !important;
     margin-top: 0.5rem;
 }
+
 .md-details-summary {
     color: var(--custom-blue-deep) !important;
 }
@@ -154,6 +167,7 @@ textarea {
     font-size: 0.95rem;
     text-align: center;
 }
+
 .md-figure img {
     margin-bottom: 0.375rem;
 }
@@ -181,6 +195,7 @@ textarea {
 .navbar-toggler {
     border-color: rgba(128, 128, 128, 0.4) !important;
 }
+
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28128, 128, 128, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
@@ -209,6 +224,7 @@ textarea {
 #navbar-home { /* for (approx) centering due to larger font */
     margin-top: -0.1em;
 }
+
 #navbar-logo {
     width: 2rem;
     height: 2rem;

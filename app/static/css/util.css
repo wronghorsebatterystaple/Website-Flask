@@ -14,27 +14,35 @@
 .black {
     color: black !important;
 }
+
 .blue {
     color: blue !important;
 }
+
 .gray {
     color: gray !important;
 }
+
 .green {
     color: green !important;
 }
+
 .navy {
     color: navy !important;
 }
+
 .orange {
     color: orange !important;
 }
+
 .purple {
     color: purple !important;
 }
+
 .red {
     color: red !important;
 }
+
 .yellow {
     color: yellow !important;
 }
@@ -42,15 +50,19 @@
 .custom-blue-deep {
     color: var(--custom-blue-deep) !important;
 }
+
 .custom-green-deep-dark {
     color: var(--custom-green-deep-dark) !important;
 }
+
 .custom-orange-deep {
     color: var(--custom-orange-deep) !important;
 }
+
 .custom-pink{
     color: var(--custom-pink) !important;
 }
+
 .custom-pink-light {
     color: var(--custom-pink-light) !important;
 }
@@ -75,14 +87,11 @@
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-blue-deep) !important;
     --bs-btn-border-color: var(--custom-blue-deep) !important;
-
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-blue-deep) !important;
     --bs-btn-active-border-color: var(--custom-blue-deep) !important;
-
     --bs-btn-disabled-bg: var(--custom-blue-deep-light) !important;
     --bs-btn-disabled-border-color: var(--custom-blue-deep-light) !important;
-
     --bs-btn-hover-color: black !important;
     --bs-btn-hover-bg: var(--custom-blue-deep-light) !important;
     --bs-btn-hover-border-color: var(--custom-blue-deep-light) !important;
@@ -92,14 +101,11 @@
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-orange) !important;
     --bs-btn-border-color: var(--custom-orange) !important;
-
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-orange) !important;
     --bs-btn-active-border-color: var(--custom-orange) !important;
-
     --bs-btn-disabled-bg: var(--custom-orange-light) !important;
     --bs-btn-disabled-border-color: var(--custom-orange-light) !important;
-
     --bs-btn-hover-color: black !important;
     --bs-btn-hover-bg: var(--custom-orange-light) !important;
     --bs-btn-hover-border-color: var(--custom-orange-light) !important;
@@ -131,15 +137,19 @@
 .underline-custom-blue-deep {
     text-decoration-color: var(--custom-blue-deep) !important;
 }
+
 .underline-custom-green-deep-dark {
     text-decoration-color: var(--custom-green-deep-dark) !important;
 }
+
 .underline-custom-orange-deep {
     text-decoration-color: var(--custom-orange-deep) !important;
 }
+
 .underline-custom-pink-light {
     text-decoration-color: var(--custom-pink-light) !important;
 }
+
 .underline-gray {
     text-decoration-color: gray !important;
 }
@@ -156,9 +166,101 @@
     flex-basis: 80% !important;
 }
 
+/* override all Bootstrap `fs` classes */
+.fs-1 {
+    font-size: 3.5rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-1 {
+        font-size: calc(1.5rem + 4vw) !important;
+    }
+}
+
+.fs-2 {
+    font-size: 3rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-2 {
+        font-size: calc(1.4rem + 3.2vw) !important;
+    }
+}
+
+.fs-3 {
+    font-size: 2.5rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-3 {
+        font-size: calc(1.3rem + 2.4vw) !important;
+    }
+}
+
+.fs-4 {
+    font-size: 2.25rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-4 {
+        font-size: calc(1.25rem + 2vw) !important;
+    }
+}
+
+.fs-5 {
+    font-size: 2rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-5 {
+        font-size: calc(1.2rem + 1.6vw) !important;
+    }
+}
+
+.fs-6 {
+    font-size: 1.75rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-6 {
+        font-size: calc(1.15rem + 1.2vw) !important;
+    }
+}
+
+.fs-7 {
+    font-size: 1.5rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-7 {
+        font-size: calc(1.1rem + 0.8vw) !important;
+    }
+}
+
+.fs-8 {
+    font-size: 1.25rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-8 {
+        font-size: calc(1.05rem + 0.4vw) !important;
+    }
+}
+
+.fs-9 {
+    font-size: 1.125rem !important;
+}
+
+@media (max-width: 800px) {
+    .fs-9 {
+        font-size: calc(1.025rem + 0.2vw) !important;
+    }
+}
+
 .mt-2half {
     margin-top: 0.75rem !important;
 }
+
 .ms-2half {
     margin-left: 0.75rem !important;
 }
@@ -170,6 +272,7 @@
 .w-20 {
     width: 20% !important;
 }
+
 .w-2rem {
     width: 2rem !important;
 }
@@ -206,6 +309,7 @@
 .underline-on-hover-only {
     text-decoration-line: none !important;
 }
+
 .underline-on-hover-only:hover {
     text-decoration-line: underline !important;
 }
