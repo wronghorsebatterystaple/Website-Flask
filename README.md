@@ -192,7 +192,11 @@ Order (up to personal judgement if no other distinctions):
 - Display:
     - `display`
 - Positioning:
-    - `position`, `top`, `right`, `bottom`, `left`
+    - `position`
+        - `top`
+        - `right`
+        - `bottom`
+        - `left`
     - `float`
     - `clear`
 - Visibility:
@@ -201,9 +205,13 @@ Order (up to personal judgement if no other distinctions):
     - `z-index`
 - Layout:
     - `flex`
+        - `flex-direction`
+        - Other subproperties
     - `grid`
     - `justify-content`
     - `align-content`
+    - `justify-items`
+    - `align-items`
 - Box model:
     - `box-sizing`
     - `margin`
@@ -211,7 +219,9 @@ Order (up to personal judgement if no other distinctions):
     - `border`
     - `background`
     - `padding`
-    - `width`, `min-width`, `max-width`
+    - `width`
+        - `min-width`
+        - `max-width`
     - `height`
     - `overflow`
 - Content:
@@ -238,7 +248,11 @@ Default subproperty order:
 - Otherwise: by the order specified by the parent (shorthand) property
 
 ### HTML class order:
-- One class describing exactly what the element is, like `id` except allowing for repeats (e.g. `post-h1`)
-- General types/multipurpose CSS classes from most general to most specific (e.g. `nav-link btn btn-primary`)
-- Specific CSS properties in the order of CSS (e.g. `d-flex flex-basis-50 mt-2 gray`)
-- Identifiers used for JS with Ajax first, and alphabetical otherwise (e.g. `ajax-add-comment auth-true`)
+- One class describing exactly what the element is, almost like `id` but allowing for repeats (e.g. `post-h1` or `password-vis-toggle`)
+- Other classes with CSS:
+    - General types/multipurpose CSS classes from most general to most specific (e.g. `nav-link btn btn-primary dropdown-toggle`)
+    - Specific CSS properties in the order of CSS, using most general to most specific if not specified (e.g. `d-flex flex-basis-50 mx-auto mt-2 gray`)
+- Other classes withotu CSS (only used for JS):
+    - Ajax
+    - Alphabetical otherwise
+    - e.g. `ajax-add-comment auth-true`

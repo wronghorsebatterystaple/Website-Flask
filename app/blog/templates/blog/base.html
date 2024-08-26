@@ -16,8 +16,8 @@ const URL_GET_POSTS_WITH_UNREAD_COMMENTS = "{{ url_for('blog.get_posts_with_unre
 {%- endblock %}
 
 {%- block navbar_additions_right %}
-<li class="nav-item dropdown auth--true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-  <button type="button" id="unread-comments-notif-btn" class="nav-link btn dropdown" data-bs-toggle="dropdown"><i id="unread-comments-notif-btn-icon" class="bi bi-bell"></i></button>
+<li class="nav-item dropdown auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
+  <button type="button" id="unread-comments-notif-btn" class="nav-link btn" data-bs-toggle="dropdown"><i id="unread-comments-notif-btn-icon" class="bi bi-bell"></i></button>
   <ul id="unread-comments-dropdown" class="dropdown-menu"></ul>
 </li>
 {%- endblock %}

@@ -37,7 +37,7 @@ async function updateUnreadCommentsDropdown() {
     const respJson = await fetchWrapper(URL_GET_POSTS_WITH_UNREAD_COMMENTS, { method: "POST" });
 
     if (respJson.error) {
-        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Unable to load posts ;-;</span>");
+        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Unable to load posts :/</span>");
         return -1;
     }
 

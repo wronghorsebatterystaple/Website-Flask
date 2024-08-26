@@ -16,7 +16,7 @@ const totalPages = {{ total_pages }};
     <h2 class="blogpage-subname fs-7 mt-2">{{ blogpage.subname }}</h2>
   {%- endif %}
 
-  <a class="btn btn-primary btn-custom-orange mt-1 auth--true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
+  <a class="btn btn-primary btn-custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
 </div>
 <hr class="mt-4" />
 
@@ -25,16 +25,16 @@ const totalPages = {{ total_pages }};
     <div>
       {%- if is_all_posts %}
         {%- set color = post.blogpage.html_color_class -%}
-        <a class="{{ color }} underline-on-hover-only underline-{{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <a class="underline-on-hover-only underline-{{ color }} {{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
           <div class="d-flex align-items-top">
             <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
-            <h1 class="{{ color }} flex-basis-75 flex-shrink-0 fs-5 me-3 mb-0">{{ post.title }}</h1>
-            <span class="postlist-blogtitle flex-shrink-9 text-end ms-auto mb-0"> {{ post.blogpage.name }}</span>
+            <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 {{ color }} fs-5">{{ post.title }}</h1>
+            <span class="postlist-blogtitle flex-shrink-9 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
           </div>
 
           {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top mt-1">
-                <h2 class="{{ color }} flex-basis-75 fs-9 flex-shrink-0 mb-0">{{ post.subtitle }}</h2>
+                <h2 class="flex-shrink-0 flex-basis-75 mb-0 {{ color }} fs-9">{{ post.subtitle }}</h2>
             </div>
           {%- endif %}
 
@@ -44,7 +44,7 @@ const totalPages = {{ total_pages }};
             {%- else %}
               <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
-            <span class="d-flex align-items-center gray ms-auto">
+            <span class="d-flex align-items-center ms-auto gray">
               <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
             </span>
           </div>
@@ -53,17 +53,17 @@ const totalPages = {{ total_pages }};
           <h1 class="custom-green-deep-dark fs-5">{{ post.title }}</h1>
 
           {%- if post.subtitle is not none %}
-            <h2 class="custom-orange-deep fs-9 mt-1">{{ post.subtitle }}</h2>
+            <h2 class="mt-1 custom-orange-deep fs-9">{{ post.subtitle }}</h2>
           {%- endif %}
 
           <div class="d-flex align-items-center mt-2">
             {%- if post.edited_timestamp is not none %}
-              <span class="black flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
             {%- else %}
-              <span class="black flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
+              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
             {%- endif %}
             <span class="d-flex align-items-center gray ms-auto">
-              <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth--true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
+              <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="postlist-icon-comment bi bi-chat-right-text"></i>
             </span>
           </div>
       {%- endif %}
@@ -74,15 +74,15 @@ const totalPages = {{ total_pages }};
 </div>
 
 {%- if total_pages > 0 %}
-  <div class="text-center mx-auto mt-4 mb-4">
+  <div class="mx-auto mt-4 mb-4 text-center">
     <p class="mb-3">Page {{ page_num }} of {{ total_pages }}</p>
-    <div class="d-flex align-items-center justify-content-center mx-auto">
+    <div class="d-flex justify-content-center align-items-center mx-auto">
       {%- if prev_page_url %}
-        <a class="link-custom-blue-deep no-underline w-2rem text-end" href="{{ prev_page_url }}">--</a>
+        <a class="no-underline w-2rem text-end" href="{{ prev_page_url }}">--</a>
         <span class="pipe mx-3"></span>
       {%- else %}
-        <a class="link-custom-blue-deep no-underline w-2rem text-end invisible">--</a>
-        <span class="pipe mx-3 invisible"></span>
+        <a class="invisible no-underline w-2rem text-end">--</a>
+        <span class="pipe invisible mx-3"></span>
       {%- endif %}
     
       <form id="goto-page-form">
@@ -91,17 +91,17 @@ const totalPages = {{ total_pages }};
             <input class="form-control" id="page-input" maxlength="5" name="page" type="text" size="1" value="" />
           </div>
           <div class="ps-2">
-            <input id="goto-page-form-submit" class="btn btn-link btn-custom-blue-deep-link no-underline" name="submit" type="submit" value="Go :]" />
+            <input id="goto-page-form-submit" class="btn btn-link no-underline" name="submit" type="submit" value="Go :]" />
           </div>
         </div>
       </form>
     
       {%- if next_page_url %}
         <span class="pipe mx-3"></span>
-        <a class="link-custom-blue-deep no-underline w-2rem text-start" href="{{ next_page_url }}">++</a>
+        <a class="no-underline w-2rem text-start" href="{{ next_page_url }}">++</a>
       {%- else %}
-        <span class="pipe mx-3 invisible"></span>
-        <a class="link-custom-blue-deep no-underline w-2rem text-start invisible">++</a>
+        <span class="pipe invisible mx-3"></span>
+        <a class="invisible no-underline w-2rem text-start">++</a>
       {%- endif %}
     </div>
   </div>

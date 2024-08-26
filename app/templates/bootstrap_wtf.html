@@ -52,7 +52,7 @@
         {%- endif %}
 
         {%- if field.type == "PasswordField" %}
-          <i id="{{ field.name }}-show" class="bi bi-eye-slash ps-3 password-vis-toggle" data-target="{{ field.name }}-input"></i>
+          <i id="{{ field.name }}-show" class="password-vis-toggle bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
         {%- endif %}
 
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>

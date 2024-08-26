@@ -83,20 +83,6 @@
 /* `btn` Colors */
 /****************/
 
-.btn-custom-blue-deep {
-    --bs-btn-color: black !important;
-    --bs-btn-bg: var(--custom-blue-deep) !important;
-    --bs-btn-border-color: var(--custom-blue-deep) !important;
-    --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--custom-blue-deep) !important;
-    --bs-btn-active-border-color: var(--custom-blue-deep) !important;
-    --bs-btn-disabled-bg: var(--custom-blue-deep-light) !important;
-    --bs-btn-disabled-border-color: var(--custom-blue-deep-light) !important;
-    --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-blue-deep-light) !important;
-    --bs-btn-hover-border-color: var(--custom-blue-deep-light) !important;
-}
-
 .btn-custom-orange {
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-orange) !important;
