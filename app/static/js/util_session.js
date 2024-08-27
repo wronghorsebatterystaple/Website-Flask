@@ -47,7 +47,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         let formData = new FormData(e.target, e.originalEvent.submitter);
-        const respJson = await fetchWrapper(URL_LOGIN, { method: "POST", body: formData });
+        const respJson = await fetchWrapper(URL_LOGIN, {method: "POST", body: formData});
         doAjaxResponseForm(respJson, e);
 
         if (respJson.success) {
@@ -58,10 +58,7 @@ $(document).ready(function() {
     $("#logout-link").on("click", async function(e) {
         e.preventDefault();
 
-        const respJson = await fetchWrapper(
-                URL_LOGOUT,
-                { method: "POST" },
-                { previous: getCurrUrlNoParams(false) });
+        const respJson = await fetchWrapper(URL_LOGOUT, {method: "POST"}, {previous: getCurrUrlNoParams(false)});
         doAjaxResponseForm(respJson, e);
 
         if (!respJson.redirect_url) {

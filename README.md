@@ -256,3 +256,16 @@ Default subproperty order:
     - Ajax
     - Alphabetical otherwise
     - e.g. `ajax-add-comment auth-true`
+
+### HTML attribute order:
+- `id`
+- `nonce`
+- `class`
+- `name`
+- `rel`/`type`
+- `src`/`href`/`type`
+- `alt`
+- `title`
+- `width`
+- `height`
+- Other
