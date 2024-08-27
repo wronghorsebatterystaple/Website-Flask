@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, redirect, url_for
 from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_minify import Minify
 from flask_moment import Moment
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
@@ -18,6 +19,7 @@ db = SQLAlchemy(session_options={"autoflush": True}) # autoflush allows our post
 login_manager = LoginManager()
 login_manager.login_view = Config.LOGIN_VIEW
 migrate = Migrate()
+minify = Minify()
 moment = Moment()
 talisman = Talisman()
 turnstile = Turnstile()
@@ -59,6 +61,7 @@ def create_app():
     csrf.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
+    minify.init_app(app)
     moment.init_app(app)
     login_manager.init_app(app)
     talisman.init_app(
