@@ -140,10 +140,10 @@
             </li>
 
             <li class="nav-item auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>
-              <button type="button" id="login-link" class="nav-link btn" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
+              <button id="login-link" class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
             </li>
             <li class="nav-item auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <button type="button" id="logout-link" class="nav-link btn">Logout pls :3</button>
+              <button id="logout-link" class="nav-link btn" type="button">Logout pls :3</button>
             </li>
           </ul>
 
@@ -164,7 +164,7 @@
         <!-- display flash()ed messages as alerts -->
         <div id="flash" class="flash alert alert-info alert-dismissible fade show" role="alert" hidden>
           <span id="flash-text"></span>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Dismiss"></button>
+          <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Dismiss"></button>
         </div>
 
         <div>
@@ -179,8 +179,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-6" id="login-modal-label">Access the Secrets of the Universe</h1>
-          <button type="button" id="login-modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1 id="login-modal-label" class="modal-title fs-6">Access the Secrets of the Universe</h1>
+          <button id="login-modal-close" class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {{ wtf.quick_form(login_form, id="login-form-modal", bottom_margin=0) }}

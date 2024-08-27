@@ -185,10 +185,10 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 
 I generally follow [Concentric CSS](https://github.com/brandon-rhodes/Concentric-CSS), where major properties are generally specified from outside to inside. I have tweaked some details to make more sense to me; only refer to the original Concentric-CSS for properties not listed here.
 
-Order (up to personal judgement if no other distinctions):
+Order:
 - Custom variables:
-    - Mine
     - Bootstrap's
+    - Mine
 - Display:
     - `display`
 - Positioning:
@@ -258,14 +258,31 @@ Default subproperty order:
     - e.g. `ajax-add-comment auth-true`
 
 ### HTML attribute order:
-- `id`
-- `nonce`
-- `class`
-- `name`
-- `rel`/`type`
-- `src`/`href`/`type`
-- `alt`
-- `title`
-- `width`
-- `height`
+- Identifiers:
+    - `id`
+    - `class`
+    - `name`
+- Type:
+    - `rel`
+    - `type`
+- Functionality:
+    - `href`
+    - `src`
+    - `alt`
+    - `title`
+    - `<input>`/`<textarea>` attributes like `maxlength` and `value`
+- Style:
+    - `size`
+    - `width`
+    - `height`
+    - `style`
 - Other
+- Custom:
+    - `bs-data-*`
+    - `data-*`
+- Accessibility:
+    - `role`
+    - `aria-*`
+- `nonce`
+- Boolean attributes:
+    - `hidden`

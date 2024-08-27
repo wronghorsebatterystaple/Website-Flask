@@ -134,7 +134,7 @@ def get_comments(post_sanitized_title):
     reply_comment_btn = ReplyCommentBtn()
     delete_comment_btn = DeleteCommentBtn()
     return jsonify(html=render_template(
-            "blog/blogpage/util_post_comments.html",
+            "blog/blogpage/post_comments.html",
             post=post,
             comments=comments,
             add_comment_form=add_comment_form,
