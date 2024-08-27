@@ -170,7 +170,8 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 
 # Other useless notes
 
-### Rounds of custom Markdown processing:
+## Rounds of custom Markdown processing
+
     1. Custom Markdown extensions in [app/markdown_ext/myextensions.py](app/markdown_ext/myextensions.py)
         - Custom Markdown syntax
     2. Custom `additional_markdown_processing()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py)
@@ -178,111 +179,6 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
     3. Custom JQuery in [app/static/js/display_customization.js](app/static/js/display_customization.js) and [app/blog/static/blogpage/js/display_customization.js](app/blog/static/blogpage/js/display_customization.js)
         - Non-custom-syntax stuff that is easier to handle from JQuery, like adding classes for styling or traversing DOM
 
-### Jinja conventions
+## Jinja conventions
+
 - Always use `{%- %}` except for blocks that completely do not affect the HTML layout (e.g. `import`, `set`, `extends`)
-
-### CSS property order:
-
-I generally follow [Concentric CSS](https://github.com/brandon-rhodes/Concentric-CSS), where major properties are generally specified from outside to inside. I have tweaked some details to make more sense to me; only refer to the original Concentric-CSS for properties not listed here.
-
-Order:
-- Custom variables:
-    - Bootstrap's
-    - Mine
-- Display:
-    - `display`
-- Positioning:
-    - `position`
-        - `top`
-        - `right`
-        - `bottom`
-        - `left`
-    - `float`
-    - `clear`
-- Visibility:
-    - `visibility`
-    - `opacity`
-    - `z-index`
-- Layout:
-    - `flex`
-        - `flex-direction`
-        - Other subproperties
-    - `grid`
-    - `justify-content`
-    - `align-content`
-    - `justify-items`
-    - `align-items`
-- Box model:
-    - `box-sizing`
-    - `margin`
-    - `box-shadow`
-    - `border`
-    - `background`
-    - `padding`
-    - `width`
-        - `min-width`
-        - `max-width`
-    - `height`
-    - `overflow`
-- Content:
-    - Alignment:
-        - `text-align`
-        - `vertical-align`
-    - Decoration:
-        - `text-decoration`
-    - Spacing and wrapping:
-        - `line-height`
-        - `overflow-wrap`
-        - `white-space`
-        - `word-break`
-    - `color`
-    - `font`
-    - `content`
-- Any other properties neither here nor specified by Concentric-CSS
-- Browser-specific stuff
-
-Default subproperty order:
-- `top`, `right`, `bottom`, `left`
-- `x`, `y`
-- `min`, `max`
-- Otherwise: by the order specified by the parent (shorthand) property
-
-### HTML class order:
-- One class describing exactly what the element is, almost like `id` but allowing for repeats (e.g. `post-h1` or `password-vis-toggle`)
-- Other classes with CSS:
-    - General types/multipurpose CSS classes from most general to most specific (e.g. `nav-link btn btn-primary dropdown-toggle`)
-    - Specific CSS properties in the order of CSS, using most general to most specific if not specified (e.g. `d-flex flex-basis-50 mx-auto mt-2 gray`)
-- Other classes withotu CSS (only used for JS):
-    - Ajax
-    - Alphabetical otherwise
-    - e.g. `ajax-add-comment auth-true`
-
-### HTML attribute order:
-- Identifiers:
-    - `id`
-    - `class`
-    - `name`
-- Type:
-    - `rel`
-    - `type`
-- Functionality:
-    - `href`
-    - `src`
-    - `alt`
-    - `title`
-    - `<input>`/`<textarea>` attributes like `maxlength` and `value`
-- Style:
-    - `size`
-    - `width`
-    - `height`
-    - `style`
-- Other
-- Custom:
-    - `bs-data-*`
-    - `data-*`
-- Accessibility:
-    - `role`
-    - `aria-*`
-- `nonce`
-- Boolean attributes:
-    - `hidden`
