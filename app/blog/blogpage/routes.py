@@ -96,6 +96,9 @@ def post(post_sanitized_title):
                 extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
         post.content = blogpage_util.additional_markdown_processing(post.content)
 
+    # strip Markdown for title here instead of on the frontend with JQuery `.text()` because this is only part of
+    # the title, and I can't put `<span>`s or anything in `<title>` to selectively only change part of it in JS
+    # only Jinja can selectively put stuff in `<title>`, so I use bs4 here to do `.text()` and send that to Jinja
     post_title_no_markdown = blogpage_util.strip_markdown_from_html(post.title)
     add_comment_form = AddCommentForm()
     return render_template(
