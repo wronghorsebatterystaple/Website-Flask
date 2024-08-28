@@ -13,7 +13,7 @@ I hope I'm not reading this because I bricked a machine again.
         - Recover database data from backups
     - Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
 2. `git clone`
-    - Make sure all files and folders in the entire project are owned by the user that Docker its containers as (see [deployment/systemd-reference/flask-website.service](deployment/systemd-reference/flask-website.service))
+    - Make sure all files and folders in the entire project are owned by the user that Docker its containers as (see [deployment/systemd-reference/personal-website.service](deployment/systemd-reference/personal-website.service))
 3. Install packages:
     - Install Python modules from [requirements.txt](requirements.txt) by running `pip install -r requirements.txt` (ideally within a virtualenv)
     - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
@@ -24,7 +24,7 @@ I hope I'm not reading this because I bricked a machine again.
     - `deployment/docker/mysql/envs/.mysqlenv`: nothing yet (no environment variables if bind-mounting existing MySQL data directory)
     - `deployment/backup-scripts/db_backup_config.sh`: set the variables referenced in [deployment/backup-scripts/db_backup.sh](deployment/backup-scripts/db_backup.sh)
     - `app/static/css/custom_bootstrap.css` and `app/static/css/custom_bootstrap.css.map`: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
-5. Navigate to [deployment/docker/](deployment/docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd-reference/flask-website.service](deployment/systemd-reference/flask-website.service))
+5. Navigate to [deployment/docker/](deployment/docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd-reference/personal-website.service](deployment/systemd-reference/personal-website.service))
 
 # Developer notes to compensate for possibly scuffed coding practices
 
