@@ -14,7 +14,6 @@ app/static/css/custom_bootstrap.*
 
 # Python
 __pycache__/
-*.egg-info
 
 # vim
 *.swp
