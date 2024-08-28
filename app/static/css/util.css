@@ -67,9 +67,9 @@
     color: var(--custom-pink-light) !important;
 }
 
-/*******************/
-/* `border` Colors */
-/*******************/
+/************/
+/* `border` */
+/************/
 
 .border-custom-orange-deep {
     border-color: var(--custom-orange-deep) !important;
@@ -79,9 +79,9 @@
     border-color: var(--custom-pink-light) !important;
 }
 
-/****************/
-/* `btn` Colors */
-/****************/
+/*********/
+/* `btn` */
+/*********/
 
 .btn-custom-orange {
     --bs-btn-color: black !important;
@@ -97,28 +97,37 @@
     --bs-btn-hover-border-color: var(--custom-orange-light) !important;
 }
 
-/*********************/
-/* `btn-link` Colors */
-/*********************/
+/**************/
+/* `btn-link` */
+/**************/
 
-/* (link/`btn-link` hover darkens, `btn` hover lightens) */
+.btn-link {
+    --bs-btn-color: var(--custom-blue-deep);
+    --bs-btn-active-color: var(--custom-blue-deep);
+    --bs-btn-disabled-color: var(--custom-blue-deep-light);
+    --bs-btn-hover-color: var(--custom-blue-deep-dark);
+    background-color: transparent !important;
+    text-decoration: underline;
+    padding: 0;
+}
+
 .btn-link-custom-orange-deep {
     --bs-btn-color: var(--custom-orange-deep) !important;
     --bs-btn-active-color: var(--custom-orange-deep) !important;
     --bs-btn-disabled-color: var(--custom-orange-deep-light) !important;
-    --bs-btn-hover-color: var(--custom-orange-deep-light) !important;
+    --bs-btn-hover-color: var(--custom-orange-deep-dark) !important;
 }
 
 .btn-link-custom-pink-light {
     --bs-btn-color: var(--custom-pink-light) !important;
     --bs-btn-active-color: var(--custom-pink-light) !important;
     --bs-btn-disabled-color: var(--custom-pink-xlight) !important;
-    --bs-btn-hover-color: var(--custom-pink-xlight) !important;
+    --bs-btn-hover-color: var(--custom-pink) !important;
 }
 
-/**********************/
-/* `underline` Colors */
-/**********************/
+/***************/
+/* `underline` */
+/***************/
 
 .underline-custom-blue-deep {
     text-decoration-color: var(--custom-blue-deep) !important;
@@ -266,16 +275,6 @@
 /*********/
 /* Other */
 /*********/
-
-.btn-link {
-    --bs-btn-color: var(--custom-blue-deep);
-    --bs-btn-active-color: var(--custom-blue-deep);
-    --bs-btn-disabled-color: var(--custom-blue-deep-light);
-    --bs-btn-hover-color: var(--custom-blue-deep-light);
-    background-color: transparent !important;
-    text-decoration: underline;
-    padding: 0;
-}
 
 .no-underline {
     text-decoration: none !important;
