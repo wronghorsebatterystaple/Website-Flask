@@ -1,9 +1,10 @@
 [Unit]
-Description=Deploy Docker Compose for Flask-Website
+Description=Deploy Docker Compose for personal-website
 After=network.target
 
 [Service]
 Group=docker
+# use `DOCKER_USER` to allow container access to bind-mounted MySQL data dir without messing with `uid`s
 Environment=DOCKER_USER=[REPLACE: NAME OF USER THAT CONTAINER WILL RUN AS]
 WorkingDirectory=[REPLACE: PATH TO `docker/` FOLDER]
 ExecStart=/bin/bash deploy.sh

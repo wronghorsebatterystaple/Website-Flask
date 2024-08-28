@@ -1,5 +1,5 @@
 [Unit]
-Description=Periodic backup of Flask-Website's static images
+Description=Periodic backup of personal-website's static images
 
 [Service]
 Type=oneshot

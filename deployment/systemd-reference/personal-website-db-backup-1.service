@@ -1,5 +1,5 @@
 [Unit]
-Description=Periodic first backup of Flask-Website's database
+Description=Periodic first backup of personal-website's database
 
 [Service]
 Type=oneshot

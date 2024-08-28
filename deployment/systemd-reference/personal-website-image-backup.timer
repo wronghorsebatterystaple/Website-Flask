@@ -1,8 +1,8 @@
 [Unit]
-Description=Timer for Flask-Website's first database backup
+Description=Timer for personal-website-image-backup
 
 [Timer]
-OnUnitActiveSec=4h
+OnUnitActiveSec=1d
 OnBootSec=1m
 Persistent=true
 

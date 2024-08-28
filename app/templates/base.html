@@ -153,7 +153,7 @@
             <li class="nav-item d-inline-flex align-items-center">
               <div class="nav-link form-check form-switch mb-0">
                 <input id="dark-mode-switch" class="form-check-input me-2 ms-0" type="checkbox" role="switch" />
-                <label class="form-check-label px-0" for="dark-mode-switch">Dark mode/high contrast</label>
+                <label class="form-check-label px-0" for="dark-mode-switch">Dark mode<span class="auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>/high contrast</span></label>
               </div>
             </li>
           </ul>

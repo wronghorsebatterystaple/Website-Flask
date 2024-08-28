@@ -1,31 +1,31 @@
 services:
   flask:
-    container_name: flask-website-flask
+    container_name: personal-website-flask
     user: "$DOCKER_USER_STR"
     ports:
-      - "8008:8008"                                           # SYNC: Nginx and entrypoint Gunicorn ports
+      - "8008:8008"                                         # SYNC: Nginx and entrypoint Gunicorn ports
     build:
-      context: ../../                                         # must be parent; Dockerfile can't access parent dirs
-      dockerfile: deployment/docker/flask/Dockerfile_flask    # SYNC: path, relative to `context`
-    env_file:                                                 # SYNC: env file paths
+      context: ../../                                       # must be parent; Dockerfile can't access parent dirs
+      dockerfile: deployment/docker/flask/Dockerfile        # SYNC: path, relative to `context`
+    env_file:                                               # SYNC: env file paths
       - ./flask/envs/.env
       - ./flask/envs/.flaskenv
     volumes:
-      - type: bind                                            # for persisting uploaded images in static folders
-        source: ../../app/blog/static/blogpage/               # SYNC: path
-        target: /flask-website/app/blog/static/blogpage/      # SYNC: path, Dockerfile WORKDIR
+      - type: bind                                          # for persisting uploaded images in static folders
+        source: ../../app/blog/static/blogpage/             # SYNC: path
+        target: /personal-website/app/blog/static/blogpage/ # SYNC: path, Dockerfile WORKDIR
     restart: always
   mysql:
-    container_name: flask-website-mysql
+    container_name: personal-website-mysql
     user: "$DOCKER_USER_STR"
     ports:
       - "3306:3306"
       - "33060:33060"
-    image: "mysql:8.0.37"                                     # SYNC: host's MySql version if using bind mount
+    image: "mysql:8.0.37"                                   # SYNC: host's MySQL version if using bind mount
     env_file:
-      - ./mysql/envs/.mysqlenv                                # SYNC: env file paths
+      - ./mysql/envs/.env                                   # SYNC: env file paths
     volumes:
-      - type: bind                                            # for persisting database
-        source: ./mysql/mysql-data-dir/                       # SYNC: MySql data directory for persistence
+      - type: bind                                          # for persisting database
+        source: ./mysql/mysql-data-dir/                     # SYNC: MySql data directory for persistence
         target: /var/lib/mysql/
     restart: always

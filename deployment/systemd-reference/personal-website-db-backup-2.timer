@@ -1,5 +1,5 @@
 [Unit]
-Description=Timer for Flask-Website's second database backup
+Description=Timer for personal-website-db-backup-2
 
 [Timer]
 OnUnitActiveSec=2d
