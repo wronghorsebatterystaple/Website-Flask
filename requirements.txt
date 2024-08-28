@@ -1,5 +1,5 @@
 alembic==1.13.2
-attrs==23.2.0
+attrs==24.2.0
 Automat==22.10.0
 Babel==2.15.0
 backports.tarfile==1.2.0
