@@ -4,8 +4,8 @@ a {
 }
 
 a:hover {
-    text-decoration-color: var(--custom-blue-deep-dark);
-    color: var(--custom-blue-deep-dark);
+    text-decoration-color: var(--custom-blue-deep-xdark);
+    color: var(--custom-blue-deep-xdark);
 }
 
 blockquote {
