@@ -292,10 +292,7 @@ def change_admin_password():
         
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()
-        logout_user()
-        return jsonify(
-                redir_url=url_for("admin.login", _external=True),
-                flash_msg="Your password has been changed!")
+        return jsonify(redir_url=url_for("main.index", _external=True), flash_msg="Your password has been changed!")
 
     return "If you see this message, please panic.", 500
 

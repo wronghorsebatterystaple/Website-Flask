@@ -34,7 +34,7 @@ const totalPages = {{ total_pages }};
 
           {%- if post.subtitle is not none %}
             <div class="d-flex align-items-top mt-1">
-                <h2 class="flex-shrink-0 flex-basis-75 mb-0 {{ color }} fs-9">{{ post.subtitle }}</h2>
+                <h2 class="flex-shrink-0 flex-basis-75 mb-0 {{ color }} fs-8">{{ post.subtitle }}</h2>
             </div>
           {%- endif %}
 
@@ -50,10 +50,10 @@ const totalPages = {{ total_pages }};
           </div>
       {%- else %}
         <a class="underline-on-hover-only underline-custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-          <h1 class="custom-green-deep-dark fs-5">{{ post.title }}</h1>
+          <h1 class="mb-0 custom-green-deep-dark fs-5">{{ post.title }}</h1>
 
           {%- if post.subtitle is not none %}
-            <h2 class="mt-1 custom-orange-deep fs-9">{{ post.subtitle }}</h2>
+            <h2 class="mt-1 custom-orange-deep fs-8">{{ post.subtitle }}</h2>
           {%- endif %}
 
           <div class="d-flex align-items-center mt-2">
@@ -91,7 +91,7 @@ const totalPages = {{ total_pages }};
             <input id="page-input" class="form-control" name="page" type="text" maxlength="5" value="" size="1"/>
           </div>
           <div class="ps-2">
-            <input id="goto-page-form-submit" class="btn btn-link no-underline" name="submit" type="submit" value="Go :]" />
+            <input id="goto-page-form-submit" class="btn btn-link no-underline" name="submit" type="submit" value="go :]" />
           </div>
         </div>
       </form>
