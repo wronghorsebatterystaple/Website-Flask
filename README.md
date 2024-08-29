@@ -13,7 +13,7 @@ I hope I'm not reading this because I bricked a machine again.
         - Recover database data from backups
     - Make sure default key for SSH and for GitHub pushing has no passcode if planning to use automatic db/image backup scripts. No hack pls
 2. `git clone`
-    - Make sure all files and folders in the entire project are owned by the user that Docker its containers as (see [deployment/systemd-reference/personal-website.service](deployment/systemd-reference/personal-website.service))
+    - Make sure all files and folders in the entire project are owned by the user that Docker runs its containers as (see [deployment/systemd-reference/personal-website.service](deployment/systemd-reference/personal-website.service))
 3. Install packages:
     - Install Python modules from [requirements.txt](requirements.txt) by running `pip install -r requirements.txt` (ideally within a virtualenv)
     - Install JS modules from [app/static/package.json](app/static/package.json) by running `npm install` in the [app/static/](app/static/) directory
