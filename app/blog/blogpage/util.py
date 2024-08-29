@@ -58,14 +58,14 @@ def login_required_check_blogpage(content_type, do_relogin=True):
                     case util.ContentType.HTML:
                         return redirect(url_for(
                                 f"main.index",
-                                flash_message=util.encode_uri_component("That blogpage doesn't exist :/"),
+                                flash_msg=util.encode_uri_component("That blogpage doesn't exist :/"),
                                 _external=True))
                     case util.ContentType.JSON:
                         return jsonify(
-                                redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                                flash_message="That post doesn't exist :/")
+                                redir_url=url_for(f"{request.blueprint}.index", _external=True), 
+                                flash_msg="That post doesn't exist :/")
                     case _:
-                        return "app/blog/blogpage/util.py: login_required_check_blogpage() reached end of switch statement, gg", 500
+                        return "app/blog/blogpage/util.py: `login_required_check_blogpage()` reached end of switch statement", 500
 
             if blogpage.login_required:
                 result = util.custom_unauthorized(content_type, do_relogin)
@@ -78,21 +78,21 @@ def login_required_check_blogpage(content_type, do_relogin=True):
 
 
 def post_nonexistent_response(content_type):
-    if content_type == ContentType.DEPENDS_ON_REQUEST_METHOD:
+    if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
         content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
 
     match content_type:
         case util.ContentType.HTML:
             return redirect(url_for(
                     f"{request.blueprint}.index",
-                    flash_message=util.encode_uri_component("That post doesn't exist."),
+                    flash_msg=util.encode_uri_component("That post doesn't exist."),
                     _external=True))
         case util.ContentType.JSON:
             return jsonify(
-                    redirect_url=url_for(f"{request.blueprint}.index", _external=True), 
-                    flash_message="That post doesn't exist :/")
+                    redir_url=url_for(f"{request.blueprint}.index", _external=True), 
+                    flash_msg="That post doesn't exist :/")
         case _:
-            return "app/blog/blogpage/util.py: return_post_nonexistent() reached end of switch statement, gg", 500
+            return "app/blog/blogpage/util.py: `return_post_nonexistent()` reached end of switch statement", 500
 
 
 def sanitize_untrusted_html(c) -> str:

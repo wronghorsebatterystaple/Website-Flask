@@ -5,7 +5,7 @@ function customFlash(message) {
 
 function renderQueryStringFlash() {
     let urlParams = new URLSearchParams(window.location.search);
-    let flash = urlParams.get("flash_message");
+    let flash = urlParams.get("flash_msg");
     if (flash) {
         customFlash(decodeURIComponent(flash));
     }

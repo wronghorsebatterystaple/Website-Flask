@@ -29,7 +29,7 @@ def login():
                 form=form)
     elif request.method == "POST":
         if not turnstile.verify():
-            return jsonify(redirect_url=url_for("bot_jail", _external=True))
+            return jsonify(redir_url=url_for("bot_jail", _external=True))
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
@@ -50,13 +50,13 @@ def login():
             return jsonify(success=True)
 
         next_url = request.args.get("next", url_for("admin.choose_action", _external=True))
-        return jsonify(success=True, redirect_url=next_url)
+        return jsonify(success=True, redir_url=next_url)
 
-    return "If you see this message, please panic."
+    return "If you see this message, please panic.", 500
 
 
 @bp.route("/choose-action", methods=["GET", "POST"])
-@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQUEST_METHOD)
+@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
 def choose_action():
     form = ChooseActionForm()
 
@@ -67,36 +67,31 @@ def choose_action():
             return jsonify(submission_errors=form.errors)
 
         action = request.form.get("action")
-        redirect_url = ""
+        redir_url = ""
         match action:
             case "create":
-                redirect_url = url_for("admin.create_blogpost", _external=True)
+                redir_url = url_for("admin.create_blogpost", _external=True)
             case "edit":
-                redirect_url = url_for("admin.search_blogpost", _external=True)
+                redir_url = url_for("admin.search_blogpost", _external=True)
             case "change_admin_password":
-                redirect_url = url_for("admin.change_admin_password", _external=True)
+                redir_url = url_for("admin.change_admin_password", _external=True)
             case _:
-                return jsonify(flash_message="haker :3")
+                return jsonify(flash_msg="haker :3")
 
-        return jsonify(redirect_url=redirect_url)
+        return jsonify(redir_url=redir_url)
 
-    return "If you see this message, please panic."
+    return "If you see this message, please panic.", 500
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
-@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQUEST_METHOD)
+@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
 def create_blogpost():
     form = CreateBlogpostForm()
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.writeable]
 
     if request.method == "GET":
-        try:
-            blogpage_id = int(request.args.get("blogpage_id", default=None))
-        except Exception:
-            return jsonify(redirect_url=url_for(
-                    "blog.index", flash_message=util.encode_uri_component("haker :3"), _external=True))
-
+        blogpage_id = request.args.get("blogpage_id")
         # automatically populate blogpage form field from query string if detected
         if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
             form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
@@ -116,7 +111,7 @@ def create_blogpost():
         db.session.add(post)
         res = post.check_titles()
         if res is not None:
-            return jsonify(flash_message=res)
+            return jsonify(flash_msg=res)
         post.add_timestamps(False, True)
         post.expand_image_markdown()
 
@@ -124,19 +119,19 @@ def create_blogpost():
         images_path = admin_util.get_images_path(post)
         res = admin_util.upload_images(request.files.getlist("images"), images_path)
         if res is not None:
-            return jsonify(flash_message=res)
+            return jsonify(flash_msg=res)
 
         db.session.commit()                                 # commit at very end when success is guaranteed
         return jsonify(
-                redirect_url=url_for(
+                redir_url=url_for(
                         f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
-                flash_message="Post created successfully!") # view completed post
+                flash_msg="Post created successfully!") # view completed post
 
-    return "If you see this message, please panic."
+    return "If you see this message, please panic.", 500
 
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
-@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQUEST_METHOD)
+@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
 def search_blogpost():
     form = SearchBlogpostForm()
 
@@ -148,25 +143,25 @@ def search_blogpost():
 
         post_id = request.form.get("post")
         if post_id is None:
-            return jsonify(flash_message="You somehow managed to choose nothing, congratulations.")
-        return jsonify(redirect_url=url_for("admin.edit_blogpost", post_id=post_id, _external=True))
+            return jsonify(flash_msg="You somehow managed to choose nothing, congratulations.")
+        return jsonify(redir_url=url_for("admin.edit_blogpost", post_id=post_id, _external=True))
 
-    return "If you see this message, please panic."
+    return "If you see this message, please panic.", 500
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
-@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQUEST_METHOD)
+@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
 def edit_blogpost():
     try:
-        post_id = int(request.args.get("post_id"))
+        post_id = int(request.args.get("post_id", None))
     except Exception:
-        return jsonify(redirect_url=url_for("admin.search_blogpost", _external=True), flash_message="haker :3")
+        return util.redir_depending_on_req_method("admin.search_blogpost", flash_msg="haker :3")
 
     post = db.session.get(Post, post_id)
     if post is None:
-        return jsonify(
-                redirect_url=url_for("admin.search_blogpost", _external=True),
-                flash_message="That post no longer exists. Did you hit the back button? Regret it, do you?")
+        return util.redir_depending_on_req_method(
+                "admin.search_blogpost",
+                flash_msg="That post no longer exists. Did you hit the back button? Regret it, do you?")
     
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
@@ -198,10 +193,10 @@ def edit_blogpost():
                 if os.path.exists(images_path) and os.path.isdir(images_path):
                     shutil.rmtree(images_path)
             except Exception as e:
-                return jsonify(flash_message=f"Directory delete exception: {str(e)}")
+                return jsonify(flash_msg=f"Directory delete exception: {str(e)}")
             return jsonify(
-                    redirect_url=url_for(f"blog.{post.blogpage_id}.index", _external=True),
-                    flash_message="Post deleted successfully!")
+                    redir_url=url_for(f"blog.{post.blogpage_id}.index", _external=True),
+                    flash_msg="Post deleted successfully!")
 
         # handle post editing otherwise
         old_blogpage_id = post.blogpage_id
@@ -213,7 +208,7 @@ def edit_blogpost():
         post.sanitize_title()
         res = post.check_titles()
         if res is not None:
-            return jsonify(flash_message=res)
+            return jsonify(flash_msg=res)
         post.add_timestamps(
                 request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
@@ -221,7 +216,7 @@ def edit_blogpost():
         # upload images if any
         res = admin_util.upload_images(request.files.getlist("images"), images_path)
         if res is not None:
-            return jsonify(flash_message=res)
+            return jsonify(flash_msg=res)
         
         # delete images if any
         try:
@@ -233,7 +228,7 @@ def edit_blogpost():
             # delete image directory if now empty
             admin_util.delete_dir_if_empty(images_path)
         except Exception as e:
-            return jsonify(flash_message=f"Image delete exception: {str(e)}")
+            return jsonify(flash_msg=f"Image delete exception: {str(e)}")
 
         # delete unused images if applicable; we assume any image whose filename is not in the Markdown is unused
         if request.form.get("delete_unused_images") and os.path.exists(images_path):
@@ -247,7 +242,7 @@ def edit_blogpost():
 
                 admin_util.delete_dir_if_empty(images_path)
             except Exception as e:
-                return jsonify(flash_message=f"Image delete unused exception: {str(e)}")
+                return jsonify(flash_msg=f"Image delete unused exception: {str(e)}")
         
         # move images if moving blogpost
         if post.blogpage_id != old_blogpage_id:
@@ -256,19 +251,19 @@ def edit_blogpost():
                     new_images_path = admin_util.get_images_path(post)
                     shutil.move(images_path, new_images_path)
                 except Exception as e:
-                    return jsonify(flash_message=f"Image move exception: {str(e)}")
+                    return jsonify(flash_msg=f"Image move exception: {str(e)}")
 
         db.session.commit()
         return jsonify(
-                redirect_url=url_for(
+                redir_url=url_for(
                         f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
-                flash_message="Post edited successfully!") # view edited post
+                flash_msg="Post edited successfully!") # view edited post
 
-    return "If you see this message, please panic."
+    return "If you see this message, please panic.", 500
         
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
-@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQUEST_METHOD)
+@util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
 def change_admin_password():
     form = ChangeAdminPasswordForm()
 
@@ -299,10 +294,10 @@ def change_admin_password():
         db.session.commit()
         logout_user()
         return jsonify(
-                redirect_url=url_for("admin.login", _external=True),
-                flash_message="Your password has been changed!")
+                redir_url=url_for("admin.login", _external=True),
+                flash_msg="Your password has been changed!")
 
-    return "If you see this message, please panic."
+    return "If you see this message, please panic.", 500
 
 
 ###################################################################################################
@@ -315,10 +310,10 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
 
-    previous = util.decode_uri_component(request.args.get("previous"))
+    previous = util.decode_uri_component(request.args.get("previous", ""))
     for url in current_app.config["URLS_LOGIN_REQUIRED"]:
         if previous.startswith(url):
             return jsonify(
-                    redirect_url=url_for("main.index", _external=True), flash_message="Mischief managed.")
+                    redir_url=url_for("main.index", _external=True), flash_msg="Mischief managed.")
 
-    return jsonify(flash_message="Mischief managed.")
+    return jsonify(flash_msg="Mischief managed.")

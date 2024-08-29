@@ -173,7 +173,7 @@ def get_comment_unread_count(post_sanitized_title):
 def add_comment(post_sanitized_title):
     # captcha
     if not turnstile.verify():
-        return jsonify(redirect_url=url_for("bot_jail", _external=True))
+        return jsonify(redir_url=url_for("bot_jail", _external=True))
 
     # validate form submission
     add_comment_form = AddCommentForm()
@@ -201,11 +201,11 @@ def add_comment(post_sanitized_title):
             unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
     with db.session.no_autoflush: # otherwise there's a warning
         if not comment.insert_comment(post, db.session.get(Comment, request.form.get("parent"))):
-            return jsonify(flash_message="haker :3")
+            return jsonify(flash_msg="haker :3")
     db.session.add(comment)
     db.session.commit()
 
-    return jsonify(success=True, flash_message="Comment added successfully!")
+    return jsonify(success=True, flash_msg="Comment added successfully!")
 
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
@@ -214,7 +214,7 @@ def delete_comment(post_sanitized_title):
     # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
     if comment is None:
-        return jsonify(success=True, flash_message=f"That comment doesn't exist :/")
+        return jsonify(success=True, flash_msg=f"That comment doesn't exist :/")
 
     # get post from url, making sure it's valid and matches the whole url
     post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
@@ -224,13 +224,13 @@ def delete_comment(post_sanitized_title):
     # delete comment
     descendants = comment.get_descendants(post)
     if not comment.remove_comment(post):
-        return jsonify(flash_message="haker :3")
+        return jsonify(flash_msg="haker :3")
     for descendant in descendants:
         db.session.delete(descendant)
     db.session.delete(comment)
     db.session.commit()
 
-    return jsonify(success=True, flash_message="literally 1984")
+    return jsonify(success=True, flash_msg="literally 1984")
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])

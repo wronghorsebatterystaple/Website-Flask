@@ -60,8 +60,8 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
 /**
  * Always-supported JSON keys:
  *     - `relogin`
- *     - `redirect_url`
- *     - `flash_message`
+ *     - `redir_url`
+ *     - `flash_msg`
  */
 function doAjaxResponseBase(respJson) {
     if (respJson.relogin) {
@@ -69,25 +69,25 @@ function doAjaxResponseBase(respJson) {
         return;
     }
 
-    if (respJson.redirect_url) {
-        let newUrl = new URL(decodeURIComponent(respJson.redirect_url));
+    if (respJson.redir_url) {
+        let newUrl = new URL(decodeURIComponent(respJson.redir_url));
 
-        // flash message after page load by appending message to URL as custom `flash_message` param
-        if (respJson.flash_message) {
-            newUrl.searchParams.append("flash_message", encodeURIComponent(respJson.flash_message));
+        // flash message after page load by appending message to URL as custom `flash_msg` param
+        if (respJson.flash_msg) {
+            newUrl.searchParams.append("flash_msg", encodeURIComponent(respJson.flash_msg));
         }
 
         window.location.href = newUrl;
     } else {
         // async flash message
-        if (respJson.flash_message) {
-            customFlash(respJson.flash_message);
+        if (respJson.flash_msg) {
+            customFlash(respJson.flash_msg);
         }
     }
 }
 
 function doAjaxResponseForm(respJson, submitEvent) {
-    if (!respJson.redirect_url && respJson.submission_errors) { 
+    if (!respJson.redir_url && respJson.submission_errors) { 
         let errors = respJson.submission_errors;
         for (const [fieldName, fieldErrors] of Object.entries(errors)) {
             let elemField = $(submitEvent.target).find(`#${fieldName}-field`)
