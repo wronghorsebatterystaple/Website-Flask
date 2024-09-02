@@ -94,8 +94,11 @@ def create_blogpost():
         blogpage_id = request.args.get("blogpage_id")
         # automatically populate blogpage form field from query string if detected
         if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
-            form.blogpage_id.data = blogpage_id # don't need decoding URL here; will use first option if invalid
-
+            try:
+                # don't need URL decode here, and uses first option if invalid
+                form.blogpage_id.data = int(blogpage_id)
+            except Exception:
+                pass
         return render_template("admin/form_base.html", title="Create post", prompt="Create post", form=form)
     elif request.method == "POST":
         if not form.validate():
