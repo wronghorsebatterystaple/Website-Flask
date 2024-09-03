@@ -66,7 +66,6 @@ pexpect==4.9.0
 platformdirs==4.2.2
 ply==3.11
 ptyprocess==0.7.0
-pur==7.3.2
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
 pycparser==2.22
