@@ -1,6 +1,7 @@
 from markdown.extensions import Extension
 from markdown.blockprocessors import BlockProcessor
 from markdown.inlinepatterns import InlineProcessor, SimpleTagInlineProcessor
+from markdown.treeprocessors import Treeprocessor
 
 import re
 import xml.etree.ElementTree as etree
@@ -12,6 +13,24 @@ class GrayCodeInlineProcessor(InlineProcessor):
         elem.set("class", "gray")
         elem.text = m.group(1)
         return elem, m.start(0), m.end(0)
+
+
+class HeadingIdTreeprocessor(Treeprocessor):
+    def run(self, root):
+        for elem in root:
+            if elem.tag in {"h1", "h2"}:
+                elem.set("id", HeadingIdTreeprocessor.sanitize_heading(elem.text))
+            self.run(elem)
+
+    @staticmethod
+    def sanitize_heading(heading):
+        """
+        Replaces whitespace with hyphens, and removes all non-alphanumeric and non-hypthen characters.
+        """
+
+        heading = "-".join(heading.split())
+        heading = re.sub("[^A-Za-z0-9-]", "", heading)
+        return heading
 
 
 class ImageInlineProcessor(InlineProcessor):
@@ -249,26 +268,29 @@ class ThmBlockProcessor(BlockProcessor):
 class CustomInlineExtensions(Extension):
     def extendMarkdown(self, md):
         # `__[text]__` for underline
-        reg = r"()__([\S\s]*?)__"
-        md.inlinePatterns.register(SimpleTagInlineProcessor(reg, "u"), "underline", 105)
+        regex = r"()__([\S\s]*?)__"
+        md.inlinePatterns.register(SimpleTagInlineProcessor(regex, "u"), "underline", 105)
 
         # `~~[text]~~` for strikethrough
-        reg = r"()~~([\S\s]*?)~~"
-        md.inlinePatterns.register(SimpleTagInlineProcessor(reg, "del"), "strikethrough", 105)
+        regex = r"()~~([\S\s]*?)~~"
+        md.inlinePatterns.register(SimpleTagInlineProcessor(regex, "del"), "strikethrough", 105)
 
         # `'''[text]'''` for gray code
-        reg = r"'''([\S\s]*?)'''"
-        md.inlinePatterns.register(GrayCodeInlineProcessor(reg, md), "gray_code", 999)
+        regex = r"'''([\S\s]*?)'''"
+        md.inlinePatterns.register(GrayCodeInlineProcessor(regex, md), "gray_code", 999)
 
         # `!\[<span data-width="[number]%">[alt text]</span>\]([image src])` for images with custom width
         # `!\[<span data-inline>[alt text]</span>\]([image src])` for images with "display: inline"
         # if both are present, `data-inline` must be after `data-width`
-        reg = "!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)"
-        md.inlinePatterns.register(ImageInlineProcessor(reg, md), "image", 999)
+        regex = "!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)"
+        md.inlinePatterns.register(ImageInlineProcessor(regex, md), "image", 999)
 
         # `\[<span data-same-page>[display text]</span>\]([link href])` for links that open on same page
-        reg = r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)"
-        md.inlinePatterns.register(LinkTargetInlineProcessor(reg, md), "link_target", 999)
+        regex = r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)"
+        md.inlinePatterns.register(LinkTargetInlineProcessor(regex, md), "link_target", 999)
+
+        # `<h1>` and `<h2>` get `id` attributes based on their text contents so they are reachable by URL fragment
+        md.treeprocessors.register(HeadingIdTreeprocessor(self), "heading_id", 999)
 
 
 class CustomBlockExtensions(Extension):
