@@ -35,7 +35,7 @@ htmlminf==0.1.13
 httplib2==0.22.0
 hyperlink==21.0.0
 idna==3.8
-importlib_metadata==8.0.0
+importlib_metadata==8.4.0
 incremental==24.7.2
 itsdangerous==2.2.0
 jaraco.classes==3.4.0
