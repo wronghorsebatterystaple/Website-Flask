@@ -123,8 +123,8 @@ textarea {
     position: fixed;
     top: 1rem;
     z-index: 9999;
-    border: 2px solid var(--custom-green-deep);
-    background-color: var(--custom-green-deep-xxlight);
+    border-width: 2px;
+    border-style: solid;
     width: calc(var(--content-container-max-width) - (var(--bs-gutter-x)));
     color: black;
 }

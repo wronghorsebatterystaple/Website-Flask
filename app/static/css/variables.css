@@ -6,6 +6,7 @@
     --custom-blue: #00eaff;             /* hue 185 */
     --custom-blue-light: #80f4ff;
     --custom-blue-xxlight: #bffaff;
+    --custom-blue-xxxlight: #f2feff;
     --custom-blue-deep: #00bfff;        /* hue 195 */
     --custom-blue-deep-light: #47d1ff;
     --custom-blue-deep-xlight: #b3ecff;
@@ -13,6 +14,7 @@
     --custom-blue-deep-xdark: #00a8e0;
 
     --custom-green: #b7ff00;            /* hue 77 */
+    --custom-green-xxxlight: #fcfff2;
     --custom-green-deep: #8cff00;       /* hue 87 */
     --custom-green-deep-light: #a9ff40;
     --custom-green-deep-xlight: #c0ff73;
@@ -22,6 +24,7 @@
 
     --custom-orange: #ffd500;           /* hue 50 */
     --custom-orange-light: #ffe14d;
+    --custom-orange-xxxlight: #fffcf5;
     --custom-orange-dark: #f5cc00;
     --custom-orange-deep: #ffc800;      /* hue 47 */
     --custom-orange-deep-light: #ffd747;
@@ -31,7 +34,7 @@
     --custom-pink-light: #ff8cde;
     --custom-pink-xlight: #ffbfed;
     --custom-pink-xxlight: #ffdef6;
-    --custom-pink-xxxlight: #fff5fc;
+    --custom-pink-xxxlight: #fffafe;
 
     /* color settings */
     --color-code: navy;

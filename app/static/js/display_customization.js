@@ -121,12 +121,26 @@ function genFootnoteTooltips(baseSelector) {
     refreshTooltips(baseSelector);
 }
 
-const styleSheetSelectionColor = new CSSStyleSheet();
-document.adoptedStyleSheets.push(styleSheetSelectionColor);
-function randomizeSelectionColor() {
-    const colorChoices = ["--custom-blue-xxlight", "--custom-green-deep-xlight", "--custom-pink-xxlight"];
-    let rand = Math.floor(Math.random() * colorChoices.length);
-    styleSheetSelectionColor.replaceSync(`::selection { background-color: var(${colorChoices[rand]}) }`);
+const styleSheetColors = new CSSStyleSheet();
+document.adoptedStyleSheets.push(styleSheetColors);
+function randomizeColors() {
+    const colorChoicesSelection = ["--custom-blue-xxlight", "--custom-green-deep-xlight", "--custom-pink-xxlight"];
+    let rand = Math.floor(Math.random() * colorChoicesSelection.length);
+    styleSheetColors.insertRule(`::selection { background-color: var(${colorChoicesSelection[rand]}) }`);
+
+    const colorChoicesFlash = [
+        ["--custom-blue", "--custom-blue-xxxlight"],
+        ["--custom-green", "--custom-green-xxxlight"],
+        ["--custom-orange-light", "--custom-orange-xxxlight"],
+        ["--custom-pink-xlight", "--custom-pink-xxxlight"]
+    ];
+    rand = Math.floor(Math.random() * colorChoicesFlash.length);
+    styleSheetColors.insertRule(`
+        .flash {
+            border-color: var(${colorChoicesFlash[rand][0]});
+            background-color: var(${colorChoicesFlash[rand][1]});
+        }
+    `);
 }
 
 function syntaxHighlightNonTable(baseSelector) {
@@ -140,4 +154,5 @@ function syntaxHighlightNonTable(baseSelector) {
 
 $(document).ready(function() {
     applyGlobalStyles("body");
+    randomizeColors();
 });
