@@ -30,7 +30,12 @@ greenlet==3.0.3
 gunicorn==23.0.0
 htmlminf==0.1.13
 idna==3.8
+<<<<<<< HEAD
 ipython==8.12.3
+=======
+importlib_metadata==8.4.0
+incremental==24.7.2
+>>>>>>> 56d87e014c8e043f22a027efe630feaf144fba48
 itsdangerous==2.2.0
 jedi==0.19.1
 Jinja2==3.1.4

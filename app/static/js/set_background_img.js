@@ -4,9 +4,9 @@ const styleSheetBackgroundImg = new CSSStyleSheet();
 document.adoptedStyleSheets.push(styleSheetBackgroundImg);
 
 function reloadBackgroundImg() {
-    if (urlBackgroundImageOverride !== "") {
+    if (urlBackgroundImgOverride !== "") {
         styleSheetBackgroundImg.replaceSync(
-                `#background-img { background-image: url(${urlBackgroundImageOverride}) }`);
+                `#background-img { background-image: url(${urlBackgroundImgOverride}) }`);
     } else {
         styleSheetBackgroundImg.replaceSync(
                 `#background-img { background-image: url(${URL_BACKGROUND_IMG_DEFAULT}) }`);

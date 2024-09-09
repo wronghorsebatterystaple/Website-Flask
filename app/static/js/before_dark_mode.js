@@ -11,6 +11,7 @@ if (IS_FIREFOX) {
 }
 randomizeColors();
 
+// it seems like this doesn't *have* to be before dark mode, but putting it before just because it makes sense
 function randomizeColors() {
     const colorChoicesSelection = ["--custom-blue-xxlight", "--custom-green-deep-xlight", "--custom-pink-xxlight"];
     let rand = Math.floor(Math.random() * colorChoicesSelection.length);
