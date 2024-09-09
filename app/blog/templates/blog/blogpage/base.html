@@ -18,10 +18,14 @@ var backgroundImgOverrideName = "";
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='blogpage/' ~ blogpage_id ~ '/css/style.css', _external=True) }}" />
 {%- endblock %}
 
-{%- block js %}
+{%- block js_no_defer %}
+{{ super() }}
+<script src="{{ url_for('blog.static', filename='blogpage/js/util_onclick.js', _external=True) }}"></script>
+{%- endblock %}
+
+{%- block js_defer %}
 {{ super() }}
 <script src="{{ url_for('blog.static', filename='blogpage/js/goto_page_form.js', _external=True) }}" defer></script>
-<script src="{{ url_for('blog.static', filename='blogpage/js/util_onclick.js', _external=True) }}" defer></script>
 <script src="{{ url_for('blog.static', filename='blogpage/' ~ blogpage_id ~ '/js/override_background_img.js', _external=True) }}" defer></script>
 <!-- must be after `override_background_img.js` to allow overriding of `backgroundImgOverrideName` var -->
 <script src="{{ url_for('blog.static', filename='blogpage/js/try_override_background_img.js', _external=True) }}" defer></script>

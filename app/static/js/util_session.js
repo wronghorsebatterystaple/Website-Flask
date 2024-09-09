@@ -1,10 +1,10 @@
-var onModalLogin = function() {
+let onModalLogin = function() {
     isUserAuthenticated = true;
     showAuthElems();
     $("#login-modal").modal("hide");
 };
 
-var onModalLogout = function() {
+let onModalLogout = function() {
     isUserAuthenticated = false;
     hideAuthElems();
 };

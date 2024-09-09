@@ -10,6 +10,6 @@
 {{ wtf.quick_form(form, id="main-form") }}
 {%- endblock %}
 
-{%- block js %}
+{%- block js_defer %}
 <script src="{{ url_for('admin.static', filename='js/form_submit.js', _external=True) }}"></script>
 {%- endblock %}

@@ -3,8 +3,6 @@ const DARKREADER_CONFIG = {
 };
 DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 
-var onDarkModeChange = function(isEnabled) {};
-
 // out here so it's immediately applied on JS load instead of at `$(document).ready`
 if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
@@ -25,8 +23,6 @@ function enableDarkMode(isVoluntary) {
     if (isVoluntary) {
         localStorage.setItem("darkMode", "true");
     }
-
-    onDarkModeChange(true);
 }
 
 function disableDarkMode(isVoluntary) {
@@ -40,8 +36,6 @@ function disableDarkMode(isVoluntary) {
     if (isVoluntary) {
         localStorage.setItem("darkMode", "false");
     }
-
-    onDarkModeChange(false);
 }
 
 $(document).ready(function() {

@@ -35,9 +35,9 @@ def custom_unauthorized(content_type, do_relogin=True):
 
     Params:
         - `content_type`: specifies the `Content-Type` of the expected server response from the view function
-        - `do_relogin`: should be `False` iff the view function handles POST requests that are not manual (triggered
-          by a user action). This prevents users from seeing login modal pop up out of nowhere when an automated,
-          hard-to-detect action happens.
+        - `do_relogin`: should be `False` if the view function handles requests that are not explicitly triggered
+          by a user action, like background requests. This prevents users from seeing login pop up out of nowhere
+          when an automated action happens.
     """
 
     if not current_user.is_authenticated:

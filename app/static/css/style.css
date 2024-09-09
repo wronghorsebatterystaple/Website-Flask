@@ -191,7 +191,7 @@ textarea {
     background-color: transparent !important;
 }
 
-/* these two selectors are for compability with both light and dark mode, as DarkReader doesn't change these well */
+/* these two selectors are for compability with both light & dark mode, as DarkReader doesn't change these well */
 .navbar-toggler {
     border-color: rgba(128, 128, 128, 0.4) !important;
 }

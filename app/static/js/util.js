@@ -1,5 +1,12 @@
 /**
- * Usage: `func1 = addToFunction(func1, func2);`
+ * Preconditions:
+ *     - Only use on functions that have already been initialized! Remember that hoisting does not hoist
+ *       initializations; thus, JS files containing these functions must not be deferred and must be linked first!
+ *
+ * Usage:
+ *     ```
+ *     func1 = addToFunction(func1, func2);
+ *     ```
  */
 function addToFunction(functionBase, functionToAdd) {
     return function() {

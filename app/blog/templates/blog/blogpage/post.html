@@ -17,7 +17,7 @@ const URL_MARK_COMMENTS_AS_READ = "{{ url_for('blog.' ~ blogpage_id ~ '.mark_com
 const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {%- endblock %}
 
-{%- block js %}
+{%- block js_defer %}
 {{ super() }}
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}" defer></script>
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_comments.js', _external=True) }}" defer></script>
