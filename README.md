@@ -126,11 +126,12 @@ I hope I'm not reading this because I bricked a machine again.
     - `__[text]__` to underline
     - `~~[text]~~` to strikethrough
     - `'''[text]'''` to do code in gray 
-- Blocks (all delimiters must be surrounded by one blank line, and these are only available to posts and not commentors due to the potential for unexpected crashes and exploits if the syntax is wrong):
-    - `\figure` and `\figure` with `\caption` and `\endcaption` somewhere inside to do a captioned figure
-    - `\dropdown` and `\enddropdown` with `\summary` and `\endsummary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
-    - `\textbox` and `\endtextbox` to put everything inside a 1-cell table
-    - `\thm` and `\endthm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code
+- Blocks (all delimiters must be surrounded by a blank line on both sides):
+    - `\captioned_figure` and `\end_captioned_figure` with `\caption` and `\end_caption` somewhere inside to do a captioned figure
+    - `\cited_blockquote` and `\end_cited_blockquote` with `\citation` and `\end_citation` somewhere inside to do a blockquote with citation (`<cite>`)
+    - `\dropdown` and `\end_dropdown` with `\summary` and `\end_summary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
+    - `\textbox` and `\end_textbox` to put everything inside a 1-cell table
+    - `\thm` and `\end_thm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code
 - Images:
     - Insert `<span data-width="[number]%"></span>` around the alt text portion (within the square brackets) of images to customize image width (default 100%; accepted units: %)
     - Insert `<span data-inline></span> around the alt text portion of images to make it inline with no extra top/bottom margins. If both `data-width` and `data-inline` are present, `data-width` must be first.

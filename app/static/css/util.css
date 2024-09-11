@@ -252,16 +252,16 @@
     }
 }
 
-.mt-2half {
-    margin-top: 0.75rem !important;
+.min-height-full {
+    min-height: 100vh !important;
 }
 
 .ms-2half {
     margin-left: 0.75rem !important;
 }
 
-.min-height-full {
-    min-height: 100vh !important;
+.mt-2half {
+    margin-top: 0.75rem !important;
 }
 
 .w-20 {
@@ -289,6 +289,10 @@
     margin-bottom: 0.5rem !important;
     overflow-x: auto !important;
     overflow-y: hidden !important; /* for MathJax equation environments with `\\[pt]` extra line spacing */
+}
+
+.tooltip-text-align-left .tooltip-inner {
+    text-align: left;
 }
 
 .underline-on-hover-only {

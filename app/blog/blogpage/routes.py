@@ -10,7 +10,7 @@ import app.util as util
 from app import db, turnstile
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
-from app.markdown_extensions.custom_extensions import CustomBlockExtensions, CustomInlineExtensions
+from app.markdown_extensions.custom_extensions import CustomUnsafeExtensions, CustomSafeExtensions
 from app.models import *
 
 
@@ -85,15 +85,15 @@ def post(post_sanitized_title):
         return blogpage_util.post_nonexistent_response(util.ContentType.HTML)
 
     # render Markdown for post
-    post.title = markdown.markdown(post.title, extensions=["extra", CustomInlineExtensions()])
+    post.title = markdown.markdown(post.title, extensions=["extra", CustomSafeExtensions()])
     post.title = blogpage_util.additional_markdown_processing(post.title)
     if post.subtitle:
-        post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
+        post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomSafeExtensions()])
         post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
     if post.content:
         post.content = markdown.markdown(
                 post.content,
-                extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
+                extensions=["extra", "markdown_grid_tables", CustomSafeExtensions(), CustomUnsafeExtensions()])
         post.content = blogpage_util.additional_markdown_processing(post.content)
 
     # strip Markdown for title here instead of on the frontend with JQuery `.text()` because this is only part of
@@ -123,13 +123,13 @@ def get_comments(post_sanitized_title):
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
                     comment.content,
-                    extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
+                    extensions=["extra", "markdown_grid_tables", CustomSafeExtensions(), CustomUnsafeExtensions()])
             comment.content = blogpage_util.additional_markdown_processing(comment.content)
         else:
             # no custom block Markdown for non-admin because there are ways to 500 the page that I don't wanna fix
             comment.content = markdown.markdown(
                     comment.content,
-                    extensions=["extra", "markdown_grid_tables", CustomInlineExtensions()])
+                    extensions=["extra", "markdown_grid_tables", CustomSafeExtensions()])
             comment.content = blogpage_util.additional_markdown_processing(comment.content)
             comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
  

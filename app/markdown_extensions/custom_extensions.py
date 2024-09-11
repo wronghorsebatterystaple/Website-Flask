@@ -16,6 +16,10 @@ class GrayCodeInlineProcessor(InlineProcessor):
 
 
 class HeadingIdTreeprocessor(Treeprocessor):
+    """
+    `<h1>` and `<h2>` get `id` attributes based on their text contents so they are reachable by URL fragment.
+    """
+
     def run(self, root):
         for elem in root:
             if elem.tag in {"h1", "h2"}:
@@ -34,6 +38,18 @@ class HeadingIdTreeprocessor(Treeprocessor):
 
 
 class ImageInlineProcessor(InlineProcessor):
+    """
+    Images with custom width:
+        ```
+        !\[<span data-width="[number]%">[alt text]</span>\]([image src])
+        ```
+    Images with `display: inline`:
+        ```
+        !\[<span data-inline>[alt text]</span>\]([image src])
+        ```
+    if both are present, `data-inline` must be after `data-width`.
+    """
+
     def handleMatch(self, m, data):
         elem = etree.Element("img")
         elem.set("src", m.group(5))
@@ -46,6 +62,13 @@ class ImageInlineProcessor(InlineProcessor):
 
 
 class LinkTargetInlineProcessor(InlineProcessor):
+    """
+    Links that open on same page, instead of default `target="_blank"`:
+        ```
+        \[<span data-same-page>[display text]</span>\]([link href])
+        ```
+    """
+
     def handleMatch(self, m, data):
         elem = etree.Element("a")
         elem.set("data-same-page", "")
@@ -55,33 +78,44 @@ class LinkTargetInlineProcessor(InlineProcessor):
 
 
 class CaptionedFigureBlockProcessor(BlockProcessor):
-    FIGURE_START_RE = r"\\figure$"
-    FIGURE_END_RE = r"\\endfigure$"
-    CAPTION_START_RE = r"\\caption$"
-    CAPTION_END_RE = r"\\endcaption$"
+    """
+    Markdown:
+        ```
+        \captioned_figure\caption\end_caption\end_captioned_figure
+        ```
+    HTML:
+        ```
+        <figure class="md-captioned-figure"><figcaption class="md-captioned-figure-caption"></figcaption></figure>
+        ```
+    """
+
+    RE_FIGURE_START = r"\\captioned_figure$"
+    RE_FIGURE_END = r"\\end_captioned_figure$"
+    RE_CAPTION_START = r"\\caption$"
+    RE_CAPTION_END = r"\\end_caption$"
 
     def test(self, parent, block):
-        return re.match(self.FIGURE_START_RE, block)
+        return re.match(self.RE_FIGURE_START, block)
 
     def run(self, parent, blocks):
         org_blocks = list(blocks)
 
         # remove figure starting delimiter
-        blocks[0] = re.sub(self.FIGURE_START_RE, "", blocks[0])
+        blocks[0] = re.sub(self.RE_FIGURE_START, "", blocks[0])
 
         # find and remove caption starting delimiter
         caption_start_i = -1
         for i, block in enumerate(blocks):
-            if re.search(self.CAPTION_START_RE, block):
+            if re.search(self.RE_CAPTION_START, block):
                 # remove ending delimiter and note which block captions started on
-                # (as captions don't have to be at the end of the figure for intuition's sake)
+                # (as caption content itself is an unknown number of blocks)
                 caption_start_i = i
-                blocks[i] = re.sub(self.CAPTION_START_RE, "", block)
+                blocks[i] = re.sub(self.RE_CAPTION_START, "", block)
                 break
 
         # if no starting delimiter for caption, restore and do nothing
         if caption_start_i == -1:
-            # `blocks = org_blocks` doesn't work since lists as passed by pointer in Python (value of reference)
+            # `blocks = org_blocks` doesn't work since lists are passed by pointer in Python (value of reference)
             # so changing the address of `blocks` only updates the local copy of it (the pointer)
             # we need to change the values pointed to by `blocks` (its list elements)
             blocks.clear()
@@ -91,12 +125,12 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
         # find and remove caption ending delimiter, and extract element
         elem_caption = None
         for i, block in enumerate(blocks):
-            if re.search(self.CAPTION_END_RE, block):
+            if re.search(self.RE_CAPTION_END, block):
                 # remove ending delimiter
-                blocks[i] = re.sub(self.CAPTION_END_RE, "", block)
-                # put area between in `<figcaption class="md-figure-figcaption"></figcaption>`
+                blocks[i] = re.sub(self.RE_CAPTION_END, "", block)
+                # put area between in `<figcaption class="md-captioned-figure-caption"></figcaption>`
                 elem_caption = etree.Element("figcaption")
-                elem_caption.set("class", "md-figure-figcaption")
+                elem_caption.set("class", "md-captioned-figure-caption")
                 self.parser.parseBlocks(elem_caption, blocks[caption_start_i + 1:i + 1])
                 # remove used blocks
                 for _ in range(caption_start_i + 1, i + 1):
@@ -111,12 +145,12 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
 
         # find and remove figure ending delimiter, and extract element
         for i, block in enumerate(blocks):
-            if re.search(self.FIGURE_END_RE, block):
+            if re.search(self.RE_FIGURE_END, block):
                 # remove ending delimiter
-                blocks[i] = re.sub(self.FIGURE_END_RE, "", block)
-                # build <figure class="md-figure">[image Markdown to be processed later][figcaption]</figure>
+                blocks[i] = re.sub(self.RE_FIGURE_END, "", block)
+                # build <figure class="md-captioned-figure">[figure content][figcaption]</figure>
                 elem_figure = etree.SubElement(parent, "figure")
-                elem_figure.set("class", "md-figure")
+                elem_figure.set("class", "md-captioned-figure")
                 self.parser.parseBlocks(elem_figure, blocks[0:i + 1])
                 elem_figure.append(elem_caption) # make sure captions come after everything else
                 # remove used blocks
@@ -130,37 +164,138 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
         return False
 
 
-class DropdownBlockProcessor(BlockProcessor):
-    DROPDOWN_START_RE = r"\\dropdown$"
-    DROPDOWN_END_RE = r"\\enddropdown$"
-    SUMMARY_START_RE = r"\\summary$"
-    SUMMARY_END_RE = r"\\endsummary$"
+class CitedBlockquoteBlockProcessor(BlockProcessor):
+    """
+    Markdown:
+        ```
+        \cited_blockquote\citation\end_citation\end_cited_blockquote
+        ```
+    HTML:
+        ```
+        <blockquote class="md-cited-blockquote"></blockquote><cite class="md-cited-blockquote-cite"></cite>
+        ```
+    """
+
+    RE_BLOCKQUOTE_START = r"\\cited_blockquote$"
+    RE_BLOCKQUOTE_END = r"\\end_cited_blockquote$"
+    RE_CITATION_START = r"\\citation$"
+    RE_CITATION_END = r"\\end_citation$"
 
     def test(self, parent, block):
-        return re.match(self.DROPDOWN_START_RE, block)
+        return re.match(self.RE_BLOCKQUOTE_START, block)
 
     def run(self, parent, blocks):
         org_blocks = list(blocks)
-        # remove dropdown starting delimiter
-        blocks[0] = re.sub(self.DROPDOWN_START_RE, "", blocks[0])
 
-        # remove summary starting delimiter that must immediately follow dropdown's starting delimiter
-        # if no starting delimiter for summary, restore and do nothing
-        if not re.search(self.SUMMARY_START_RE, blocks[1]):
+        # remove blockquote starting delimiter
+        blocks[0] = re.sub(self.RE_BLOCKQUOTE_START, "", blocks[0])
+
+        # find and remove citation starting delimiter
+        citation_start_i = -1
+        for i, block in enumerate(blocks):
+            if re.search(self.RE_CITATION_START, block):
+                # remove ending delimiter and note which block citation started on
+                # (as citation content itself is an unknown number of blocks)
+                citation_start_i = i
+                blocks[i] = re.sub(self.RE_CITATION_START, "", block)
+                break
+
+        # if no starting delimiter for citation, restore and do nothing
+        if citation_start_i == -1:
+            # `blocks = org_blocks` doesn't work since lists are passed by pointer in Python (value of reference)
+            # so changing the address of `blocks` only updates the local copy of it (the pointer)
+            # we need to change the values pointed to by `blocks` (its list elements)
             blocks.clear()
             blocks.extend(org_blocks)
             return False
-        blocks[1] = re.sub(self.SUMMARY_START_RE, "", blocks[1])
+
+        # find and remove citation ending delimiter, and extract element
+        elem_citation = None
+        for i, block in enumerate(blocks):
+            if re.search(self.RE_CITATION_END, block):
+                # remove ending delimiter
+                blocks[i] = re.sub(self.RE_CITATION_END, "", block)
+                # put area between in `<cite class="md-cited-blockquote-cite"></cite>`
+                elem_citation = etree.Element("cite")
+                elem_citation.set("class", "md-cited-blockquote-cite")
+                self.parser.parseBlocks(elem_citation, blocks[citation_start_i + 1:i + 1])
+                # remove used blocks
+                for _ in range(citation_start_i + 1, i + 1):
+                    blocks.pop(citation_start_i + 1)
+                break
+
+        # if no ending delimiter for citation, restore and do nothing
+        if elem_citation is None:
+            blocks.clear()
+            blocks.extend(org_blocks)
+            return False
+
+        # find and remove blockquote ending delimiter, and extract element
+        for i, block in enumerate(blocks):
+            if re.search(self.RE_BLOCKQUOTE_END, block):
+                # remove ending delimiter
+                blocks[i] = re.sub(self.RE_BLOCKQUOTE_END, "", block)
+                # build `<blockquote class="md-cited-blockquote">[blockquote]</blockquote>
+                # <cite class="md-cited-blockquote-citation">[citation]</class></blockquote>`
+                elem_blockquote = etree.SubElement(parent, "blockquote")
+                elem_blockquote.set("class", "md-cited-blockquote")
+                self.parser.parseBlocks(elem_blockquote, blocks[0:i + 1])
+                parent.append(elem_citation) # make sure citation comes after everything else
+                # remove used blocks
+                for _ in range(0, i + 1):
+                    blocks.pop(0)
+                return True
+
+        # if no ending delimiter for blockquote, restore and do nothing
+        blocks.clear()
+        blocks.extend(org_blocks)
+        return False
+
+
+class DropdownBlockProcessor(BlockProcessor):
+    """
+    Markdown:
+        ```
+        \dropdown\summary\end_summary\end_dropdown
+        ```
+    HTML:
+        ```
+        <details class="md-dropdown"><summary class="md-dropdown-summary"></summary>
+        <div class="md-dropdown-contents"></div></details>
+        ```
+    """
+
+    RE_DROPDOWN_START = r"\\dropdown$"
+    RE_DROPDOWN_END = r"\\end_dropdown$"
+    RE_SUMMARY_START = r"\\summary$"
+    RE_SUMMARY_END = r"\\end_summary$"
+
+    def test(self, parent, block):
+        return re.match(self.RE_DROPDOWN_START, block)
+
+    def run(self, parent, blocks):
+        org_blocks = list(blocks)
+
+        # remove dropdown starting delimiter
+        blocks[0] = re.sub(self.RE_DROPDOWN_START, "", blocks[0])
+
+        # remove summary starting delimiter that must immediately follow dropdown's starting delimiter
+        # if no starting delimiter for summary, restore and do nothing
+        if not re.search(self.RE_SUMMARY_START, blocks[1]):
+            blocks.clear()
+            blocks.extend(org_blocks)
+            return False
+        blocks[1] = re.sub(self.RE_SUMMARY_START, "", blocks[1])
 
         # find and remove summary ending delimiter, and extract element
         elem_summary = None
         for i, block in enumerate(blocks):
-            if re.search(self.SUMMARY_END_RE, block):
+            if re.search(self.RE_SUMMARY_END, block):
                 # remove ending delimiter
-                blocks[i] = re.sub(self.SUMMARY_END_RE, "", block)
+                blocks[i] = re.sub(self.RE_SUMMARY_END, "", block)
                 # put area between in `<summary class="md-summary"></summary>`
                 elem_summary = etree.Element("summary")
-                elem_summary.set("class", "md-details-summary")
+                elem_summary.set("class", "md-dropdown-summary")
                 self.parser.parseBlocks(elem_summary, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
@@ -175,15 +310,16 @@ class DropdownBlockProcessor(BlockProcessor):
 
         # find and remove dropdown ending delimiter, and extract element
         for i, block in enumerate(blocks):
-            if re.search(self.DROPDOWN_END_RE, block):
+            if re.search(self.RE_DROPDOWN_END, block):
                 # remove ending delimiter
-                blocks[i] = re.sub(self.DROPDOWN_END_RE, "", block)
-                # build <details class="md-details">[summary]<span class="md-details-contents">[contents]</span></details>
+                blocks[i] = re.sub(self.RE_DROPDOWN_END, "", block)
+                # build `<details class="md-dropdown">[summary]<div class="md-dropdown-contents">[contents]</div>
+                # </details>`
                 elem_details = etree.SubElement(parent, "details")
-                elem_details.set("class", "md-details")
+                elem_details.set("class", "md-dropdown")
                 elem_details.append(elem_summary)
                 elem_details_contents = etree.SubElement(elem_details, "div")
-                elem_details_contents.set("class", "md-details-contents")
+                elem_details_contents.set("class", "md-dropdown-contents")
                 self.parser.parseBlocks(elem_details_contents, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
@@ -197,22 +333,33 @@ class DropdownBlockProcessor(BlockProcessor):
 
 
 class TextboxBlockProcessor(BlockProcessor):
-    TEXTBOX_START_RE = r"\\textbox$"
-    TEXTBOX_END_RE = r"\\endtextbox$"
+    """
+    Markdown:
+        ```
+        \textbox\end_textbox
+        ```
+    HTML:
+        ```
+        <table class="md-textbox"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+        ```
+    """
+
+    RE_START = r"\\textbox$"
+    RE_END = r"\\end_textbox$"
 
     def test(self, parent, block):
-        return re.match(self.TEXTBOX_START_RE, block)
+        return re.match(self.RE_START, block)
 
     def run(self, parent, blocks):
         # remove starting delimiter
         org_block_start = blocks[0] # use simpler restoring system for non-nested BlockProcessors
-        blocks[0] = re.sub(self.TEXTBOX_START_RE, "", blocks[0])
+        blocks[0] = re.sub(self.RE_START, "", blocks[0])
 
         # find and remove ending delimiter, and extract element
         for i, block in enumerate(blocks):
-            if re.search(self.TEXTBOX_END_RE, block):
+            if re.search(self.RE_END, block):
                 # remove ending delimiter
-                blocks[i] = re.sub(self.TEXTBOX_END_RE, "", block)
+                blocks[i] = re.sub(self.RE_END, "", block)
                 # put area between in `<table class="textbox"><tbody><tr><td colspan="1" rowspan="1">
                 # </td></tr></tbody></table>`
                 elem_table = etree.SubElement(parent, "table")
@@ -234,22 +381,33 @@ class TextboxBlockProcessor(BlockProcessor):
 
 
 class ThmBlockProcessor(BlockProcessor):
-    THM_START_RE = r"\\thm$"
-    THM_END_RE = r"\\endthm$"
+    """
+    Markdown:
+        ```
+        \thm\end_thm
+        ```
+    HTML:
+        ```
+        <blockquote class="md-thm"></blockquote>
+        ```
+    """
+
+    RE_START = r"\\thm$"
+    RE_END = r"\\end_thm$"
 
     def test(self, parent, block):
-        return re.match(self.THM_START_RE, block)
+        return re.match(self.RE_START, block)
 
     def run(self, parent, blocks):
         # remove starting delimiter
         org_block_start = blocks[0]
-        blocks[0] = re.sub(self.THM_START_RE, "", blocks[0])
+        blocks[0] = re.sub(self.RE_START, "", blocks[0])
 
         # find and remove ending delimiter, and extract element
         for i, block in enumerate(blocks):
-            if re.search(self.THM_END_RE, block):
+            if re.search(self.RE_END, block):
                 # remove ending delimiter
-                blocks[i] = re.sub(self.THM_END_RE, "", block)
+                blocks[i] = re.sub(self.RE_END, "", block)
                 # put area between in `<blockquote class="md-thm"></blockquote>`
                 elem = etree.SubElement(parent, "blockquote")
                 elem.set("class", "md-thm")
@@ -265,7 +423,7 @@ class ThmBlockProcessor(BlockProcessor):
 
 
 """Markdown tweaks round 1."""
-class CustomInlineExtensions(Extension):
+class CustomSafeExtensions(Extension):
     def extendMarkdown(self, md):
         # `__[text]__` for underline
         regex = r"()__([\S\s]*?)__"
@@ -279,34 +437,18 @@ class CustomInlineExtensions(Extension):
         regex = r"'''([\S\s]*?)'''"
         md.inlinePatterns.register(GrayCodeInlineProcessor(regex, md), "gray_code", 999)
 
-        # `!\[<span data-width="[number]%">[alt text]</span>\]([image src])` for images with custom width
-        # `!\[<span data-inline>[alt text]</span>\]([image src])` for images with "display: inline"
-        # if both are present, `data-inline` must be after `data-width`
         regex = "!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)"
         md.inlinePatterns.register(ImageInlineProcessor(regex, md), "image", 999)
 
-        # `\[<span data-same-page>[display text]</span>\]([link href])` for links that open on same page
         regex = r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)"
         md.inlinePatterns.register(LinkTargetInlineProcessor(regex, md), "link_target", 999)
 
-        # `<h1>` and `<h2>` get `id` attributes based on their text contents so they are reachable by URL fragment
-        md.treeprocessors.register(HeadingIdTreeprocessor(self), "heading_id", 999)
 
-
-class CustomBlockExtensions(Extension):
+class CustomUnsafeExtensions(Extension):
     def extendMarkdown(self, md):
-        # `\figure\caption\endcaption\endfigure` for
-        # `<figure class="md-figure"><figcaption class="md-figure-figcaption"></figcaption></figure>`
         md.parser.blockprocessors.register(CaptionedFigureBlockProcessor(md.parser), "captioned_figure", 105)
-
-        # `\dropdown\summary\endsummary\enddropdown` for
-        # `<details class="md-details"><summary class="md-details-summary"></summary></details>`
+        md.parser.blockprocessors.register(CitedBlockquoteBlockProcessor(md.parser), "cited_blockquote", 105)
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
-
-        # `\textbox\endtextbox` for
-        # `<table class="md-textbox"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>`
         md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
-
-        # `\thm\endthm` for
-        # `<blockquote class="md-thm"></blockquote>`
         md.parser.blockprocessors.register(ThmBlockProcessor(md.parser), "thm", 105)
+        md.treeprocessors.register(HeadingIdTreeprocessor(self), "heading_id", 999)

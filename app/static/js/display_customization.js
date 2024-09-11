@@ -16,11 +16,6 @@ function applyGlobalStyles(baseSelector) {
     elemBase.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
     elemBase.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
 
-    // no extra space at the bottom of table cells
-    $.merge(elemBase.find("th"), elemBase.find("td")).each(function() {
-        $(this).children().last().addClass("mb-0");
-    });
-
     // no extra space between lists and their "heading" text
     $.merge(elemBase.find("ul"), elemBase.find("ol")).each(function() {
         $(this).prev("p").addClass("mb-0");
@@ -79,16 +74,8 @@ function applyCustomMarkdown(baseSelector) {
         $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
     });
 
-    // no extra space at the end of custom details/summary, and first line of summary starts inline
-    elemBase.find("details").each(function() {
-        $(this).children(".md-details-contents").children().last().addClass("mb-0");
-        const elemSummary = $(this).find("summary");
-        elemSummary.find("p").first().addClass("d-inline");
-        elemSummary.children().last().addClass("mb-0");
-    });
-
-    // no extra <p> tags in custom figures/captions
-    elemBase.find("figure").find("p").children("img").unwrap();
+    // no extra `<p>` tags in custom figures/captions
+    elemBase.find(".md-captioned-figure").find("p").children("img").unwrap();
 }
 
 function genFootnoteTooltips(baseSelector) {
