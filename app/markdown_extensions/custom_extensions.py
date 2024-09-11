@@ -423,7 +423,7 @@ class ThmBlockProcessor(BlockProcessor):
 
 
 """Markdown tweaks round 1."""
-class CustomSafeExtensions(Extension):
+class CustomInlineExtensions(Extension):
     def extendMarkdown(self, md):
         # `__[text]__` for underline
         regex = r"()__([\S\s]*?)__"
@@ -444,7 +444,7 @@ class CustomSafeExtensions(Extension):
         md.inlinePatterns.register(LinkTargetInlineProcessor(regex, md), "link_target", 999)
 
 
-class CustomUnsafeExtensions(Extension):
+class CustomBlockExtensions(Extension):
     def extendMarkdown(self, md):
         md.parser.blockprocessors.register(CaptionedFigureBlockProcessor(md.parser), "captioned_figure", 105)
         md.parser.blockprocessors.register(CitedBlockquoteBlockProcessor(md.parser), "cited_blockquote", 105)
