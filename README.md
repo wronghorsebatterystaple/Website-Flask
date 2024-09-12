@@ -126,7 +126,7 @@ I hope I'm not reading this because I bricked a machine again.
     - `__[text]__` to underline
     - `~~[text]~~` to strikethrough
     - `'''[text]'''` to do code in gray 
-- Blocks (all delimiters must be surrounded by a blank line on both sides):
+- Blocks (all delimiters must be surrounded by a blank line on both sides; not allows in comments due to potential bugs):
     - `\captioned_figure` and `\end_captioned_figure` with `\caption` and `\end_caption` somewhere inside to do a captioned figure
     - `\cited_blockquote` and `\end_cited_blockquote` with `\citation` and `\end_citation` somewhere inside to do a blockquote with citation (`<cite>`)
     - `\dropdown` and `\end_dropdown` with `\summary` and `\end_summary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
