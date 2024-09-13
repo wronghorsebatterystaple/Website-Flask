@@ -7,10 +7,10 @@ function applyPostAndCommentStyles(baseSelector) {
     const elemCommentContents = elemBase.find(".comment-content");
     const elemPostAndCommentContents = $.merge(elemPostContent, elemCommentContents);
 
-    // make all links except footnotes and footnote backrefs open in new tab
+    // make all links except same-page ones indicated by custom markdown and same-page URL fragments
+    // (including footnotes and footnote backrefs) open in new tab
     elemPostAndCommentContents.find("a").each(function() {
-        if (!$(this).hasClass("footnote-ref") && !$(this).hasClass("footnote-backref")
-                && !$(this).attr("href").startsWith("#") && !$(this).is("[data-same-page]")) {
+        if (!$(this).is("[data-same-page]") && !$(this).attr("href").startsWith("#")) {
             $(this).attr("target", "_blank");
         }
     });
