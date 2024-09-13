@@ -25,10 +25,9 @@ function applyGlobalStyles(baseSelector) {
     const jQueryFootnotes = jQueryBase.find(".footnote").first();
     if (jQueryFootnotes.length > 0) {
         jQueryFootnotes.attr("id", "footnotes");
-        jQueryFootnotes.wrap("<details id=\"footnotes-details\" class=\"footnotes-details\"></details>")
-        jQueryFootnotes.before("<summary class=\"footnotes-details-summary\">Footnotes</summary>");
+        jQueryFootnotes.wrap("<details id=\"footnotes__details\" class=\"footnotes__details\"></details>")
+        jQueryFootnotes.before("<summary class=\"footnotes__details-summary\">Footnotes</summary>");
 
-        jQueryFootnotes.children("hr").first().addClass("footnote-hr");
         jQueryFootnotes.find("p").addClass("mb-0");
         const jQueryFootnotesList = jQueryFootnotes.children("ol").first();
         jQueryFootnotesList.addClass("mb-0");
@@ -39,7 +38,7 @@ function applyGlobalStyles(baseSelector) {
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
     jQueryBase.find(".footnote-ref").on("click", function(e) {
-        const jQueryFootnoteDetails = jQueryBase.find("#footnotes-details");
+        const jQueryFootnoteDetails = jQueryBase.find("#footnotes__details");
         if (!jQueryFootnoteDetails.is("[open]")) {
             jQueryFootnoteDetails.attr("open", "");
         }
@@ -112,7 +111,7 @@ function syntaxHighlightNonTable(baseSelector) {
     $(baseSelector).find("pre code").each(function() {
         if ($(this).parents("table").length === 0) {
             hljs.highlightElement($(this).get(0));
-            $(this).addClass("code-block-outside");
+            $(this).addClass("code-block--outside");
         }
     });
 }

@@ -116,11 +116,11 @@
 
   <body>
     <div id="background-img">
-      <div class="container content-container min-vh-100">
+      <div class="container container--content min-vh-100">
       <!-- navbar -->
       <nav class="navbar navbar-expand-md sticky-top bg-white">
-        <a id="navbar-home" class="navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
-          <img id="navbar-logo" class="me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" />
+        <a id="navbar__home" class="navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
+          <img id="navbar__logo" class="me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" />
           <span>Home</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,14 +145,14 @@
             </li>
 
             <li class="nav-item auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>
-              <button id="login-link" class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
+              <button class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
             </li>
             <li class="nav-item auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
-              <button id="logout-link" class="nav-link btn" type="button">Logout pls :3</button>
+              <button id="link--logout" class="nav-link btn" type="button">Logout pls :3</button>
             </li>
 
             <li class="nav-item">
-              <button id="meow" class="nav-link" type="button">meow :3</button>
+              <button id="btn--meow" class="nav-link" type="button">meow :3</button>
             </li>
 
             {%- block navbar_additions_left %}{%- endblock %}
@@ -163,8 +163,8 @@
 
             <li class="nav-item d-inline-flex align-items-center">
               <div class="nav-link form-check form-switch mb-0">
-                <input id="dark-mode-switch" class="form-check-input me-2 ms-0" type="checkbox" role="switch" />
-                <label class="form-check-label px-0" for="dark-mode-switch">Dark mode<span class="auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>/hi contrast</span></label>
+                <input id="switch--dark-mode" class="form-check-input me-2 ms-0" type="checkbox" role="switch" />
+                <label class="form-check-label px-0" for="switch--dark-mode">Dark<span class="auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>/high contrast</span></label>
               </div>
             </li>
           </ul>

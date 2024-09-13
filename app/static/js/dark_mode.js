@@ -12,10 +12,11 @@ if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
 }
 
+const jQueryDarkModeSwitch = $("#switch--dark-mode");
+
 function enableDarkMode(isVoluntary) {
     DarkReader.enable(DARKREADER_CONFIG);
 
-    const jQueryDarkModeSwitch = $("#dark-mode-switch");
     if (!jQueryDarkModeSwitch.prop("checked")) {
         jQueryDarkModeSwitch.prop("checked", true);
     }
@@ -28,7 +29,6 @@ function enableDarkMode(isVoluntary) {
 function disableDarkMode(isVoluntary) {
     DarkReader.disable();
 
-    const jQueryDarkModeSwitch = $("#dark-mode-switch");
     if (jQueryDarkModeSwitch.prop("checked")) {
         jQueryDarkModeSwitch.prop("checked", false);
     }
@@ -39,8 +39,6 @@ function disableDarkMode(isVoluntary) {
 }
 
 $(document).ready(function() {
-    const jQueryDarkModeSwitch = $("#dark-mode-switch");
-
     // if set to dark mode on JS load (below), make sure to sync switch state once the switch loads in
     if (DarkReader.isEnabled()) {
         jQueryDarkModeSwitch.prop("checked", true);

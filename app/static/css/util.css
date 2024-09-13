@@ -71,11 +71,11 @@
 /* `border` */
 /************/
 
-.border-custom-orange-deep {
+.border--custom-orange-deep {
     border-color: var(--custom-orange-deep) !important;
 }
 
-.border-custom-pink-light {
+.border--custom-pink-light {
     border-color: var(--custom-pink-light) !important;
 }
 
@@ -83,7 +83,7 @@
 /* `btn` */
 /*********/
 
-.btn-custom-orange {
+.btn--custom-orange {
     --bs-btn-color: black !important;
     --bs-btn-bg: var(--custom-orange) !important;
     --bs-btn-border-color: var(--custom-orange) !important;
@@ -111,14 +111,14 @@
     padding: 0;
 }
 
-.btn-link-custom-orange-deep {
+.btn-link--custom-orange-deep {
     --bs-btn-color: var(--custom-orange-deep) !important;
     --bs-btn-hover-color: var(--custom-orange-deep-dark) !important;
     --bs-btn-active-color: var(--custom-orange-deep) !important;
     --bs-btn-disabled-color: var(--custom-orange-deep-light) !important;
 }
 
-.btn-link-custom-pink-light {
+.btn-link--custom-pink-light {
     --bs-btn-color: var(--custom-pink-light) !important;
     --bs-btn-hover-color: var(--custom-pink) !important;
     --bs-btn-active-color: var(--custom-pink-light) !important;
@@ -129,23 +129,23 @@
 /* `underline` */
 /***************/
 
-.underline-custom-blue-deep {
+.underline--custom-blue-deep {
     text-decoration-color: var(--custom-blue-deep) !important;
 }
 
-.underline-custom-green-deep-dark {
+.underline--custom-green-deep-dark {
     text-decoration-color: var(--custom-green-deep-dark) !important;
 }
 
-.underline-custom-orange-deep {
+.underline--custom-orange-deep {
     text-decoration-color: var(--custom-orange-deep) !important;
 }
 
-.underline-custom-pink-light {
+.underline--custom-pink-light {
     text-decoration-color: var(--custom-pink-light) !important;
 }
 
-.underline-gray {
+.underline--gray {
     text-decoration-color: gray !important;
 }
 
@@ -153,7 +153,7 @@
 /* Size/Spacing */
 /****************/
 
-.border-3px {
+.border--3px {
     border-width: 3px !important;
 }
 
@@ -291,14 +291,14 @@
     overflow-y: hidden !important; /* for MathJax equation environments with `\\[pt]` extra line spacing */
 }
 
-.tooltip-text-align-left .tooltip-inner {
+.tooltip--text-align-left .tooltip-inner {
     text-align: left;
 }
 
-.underline-on-hover-only {
+.underline--hover-only {
     text-decoration-line: none !important;
 }
 
-.underline-on-hover-only:hover {
+.underline--hover-only:hover {
     text-decoration-line: underline !important;
 }

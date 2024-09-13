@@ -7,7 +7,7 @@ $(document).ready(function() {
         return confirm("Mouse aim check");
     });
 
-    $("#meow").on("click", function() {
+    $("#btn--meow").on("click", function() {
         customFlash("meow :3");
     });
 });

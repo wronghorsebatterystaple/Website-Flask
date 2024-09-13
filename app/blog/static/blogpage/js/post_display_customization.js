@@ -3,7 +3,7 @@ function applyPostAndCommentStyles(baseSelector) {
     if (jQueryBase.length <= 0) {
         return;
     }
-    const jQueryPostContent = jQueryBase.find("#post-content");
+    const jQueryPostContent = jQueryBase.find("#post__content");
     const jQueryCommentContents = jQueryBase.find(".comment-content");
     const jQueryPostAndCommentContents = $.merge(jQueryPostContent, jQueryCommentContents);
 
@@ -16,9 +16,9 @@ function applyPostAndCommentStyles(baseSelector) {
     });
 
     // add CSS classes for extra styling
-    jQueryPostAndCommentContents.find("h1").addClass("post-h1 fs-4");
-    jQueryPostAndCommentContents.find("h2").addClass("post-h2 fs-7");
-    jQueryPostAndCommentContents.find("img").addClass("post-img");
+    jQueryPostAndCommentContents.find("h1").addClass("post__h1 fs-4");
+    jQueryPostAndCommentContents.find("h2").addClass("post__h2 fs-7");
+    jQueryPostAndCommentContents.find("img").addClass("post__img");
 
     // images use alt text as hover text too
     jQueryPostAndCommentContents.find("img[alt]").each(function() {
@@ -36,7 +36,7 @@ $(document).ready(function() {
     $("#comment-formatting-tooltip")
             .append(`${text} (hover to show formatting options)`)
             .attr("data-bs-toggle", "tooltip")
-            .attr("data-bs-custom-class", "tooltip-text-align-left")
+            .attr("data-bs-custom-class", "tooltip--text-align-left")
             .attr("data-bs-html", "true")
             .attr("data-bs-title", `
                 <ul class='mb-0'>

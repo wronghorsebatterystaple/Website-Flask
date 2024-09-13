@@ -51,7 +51,7 @@ async function reloadComments() {
         HTML += `<span class="auth-true">, <span class="custom-pink">${commentUnreadCount} unread</span></span>`;
     }
     HTML += ")";
-    $("#comment-list-heading-counts").html(HTML);
+    $("#comment-counts").html(HTML);
 
     // load in comments
     respJson = await fetchWrapper(URL_GET_COMMENTS, {method: "GET"});

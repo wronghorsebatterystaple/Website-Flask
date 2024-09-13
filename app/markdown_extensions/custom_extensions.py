@@ -85,7 +85,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
         ```
     HTML:
         ```
-        <figure class="md-captioned-figure"><figcaption class="md-captioned-figure-caption"></figcaption></figure>
+        <figure class="md-captioned-figure"><figcaption class="md-captioned-figure__caption"></figcaption></figure>
         ```
     """
 
@@ -128,9 +128,9 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
             if re.search(self.RE_CAPTION_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_CAPTION_END, "", block)
-                # put area between in `<figcaption class="md-captioned-figure-caption"></figcaption>`
+                # put area between in `<figcaption class="md-captioned-figure__caption"></figcaption>`
                 elem_caption = etree.Element("figcaption")
-                elem_caption.set("class", "md-captioned-figure-caption")
+                elem_caption.set("class", "md-captioned-figure__caption")
                 self.parser.parseBlocks(elem_caption, blocks[caption_start_i + 1:i + 1])
                 # remove used blocks
                 for _ in range(caption_start_i + 1, i + 1):
@@ -260,8 +260,8 @@ class DropdownBlockProcessor(BlockProcessor):
         ```
     HTML:
         ```
-        <details class="md-dropdown"><summary class="md-dropdown-summary"></summary>
-        <div class="md-dropdown-contents"></div></details>
+        <details class="md-dropdown"><summary class="md-dropdown__summary"></summary>
+        <div class="md-dropdown__contents"></div></details>
         ```
     """
 
@@ -295,7 +295,7 @@ class DropdownBlockProcessor(BlockProcessor):
                 blocks[i] = re.sub(self.RE_SUMMARY_END, "", block)
                 # put area between in `<summary class="md-summary"></summary>`
                 elem_summary = etree.Element("summary")
-                elem_summary.set("class", "md-dropdown-summary")
+                elem_summary.set("class", "md-dropdown__summary")
                 self.parser.parseBlocks(elem_summary, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
@@ -313,13 +313,13 @@ class DropdownBlockProcessor(BlockProcessor):
             if re.search(self.RE_DROPDOWN_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_DROPDOWN_END, "", block)
-                # build `<details class="md-dropdown">[summary]<div class="md-dropdown-contents">[contents]</div>
+                # build `<details class="md-dropdown">[summary]<div class="md-dropdown__contents">[contents]</div>
                 # </details>`
                 elem_details = etree.SubElement(parent, "details")
                 elem_details.set("class", "md-dropdown")
                 elem_details.append(elem_summary)
                 elem_details_contents = etree.SubElement(elem_details, "div")
-                elem_details_contents.set("class", "md-dropdown-contents")
+                elem_details_contents.set("class", "md-dropdown__contents")
                 self.parser.parseBlocks(elem_details_contents, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):

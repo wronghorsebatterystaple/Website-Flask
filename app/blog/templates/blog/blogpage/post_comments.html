@@ -8,13 +8,13 @@
 
     {%- set descendants = comment.get_descendants(post) -%}
     {%- if comment.author|trim == config["VERIFIED_AUTHOR"] %}
-      <div class="comment card mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %} border-custom-orange-deep border-3px">
+      <div class="comment card mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %} border--custom-orange-deep border--3px">
         <div class="card-body pb-2">
           <h3 class="comment-author d-flex align-items-center me-1">
             <span class="me-2">{{ comment.author }}</span><i class="bi bi-check-circle" title="Actually verified, unlike Twitter."></i>
           </h3>
     {%- else %}
-      <div class="comment card mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %}{%- if current_user.is_authenticated and comment.unread %} border-custom-pink-light border-3px{%- endif %}">
+      <div class="comment card mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %}{%- if current_user.is_authenticated and comment.unread %} border--custom-pink-light border--3px{%- endif %}">
         <div class="card-body pb-2">
           <h3 class="mb-2 fs-8">{{ comment.author }}</h3>
     {%- endif %}
@@ -25,7 +25,7 @@
           {{ wtf.quick_form(reply_comment_btn, id="comment-reply-form-" ~ comment.id, class="comment-reply-form", btn_type="no-bg", btn_color="custom-orange-deep", bottom_margin=0) }}
           {{ wtf.quick_form(add_comment_form, id="comment-reply-add-form-" ~ comment.id, class="comment-add-form ajax-add-comment", bottom_margin=2, hidden=true) }}
         {%- else %}
-          <p class="comment-nest-limit-text mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
+          <p class="text--comment-nest-limit mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
         {%- endif %}
 
         {%- if current_user.is_authenticated %}

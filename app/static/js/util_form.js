@@ -4,10 +4,10 @@
 function asteriskRequiredFields() {
     $("[required]").each(function() {
         if (!$(this).is("[type=\"radio\"]")) {
-            $(this).siblings("label").addClass("required-label");
-            $(this).parent().siblings("label").addClass("required-label");
+            $(this).siblings("label").addClass("label--required");
+            $(this).parent().siblings("label").addClass("label--required");
         } else {
-            $(this).parent().siblings("label").addClass("required-label");
+            $(this).parent().siblings("label").addClass("label--required");
         }
     });
 }

@@ -23,7 +23,7 @@ function setEyeWithoutSlash(visToggleId) {
 }
 
 $(document).ready(function() {
-    $(".password-visibility-toggle").on("click", function(e) {
+    $(".toggle--password-visibility").on("click", function(e) {
         const jQueryVisToggle = $(e.target);
         togglePasswordVisibility(jQueryVisToggle.attr("data-target"), jQueryVisToggle.attr("id"));
     });

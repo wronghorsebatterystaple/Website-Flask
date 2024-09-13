@@ -25,25 +25,25 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
 {%- block content %}
 <div class="pt-2">
-  <h1 class="post-title mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
+  <h1 class="post__title mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
   {%- if post.subtitle is not none %}
-    <h2 class="post-subtitle mt-2 mb-0 custom-orange-deep fs-7">{{ post.subtitle|safe }}</h2>
+    <h2 class="post__subtitle mt-2 mb-0 custom-orange-deep fs-7">{{ post.subtitle|safe }}</h2>
   {%- endif %}
   <div class="d-flex align-items-center mt-2">
     {%- if post.edited_timestamp is not none %}
-      <span class="post-timestamp mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+      <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
     {%- else %}
-      <span class="post-timestamp mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
+      <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
     {%- endif %}
-    <a id="go-to-comments-link" class="me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
-    <button id="copy-permanent-link-btn" class="btn btn-link" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
+    <a id="link--go-to-comments" class="me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
+    <button id="btn--copy-permanent-link" class="btn btn-link" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
   </div>
 
-  <a class="btn btn-primary btn-custom-orange mt-2half auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>
+  <a class="btn btn-primary btn--custom-orange mt-2half auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>
 </div>
 <hr />
 
-<div id="post-content" class="mt-2">
+<div id="post__content" class="mt-2">
   {{ post.content|safe }}
 </div>
 
@@ -57,7 +57,7 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
 <div class="mb-3">
   <!-- populate after page load with JS to avoid slow initial loads -->
-  <h2 class="mb-0 fs-4">Comments <span id="comment-list-heading-counts" class="gray"></span></h2>
+  <h2 class="mb-0 fs-4">Comments <span id="comment-counts" class="gray"></span></h2>
   <div id="comment-list" class="d-flex flex-column flex-shrink-0"></div>
 </div>
 {%- endblock %}

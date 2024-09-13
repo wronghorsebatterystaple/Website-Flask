@@ -55,7 +55,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#logout-link").on("click", async function(e) {
+    $("#link--logout").on("click", async function(e) {
         e.preventDefault();
 
         const respJson = await fetchWrapper(URL_LOGOUT, {method: "POST"}, {previous: getCurrUrlNoParams(false)});

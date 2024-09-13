@@ -5,10 +5,10 @@ $(document).ready(function() {
         const jQuerySubmitter = $(e.originalEvent.submitter);
         if (jQuerySubmitter.is("[data-no-submit]")) {
             switch (jQuerySubmitter.attr("id")) {
-                case "cancel-image-uploads-btn":
+                case "btn--cancel-image-uploads":
                     $("#images-input").val("");
                     break;
-                case "cancel-delete-images-btn":
+                case "btn--cancel-delete-images":
                     $("#delete_images-input").val("");
                     break;
             }
