@@ -18,7 +18,7 @@ $(document).ready(renderQueryStringFlash);
  * We do this instead of changing close button behavior to preserve the fade animation.
  */
 $(document).on("close.bs.alert", "#flash", function(e) {
-    const nodeReplace = e.target.cloneNode(true);
-    nodeReplace.setAttribute("hidden", "");
-    document.getElementById("non-navbar").prepend(nodeReplace);
+    const nodeDuplicate = e.target.cloneNode(true);
+    nodeDuplicate.setAttribute("hidden", "");
+    document.getElementById("non-navbar").prepend(nodeDuplicate);
 });
