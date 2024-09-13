@@ -27,9 +27,9 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 <div class="pt-2">
   <h1 class="post-title mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
   {%- if post.subtitle is not none %}
-    <h2 class="post-subtitle mt-2half mb-0 custom-orange-deep fs-7">{{ post.subtitle|safe }}</h2>
+    <h2 class="post-subtitle mt-2 mb-0 custom-orange-deep fs-7">{{ post.subtitle|safe }}</h2>
   {%- endif %}
-  <div class="d-flex align-items-center mt-2half">
+  <div class="d-flex align-items-center mt-2">
     {%- if post.edited_timestamp is not none %}
       <span class="post-timestamp mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
     {%- else %}
