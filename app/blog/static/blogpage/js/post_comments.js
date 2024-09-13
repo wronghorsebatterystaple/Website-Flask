@@ -120,19 +120,19 @@ $(document).on("click", "input[data-confirm-submit][type='submit']", function() 
 /**
  * Reveals fields for adding the comment on clicking a reply button.
  */
-$(document).on("submit", ".comment-reply-form", function(e) {
+$(document).on("submit", ".comment__form--reply", function(e) {
     e.preventDefault();
 
     let id = getCommentId(e.target);
-    let jQueryCommentReplyAddForm = $(`#comment-reply-add-form-${id}`);
-    jQueryCommentReplyAddForm.removeAttr("hidden");
-    jQueryCommentReplyAddForm.find("#parent").val(id); // insert under right parent
+    let jQueryFormAddReply = $(`#comment__form--add-reply-${id}`);
+    jQueryFormAddReply.removeAttr("hidden");
+    jQueryFormAddReply.find("#parent").val(id); // insert under right parent
     if (isUserAuthenticated) {
         // automatically fill in username if admin
-        jQueryCommentReplyAddForm.find("input[name='author']").first().val(VERIFIED_AUTHOR);
-        jQueryCommentReplyAddForm.find("input[name='content']").first().focus();
+        jQueryFormAddReply.find("input[name='author']").first().val(VERIFIED_AUTHOR);
+        jQueryFormAddReply.find("input[name='content']").first().focus();
     } else {
-        jQueryCommentReplyAddForm.find("input[name='author']").first().focus();
+        jQueryFormAddReply.find("input[name='author']").first().focus();
     }
     e.target.setAttribute("hidden", "");
 

@@ -49,7 +49,7 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: -0.25rem;
 }
 
-.text--comment-nest-limit {
+.comment__text--nest-limit {
     font-size: 0.95rem;
 }
 

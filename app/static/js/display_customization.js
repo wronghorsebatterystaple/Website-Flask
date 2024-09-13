@@ -38,9 +38,9 @@ function applyGlobalStyles(baseSelector) {
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
     jQueryBase.find(".footnote-ref").on("click", function(e) {
-        const jQueryFootnoteDetails = jQueryBase.find("#footnotes__details");
-        if (!jQueryFootnoteDetails.is("[open]")) {
-            jQueryFootnoteDetails.attr("open", "");
+        const jQueryFootnotesDetails = jQueryBase.find("#footnotes__details");
+        if (!jQueryFootnotesDetails.is("[open]")) {
+            jQueryFootnotesDetails.attr("open", "");
         }
     });
     

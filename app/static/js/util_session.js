@@ -1,7 +1,7 @@
 let onModalLogin = function() {
     isUserAuthenticated = true;
     showAuthElems();
-    $("#login-modal").modal("hide");
+    $("#modal-login").modal("hide");
 };
 
 let onModalLogout = function() {
@@ -12,7 +12,7 @@ let onModalLogout = function() {
 function relogin() {
     customFlash("Your session has expired (or you were being sneaky). Please log in.");
     hideAuthElems();
-    $("#login-modal").modal("show");
+    $("#modal-login").modal("show");
 }
 
 function showAuthElems() {
@@ -26,24 +26,24 @@ function hideAuthElems() {
 }
 
 $(document).ready(function() {
-    const jQueryLoginModal = $("#login-modal");
+    const jQueryModalLogin = $("#modal-login");
     // security - wipe contents and toggle password visibility off on hide
-    jQueryLoginModal.on("hidden.bs.modal", function(e) {
-        const jQueryPasswordInput = $(e.target).find("#password-input");
-        jQueryPasswordInput.val("");
-        if (jQueryPasswordInput.attr("type") !== "password") {
-            togglePasswordVisibility(jQueryPasswordInput.attr("id"), "password-show");
+    jQueryModalLogin.on("hidden.bs.modal", function(e) {
+        const jQueryInputPassword = $(e.target).find("#password-input");
+        jQueryInputPassword.val("");
+        if (jQueryInputPassword.attr("type") !== "password") {
+            togglePasswordVisibility(jQueryInputPassword.attr("id"), "password-show");
         }
     });
 
-    jQueryLoginModal.on("shown.bs.modal", function(e) {
+    jQueryModalLogin.on("shown.bs.modal", function(e) {
         $(e.target).find("#password-input").focus();
     });
 
     // differentiate modal vs. non-modal logins for redirect
-    jQueryLoginModal.find("#is_modal").val("yes");
+    jQueryModalLogin.find("#is_modal").val("yes");
 
-    $("#login-form-modal").on("submit", async function(e) {
+    $("#modal-login__form").on("submit", async function(e) {
         e.preventDefault();
 
         let formData = new FormData(e.target, e.originalEvent.submitter);
@@ -66,7 +66,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#login-modal").on("show.bs.modal", function(e) {
+    $("#modal-login").on("show.bs.modal", function(e) {
         if (window.location.href.startsWith(URL_LOGIN)) {
             e.preventDefault();
             customFlash("You're already on the login page, you doofus.");

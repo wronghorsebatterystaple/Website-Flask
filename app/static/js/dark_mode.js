@@ -1,9 +1,18 @@
-const DARKREADER_CONFIG = {
+const DARKREADER_OPTIONS = {
     contrast: 120
 };
+const DARKREADER_FIXES = {
+    // CSS selectors for elements that are not automatically inverted by DarkReader (images, SVG icons etc.)
+    invert: [
+        ".darkreader-manual",
+        ".post__img"
+    ]
+}
+
 DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 
 // out here so it's immediately applied on JS load instead of at `$(document).ready`
+let jQuerySwitchDarkMode = null;
 if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
 } else if (localStorage.getItem("darkMode") === null
@@ -12,13 +21,11 @@ if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
 }
 
-const jQueryDarkModeSwitch = $("#switch--dark-mode");
-
 function enableDarkMode(isVoluntary) {
-    DarkReader.enable(DARKREADER_CONFIG);
+    DarkReader.enable(DARKREADER_OPTIONS, DARKREADER_FIXES);
 
-    if (!jQueryDarkModeSwitch.prop("checked")) {
-        jQueryDarkModeSwitch.prop("checked", true);
+    if (jQuerySwitchDarkMode && !jQuerySwitchDarkMode.prop("checked")) {
+        jQuerySwitchDarkMode.prop("checked", true);
     }
 
     if (isVoluntary) {
@@ -29,8 +36,8 @@ function enableDarkMode(isVoluntary) {
 function disableDarkMode(isVoluntary) {
     DarkReader.disable();
 
-    if (jQueryDarkModeSwitch.prop("checked")) {
-        jQueryDarkModeSwitch.prop("checked", false);
+    if (jQuerySwitchDarkMode && jQuerySwitchDarkMode.prop("checked")) {
+        jQuerySwitchDarkMode.prop("checked", false);
     }
 
     if (isVoluntary) {
@@ -39,11 +46,13 @@ function disableDarkMode(isVoluntary) {
 }
 
 $(document).ready(function() {
+    jQuerySwitchDarkMode = $("#switch--dark-mode");
+
     // if set to dark mode on JS load (below), make sure to sync switch state once the switch loads in
     if (DarkReader.isEnabled()) {
-        jQueryDarkModeSwitch.prop("checked", true);
+        jQuerySwitchDarkMode.prop("checked", true);
     } else {
-        jQueryDarkModeSwitch.prop("checked", false);
+        jQuerySwitchDarkMode.prop("checked", false);
     }
 
     // if defaulting to system setting, detect change in system setting
@@ -59,7 +68,7 @@ $(document).ready(function() {
     });
 
     // not triggered by prop(); detects manual change in switch state and activates/deactivates DarkReader
-    jQueryDarkModeSwitch.on("change", function(e) {
+    jQuerySwitchDarkMode.on("change", function(e) {
         if (e.target.checked) {
             enableDarkMode(true);
         } else {

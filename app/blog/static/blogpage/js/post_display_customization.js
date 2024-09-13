@@ -4,24 +4,24 @@ function applyPostAndCommentStyles(baseSelector) {
         return;
     }
     const jQueryPostContent = jQueryBase.find("#post__content");
-    const jQueryCommentContents = jQueryBase.find(".comment-content");
-    const jQueryPostAndCommentContents = $.merge(jQueryPostContent, jQueryCommentContents);
+    const jQueryCommentContent = jQueryBase.find(".comment__content");
+    const jQueryPostAndCommentContent = $.merge(jQueryPostContent, jQueryCommentContent);
 
     // make all links except same-page ones indicated by custom markdown and same-page URL fragments
     // (including footnotes and footnote backrefs) open in new tab
-    jQueryPostAndCommentContents.find("a").each(function() {
+    jQueryPostAndCommentContent.find("a").each(function() {
         if (!$(this).is("[data-same-page]") && !$(this).attr("href").startsWith("#")) {
             $(this).attr("target", "_blank");
         }
     });
 
     // add CSS classes for extra styling
-    jQueryPostAndCommentContents.find("h1").addClass("post__h1 fs-4");
-    jQueryPostAndCommentContents.find("h2").addClass("post__h2 fs-7");
-    jQueryPostAndCommentContents.find("img").addClass("post__img");
+    jQueryPostAndCommentContent.find("h1").addClass("post__h1 fs-4");
+    jQueryPostAndCommentContent.find("h2").addClass("post__h2 fs-7");
+    jQueryPostAndCommentContent.find("img").addClass("post__img");
 
     // images use alt text as hover text too
-    jQueryPostAndCommentContents.find("img[alt]").each(function() {
+    jQueryPostAndCommentContent.find("img[alt]").each(function() {
         $(this).attr("title", $(this).attr("alt"));
     });
 }

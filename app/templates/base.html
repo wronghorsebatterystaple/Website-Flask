@@ -124,7 +124,7 @@
           <span>Home</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+          <span class="icon-navbar-toggler darkreader-manual"></span>
         </button>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -145,7 +145,7 @@
             </li>
 
             <li class="nav-item auth-false"{%- if current_user.is_authenticated %} hidden{%- endif %}>
-              <button class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
+              <button class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#modal-login">Admin login</button>
             </li>
             <li class="nav-item auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
               <button id="link--logout" class="nav-link btn" type="button">Logout pls :3</button>
@@ -175,7 +175,7 @@
         <!-- display flash()ed messages as alerts -->
         <div id="flash" class="flash alert alert-info alert-dismissible fade show" role="alert" hidden>
           <span id="flash-text"></span>
-          <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Dismiss"></button>
+          <button class="btn-close darkreader-manual" type="button" data-bs-dismiss="alert" aria-label="Dismiss"></button>
         </div>
 
         <div>
@@ -186,15 +186,15 @@
   </div>
 
   <!-- login modal -->
-  <div id="login-modal" class="modal fade" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
+  <div id="modal-login" class="modal fade" tabindex="-1" aria-labelledby="modal-login__label" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 id="login-modal-label" class="modal-title fs-6">Access the Secrets of the Universe</h1>
-          <button id="login-modal-close" class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1 id="modal-login__label" class="modal-title fs-6">Access the Secrets of the Universe</h1>
+          <button class="btn-close darkreader-manual" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          {{ wtf.quick_form(login_form, id="login-form-modal", bottom_margin=0) }}
+          {{ wtf.quick_form(login_form, id="modal-login__form", bottom_margin=0) }}
         </div>
       </div>
     </div>

@@ -83,10 +83,6 @@ textarea {
     border-left-color: var(--custom-pink-light) !important;
 }
 
-.ms-2half {
-    margin-left: 0.75rem !important;
-}
-
 .code-block--outside {
     margin-bottom: 0.5rem;
     border: 1px solid black;
@@ -192,15 +188,6 @@ textarea {
 .nav-link {
     border-width: 0;
     background-color: transparent !important;
-}
-
-/* these two selectors are for compability with both light & dark mode, as DarkReader doesn't change these well */
-.navbar-toggler {
-    border-color: rgba(128, 128, 128, 0.4) !important;
-}
-
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28128, 128, 128, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
 .toggle--password-visibility {

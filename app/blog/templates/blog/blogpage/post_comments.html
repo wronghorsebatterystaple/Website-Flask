@@ -10,7 +10,7 @@
     {%- if comment.author|trim == config["VERIFIED_AUTHOR"] %}
       <div class="comment card mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %} border--custom-orange-deep border--3px">
         <div class="card-body pb-2">
-          <h3 class="comment-author d-flex align-items-center me-1">
+          <h3 class="d-flex align-items-center me-1">
             <span class="me-2">{{ comment.author }}</span><i class="bi bi-check-circle" title="Actually verified, unlike Twitter."></i>
           </h3>
     {%- else %}
@@ -18,20 +18,20 @@
         <div class="card-body pb-2">
           <h3 class="mb-2 fs-8">{{ comment.author }}</h3>
     {%- endif %}
-        <div class="comment-content mb-3 gray">{{ comment.content|safe }}</div>
+        <div class="comment__content mb-3 gray">{{ comment.content|safe }}</div>
         <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
         
         {%- if comment.depth < 6 %}
-          {{ wtf.quick_form(reply_comment_btn, id="comment-reply-form-" ~ comment.id, class="comment-reply-form", btn_type="no-bg", btn_color="custom-orange-deep", bottom_margin=0) }}
-          {{ wtf.quick_form(add_comment_form, id="comment-reply-add-form-" ~ comment.id, class="comment-add-form ajax-add-comment", bottom_margin=2, hidden=true) }}
+          {{ wtf.quick_form(reply_comment_btn, id="comment__form--reply-" ~ comment.id, class="comment__form--reply", btn_type="no-bg", btn_color="custom-orange-deep", bottom_margin=0) }}
+          {{ wtf.quick_form(add_comment_form, id="comment__form--add-reply-" ~ comment.id, class="ajax-add-comment", bottom_margin=2, hidden=true) }}
         {%- else %}
-          <p class="text--comment-nest-limit mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
+          <p class="comment__text--nest-limit mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
         {%- endif %}
 
         {%- if current_user.is_authenticated %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment-delete-form-" ~ comment.id, class="comment-delete-form ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0) }}
+          {{ wtf.quick_form(delete_comment_btn, class="ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0) }}
         {%- else %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment-delete-form-" ~ comment.id, class="comment-delete-form ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0, hidden=true) }}
+          {{ wtf.quick_form(delete_comment_btn, class="ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0, hidden=true) }}
         {%- endif %}
       </div>
     </div>

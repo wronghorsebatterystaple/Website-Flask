@@ -1,30 +1,30 @@
-function togglePasswordVisibility(passwordInputId, visToggleId) {
-    const jQueryPasswordInput = $(`#${passwordInputId}`);
+function togglePasswordVisibility(inputId, toggleId) {
+    const jQueryInput = $(`#${inputId}`);
 
-    if (jQueryPasswordInput.attr("type") === "password") {
-        jQueryPasswordInput.attr("type", "text");
-        setEyeWithoutSlash(visToggleId);
+    if (jQueryInput.attr("type") === "password") {
+        jQueryInput.attr("type", "text");
+        setEyeWithoutSlash(toggleId);
     } else {
-        jQueryPasswordInput.attr("type", "password");
-        setEyeWithSlash(visToggleId);
+        jQueryInput.attr("type", "password");
+        setEyeWithSlash(toggleId);
     }
 }
 
-function setEyeWithSlash(visToggleId) {
-    const jQueryVisToggle = $(`#${visToggleId}`);
-    jQueryVisToggle.removeClass("bi-eye");
-    jQueryVisToggle.addClass("bi-eye-slash");
+function setEyeWithSlash(toggleId) {
+    const jQueryToggle = $(`#${toggleId}`);
+    jQueryToggle.removeClass("bi-eye");
+    jQueryToggle.addClass("bi-eye-slash");
 }
 
-function setEyeWithoutSlash(visToggleId) {
-    const jQueryVisToggle = $(`#${visToggleId}`);
-    jQueryVisToggle.removeClass("bi-eye-slash");
-    jQueryVisToggle.addClass("bi-eye");
+function setEyeWithoutSlash(toggleId) {
+    const jQueryToggle = $(`#${toggleId}`);
+    jQueryToggle.removeClass("bi-eye-slash");
+    jQueryToggle.addClass("bi-eye");
 }
 
 $(document).ready(function() {
     $(".toggle--password-visibility").on("click", function(e) {
-        const jQueryVisToggle = $(e.target);
-        togglePasswordVisibility(jQueryVisToggle.attr("data-target"), jQueryVisToggle.attr("id"));
+        const jQueryToggle = $(e.target);
+        togglePasswordVisibility(jQueryToggle.attr("data-target"), jQueryToggle.attr("id"));
     });
 });
