@@ -26,22 +26,22 @@ function hideAuthElems() {
 }
 
 $(document).ready(function() {
-    const elemLoginModal = $("#login-modal");
+    const jQueryLoginModal = $("#login-modal");
     // security - wipe contents and toggle password visibility off on hide
-    elemLoginModal.on("hidden.bs.modal", function(e) {
-        const elemPasswordInput = $(e.target).find("#password-input");
-        elemPasswordInput.val("");
-        if (elemPasswordInput.attr("type") !== "password") {
-            togglePasswordVisibility(elemPasswordInput.attr("id"), "password-show");
+    jQueryLoginModal.on("hidden.bs.modal", function(e) {
+        const jQueryPasswordInput = $(e.target).find("#password-input");
+        jQueryPasswordInput.val("");
+        if (jQueryPasswordInput.attr("type") !== "password") {
+            togglePasswordVisibility(jQueryPasswordInput.attr("id"), "password-show");
         }
     });
 
-    elemLoginModal.on("shown.bs.modal", function(e) {
+    jQueryLoginModal.on("shown.bs.modal", function(e) {
         $(e.target).find("#password-input").focus();
     });
 
     // differentiate modal vs. non-modal logins for redirect
-    elemLoginModal.find("#is_modal").val("yes");
+    jQueryLoginModal.find("#is_modal").val("yes");
 
     $("#login-form-modal").on("submit", async function(e) {
         e.preventDefault();

@@ -2,10 +2,8 @@ const IS_FIREFOX = navigator.userAgent.toLowerCase().includes("firefox");
 let styleSheetColors = null;
 // with Firefox, DarkReader doesn't affect `adoptedStyleSheets` properly and uses some weird fallback thing
 if (IS_FIREFOX) {
-    console.log("firefox");
     styleSheetColors = document.styleSheets[0];
 } else {
-    console.log("not firefox");
     styleSheetColors = new CSSStyleSheet();
     document.adoptedStyleSheets.push(styleSheetColors);
 }

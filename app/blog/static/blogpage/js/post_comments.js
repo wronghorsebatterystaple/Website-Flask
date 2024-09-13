@@ -107,8 +107,8 @@ function onCommentAjaxDone(respJson, e) {
     }
 }
 
-function getCommentId(domForm) {
-    return $(domForm).attr("id").match(/\d+/)[0];
+function getCommentId(nodeForm) {
+    return $(nodeForm).attr("id").match(/\d+/)[0];
 }
 
 // no `$(document).ready` listener attachments for the remaining listeners since comments can be reloaded
@@ -124,15 +124,15 @@ $(document).on("submit", ".comment-reply-form", function(e) {
     e.preventDefault();
 
     let id = getCommentId(e.target);
-    let elemCommentReplyAddForm = $(`#comment-reply-add-form-${id}`);
-    elemCommentReplyAddForm.removeAttr("hidden");
-    elemCommentReplyAddForm.find("#parent").val(id); // insert under right parent
+    let jQueryCommentReplyAddForm = $(`#comment-reply-add-form-${id}`);
+    jQueryCommentReplyAddForm.removeAttr("hidden");
+    jQueryCommentReplyAddForm.find("#parent").val(id); // insert under right parent
     if (isUserAuthenticated) {
         // automatically fill in username if admin
-        elemCommentReplyAddForm.find("input[name='author']").first().val(VERIFIED_AUTHOR);
-        elemCommentReplyAddForm.find("input[name='content']").first().focus();
+        jQueryCommentReplyAddForm.find("input[name='author']").first().val(VERIFIED_AUTHOR);
+        jQueryCommentReplyAddForm.find("input[name='content']").first().focus();
     } else {
-        elemCommentReplyAddForm.find("input[name='author']").first().focus();
+        jQueryCommentReplyAddForm.find("input[name='author']").first().focus();
     }
     e.target.setAttribute("hidden", "");
 

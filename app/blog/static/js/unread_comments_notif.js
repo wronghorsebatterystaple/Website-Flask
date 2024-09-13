@@ -1,4 +1,4 @@
-const elemUnreadCommentsDropdownBtnIcon = $("#unread-comments-notif-btn-icon");
+const jQueryUnreadCommentsDropdownBtnIcon = $("#unread-comments-notif-btn-icon");
 
 // when logging in via modal on a `blog.` page/opening a `blog.` page as admin, check for notifications
 onModalLogin = addToFunction(onModalLogin, function() {
@@ -20,35 +20,35 @@ async function updateUnreadCommentsNotifs() {
 }
 
 function setBellWithNotif() {
-    elemUnreadCommentsDropdownBtnIcon.removeClass("bi-bell");
-    elemUnreadCommentsDropdownBtnIcon.addClass("bi-bell-fill");
+    jQueryUnreadCommentsDropdownBtnIcon.removeClass("bi-bell");
+    jQueryUnreadCommentsDropdownBtnIcon.addClass("bi-bell-fill");
 }
 
 function setBellWithoutNotif() {
-    elemUnreadCommentsDropdownBtnIcon.removeClass("bi-bell-fill");
-    elemUnreadCommentsDropdownBtnIcon.addClass("bi-bell");
+    jQueryUnreadCommentsDropdownBtnIcon.removeClass("bi-bell-fill");
+    jQueryUnreadCommentsDropdownBtnIcon.addClass("bi-bell");
 }
 
 async function updateUnreadCommentsDropdown() {
-    const elemUnreadCommentsDropdown = $("#unread-comments-dropdown");
+    const jQueryUnreadCommentsDropdown = $("#unread-comments-dropdown");
 
     // get posts with unread comments
-    elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Loading…</span>");
+    jQueryUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Loading…</span>");
     const respJson = await fetchWrapper(URL_GET_POSTS_WITH_UNREAD_COMMENTS, {method: "POST"});
 
     if (respJson.errorStatus) {
-        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Unable to load posts :/</span>");
+        jQueryUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Unable to load posts :/</span>");
         return -1;
     }
 
     if (respJson.relogin) {
-        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Not so fast :]</span>");
+        jQueryUnreadCommentsDropdown.html("<span class=\"dropdown-item\">Not so fast :]</span>");
         return -1;
     }
 
     let postCount = Object.keys(respJson).length;
     if (postCount === 0) {
-        elemUnreadCommentsDropdown.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
+        jQueryUnreadCommentsDropdown.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
         return postCount;
     }
 
@@ -56,7 +56,7 @@ async function updateUnreadCommentsDropdown() {
     for (const [postTitle, v] of Object.entries(respJson)) {
         html += `<a class="dropdown-item" href="${v.url}"><span class="custom-pink">(${v.unread_count})</span> ${postTitle}</a>`;
     }
-    elemUnreadCommentsDropdown.html(html);
+    jQueryUnreadCommentsDropdown.html(html);
 
     return postCount;
 }
@@ -67,8 +67,8 @@ async function updateUnreadCommentsDropdown() {
 const styleSheetDropdownAlign = new CSSStyleSheet();
 document.adoptedStyleSheets.push(styleSheetDropdownAlign);
 function alignDropdownLeftwards(records) {
-    const domDropdown = records[0].target;
-    let offset = domDropdown.offsetWidth - document.querySelector("#unread-comments-notif-btn").offsetWidth;
+    const nodeDropdown = records[0].target;
+    let offset = nodeDropdown.offsetWidth - document.querySelector("#unread-comments-notif-btn").offsetWidth;
     styleSheetDropdownAlign.replaceSync(`:root { --unread-comments-dropdown-left: -${offset}px; }`);
 }
 

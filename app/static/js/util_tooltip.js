@@ -1,10 +1,10 @@
 function refreshTooltips(baseSelector) {
-    const domBase = document.querySelector(baseSelector);
-    if (!domBase) {
+    const nodeBase = document.querySelector(baseSelector);
+    if (!nodeBase) {
         return;
     }
 
-    const tooltipTriggerList = domBase.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipTriggerList = nodeBase.querySelectorAll('[data-bs-toggle="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 }
 

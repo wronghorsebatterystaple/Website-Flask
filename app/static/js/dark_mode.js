@@ -15,9 +15,9 @@ if (localStorage.getItem("darkMode") === "true") {
 function enableDarkMode(isVoluntary) {
     DarkReader.enable(DARKREADER_CONFIG);
 
-    const elemDarkModeSwitch = $("#dark-mode-switch");
-    if (!elemDarkModeSwitch.prop("checked")) {
-        elemDarkModeSwitch.prop("checked", true);
+    const jQueryDarkModeSwitch = $("#dark-mode-switch");
+    if (!jQueryDarkModeSwitch.prop("checked")) {
+        jQueryDarkModeSwitch.prop("checked", true);
     }
 
     if (isVoluntary) {
@@ -28,9 +28,9 @@ function enableDarkMode(isVoluntary) {
 function disableDarkMode(isVoluntary) {
     DarkReader.disable();
 
-    const elemDarkModeSwitch = $("#dark-mode-switch");
-    if (elemDarkModeSwitch.prop("checked")) {
-        elemDarkModeSwitch.prop("checked", false);
+    const jQueryDarkModeSwitch = $("#dark-mode-switch");
+    if (jQueryDarkModeSwitch.prop("checked")) {
+        jQueryDarkModeSwitch.prop("checked", false);
     }
 
     if (isVoluntary) {
@@ -39,13 +39,13 @@ function disableDarkMode(isVoluntary) {
 }
 
 $(document).ready(function() {
-    const elemDarkModeSwitch = $("#dark-mode-switch");
+    const jQueryDarkModeSwitch = $("#dark-mode-switch");
 
     // if set to dark mode on JS load (below), make sure to sync switch state once the switch loads in
     if (DarkReader.isEnabled()) {
-        elemDarkModeSwitch.prop("checked", true);
+        jQueryDarkModeSwitch.prop("checked", true);
     } else {
-        elemDarkModeSwitch.prop("checked", false);
+        jQueryDarkModeSwitch.prop("checked", false);
     }
 
     // if defaulting to system setting, detect change in system setting
@@ -61,7 +61,7 @@ $(document).ready(function() {
     });
 
     // not triggered by prop(); detects manual change in switch state and activates/deactivates DarkReader
-    elemDarkModeSwitch.on("change", function(e) {
+    jQueryDarkModeSwitch.on("change", function(e) {
         if (e.target.checked) {
             enableDarkMode(true);
         } else {
