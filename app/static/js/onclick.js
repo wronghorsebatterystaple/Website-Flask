@@ -6,4 +6,8 @@ $(document).ready(function() {
     $("input[data-confirm-submit][type='submit']").on("click", function() {
         return confirm("Mouse aim check");
     });
+
+    $("#meow").on("click", function() {
+        customFlash("meow :3");
+    });
 });

@@ -15,6 +15,12 @@ const URL_GET_POSTS_WITH_UNREAD_COMMENTS = "{{ url_for('blog.get_posts_with_unre
 <script src="{{ url_for('blog.static', filename='js/unread_comments_notif.js', _external=True) }}" defer></script>
 {%- endblock %}
 
+{%- block navbar_additions_left %}
+<li class="nav-item">
+  <a id="meow" class="nav-link" href="#">meow :3</a>
+</li>
+{%- endblock %}
+
 {%- block navbar_additions_right %}
 <li class="nav-item dropdown auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
   <button id="unread-comments-notif-btn" class="nav-link btn" type="button" data-bs-toggle="dropdown"><i id="unread-comments-notif-btn-icon" class="bi bi-bell"></i></button>
