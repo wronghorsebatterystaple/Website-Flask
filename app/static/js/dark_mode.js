@@ -7,7 +7,7 @@ const DARKREADER_FIXES = {
         ".darkreader-manual",
         ".post__img"
     ]
-}
+};
 
 DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 
