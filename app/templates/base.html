@@ -79,6 +79,8 @@
     <!-- JS -->
       <!-- inline (passing vars from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
+          // I f&*cking hate browser issues
+          const IS_FIREFOX = navigator.userAgent.toLowerCase().includes("firefox");
           const URL_BACKGROUND_IMG_DEFAULT = "{{ url_for('static', filename='images/background_default.svg', _external=True) }}";
           const URL_LOGIN = "{{ url_for('admin.login', _external=True) }}";
           const URL_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
@@ -124,7 +126,7 @@
           <span>Home</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="icon-navbar-toggler darkreader-manual"></span>
+          <span class="icon-navbar-toggler"></span>
         </button>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -173,9 +175,9 @@
 
       <div id="non-navbar" class="mt-2">
         <!-- display flash()ed messages as alerts -->
-        <div id="flash" class="flash alert alert-info alert-dismissible fade show" role="alert" hidden>
+        <div id="flash" class="flash alert alert-info alert-dismissible fade show sticky-top" role="alert" hidden>
           <span id="flash-text"></span>
-          <button class="btn-close darkreader-manual" type="button" data-bs-dismiss="alert" aria-label="Dismiss"></button>
+          <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Dismiss"></button>
         </div>
 
         <div>
@@ -191,7 +193,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 id="modal-login__label" class="modal-title fs-6">Access the Secrets of the Universe</h1>
-          <button class="btn-close darkreader-manual" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           {{ wtf.quick_form(login_form, id="modal-login__form", bottom_margin=0) }}

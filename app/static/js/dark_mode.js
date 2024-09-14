@@ -1,12 +1,6 @@
 const DARKREADER_OPTIONS = {
     contrast: 120
 };
-const DARKREADER_FIXES = {
-    // CSS selectors for elements that are not automatically inverted by DarkReader (images, SVG icons etc.)
-    invert: [
-        ".darkreader-manual"
-    ]
-};
 
 DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 
@@ -21,7 +15,7 @@ if (localStorage.getItem("darkMode") === "true") {
 }
 
 function enableDarkMode(isVoluntary) {
-    DarkReader.enable(DARKREADER_OPTIONS, DARKREADER_FIXES);
+    DarkReader.enable(DARKREADER_OPTIONS);
 
     if (jQuerySwitchDarkMode && !jQuerySwitchDarkMode.prop("checked")) {
         jQuerySwitchDarkMode.prop("checked", true);
