@@ -1,5 +1,5 @@
 const DARKREADER_OPTIONS = {
-    contrast: 120
+    contrast: 130
 };
 
 DarkReader.setFetchMethod(window.fetch); // solves CORS issue
