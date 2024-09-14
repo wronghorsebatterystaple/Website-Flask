@@ -4,8 +4,7 @@ const DARKREADER_OPTIONS = {
 const DARKREADER_FIXES = {
     // CSS selectors for elements that are not automatically inverted by DarkReader (images, SVG icons etc.)
     invert: [
-        ".darkreader-manual",
-        ".post__img"
+        ".darkreader-manual"
     ]
 };
 
