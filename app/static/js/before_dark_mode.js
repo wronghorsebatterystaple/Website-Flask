@@ -19,7 +19,7 @@ function randomizeColors() {
     `);
 
     const colorChoicesFlash = [
-        ["--custom-blue", "--custom-blue-xxxlight"],
+        ["--custom-blue-light", "--custom-blue-xxxlight"],
         ["--custom-green", "--custom-green-xxxlight"],
         ["--custom-orange-light", "--custom-orange-xxxlight"],
         ["--custom-pink-xlight", "--custom-pink-xxxlight"]
