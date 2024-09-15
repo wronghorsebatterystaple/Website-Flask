@@ -18,7 +18,7 @@ const totalPages = {{ total_pages }};
 
   <a class="btn btn-primary btn--custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
 </div>
-<hr class="mt-4" />
+<hr />
 
 <div>
   {%- for post in posts %}
