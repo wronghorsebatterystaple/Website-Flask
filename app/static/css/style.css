@@ -27,6 +27,11 @@ code {
     font-size: 97.5% !important;
 }
 
+.dropdown-menu {
+    --bs-dropdown-link-active-color: var(--bs-body-color);
+    --bs-dropdown-link-active-bg: var(--custom-blue-light);
+}
+
 /* prevent dropdowns from overflowing if dropdown not collapsed; positioning is left to JS */
 @media (min-width: 768px) { /* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
     nav .dropdown-menu {
