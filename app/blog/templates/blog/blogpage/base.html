@@ -9,7 +9,7 @@
 {{ super() }}
 // pieces for optionally piecing together `urlBackgroundImgOverride`
 const URL_BACKGROUND_IMG_OVERRIDE_BASE = "{{ url_for('blog.static', filename='blogpage/' ~ blogpage_id ~ '/images/', _external=True) }}";
-var backgroundImgOverrideName = "";
+var backgroundImgOverrideName = null;
 {%- endblock %}
 
 {%- block css %}
