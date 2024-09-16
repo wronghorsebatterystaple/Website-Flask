@@ -231,13 +231,19 @@ textarea {
     background-attachment: fixed;
 }
 
-#navbar__home { /* for (approx) centering due to larger font */
+/* for (approx) centering due to larger font */
+#navbar__home {
     margin-top: -0.1em;
 }
 
 #navbar__logo {
     width: 2rem;
     height: 2rem;
+}
+
+/* for aligning right side exactly to edge of container */
+#navbar__right {
+    margin-right: calc(-1 * var(--bs-navbar-nav-link-padding-x));
 }
 
 #switch--dark-mode { /* for (approx) centering due to low descender height and thus typefacing biasing upwards */
