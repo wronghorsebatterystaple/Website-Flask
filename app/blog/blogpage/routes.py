@@ -29,11 +29,9 @@ def index():
 
     blogpage_id = blogpage_util.get_blogpage_id()
     blogpage = db.session.get(Blogpage, blogpage_id)
-    if blogpage is None:
-        return redirect(url_for("blog.index", flash_msg="That blogpage doesn't exist :/", _external=True))
+
     posts = None
     is_all_posts = False
-
     if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
         is_all_posts = True
         posts = db.paginate(

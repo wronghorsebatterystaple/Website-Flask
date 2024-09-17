@@ -85,7 +85,7 @@ def post_nonexistent_response(content_type):
         case util.ContentType.HTML:
             return redirect(url_for(
                     f"{request.blueprint}.index",
-                    flash_msg=util.encode_uri_component("That post doesn't exist."),
+                    flash_msg=util.encode_uri_component("That post doesn't exist :/"),
                     _external=True))
         case util.ContentType.JSON:
             return jsonify(

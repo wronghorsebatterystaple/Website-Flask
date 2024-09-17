@@ -63,4 +63,6 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
 {%- block js_end_linked %}
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}"></script>
+<!-- must be after `post_display_customization.js` for `post__h1` etc. classes to be applied, but also must not be deffered so that AnchorJS adds `id`s soon enough for external links to a URL fragment to work -->
+<script src="{{ url_for('blog.static', filename='blogpage/js/post_anchorjs.js', _external=True) }}"></script>
 {%- endblock %}

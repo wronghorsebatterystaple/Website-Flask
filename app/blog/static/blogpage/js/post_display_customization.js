@@ -31,15 +31,6 @@ function applyPostAndCommentStyles(baseSelector) {
     });
 }
 
-const ANCHORJS_OPTIONS = {
-    icon: "\uF470",
-    placement: "right"
-};
-function addPostAnchors() {
-    anchors.options = ANCHORJS_OPTIONS;
-    anchors.add(".post__h1, .post__h2");
-}
-
 // for syntax guide
 function addCommentHoverTooltip() {
     let text = "";
