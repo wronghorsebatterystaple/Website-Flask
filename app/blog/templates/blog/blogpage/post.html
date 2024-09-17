@@ -5,7 +5,7 @@
 {{ post_title_no_markdown }} - {{ blogpage.name }}
 {%- endblock %}
 
-{%- block js_inline %}
+{%- block js_start_inline %}
 {{ super() }}
 const VERIFIED_AUTHOR = "{{ config["VERIFIED_AUTHOR"] }}";
 const URL_ADD_COMMENT = "{{ url_for('blog.' ~ blogpage_id ~ '.add_comment', post_sanitized_title=post.sanitized_title, _external=True) }}";
@@ -17,9 +17,8 @@ const URL_MARK_COMMENTS_AS_READ = "{{ url_for('blog.' ~ blogpage_id ~ '.mark_com
 const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {%- endblock %}
 
-{%- block js_defer %}
+{%- block js_deferred_linked %}
 {{ super() }}
-<script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}" defer></script>
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_comments.js', _external=True) }}" defer></script>
 {%- endblock %}
 
@@ -60,4 +59,8 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
   <h2 class="mb-0 fs-4">Comments <span id="comment-counts" class="gray"></span></h2>
   <div id="comment-list" class="d-flex flex-column flex-shrink-0"></div>
 </div>
+{%- endblock %}
+
+{%- block js_end_linked %}
+<script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}" defer></script>
 {%- endblock %}

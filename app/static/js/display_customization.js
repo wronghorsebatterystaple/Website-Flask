@@ -116,6 +116,4 @@ function syntaxHighlightNonTable(baseSelector) {
     });
 }
 
-$(document).ready(function() {
-    applyGlobalStyles("body");
-});
+applyGlobalStyles("body");

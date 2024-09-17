@@ -15,6 +15,7 @@ class Config(object):
             "cdnjs.cloudflare.com"          # Highlight.js
         ],
         "font-src": _csp_default_src + [
+            "data:",
             "cdn.jsdelivr.net"              # MathJax
         ],
         "img-src": _csp_default_src + [

@@ -23,7 +23,7 @@ class HeadingIdTreeprocessor(Treeprocessor):
     def run(self, root):
         for elem in root:
             if elem.tag in {"h1", "h2"}:
-                elem.set("id", HeadingIdTreeprocessor.sanitize_heading(elem.text))
+                elem.set("class", f"post__{elem.tag}");
             self.run(elem)
 
     @staticmethod
@@ -451,4 +451,4 @@ class CustomBlockExtensions(Extension):
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
         md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
         md.parser.blockprocessors.register(ThmBlockProcessor(md.parser), "thm", 105)
-        md.treeprocessors.register(HeadingIdTreeprocessor(self), "heading_id", 999)
+        # md.treeprocessors.register(HeadingIdTreeprocessor(self), "heading_id", 999)

@@ -25,7 +25,7 @@
           {{ wtf.quick_form(reply_comment_btn, id="comment__form--reply-" ~ comment.id, class="comment__form--reply", btn_type="no-bg", btn_color="custom-orange-deep", bottom_margin=0) }}
           {{ wtf.quick_form(add_comment_form, id="comment__form--add-reply-" ~ comment.id, class="ajax-add-comment", bottom_margin=2, hidden=true) }}
         {%- else %}
-          <p class="comment__text--nest-limit mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
+          <p class="comment__nest-limit-text mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
         {%- endif %}
 
         {%- if current_user.is_authenticated %}

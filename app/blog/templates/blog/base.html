@@ -5,12 +5,12 @@
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='css/style.css', _external=True) }}" />
 {%- endblock %}
 
-{%- block js_inline %}
+{%- block js_start_inline %}
 {{ super() }}
 const URL_GET_POSTS_WITH_UNREAD_COMMENTS = "{{ url_for('blog.get_posts_with_unread_comments', _external=True) }}";
 {%- endblock %}
 
-{%- block js_defer %}
+{%- block js_deferred_linked %}
 {{ super() }}
 <script src="{{ url_for('blog.static', filename='js/unread_comments_notif.js', _external=True) }}" defer></script>
 {%- endblock %}
