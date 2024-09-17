@@ -42,8 +42,9 @@ function addPostAnchors() {
 
 // for syntax guide
 function addCommentHoverTooltip() {
+    let text = "";
     $("[data-comment-formatting-tooltip]").first().parent().prev().each(function() {
-        let text = $(this).text();
+        text = $(this).text();
         $(this).html("<a id=\"comment-formatting-tooltip\"></a>"); // need `<a>` so tooltip disappears on hover end
     });
 

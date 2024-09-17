@@ -17,9 +17,7 @@ function applyGlobalStyles(baseSelector) {
     jQueryBase.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
 
     // no extra space between lists and their "heading" text
-    $.merge(jQueryBase.find("ul"), jQueryBase.find("ol")).each(function() {
-        $(this).prev("p").addClass("mb-0");
-    });
+    jQueryBase.find("ol, ul").prev("p").addClass("mb-0");
 
     // footnote tweaks
     const jQueryFootnotes = jQueryBase.find(".footnote").first();
@@ -32,8 +30,6 @@ function applyGlobalStyles(baseSelector) {
         const jQueryFootnotesList = jQueryFootnotes.children("ol").first();
         jQueryFootnotesList.addClass("mb-0");
         jQueryFootnotesList.children("li").addClass("mb-1");
-
-        genFootnoteTooltips(baseSelector);
     }
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
@@ -55,23 +51,13 @@ function applyCustomMarkdown(baseSelector) {
     }
 
     // custom table horizontal and vertical align syntax
-    jQueryBase.find("[data-align-center]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-center");
-    });
-    jQueryBase.find("[data-align-right]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("text-end");
-    });
-    jQueryBase.find("[data-align-top]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-top");
-    });
-    jQueryBase.find("[data-align-bottom]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).addClass("align-bottom");
-    });
+    jQueryBase.find("[data-align-center]").parents("th, td").addClass("text-center");
+    jQueryBase.find("[data-align-right]").parents("th, td").addClass("text-end");
+    jQueryBase.find("[data-align-top]").parents("th, td").addClass("align-top");
+    jQueryBase.find("[data-align-bottom]").parents("th, td").addClass("align-bottom");
 
     // custom table column width syntax
-    jQueryBase.find("[data-col-width]").each(function() {
-        $.merge($(this).parents("th"), $(this).parents("td")).attr("width", $(this).attr("data-col-width"));
-    });
+    jQueryBase.find("[data-col-width]").parents("th, td").attr("width", $(this).attr("data-col-width"));
 
     // no extra `<p>` tags in custom figures/captions
     jQueryBase.find(".md-captioned-figure").find("p").children("img").unwrap();
@@ -117,3 +103,8 @@ function syntaxHighlightNonTable(baseSelector) {
 }
 
 applyGlobalStyles("body");
+
+$(document).ready(function() {
+    // must wait until `$(document).ready()` to make sure MathJax has been loaded
+    genFootnoteTooltips("body");
+});
