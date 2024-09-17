@@ -102,7 +102,22 @@ function syntaxHighlightNonTable(baseSelector) {
     });
 }
 
+// CSSStyleSheet used since URLs within CSS `var()` are not detected by DarkReader, and JQuery `css()` is inline
+// which we want to try and avoid
+const styleSheetBackgroundImg = new CSSStyleSheet();
+document.adoptedStyleSheets.push(styleSheetBackgroundImg);
+function reloadBackgroundImg() {
+    if (urlBackgroundImgOverride !== "") {
+        styleSheetBackgroundImg.replaceSync(
+                `#background-img { background-image: url(${urlBackgroundImgOverride}) }`);
+    } else {
+        styleSheetBackgroundImg.replaceSync(
+                `#background-img { background-image: url(${URL_BACKGROUND_IMG_DEFAULT}) }`);
+    }
+}
+
 applyGlobalStyles("body");
+reloadBackgroundImg();
 
 $(document).ready(function() {
     // must wait until `$(document).ready()` to make sure MathJax has been loaded

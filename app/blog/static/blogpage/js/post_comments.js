@@ -111,7 +111,7 @@ function getCommentId(nodeForm) {
     return $(nodeForm).attr("id").match(/\d+/)[0];
 }
 
-// no `$(document).ready` listener attachments for the remaining listeners since comments can be reloaded
+// no `$(document).ready()` listener attachments for the remaining listeners since comments can be reloaded
 
 $(document).on("click", "input[data-confirm-submit][type='submit']", function() {
     return confirm("Sanity check");
