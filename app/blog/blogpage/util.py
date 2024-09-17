@@ -78,8 +78,8 @@ def login_required_check_blogpage(content_type, do_relogin=True):
 
 
 def post_nonexistent_response(content_type):
-    if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
-        content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
+    if content_type == util.ContentType.DEPENDS_ON_REQ_METHOD:
+        content_type = util.ContentType.HTML if request.method == "GET" else util.ContentType.JSON
 
     match content_type:
         case util.ContentType.HTML:
