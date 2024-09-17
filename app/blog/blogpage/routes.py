@@ -29,6 +29,8 @@ def index():
 
     blogpage_id = blogpage_util.get_blogpage_id()
     blogpage = db.session.get(Blogpage, blogpage_id)
+    if blogpage is None:
+        return redirect(url_for("blog.index", flash_msg="That blogpage doesn't exist :/", _external=True))
     posts = None
     is_all_posts = False
 
