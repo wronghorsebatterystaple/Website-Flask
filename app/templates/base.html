@@ -218,6 +218,7 @@
     </script>
 
   <!-- JS -->
+    <!-- here to execute after all elements loaded, but before `$(document).ready()` to avoid page briefly appearing without the display changes -->
     <script src="{{ url_for('static', filename='js/display_customization.js', _external=True) }}"></script>
     {%- block js_end_linked %}{%- endblock %}
   </body>

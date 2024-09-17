@@ -62,5 +62,5 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 {%- endblock %}
 
 {%- block js_end_linked %}
-<script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}" defer></script>
+<script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}"></script>
 {%- endblock %}

@@ -29,43 +29,51 @@ function applyPostAndCommentStyles(baseSelector) {
     jQueryPostAndCommentContent.find(".post__img[alt], .comment__img[alt]").each(function() {
         $(this).attr("title", $(this).attr("alt"));
     });
+}
 
-    // apply anchors
-    anchors.options = {
-        icon: "\uF470",
-        placement: "right"
-    };
+const ANCHORJS_OPTIONS = {
+    icon: "\uF470",
+    placement: "right"
+};
+function addPostAnchors() {
+    anchors.options = ANCHORJS_OPTIONS;
     anchors.add(".post__h1, .post__h2");
 }
 
-// add comment hover tooltip for syntax guide
-let text = "";
-$("[data-comment-formatting-tooltip]").first().parent().prev().each(function() {
-    text = $(this).text();
-    $(this).html("<a id=\"comment-formatting-tooltip\"></a>"); // need `<a>` so tooltip disappears on hover end
-});
-$("#comment-formatting-tooltip")
-        .append(`${text} (hover to show formatting options)`)
-        .attr("data-bs-toggle", "tooltip")
-        .attr("data-bs-custom-class", "tooltip--text-align-left")
-        .attr("data-bs-html", "true")
-        .attr("data-bs-title", `
-            <ul class='mb-0'>
-              <li>Markdown
-                <ul>
-                  <li>Tables: GFM, or reStructuredText Grid with line separators</li>
-                  <li>No images</li>
-                  <li>Links are not rendered; use plain text & no footnotes</li>
+// for syntax guide
+function addCommentHoverTooltip() {
+    $("[data-comment-formatting-tooltip]").first().parent().prev().each(function() {
+        let text = $(this).text();
+        $(this).html("<a id=\"comment-formatting-tooltip\"></a>"); // need `<a>` so tooltip disappears on hover end
+    });
+
+    $("#comment-formatting-tooltip")
+            .append(`${text} (hover to show formatting options)`)
+            .attr("data-bs-toggle", "tooltip")
+            .attr("data-bs-custom-class", "tooltip--text-align-left")
+            .attr("data-bs-html", "true")
+            .attr("data-bs-title", `
+                <ul class='mb-0'>
+                  <li>Markdown
+                    <ul>
+                      <li>Tables: GFM, or reStructuredText Grid with line separators</li>
+                      <li>No images</li>
+                      <li>Links are not rendered; use plain text & no footnotes</li>
+                    </ul>
+                  </li>
+                  <li>LaTeX (via MathJax)
+                    <ul>
+                      <li>Needs escaping: \\\\\\\\(, \\\\\\\\), \\\\\\\\[, \\\\\\\\], \\\\\\\\\\\\\\\\, and anything like \\\\* that may be interpreted as Markdown</li>
+                    </ul>
+                  </li>
+                  <li>My custom inline Markdown syntax if you can figure it out :3</li>
                 </ul>
-              </li>
-              <li>LaTeX (via MathJax)
-                <ul>
-                  <li>Needs escaping: \\\\\\\\(, \\\\\\\\), \\\\\\\\[, \\\\\\\\], \\\\\\\\\\\\\\\\, and anything like \\\\* that may be interpreted as Markdown</li>
-                </ul>
-              </li>
-              <li>My custom inline Markdown syntax if you can figure it out :3</li>
-            </ul>
-        `);
-refreshTooltips("#leave-a-comment");
+            `);
+
+    refreshTooltips("#leave-a-comment");
+}
 
 applyPostAndCommentStyles("body");
+// must add anchors after applying `post__h1` etc. classes
+addPostAnchors();
+addCommentHoverTooltip();
