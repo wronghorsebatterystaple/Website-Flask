@@ -61,7 +61,7 @@ def create_app():
     csrf.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
-    minify.init_app(app)
+    # minify.init_app(app)
     moment.init_app(app)
     login_manager.init_app(app)
     talisman.init_app(
