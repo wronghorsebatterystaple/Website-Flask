@@ -66,6 +66,4 @@ function addCommentHoverTooltip() {
 }
 
 applyPostAndCommentStyles("body");
-// must add anchors after applying `post__h1` etc. classes
-addPostAnchors();
 addCommentHoverTooltip();
