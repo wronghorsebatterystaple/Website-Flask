@@ -92,9 +92,9 @@
           const URL_CURRENT_NO_QS = window.location.host + window.location.pathname;
           const URL_LOGIN = "{{ url_for('admin.login', _external=True) }}";
           const URL_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
-          var csrfToken = "{{ csrf_token() }}";
-          var isUserAuthenticated = {%- if current_user.is_authenticated %}true{%- else %}false{%- endif %};
-          var urlBackgroundImgOverride = "";
+          let csrfToken = "{{ csrf_token() }}";
+          let isUserAuthenticated = {%- if current_user.is_authenticated %}true{%- else %}false{%- endif %};
+          let urlBackgroundImgOverride = "";
 
           {%- block js_start_inline %}{%- endblock %}
       </script>
