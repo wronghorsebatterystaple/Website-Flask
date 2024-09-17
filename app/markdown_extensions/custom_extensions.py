@@ -1,7 +1,6 @@
 from markdown.extensions import Extension
 from markdown.blockprocessors import BlockProcessor
 from markdown.inlinepatterns import InlineProcessor, SimpleTagInlineProcessor
-from markdown.treeprocessors import Treeprocessor
 
 import re
 import xml.etree.ElementTree as etree
@@ -13,28 +12,6 @@ class GrayCodeInlineProcessor(InlineProcessor):
         elem.set("class", "gray")
         elem.text = m.group(1)
         return elem, m.start(0), m.end(0)
-
-
-class HeadingIdTreeprocessor(Treeprocessor):
-    """
-    `<h1>` and `<h2>` get `id` attributes based on their text contents so they are reachable by URL fragment.
-    """
-
-    def run(self, root):
-        for elem in root:
-            if elem.tag in {"h1", "h2"}:
-                elem.set("class", f"post__{elem.tag}");
-            self.run(elem)
-
-    @staticmethod
-    def sanitize_heading(heading):
-        """
-        Replaces whitespace with hyphens, and removes all non-alphanumeric and non-hypthen characters.
-        """
-
-        heading = "-".join(heading.split())
-        heading = re.sub("[^A-Za-z0-9-]", "", heading)
-        return heading
 
 
 class ImageInlineProcessor(InlineProcessor):
@@ -451,4 +428,3 @@ class CustomBlockExtensions(Extension):
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
         md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
         md.parser.blockprocessors.register(ThmBlockProcessor(md.parser), "thm", 105)
-        # md.treeprocessors.register(HeadingIdTreeprocessor(self), "heading_id", 999)
