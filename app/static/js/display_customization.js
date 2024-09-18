@@ -81,8 +81,8 @@ function randomizeFlashColor() {
     ];
     rand = Math.floor(Math.random() * colorChoices.length);
     $("#flash").css({
-        "border-color": `var(${colorChoices[rand][0]})`,
-        "background-color": `var(${colorChoices[rand][1]})`
+        "border-color": `var(${colorChoices[rand][0]}) !important`,
+        "background-color": `var(${colorChoices[rand][1]}) !important`
     });
 }
 
