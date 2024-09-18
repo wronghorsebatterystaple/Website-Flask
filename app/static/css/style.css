@@ -72,11 +72,13 @@ textarea {
     font-family: var(--bs-font-monospace);
 }
 
-/* this is specified inline, but just in case I decide to block inline styles with CSP */
+/* some of this is specified inline, but just in case I decide to block inline styles with CSP */
 .anchorjs-link {
     margin-left: 0.1875em;
     padding-right: 0.1875em;
     padding-left: 0.1875em;
+    font-family: bootstrap-icons !important; /* for Bootstrap's private area unicode icon to show */
+    vertical-align: bottom;
 }
 
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
