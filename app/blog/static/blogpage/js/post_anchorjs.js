@@ -1,6 +1,7 @@
 const ANCHORJS_OPTIONS = {
     icon: "\uF470",
-    placement: "right"
+    placement: "right",
+    truncate: 1000
 };
 
 function addPostAnchors() {

@@ -63,36 +63,6 @@ function applyCustomMarkdown(baseSelector) {
     jQueryBase.find(".md-captioned-figure").find("p").children("img").unwrap();
 }
 
-function genFootnoteTooltips(baseSelector) {
-    const jQueryBase = $(baseSelector);
-    if (jQueryBase.length <= 0) {
-        return;
-    }
-    const REMOVE_BACKREF_RE = /<a class=["&quot;]+?footnote-backref[\S\s]*?<\/a>/;
-    const MATCH_MATHJAX_RE = /<mjx-container[\S\s]*?<\/mjx-container>/g;
-
-    jQueryBase.find(".footnote-ref").each(function() {
-        $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
-        const nodeFootnote = document.getElementById($(this).attr("href").replace("#", ""));
-        let tooltipContents = $(nodeFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
-
-        // replace serialized MathML HTML with its corresponding original LaTeX
-        // to render with MathJax.typeset() on mouseover
-        const mathItems = MathJax.startup.document.getMathItemsWithin(nodeFootnote);
-        const matches = tooltipContents.match(MATCH_MATHJAX_RE);
-        if (matches != null) {
-            for (let i = 0; i < matches.length; i++) {
-                let match = matches[i];
-                tooltipContents = tooltipContents.replace(match, `\\(${mathItems[i].math}\\)`);
-            }
-        }
-
-        $(this).attr("data-bs-title", tooltipContents);
-    });
-
-    refreshTooltips(baseSelector);
-}
-
 function syntaxHighlightNonTable(baseSelector) {
     $(baseSelector).find("pre code").each(function() {
         if ($(this).parents("table").length === 0) {
@@ -100,6 +70,32 @@ function syntaxHighlightNonTable(baseSelector) {
             $(this).addClass("code-block--outside");
         }
     });
+}
+
+function randomizeFlashColor() {
+    const colorChoices = [
+        ["--custom-blue-light", "--custom-blue-xxxlight"],
+        ["--custom-green", "--custom-green-xxxlight"],
+        ["--custom-orange-light", "--custom-orange-xxxlight"],
+        ["--custom-pink-xlight", "--custom-pink-xxxlight"]
+    ];
+    rand = Math.floor(Math.random() * colorChoices.length);
+    $("#flash").css({
+        "border-color": `var(${colorChoices[rand][0]})`,
+        "background-color": `var(${colorChoices[rand][1]})`
+    });
+}
+
+function randomizeSelectionColor() {
+    const colorChoices = ["--custom-blue-xxlight", "--custom-green-deep-xlight", "--custom-pink-xxlight"];
+    let rand = Math.floor(Math.random() * colorChoices.length);
+    $("body").append(`
+        <style>
+            ::selection {
+                background-color: var(${colorChoices[rand]}) !important;
+            }
+        </style>
+    `);
 }
 
 function reloadBackgroundImg() {
@@ -111,9 +107,6 @@ function reloadBackgroundImg() {
 }
 
 applyGlobalStyles("body");
+randomizeFlashColor();
+randomizeSelectionColor();
 reloadBackgroundImg();
-
-$(document).ready(function() {
-    // must wait until `$(document).ready()` to make sure MathJax has been loaded
-    genFootnoteTooltips("body");
-});

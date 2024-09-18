@@ -41,7 +41,7 @@ $(document).ready(function() {
     });
 
     // differentiate modal vs. non-modal logins for redirect
-    jQueryModalLogin.find("#is_modal").val("yes");
+    jQueryModalLogin.find("#is_modal").val("true");
 
     $("#modal-login__form").on("submit", async function(e) {
         e.preventDefault();

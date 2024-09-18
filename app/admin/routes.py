@@ -46,7 +46,7 @@ def login():
         login_user(user, remember=False)
         session.permanent = False
 
-        if request.form.get("is_modal") == "yes":
+        if request.form.get("is_modal") == "true":
             return jsonify(success=True)
 
         next_url = request.args.get("next", url_for("admin.choose_action", _external=True))
