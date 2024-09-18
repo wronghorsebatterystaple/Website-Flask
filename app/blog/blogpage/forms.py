@@ -11,11 +11,11 @@ class AddCommentForm(FlaskForm):
 
     author = StringField(
             "Name",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_AUTHOR_LENMAX"])])
+            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_AUTHOR_MAXLEN"])])
 
     content = TextAreaField(
             "Comment",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_LENMAX"])],
+            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_MAXLEN"])],
             render_kw={"data-comment-formatting-tooltip": ""})
 
     add_comment_form_submit = SubmitField(
