@@ -232,11 +232,11 @@ textarea {
 
 .tooltip.show {
     opacity: 100%;
-    border: 1px solid var(--custom-pink-xlight) !important;
-    border-radius: var(--bs-border-radius);
 }
 
 .tooltip .tooltip-inner {
+    border: 1px solid var(--custom-pink) !important;
+    border-radius: var(--bs-border-radius);
     background-color: var(--custom-pink-xxxlight) !important;
     max-width: 30rem !important;
     color: #2b2b2b !important;
