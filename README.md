@@ -1,9 +1,5 @@
 # Personal-Website
 
-[Main page](https://anonymousrand.xyz)
-
-[Blog page](https://blog.anonymousrand.xyz) (don't click this one)
-
 # Setup if it's ever needed
 
 I hope I'm not reading this because I bricked a machine again.
