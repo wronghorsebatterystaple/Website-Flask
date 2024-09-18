@@ -24,8 +24,6 @@ def inject_blogpage_from_db():
 @blogpage_util.login_required_check_blogpage(content_type=util.ContentType.HTML)
 def index():
     page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
-    if page_num <= 0:                                # prevent funny query string shenanigans
-        return "", 418
 
     blogpage_id = blogpage_util.get_blogpage_id()
     blogpage = db.session.get(Blogpage, blogpage_id)
@@ -48,8 +46,8 @@ def index():
                 page=page_num,
                 per_page=current_app.config["POSTS_PER_PAGE"],
                 error_out=False)
-    if posts is None or (posts.pages > 0 and page_num > posts.pages): # prevent funny query string shenanigans, 2.0
-        return "", 418
+    if posts is None:
+        return "ok im actually impressed how did you do that", 500
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
             else None
