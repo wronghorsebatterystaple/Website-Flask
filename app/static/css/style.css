@@ -72,11 +72,7 @@ textarea {
     font-family: var(--bs-font-monospace);
 }
 
-/* some of this is specified inline, but just in case I decide to block inline styles with CSP */
 .anchorjs-link {
-    margin-left: 0.1875em;
-    padding-right: 0.1875em;
-    padding-left: 0.1875em;
     font-size: 0.9em;
     font-family: bootstrap-icons; /* for Bootstrap's private area unicode icon to show */
     vertical-align: bottom;

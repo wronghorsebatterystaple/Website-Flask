@@ -30,7 +30,7 @@ class Config(object):
             "cdnjs.cloudflare.com",
             "code.jquery.com",
             "fonts.googleapis.com",
-            "\'unsafe-inline\'"             # MathJax >:(
+            "\'unsafe-inline\'"             # a lot of things apparently
         ],
         "base-uri": _csp_default_src,
         "frame-ancestors": _csp_default_src
