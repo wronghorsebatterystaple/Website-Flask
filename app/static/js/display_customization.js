@@ -80,10 +80,15 @@ function randomizeFlashColor() {
         ["--custom-pink-xlight", "--custom-pink-xxxlight"]
     ];
     rand = Math.floor(Math.random() * colorChoices.length);
-    $("#flash").css({
-        "border-color": `var(${colorChoices[rand][0]}) !important`,
-        "background-color": `var(${colorChoices[rand][1]}) !important`
-    });
+    // can't use `css()` here since it doesn't support `!important`, which is needed
+    $("body").append(`
+        <style>
+            #flash {
+                border-color: var(${colorChoices[rand][0]}) !important;
+                background-color: var(${colorChoices[rand][1]}) !important
+            }
+        </style>
+    `);
 }
 
 function randomizeSelectionColor() {
