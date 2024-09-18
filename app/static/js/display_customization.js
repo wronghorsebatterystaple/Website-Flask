@@ -41,7 +41,7 @@ function applyGlobalStyles(baseSelector) {
     });
     
     applyCustomMarkdown(baseSelector); // Markdown tweaks round 3
-    syntaxHighlightNonTable(baseSelector);
+    applySyntaxHighlighting(baseSelector);
 }
 
 function applyCustomMarkdown(baseSelector) {
@@ -63,7 +63,7 @@ function applyCustomMarkdown(baseSelector) {
     jQueryBase.find(".md-captioned-figure").find("p").children("img").unwrap();
 }
 
-function syntaxHighlightNonTable(baseSelector) {
+function applySyntaxHighlighting(baseSelector) {
     $(baseSelector).find("pre code").each(function() {
         if ($(this).parents("table").length === 0) {
             hljs.highlightElement($(this).get(0));
