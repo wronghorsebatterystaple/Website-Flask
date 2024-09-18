@@ -27,6 +27,10 @@ code {
     font-size: 97.5% !important;
 }
 
+.anchorjs-link {
+    margin-left: 0.125em !important;
+}
+
 .dropdown-menu {
     --bs-dropdown-link-active-color: var(--bs-body-color);
     --bs-dropdown-link-active-bg: var(--custom-blue-light);
