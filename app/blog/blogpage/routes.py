@@ -49,9 +49,9 @@ def index():
     if posts is None:
         return "ok im actually impressed how did you do that", 500
 
-    next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
+    url_next_page = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
             else None
-    prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) if posts.has_prev \
+    url_prev_page = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) if posts.has_prev \
             else None
 
     # generate corresponding unpublished blogpage ID for "Create Post" button
@@ -68,8 +68,8 @@ def index():
             unpublished_blogpage_id=unpublished_blogpage_id,
             total_pages=posts.pages,
             page_num=page_num,
-            prev_page_url=prev_page_url,
-            next_page_url=next_page_url)
+            url_prev_page=url_prev_page,
+            url_next_page=url_next_page)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
