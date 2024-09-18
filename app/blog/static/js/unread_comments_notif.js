@@ -48,7 +48,7 @@ async function updateUnreadCommentsDropdown() {
 
     let postCount = Object.keys(respJson).length;
     if (postCount === 0) {
-        jQueryDropdownCommentsUnread.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
+        jQueryDropdownCommentsUnread.html("<span class=\"dropdown-item\">There's nothing sssssssssssssssssssssssssssssssssssssssssssssss ssssssssssss ssssssssssssssssssssssssssss here :]</span>");
         return postCount;
     }
 
@@ -61,24 +61,7 @@ async function updateUnreadCommentsDropdown() {
     return postCount;
 }
 
-/**
- * Aligns dropdown to the left of its button (since it's on the right of the screen; we don't want overflow).
- */
-const styleSheetDropdownAlign = new CSSStyleSheet();
-document.adoptedStyleSheets.push(styleSheetDropdownAlign);
-function alignDropdownLeftwards(records) {
-    const nodeDropdown = records[0].target;
-    let offset = nodeDropdown.offsetWidth - document.querySelector("#btn--unread-comments-notif").offsetWidth;
-    styleSheetDropdownAlign.replaceSync(`:root { --dropdown-comments-unread-left: -${offset}px; }`);
-}
-
 $(document).ready(function() {
-    // observe for changes in innerHTML to re-align the dropdown leftwards
-    const mutationObserver = new MutationObserver(alignDropdownLeftwards);
-    mutationObserver.observe(document.querySelector("#dropdown--comments-unread"), {
-        childList: true
-    });
-
     // refresh notifications on click
     $("#btn--unread-comments-notif").on("click", function() {
         updateUnreadCommentsNotifs();

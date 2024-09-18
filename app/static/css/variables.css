@@ -41,3 +41,8 @@
     --color-thm: navy;
     --color-thm-border: #a1a1ff;
 }
+
+/* for scoping issues on accessing `--bs-gutter-x` */
+#container--content {
+    --container-content-padding-x: calc(0.5 * var(--bs-gutter-x));
+}

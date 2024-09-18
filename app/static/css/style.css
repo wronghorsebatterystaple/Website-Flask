@@ -32,11 +32,17 @@ code {
     --bs-dropdown-link-active-bg: var(--custom-blue-light);
 }
 
-/* prevent dropdowns from overflowing if dropdown not collapsed; positioning is left to JS */
-@media (min-width: 768px) { /* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
+/* prevent dropdowns from overflowing if dropdown not collapsed
+ * note that 0.75 is an arbitrary approximation, because trying to find it precisely seems nigh impossible */
+nav .dropdown-menu {
+    width: max-content;
+    max-width: calc(0.75 * (var(--container-content-max-width) - 2 * var(--container-content-padding-x)));
+}
+
+/* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
+@media (max-width: 768px) {
     nav .dropdown-menu {
-        width: max-content;
-        max-width: calc(0.8 * var(--container-content-max-width));
+        max-width: calc(var(--container-content-max-width) - 2 * var(--container-content-padding-x));
     }
 }
 
@@ -105,6 +111,8 @@ textarea {
 
 .container--content {
     margin: auto !important;
+    padding-left: var(--container-content-padding-x) !important;
+    padding-right: var(--container-content-padding-x) !important;
     max-width: var(--container-content-max-width) !important;
 }
 
