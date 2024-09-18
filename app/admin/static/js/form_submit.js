@@ -3,7 +3,7 @@ $(document).ready(function() {
         e.preventDefault();
       
         const jQuerySubmitter = $(e.originalEvent.submitter);
-        if (jQuerySubmitter.is("[data-no-submit]")) {
+        if (jQuerySubmitter.attr("data-class") === "btn--no-submit") {
             switch (jQuerySubmitter.attr("id")) {
                 case "btn--cancel-image-uploads":
                     $("#images-input").val("");

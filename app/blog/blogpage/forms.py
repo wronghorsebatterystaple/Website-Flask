@@ -16,7 +16,7 @@ class AddCommentForm(FlaskForm):
     content = TextAreaField(
             "Comment",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_MAXLEN"])],
-            render_kw={"data-comment-formatting-tooltip": ""})
+            render_kw={"data-class": "tooltip--comment-formatting"})
 
     add_comment_form_submit = SubmitField(
             "Submit")
@@ -30,4 +30,4 @@ class ReplyCommentBtn(FlaskForm):
 class DeleteCommentBtn(FlaskForm):
     delete = SubmitField(
             "Delete",
-            render_kw={"data-confirm-submit": ""})
+            render_kw={"data-class": "btn--needs-confirm"})

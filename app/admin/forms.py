@@ -57,7 +57,7 @@ class CreateBlogpostForm(FlaskForm):
 
     back = SubmitField(
             "Back",
-            render_kw={"data-back-btn": ""})
+            render_kw={"data-class": "btn--back"})
 
 
 class SearchBlogpostForm(FlaskForm):
@@ -72,7 +72,7 @@ class SearchBlogpostForm(FlaskForm):
 
     back = SubmitField(
             "Back",
-            render_kw={"data-back-btn": ""})
+            render_kw={"data-class": "btn--back"})
 
 
 class EditBlogpostForm(FlaskForm):
@@ -97,14 +97,14 @@ class EditBlogpostForm(FlaskForm):
 
     cancel_image_uploads = SubmitField(
             "Clear images to upload",
-            render_kw={"id": "btn--cancel-image-uploads", "data-no-submit": ""})
+            render_kw={"id": "btn--cancel-image-uploads", "data-class": "btn--no-submit"})
 
     delete_images = SelectMultipleField(
             "Delete images")
 
     cancel_delete_images = SubmitField(
             "Clear images to delete",
-            render_kw={"id": "btn--cancel-delete-images", "data-no-submit": ""})
+            render_kw={"id": "btn--cancel-delete-images", "data-class": "btn--no-submit"})
 
     delete_unused_images = BooleanField(
             "Delete unused images")
@@ -120,11 +120,11 @@ class EditBlogpostForm(FlaskForm):
 
     delete = SubmitField(
             "Delete Post",
-            render_kw={"data-confirm-submit": ""})
+            render_kw={"data-class": "btn--needs-confirm"})
 
     back = SubmitField(
             "Back",
-            render_kw={"data-back-btn": ""})
+            render_kw={"data-class": "btn--back"})
 
 
 class ChangeAdminPasswordForm(FlaskForm):
@@ -145,4 +145,4 @@ class ChangeAdminPasswordForm(FlaskForm):
 
     back = SubmitField(
             "Back",
-            render_kw={"data-back-btn": ""})
+            render_kw={"data-class": "btn--back"})
