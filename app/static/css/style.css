@@ -72,6 +72,13 @@ textarea {
     font-family: var(--bs-font-monospace);
 }
 
+/* this is specified inline, but just in case I decide to block inline styles with CSP */
+.anchorjs-link {
+    margin-left: 0.1875em;
+    padding-right: 0.1875em;
+    padding-left: 0.1875em;
+}
+
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
     border-top-color: var(--custom-pink-light) !important;
 }
