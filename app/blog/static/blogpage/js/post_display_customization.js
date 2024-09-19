@@ -43,13 +43,12 @@ function addCommentHoverTooltip() {
                   <li>Markdown
                     <ul>
                       <li>Tables: GFM, or reStructuredText Grid with line separators</li>
-                      <li>No images</li>
-                      <li>Links are not rendered; use plain text & no footnotes</li>
+                      <li>No images, links, or footnotes</li>
                     </ul>
                   </li>
                   <li>LaTeX (via MathJax)
                     <ul>
-                      <li>Needs escaping: \\\\\\\\(, \\\\\\\\), \\\\\\\\[, \\\\\\\\], \\\\\\\\\\\\\\\\, and anything like \\\\* that may be interpreted as Markdown</li>
+                      <li>Escape anything that is also Markdown: <code>\\(</code>, <code>\\)</code>, <code>\\\\</code>, <code>\*</code> etc.</li>
                     </ul>
                   </li>
                   <li>My custom inline Markdown syntax if you can figure it out :3</li>
