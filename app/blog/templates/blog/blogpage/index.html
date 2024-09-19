@@ -79,10 +79,10 @@ const TOTAL_PAGES = {{ total_pages }};
     <div class="d-flex justify-content-center align-items-center mx-auto">
       {%- if url_prev_page %}
         <a class="w-2rem text-end no-underline" href="{{ url_prev_page }}">--</a>
-        <span class="pipe mx-3"></span>
+        <span class="pipe-1-5em mx-3"></span>
       {%- else %}
         <a class="invisible w-2rem text-end no-underline">--</a>
-        <span class="pipe invisible mx-3"></span>
+        <span class="pipe-1-5em invisible mx-3"></span>
       {%- endif %}
 
       <form id="goto-page-form">
@@ -96,10 +96,10 @@ const TOTAL_PAGES = {{ total_pages }};
       </form>
     
       {%- if url_next_page %}
-        <span class="pipe mx-3"></span>
+        <span class="pipe-1-5em mx-3"></span>
         <a class="w-2rem text-start no-underline" href="{{ url_next_page }}">++</a>
       {%- else %}
-        <span class="pipe invisible mx-3"></span>
+        <span class="pipe-1-5em invisible mx-3"></span>
         <a class="invisible w-2rem text-start no-underline">++</a>
       {%- endif %}
     </div>
