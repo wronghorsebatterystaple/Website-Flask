@@ -78,30 +78,31 @@ const TOTAL_PAGES = {{ total_pages }};
     <p class="mb-3">Page {{ page_num }} of {{ total_pages }}</p>
     <div class="d-flex justify-content-center align-items-center mx-auto">
       {%- if url_prev_page %}
-        <a class="no-underline w-2rem text-end" href="{{ url_prev_page }}">--</a>
+        <a class="w-2rem text-end no-underline" href="{{ url_prev_page }}">--</a>
         <span class="pipe mx-3"></span>
       {%- else %}
-        <a class="invisible no-underline w-2rem text-end">--</a>
+        <a class="invisible w-2rem text-end no-underline">--</a>
         <span class="pipe invisible mx-3"></span>
       {%- endif %}
-    
+
       <form id="goto-page-form">
         <div class="d-flex align-items-center">
           <div class="mx-0 px-0">
-            <input id="input--page" class="form-control" name="page" type="text" maxlength="5" value="" size="1"/>
+            <label class="d-inline" for="input--page">page = </label>
+            <input id="input--page" class="form-control d-inline w-2-5em" name="page" type="text" maxlength="5" value="" size="1"/>
           </div>
           <div class="ps-2">
-            <input id="goto-page-form-submit" class="btn btn-link no-underline" name="submit" type="submit" value="go :]" />
+            <input id="goto-page-form-submit" class="btn btn-link ps-2 no-underline" name="submit" type="submit" value=";" />
           </div>
         </div>
       </form>
     
       {%- if url_next_page %}
         <span class="pipe mx-3"></span>
-        <a class="no-underline w-2rem text-start" href="{{ url_next_page }}">++</a>
+        <a class="w-2rem text-start no-underline" href="{{ url_next_page }}">++</a>
       {%- else %}
         <span class="pipe invisible mx-3"></span>
-        <a class="invisible no-underline w-2rem text-start">++</a>
+        <a class="invisible w-2rem text-start no-underline">++</a>
       {%- endif %}
     </div>
   </div>
