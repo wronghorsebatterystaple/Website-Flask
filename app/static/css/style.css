@@ -259,11 +259,6 @@ textarea {
     height: 2rem;
 }
 
-/* for aligning right side exactly to edge of container */
-#navbar__right {
-    margin-right: calc(-1 * var(--bs-navbar-nav-link-padding-x));
-}
-
 #switch--dark-mode { /* for (approx) centering due to low descender height and thus typefacing biasing upwards */
     margin-top: 0.3125em;
 }
