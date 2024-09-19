@@ -42,8 +42,8 @@ function addCommentHoverTooltip() {
                 <ul class='mb-0'>
                   <li>Markdown
                     <ul>
-                      <li>Tables: GFM, or reStructuredText Grid with line separators</li>
                       <li>No images, links, or footnotes</li>
+                      <li>Tables: GFM, or reStructuredText Grid with line separators</li>
                     </ul>
                   </li>
                   <li>LaTeX (via MathJax)
