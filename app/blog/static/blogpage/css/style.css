@@ -3,20 +3,6 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
 }
 
-.post__h1 {
-    margin-bottom: 1rem;
-    border-bottom: 3px solid var(--custom-green-deep-dark);
-    padding-bottom: 0.5rem;
-    color: var(--custom-green-deep-dark);
-}
-
-.post__h2 {
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--custom-orange-deep);
-    padding-bottom: 0.25rem;
-    color: var(--custom-orange-deep);
-}
-
 .post__img {
     display: block;
     margin: 1rem auto 1rem auto;
