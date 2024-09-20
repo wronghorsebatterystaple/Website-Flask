@@ -118,7 +118,7 @@
 
   <body>
     <div id="background-img">
-      <div id="container--content" class="container container--content min-vh-100">
+      <div id="container--content" class="container container--content d-flex flex-column min-vh-100">
       <!-- navbar -->
       <nav id="navbar" class="navbar navbar-expand-md sticky-top bg-white">
         <a id="navbar__home" class="navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
@@ -173,17 +173,19 @@
         </div>
       </nav>
 
-      <div id="non-navbar" class="mt-2">
+      <div id="flash-wrapper">
         <!-- display flash()ed messages as alerts -->
         <div id="flash" class="flash alert alert-info alert-dismissible fade show sticky-top" role="alert" hidden>
           <span id="flash-text"></span>
           <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Dismiss"></button>
         </div>
-
-        <div>
-          {%- block content %}{%- endblock %}
-        </div>
       </div>
+
+      <div class="mt-2">
+        {%- block content %}{%- endblock %}
+      </div>
+
+      {%- block footer %}{%- endblock %}
     </div>
   </div>
 

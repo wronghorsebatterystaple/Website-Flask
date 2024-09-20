@@ -20,5 +20,5 @@ $(document).ready(renderQueryStringFlash);
 $(document).on("close.bs.alert", "#flash", function(e) {
     const nodeDuplicate = e.target.cloneNode(true);
     nodeDuplicate.setAttribute("hidden", "");
-    document.getElementById("non-navbar").prepend(nodeDuplicate);
+    document.getElementById("flash-wrapper").append(nodeDuplicate);
 });
