@@ -5,7 +5,7 @@ $(document).ready(function() {
         // non-state-changing GET shouldn't need CSRF protection
         let pageNum = parseInt($("#input--page").val(), 10);
         if (isNaN(pageNum) || pageNum <= 0 || pageNum > TOTAL_PAGES) {
-            customFlash("congrats you have broken my website");
+            customFlash("congrats you have broken my website :sob:");
             return;
         }
 
