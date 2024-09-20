@@ -1,5 +1,5 @@
 function customFlash(message) {
-    $("#flash-text").text(message); // text() by itself is XSS-safe
+    $("#flash__text").text(message); // text() by itself is XSS-safe
     $("#flash").removeAttr("hidden");
 }
 
@@ -20,5 +20,5 @@ $(document).ready(renderQueryStringFlash);
 $(document).on("close.bs.alert", "#flash", function(e) {
     const nodeDuplicate = e.target.cloneNode(true);
     nodeDuplicate.setAttribute("hidden", "");
-    document.getElementById("flash-wrapper").append(nodeDuplicate);
+    document.getElementById("flash__wrapper").append(nodeDuplicate);
 });

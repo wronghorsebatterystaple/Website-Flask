@@ -125,7 +125,6 @@ textarea {
 }
 
 .flash {
-    top: 1rem;
     z-index: 9999;
     border-width: 3px;
     border-style: solid;
@@ -261,4 +260,8 @@ textarea {
 
 #switch--dark-mode { /* for (approx) centering due to low descender height and thus typefacing biasing upwards */
     margin-top: 0.3125em;
+}
+
+#flash__wrapper {
+    top: 1rem;
 }
