@@ -4,6 +4,15 @@
 Home {{ super() }}
 {%- endblock %}
 
+{%- block js_start_inline %}
+const URL_ICON_GITHUB_LIGHT = "{{ url_for('main.static', filename='images/icon_github_light.svg', _external=True) }}";
+const URL_ICON_GITHUB_DARK = "{{ url_for('main.static', filename='images/icon_github_dark.svg', _external=True) }}";
+{%- endblock %}
+
+{%- block js_start_linked %}
+<script src="{{ url_for('main.static', filename='js/on_dark_mode_change.js', _external=True) }}"></script>
+{%- endblock %}
+
 {%- block content %}
 <h1 class="mb-3 custom-green-deep-dark fs-2">hi, i'm anonymousrand</h1>
 <p class="fs-9">I'm not doing much here right now besides writing a few too many <a href="{{ url_for('blog.index', _external=True) }}">blogs</a>, so feel free to check them out :]</p>
@@ -13,15 +22,15 @@ Home {{ super() }}
 {%- if current_user.is_authenticated %}
 <!-- TODO -->
 <footer class="d-flex justify-content-evenly align-items-center mt-auto py-2 text-center">
-  <a href="https://github.com/AnonymousRand" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_github.svg') }}" alt="GitHub" width="32px" /></a>
+  <a href="https://github.com/AnonymousRand" target="_blank"><img id="footer__icon--github" alt="GitHub" width="32px" /></a>
   <span class="pipe-1-5em mx-2"></span>
-  <a href="https://gitlab.com/AnonymousRand" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_gitlab.svg') }}" alt="GitLab" / width="32px"></a>
+  <a href="https://gitlab.com/AnonymousRand" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_gitlab.svg', _external=True) }}" alt="GitLab" / width="32px"></a>
   <span class="pipe-1-5em mx-2"></span>
-  <a href="https://musescore.com/piano_transcriptions_yt" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_musescore.png') }}" alt="MuseScore" width="32px" /></a>
+  <a href="https://musescore.com/piano_transcriptions_yt" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_musescore.png', _external=True) }}" alt="MuseScore" width="32px" /></a>
   <span class="pipe-1-5em mx-2"></span>
-  <a href="https://www.youtube.com/@limitsofthepiano" title="piano arrangements" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_youtube.png') }}" alt="YouTube" width="32px"/></a>
+  <a href="https://www.youtube.com/@limitsofthepiano" title="piano arrangements" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_youtube.png', _external=True) }}" alt="YouTube" width="32px"/></a>
   <span class="pipe-1-5em mx-2"></span>
-  <a href="https://www.youtube.com/@AnonRand2" title="clip dump" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_youtube.png') }}" alt="YouTube" width="32px"/></a>
+  <a href="https://www.youtube.com/@AnonRand2" title="clip dump" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_youtube.png', _external=True) }}" alt="YouTube" width="32px"/></a>
 </footer>
 {%- endif %}
 {%- endblock %}
