@@ -2,9 +2,9 @@ $(document).ready(function() {
     $("#main-form").on("submit", async function(e) {
         e.preventDefault();
       
-        const jQuerySubmitter = $(e.originalEvent.submitter);
-        if (jQuerySubmitter.attr("data-class") === "btn--no-submit") {
-            switch (jQuerySubmitter.attr("id")) {
+        const jQSubmitter = $(e.originalEvent.submitter);
+        if (jQSubmitter.attr("data-class") === "btn--no-submit") {
+            switch (jQSubmitter.attr("id")) {
                 case "btn--cancel-image-uploads":
                     $("#images-input").val("");
                     break;

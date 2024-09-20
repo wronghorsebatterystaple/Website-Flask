@@ -285,6 +285,11 @@
     height: 1.5em;
 }
 
+.pipe-2em {
+    border-left: 1px solid !important;
+    height: 2em;
+}
+
 .scroll-overflow-x {
     margin-bottom: 0.5rem !important;
     overflow-x: auto !important;

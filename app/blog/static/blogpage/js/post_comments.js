@@ -123,16 +123,16 @@ $(document).on("click", "input[data-confirm-submit][type='submit']", function() 
 $(document).on("submit", ".comment__form--reply", function(e) {
     e.preventDefault();
 
-    let id = getCommentId(e.target);
-    let jQueryFormAddReply = $(`#comment__form--add-reply-${id}`);
-    jQueryFormAddReply.removeAttr("hidden");
-    jQueryFormAddReply.find("#parent").val(id); // insert under right parent
+    const id = getCommentId(e.target);
+    const jQFormAddReply = $(`#comment__form--add-reply-${id}`);
+    jQFormAddReply.removeAttr("hidden");
+    jQFormAddReply.find("#parent").val(id); // insert under right parent
     if (isUserAuthenticated) {
         // automatically fill in username if admin
-        jQueryFormAddReply.find("input[name='author']").first().val(VERIFIED_AUTHOR);
-        jQueryFormAddReply.find("input[name='content']").first().focus();
+        jQFormAddReply.find("input[name='author']").first().val(VERIFIED_AUTHOR);
+        jQFormAddReply.find("input[name='content']").first().focus();
     } else {
-        jQueryFormAddReply.find("input[name='author']").first().focus();
+        jQFormAddReply.find("input[name='author']").first().focus();
     }
     e.target.setAttribute("hidden", "");
 

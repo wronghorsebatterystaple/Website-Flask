@@ -9,7 +9,7 @@ DarkReader.setFetchMethod(window.fetch); // solves CORS issue
 let onDarkModeChange = function(enabled) {};
 
 // out here so it's immediately applied on JS load instead of at `$(document).ready()`
-let jQuerySwitchDarkMode = null;
+let jQSwitchDarkMode = null;
 if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
 } else if (localStorage.getItem("darkMode") === null
@@ -21,39 +21,47 @@ if (localStorage.getItem("darkMode") === "true") {
 function enableDarkMode(isVoluntary) {
     DarkReader.enable(DARKREADER_OPTIONS, DARKREADER_FIXES);
 
-    if (jQuerySwitchDarkMode && !jQuerySwitchDarkMode.prop("checked")) {
-        jQuerySwitchDarkMode.prop("checked", true);
+    if (jQSwitchDarkMode && !jQSwitchDarkMode.prop("checked")) {
+        jQSwitchDarkMode.prop("checked", true);
     }
 
     if (isVoluntary) {
         localStorage.setItem("darkMode", "true");
     }
 
-    onDarkModeChange(true);
+    // only call after `$(document).ready()` in case we need to modify DOM elements
+    if (jQuery.isReady) {
+        onDarkModeChange(true);
+    }
 }
 
 function disableDarkMode(isVoluntary) {
     DarkReader.disable();
 
-    if (jQuerySwitchDarkMode && jQuerySwitchDarkMode.prop("checked")) {
-        jQuerySwitchDarkMode.prop("checked", false);
+    if (jQSwitchDarkMode && jQSwitchDarkMode.prop("checked")) {
+        jQSwitchDarkMode.prop("checked", false);
     }
 
     if (isVoluntary) {
         localStorage.setItem("darkMode", "false");
     }
 
-    onDarkModeChange(false);
+    if (jQuery.isReady) {
+        onDarkModeChange(false);
+    }
 }
 
 $(document).ready(function() {
-    jQuerySwitchDarkMode = $("#switch--dark-mode");
+    jQSwitchDarkMode = $("#switch--dark-mode");
 
-    // if set to dark mode on JS load (below), make sure to sync switch state once the switch loads in
+    // if set to dark mode on JS load, make sure to sync switch state once the switch loads in
+    // also make sure `onDarkModeChange()` is called once everything is loaded
     if (DarkReader.isEnabled()) {
-        jQuerySwitchDarkMode.prop("checked", true);
+        jQSwitchDarkMode.prop("checked", true);
+        onDarkModeChange(true);
     } else {
-        jQuerySwitchDarkMode.prop("checked", false);
+        jQSwitchDarkMode.prop("checked", false);
+        onDarkModeChange(false);
     }
 
     // if defaulting to system setting, detect change in system setting
@@ -69,7 +77,7 @@ $(document).ready(function() {
     });
 
     // not triggered by prop(); detects manual change in switch state and activates/deactivates DarkReader
-    jQuerySwitchDarkMode.on("change", function(e) {
+    jQSwitchDarkMode.on("change", function(e) {
         if (e.target.checked) {
             enableDarkMode(true);
         } else {

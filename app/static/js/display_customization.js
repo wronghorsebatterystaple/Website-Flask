@@ -1,42 +1,42 @@
 function applyGlobalStyles(baseSelector) {
-    const jQueryBase = $(baseSelector);
-    if (jQueryBase.length <= 0) {
+    const jQBase = $(baseSelector);
+    if (jQBase.length <= 0) {
         return;
     }
 
     // tables and non-table code blocks scroll horizontally on overflow
-    jQueryBase.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
-    jQueryBase.find("pre").each(function() {
+    jQBase.find("table").wrap(HORIZ_SCOLL_DIV_HTML);
+    jQBase.find("pre").each(function() {
         if ($(this).parents("table").length === 0) {
             $(this).wrap(HORIZ_SCOLL_DIV_HTML);
         }
     });
 
     // inline CSS used by Markdown tables converted to class for CSP
-    jQueryBase.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
-    jQueryBase.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
+    jQBase.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
+    jQBase.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
 
     // no extra space between lists and their "heading" text
-    jQueryBase.find("ol, ul").prev("p").addClass("mb-0");
+    jQBase.find("ol, ul").prev("p").addClass("mb-0");
 
     // footnote tweaks
-    const jQueryFootnotes = jQueryBase.find(".footnote").first();
-    if (jQueryFootnotes.length > 0) {
-        jQueryFootnotes.attr("id", "footnotes");
-        jQueryFootnotes.wrap("<details id=\"footnotes__details\" class=\"footnotes__details\"></details>")
-        jQueryFootnotes.before("<summary class=\"footnotes__details-summary\">Footnotes</summary>");
+    const jQFootnotes = jQBase.find(".footnote").first();
+    if (jQFootnotes.length > 0) {
+        jQFootnotes.attr("id", "footnotes");
+        jQFootnotes.wrap("<details id=\"footnotes__details\" class=\"footnotes__details\"></details>")
+        jQFootnotes.before("<summary class=\"footnotes__details-summary\">Footnotes</summary>");
 
-        jQueryFootnotes.find("p").addClass("mb-0");
-        const jQueryFootnotesList = jQueryFootnotes.children("ol").first();
-        jQueryFootnotesList.addClass("mb-0");
-        jQueryFootnotesList.children("li").addClass("mb-1");
+        jQFootnotes.find("p").addClass("mb-0");
+        const jQFootnotesList = jQFootnotes.children("ol").first();
+        jQFootnotesList.addClass("mb-0");
+        jQFootnotesList.children("li").addClass("mb-1");
     }
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
-    jQueryBase.find(".footnote-ref").on("click", function(e) {
-        const jQueryFootnotesDetails = jQueryBase.find("#footnotes__details");
-        if (!jQueryFootnotesDetails.is("[open]")) {
-            jQueryFootnotesDetails.attr("open", "");
+    jQBase.find(".footnote-ref").on("click", function(e) {
+        const jQFootnotesDetails = jQBase.find("#footnotes__details");
+        if (!jQFootnotesDetails.is("[open]")) {
+            jQFootnotesDetails.attr("open", "");
         }
     });
     
@@ -45,22 +45,22 @@ function applyGlobalStyles(baseSelector) {
 }
 
 function applyCustomMarkdown(baseSelector) {
-    const jQueryBase = $(baseSelector);
-    if (jQueryBase.length <= 0) {
+    const jQBase = $(baseSelector);
+    if (jQBase.length <= 0) {
         return;
     }
 
     // custom table horizontal and vertical align syntax
-    jQueryBase.find("[data-align-center]").parents("th, td").addClass("text-center");
-    jQueryBase.find("[data-align-right]").parents("th, td").addClass("text-end");
-    jQueryBase.find("[data-align-top]").parents("th, td").addClass("align-top");
-    jQueryBase.find("[data-align-bottom]").parents("th, td").addClass("align-bottom");
+    jQBase.find("[data-align-center]").parents("th, td").addClass("text-center");
+    jQBase.find("[data-align-right]").parents("th, td").addClass("text-end");
+    jQBase.find("[data-align-top]").parents("th, td").addClass("align-top");
+    jQBase.find("[data-align-bottom]").parents("th, td").addClass("align-bottom");
 
     // custom table column width syntax
-    jQueryBase.find("[data-col-width]").parents("th, td").attr("width", $(this).attr("data-col-width"));
+    jQBase.find("[data-col-width]").parents("th, td").attr("width", $(this).attr("data-col-width"));
 
     // no extra `<p>` tags in custom figures/captions
-    jQueryBase.find(".md-captioned-figure").find("p").children("img").unwrap();
+    jQBase.find(".md-captioned-figure").find("p").children("img").unwrap();
 }
 
 function applySyntaxHighlighting(baseSelector) {

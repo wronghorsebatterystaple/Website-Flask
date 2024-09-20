@@ -1,32 +1,32 @@
 function applyPostAndCommentStyles(baseSelector) {
-    const jQueryBase = $(baseSelector);
-    if (jQueryBase.length <= 0) {
+    const jQBase = $(baseSelector);
+    if (jQBase.length <= 0) {
         return;
     }
-    const jQueryPostContent = jQueryBase.find("#post__content");
-    const jQueryCommentContent = jQueryBase.find(".comment__content");
-    const jQueryPostAndCommentContent = $.merge(jQueryPostContent, jQueryCommentContent);
+    const jQPostContent = jQBase.find("#post__content");
+    const jQCommentContent = jQBase.find(".comment__content");
+    const jQPostAndCommentContent = $.merge(jQPostContent, jQCommentContent);
 
     // make all links except same-page ones indicated by custom markdown and same-page URL fragments
     // (including footnotes and footnote backrefs) open in new tab
-    jQueryPostAndCommentContent.find("a").each(function() {
+    jQPostAndCommentContent.find("a").each(function() {
         if (!$(this).is("[data-same-page]") && !$(this).attr("href").startsWith("#")) {
             $(this).attr("target", "_blank");
         }
     });
 
     // add CSS classes for extra styling
-    jQueryPostContent.find("h1").addClass("post__h1");
-    jQueryCommentContent.find("h1").addClass("comment__h1");
-    jQueryPostContent.find("h2").addClass("post__h2");
-    jQueryCommentContent.find("h2").addClass("comment__h2");
-    jQueryPostContent.find("img").addClass("post__img");
-    jQueryCommentContent.find("img").addClass("comment__img");
-    jQueryPostAndCommentContent.find(".post__h1, .comment__h1").addClass("fs-4");
-    jQueryPostAndCommentContent.find(".post__h2, .comment__h2").addClass("fs-7");
+    jQPostContent.find("h1").addClass("post__h1");
+    jQCommentContent.find("h1").addClass("comment__h1");
+    jQPostContent.find("h2").addClass("post__h2");
+    jQCommentContent.find("h2").addClass("comment__h2");
+    jQPostContent.find("img").addClass("post__img");
+    jQCommentContent.find("img").addClass("comment__img");
+    jQPostAndCommentContent.find(".post__h1, .comment__h1").addClass("fs-4");
+    jQPostAndCommentContent.find(".post__h2, .comment__h2").addClass("fs-7");
 
     // images use alt text as hover text too
-    jQueryPostAndCommentContent.find(".post__img[alt], .comment__img[alt]").each(function() {
+    jQPostAndCommentContent.find(".post__img[alt], .comment__img[alt]").each(function() {
         $(this).attr("title", $(this).attr("alt"));
     });
 }

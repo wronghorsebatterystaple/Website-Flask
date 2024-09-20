@@ -9,14 +9,14 @@ function refreshTooltips(baseSelector) {
 }
 
 function genFootnoteTooltips(baseSelector) {
-    const jQueryBase = $(baseSelector);
-    if (jQueryBase.length <= 0) {
+    const jQBase = $(baseSelector);
+    if (jQBase.length <= 0) {
         return;
     }
     const REMOVE_BACKREF_RE = /<a class=["&quot;]+?footnote-backref[\S\s]*?<\/a>/;
     const MATCH_MATHJAX_RE = /<mjx-container[\S\s]*?<\/mjx-container>/g;
 
-    jQueryBase.find(".footnote-ref").each(function() {
+    jQBase.find(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
         const nodeFootnote = document.getElementById($(this).attr("href").replace("#", ""));
         let tooltipContents = $(nodeFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");

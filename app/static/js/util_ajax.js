@@ -90,9 +90,9 @@ function doAjaxResponseForm(respJson, submitEvent) {
     if (!respJson.redir_url && respJson.submission_errors) { 
         let errors = respJson.submission_errors;
         for (const [fieldName, fieldErrors] of Object.entries(errors)) {
-            let jQueryField = $(submitEvent.target).find(`#${fieldName}-field`)
-            jQueryField.find(`#${fieldName}-input`).addClass("is-invalid");
-            jQueryField.find(".invalid-feedback").text(fieldErrors[0]);
+            const jQField = $(submitEvent.target).find(`#${fieldName}-field`)
+            jQField.find(`#${fieldName}-input`).addClass("is-invalid");
+            jQField.find(".invalid-feedback").text(fieldErrors[0]);
         }
     }
 }
