@@ -3,7 +3,7 @@
 {%- for comment in comments recursive %}
   {%- if comment.depth == loop.depth0 %}
     {%- if comment.depth != 0 %}
-      <div class="flex-grow-1 ms-3">
+      <div class="ms-3">
     {%- endif %}
 
     {%- set descendants = comment.get_descendants(post) -%}

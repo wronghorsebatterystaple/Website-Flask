@@ -51,3 +51,7 @@ input[value="Reply"][value="Delete"] {
 #link--go-to-comments {
     margin-bottom: -0.1875rem;
 }
+
+#post__content > :last-child {
+    margin-bottom: 0;
+}
