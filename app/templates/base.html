@@ -31,6 +31,11 @@
           crossorigin="anonymous">
       </script>
 
+      <!-- fonts -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap">
+
       <!-- Highlight.js -->
       <link
           rel="stylesheet"
@@ -104,12 +109,14 @@
       <script src="{{ url_for('static', filename='js/util_form.js', _external=True) }}"></script>
       <script src="{{ url_for('static', filename='js/util_session.js', _external=True) }}"></script>
       <script src="{{ url_for('static', filename='js/util_tooltip.js', _external=True) }}"></script>
+
       {%- block js_start_linked %}{%- endblock %}
 
       <script src="{{ url_for('static', filename='js/adjust_textarea_height.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/custom_flash.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/events.js', _external=True) }}" defer></script>
       <script src="{{ url_for('static', filename='js/password_visibility_toggle.js', _external=True) }}" defer></script>
+
       {%- block js_deferred_linked %}{%- endblock %}
 
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" />
