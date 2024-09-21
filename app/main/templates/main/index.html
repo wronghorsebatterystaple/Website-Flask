@@ -17,7 +17,7 @@ const URL_ICON_GITHUB_DARK = "{{ url_for('main.static', filename='images/icon_gi
 <h1 class="mt-3 mb-3 custom-green-deep-dark fs-1">hi, i'm anonymousrand</h1>
 <p class="fs-9">I'm not doing much here right now besides writing a few too many <a href="{{ url_for('blog.index', _external=True) }}">blog posts</a>, so feel free to check them out :]</p>
 
-<h2 class="mt-2_5rem mb-3 border-bottom--h2 custom-orange-deep fs-5">FAQ</h2>
+<h2 class="my-3 border-bottom--h2 custom-orange-deep fs-5">FAQ</h2>
 <h3 class="fs-9">what's your real name</h3>
 <p class="gray">i don't know either</p>
 <h3 class="fs-9">what's your ssn</h3>
@@ -26,10 +26,8 @@ const URL_ICON_GITHUB_DARK = "{{ url_for('main.static', filename='images/icon_gi
 <p class="gray">i'm a boomer</p>
 <h3 class="fs-9">why is there a meow button</h3>
 <p class="gray">for debugging, obviously</p>
-{%- endblock %}
 
-{%- block footer %}
-<footer class="d-flex justify-content-evenly align-items-center mt-auto py-2 text-center">
+<footer class="d-flex justify-content-evenly align-items-center mt-auto pt-3 pb-2 text-center">
   <a href="https://github.com/AnonymousRand" target="_blank" title="GitHub"><img id="footer__icon--github" src="{{ url_for('main.static', filename='images/icon_github_light.svg', _external=True) }}" alt="GitHub" width="32px" /></a>
   <span class="pipe-2em mx-2"></span>
   <a href="https://gitlab.com/AnonymousRand" target="_blank" title="GitLab"><img src="{{ url_for('main.static', filename='images/icon_gitlab.svg', _external=True) }}" alt="GitLab" width="32px" /></a>
