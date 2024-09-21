@@ -11,6 +11,7 @@ const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=
  *     ```
  *     func1 = addToFunction(func1, func2);
  *     ```
+ *     - Make sure the two funcs have the same params
  */
 function addToFunction(functionBase, functionToAdd) {
     return function() {
