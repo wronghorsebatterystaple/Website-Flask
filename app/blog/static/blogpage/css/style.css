@@ -53,5 +53,5 @@ input[value="Reply"][value="Delete"] {
 }
 
 #post__content > :last-child {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
