@@ -182,7 +182,7 @@ def edit_blogpost():
         return render_template(
                 "admin/form_base.html",
                 title=f"Edit Post: {post.title}",
-                prompt=f"Edit post: {post.title}",
+                prompt="Edit post",
                 form=form)
     elif request.method == "POST":
         if not form.validate():
