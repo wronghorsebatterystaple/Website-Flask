@@ -48,7 +48,7 @@ async function updateUnreadCommentsDropdown() {
 
     let postCount = Object.keys(respJson).length;
     if (postCount === 0) {
-        jQDropdownCommentsUnread.html("<span class=\"dropdown-item\">There's nothing sssssssssssssssssssssssssssssssssssssssssssssss ssssssssssss ssssssssssssssssssssssssssss here :]</span>");
+        jQDropdownCommentsUnread.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
         return postCount;
     }
 
