@@ -3,6 +3,27 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
 }
 
+.comment__nest-limit-text {
+    font-size: 0.95rem;
+}
+
+.btn--copy-permanent-link {
+    margin-bottom: -0.125rem;
+}
+
+.goto-page-form__input--page {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.link--go-to-comments {
+    margin-bottom: -0.1875rem;
+}
+
+.post__content > :last-child {
+    margin-bottom: 0 !important;
+}
+
 .post__img {
     display: block;
     margin: 1rem auto 1rem auto;
@@ -33,25 +54,4 @@ input[value="Reply"][value="Delete"] {
 .post-list__icon--comment {
     font-size: 14px;
     margin-bottom: -0.25rem;
-}
-
-.comment__nest-limit-text {
-    font-size: 0.95rem;
-}
-
-#btn--copy-permanent-link {
-    margin-bottom: -0.125rem;
-}
-
-#input--page {
-    padding-top: 1px;
-    padding-bottom: 1px;
-}
-
-#link--go-to-comments {
-    margin-bottom: -0.1875rem;
-}
-
-#post__content > :last-child {
-    margin-bottom: 0 !important;
 }

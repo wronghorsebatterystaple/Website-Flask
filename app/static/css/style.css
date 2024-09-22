@@ -31,6 +31,13 @@ code {
     margin-left: 0.125em !important;
 }
 
+.background-img {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 .dropdown-menu {
     --bs-dropdown-link-active-color: var(--bs-body-color);
     --bs-dropdown-link-active-bg: var(--custom-blue-light);
@@ -131,6 +138,10 @@ textarea {
     color: black;
 }
 
+.flash__wrapper {
+    top: 1rem;
+}
+
 .footnote {
     color: gray; 
     font-size: 0.9rem;
@@ -218,6 +229,20 @@ textarea {
     background-color: transparent !important;
 }
 
+/* for (approx) centering due to larger font */
+.navbar__home {
+    margin-top: -0.1em;
+}
+
+.navbar__logo {
+    width: 2rem;
+    height: 2rem;
+}
+
+.switch--dark-mode { /* for (approx) centering due to low descender height and thus typefacing biasing upwards */
+    margin-top: 0.3125em;
+}
+
 .toggle--password-visibility {
     display: flex;
     align-items: center;
@@ -239,29 +264,4 @@ textarea {
     background-color: var(--custom-pink-xxxlight) !important;
     max-width: 30rem !important;
     color: #2b2b2b !important;
-}
-
-#background-img {
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-/* for (approx) centering due to larger font */
-#navbar__home {
-    margin-top: -0.1em;
-}
-
-#navbar__logo {
-    width: 2rem;
-    height: 2rem;
-}
-
-#switch--dark-mode { /* for (approx) centering due to low descender height and thus typefacing biasing upwards */
-    margin-top: 0.3125em;
-}
-
-#flash__wrapper {
-    top: 1rem;
 }
