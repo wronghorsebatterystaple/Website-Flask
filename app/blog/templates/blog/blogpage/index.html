@@ -10,68 +10,64 @@ const TOTAL_PAGES = {{ total_pages }};
 {%- endblock %}
 
 {%- block content %}
-<div class="mt-3">
-  <h1 class="blogpage-name fs-1">{{ blogpage.name }}</h1>
-  {%- if blogpage.subname is not none %}
-    <h2 class="blogpage-subname fs-7 mt-2">{{ blogpage.subname }}</h2>
-  {%- endif %}
+<h1 class="blogpage-name fs-1">{{ blogpage.name }}</h1>
+{%- if blogpage.subname is not none %}
+  <h2 class="blogpage-subname fs-7 mt-2">{{ blogpage.subname }}</h2>
+{%- endif %}
 
-  <a class="btn btn-primary btn--custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
-</div>
+<a class="btn btn-primary btn--custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Create post</a>
 <hr />
 
-<div>
-  {%- for post in posts %}
-    <div>
-      {%- if is_all_posts %}
-        {%- set color = post.blogpage.html_color_class -%}
-        <a class="underline--hover-only underline--{{ color }} {{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-          <div class="d-flex align-items-top">
-            <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
-            <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 {{ color }} fs-5">{{ post.title }}</h1>
-            <span class="post-list__blogtitle flex-shrink-9 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
-          </div>
+{%- for post in posts %}
+  <div>
+    {%- if is_all_posts %}
+      {%- set color = post.blogpage.html_color_class -%}
+      <a class="underline--hover-only underline--{{ color }} {{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <div class="d-flex align-items-top">
+          <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
+          <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 {{ color }} fs-5">{{ post.title }}</h1>
+          <span class="post-list__blogtitle flex-shrink-9 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
+        </div>
 
-          {%- if post.subtitle is not none %}
-            <div class="d-flex align-items-top mt-1">
-                <h2 class="flex-shrink-0 flex-basis-75 mb-0 {{ color }} fs-8">{{ post.subtitle }}</h2>
-            </div>
+        {%- if post.subtitle is not none %}
+          <div class="d-flex align-items-top mt-1">
+              <h2 class="flex-shrink-0 flex-basis-75 mb-0 {{ color }} fs-8">{{ post.subtitle }}</h2>
+          </div>
+        {%- endif %}
+
+        <div class="d-flex align-items-center mt-2">
+          {%- if post.edited_timestamp is not none %}
+            <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+          {%- else %}
+            <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
           {%- endif %}
+          <span class="d-flex align-items-center ms-auto gray">
+            <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__icon--comment bi bi-chat-right-text"></i>
+          </span>
+        </div>
+    {%- else %}
+      <a class="underline--hover-only underline--custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+        <h1 class="mb-0 custom-green-deep-dark fs-5">{{ post.title }}</h1>
 
-          <div class="d-flex align-items-center mt-2">
-            {%- if post.edited_timestamp is not none %}
-              <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
-            {%- else %}
-              <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
-            {%- endif %}
-            <span class="d-flex align-items-center ms-auto gray">
-              <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__icon--comment bi bi-chat-right-text"></i>
-            </span>
-          </div>
-      {%- else %}
-        <a class="underline--hover-only underline--custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-          <h1 class="mb-0 custom-green-deep-dark fs-5">{{ post.title }}</h1>
+        {%- if post.subtitle is not none %}
+          <h2 class="mt-1 custom-orange-deep fs-8">{{ post.subtitle }}</h2>
+        {%- endif %}
 
-          {%- if post.subtitle is not none %}
-            <h2 class="mt-1 custom-orange-deep fs-8">{{ post.subtitle }}</h2>
+        <div class="d-flex align-items-center mt-2">
+          {%- if post.edited_timestamp is not none %}
+            <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+          {%- else %}
+            <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
           {%- endif %}
-
-          <div class="d-flex align-items-center mt-2">
-            {%- if post.edited_timestamp is not none %}
-              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
-            {%- else %}
-              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
-            {%- endif %}
-            <span class="d-flex align-items-center gray ms-auto">
-              <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__icon--comment bi bi-chat-right-text"></i>
-            </span>
-          </div>
-      {%- endif %}
-        </a>
-      </div>
-    <hr />
-  {%- endfor %}
-</div>
+          <span class="d-flex align-items-center gray ms-auto">
+            <span class="me-2">{%- if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__icon--comment bi bi-chat-right-text"></i>
+          </span>
+        </div>
+    {%- endif %}
+      </a>
+    </div>
+  <hr />
+{%- endfor %}
 
 {%- if total_pages > 0 %}
   <div class="mt-4 mb-4 text-center">

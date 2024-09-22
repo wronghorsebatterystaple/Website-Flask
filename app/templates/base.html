@@ -179,7 +179,7 @@
         </div>
       </nav>
 
-      <div id="flash__wrapper" class="flash__wrapper sticky-top mb-2">
+      <div id="flash__wrapper" class="flash__wrapper sticky-top">
         <!-- display flash()ed messages as alerts -->
         <div id="flash" class="flash alert alert-info alert-dismissible fade show mb-0" role="alert" hidden>
           <span id="flash__text"></span>
@@ -187,7 +187,11 @@
         </div>
       </div>
 
-      {%- block content %}{%- endblock %}
+      <div class="mt-4">
+        {%- block content %}{%- endblock %}
+      </div>
+
+      {%- block footer %}{%- endblock %}
     </div>
   </div>
 

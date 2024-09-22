@@ -23,7 +23,6 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 {%- endblock %}
 
 {%- block content %}
-<div class="mt-2">
   <h1 class="post__title mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
   {%- if post.subtitle is not none %}
     <h2 class="post__subtitle mt-2 mb-0 custom-orange-deep fs-7">{{ post.subtitle|safe }}</h2>
@@ -39,7 +38,6 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
   </div>
 
   <a class="btn btn-primary btn--custom-orange mt-0_75rem auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>
-</div>
 <hr />
 
 <div id="post__content" class="post__content">

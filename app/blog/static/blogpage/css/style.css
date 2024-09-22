@@ -20,10 +20,6 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: -0.1875rem;
 }
 
-.post__content > :last-child {
-    margin-bottom: 0 !important;
-}
-
 .post__img {
     display: block;
     margin: 1rem auto 1rem auto;
