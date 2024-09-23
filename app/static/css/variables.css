@@ -1,6 +1,6 @@
 :root {
     /* general */
-    --container-content-max-width: clamp(0px, 672px, 100vw);
+    --container-content-max-width: min(672px, 100vw);
 
     /* custom colors */
     --custom-blue: #00eaff;                 /* hue 185 */
