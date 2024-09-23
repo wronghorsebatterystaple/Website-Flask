@@ -9,6 +9,7 @@ input[value="Reply"][value="Delete"] {
 
 .btn--copy-permanent-link {
     margin-bottom: -0.125rem;
+    font-size: 1em; /* undo Bootstrap */
 }
 
 .goto-page-form__input--page {

@@ -29,11 +29,11 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 {% endif %}
 <div class="d-flex align-items-center mt-2 fs-9">
   {% if post.edited_timestamp is not none %}
-    <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+    <span class="post__timestamp me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
   {% else %}
-    <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
+    <span class="post__timestamp me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
   {% endif %}
-  <a class="link--go-to-comments me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
+  <a class="link--go-to-comments me-0_75rem" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
   <button id="btn--copy-permanent-link" class="btn btn-link btn--copy-permanent-link" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
 </div>
 <a class="btn btn-primary btn--custom-orange mt-2 auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Edit/delete post</a>
