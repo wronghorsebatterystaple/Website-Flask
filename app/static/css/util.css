@@ -63,13 +63,18 @@
 /************/
 
 .border-bottom--h1 {
-    border-bottom: 3px solid var(--custom-green-deep-dark);
-    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--custom-green-deep-dark) !important;
+    padding-bottom: 0.5rem !important;
 }
 
 .border-bottom--h2 {
-    border-bottom: 2px solid var(--custom-orange-deep);
-    padding-bottom: 0.25rem;
+    border-bottom: 2px solid var(--custom-orange-deep) !important;
+    padding-bottom: 0.25rem !important;
+}
+
+.border-bottom--std {
+    border-bottom: 1px solid black !important;
+    padding-bottom: 0.25rem !important;
 }
 
 .border-silver {

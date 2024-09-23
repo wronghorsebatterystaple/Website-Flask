@@ -40,9 +40,9 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 <hr />
 
 {% if toc_tokens and toc_tokens|length > 0 %}
-<div class="post__toc card mb-3 overflow-y-auto">
-  <h3 class="mb-3 fs-6">Contents</h3>
-  <ul class="toc__body">
+<div class="post__toc card mb-3">
+  <h3 class="mb-0 border-bottom--std fs-5">Contents</h3>
+  <ul class="toc__body pt-3 overflow-y-auto">
   {% for toc_token in toc_tokens recursive %}
     {% set class = "" %}
     {% if toc_token.level == 1 %}

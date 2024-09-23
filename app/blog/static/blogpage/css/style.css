@@ -53,7 +53,7 @@ input[value="Reply"][value="Delete"] {
     .post__toc {
         /* using `sticky` even though `fixed` is more suitable so that flash doesn't shift TOC when fixed */
         position: sticky;
-        top: 3.5rem;
+        top: 8rem;
         float: left;
         /* these confusing `calc`s just means the TOC takes up 2/3 of the margin on the left of the screen (up to
          * the size it would be on a 1536px screen), and `margin-left` is such that it the TOC is perfectly
@@ -65,7 +65,7 @@ input[value="Reply"][value="Delete"] {
         /* this is `100svh - [top] - [arbitrary bottom spacing]`; using this (only partially hardcoded) value
          * instead of like `80svh` to make sure it will never exceed the bottom of the page when fixed, in case
          * `top` becomes really large */
-        max-height: calc(100svh - 3.5rem - 6.5rem);
+        max-height: calc(100svh - 8rem - 8rem);
     }
 }
 
