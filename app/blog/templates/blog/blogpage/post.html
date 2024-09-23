@@ -34,7 +34,7 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
     <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
   {% endif %}
   <a class="link--go-to-comments me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
-  <button class="btn btn-link btn--copy-permanent-link" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
+  <button id="btn--copy-permanent-link" class="btn btn-link btn--copy-permanent-link" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
 </div>
 <a class="btn btn-primary btn--custom-orange mt-2 auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Edit/delete post</a>
 <hr />
