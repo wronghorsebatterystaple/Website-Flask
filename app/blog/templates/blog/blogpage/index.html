@@ -72,33 +72,35 @@ const TOTAL_PAGES = {{ total_pages }};
 {% if total_pages > 0 %}
   <div class="mt-4 mb-4 text-center">
     <p class="mb-3">Page {{ page_num }} of {{ total_pages }}</p>
-    <div class="d-flex justify-content-center align-items-center">
-      {% if url_prev_page %}
-        <a class="w-2rem text-end no-underline" href="{{ url_prev_page }}"><code>--</code></a>
-        <span class="pipe-1_5em mx-3"></span>
-      {% else %}
-        <a class="invisible w-2rem text-end no-underline"><code>--</code></a>
-        <span class="pipe-1_5em invisible mx-3"></span>
-      {% endif %}
-
-      <form id="goto-page-form">
-        <div class="d-flex align-items-center">
-          <div class="mx-0 px-0">
-            <label class="d-inline" for="goto-page-form__input--page">page = </label>
-            <input id="goto-page-form__input--page" class="goto-page-form__input--page form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
+    {% if total_pages > 1 %}
+      <div class="d-flex justify-content-center align-items-center">
+        {% if url_prev_page %}
+          <a class="w-2rem text-end no-underline" href="{{ url_prev_page }}"><code>--</code></a>
+          <span class="pipe-1_5em mx-3"></span>
+        {% else %}
+          <a class="invisible w-2rem text-end no-underline"><code>--</code></a>
+          <span class="pipe-1_5em invisible mx-3"></span>
+        {% endif %}
+  
+        <form id="goto-page-form">
+          <div class="d-flex align-items-center">
+            <div class="mx-0 px-0">
+              <label class="d-inline" for="goto-page-form__input--page">page = </label>
+              <input id="goto-page-form__input--page" class="goto-page-form__input--page form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
+            </div>
+            <input class="btn btn-link no-underline" name="submit" type="submit" title="go!" value=" ;" />
           </div>
-          <input class="btn btn-link no-underline" name="submit" type="submit" title="go!" value=" ;" />
-        </div>
-      </form>
-    
-      {% if url_next_page %}
-        <span class="pipe-1_5em mx-3"></span>
-        <a class="w-2rem text-start no-underline" href="{{ url_next_page }}"><code>++</code></a>
-      {% else %}
-        <span class="pipe-1_5em invisible mx-3"></span>
-        <a class="invisible w-2rem text-start no-underline"><code>++</code></a>
-      {% endif %}
-    </div>
+        </form>
+      
+        {% if url_next_page %}
+          <span class="pipe-1_5em mx-3"></span>
+          <a class="w-2rem text-start no-underline" href="{{ url_next_page }}"><code>++</code></a>
+        {% else %}
+          <span class="pipe-1_5em invisible mx-3"></span>
+          <a class="invisible w-2rem text-start no-underline"><code>++</code></a>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 {% endif %}
 {% endblock %}
