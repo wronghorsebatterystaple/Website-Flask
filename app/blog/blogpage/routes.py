@@ -90,8 +90,8 @@ def post(post_sanitized_title):
         post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
         post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
     if post.content:
-        # generating HTML `id`s is left to AnchorJS frontend instead of `TocExtension`, as we need AnchorJS anyway
-        # for generating link buttons that have HTML `class` applying Bootstrap's custom font for its custom icon
+        # generating HTML `id`s is left to AnchorJS frontend instead of `TocExtension`, as it's more convenient to
+        # use AnchorJS anyway for handling the logic of showing the button when its parent heading is hovered
         content_md = markdown.Markdown(extensions=[
             "extra",
             "markdown_grid_tables",
