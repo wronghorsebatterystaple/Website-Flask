@@ -178,4 +178,4 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 
 ## Jinja conventions
 
-- Always use `{%- %}` except for blocks that completely do not affect the HTML layout (e.g. `import`, `set`, `extends`)
+- Always use `{%- %}`

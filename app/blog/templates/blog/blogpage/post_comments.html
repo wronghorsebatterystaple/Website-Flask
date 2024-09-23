@@ -1,46 +1,48 @@
-{%- import "bootstrap_wtf.html" as wtf -%}
+{% import "bootstrap_wtf.html" as wtf %}
 
-{%- for comment in comments recursive %}
-  {%- if comment.depth == loop.depth0 %}
-    {%- if comment.depth != 0 %}
+{% for comment in comments recursive %}
+  {% if comment.depth == loop.depth0 %}
+    {% if comment.depth != 0 %}
       <div class="ms-3">
-    {%- endif %}
+    {% endif %}
 
-    {%- set descendants = comment.get_descendants(post) -%}
-    {%- if comment.author|trim == config["VERIFIED_AUTHOR"] %}
-      <div class="comment card mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %} border--custom-orange-deep border--3px">
+    {% set descendants = comment.get_descendants(post) %}
+    {% if comment.author|trim == config["VERIFIED_AUTHOR"] %}
+      <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %} border--custom-orange-deep border--3px">
         <div class="card-body pb-2">
           <h3 class="d-flex align-items-center me-1">
             <span class="me-2">{{ comment.author }}</span><i class="bi bi-check-circle" title="Actually verified, unlike Twitter."></i>
           </h3>
-    {%- else %}
-      <div class="comment card mt-{%- if comment.depth == 0 %}3{%- else %}1{%- endif %}{%- if current_user.is_authenticated and comment.unread %} border--custom-pink-light border--3px{%- endif %}">
+    {% else %}
+      <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %}{% if current_user.is_authenticated and comment.unread %} border--custom-pink-light border--3px{% endif %}">
         <div class="card-body pb-2">
           <h3 class="mb-2 fs-8">{{ comment.author }}</h3>
-    {%- endif %}
+    {% endif %}
         <div class="comment__content mb-3 gray">{{ comment.content|safe }}</div>
         <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
         
-        {%- if comment.depth < 6 %}
+        {% if comment.depth < 6 %}
           {{ wtf.quick_form(reply_comment_btn, id="comment__form--reply-" ~ comment.id, class="comment__form--reply", btn_type="no-bg", btn_color="custom-orange-deep", bottom_margin=0) }}
           {{ wtf.quick_form(add_comment_form, id="comment__form--add-reply-" ~ comment.id, class="ajax-add-comment", bottom_margin=2, hidden=true) }}
-        {%- else %}
+        {% else %}
           <p class="comment__nest-limit-text mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
-        {%- endif %}
+        {% endif %}
 
-        {%- if current_user.is_authenticated %}
+        {% if current_user.is_authenticated %}
           {{ wtf.quick_form(delete_comment_btn, class="ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0) }}
-        {%- else %}
+        {% else %}
           {{ wtf.quick_form(delete_comment_btn, class="ajax-delete-comment auth-true", btn_type="no-bg", btn_color="custom-pink-light", bottom_margin=0, hidden=true) }}
-        {%- endif %}
+        {% endif %}
       </div>
     </div>
-    {%- if descendants %}
-      <div>{{ loop(descendants) }}</div>
-    {%- endif %}
-
-    {%- if comment.depth != 0 %}
+    {% if descendants %}
+      <div>
+        {{ loop(descendants) }}
       </div>
-    {%- endif %}
-  {%- endif %}
-{%- endfor %}
+    {% endif %}
+
+    {% if comment.depth != 0 %}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}

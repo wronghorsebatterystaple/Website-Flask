@@ -1,15 +1,15 @@
-{%- extends "admin/base.html" -%}
-{%- import "bootstrap_wtf.html" as wtf -%}
+{% extends "admin/base.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
 
-{%- block title %}
+{% block title %}
 {{ title }} {{ super() }}
-{%- endblock %}
+{% endblock %}
 
-{%- block content %}
+{% block content %}
 <h1 class="fs-2">{{ prompt }}</h1>
 {{ wtf.quick_form(form, id="main-form") }}
-{%- endblock %}
+{% endblock %}
 
-{%- block js_deferred_linked %}
+{% block js_deferred_linked %}
 <script src="{{ url_for('admin.static', filename='js/form_submit.js', _external=True) }}"></script>
-{%- endblock %}
+{% endblock %}

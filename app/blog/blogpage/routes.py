@@ -1,5 +1,6 @@
 import markdown
 import markdown_grid_tables
+from markdown.extensions.toc import TocExtension
 
 import sqlalchemy as sa
 from flask import current_app, get_template_attribute, jsonify, redirect, render_template, request, url_for
@@ -89,9 +90,16 @@ def post(post_sanitized_title):
         post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
         post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
     if post.content:
-        post.content = markdown.markdown(
-                post.content,
-                extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
+        # generating HTML `id`s is left to AnchorJS frontend instead of `TocExtension`, as we need AnchorJS anyway
+        # for generating link buttons that have HTML `class` applying Bootstrap's custom font for its custom icon
+        content_md = markdown.Markdown(extensions=[
+            "extra",
+            "markdown_grid_tables",
+            TocExtension(toc_depth=2),
+            CustomInlineExtensions(),
+            CustomBlockExtensions()
+        ])
+        post.content = content_md.convert(post.content)
         post.content = blogpage_util.additional_markdown_processing(post.content)
 
     # strip Markdown for title here instead of on the frontend with JQuery `.text()` because this is only part of
@@ -103,6 +111,7 @@ def post(post_sanitized_title):
             "blog/blogpage/post.html",
             post=post,
             post_title_no_markdown=post_title_no_markdown,
+            toc_tokens=content_md.toc_tokens if content_md is not None else None,
             add_comment_form=add_comment_form)
 
 

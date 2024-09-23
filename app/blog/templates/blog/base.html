@@ -1,23 +1,23 @@
-{%- extends "base.html" -%}
+{% extends "base.html" %}
 
-{%- block css %}
+{% block css %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('blog.static', filename='css/style.css', _external=True) }}" />
-{%- endblock %}
+{% endblock %}
 
-{%- block js_start_inline %}
+{% block js_start_inline %}
 {{ super() }}
 const URL_GET_POSTS_WITH_UNREAD_COMMENTS = "{{ url_for('blog.get_posts_with_unread_comments', _external=True) }}";
-{%- endblock %}
+{% endblock %}
 
-{%- block js_deferred_linked %}
+{% block js_deferred_linked %}
 {{ super() }}
 <script src="{{ url_for('blog.static', filename='js/unread_comments_notif.js', _external=True) }}" defer></script>
-{%- endblock %}
+{% endblock %}
 
-{%- block navbar_additions_right %}
-<li class="nav-item dropdown auth-true"{%- if not current_user.is_authenticated %} hidden{%- endif %}>
+{% block navbar_additions_right %}
+<li class="nav-item dropdown auth-true"{% if not current_user.is_authenticated %} hidden{% endif %}>
   <button id="btn--unread-comments-notif" class="nav-link btn" type="button" data-bs-toggle="dropdown"><i id="icon--btn-comments-unread-notif" class="bi bi-bell"></i></button>
   <ul id="dropdown--comments-unread" class="dropdown-menu dropdown-menu-end"></ul>
 </li>
-{%- endblock %}
+{% endblock %}

@@ -1,11 +1,11 @@
-{%- extends "blog/blogpage/base.html" -%}
-{%- import "bootstrap_wtf.html" as wtf -%}
+{% extends "blog/blogpage/base.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
 
-{%- block title %}
+{% block title %}
 {{ post_title_no_markdown }} - {{ blogpage.name }}
-{%- endblock %}
+{% endblock %}
 
-{%- block js_start_inline %}
+{% block js_start_inline %}
 {{ super() }}
 const VERIFIED_AUTHOR = "{{ config["VERIFIED_AUTHOR"] }}";
 const URL_ADD_COMMENT = "{{ url_for('blog.' ~ blogpage_id ~ '.add_comment', post_sanitized_title=post.sanitized_title, _external=True) }}";
@@ -15,30 +15,53 @@ const URL_GET_COMMENT_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_
 const URL_GET_COMMENT_UNREAD_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_unread_count', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_MARK_COMMENTS_AS_READ = "{{ url_for('blog.' ~ blogpage_id ~ '.mark_comments_as_read', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
-{%- endblock %}
+{% endblock %}
 
-{%- block js_deferred_linked %}
+{% block js_deferred_linked %}
 {{ super() }}
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_comments.js', _external=True) }}" defer></script>
-{%- endblock %}
+{% endblock %}
 
-{%- block content %}
-  <h1 class="post__title mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
-  {%- if post.subtitle is not none %}
-    <h2 class="post__subtitle mt-2 mb-0 custom-orange-deep fs-7">{{ post.subtitle|safe }}</h2>
-  {%- endif %}
-  <div class="d-flex align-items-center mt-2">
-    {%- if post.edited_timestamp is not none %}
-      <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
-    {%- else %}
-      <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
-    {%- endif %}
-    <a class="link--go-to-comments me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
-    <button class="btn btn-link btn--copy-permanent-link" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
-  </div>
-
-  <a class="btn btn-primary btn--custom-orange mt-2 auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{%- if not current_user.is_authenticated %} hidden{%- endif %}>Edit/delete post</a>
+{% block content %}
+<h1 class="post__title mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
+{% if post.subtitle is not none %}
+  <h2 class="post__subtitle mt-2 mb-0 custom-orange-deep fs-7">{{ post.subtitle|safe }}</h2>
+{% endif %}
+<div class="d-flex align-items-center mt-2">
+  {% if post.edited_timestamp is not none %}
+    <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+  {% else %}
+    <span class="post__timestamp mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
+  {% endif %}
+  <a class="link--go-to-comments me-2" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
+  <button class="btn btn-link btn--copy-permanent-link" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
+</div>
+<a class="btn btn-primary btn--custom-orange mt-2 auth-true" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Edit/delete post</a>
 <hr />
+
+{% if toc_tokens and toc_tokens|length > 0 %}
+<div class="post__toc card mb-3 overflow-y-auto">
+  <h3 class="mb-3 fs-6">Contents</h3>
+  <ul class="toc__body">
+  {% for toc_token in toc_tokens recursive %}
+    {% set class = "" %}
+    {% if toc_token.level == 1 %}
+      {% set class = "link--custom-green-deep-dark" %}
+    {% elif toc_token.level == 2 %}
+      {% set class = "link--custom-orange-deep" %}
+    {% endif %}
+    <li>
+      <a class="{{ class }} no-underline" href="#{{ toc_token.id }}">{{ toc_token.html }}</a>
+      {% if toc_token.children %}
+      <ul>
+        {{ loop(toc_token.children) }}
+      </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+</div>
+{% endif %}
 
 <div id="post__content" class="post__content">
   {{ post.content|safe }}
@@ -56,10 +79,10 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
   <h2 class="mb-0 fs-4">Comments <span id="comment-counts" class="gray"></span></h2>
   <div id="comment-list" class="d-flex flex-column flex-shrink-0"></div>
 </div>
-{%- endblock %}
+{% endblock %}
 
-{%- block js_end_linked %}
+{% block js_end_linked %}
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_display_customization.js', _external=True) }}"></script>
 <!-- must be after `post_display_customization.js` for `post__h1` etc. classes to be applied, but also must not be deffered so that AnchorJS adds `id`s soon enough for external links to a URL fragment to work -->
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_anchorjs.js', _external=True) }}"></script>
-{%- endblock %}
+{% endblock %}

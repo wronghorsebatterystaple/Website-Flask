@@ -43,6 +43,36 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: 0rem;
 }
 
+.post__toc {
+    z-index: 999;
+    padding: 0.75rem 1rem;
+    max-height: 25svh;
+}
+
+@media(min-width: 1400px) {
+    .post__toc {
+        /* using `sticky` even though `fixed` is more suitable so that flash doesn't shift TOC when fixed */
+        position: sticky;
+        top: 3.5rem;
+        float: left;
+        /* these confusing `calc`s just means the TOC takes up 2/3 of the margin on the left of the screen (up to
+         * the size it would be on a 1536px screen), and `margin-left` is such that it the TOC is perfectly
+         * centered within the left margin (with 1/6 of the margin on each side of the TOC) */
+        margin-left: calc(-5 * (min(100vw, 1536px) - var(--container-content-max-width)) / 12);
+        border: none !important;
+        padding: 0 1rem 0 0;
+        width: calc((min(100vw, 1536px) - var(--container-content-max-width)) / 3.3333);
+        /* this is `100svh - [top] - [arbitrary bottom spacing]`; using this (only partially hardcoded) value
+         * instead of like `80svh` to make sure it will never exceed the bottom of the page when fixed, in case
+         * `top` becomes really large */
+        max-height: calc(100svh - 3.5rem - 6.5rem);
+    }
+}
+
+.post__toc ul:last-of-type {
+    margin-bottom: 0;
+}
+
 .post-list__blogtitle {
     font-size: 0.85rem;
 }
@@ -50,4 +80,8 @@ input[value="Reply"][value="Delete"] {
 .post-list__icon--comment {
     font-size: 14px;
     margin-bottom: -0.25rem;
+}
+
+.toc__body {
+    font-size: 0.95rem;
 }

@@ -62,14 +62,6 @@
 /* `border` */
 /************/
 
-.border--custom-orange-deep {
-    border-color: var(--custom-orange-deep) !important;
-}
-
-.border--custom-pink-light {
-    border-color: var(--custom-pink-light) !important;
-}
-
 .border-bottom--h1 {
     border-bottom: 3px solid var(--custom-green-deep-dark);
     padding-bottom: 0.5rem;
@@ -78,6 +70,22 @@
 .border-bottom--h2 {
     border-bottom: 2px solid var(--custom-orange-deep);
     padding-bottom: 0.25rem;
+}
+
+.border-silver {
+    border-color: silver !important;
+}
+
+.border--custom-orange-deep {
+    border-color: var(--custom-orange-deep) !important;
+}
+
+.border--custom-pink-light {
+    border-color: var(--custom-pink-light) !important;
+}
+
+.border--3px {
+    border-width: 3px !important;
 }
 
 /*********/
@@ -126,6 +134,30 @@
     --bs-btn-disabled-color: var(--custom-pink-xlight) !important;
 }
 
+/**********/
+/* `link` */
+/**********/
+
+.link--custom-green-deep-dark {
+    text-decoration-color: var(--custom-green-deep-dark);
+    color: var(--custom-green-deep-dark);
+}
+
+.link--custom-green-deep-dark:hover {
+    text-decoration-color: var(--custom-green-deep-xxdark);
+    color: var(--custom-green-deep-xxdark);
+}
+
+.link--custom-orange-deep {
+    text-decoration-color: var(--custom-orange-deep);
+    color: var(--custom-orange-deep);
+}
+
+.link--custom-orange-deep:hover {
+    text-decoration-color: var(--custom-orange-deep-dark);
+    color: var(--custom-orange-deep-dark);
+}
+
 /***************/
 /* `underline` */
 /***************/
@@ -150,112 +182,104 @@
     text-decoration-color: gray !important;
 }
 
-/****************/
-/* Size/Spacing */
-/****************/
-
-.border--3px {
-    border-width: 3px !important;
-}
-
-.flex-basis-75 {
-    flex-basis: 75% !important;
-}
+/********/
+/* Font */
+/********/
 
 /* override all Bootstrap `fs` classes */
 .fs-1 {
-    font-size: 3.5rem !important;
+    font-size: calc(1.5rem + 4vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-1 {
-        font-size: calc(1.5rem + 4vw) !important;
+        font-size: 3.5rem !important;
     }
 }
 
 .fs-2 {
-    font-size: 3rem !important;
+    font-size: calc(1.4rem + 3.2vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-2 {
-        font-size: calc(1.4rem + 3.2vw) !important;
+        font-size: 3rem !important;
     }
 }
 
 .fs-3 {
-    font-size: 2.5rem !important;
+    font-size: calc(1.3rem + 2.4vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-3 {
-        font-size: calc(1.3rem + 2.4vw) !important;
+        font-size: 2.5rem !important;
     }
 }
 
 .fs-4 {
-    font-size: 2.25rem !important;
+    font-size: calc(1.25rem + 2vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-4 {
-        font-size: calc(1.25rem + 2vw) !important;
+        font-size: 2.25rem !important;
     }
 }
 
 .fs-5 {
-    font-size: 2rem !important;
+    font-size: calc(1.2rem + 1.6vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-5 {
-        font-size: calc(1.2rem + 1.6vw) !important;
+        font-size: 2rem !important;
     }
 }
 
 .fs-6 {
-    font-size: 1.75rem !important;
+    font-size: calc(1.15rem + 1.2vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-6 {
-        font-size: calc(1.15rem + 1.2vw) !important;
+        font-size: 1.75rem !important;
     }
 }
 
 .fs-7 {
-    font-size: 1.5rem !important;
+    font-size: calc(1.1rem + 0.8vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-7 {
-        font-size: calc(1.1rem + 0.8vw) !important;
+        font-size: 1.5rem !important;
     }
 }
 
 .fs-8 {
-    font-size: 1.25rem !important;
+    font-size: calc(1.05rem + 0.4vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-8 {
-        font-size: calc(1.05rem + 0.4vw) !important;
+        font-size: 1.25rem !important;
     }
 }
 
 .fs-9 {
-    font-size: 1.125rem !important;
+    font-size: calc(1.025rem + 0.2vw) !important;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
     .fs-9 {
-        font-size: calc(1.025rem + 0.2vw) !important;
+        font-size: 1.125rem !important;
     }
 }
 
-.min-vh-100 {
-    min-height: 100svh !important;
-}
+/*************/
+/* Box Model */
+/*************/
 
 .mt-2rem {
     margin-top: 2rem !important;
@@ -272,6 +296,14 @@
 /*********/
 /* Other */
 /*********/
+
+.flex-basis-75 {
+    flex-basis: 75% !important;
+}
+
+.min-vh-100 {
+    min-height: 100svh !important;
+}
 
 .no-underline {
     text-decoration: none !important;
