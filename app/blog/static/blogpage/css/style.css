@@ -47,7 +47,7 @@ input[value="Reply"][value="Delete"] {
     z-index: 999;
     border-color: gray;
     padding: 0.75rem 1rem;
-    max-height: 30svh;
+    max-height: 33.3333svh;
 }
 
 @media(min-width: 1400px) {
