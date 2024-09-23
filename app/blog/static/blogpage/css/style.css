@@ -59,6 +59,7 @@ input[value="Reply"][value="Delete"] {
         /* these confusing `calc`s just means the TOC takes up 2/3 of the margin on the left of the screen (up to
          * the size it would be on a 1536px screen), and `margin-left` is such that it the TOC is perfectly
          * centered within the left margin (with 1/6 of the margin on each side of the TOC) */
+        /* I'm sure there are better ways to do this */
         margin-left: calc(-5 * (min(100vw, 1536px) - var(--container-content-max-width)) / 12);
         border: none;
         padding: 0 1rem 0 0;
