@@ -84,7 +84,7 @@ function randomizeColors() {
         },
         orange: {
             flash: {border: "--custom-orange-light", background: "--custom-orange-xxxlight"},
-            selection: "--custom-orange-light"
+            selection: "--custom-orange-xlight"
         },
         pink: {
             flash: {border: "--custom-pink-xlight", background: "--custom-pink-xxxlight"},
