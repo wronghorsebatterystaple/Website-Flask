@@ -72,32 +72,37 @@ function applySyntaxHighlighting(baseSelector) {
     });
 }
 
-function randomizeFlashColor() {
-    const colorChoices = [
-        ["--custom-blue-light", "--custom-blue-xxxlight"],
-        ["--custom-green", "--custom-green-xxxlight"],
-        ["--custom-orange-light", "--custom-orange-xxxlight"],
-        ["--custom-pink-xlight", "--custom-pink-xxxlight"]
-    ];
-    rand = Math.floor(Math.random() * colorChoices.length);
+function randomizeColors() {
+    const colorChoices = {
+        blue: {
+            flash: {border: "--custom-blue-light", background: "--custom-blue-xxxlight"},
+            selection: "--custom-blue-xxlight"
+        },
+        green: {
+            flash: {border: "--custom-green", background: "--custom-green-xxxlight"},
+            selection: "--custom-green-deep-xlight"
+        },
+        orange: {
+            flash: {border: "--custom-orange-light", background: "--custom-orange-xxxlight"},
+            selection: "--custom-orange-light"
+        },
+        pink: {
+            flash: {border: "--custom-pink-xlight", background: "--custom-pink-xxxlight"},
+            selection: "--custom-pink-xxlight"
+        }
+    };
+    const color = Object.keys(colorChoices)[Math.floor(Math.random() * Object.keys(colorChoices).length)];
+    const colorChoice = colorChoices[color];
     // can't use `css()` here since it doesn't support `!important`, which is needed
     $("body").append(`
         <style>
             #flash {
-                border-color: var(${colorChoices[rand][0]}) !important;
-                background-color: var(${colorChoices[rand][1]}) !important
+                border-color: var(${colorChoice.flash.border}) !important;
+                background-color: var(${colorChoice.flash.background}) !important
             }
-        </style>
-    `);
-}
 
-function randomizeSelectionColor() {
-    const colorChoices = ["--custom-blue-xxlight", "--custom-green-deep-xlight", "--custom-pink-xxlight"];
-    let rand = Math.floor(Math.random() * colorChoices.length);
-    $("body").append(`
-        <style>
             ::selection {
-                background-color: var(${colorChoices[rand]}) !important;
+                background-color: var(${colorChoice.selection}) !important;
             }
         </style>
     `);
@@ -112,6 +117,5 @@ function reloadBackgroundImg() {
 }
 
 applyGlobalStyles("body");
-randomizeFlashColor();
-randomizeSelectionColor();
+randomizeColors();
 reloadBackgroundImg();
