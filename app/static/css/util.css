@@ -72,9 +72,8 @@
     padding-bottom: 0.25rem !important;
 }
 
-.border-bottom--std {
+.border-bottom--underline {
     border-bottom: 1px solid black !important;
-    padding-bottom: 0.25rem !important;
 }
 
 .border--custom-orange-deep {
