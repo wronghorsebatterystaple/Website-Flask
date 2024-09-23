@@ -20,15 +20,20 @@ onModalLogout = addToFunction(onModalLogout, function() {
 });
 
 async function reloadComments() {
-    // refresh the main "leave a comment" form's author autofill; don't do for replies as that should be easy enough
-    // manually and could be slow automatically if there's a lot of comments
+    // make sure we don't keep polling for scroll position if the comments have already been loaded
+    if (commentLoadIntervalId) {
+        clearInterval(commentLoadIntervalId);
+    }
+
+    // refresh the main "leave a comment" form's author autofill; don't do for replies as that should be easy
+    // enough manually and could be slow automatically if there's a lot of comments
     if (isUserAuthenticated) {
         $("#leave-a-comment").find("input[name='author']").first().val(VERIFIED_AUTHOR);
     } else {
         $("#leave-a-comment").find("input[name='author']").first().val("");
     }
     
-    // refresh the comment counts in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
+    // get comment count in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
     let commentCount = 0;
     let commentUnreadCount = 0;
     let respJson = await fetchWrapper(URL_GET_COMMENT_COUNT, {method: "GET"});
@@ -36,16 +41,21 @@ async function reloadComments() {
         commentCount = respJson.count;
     } else if (!respJson.hasHandledError) {
         customFlash("There was an error retrieving comment count :/");
+        return;
     }
+
+    // get comment unread count in the heading if admin
     if (isUserAuthenticated) {
         respJson = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, {method: "GET"});
         if (!respJson.errorStatus) {
             commentUnreadCount = respJson.count;
         } else if (respJson.errorStatus !== 429) {
             customFlash("There was an error retrieving comment unread count :/");
+            return;
         }
     }
 
+    // reflect comment counts in HTML
     let HTML = `(${commentCount}`;
     if (isUserAuthenticated && commentUnreadCount > 0) {
         HTML += `<span class="auth-true">, <span class="custom-pink">${commentUnreadCount} unread</span></span>`;
@@ -53,31 +63,30 @@ async function reloadComments() {
     HTML += ")";
     $("#comment-counts").html(HTML);
 
-    // load in comments
-    respJson = await fetchWrapper(URL_GET_COMMENTS, {method: "GET"});
-    if (!respJson.errorStatus) {
-        $("#comment-list").html(respJson.html);
-    } else if (respJson.errorStatus !== 429) {
-        customFlash("There was an error retrieving comments :/");
-    }
+    // load in comments if there are any
+    if (commentCount > 0) {
+        respJson = await fetchWrapper(URL_GET_COMMENTS, {method: "GET"});
+        if (!respJson.errorStatus) {
+            $("#comment-list").html(respJson.html);
+        } else if (respJson.errorStatus !== 429) {
+            customFlash("There was an error retrieving comments :/");
+            return;
+        }
 
-    // make sure we don't keep polling for scroll position if the comments have already been loaded
-    if (commentLoadIntervalId) {
-        clearInterval(commentLoadIntervalId);
-    }
+        // render timestamps and LaTeX in comments
+        flask_moment_render_all();
+        MathJax.typesetPromise(["#comment-list"]).then(function() {
+            onMathJaxTypeset("#comment-list");
+        });
 
-    // render timestamps and LaTeX in comments
-    flask_moment_render_all();
-    MathJax.typesetPromise(["#comment-list"]).then(function() {
-        onMathJaxTypeset("#comment-list");
-    });
+        // apply CSS to comments
+        applyGlobalStyles("#comment-list");
+        applyPostAndCommentStyles("#comment-list");
 
-    // apply CSS to comments
-    applyGlobalStyles("#comment-list");
-    applyPostAndCommentStyles("#comment-list");
-
-    if (isUserAuthenticated) {
-        markCommentsAsRead();
+        // mark comments as read if admin
+        if (isUserAuthenticated) {
+            markCommentsAsRead();
+        }
     }
 }
 
