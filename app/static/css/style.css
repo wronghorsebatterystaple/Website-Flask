@@ -96,6 +96,10 @@ textarea {
     vertical-align: bottom;
 }
 
+.bi-link-45deg::before {
+    font-size: 1.125em;
+}
+
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
     border-top-color: var(--custom-pink-light) !important;
 }
