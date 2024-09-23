@@ -53,7 +53,8 @@ nav .dropdown-menu {
 /* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
 @media (max-width: 768px) {
     nav .dropdown-menu {
-        max-width: calc(var(--container-content-max-width) - 2 * var(--container-content-padding-x));
+        width: calc(var(--container-content-max-width) - 2 * var(--container-content-padding-x));
+        max-width: unset;
     }
 }
 
