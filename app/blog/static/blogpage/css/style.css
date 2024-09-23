@@ -60,7 +60,7 @@ input[value="Reply"][value="Delete"] {
          * the size it would be on a 1536px screen), and `margin-left` is such that it the TOC is perfectly
          * centered within the left margin (with 1/6 of the margin on each side of the TOC) */
         margin-left: calc(-5 * (min(100vw, 1536px) - var(--container-content-max-width)) / 12);
-        border: none !important;
+        border: none;
         padding: 0 1rem 0 0;
         width: calc((min(100vw, 1536px) - var(--container-content-max-width)) / 3.3333);
         /* this is `100svh - [top] - [arbitrary bottom spacing]`; using this (only partially hardcoded) value
