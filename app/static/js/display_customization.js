@@ -54,7 +54,9 @@ function applyCustomMarkdown(baseSelector) {
     jQBase.find("[data-align-bottom]").parents("th, td").addClass("align-bottom");
 
     // custom table column width syntax
-    jQBase.find("[data-col-width]").parents("th, td").attr("width", $(this).attr("data-col-width"));
+    jQBase.find("[data-col-width]").each(function() {
+        $(this).parents("th, td").attr("width", $(this).attr("data-col-width"));
+    });
 
     // no extra `<p>` tags in custom figures/captions
     jQBase.find(".md-captioned-figure").find("p").children("img").unwrap();

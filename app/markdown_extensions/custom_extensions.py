@@ -14,30 +14,6 @@ class GrayCodeInlineProcessor(InlineProcessor):
         return elem, m.start(0), m.end(0)
 
 
-class ImageInlineProcessor(InlineProcessor):
-    """
-    Images with custom width:
-        ```
-        !\[<span data-width="[number]%">[alt text]</span>\]([image src])
-        ```
-    Images with `display: inline`:
-        ```
-        !\[<span data-inline>[alt text]</span>\]([image src])
-        ```
-    if both are present, `data-inline` must be after `data-width`.
-    """
-
-    def handleMatch(self, m, data):
-        elem = etree.Element("img")
-        elem.set("src", m.group(5))
-        elem.set("alt", m.group(4))
-        if m.group(2):
-            elem.set("width", m.group(2))
-        if m.group(3):
-            elem.set("class", "md-image-inline")
-        return elem, m.start(0), m.end(0)
-
-
 class LinkTargetInlineProcessor(InlineProcessor):
     """
     Links that open on same page, instead of default `target="_blank"`:
@@ -413,12 +389,6 @@ class CustomInlineExtensions(Extension):
         # `'''[text]'''` for gray code
         regex = r"'''([\S\s]*?)'''"
         md.inlinePatterns.register(GrayCodeInlineProcessor(regex, md), "gray_code", 999)
-
-        regex = "!\\[<span( data-width=\"([0-9]+?%)\")?( data-inline)?>([\\S\\s]*?)</span>\\]\\(([\\S\\s]*?)\\)"
-        md.inlinePatterns.register(ImageInlineProcessor(regex, md), "image", 999)
-
-        regex = r"\[<span data-same-page>([\S\s]*?)</span>\]\(([\S\s]*?)\)"
-        md.inlinePatterns.register(LinkTargetInlineProcessor(regex, md), "link_target", 999)
 
 
 class CustomBlockExtensions(Extension):
