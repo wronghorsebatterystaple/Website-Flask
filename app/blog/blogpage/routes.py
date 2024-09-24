@@ -89,6 +89,7 @@ def post(post_sanitized_title):
     if post.subtitle:
         post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
         post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
+    content_md = None
     if post.content:
         # generating HTML `id`s is left to AnchorJS frontend instead of `TocExtension`, as it's more convenient to
         # use AnchorJS anyway for handling the logic of showing the button when its parent heading is hovered

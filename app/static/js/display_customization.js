@@ -47,17 +47,6 @@ function applyCustomMarkdown(baseSelector) {
         return;
     }
 
-    // custom table horizontal and vertical align syntax
-    jQBase.find("[data-align-center]").parents("th, td").addClass("text-center");
-    jQBase.find("[data-align-right]").parents("th, td").addClass("text-end");
-    jQBase.find("[data-align-top]").parents("th, td").addClass("align-top");
-    jQBase.find("[data-align-bottom]").parents("th, td").addClass("align-bottom");
-
-    // custom table column width syntax
-    jQBase.find("[data-col-width]").each(function() {
-        $(this).parents("th, td").attr("width", $(this).attr("data-col-width"));
-    });
-
     // no extra `<p>` tags in custom figures/captions
     jQBase.find(".md-captioned-figure").find("p").children("img").unwrap();
 }
