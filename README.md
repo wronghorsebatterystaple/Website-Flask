@@ -117,7 +117,8 @@ I hope I'm not reading this because I bricked a machine again.
 
 # Blog writer notes
 
-### Custom Markdown syntax:
+### Markdown syntax and custom syntax:
+- Make sure to check out `Python-Markdown` official extensions' [documentations](https://python-markdown.github.io/extensions/)
 - Inline:
     - `__[text]__` to underline
     - `~~[text]~~` to strikethrough
