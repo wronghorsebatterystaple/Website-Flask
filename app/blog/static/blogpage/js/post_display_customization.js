@@ -60,5 +60,26 @@ function addCommentHoverTooltip() {
     refreshTooltips("#leave-a-comment");
 }
 
+function tweakFootnotes() {
+    // turn footnotes into `<details>`
+    const jQFootnotes = $("#post__content").find(".footnote");
+    if (jQFootnotes.length > 0) {
+        // just because the singular form bothers me
+        jQFootnotes.addClass("footnotes");
+        jQFootnotes.removeClass("footnote");
+        jQFootnotes.wrap("<details id=\"footnotes__details\" class=\"footnotes__details\"></details>")
+        jQFootnotes.before("<summary class=\"footnotes__details-summary\">Footnotes</summary>");
+    }
+
+    // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
+    $(".footnote-ref").on("click", function(e) {
+        const jQFootnotesDetails = $("#footnotes__details");
+        if (!jQFootnotesDetails.is("[open]")) {
+            jQFootnotesDetails.attr("open", "");
+        }
+    });
+}
+
 applyPostAndCommentStyles("body");
 addCommentHoverTooltip();
+tweakFootnotes();
