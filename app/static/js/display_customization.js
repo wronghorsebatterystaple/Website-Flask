@@ -16,9 +16,6 @@ function applyGlobalStyles(baseSelector) {
     jQBase.find("[style='text-align: center;']").removeAttr("style").addClass("text-center");
     jQBase.find("[style='text-align: right;']").removeAttr("style").addClass("text-end");
 
-    // no extra space between lists and their "heading" text
-    jQBase.find("ol, ul").prev("p").addClass("mb-0");
-
     // footnote tweaks
     const jQFootnotes = jQBase.find(".footnote").first();
     if (jQFootnotes.length > 0) {
