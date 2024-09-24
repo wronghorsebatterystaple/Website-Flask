@@ -155,18 +155,3 @@ Comparing Flask's built-in session cookie with `PERMANENT_SESSION_LIFETIME` conf
 | `session.permanent=True, remember=False` | Disk (persistent) | - | Expires & is deleted | - | Logged out | - |
 | `session.permanent=False, remember=True` | Memory (non-persistent) | Disk (persistent) | Invalidated by Flask | Expires & is deleted | Logged out | Logged out if browser closed |
 | `session.permanent=True, remember=True` | Disk (persistent) | Disk (persistent) | Expires & is deleted | Expires & is deleted | Logged out | Logged out if browser closed |
-
-# Other useless notes
-
-## Rounds of custom Markdown processing
-
-    1. Custom Markdown extensions in [app/markdown_ext/myextensions.py](app/markdown_ext/myextensions.py)
-        - Custom Markdown syntax
-    2. Custom `additional_markdown_processing()` in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py)
-        - Non-custom-syntax stuff that is easier to handle from Flask than from JQuery in round 3, like regex replaces on invalid/unparsable HTML (offload work to JQuery whenever possible)
-    3. Custom JQuery in [app/static/js/display_customization.js](app/static/js/display_customization.js) and [app/blog/static/blogpage/js/display_customization.js](app/blog/static/blogpage/js/display_customization.js)
-        - Non-custom-syntax stuff that is easier to handle from JQuery, like adding classes for styling or traversing DOM
-
-## Jinja conventions
-
-- Always use `{%- %}`

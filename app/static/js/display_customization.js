@@ -37,18 +37,7 @@ function applyGlobalStyles(baseSelector) {
         }
     });
     
-    applyCustomMarkdown(baseSelector); // Markdown tweaks round 3
     applySyntaxHighlighting(baseSelector);
-}
-
-function applyCustomMarkdown(baseSelector) {
-    const jQBase = $(baseSelector);
-    if (jQBase.length <= 0) {
-        return;
-    }
-
-    // no extra `<p>` tags in custom figures/captions
-    jQBase.find(".md-captioned-figure").find("p").children("img").unwrap();
 }
 
 function applySyntaxHighlighting(baseSelector) {

@@ -1,5 +1,4 @@
 import markdown
-import markdown_grid_tables
 from markdown.extensions.toc import TocExtension
 
 import sqlalchemy as sa
@@ -85,23 +84,19 @@ def post(post_sanitized_title):
 
     # render Markdown for post
     post.title = markdown.markdown(post.title, extensions=["extra", CustomInlineExtensions()])
-    post.title = blogpage_util.additional_markdown_processing(post.title)
     if post.subtitle:
         post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
-        post.subtitle = blogpage_util.additional_markdown_processing(post.subtitle)
     content_md = None
     if post.content:
         # generating HTML `id`s is left to AnchorJS frontend instead of `TocExtension`, as it's more convenient to
         # use AnchorJS anyway for handling the logic of showing the button when its parent heading is hovered
         content_md = markdown.Markdown(extensions=[
             "extra",
-            "markdown_grid_tables",
             TocExtension(toc_depth=2),
             CustomInlineExtensions(),
             CustomBlockExtensions()
         ])
         post.content = content_md.convert(post.content)
-        post.content = blogpage_util.additional_markdown_processing(post.content)
 
     # strip Markdown for title here instead of on the frontend with JQuery `.text()` because this is only part of
     # the title, and I can't put `<span>`s or anything in `<title>` to selectively only change part of it in JS
@@ -130,15 +125,11 @@ def get_comments(post_sanitized_title):
     for comment in comments:
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
-                    comment.content,
-                    extensions=["extra", "markdown_grid_tables", CustomInlineExtensions(), CustomBlockExtensions()])
-            comment.content = blogpage_util.additional_markdown_processing(comment.content)
+                    comment.content, extensions=["extra", CustomInlineExtensions(), CustomBlockExtensions()])
         else:
             # no custom block Markdown for non-admin because there are ways to 500 the page that I don't wanna fix
             comment.content = markdown.markdown(
-                    comment.content,
-                    extensions=["extra", "markdown_grid_tables", CustomInlineExtensions()])
-            comment.content = blogpage_util.additional_markdown_processing(comment.content)
+                    comment.content, extensions=["extra", CustomInlineExtensions()])
             comment.content = blogpage_util.sanitize_untrusted_html(comment.content)
  
     add_comment_form = AddCommentForm()

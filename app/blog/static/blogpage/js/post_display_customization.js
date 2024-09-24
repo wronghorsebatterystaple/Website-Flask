@@ -45,7 +45,7 @@ function addCommentHoverTooltip() {
                   <li>Markdown
                     <ul>
                       <li>No images, links, or footnotes</li>
-                      <li>Tables: GFM, or reStructuredText Grid with line separators</li>
+                      <li>Python-Markdown official <code>extra</code> extension</li>
                     </ul>
                   </li>
                   <li>LaTeX (via MathJax)
