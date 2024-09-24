@@ -25,9 +25,9 @@
 
     --custom-orange: #ffd500;               /* hue 50 */
     --custom-orange-light: #ffdf40;
-    --custom-orange-xlight: #ffe359;
     --custom-orange-xxxlight: #fffdf7;
     --custom-orange-dark: #f5cc00;
+    --custom-orange-shallow-light: #fff04d; /* hue 55 */
     --custom-orange-deep: #ffc800;          /* hue 47 */
     --custom-orange-deep-light: #ffd747;
     --custom-orange-deep-dark: #e6b400;
