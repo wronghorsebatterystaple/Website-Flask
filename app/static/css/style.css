@@ -177,6 +177,10 @@ textarea {
     margin-bottom: 0.375rem;
 }
 
+.md-captioned-figure p:has(> img) {
+    margin-bottom: 0;
+}
+
 .md-cited-blockquote {
     margin-bottom: 0;
 }
