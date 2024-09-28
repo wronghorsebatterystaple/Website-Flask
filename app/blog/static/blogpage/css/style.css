@@ -67,7 +67,7 @@ input[value="Reply"][value="Delete"] {
         /* this is `100svh - [top] - [arbitrary bottom spacing]`; using this (only partially hardcoded) value
          * instead of like `80svh` to make sure it will never exceed the bottom of the page when fixed, in case
          * `top` becomes really large */
-        max-height: max(100svh - 8rem - 8rem, 15rem);
+        max-height: max(min(100svh, 864px) - 8rem - 8rem, 15rem);
     }
 }
 
