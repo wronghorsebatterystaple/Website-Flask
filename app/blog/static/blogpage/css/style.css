@@ -3,6 +3,10 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
 }
 
+.blogpage__subname {
+    line-height: 1.4em;
+}
+
 .comment__nest-limit-text {
     font-size: 0.95rem;
 }

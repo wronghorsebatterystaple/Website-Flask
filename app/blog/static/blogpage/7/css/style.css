@@ -1,6 +1,6 @@
-.blogpage-name {
+.blogpage__name {
     color: var(--custom-pink-light);
 }
-.blogpage-subname {
+.blogpage__subname {
     color: var(--custom-orange-deep-light);
 }

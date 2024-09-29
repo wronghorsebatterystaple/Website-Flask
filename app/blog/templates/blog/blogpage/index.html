@@ -10,9 +10,9 @@ const TOTAL_PAGES = {{ total_pages }};
 {% endblock %}
 
 {% block content %}
-<h1 class="blogpage-name fs-1">{{ blogpage.name }}</h1>
+<h1 class="blogpage__name fs-1">{{ blogpage.name }}</h1>
 {% if blogpage.subname is not none %}
-  <h2 class="blogpage-subname fs-7 mt-2">{{ blogpage.subname }}</h2>
+  <h2 class="blogpage__subname fs-7 mt-2">{{ blogpage.subname }}</h2>
 {% endif %}
 
 <a class="btn btn-primary btn--custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
@@ -88,7 +88,7 @@ const TOTAL_PAGES = {{ total_pages }};
               <label class="d-inline" for="goto-page-form__page-input">page = </label>
               <input id="goto-page-form__page-input" class="goto-page-form__page-input form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
             </div>
-            <input class="btn btn-link underline-hover-only" name="submit" type="submit" title="go!" value=" ;" />
+            &nbsp;<input class="btn btn-link underline-hover-only" name="submit" type="submit" title="go :D" value=";" />
           </div>
         </form>
       
