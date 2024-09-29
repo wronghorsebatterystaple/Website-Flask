@@ -44,10 +44,10 @@ class Blogpage(db.Model):
             nullable=True,
             default=None)
 
-    html_color_class: so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["BLOGPAGE_COLOR_HTML_CLASS_MAXLEN"]),
-            nullable=True,
-            default=None)
+    color: so.Mapped[str] = so.mapped_column(
+            sa.String(Config.DB_CONFIGS["BLOGPAGE_COLOR_MAXLEN"]),
+            nullable=False,
+            default="black")
 
     ordering: so.Mapped[int] = so.mapped_column(
             unique=True,
@@ -58,8 +58,8 @@ class Blogpage(db.Model):
     login_required: so.Mapped[bool] = so.mapped_column(
             default=True)
 
-    unpublished: so.Mapped[bool] = so.mapped_column(
-            default=True)
+    published: so.Mapped[bool] = so.mapped_column(
+            default=False)
 
     writeable: so.Mapped[bool] = so.mapped_column(
             default=False)
@@ -165,7 +165,7 @@ class Post(db.Model):
             self.edited_timestamp = None
 
         originally_published = self.published
-        self.published = not self.blogpage.unpublished
+        self.published = self.blogpage.published
         if not originally_published:
             # keep updating created time instead of edited time if not already published
             self.timestamp = datetime.now(timezone.utc)

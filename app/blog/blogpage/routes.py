@@ -56,9 +56,9 @@ def index():
 
     # generate corresponding unpublished blogpage ID for "Create Post" button
     unpublished_blogpage_id = blogpage_id
-    if not blogpage.unpublished:
+    if blogpage.published:
         blogpage_temp = db.session.get(Blogpage, -blogpage_id)
-        if blogpage_temp is not None and blogpage_temp.unpublished:
+        if blogpage_temp is not None and not blogpage_temp.published:
             unpublished_blogpage_id = -blogpage_id
 
     return render_template(

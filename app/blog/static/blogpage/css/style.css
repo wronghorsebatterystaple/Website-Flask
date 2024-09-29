@@ -3,8 +3,13 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
 }
 
+.blogpage__name {
+    color: black;
+}
+
 .blogpage__subname {
     line-height: 1.4em;
+    color: gray;
 }
 
 .comment__nest-limit-text {

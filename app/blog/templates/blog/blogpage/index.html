@@ -21,7 +21,7 @@ const TOTAL_PAGES = {{ total_pages }};
 {% for post in posts %}
   <div>
     {% if is_all_posts %}
-      {% set color = post.blogpage.html_color_class %}
+      {% set color = post.blogpage.color %}
       <a class="underline-hover-only underline--{{ color }} {{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <div class="d-flex align-items-top">
           <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->

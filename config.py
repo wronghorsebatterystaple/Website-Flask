@@ -56,7 +56,7 @@ class Config(object):
         "BLOGPAGE_NAME_MAXLEN": 50,
         "BLOGPAGE_SUBNAME_MAXLEN": 100,
         "BLOGPAGE_META_DESCRIPTION_MAXLEN": 500,
-        "BLOGPAGE_COLOR_HTML_CLASS_MAXLEN": 100,
+        "BLOGPAGE_COLOR_MAXLEN": 100,
         "POST_TITLE_MAXLEN": 150,
         "POST_SUBTITLE_MAXLEN": 150,
         # can't enforce this db-side because it's MEDIUMTEXT so just don't be more than 2^24 - 1 Okayge
@@ -99,16 +99,17 @@ class Config(object):
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blogpage"
     ALL_POSTS_BLOGPAGE_ID = 1
     BLOGPAGE_ID_TO_PATH = { # SYNC: with db (for initializing blueprints)
-        "1": "/all",
-        "2": "/misc",
-        "3": "/professor-google",
-        "5": "/the-fake-news-network",
-        "6": "/writers-block",
-        "7": "/writers-unblock",
+         "1": "/all",
+         "2": "/misc",
         "-2": "/misc-backrooms",
+         "3": "/professor-google",
         "-3": "/professor-google-backrooms",
+         "4": "/typewriter-monkey-does-ctfs",
+         "5": "/the-fake-news-network",
         "-5": "/the-fake-news-network-backrooms",
+         "6": "/writers-block",
         "-6": "/writers-block-backrooms",
+         "7": "/writers-unblock",
         "-7": "/writers-unblock-backrooms"
     }
     URLS_LOGIN_REQUIRED = [ # for Flask and JS access control on logout

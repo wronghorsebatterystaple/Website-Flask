@@ -27,6 +27,12 @@ code {
     font-size: 97.5% !important;
 }
 
+label:has(+ [required]):after,
+label:has(+ * [required]):after {
+    color: red;
+    content:" *";
+}
+
 /* prevent dropdowns from overflowing if dropdown not collapsed
  * note that 0.75 is an arbitrary approximation, because trying to find it precisely seems nigh impossible */
 nav .dropdown-menu {
@@ -34,7 +40,6 @@ nav .dropdown-menu {
     max-width: calc(0.75 * (var(--container-content-max-width) - 2 * var(--container-content-padding-x)));
 }
 
-/* SYNC: Bootstrap breakpoint in app/templates/base.html where navbar collapses */
 @media (max-width: 768px) {
     nav .dropdown-menu {
         width: 100%;
@@ -174,11 +179,6 @@ textarea {
 
 .icon-navbar-toggler {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='%23909090' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
-}
-
-.label--required:after {
-    color: red;
-    content:" *";
 }
 
 .md-captioned-figure__caption {

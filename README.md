@@ -48,7 +48,7 @@ I hope I'm not reading this because I bricked a machine again.
     - Edit [app/models.py](app/models.py) on the host
         - IMPORTANT: if renaming columns, you will probably have to edit the Alembic script in [migrations/versions/](migrations/versions/) to use `alter_column()`! `existing_type` is a required argument; reference [migrations/versions/79665802aa08_rename_blogpage_title_and_subtitle_to_.py](migrations/versions/79665802aa08_rename_blogpage_title_and_subtitle_to_.py).
     - Run `flask db migrate` on the host in the Python venv; this requires MySQL connectivity from the host
-    - Run `flask db upgrade` or restart the Docker containers
+    - Run `flask db upgrade` on the host in the Python venv or restart the Docker containers
 
 ### Access control overview:
 - Access control in view functions is achieved through the `@custom_login_required()` decorator and its equivalent function `custom_unauthorized()`, both provided in [app/util.py](app/util.py); see that file for full documentation and usage. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
