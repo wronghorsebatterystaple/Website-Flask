@@ -46,12 +46,12 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
   {% for toc_token in toc_tokens recursive %}
     {% set class = "" %}
     {% if toc_token.level == 1 %}
-      {% set class = "link--custom-green-deep-dark" %}
+      {% set class = "link--custom-green-deep-xdark" %}
     {% elif toc_token.level == 2 %}
-      {% set class = "link--custom-orange-deep" %}
+      {% set class = "link--custom-orange-deep-dark" %}
     {% endif %}
     <li>
-      <a class="{{ class }} no-underline" href="#{{ toc_token.id }}">{{ toc_token.html }}</a>
+      <a class="{{ class }} underline--hover-only" href="#{{ toc_token.id }}">{{ toc_token.html }}</a>
       {% if toc_token.children %}
       <ul>
         {{ loop(toc_token.children) }}

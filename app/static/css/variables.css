@@ -22,6 +22,7 @@
     --custom-green-deep-dark: #77d900;
     --custom-green-deep-xdark: #70cc00;
     --custom-green-deep-xxdark: #69bf00;
+    --custom-green-deep-xxxdark: #62b300;
 
     --custom-orange: #ffd500;               /* hue 50 */
     --custom-orange-light: #ffdf40;
@@ -31,6 +32,7 @@
     --custom-orange-deep: #ffc800;          /* hue 47 */
     --custom-orange-deep-light: #ffd747;
     --custom-orange-deep-dark: #e6b400;
+    --custom-orange-deep-xdark: #d9aa00;
 
     --custom-pink: #ff59d0;                 /* hue 317 */
     --custom-pink-light: #ff8cde;
