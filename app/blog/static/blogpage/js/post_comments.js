@@ -122,10 +122,6 @@ function getCommentId(nodeForm) {
 
 // no `$(document).ready()` listener attachments for the remaining listeners since comments can be reloaded
 
-$(document).on("click", "input[data-confirm-submit][type='submit']", function() {
-    return confirm("Sanity check");
-});
-
 /**
  * Reveals fields for adding the comment on clicking a reply button.
  */

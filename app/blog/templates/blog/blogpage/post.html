@@ -70,7 +70,7 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 
 <div id="leave-a-comment">
   <h2 class="fs-4">Leave a comment</h2>
-  {{ wtf.quick_form(add_comment_form, class="ajax-add-comment", bottom_margin=2, autofocus_first=false) }}
+  {{ wtf.quick_form(add_comment_form, class="ajax-add-comment mb-2", autofocus=false) }}
 </div>
 <hr />
 

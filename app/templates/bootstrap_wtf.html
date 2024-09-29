@@ -1,30 +1,30 @@
-{% macro form_field(field, btn_type, btn_color, bottom_margin, autofocus_first) %}
+{% macro form_field(field, btn_type, btn_color, autofocus) %}
   {% if field.type == "BooleanField" %}
-  <div class="form-check mb-{{ bottom_margin }}">
-     {{ field(id=field.name ~ "-input", class="form-check-input") }}
-     {{ field.label(class="form-check-label") }}
-     <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
-   </div>
+    <div class="form-check">
+      {{ field(id=field.name ~ "-input", class="form-check-input") }}
+      {{ field.label(class="form-check-label") }}
+      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
+    </div>
 
   {% elif field.type == "RadioField" %}
     {{ field.label(class="form-label") }}
     {% for item in field %}
-    <div class="form-check{% if loop.last %} mb-{{ bottom_margin }}{% endif %}">
-      {{ item(class="form-check-input") }}
-      {{ item.label(class="form-check-label") }}
-    </div>
+      <div class="form-check">
+        {{ item(class="form-check-input") }}
+        {{ item.label(class="form-check-label") }}
+      </div>
     {% endfor %}
 
   {% elif field.type == "SelectField" %}
     {{ field.label(class="form-label") }}
-    {{ field(id=field.name ~ "-input", class="form-select mb-" ~ bottom_margin) }}
+    {{ field(id=field.name ~ "-input", class="form-select") }}
     <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
 
   {% elif field.type == "TextAreaField" %}
-  <div class="mb-{{ bottom_margin }}">
+    <div>
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
-        {% if autofocus_focus %}
+        {% if autofocus %}
           {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=True) }}
         {% else %}
           {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
@@ -36,16 +36,16 @@
 
   {% elif field.type == "SubmitField" %}
     {% if btn_type == "" %}
-      {{ field(class="btn btn-" ~ btn_type ~ " btn--" ~ btn_color ~ " mb-" ~ bottom_margin) }}
+      {{ field(class="btn btn-" ~ btn_type ~ " btn--" ~ btn_color) }}
     {% else %}
-      {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color ~ " mb-" ~ bottom_margin) }}
+      {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color) }}
     {% endif %}
 
   {% else %}
-    <div class="mb-{{ bottom_margin }}">
+    <div>
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
-        {% if autofocus_first %}
+        {% if autofocus %}
           {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=True) }}
         {% else %}
           {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
@@ -62,13 +62,12 @@
 {% endmacro %}
 
 
-{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="", btn_color="custom-orange", bottom_margin=3, autofocus_first=true, hidden=false) %}
+{% macro quick_form(form, id="", class="", action="", method="post", btn_type="", btn_color="custom-orange", autofocus=true, hidden=false) %}
   <form novalidate
+    {% if id %} id="{{ id }}"{% endif %}
+    {% if class %} class="{{ class }}"{% endif %}
     {% if action != None %} action="{{ action }}"{% endif %}
     {% if method %} method="{{ method }}"{% endif %}
-    {% if class %} class="{{ class }}"{% endif %}
-    {% if id %} id="{{ id }}"{% endif %}
-    {% if novalidate %} novalidate{% endif %}
     {% if hidden %} hidden{% endif %}>
 
     {{ form.hidden_tag() }}
@@ -76,11 +75,7 @@
 
     {% for field in form if field.widget.input_type != "hidden" %}
       <div id="{{ field.name }}-field">
-        {% if not loop.last %}
-          {{ form_field(field, btn_type, btn_color, 3, ns.first_field and autofocus_first) }}
-        {% else %}
-          {{ form_field(field, btn_type, btn_color, bottom_margin, ns.first_field and autofocus_first) }}
-        {% endif %}
+        {{ form_field(field, btn_type, btn_color, ns.first_field and autofocus) }}
         {% set ns.first_field = false %}
       </div>
     {% endfor %}
