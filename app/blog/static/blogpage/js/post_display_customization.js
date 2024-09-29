@@ -35,7 +35,7 @@ function applyPostAndCommentStyles(baseSelector) {
 
 // for syntax guide
 function addCommentHoverTooltip() {
-    $("#leave-a-comment [data-class='tooltip--comment-formatting']").parent().prev()
+    $("#leave-a-comment #content-field label").first()
             .append(" (hover to show formatting options)")
             .attr("data-bs-toggle", "tooltip")
             .attr("data-bs-custom-class", "tooltip--text-align-left")

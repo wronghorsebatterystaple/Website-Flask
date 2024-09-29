@@ -15,8 +15,7 @@ class AddCommentForm(FlaskForm):
 
     content = TextAreaField(
             "Comment",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_MAXLEN"])],
-            render_kw={"data-class": "tooltip--comment-formatting"})
+            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_MAXLEN"])])
 
     add_comment_form_submit = SubmitField(
             "Submit")
