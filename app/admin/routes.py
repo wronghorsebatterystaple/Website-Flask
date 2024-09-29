@@ -274,7 +274,7 @@ def change_admin_password():
         return render_template(
                 "admin/form_base.html",
                 title="Change admin password",
-                prompt="Don't make it \"solarwinds123\" or else my incorrect password message won't wor",
+                prompt="Don't make it \"solarwinds123\" or else my incorrect password message won't wo",
                 form=form)
     elif request.method == "POST":
         if not form.validate():
