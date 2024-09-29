@@ -51,7 +51,7 @@ const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
       {% set class = "link--custom-orange-deep-dark" %}
     {% endif %}
     <li>
-      <a class="{{ class }} underline--hover-only" href="#{{ toc_token.id }}">{{ toc_token.html }}</a>
+      <a class="{{ class }} underline-hover-only" href="#{{ toc_token.id }}">{{ toc_token.html }}</a>
       {% if toc_token.children %}
       <ul>
         {{ loop(toc_token.children) }}

@@ -317,10 +317,6 @@
     min-height: 100svh !important;
 }
 
-.no-underline {
-    text-decoration: none !important;
-}
-
 .pipe-1_5em {
     border-left: 1px solid !important;
     height: 1.5em;
@@ -337,14 +333,14 @@
     overflow-y: hidden !important; /* for MathJax equation environments with `\\[pt]` extra line spacing */
 }
 
-.tooltip--text-align-left .tooltip-inner {
+.tooltip-text-align-left .tooltip-inner {
     text-align: left;
 }
 
-.underline--hover-only {
+.underline-hover-only {
     text-decoration-line: none !important;
 }
 
-.underline--hover-only:hover {
+.underline-hover-only:hover {
     text-decoration-line: underline !important;
 }

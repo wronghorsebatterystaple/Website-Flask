@@ -22,7 +22,7 @@ const TOTAL_PAGES = {{ total_pages }};
   <div>
     {% if is_all_posts %}
       {% set color = post.blogpage.html_color_class %}
-      <a class="underline--hover-only underline--{{ color }} {{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+      <a class="underline-hover-only underline--{{ color }} {{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <div class="d-flex align-items-top">
           <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
           <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 {{ color }} fs-5">{{ post.title }}</h1>
@@ -46,7 +46,7 @@ const TOTAL_PAGES = {{ total_pages }};
           </span>
         </div>
     {% else %}
-      <a class="underline--hover-only underline--custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+      <a class="underline-hover-only underline--custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <h1 class="mb-0 custom-green-deep-dark fs-5">{{ post.title }}</h1>
 
         {% if post.subtitle is not none %}
@@ -75,10 +75,10 @@ const TOTAL_PAGES = {{ total_pages }};
     {% if total_pages > 1 %}
       <div class="d-flex justify-content-center align-items-center">
         {% if url_prev_page %}
-          <a class="w-2rem text-end no-underline" href="{{ url_prev_page }}"><code>--</code></a>
+          <a class="w-2rem text-end underline-hover-only" href="{{ url_prev_page }}"><code>--</code></a>
           <span class="pipe-1_5em mx-3"></span>
         {% else %}
-          <a class="invisible w-2rem text-end no-underline"><code>--</code></a>
+          <a class="invisible w-2rem text-end underline-hover-only"><code>--</code></a>
           <span class="pipe-1_5em invisible mx-3"></span>
         {% endif %}
   
@@ -88,16 +88,16 @@ const TOTAL_PAGES = {{ total_pages }};
               <label class="d-inline" for="goto-page-form__input--page">page = </label>
               <input id="goto-page-form__input--page" class="goto-page-form__input--page form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
             </div>
-            <input class="btn btn-link no-underline" name="submit" type="submit" title="go!" value=" ;" />
+            <input class="btn btn-link underline-hover-only" name="submit" type="submit" title="go!" value=" ;" />
           </div>
         </form>
       
         {% if url_next_page %}
           <span class="pipe-1_5em mx-3"></span>
-          <a class="w-2rem text-start no-underline" href="{{ url_next_page }}"><code>++</code></a>
+          <a class="w-2rem text-start underline-hover-only" href="{{ url_next_page }}"><code>++</code></a>
         {% else %}
           <span class="pipe-1_5em invisible mx-3"></span>
-          <a class="invisible w-2rem text-start no-underline"><code>++</code></a>
+          <a class="invisible w-2rem text-start underline-hover-only"><code>++</code></a>
         {% endif %}
       </div>
     {% endif %}

@@ -38,7 +38,7 @@ function addCommentHoverTooltip() {
     $("#leave-a-comment #content-field label").first()
             .append(" (hover to show formatting options)")
             .attr("data-bs-toggle", "tooltip")
-            .attr("data-bs-custom-class", "tooltip--text-align-left")
+            .attr("data-bs-custom-class", "tooltip-text-align-left")
             .attr("data-bs-html", "true")
             .attr("data-bs-title", `
                 <ul class='mb-0'>
