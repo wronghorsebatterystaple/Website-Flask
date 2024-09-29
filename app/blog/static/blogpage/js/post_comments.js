@@ -129,11 +129,11 @@ $(document).on("click", "input[data-confirm-submit][type='submit']", function() 
 /**
  * Reveals fields for adding the comment on clicking a reply button.
  */
-$(document).on("submit", ".comment__form--reply", function(e) {
+$(document).on("submit", ".comment__reply-btn", function(e) {
     e.preventDefault();
 
     const id = getCommentId(e.target);
-    const jQFormAddReply = $(`#comment__form--add-reply-${id}`);
+    const jQFormAddReply = $(`#comment__add-reply-form-${id}`);
     jQFormAddReply.removeAttr("hidden");
     jQFormAddReply.find("#parent").val(id); // insert under right parent
     if (isUserAuthenticated) {
@@ -162,9 +162,7 @@ $(document).on("submit", ".ajax-delete-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const respJson = await fetchWrapper(
-            URL_DELETE_COMMENT,
-            {method: "POST", body: formData},
-            {comment_id: getCommentId(e.target)});
+            URL_DELETE_COMMENT, {method: "POST", body: formData}, {comment_id: getCommentId(e.target)});
 
     onCommentAjaxDone(respJson, e);
 });

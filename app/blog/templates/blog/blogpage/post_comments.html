@@ -22,8 +22,8 @@
         <div class="mb-1"><small>{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</small></div>
         
         {% if comment.depth < 6 %}
-          {{ wtf.quick_form(reply_comment_btn, id="comment__form--reply-" ~ comment.id, class="comment__form--reply", btn_type="link", btn_color="custom-orange-deep", bottom_margin=0) }}
-          {{ wtf.quick_form(add_comment_form, id="comment__form--add-reply-" ~ comment.id, class="ajax-add-comment", bottom_margin=2, hidden=true) }}
+          {{ wtf.quick_form(reply_comment_btn, id="comment__reply-form=" ~ comment.id, class="comment__reply-form", btn_type="link", btn_color="custom-orange-deep", bottom_margin=0) }}
+          {{ wtf.quick_form(add_comment_form, id="comment__add-reply-form" ~ comment.id, class="ajax-add-comment", bottom_margin=2, hidden=true) }}
         {% else %}
           <p class="comment__nest-limit-text mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
         {% endif %}
@@ -36,9 +36,7 @@
       </div>
     </div>
     {% if descendants %}
-      <div>
-        {{ loop(descendants) }}
-      </div>
+      {{ loop(descendants) }}
     {% endif %}
 
     {% if comment.depth != 0 %}

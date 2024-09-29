@@ -110,16 +110,6 @@
 /* `btn-link` */
 /**************/
 
-.btn-link {
-    --bs-btn-color: var(--custom-blue-deep);
-    --bs-btn-hover-color: var(--custom-blue-deep-xdark);
-    --bs-btn-active-color: var(--custom-blue-deep);
-    --bs-btn-disabled-color: var(--custom-blue-deep-light);
-    background-color: transparent !important;
-    text-decoration: underline;
-    padding: 0;
-}
-
 .btn-link--custom-orange-deep {
     --bs-btn-color: var(--custom-orange-deep) !important;
     --bs-btn-hover-color: var(--custom-orange-deep-dark) !important;

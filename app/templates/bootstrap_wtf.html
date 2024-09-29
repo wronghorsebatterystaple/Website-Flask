@@ -35,10 +35,10 @@
     </div>
 
   {% elif field.type == "SubmitField" %}
-    {% if btn_type == "link" %}
-      {{ field(class="btn btn-" ~ btn_type ~ " btn-link--" ~ btn_color ~ " mb-" ~ bottom_margin ~ " underline-hover-only") }}
-    {% else %}
+    {% if btn_type == "" %}
       {{ field(class="btn btn-" ~ btn_type ~ " btn--" ~ btn_color ~ " mb-" ~ bottom_margin) }}
+    {% else %}
+      {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color ~ " mb-" ~ bottom_margin) }}
     {% endif %}
 
   {% else %}
@@ -62,7 +62,7 @@
 {% endmacro %}
 
 
-{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="primary", btn_color="custom-orange", bottom_margin=3, autofocus_first=true, hidden=false) %}
+{% macro quick_form(form, action="", method="post", class="", id="", novalidate=False, btn_type="", btn_color="custom-orange", bottom_margin=3, autofocus_first=true, hidden=false) %}
   <form novalidate
     {% if action != None %} action="{{ action }}"{% endif %}
     {% if method %} method="{{ method }}"{% endif %}
