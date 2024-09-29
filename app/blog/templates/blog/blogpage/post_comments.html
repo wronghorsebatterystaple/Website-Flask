@@ -2,16 +2,16 @@
 
 {% for comment in comments recursive %}
   {% if comment.depth == loop.depth0 %}
+    {% if comment.depth > 0 %}
+      <div class="ms-3">
+    {% endif %}
+
     {% set descendants = comment.get_descendants(post) %}
     {% if comment.author|trim == config["VERIFIED_AUTHOR"] %}
-      {% if comment.depth == 0 %}
-        <div class="comment card mt-3 border--custom-orange-deep border--3px">
-      {% else %}
-        <div class="comment card mt-1 ms-3 border--custom-orange-deep border--3px">
-      {% endif %}
+      <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %} border--custom-orange-deep border--3px">
         <div class="card-body pb-2">
           <h3 class="d-flex align-items-center fs-7">
-            <span class="me-2">{{ comment.author }}</span><i class="bi bi-check-circle" title="Actually verified, unlike Twitter."></i>
+            {{ comment.author }}<i class="bi bi-check-circle ms-2" title="Actually verified, unlike Twitter."></i>
           </h3>
     {% else %}
       <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %}{% if current_user.is_authenticated and comment.unread %} border--custom-pink-light border--3px{% endif %}">
@@ -35,8 +35,13 @@
         {% endif %}
       </div>
     </div>
+
     {% if descendants %}
       {{ loop(descendants) }}
+    {% endif %}
+
+    {% if comment.depth > 0 %}
+      </div>
     {% endif %}
   {% endif %}
 {% endfor %}

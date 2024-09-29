@@ -1,12 +1,14 @@
+/* no `$(document).ready()` due to possibility of dynamic content appearing afterwards like post comments */
+
+$(document).on("click", "input[data-class*='btn--back']", function() {
+    window.history.back();
+});
+
+$(document).on("click", "input[data-class*='btn--needs-confirm']", function() {
+    return confirm("Mouse aim check");
+});
+
 $(document).ready(function() {
-    $("input[data-class='btn--back']").on("click", function() {
-        window.history.back();
-    });
-
-    $("input[data-class='btn--needs-confirm']").on("click", function() {
-        return confirm("Mouse aim check");
-    });
-
     $("#btn--meow").on("click", function() {
         customFlash("meow :3");
     });
