@@ -159,11 +159,11 @@
               <button class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#modal-login">Admin login</button>
             </li>
             <li class="nav-item auth-true"{% if not current_user.is_authenticated %} hidden{% endif %}>
-              <button id="link--logout" class="nav-link btn" type="button">Logout pls :3</button>
+              <button id="logout-link" class="nav-link btn" type="button">Logout pls :3</button>
             </li>
 
             <li class="nav-item">
-              <button id="btn--meow" class="nav-link" type="button">meow :3</button>
+              <button id="meow-btn" class="nav-link" type="button">meow :3</button>
             </li>
 
             {% block navbar_additions_left %}{% endblock %}

@@ -7,17 +7,17 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
 }
 
-.btn--copy-permanent-link {
+.copy-permanent-link-btn {
     margin-bottom: -0.125rem;
     font-size: 1em; /* undo Bootstrap */
 }
 
-.goto-page-form__input--page {
+.goto-page-form__page-input {
     padding-top: 1px;
     padding-bottom: 1px;
 }
 
-.link--go-to-comments {
+.go-to-comments-link {
     margin-bottom: -0.1875rem;
 }
 
@@ -79,7 +79,7 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.85rem;
 }
 
-.post-list__icon--comment {
+.post-list__comment-icon {
     font-size: 14px;
     margin-bottom: -0.25rem;
 }

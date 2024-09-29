@@ -42,7 +42,7 @@ const TOTAL_PAGES = {{ total_pages }};
             <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
           {% endif %}
           <span class="d-flex align-items-center ms-auto gray">
-            <span class="me-2">{% if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__icon--comment bi bi-chat-right-text"></i>
+            <span class="me-2">{% if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
           </span>
         </div>
     {% else %}
@@ -60,7 +60,7 @@ const TOTAL_PAGES = {{ total_pages }};
             <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
           {% endif %}
           <span class="d-flex align-items-center gray ms-auto">
-            <span class="me-2">{% if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__icon--comment bi bi-chat-right-text"></i>
+            <span class="me-2">{% if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
           </span>
         </div>
     {% endif %}
@@ -85,8 +85,8 @@ const TOTAL_PAGES = {{ total_pages }};
         <form id="goto-page-form">
           <div class="d-flex align-items-center">
             <div class="mx-0 px-0">
-              <label class="d-inline" for="goto-page-form__input--page">page = </label>
-              <input id="goto-page-form__input--page" class="goto-page-form__input--page form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
+              <label class="d-inline" for="goto-page-form__page-input">page = </label>
+              <input id="goto-page-form__page-input" class="goto-page-form__page-input form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
             </div>
             <input class="btn btn-link underline-hover-only" name="submit" type="submit" title="go!" value=" ;" />
           </div>

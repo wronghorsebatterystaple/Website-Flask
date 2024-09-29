@@ -1,4 +1,4 @@
-const jQIconBell = $("#icon--btn-comments-unread-notif");
+const jQIconBell = $("#unread-comments-notif-btn-icon");
 
 // when logging in via modal on a `blog.` page/opening a `blog.` page as admin, check for notifications
 onModalLogin = addToFunction(onModalLogin, function() {
@@ -63,7 +63,7 @@ async function updateUnreadCommentsDropdown() {
 
 $(document).ready(function() {
     // refresh notifications on click
-    $("#btn--unread-comments-notif").on("click", function() {
+    $("#unread-comments-notif-btn").on("click", function() {
         updateUnreadCommentsNotifs();
     });
 });

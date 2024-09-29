@@ -9,7 +9,7 @@ $(document).on("click", "input[data-class*='btn--needs-confirm']", function() {
 });
 
 $(document).ready(function() {
-    $("#btn--meow").on("click", function() {
+    $("#meow-btn").on("click", function() {
         customFlash("meow :3");
     });
 });
