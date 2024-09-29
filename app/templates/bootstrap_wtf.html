@@ -18,9 +18,11 @@
     {% endfor %}
 
   {% elif field.type == "SelectField" %}
-    {{ field.label(class="form-label") }}
-    {{ field(id=field.name ~ "-input", class="form-select" ~ mb_between) }}
-    <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
+    <div class="{{ mb_between }}">
+      {{ field.label(class="form-label") }}
+      {{ field(id=field.name ~ "-input", class="form-select") }}
+      <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
+    </div>
 
   {% elif field.type == "TextAreaField" %}
     <div class="{{ mb_between }}">
