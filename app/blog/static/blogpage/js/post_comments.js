@@ -130,8 +130,15 @@ $(document).on("submit", ".comment__reply-btn", function(e) {
 
     const id = getCommentId(e.target);
     const jQFormAddReply = $(`#comment__add-reply-form-${id}`);
+    if (jQFormAddReply.length <= 0) {
+        customFlash("haker :3");
+        return;
+    }
+
     jQFormAddReply.removeAttr("hidden");
-    jQFormAddReply.find("#parent").val(id); // insert under right parent
+    // insert under right parent; use `name` instead of `id` in case duplicate `id`s throughout all the comments
+    // causes issues
+    jQFormAddReply.find("[name='parent']").val(id);
     if (isUserAuthenticated) {
         // automatically fill in username if admin
         jQFormAddReply.find("input[name='author']").first().val(VERIFIED_AUTHOR);
