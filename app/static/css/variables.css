@@ -41,9 +41,7 @@
     --custom-pink-xxxlight: #fffafe;
 
     /* color settings */
-    --color-code: navy;
-    --color-thm: navy;
-    --color-thm-border: #a1a1ff;
+    --code-color: navy;
 }
 
 /* for scoping issues on accessing `--bs-gutter-x` */

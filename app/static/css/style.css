@@ -23,7 +23,7 @@ body {
 }
 
 code {
-    color: var(--color-code); /* overridable by Highlight.js */
+    color: var(--code-color); /* overridable by Highlight.js */
     font-size: 97.5% !important;
 }
 
@@ -53,7 +53,7 @@ pre {
 }
 
 pre code {
-    color: var(--color-code);
+    color: var(--code-color);
 }
 
 table {
@@ -236,8 +236,8 @@ textarea {
 }
 
 .md-thm {
-    border-left: 3.5px solid var(--color-thm-border) !important;
-    color: var(--color-thm) !important;
+    border-left: 3.5px solid #a1a1ff !important;
+    color: navy !important;
 }
 
 .nav-link {
