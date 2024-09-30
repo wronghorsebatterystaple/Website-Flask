@@ -312,11 +312,4 @@ def change_admin_password():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-
-    previous = util.decode_uri_component(request.args.get("previous", ""))
-    for url in current_app.config["URLS_LOGIN_REQUIRED"]:
-        if previous.startswith(url):
-            return jsonify(
-                    redir_url=url_for("main.index", _external=True), flash_msg="Mischief managed.")
-
-    return jsonify(flash_msg="Mischief managed.")
+    return jsonify(redir_url=url_for("main.index", _external=True), flash_msg="Mischief managed.")

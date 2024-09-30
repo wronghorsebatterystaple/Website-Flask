@@ -18,13 +18,13 @@ def get_blogpage_id() -> int:
     return int(request.blueprint.split('.')[-1])
 
 
-def get_post_from_url(url_post_sanitized_title, url_blogpage_id):
+def get_post_from_url(post_sanitizted_title, blogpage_id):
     """
     Gets post from url, making sure it's valid and matches the whole url.
     """
 
     return db.session.query(Post) \
-            .filter_by(sanitized_title=url_post_sanitized_title, blogpage_id=url_blogpage_id) \
+            .filter_by(sanitized_title=post_sanitizted_title, blogpage_id=blogpage_id) \
             .first()
 
 

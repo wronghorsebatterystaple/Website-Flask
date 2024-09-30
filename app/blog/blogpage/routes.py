@@ -47,9 +47,9 @@ def index():
     if posts is None:
         return "ok im actually impressed how did you do that", 500
 
-    url_next_page = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
+    next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
             else None
-    url_prev_page = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) if posts.has_prev \
+    prev_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) if posts.has_prev \
             else None
 
     return render_template(
@@ -57,8 +57,8 @@ def index():
             posts=posts,
             total_pages=posts.pages,
             page_num=page_num,
-            url_prev_page=url_prev_page,
-            url_next_page=url_next_page)
+            prev_page_url=prev_page_url,
+            next_page_url=next_page_url)
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])

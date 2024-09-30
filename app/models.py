@@ -34,11 +34,7 @@ class Blogpage(db.Model):
             nullable=True,
             default=None,
             server_default=None)
-
-    url_path: so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["BLOGPAGE_URL_PATH_MAXLEN"]),
-            nullable=False)
-
+    
     meta_description: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["BLOGPAGE_META_DESCRIPTION_MAXLEN"],

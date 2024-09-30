@@ -49,8 +49,8 @@ def create_app():
     from app.blog.blogpage import bp as blog_blogpage_bp
     # "name" param must match blogpage_id in "Post" db table
     # This makes the endpoints "blog.0.index", "blog.1.index" etc.
-    for k, v in Config.BLOGPAGE_ID_TO_PATH.items():
-        blog_bp.register_blueprint(blog_blogpage_bp, url_prefix=v, name=k)
+    for blogpage_id, url_prefix in Config.BLOGPAGE_ID_TO_URL_PREFIX.items():
+        blog_bp.register_blueprint(blog_blogpage_bp, url_prefix=url_prefix, name=blogpage_id)
     app.register_blueprint(blog_bp, subdomain="blog")
 
     # register global routes and stuff

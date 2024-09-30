@@ -74,8 +74,8 @@ const TOTAL_PAGES = {{ total_pages }};
     <p class="mb-3">Page {{ page_num }} of {{ total_pages }}</p>
     {% if total_pages > 1 %}
       <div class="d-flex justify-content-center align-items-center">
-        {% if url_prev_page %}
-          <a class="w-2rem text-end underline-hover-only" href="{{ url_prev_page }}"><code>--</code></a>
+        {% if prev_page_url %}
+          <a class="w-2rem text-end underline-hover-only" href="{{ prev_page_url }}"><code>--</code></a>
           <span class="pipe-1_5em mx-3"></span>
         {% else %}
           <a class="invisible w-2rem text-end underline-hover-only"><code>--</code></a>
@@ -92,9 +92,9 @@ const TOTAL_PAGES = {{ total_pages }};
           </div>
         </form>
       
-        {% if url_next_page %}
+        {% if next_page_url %}
           <span class="pipe-1_5em mx-3"></span>
-          <a class="w-2rem text-start underline-hover-only" href="{{ url_next_page }}"><code>++</code></a>
+          <a class="w-2rem text-start underline-hover-only" href="{{ next_page_url }}"><code>++</code></a>
         {% else %}
           <span class="pipe-1_5em invisible mx-3"></span>
           <a class="invisible w-2rem text-start underline-hover-only"><code>++</code></a>

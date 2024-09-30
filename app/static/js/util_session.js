@@ -58,7 +58,7 @@ $(document).ready(function() {
     $("#logout-link").on("click", async function(e) {
         e.preventDefault();
 
-        const respJson = await fetchWrapper(URL_LOGOUT, {method: "POST"}, {previous: URL_CURRENT_NO_QS});
+        const respJson = await fetchWrapper(URL_LOGOUT, {method: "POST"});
         doAjaxResponseForm(respJson, e);
 
         if (!respJson.redir_url) {

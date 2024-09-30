@@ -52,9 +52,9 @@ class Config(object):
 
     # Flask-SQLAlchemy/database
     DB_CONFIGS = {
-        "BLOGPAGE_URL_PATH_MAXLEN": 50,
         "BLOGPAGE_NAME_MAXLEN": 50,
         "BLOGPAGE_SUBNAME_MAXLEN": 100,
+        "BLOGPAGE_URL_PATH_MAXLEN": 50,
         "BLOGPAGE_META_DESCRIPTION_MAXLEN": 500,
         "BLOGPAGE_COLOR_MAXLEN": 100,
         "POST_TITLE_MAXLEN": 150,
@@ -97,7 +97,8 @@ class Config(object):
     # scuffed configs
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blogpage"
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blogpage"
-    BLOGPAGE_ID_TO_PATH = {   # SYNC: with db (for initializing blueprints)
+    # this is not in db as it's only used for initializing blueprints, during which db is not yet accessible
+    BLOGPAGE_ID_TO_URL_PREFIX = {
          "1": "/all",
          "2": "/misc",
         "-2": "/misc-backrooms",
@@ -111,12 +112,4 @@ class Config(object):
          "7": "/writers-unblock",
         "-7": "/writers-unblock-backrooms"
     }
-    URLS_LOGIN_REQUIRED = [ # for Flask and JS access control on logout
-        f"{SERVER_NAME}/admin",
-        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-2']}",
-        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-3']}",
-        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-5']}",
-        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-6']}",
-        f"blog.{SERVER_NAME}{BLOGPAGE_ID_TO_PATH['-7']}"
-    ]
     VERIFIED_AUTHOR = "AnonymousRand"
