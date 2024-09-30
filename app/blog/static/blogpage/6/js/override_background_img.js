@@ -1,5 +1,5 @@
 let rand = Math.floor(Math.random() * 3);
-backgroundImgOverrideName = `background_${rand}.png`;
+backgroundImgName = `background_${rand}.png`;
 
 $(document).ready(function() {
     // don't show white background on navbar (originally for sticky) for this custom colorful background

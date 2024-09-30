@@ -5,8 +5,8 @@ onDarkModeChange = addToFunction(onDarkModeChange, function(enabled) {
     }
 
     if (enabled) {
-        jQFooterIconGitHub.attr("src", URL_ICON_GITHUB_DARK);
+        jQFooterIconGitHub.attr("src", ICON_GITHUB_DARK_URL);
     } else {
-        jQFooterIconGitHub.attr("src", URL_ICON_GITHUB_LIGHT);
+        jQFooterIconGitHub.attr("src", ICON_GITHUB_LIGHT_URL);
     }
 });

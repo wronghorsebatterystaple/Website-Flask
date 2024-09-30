@@ -7,9 +7,9 @@
 
 {% block js_start_inline %}
 {{ super() }}
-// pieces for optionally piecing together `backgroundImgOverrideUrl`
-const URL_BACKGROUND_IMG_OVERRIDE_BASE = "{{ url_for('blog.static', filename='blogpage/' ~ blogpage_id ~ '/images/', _external=True) }}";
-var backgroundImgOverrideName = "";
+// pieces for optionally piecing together `backgroundImgUrl`
+const BACKGROUND_IMG_URL_BASE = "{{ url_for('blog.static', filename='blogpage/' ~ blogpage_id ~ '/images/', _external=True) }}";
+let backgroundImgName = "";
 {% endblock %}
 
 {% block css %}
@@ -20,7 +20,7 @@ var backgroundImgOverrideName = "";
 
 {% block js_start_linked %}
 <script src="{{ url_for('blog.static', filename='blogpage/' ~ blogpage_id ~ '/js/override_background_img.js', _external=True) }}"></script>
-<!-- must be after `override_background_img.js` to allow overriding of `backgroundImgOverrideName` var -->
+<!-- must be after `override_background_img.js` to allow overriding of `backgroundImgName` var -->
 <script src="{{ url_for('blog.static', filename='blogpage/js/try_override_background_img.js', _external=True) }}"></script>
 {% endblock %}
 

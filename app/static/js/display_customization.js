@@ -61,10 +61,10 @@ function randomizeColors() {
 }
 
 function reloadBackgroundImg() {
-    if (backgroundImgOverrideUrl !== "") {
-        $("#background-img").css("background-image", `url(${backgroundImgOverrideUrl})`);
+    if (backgroundImgUrl !== "") {
+        $("#background-img").css("background-image", `url(${backgroundImgUrl})`);
     } else {
-        $("#background-img").css("background-image", `url(${URL_BACKGROUND_IMG_DEFAULT})`);
+        $("#background-img").css("background-image", `url(${DEFAULT_BACKGROUND_IMG_URL})`);
     }
 }
 

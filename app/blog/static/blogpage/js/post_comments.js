@@ -36,7 +36,7 @@ async function reloadComments() {
     // get comment count in the heading; JQuery `load()` fragment doesn't seem to work with Jinja variables
     let commentCount = 0;
     let commentUnreadCount = 0;
-    let respJson = await fetchWrapper(URL_GET_COMMENT_COUNT, {method: "GET"});
+    let respJson = await fetchWrapper(GET_COMMENT_COUNT_URL, {method: "GET"});
     if (!respJson.errorStatus) {
         commentCount = respJson.count;
     } else if (!respJson.hasHandledError) {
@@ -46,7 +46,7 @@ async function reloadComments() {
 
     // get comment unread count in the heading if admin
     if (isUserAuthenticated) {
-        respJson = await fetchWrapper(URL_GET_COMMENT_UNREAD_COUNT, {method: "GET"});
+        respJson = await fetchWrapper(GET_COMMENT_UNREAD_COUNT_URL, {method: "GET"});
         if (!respJson.errorStatus) {
             commentUnreadCount = respJson.count;
         } else if (respJson.errorStatus !== 429) {
@@ -65,7 +65,7 @@ async function reloadComments() {
 
     // load in comments if there are any
     if (commentCount > 0) {
-        respJson = await fetchWrapper(URL_GET_COMMENTS, {method: "GET"});
+        respJson = await fetchWrapper(GET_COMMENTS_URL, {method: "GET"});
         if (!respJson.errorStatus) {
             $("#comment-list").html(respJson.html);
         } else if (respJson.errorStatus !== 429) {
@@ -91,7 +91,7 @@ async function reloadComments() {
 }
 
 async function markCommentsAsRead() {
-    let respJson = await fetchWrapper(URL_MARK_COMMENTS_AS_READ, {method: "POST"});
+    let respJson = await fetchWrapper(MARK_COMMENTS_AS_READ_URL, {method: "POST"});
     if (respJson.success) {
         updateUnreadCommentsNotifs(); // update notification icon after marking comments as read
     }
@@ -153,7 +153,7 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
-    const respJson = await fetchWrapper(URL_ADD_COMMENT, {method: "POST", body: formData});
+    const respJson = await fetchWrapper(ADD_COMMENT_URL, {method: "POST", body: formData});
 
     onCommentAjaxDone(respJson, e);
 });
@@ -163,7 +163,7 @@ $(document).on("submit", ".ajax-delete-comment", async function(e) {
 
     let formData = new FormData(e.target);
     const respJson = await fetchWrapper(
-            URL_DELETE_COMMENT, {method: "POST", body: formData}, {comment_id: getCommentId(e.target)});
+            DELETE_COMMENT_URL, {method: "POST", body: formData}, {comment_id: getCommentId(e.target)});
 
     onCommentAjaxDone(respJson, e);
 });

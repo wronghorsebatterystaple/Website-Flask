@@ -93,12 +93,12 @@
     <!-- JS -->
       <!-- inline (passing vars from Jinja to JS, for example) -->
       <script nonce="{{ csp_nonce() }}">
-          const URL_BACKGROUND_IMG_DEFAULT = "{{ url_for('static', filename='images/background_default.svg', _external=True) }}";
-          const URL_LOGIN = "{{ url_for('admin.login', _external=True) }}";
-          const URL_LOGOUT = "{{ url_for('admin.logout', _external=True) }}";
+          const DEFAULT_BACKGROUND_IMG_URL = "{{ url_for('static', filename='images/background_default.svg', _external=True) }}";
+          const LOGIN_URL = "{{ url_for('admin.login', _external=True) }}";
+          const LOGOUT_URL = "{{ url_for('admin.logout', _external=True) }}";
           let csrfToken = "{{ csrf_token() }}";
           let isUserAuthenticated = {% if current_user.is_authenticated %}true{% else %}false{% endif %};
-          let backgroundImgOverrideUrl = "";
+          let backgroundImgUrl = "";
 
           {% block js_start_inline %}{% endblock %}
       </script>

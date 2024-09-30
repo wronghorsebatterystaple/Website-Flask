@@ -5,8 +5,8 @@ Home {{ super() }}
 {% endblock %}
 
 {% block js_start_inline %}
-const URL_ICON_GITHUB_LIGHT = "{{ url_for('main.static', filename='images/icon_github_light.svg', _external=True) }}";
-const URL_ICON_GITHUB_DARK = "{{ url_for('main.static', filename='images/icon_github_dark.svg', _external=True) }}";
+const ICON_GITHUB_LIGHT_URL = "{{ url_for('main.static', filename='images/icon_github_light.svg', _external=True) }}";
+const ICON_GITHUB_DARK_URL = "{{ url_for('main.static', filename='images/icon_github_dark.svg', _external=True) }}";
 {% endblock %}
 
 {% block js_start_linked %}

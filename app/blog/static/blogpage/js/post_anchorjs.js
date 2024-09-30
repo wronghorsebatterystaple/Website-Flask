@@ -14,7 +14,7 @@ function addPostAnchors() {
             return;
         }
 
-        let link = `${URL_PERMANENT_LINK}#${jQHeading.attr("id")}`;
+        let link = `${PERMANENT_LINK_URL}#${jQHeading.attr("id")}`;
         navigator.clipboard.writeText(link);
         customFlash(`Link copied: ${link}`);
     });

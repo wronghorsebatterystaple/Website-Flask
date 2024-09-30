@@ -1,3 +1,3 @@
-if (backgroundImgOverrideName) {
-    backgroundImgOverrideUrl = URL_BACKGROUND_IMG_OVERRIDE_BASE + backgroundImgOverrideName;
+if (backgroundImgName !== "") {
+    backgroundImgUrl = BACKGROUND_IMG_URL_BASE + backgroundImgName;
 }

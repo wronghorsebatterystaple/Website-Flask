@@ -111,6 +111,7 @@ class Post(db.Model):
                     Config.DB_CONFIGS["POST_TITLE_MAXLEN"],
                     charset="utf8mb4",
                     collation="utf8mb4_0900_ai_ci"),
+            unique=True,
             nullable=False)
 
     subtitle: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(

@@ -7,7 +7,7 @@
 
 {% block js_start_inline %}
 {{ super() }}
-const URL_GET_POSTS_WITH_UNREAD_COMMENTS = "{{ url_for('blog.get_posts_with_unread_comments', _external=True) }}";
+const GET_POSTS_WITH_UNREAD_COMMENTS_URL = "{{ url_for('blog.get_posts_with_unread_comments', _external=True) }}";
 {% endblock %}
 
 {% block js_deferred_linked %}
