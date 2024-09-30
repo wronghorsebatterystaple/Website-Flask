@@ -14,9 +14,7 @@ def index():
     # preserve query string
     if request.query_string.decode() != "":
         query_string = "?" + request.query_string.decode()
-
-    return redirect(
-            url_for(f"blog.{current_app.config['ALL_POSTS_BLOGPAGE_ID']}.index", _external=True) + query_string)
+    return redirect(url_for(f"blog.1.index", _external=True) + query_string)
 
 
 # for more permanent links that don't change if a post changes title/moves between blogs

@@ -24,9 +24,10 @@ def inject_blogpage_from_db():
 @blogpage_util.login_required_check_blogpage(content_type=util.ContentType.HTML)
 def index():
     page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
-
     blogpage_id = blogpage_util.get_blogpage_id()
     blogpage = db.session.get(Blogpage, blogpage_id)
+    if blogpage is None:
+        return "ok im actually impressed how did you do that", 500
 
     posts = None
     if blogpage.is_all_posts:

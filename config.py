@@ -97,7 +97,6 @@ class Config(object):
     # scuffed configs
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blogpage"
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blogpage"
-    ALL_POSTS_BLOGPAGE_ID = 1 # SYNC: with db (for `blog.index` endpoint redirection)
     BLOGPAGE_ID_TO_PATH = {   # SYNC: with db (for initializing blueprints)
          "1": "/all",
          "2": "/misc",
