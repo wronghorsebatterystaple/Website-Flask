@@ -377,10 +377,10 @@
     text-align: left;
 }
 
-.underline-hover-only {
+.underline-on-hover-only {
     text-decoration-line: none !important;
 }
 
-.underline-hover-only:hover {
+.underline-on-hover-only:hover {
     text-decoration-line: underline !important;
 }
