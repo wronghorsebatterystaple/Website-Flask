@@ -46,8 +46,16 @@
     color: var(--custom-green-deep-dark) !important;
 }
 
+.darken-on-hover:hover .custom-green-deep-dark {
+    color: var(--custom-green-deep-xxdark) !important;
+}
+
 .custom-orange-deep {
     color: var(--custom-orange-deep) !important;
+}
+
+.darken-on-hover:hover .custom-orange-deep {
+    color: var(--custom-orange-deep-dark) !important;
 }
 
 .custom-pink{
@@ -128,6 +136,16 @@
 /* `link` */
 /**********/
 
+.link--gray {
+    text-decoration-color: gray !important;
+    color: gray !important;
+}
+
+.link--gray:hover {
+    text-decoration-color: dimgray !important;
+    color: dimgray !important;
+}
+
 .link--custom-blue-deep {
     text-decoration-color: var(--custom-blue-deep) !important;
     color: var(--custom-blue-deep) !important;
@@ -192,24 +210,12 @@
 /* `underline` */
 /***************/
 
-.underline--custom-blue-deep {
-    text-decoration-color: var(--custom-blue-deep) !important;
-}
-
 .underline--custom-green-deep-dark {
     text-decoration-color: var(--custom-green-deep-dark) !important;
 }
 
-.underline--custom-orange-deep {
-    text-decoration-color: var(--custom-orange-deep) !important;
-}
-
-.underline--custom-pink-light {
-    text-decoration-color: var(--custom-pink-light) !important;
-}
-
-.underline--gray {
-    text-decoration-color: gray !important;
+.underline--custom-green-deep-dark.darken-on-hover:hover {
+    text-decoration-color: var(--custom-green-deep-xxdark) !important;
 }
 
 /********/

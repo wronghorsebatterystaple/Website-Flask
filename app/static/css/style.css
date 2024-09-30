@@ -124,12 +124,7 @@ textarea {
     --bs-btn-active-color: var(--custom-blue-deep);
     --bs-btn-disabled-color: var(--custom-blue-deep-light);
     background-color: transparent !important;
-    text-decoration: none;
     padding: 0;
-}
-
-.btn-link:hover {
-    text-decoration: underline;
 }
 
 .code-block-outside-table {

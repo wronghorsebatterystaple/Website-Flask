@@ -42,7 +42,11 @@
     {% if btn_type == "" %}
       {{ field(class="btn btn-" ~ btn_type ~ " btn--" ~ btn_color ~ mb_between) }}
     {% else %}
-      {{ field(class="btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color ~ mb_between) }}
+      {% set class = "btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color ~ mb_between %}
+      {% if btn_type == "link" %}
+        {% set class = class ~ " underline-hover-only" %}
+      {% endif %}
+      {{ field(class=class) }}
     {% endif %}
 
   {% else %}
