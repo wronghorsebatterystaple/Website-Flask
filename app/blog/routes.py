@@ -45,10 +45,10 @@ def get_posts_with_unread_comments():
     posts_with_unread_comments = {}
     posts = db.session.query(Post).all()
     for post in posts:
-        comment_unread_count = post.get_comment_unread_count()
-        if comment_unread_count > 0:
+        unread_comment_count = post.get_unread_comment_count()
+        if unread_comment_count > 0:
             posts_with_unread_comments[post.title] = {
-                "unread_count": comment_unread_count,
+                "unread_comment_count": unread_comment_count,
                 "url": url_for("blog.post_by_id", post_id=post.id, _external=True)
             }
 

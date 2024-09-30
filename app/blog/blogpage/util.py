@@ -51,7 +51,7 @@ def login_required_check_blogpage(content_type, do_relogin=True):
                     case _:
                         return "app/blog/blogpage/util.py: `login_required_check_blogpage()` reached end of switch statement", 500
 
-            if blogpage.login_required:
+            if blogpage.is_login_required:
                 result = util.custom_unauthorized(content_type, do_relogin)
                 if result:
                     return result

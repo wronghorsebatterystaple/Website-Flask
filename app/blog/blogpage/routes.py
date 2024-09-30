@@ -29,17 +29,14 @@ def index():
     blogpage = db.session.get(Blogpage, blogpage_id)
 
     posts = None
-    is_all_posts = False
-    if blogpage.id == current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
-        is_all_posts = True
+    if blogpage.is_all_posts:
         posts = db.paginate(
-                db.session.query(Post).join(Post.blogpage).filter_by(login_required=False)
+                db.session.query(Post).join(Post.blogpage).filter_by(is_login_required=False, is_published=True)
                         .order_by(sa.desc(Post.timestamp)),
                 page=page_num,
                 per_page=current_app.config["POSTS_PER_PAGE"],
                 error_out=False)
     else:
-        is_all_posts = False
         posts = db.paginate(
                 db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
                         .order_by(sa.desc(Post.timestamp)),
@@ -54,18 +51,9 @@ def index():
     url_prev_page = url_for(f"blog.{blogpage_id}.index", page=posts.prev_num, _external=True) if posts.has_prev \
             else None
 
-    # generate corresponding unpublished blogpage ID for "Create Post" button
-    unpublished_blogpage_id = blogpage_id
-    if blogpage.published:
-        blogpage_temp = db.session.get(Blogpage, -blogpage_id)
-        if blogpage_temp is not None and not blogpage_temp.published:
-            unpublished_blogpage_id = -blogpage_id
-
     return render_template(
             "blog/blogpage/index.html",
-            is_all_posts=is_all_posts,
             posts=posts,
-            unpublished_blogpage_id=unpublished_blogpage_id,
             total_pages=posts.pages,
             page_num=page_num,
             url_prev_page=url_prev_page,
@@ -155,11 +143,11 @@ def get_comment_count(post_sanitized_title):
 
 @bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
 @blogpage_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
-def get_comment_unread_count(post_sanitized_title):
+def get_unread_comment_count(post_sanitized_title):
     post = blogpage_util.get_post_from_url(post_sanitized_title, blogpage_util.get_blogpage_id())
     if post is None:
         return blogpage_util.post_nonexistent_response(util.ContentType.JSON)
-    return jsonify(count=post.get_comment_unread_count())
+    return jsonify(count=post.get_unread_comment_count())
 
 
 ###################################################################################################
@@ -197,7 +185,7 @@ def add_comment(post_sanitized_title):
             author=author,
             content=request.form.get("content"),
             post=post,
-            unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
+            is_unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
     with db.session.no_autoflush: # otherwise there's a warning
         if not comment.insert_comment(post, db.session.get(Comment, request.form.get("parent"))):
             return jsonify(flash_msg="haker :3")
@@ -241,10 +229,10 @@ def mark_comments_as_read(post_sanitized_title):
         return blogpage_util.post_nonexistent_response(util.ContentType.JSON)
 
     # mark comments under current post as read
-    comments_unread_query = post.comments.select().filter_by(unread=True)
-    comments_unread = db.session.scalars(comments_unread_query).all()
-    for comment in comments_unread:
-        comment.unread=False
+    unread_comments_query = post.comments.select().filter_by(is_unread=True)
+    unread_comments = db.session.scalars(unread_comments_query).all()
+    for comment in unread_comments:
+        comment.is_unread=False
     db.session.commit()
 
     return jsonify(success=True)

@@ -147,8 +147,6 @@ $(document).on("submit", ".comment__reply-btn", function(e) {
         jQFormAddReply.find("input[name='author']").first().focus();
     }
     e.target.setAttribute("hidden", "");
-
-    asteriskRequiredFields();
 });
 
 $(document).on("submit", ".ajax-add-comment", async function(e) {

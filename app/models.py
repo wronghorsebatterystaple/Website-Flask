@@ -15,15 +15,16 @@ from config import Config
 class Blogpage(db.Model):
     id: so.Mapped[int] = so.mapped_column(
             primary_key=True,
+            nullable=False,
             autoincrement=False)    
-
 
     # basic attributes
     name: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["BLOGPAGE_NAME_MAXLEN"],
                     charset="utf8mb4",
-                    collation="utf8mb4_0900_ai_ci"))
+                    collation="utf8mb4_0900_ai_ci"),
+            nullable=False)
 
     subname: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
@@ -31,10 +32,12 @@ class Blogpage(db.Model):
                     charset="utf8mb4",
                     collation="utf8mb4_0900_ai_ci"),
             nullable=True,
-            default=None)
+            default=None,
+            server_default=None)
 
     url_path: so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["BLOGPAGE_URL_PATH_MAXLEN"]))
+            sa.String(Config.DB_CONFIGS["BLOGPAGE_URL_PATH_MAXLEN"]),
+            nullable=False)
 
     meta_description: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
@@ -42,53 +45,77 @@ class Blogpage(db.Model):
                     charset="utf8mb4",
                     collation="utf8mb4_0900_ai_ci"),
             nullable=True,
-            default=None)
+            default=None,
+            server_default=None)
 
     color: so.Mapped[str] = so.mapped_column(
             sa.String(Config.DB_CONFIGS["BLOGPAGE_COLOR_MAXLEN"]),
             nullable=False,
-            default="black")
+            default="black",
+            server_default="black")
 
     ordering: so.Mapped[int] = so.mapped_column(
             unique=True,
+            nullable=False,
             index=True)
 
+    is_all_posts: so.Mapped[bool] = so.mapped_column(
+            nullable=False,
+            default=False,
+            server_default=sa.false())
 
-    # boolean attributes
-    login_required: so.Mapped[bool] = so.mapped_column(
-            default=True)
+    is_login_required: so.Mapped[bool] = so.mapped_column(
+            nullable=False,
+            default=True,
+            server_default=sa.true())
 
-    published: so.Mapped[bool] = so.mapped_column(
-            default=False)
+    is_published: so.Mapped[bool] = so.mapped_column(
+            nullable=False,
+            default=False,
+            server_default=sa.false())
 
-    writeable: so.Mapped[bool] = so.mapped_column(
-            default=False)
-
+    is_writeable: so.Mapped[bool] = so.mapped_column(
+            nullable=False,
+            default=False,
+            server_default=sa.false())
 
     # relationship: `Post`
+    # using quotation marks for `"Post"` since the class isn't defined yet
     posts: so.WriteOnlyMapped["Post"] = so.relationship(
             back_populates="blogpage",
             cascade="all, delete-orphan",
             passive_deletes=True)
 
+    # relationship: `Blogpage`
+    publishing_sibling_id: so.Mapped[int] = so.mapped_column(
+            sa.ForeignKey("blogpage.id"), # these need to use lowercase SQL table name instead of Python class name
+            unique=True,
+            nullable=True,
+            default=None,
+            server_default=None)
+
+    publishing_sibling: so.Mapped["Blogpage"] = so.relationship()
+
 
 class Post(db.Model):
     id: so.Mapped[int] = so.mapped_column(
-            primary_key=True)
-
+            primary_key=True,
+            nullable=False)
 
     # basic attributes
     title: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["POST_TITLE_MAXLEN"],
                     charset="utf8mb4",
-                    collation="utf8mb4_0900_ai_ci"))
+                    collation="utf8mb4_0900_ai_ci"),
+            nullable=False)
 
     sanitized_title: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["POST_TITLE_MAXLEN"],
                     charset="utf8mb4",
-                    collation="utf8mb4_0900_ai_ci"))
+                    collation="utf8mb4_0900_ai_ci"),
+            nullable=False)
 
     subtitle: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
@@ -96,38 +123,44 @@ class Post(db.Model):
                     charset="utf8mb4",
                     collation="utf8mb4_0900_ai_ci"),
             nullable=True,
-            default=None)
+            default=None,
+            server_default=None)
 
     timestamp: so.Mapped[datetime] = so.mapped_column(
-            index=True,
-            default=lambda: datetime.now(timezone.utc))
+            nullable=False,
+            default=lambda: datetime.now(timezone.utc),
+            server_default=sa.text("NOW()"), # should be same format as when SQLAlchemy casts Python `datetime` obj
+            index=True)
 
     edited_timestamp: so.Mapped[datetime] = so.mapped_column(
             nullable=True,
-            default=None)
-
-    published: so.Mapped[bool] = so.mapped_column(
-            default=False)
+            default=None,
+            server_default=None)
 
     content: so.Mapped[sa_mysql.MEDIUMTEXT()] = so.mapped_column(
             sa_mysql.MEDIUMTEXT(charset="utf8mb4", collation="utf8mb4_0900_ai_ci"),
-            nullable=True)
+            nullable=True,
+            default=None,
+            server_default=None)
 
+    is_published: so.Mapped[bool] = so.mapped_column(
+            nullable=False,
+            default=False,
+            server_default=sa.false())
 
     # relationship: `Blogpage`
     blogpage_id: so.Mapped[int] = so.mapped_column(
-            sa.ForeignKey(Blogpage.id, ondelete="CASCADE"))
+            sa.ForeignKey(Blogpage.id, ondelete="CASCADE"),
+            nullable=False)
 
     blogpage: so.Mapped[Blogpage] = so.relationship(
             back_populates="posts")
-
 
     # relationship: `Comment`
     comments: so.WriteOnlyMapped["Comment"] = so.relationship(
             back_populates="post",
             cascade="all, delete-orphan",
             passive_deletes=True)
-
 
     # util functions
     def sanitize_title(self):
@@ -164,8 +197,8 @@ class Post(db.Model):
         if remove_edited_timestamp:
             self.edited_timestamp = None
 
-        originally_published = self.published
-        self.published = self.blogpage.published
+        originally_published = self.is_published
+        self.is_published = self.blogpage.is_published
         if not originally_published:
             # keep updating created time instead of edited time if not already published
             self.timestamp = datetime.now(timezone.utc)
@@ -188,8 +221,8 @@ class Post(db.Model):
         query = sa.select(sa.func.count()).select_from(self.comments.select().subquery())
         return db.session.scalar(query)
 
-    def get_comment_unread_count(self) -> int:
-        query = sa.select(sa.func.count()).select_from(self.comments.select().filter_by(unread=True).subquery())
+    def get_unread_comment_count(self) -> int:
+        query = sa.select(sa.func.count()).select_from(self.comments.select().filter_by(is_unread=True).subquery())
         return db.session.scalar(query)
 
     def __repr__(self):
@@ -200,43 +233,48 @@ class Comment(db.Model):
     id: so.Mapped[int] = so.mapped_column(
             primary_key=True)
 
-
     # basic attributes
     author: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["COMMENT_AUTHOR_MAXLEN"],
                     charset="utf8mb4",
-                    collation="utf8mb4_0900_ai_ci"))
+                    collation="utf8mb4_0900_ai_ci"),
+            nullable=False)
 
     timestamp: so.Mapped[datetime] = so.mapped_column(
-            index=True,
-            default=lambda: datetime.now(timezone.utc))
-
-    unread: so.Mapped[bool] = so.mapped_column(
-            default=True)
+            nullable=False,
+            default=lambda: datetime.now(timezone.utc),
+            server_default=sa.text("NOW()"),
+            index=True)
 
     content: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["COMMENT_CONTENT_MAXLEN"],
                     charset="utf8mb4",
-                    collation="utf8mb4_0900_ai_ci"))
+                    collation="utf8mb4_0900_ai_ci"),
+            nullable=False)
 
+    is_unread: so.Mapped[bool] = so.mapped_column(
+            nullable=False,
+            default=True,
+            server_default=sa.true())
 
     # relationship: `Post`
     post_id: so.Mapped[int] = so.mapped_column(
-            sa.ForeignKey(Post.id, ondelete="CASCADE"))
+            sa.ForeignKey(Post.id, ondelete="CASCADE"),
+            nullable=False)
 
     post: so.Mapped[Post] = so.relationship(
             back_populates="comments")
 
-
     # nested set; quite the beautiful data structure
-    depth: so.Mapped[int] = so.mapped_column()
+    depth: so.Mapped[int] = so.mapped_column(nullable=False)
     left: so.Mapped[int] = so.mapped_column(
+            nullable=False,
             index=True)
     right: so.Mapped[int] = so.mapped_column(
+            nullable=False,
             index=True)
-
 
     # util functions
     def insert_comment(self, post, parent) -> bool:
@@ -296,24 +334,26 @@ class Comment(db.Model):
 
 class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(
-            primary_key=True)
+            primary_key=True,
+            nullable=False)
 
-    
     # basic attributes
     email: so.Mapped[str] = so.mapped_column(
             sa.String(Config.DB_CONFIGS["USER_EMAIL_MAXLEN"]),
-            unique=True)
+            unique=True,
+            nullable=False)
 
     username: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["USER_USERNAME_MAXLEN"],
                     charset="utf8mb4",
                     collation="utf8mb4_0900_ai_ci"),
-            unique=True)
+            unique=True,
+            nullable=False)
 
     password_hash: so.Mapped[str] = so.mapped_column(
-            sa.String(Config.DB_CONFIGS["USER_PASSWORD_HASH_MAXLEN"]))
-
+            sa.String(Config.DB_CONFIGS["USER_PASSWORD_HASH_MAXLEN"]),
+            nullable=False)
 
     # util functions
     def set_password(self, password):

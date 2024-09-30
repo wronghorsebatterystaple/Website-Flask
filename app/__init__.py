@@ -60,7 +60,7 @@ def create_app():
     cors.init_app(app)
     csrf.init_app(app)
     db.init_app(app)
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, compare_server_default=True)
     minify.init_app(app)
     moment.init_app(app)
     login_manager.init_app(app)

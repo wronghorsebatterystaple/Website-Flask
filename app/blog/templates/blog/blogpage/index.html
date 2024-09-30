@@ -15,12 +15,12 @@ const TOTAL_PAGES = {{ total_pages }};
   <h2 class="blogpage__subname fs-7 mt-2">{{ blogpage.subname }}</h2>
 {% endif %}
 
-<a class="btn btn-primary btn--custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=unpublished_blogpage_id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
+<a class="btn btn-primary btn--custom-orange mt-1 auth-true" href="{{ url_for('admin.create_blogpost', blogpage_id=blogpage.publishing_sibling_id if blogpage.is_published and blogpage.publishing_sibling_id else blogpage.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
 <hr />
 
 {% for post in posts %}
   <div>
-    {% if is_all_posts %}
+    {% if blogpage.is_all_posts %}
       {% set color = post.blogpage.color %}
       <a class="underline-hover-only underline--{{ color }} {{ color }}" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <div class="d-flex align-items-top">
@@ -42,7 +42,7 @@ const TOTAL_PAGES = {{ total_pages }};
             <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
           {% endif %}
           <span class="d-flex align-items-center ms-auto gray">
-            <span class="me-2">{% if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
+            <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
           </span>
         </div>
     {% else %}
@@ -60,7 +60,7 @@ const TOTAL_PAGES = {{ total_pages }};
             <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
           {% endif %}
           <span class="d-flex align-items-center gray ms-auto">
-            <span class="me-2">{% if current_user.is_authenticated and post.get_comment_unread_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_comment_unread_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
+            <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink auth-true">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
           </span>
         </div>
     {% endif %}

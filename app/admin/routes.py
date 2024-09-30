@@ -88,15 +88,18 @@ def choose_action():
 def create_blogpost():
     form = CreateBlogpostForm()
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.writeable]
+    form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.is_writeable]
 
     if request.method == "GET":
-        blogpage_id = request.args.get("blogpage_id")
         # automatically populate blogpage form field from query string if detected
-        if blogpage_id is not None and blogpage_id != current_app.config["ALL_POSTS_BLOGPAGE_ID"]:
+        # don't need URL decode here, and uses first option if invalid
+        blogpage_id = request.args.get("blogpage_id")
+        if blogpage_id is not None:
             try:
-                # don't need URL decode here, and uses first option if invalid
-                form.blogpage_id.data = int(blogpage_id)
+                blogpage_id = int(blogpage_id)
+                blogpage = db.session.get(Blogpage, blogpage_id)
+                if blogpage and blogpage.is_writeable:
+                    form.blogpage_id.data = int(blogpage_id)
             except Exception:
                 pass
         return render_template("admin/form_base.html", title="Create post", prompt="Create post", form=form)
@@ -168,7 +171,7 @@ def edit_blogpost():
     
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
-    form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.writeable]
+    form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.is_writeable]
     form.content.data = post.collapse_image_markdown()
     
     images_path = admin_util.get_images_path(post)

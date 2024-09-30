@@ -12,7 +12,7 @@ const URL_ADD_COMMENT = "{{ url_for('blog.' ~ blogpage_id ~ '.add_comment', post
 const URL_DELETE_COMMENT = "{{ url_for('blog.' ~ blogpage_id ~ '.delete_comment', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_GET_COMMENTS = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comments', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_GET_COMMENT_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_count', post_sanitized_title=post.sanitized_title, _external=True) }}";
-const URL_GET_COMMENT_UNREAD_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_comment_unread_count', post_sanitized_title=post.sanitized_title, _external=True) }}";
+const URL_GET_COMMENT_UNREAD_COUNT = "{{ url_for('blog.' ~ blogpage_id ~ '.get_unread_comment_count', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_MARK_COMMENTS_AS_READ = "{{ url_for('blog.' ~ blogpage_id ~ '.mark_comments_as_read', post_sanitized_title=post.sanitized_title, _external=True) }}";
 const URL_PERMANENT_LINK = "{{ url_for('blog.post_by_id', post_id=post.id, _external=True) }}";
 {% endblock %}

@@ -30,33 +30,33 @@ function setBellWithoutNotif() {
 }
 
 async function updateUnreadCommentsDropdown() {
-    const jQDropdownCommentsUnread = $("#dropdown--comments-unread");
+    const jQDropdownUnreadComments = $("#unread-comments-dropdown");
 
     // get posts with unread comments
-    jQDropdownCommentsUnread.html("<span class=\"dropdown-item\">Loading…</span>");
+    jQDropdownUnreadComments.html("<span class=\"dropdown-item\">Loading…</span>");
     const respJson = await fetchWrapper(URL_GET_POSTS_WITH_UNREAD_COMMENTS, {method: "POST"});
 
     if (respJson.errorStatus) {
-        jQDropdownCommentsUnread.html("<span class=\"dropdown-item\">Unable to load posts :/</span>");
+        jQDropdownUnreadComments.html("<span class=\"dropdown-item\">Unable to load posts :/</span>");
         return -1;
     }
 
     if (respJson.relogin) {
-        jQDropdownCommentsUnread.html("<span class=\"dropdown-item\">Not so fast :]</span>");
+        jQDropdownUnreadComments.html("<span class=\"dropdown-item\">Not so fast :]</span>");
         return -1;
     }
 
     let postCount = Object.keys(respJson).length;
     if (postCount === 0) {
-        jQDropdownCommentsUnread.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
+        jQDropdownUnreadComments.html("<span class=\"dropdown-item\">There's nothing here :]</span>");
         return postCount;
     }
 
     let html = "";
     for (const [postTitle, v] of Object.entries(respJson)) {
-        html += `<a class="dropdown-item" href="${v.url}"><span class="custom-pink">(${v.unread_count})</span> ${postTitle}</a>`;
+        html += `<a class="dropdown-item" href="${v.url}"><span class="custom-pink">(${v.unread_comment_count})</span> ${postTitle}</a>`;
     }
-    jQDropdownCommentsUnread.html(html);
+    jQDropdownUnreadComments.html(html);
 
     return postCount;
 }
