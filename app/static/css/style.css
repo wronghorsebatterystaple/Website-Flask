@@ -27,6 +27,15 @@ code {
     font-size: 97.5% !important;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: inherit; /* need to do this for DarkReader to affect blogpage index page posts (i hate css) */
+}
+
 label:has(+ [required]):after,
 label:has(+ * [required]):after {
     color: red;
