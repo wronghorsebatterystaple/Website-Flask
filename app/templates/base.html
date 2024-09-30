@@ -145,7 +145,7 @@
               <ul class="dropdown-menu">
                 {% for blogpage in blogpages %}
                   <li{% if blogpage.is_login_required %} class="auth-true"{% if not current_user.is_authenticated %} hidden{% endif %}{% endif %}>
-                    <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index', _external=True) }}">{{ blogpage.name }}</a>
+                      <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index', _external=True) }}" title="{{ blogpage.description }}">{{ blogpage.name }}</a>
                   </li>
                 {% endfor %}
               </ul>

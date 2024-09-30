@@ -35,7 +35,7 @@ class Blogpage(db.Model):
             default=None,
             server_default=None)
     
-    meta_description: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
+    description: so.Mapped[sa_mysql.VARCHAR()] = so.mapped_column(
             sa_mysql.VARCHAR(
                     Config.DB_CONFIGS["BLOGPAGE_META_DESCRIPTION_MAXLEN"],
                     charset="utf8mb4",
