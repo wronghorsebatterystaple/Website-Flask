@@ -29,7 +29,7 @@ Flask-WTF==1.2.1
 greenlet==3.0.3
 gunicorn==23.0.0
 htmlminf==0.1.13
-idna==3.8
+idna==3.10
 ipython==8.12.3
 itsdangerous==2.2.0
 jedi==0.19.1
