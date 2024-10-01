@@ -1,28 +1,28 @@
 let onModalLogin = function() {
     isUserAuthenticated = true;
-    showAuthElems();
+    showLoggedInElems();
     $("#modal-login").modal("hide");
 };
 
 let onModalLogout = function() {
     isUserAuthenticated = false;
-    hideAuthElems();
+    showLoggedOutElems();
 };
 
 function relogin() {
     customFlash("Your session has expired (or you were being sneaky). Please log in.");
-    hideAuthElems();
+    onModalLogout();
     $("#modal-login").modal("show");
 }
 
-function showAuthElems() {
-    $(".auth-false").attr("hidden", "");
-    $(".auth-true").removeAttr("hidden");
+function showLoggedInElems() {
+    $(".show-when-logged-out").attr("hidden", "");
+    $(".show-when-logged-in").removeAttr("hidden");
 }
 
-function hideAuthElems() {
-    $(".auth-true").attr("hidden", "");
-    $(".auth-false").removeAttr("hidden");
+function showLoggedOutElems() {
+    $(".show-when-logged-in").attr("hidden", "");
+    $(".show-when-logged-out").removeAttr("hidden");
 }
 
 $(document).ready(function() {
@@ -60,10 +60,7 @@ $(document).ready(function() {
 
         const respJson = await fetchWrapper(LOGOUT_URL, {method: "POST"});
         doAjaxResponseForm(respJson, e);
-
-        if (!respJson.redir_url) {
-            onModalLogout();
-        }
+        onModalLogout();
     });
 
     $("#modal-login").on("show.bs.modal", function(e) {

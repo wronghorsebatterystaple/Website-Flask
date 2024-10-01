@@ -144,21 +144,21 @@
               <button type="button" class="nav-link btn dropdown-toggle" data-bs-toggle="dropdown">Blogs</button>
               <ul class="dropdown-menu">
                 {% for blogpage in blogpages %}
-                  <li{% if blogpage.is_login_required %} class="auth-true"{% if not current_user.is_authenticated %} hidden{% endif %}{% endif %}>
+                  <li{% if blogpage.is_login_required %} class="show-when-logged-in"{% if not current_user.is_authenticated %} hidden{% endif %}{% endif %}>
                       <a class="dropdown-item" href="{{ url_for('blog.' ~ blogpage.id ~ '.index', _external=True) }}" title="{{ blogpage.description if blogpage.description is not none }}">{{ blogpage.name }}</a>
                   </li>
                 {% endfor %}
               </ul>
             </li>
 
-            <li class="nav-item auth-true"{% if not current_user.is_authenticated %} hidden{% endif %}>
+            <li class="nav-item show-when-logged-in"{% if not current_user.is_authenticated %} hidden{% endif %}>
               <a class="nav-link" href="{{ url_for('admin.choose_action', _external=True) }}">Admin</a>
             </li>
 
-            <li class="nav-item auth-false"{% if current_user.is_authenticated %} hidden{% endif %}>
+            <li class="nav-item show-when-logged-out"{% if current_user.is_authenticated %} hidden{% endif %}>
               <button class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#modal-login">Admin login</button>
             </li>
-            <li class="nav-item auth-true"{% if not current_user.is_authenticated %} hidden{% endif %}>
+            <li class="nav-item show-when-logged-in"{% if not current_user.is_authenticated %} hidden{% endif %}>
               <button id="logout-link" class="nav-link btn" type="button">Logout pls :3</button>
             </li>
 
@@ -175,7 +175,7 @@
             <li class="nav-item d-inline-flex align-items-center">
               <div class="nav-link form-check form-switch mb-0 pe-0">
                 <input id="switch--dark-mode" class="switch--dark-mode form-check-input me-2 ms-0" type="checkbox" role="switch" />
-                <label class="form-check-label px-0" for="switch--dark-mode">Dark<span class="auth-false"{% if current_user.is_authenticated %} hidden{% endif %}>/high contrast</span></label>
+                <label class="form-check-label px-0" for="switch--dark-mode">Dark<span class="show-when-logged-out"{% if current_user.is_authenticated %} hidden{% endif %}>/high contrast</span></label>
               </div>
             </li>
           </ul>

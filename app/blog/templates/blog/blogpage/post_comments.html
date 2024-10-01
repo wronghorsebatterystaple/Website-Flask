@@ -29,9 +29,9 @@
         {% endif %}
 
         {% if current_user.is_authenticated %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment auth-true", btn_type="link", btn_color="custom-pink-light") }}
+          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-light") }}
         {% else %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment auth-true", btn_type="link", btn_color="custom-pink-light", hidden=true) }}
+          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-light", hidden=true) }}
         {% endif %}
       </div>
     </div>
