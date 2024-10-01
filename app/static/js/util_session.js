@@ -1,28 +1,20 @@
-let onModalLogin = function() {
+let onSamePageLogin = function() {
     isUserAuthenticated = true;
-    showLoggedInElems();
     $("#modal-login").modal("hide");
+    $(".show-when-logged-out").attr("hidden", "");
+    $(".show-when-logged-in").removeAttr("hidden");
 };
 
-let onModalLogout = function() {
+let onSamePageLogout = function() {
     isUserAuthenticated = false;
-    showLoggedOutElems();
+    $(".show-when-logged-in").attr("hidden", "");
+    $(".show-when-logged-out").removeAttr("hidden");
 };
 
 function relogin() {
+    onSamePageLogout();
     customFlash("Your session has expired (or you were being sneaky). Please log in.");
-    onModalLogout();
     $("#modal-login").modal("show");
-}
-
-function showLoggedInElems() {
-    $(".show-when-logged-out").attr("hidden", "");
-    $(".show-when-logged-in").removeAttr("hidden");
-}
-
-function showLoggedOutElems() {
-    $(".show-when-logged-in").attr("hidden", "");
-    $(".show-when-logged-out").removeAttr("hidden");
 }
 
 $(document).ready(function() {
@@ -46,12 +38,12 @@ $(document).ready(function() {
     $("#modal-login__form").on("submit", async function(e) {
         e.preventDefault();
 
-        let formData = new FormData(e.target, e.originalEvent.submitter);
+        let formData = new FormData(e.target);
         const respJson = await fetchWrapper(LOGIN_URL, {method: "POST", body: formData});
         doAjaxResponseForm(respJson, e);
 
         if (respJson.success) {
-            onModalLogin();
+            onSamePageLogin();
         }
     });
 
@@ -59,8 +51,8 @@ $(document).ready(function() {
         e.preventDefault();
 
         const respJson = await fetchWrapper(LOGOUT_URL, {method: "POST"});
+        onSamePageLogout();
         doAjaxResponseForm(respJson, e);
-        onModalLogout();
     });
 
     $("#modal-login").on("show.bs.modal", function(e) {

@@ -42,7 +42,7 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
             // CSRF token expiry; refresh CSRF token and resend the request if this is the case
             let newToken = respJson.new_csrf_token;
             reloadCSRF(newToken);
-            showLoggedOutElems(); // session must have expired for CSRF expiry
+            onSamePageLogout(); // session must have expired for CSRF expiry
 
             // resend request with updated CSRF token in FormData (header refresh handled by recursive call)
             if (options.body && options.body instanceof FormData) {

@@ -159,7 +159,7 @@ def search_blogpost():
 @util.custom_login_required(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
 def edit_blogpost():
     try:
-        post_id = int(request.args.get("post_id", None))
+        post_id = int(request.args.get("post_id"))
     except Exception:
         return util.redir_depending_on_req_method("admin.search_blogpost", flash_msg="haker :3")
 

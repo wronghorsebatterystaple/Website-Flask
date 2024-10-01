@@ -1,9 +1,10 @@
 const jQIconBell = $("#unread-comments-notif-btn-icon");
 
 // when logging in via modal on a `blog.` page/opening a `blog.` page as admin, check for notifications
-onModalLogin = addToFunction(onModalLogin, function() {
+onSamePageLogin = addToFunction(onSamePageLogin, function() {
     updateUnreadCommentsNotifs();
 });
+
 $(document).ready(function() {
     if (isUserAuthenticated) {
         updateUnreadCommentsNotifs();
