@@ -59,7 +59,7 @@ pip-tools==7.4.1
 pipreqs==0.5.0
 platformdirs==4.3.2
 ply==3.11
-prompt_toolkit==3.0.47
+prompt_toolkit==3.0.48
 ptyprocess==0.7.0
 pure_eval==0.2.3
 pycparser==2.22
