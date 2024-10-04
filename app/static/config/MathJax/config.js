@@ -15,7 +15,8 @@ let onMathJaxTypeset = function(baseSelector) {
 window.MathJax = {
     tex: {
         /**
-         * Custom commands from my file server sync.
+         * Custom commands from my file server sync. Custom environments and the more fancy stuff have been left out
+         * since I don't think I'll need to use them here.
          *
          * Missing due to MathJax limitations:
          *    - `\exists`       (= `\exists\,`)
