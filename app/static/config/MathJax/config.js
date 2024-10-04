@@ -17,7 +17,7 @@ window.MathJax = {
         /**
          * Custom commands from my file server sync.
          *
-         * Missing:
+         * Missing due to MathJax limitations:
          *    - `\exists`       (= `\exists\,`)
          *    - `\existsunique` (= `\exists!\,`)
          *    - `\forall`       (= `\forall\c`)
@@ -85,6 +85,7 @@ window.MathJax = {
             R: `\mathbb{R}`,
             r: [`\textcolor{red}{#1}`, 1],
             range: `\text{range}}`,
+            spann: `\text{span}`,
             st: `\text{ s.t. }`,
             suchthat: `\,\vert\,`,
             suchthatlr: `\,\middle\vert\,`,
