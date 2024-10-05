@@ -73,7 +73,7 @@ input[value="Reply"][value="Delete"] {
         border: none;
         padding: 0;
         width: calc((min(100vw, 1536px) - var(--container-content-max-width)) / 3.3333);
-        /* this is `100svh - [top] - [arbitrary bottom spacing]`; using this (only partially hardcoded) value
+        /* this is `100svh - [top] - [chosen bottom spacing]`; using this (only partially hardcoded) value
          * instead of like `80svh` to make sure it will never exceed the bottom of the page when fixed, in case
          * `top` becomes really large */
         max-height: max(min(100svh, 864px) - 8rem - 8rem, 15rem);
