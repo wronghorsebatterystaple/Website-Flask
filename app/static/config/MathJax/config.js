@@ -52,6 +52,7 @@ window.MathJax = {
             cc: ".\\ ",
             ceil: ["\\left\\lceil #1 \\right\\rceil", 1],
             choose: ["\\begin{pmatrix} #1 \\\\ #2 \\end{pmatrix}", 2],
+            codomain: ["\\text{codomain}"],
             comb: ["{}^{#1}C_{#2}", 2],
             cor: ",\\ \\text{or }",
             ddx: ["\\frac{\\mathrm{d}}{\\mathrm{d} #1}", 1],
