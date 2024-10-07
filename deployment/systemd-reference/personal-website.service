@@ -1,12 +1,12 @@
 [Unit]
-Description=Deploy for personal-website
+Description=Deploy `personal-website`
 After=network.target
 
 [Service]
 Group=docker
+WorkingDirectory=[REPLACE: PATH TO `docker/` FOLDER]
 # use `DOCKER_USER` to allow container access to bind-mounted MySQL data dir without messing with `uid`s
 Environment='DOCKER_USER=[REPLACE: NAME OF USER THAT CONTAINER WILL RUN AS]'
-WorkingDirectory=[REPLACE: PATH TO `docker/` FOLDER]
 ExecStart=/bin/bash deploy.sh
 
 [Install]
