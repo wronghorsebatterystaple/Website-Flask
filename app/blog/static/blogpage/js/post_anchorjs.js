@@ -10,7 +10,7 @@ function addPostAnchors() {
 
     $(".anchorjs-link").on("click", function(e) {
         const jQHeading = $(e.target).parent();
-        if (jQHeading.length <= 0) {
+        if (jQHeading.length === 0) {
             return;
         }
 

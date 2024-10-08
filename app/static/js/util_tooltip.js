@@ -10,7 +10,7 @@ function refreshTooltips(baseSelector) {
 
 function genFootnoteTooltips(baseSelector) {
     const jQBase = $(baseSelector);
-    if (jQBase.length <= 0) {
+    if (jQBase.length === 0) {
         return;
     }
     const REMOVE_BACKREF_RE = /<a class=["&quot;]+?footnote-backref[\S\s]*?<\/a>/;

@@ -132,7 +132,7 @@ $(document).on("submit", ".comment__reply-btn", function(e) {
 
     const id = getCommentId(e.target);
     const jQFormAddReply = $(`#comment__add-reply-form-${id}`);
-    if (jQFormAddReply.length <= 0) {
+    if (jQFormAddReply.length === 0) {
         customFlash("haker :3");
         return;
     }

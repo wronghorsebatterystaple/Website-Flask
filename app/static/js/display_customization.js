@@ -1,6 +1,6 @@
 function applyGlobalStyles(baseSelector) {
     const jQBase = $(baseSelector);
-    if (jQBase.length <= 0) {
+    if (jQBase.length === 0) {
         return;
     }
 
