@@ -39,7 +39,7 @@ class Config(object):
     }
 
     # cookies
-    PERMANENT_SESSION_LIFETIME = 86400
+    PERMANENT_SESSION_LIFETIME = 604800 # one week
     SESSION_COOKIE_DOMAIN = f".{SERVER_NAME}"
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
@@ -48,7 +48,7 @@ class Config(object):
 
     # Flask-WTF
     WTF_CSRF_SSL_STRICT = False # allows cross-site Ajax POST (Flask-CORS whitelisting not enough)
-    WTF_CSRF_TIME_LIMIT = None # CSRF token lasts until session expires
+    WTF_CSRF_TIME_LIMIT = None  # CSRF token lasts until session expires
 
     # Flask-SQLAlchemy/database
     DB_CONFIGS = {
@@ -90,11 +90,12 @@ class Config(object):
     IMAGE_UPLOAD_EXTENSIONS = [".gif", ".jpeg", ".jpg", ".png", ".svg", ".xcf"]
     IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpeg", ".jpg", ".png"]
     IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED = [".gif", ".jpeg", ".jpg", ".png", ".svg"]
-    MAX_CONTENT_LENGTH = 100 * 1024 * 1024
+    MAX_CONTENT_LENGTH = 100 * 1024 * 1024 # 100 MB
     LOGIN_VIEW = "admin.login"
     POSTS_PER_PAGE = 20
+    VERIFIED_AUTHOR = "AnonymousRand"
 
-    # scuffed configs
+    # scuffed configs; SYNC!
     BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC = "../static/blogpage"
     ROOT_TO_BLOGPAGE_STATIC = "blog/static/blogpage"
     # this is not in db as it's only used for initializing blueprints, during which db is not yet accessible
@@ -113,4 +114,3 @@ class Config(object):
          "7": "/writers-unblock",
         "-7": "/writers-unblock-backrooms"
     }
-    VERIFIED_AUTHOR = "AnonymousRand"

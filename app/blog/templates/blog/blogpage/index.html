@@ -26,13 +26,13 @@ const TOTAL_PAGES = {{ total_pages }};
         <div class="d-flex align-items-top">
           <!-- DarkReader doesn't inherit properly if `{{ color }}` not used for `h1`, `h2` -->
           <!-- TODO test if this is still the case -->
-          <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 fs-5">{{ post.title }}</h1>
+          <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 p-mb-0 fs-5">{{ post.title|safe }}</h1>
           <span class="post-list__blogtitle flex-shrink-9 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
         </div>
 
         {% if post.subtitle is not none %}
           <div class="d-flex align-items-top mt-1">
-              <h2 class="flex-shrink-0 flex-basis-75 mb-0 fs-8">{{ post.subtitle }}</h2>
+              <h2 class="flex-shrink-0 flex-basis-75 mb-0 p-mb-0 fs-8">{{ post.subtitle|safe }}</h2>
           </div>
         {% endif %}
 
@@ -48,10 +48,10 @@ const TOTAL_PAGES = {{ total_pages }};
         </div>
     {% else %}
       <a class="darken-on-hover underline-on-hover-only underline--custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-        <h1 class="mb-0 custom-green-deep-dark fs-5">{{ post.title }}</h1>
+        <h1 class="mb-0 p-mb-0 custom-green-deep-dark fs-5">{{ post.title|safe }}</h1>
 
         {% if post.subtitle is not none %}
-          <h2 class="mt-1 custom-orange-deep fs-8">{{ post.subtitle }}</h2>
+          <h2 class="mt-1 p-mb-0 custom-orange-deep fs-8">{{ post.subtitle|safe }}</h2>
         {% endif %}
 
         <div class="d-flex align-items-center mt-2">

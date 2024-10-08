@@ -41,16 +41,8 @@ input[value="Reply"][value="Delete"] {
     width: 100%;
 }
 
-.post__subtitle p {
-    margin-bottom: 0rem;
-}
-
 .post__timestamp {
     margin-right: 0.625rem;
-}
-
-.post__title p {
-    margin-bottom: 0rem;
 }
 
 .post__toc {

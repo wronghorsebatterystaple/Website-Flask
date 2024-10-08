@@ -46,6 +46,8 @@ def index():
                 error_out=False)
     if posts is None:
         return "ok im actually impressed how did you do that", 500
+    for post in posts:
+        post = blogpage_util.render_post_titles_markdown(post)
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
             else None
@@ -72,9 +74,7 @@ def post(post_sanitized_title):
         return blogpage_util.post_nonexistent_response(util.ContentType.HTML)
 
     # render Markdown for post
-    post.title = markdown.markdown(post.title, extensions=["extra", CustomInlineExtensions()])
-    if post.subtitle:
-        post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
+    post = blogpage_util.render_post_titles_markdown(post)
     content_md = None
     if post.content:
         # generating HTML `id`s is left to AnchorJS frontend instead of `TocExtension`, as it's more convenient to

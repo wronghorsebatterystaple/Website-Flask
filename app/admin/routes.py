@@ -42,15 +42,15 @@ def login():
             })
 
         # no persistent cookies, so session expires on both browser close (if it isn't running in background)
-        # and PERMANENT_SESSION_LIFETIME timeout (check README for cookie explanation)
+        # and on `PERMANENT_SESSION_LIFETIME` timeout (check README for cookie explanation)
         login_user(user, remember=False)
         session.permanent = False
 
         if request.form.get("is_modal") == "true":
-            return jsonify(success=True)
+            return jsonify(success=True, flash_msg="The universe is at your fingertips…")
 
         next_url = request.args.get("next", url_for("admin.choose_action", _external=True))
-        return jsonify(success=True, redir_url=next_url)
+        return jsonify(success=True, redir_url=next_url) # no flash msg needed since page redirect indicates success
 
     return "If you see this message, please panic.", 500
 

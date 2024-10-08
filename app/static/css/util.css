@@ -329,6 +329,10 @@
     margin-right: 0.75rem !important;
 }
 
+.p-mb-0 p {
+    margin-bottom: 0 !important;
+}
+
 .pt-2_5rem {
     padding-top: 2.5rem !important;
 }

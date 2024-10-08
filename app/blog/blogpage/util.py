@@ -1,4 +1,5 @@
 import bleach
+import markdown
 import re
 from bs4 import BeautifulSoup
 from functools import wraps
@@ -7,6 +8,7 @@ from flask import current_app, jsonify, redirect, request, url_for
 
 import app.util as util
 from app import db
+from app.markdown_extensions.custom_extensions import CustomInlineExtensions
 from app.models import *
 
 
@@ -77,6 +79,13 @@ def post_nonexistent_response(content_type):
                     flash_msg="That post doesn't exist :/")
         case _:
             return "app/blog/blogpage/util.py: `return_post_nonexistent()` reached end of switch statement", 500
+
+
+def render_post_titles_markdown(post):
+    post.title = markdown.markdown(post.title, extensions=["extra", CustomInlineExtensions()])
+    if post.subtitle:
+        post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
+    return post
 
 
 def sanitize_untrusted_html(c) -> str:
