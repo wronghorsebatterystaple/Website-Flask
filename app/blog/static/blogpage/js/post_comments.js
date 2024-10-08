@@ -64,7 +64,9 @@ async function reloadComments() {
     $("#comment-counts").html(HTML);
 
     // load in comments if there are any
-    if (commentCount > 0) {
+    if (commentCount === 0) {
+        $("#comment-list").html("");
+    } else {
         respJson = await fetchWrapper(GET_COMMENTS_URL, {method: "GET"});
         if (!respJson.errorStatus) {
             $("#comment-list").html(respJson.html);
