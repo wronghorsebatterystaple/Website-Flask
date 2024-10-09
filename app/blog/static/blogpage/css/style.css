@@ -70,6 +70,11 @@ input[value="Reply"][value="Delete"] {
          * `top` becomes really large */
         max-height: max(min(100svh, 864px) - 8rem - 8rem, 15rem);
     }
+
+    .toc__heading {
+        position: absolute;
+        top: -1.5em;
+    }
 }
 
 .post__toc ul:last-child {

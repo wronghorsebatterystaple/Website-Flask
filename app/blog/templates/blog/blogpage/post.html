@@ -37,11 +37,12 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
   <button id="copy-permanent-link-btn" class="btn btn-link copy-permanent-link-btn" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
 </div>
 <a class="btn btn-primary btn--custom-orange mt-2 show-when-logged-in" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Edit/delete post</a>
-<hr />
+<hr class="mb-0" />
 
 {% if toc_tokens and toc_tokens|length > 0 %}
 <div class="post__toc card mb-3">
-  <h3 class="mb-0 border-bottom--underline pb-0_75rem fs-5">Contents</h3>
+  <h3 class="toc__heading mb-0 pb-0_75rem fs-5">Contents</h3>
+  <hr class="my-0" />
   <ul class="toc__body pt-3 pe-3 overflow-y-auto">
   {% for toc_token in toc_tokens recursive %}
     {% set class = "" %}
@@ -63,7 +64,7 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 </div>
 {% endif %}
 
-<div id="post__content" class="post__content">
+<div id="post__content" class="post__content mt-3">
   {{ post.content|safe }}
 </div>
 <hr />
