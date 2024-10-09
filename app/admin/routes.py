@@ -1,5 +1,6 @@
 import os
 import shutil
+import tldextract
 
 import sqlalchemy as sa
 from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
@@ -49,8 +50,13 @@ def login():
         if request.form.get("is_modal") == "true":
             return jsonify(success=True, flash_msg="The universe is at your fingertips…")
 
-        next_url = request.args.get("next", url_for("admin.choose_action", _external=True))
-        return jsonify(success=True, redir_url=next_url) # no flash msg needed since page redirect indicates success
+        next_url = util.decode_uri_component(
+                request.args.get("next", url_for("admin.choose_action", _external=True)))
+        next_url_extracted = tldextract.extract(next_url)
+        if f"{next_url_extracted.domain}.{next_url_extracted.suffix}" == current_app.config["SERVER_NAME"]:
+            return jsonify(success=True, redir_url=next_url)
+
+        return jsonify(success=True, redir_url=url_for("admin.choose_action", flash_msg="haker :3", _external=True))
 
     return "If you see this message, please panic.", 500
 
