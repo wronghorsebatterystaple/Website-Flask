@@ -1,9 +1,10 @@
 [Unit]
-Description=Timer for personal-website-image-backup
+Description=Timer for `personal-website-image-backup`
+After=network.target
 
 [Timer]
 OnUnitActiveSec=1d
-OnBootSec=1m
+OnBootSec=1d
 Persistent=true
 
 [Install]

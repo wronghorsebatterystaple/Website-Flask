@@ -4,6 +4,7 @@ After=network.target
 
 [Timer]
 OnUnitActiveSec=2d
+OnBootSec=2d
 Persistent=true
 
 [Install]
