@@ -63,7 +63,6 @@ window.MathJax = {
             F: "\\mathbb{F}",
             floor: ["\\left\\lfloor #1 \\right\\rfloor", 1],
             ftc: ["\\left[#3\\right]_{#1}^{#2}", 3],
-            gcd: "\\text{gcd}",
             given: "\\,\\vert\\,",
             givenlr: "\\,\\middle\\vert\\,",
             iffshort: "\\Leftrightarrow",
