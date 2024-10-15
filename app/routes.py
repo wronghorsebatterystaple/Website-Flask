@@ -8,9 +8,8 @@ from app.models import *
 from config import Config
 
 
-# for login modal
-def inject_login_form():
-    return dict(login_form=LoginForm())
+def inject_forms():
+    return dict(login_form=LoginForm(), logout_btn=LogoutBtn())
 
 
 # for navbar

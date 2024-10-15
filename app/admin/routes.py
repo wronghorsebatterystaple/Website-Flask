@@ -198,7 +198,7 @@ def edit_blogpost():
             return jsonify(submission_errors=form.errors)
 
         # handle post deletion
-        if "delete" in request.form:
+        if "delete_post" in request.form:
             db.session.delete(post)
             db.session.commit()
             try:

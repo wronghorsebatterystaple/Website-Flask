@@ -118,7 +118,7 @@ class EditBlogpostForm(FlaskForm):
     edit_blogpost_form_submit = SubmitField(
             "Submit")
 
-    delete = SubmitField(
+    delete_post = SubmitField(
             "Delete Post",
             render_kw={"data-class": "btn--needs-confirm"})
 

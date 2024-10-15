@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="{% block meta_description %}{% endblock %}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
     <title>{% block title %}{% endblock %}</title>
 
     <!-- CDNs -->
@@ -42,7 +42,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
           integrity="sha384-4Y0nObtF3CbKnh+lpzmAVdAMtQXl+ganWiiv73RcGVdRdfVIya8Cao1C8ZsVRRDz"
           crossorigin="anonymous"
-      />
+     >
       <script
           src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
           integrity="sha384-F/bZzf7p3Joyp5psL90p/p89AZJsndkSoGwRpXcZhleCWhd8SnRuoYo4d0yirjJp"
@@ -74,19 +74,19 @@
       <link
           rel="stylesheet"
           href="{{ url_for('static', filename='css/custom_bootstrap.css', _external=True) }}"
-      />
+     >
       <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
           integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd"
           crossorigin="anonymous"
-      />
+     >
 
       <!-- global custom CSS -->
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_hljs.css', _external=True) }}" />
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', _external=True) }}" />
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/util.css', _external=True) }}" />
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css', _external=True) }}" />
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_hljs.css', _external=True) }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', _external=True) }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/util.css', _external=True) }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/variables.css', _external=True) }}">
 
       {% block css %}{% endblock %}
 
@@ -120,7 +120,7 @@
 
       {% block js_deferred_linked %}{% endblock %}
 
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico', _external=True) }}">
   </head>
 
   <body>
@@ -130,7 +130,7 @@
       <!-- SYNC: media query in `app/static/css/style.css` where navbar collapses -->
       <nav id="navbar" class="navbar navbar-expand-md sticky-top bg-white">
         <a class="navbar__home navbar-brand d-inline-flex align-items-center" href="{{ url_for('main.index', _external=True) }}">
-          <img class="navbar__logo me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon" />
+          <img class="navbar__logo me-2" src="{{ url_for('static', filename='images/favicon.ico', _external=True) }}" alt="favicon">
           <span>Home</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +159,8 @@
             </li>
             <li class="nav-item show-when-logged-in"{% if not current_user.is_authenticated %} hidden{% endif %}>
               <form action="{{ url_for('admin.logout', _external=True) }}" method="post">
-                <button class="nav-link btn" type="button">Logout pls :3</button>
+                <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+                <button class="nav-link btn" type="submit">Logout pls :3</button>
               </form>
             </li>
 
@@ -175,7 +176,7 @@
 
             <li class="nav-item d-inline-flex align-items-center">
               <div class="nav-link form-check form-switch mb-0 pe-0">
-                <input id="switch--dark-mode" class="switch--dark-mode form-check-input me-2 ms-0" type="checkbox" role="switch" />
+                <input id="switch--dark-mode" class="switch--dark-mode form-check-input me-2 ms-0" type="checkbox" role="switch">
                 <label class="form-check-label px-0" for="switch--dark-mode">Dark<span class="show-when-logged-out"{% if current_user.is_authenticated %} hidden{% endif %}>/high contrast</span></label>
               </div>
             </li>

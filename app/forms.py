@@ -13,5 +13,10 @@ class LoginForm(FlaskForm):
             "Password",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
 
-    login_modal_submit = SubmitField(
+    login_form_submit = SubmitField(
             "Submit")
+
+
+class LogoutBtn(FlaskForm):
+    logout_btn_submit = SubmitField(
+            "Logout pls :3")

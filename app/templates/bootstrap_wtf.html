@@ -1,8 +1,8 @@
 {% macro form_field(field, btn_type, btn_color, autofocus, last_field) %}
-  {% set mb_between = " mb-3" if not last_field else "" %}
+  {% set mb = " mb-3" if not last_field else "" %}
 
   {% if field.type == "BooleanField" %}
-    <div class="form-check{{ mb_between }}">
+    <div class="form-check{{ mb }}">
       {{ field(id=field.name ~ "-input", class="form-check-input") }}
       {{ field.label(class="form-check-label") }}
       <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
@@ -11,21 +11,21 @@
   {% elif field.type == "RadioField" %}
     {{ field.label(class="form-label") }}
     {% for item in field %}
-      <div class="form-check{% if loop.last %}{{ mb_between }}{% endif %}">
+      <div class="form-check{% if loop.last %}{{ mb }}{% endif %}">
         {{ item(class="form-check-input") }}
         {{ item.label(class="form-check-label") }}
       </div>
     {% endfor %}
 
   {% elif field.type == "SelectField" %}
-    <div class="{{ mb_between }}">
+    <div class="{{ mb }}">
       {{ field.label(class="form-label") }}
       {{ field(id=field.name ~ "-input", class="form-select") }}
       <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
     </div>
 
   {% elif field.type == "TextAreaField" %}
-    <div class="{{ mb_between }}">
+    <div class="{{ mb }}">
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
         {% if autofocus %}
@@ -40,9 +40,9 @@
 
   {% elif field.type == "SubmitField" %}
     {% if btn_type == "" %}
-      {{ field(class="btn btn-" ~ btn_type ~ " btn--" ~ btn_color ~ mb_between) }}
+      {{ field(class="btn btn--" ~ btn_color ~ mb) }}
     {% else %}
-      {% set class = "btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color ~ mb_between %}
+      {% set class = "btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color ~ mb %}
       {% if btn_type == "link" %}
         {% set class = class ~ " underline-on-hover-only" %}
       {% endif %}
@@ -50,7 +50,7 @@
     {% endif %}
 
   {% else %}
-    <div class="{{ mb_between }}">
+    <div class="{{ mb }}">
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
         {% if autofocus %}
