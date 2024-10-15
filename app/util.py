@@ -36,7 +36,7 @@ def custom_unauthorized(content_type, redir_to_parent_endpt=False):
                 current_app.config["LOGIN_VIEW"],
                 next=request.url[:request.url.rfind("/")] if redir_to_parent_endpt else encode_uri_component(request.url),
                 flash_msg=encode_uri_component(
-                        "Your session has expired (or you were being sneaky). Please log in."),
+                        "your session has expired, or you were being sneaky…please log in again ^^"),
                 _external=True)
 
         if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
