@@ -53,7 +53,6 @@ I hope I'm not reading this because I bricked a machine again.
 ### Access control overview:
 - Access control in view functions is achieved through the `@custom_login_required()` decorator and its equivalent function `custom_unauthorized()`, both provided in [app/util.py](app/util.py); see that file for full documentation and usage. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
 - [config.py](config.py) contains settings that must be up-to-date for access control:
-    - `URLS_LOGIN_REQUIRED`: Flask will redirect you away from the page you are currently on if it begins with one of these URLs and you log out
     - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real** verified checkmark!!!)
 - Each blogpage in the database has a boolean `login_required` column that must be up-to-date; Flask uses this to check login redirection on attempt to access these blogpages
 
