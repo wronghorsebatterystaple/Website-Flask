@@ -71,7 +71,7 @@ def post(post_sanitized_title):
     # get post from URL
     post = bp_util.get_post_from_url(post_sanitized_title, blogpage_id)
     if post is None:
-        return bp_util.post_nonexistent_response(util.ContentType.HTML)
+        return bp_util.nonexistent_post_response(util.ContentType.HTML)
 
     # render Markdown for post
     post = bp_util.render_post_titles_markdown(post)
@@ -105,7 +105,7 @@ def post(post_sanitized_title):
 def get_comments(post_sanitized_title):
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
-        return bp_util.post_nonexistent_response(util.ContentType.JSON)
+        return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
     # get comments from db and render Markdown
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
@@ -138,7 +138,7 @@ def get_comments(post_sanitized_title):
 def get_comment_count(post_sanitized_title):
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
-        return bp_util.post_nonexistent_response(util.ContentType.JSON)
+        return bp_util.nonexistent_post_response(util.ContentType.JSON)
     return jsonify(count=post.get_comment_count())
 
 
@@ -147,7 +147,7 @@ def get_comment_count(post_sanitized_title):
 def get_unread_comment_count(post_sanitized_title):
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
-        return bp_util.post_nonexistent_response(util.ContentType.JSON)
+        return bp_util.nonexistent_post_response(util.ContentType.JSON)
     return jsonify(count=post.get_unread_comment_count())
 
 
@@ -179,7 +179,7 @@ def add_comment(post_sanitized_title):
     # get post from URL
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
-        return bp_util.post_nonexistent_response(util.ContentType.JSON)
+        return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
     # add comment
     comment = Comment(
@@ -207,7 +207,7 @@ def delete_comment(post_sanitized_title):
     # get post from URL
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
-        return bp_util.post_nonexistent_response(util.ContentType.JSON)
+        return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
     # delete comment
     descendants = comment.get_descendants(post)
@@ -227,7 +227,7 @@ def mark_comments_as_read(post_sanitized_title):
     # get post from URL
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
-        return bp_util.post_nonexistent_response(util.ContentType.JSON)
+        return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
     # mark comments under current post as read
     unread_comments_query = post.comments.select().filter_by(is_unread=True)

@@ -63,7 +63,7 @@ def login_required_check_blogpage(content_type, redir_to_parent_endpt=False):
     return inner_decorator
 
 
-def post_nonexistent_response(content_type):
+def nonexistent_post_response(content_type):
     if content_type == util.ContentType.DEPENDS_ON_REQ_METHOD:
         content_type = util.ContentType.HTML if request.method == "GET" else util.ContentType.JSON
 
@@ -78,7 +78,7 @@ def post_nonexistent_response(content_type):
                     redir_url=url_for(f"{request.blueprint}.index", _external=True), 
                     flash_msg="That post doesn't exist :/")
         case _:
-            return "app/blog/blogpage/util.py: `return_post_nonexistent()` reached end of switch statement", 500
+            return "app/blog/blogpage/util.py: `return_nonexistent_post()` reached end of switch statement", 500
 
 
 def render_post_titles_markdown(post):
