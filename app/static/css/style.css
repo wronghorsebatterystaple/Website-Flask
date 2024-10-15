@@ -158,7 +158,6 @@ textarea {
 }
 
 .flash {
-    z-index: 9999;
     border-width: 3px;
     border-style: solid;
     color: black;
@@ -166,6 +165,7 @@ textarea {
 
 .flash__wrapper {
     top: 1rem;
+    z-index: 9999;
 }
 
 .footnotes {
