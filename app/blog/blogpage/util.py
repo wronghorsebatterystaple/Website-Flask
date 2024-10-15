@@ -20,17 +20,17 @@ def get_blogpage_id() -> int:
     return int(request.blueprint.split('.')[-1])
 
 
-def get_post_from_url(post_sanitizted_title, blogpage_id):
+def get_post_from_url(post_sanitized_title, blogpage_id):
     """
-    Gets post from url, making sure it's valid and matches the whole url.
+    Gets post from URL, making sure it's valid and matches the whole URL.
     """
 
     return db.session.query(Post) \
-            .filter_by(sanitized_title=post_sanitizted_title, blogpage_id=blogpage_id) \
+            .filter_by(sanitized_title=post_sanitized_title, blogpage_id=blogpage_id) \
             .first()
 
 
-def login_required_check_blogpage(content_type, do_relogin=True):
+def login_required_check_blogpage(content_type, redir_to_parent_endpt=False):
     """
     Enforces login to access private blogpages.
     """
@@ -54,7 +54,7 @@ def login_required_check_blogpage(content_type, do_relogin=True):
                         return "app/blog/blogpage/util.py: `login_required_check_blogpage()` reached end of switch statement", 500
 
             if blogpage.is_login_required:
-                result = util.custom_unauthorized(content_type, do_relogin)
+                result = util.custom_unauthorized(content_type, redir_to_parent_endpt)
                 if result:
                     return result
 

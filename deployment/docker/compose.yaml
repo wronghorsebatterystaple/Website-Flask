@@ -7,6 +7,7 @@ services:
     build:
       context: ../../                                       # must be parent; Dockerfile can't access parent dirs
       dockerfile: deployment/docker/flask/Dockerfile        # SYNC: path, relative to `context`
+      network: host
     env_file:                                               # SYNC: env file paths
       - ./flask/envs/.env
       - ./flask/envs/.flaskenv

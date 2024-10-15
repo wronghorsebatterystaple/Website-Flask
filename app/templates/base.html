@@ -95,7 +95,6 @@
       <script nonce="{{ csp_nonce() }}">
           const DEFAULT_BACKGROUND_IMG_URL = "{{ url_for('static', filename='images/background_default.svg', _external=True) }}";
           const LOGIN_URL = "{{ url_for('admin.login', _external=True) }}";
-          const LOGOUT_URL = "{{ url_for('admin.logout', _external=True) }}";
           let csrfToken = "{{ csrf_token() }}";
           let isUserAuthenticated = {% if current_user.is_authenticated %}true{% else %}false{% endif %};
           let backgroundImgUrl = "";
@@ -156,10 +155,12 @@
             </li>
 
             <li class="nav-item show-when-logged-out"{% if current_user.is_authenticated %} hidden{% endif %}>
-              <button class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#modal-login">Admin login</button>
+              <button class="nav-link btn" type="button" data-bs-toggle="modal" data-bs-target="#login-modal">Admin login</button>
             </li>
             <li class="nav-item show-when-logged-in"{% if not current_user.is_authenticated %} hidden{% endif %}>
-              <button id="logout-link" class="nav-link btn" type="button">Logout pls :3</button>
+              <form action="{{ url_for('admin.logout', _external=True) }}" method="post">
+                <button class="nav-link btn" type="button">Logout pls :3</button>
+              </form>
             </li>
 
             <li class="nav-item">
@@ -199,15 +200,15 @@
   </div>
 
   <!-- login modal -->
-  <div id="modal-login" class="modal fade" tabindex="-1" aria-labelledby="modal-login__label" aria-hidden="true">
+  <div id="login-modal" class="modal fade" tabindex="-1" aria-labelledby="login-modal__label" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 id="modal-login__label" class="modal-title fs-6">Access the Secrets of the Universe</h1>
+          <h1 id="login-modal__label" class="modal-title fs-6">Access the Secrets of the Universe</h1>
           <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          {{ wtf.quick_form(login_form, id="modal-login__form") }}
+          {{ wtf.quick_form(login_form, id="login-modal__form") }}
         </div>
       </div>
     </div>

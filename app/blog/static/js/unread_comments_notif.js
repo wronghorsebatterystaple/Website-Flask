@@ -42,11 +42,6 @@ async function updateUnreadCommentsDropdown() {
         return -1;
     }
 
-    if (respJson.relogin) {
-        jQDropdownUnreadComments.html("<span class=\"dropdown-item\">Not so fast :]</span>");
-        return -1;
-    }
-
     let postCount = Object.keys(respJson).length;
     if (postCount === 0) {
         jQDropdownUnreadComments.html("<span class=\"dropdown-item\">There's nothing here :]</span>");

@@ -1,6 +1,6 @@
 let onSamePageLogin = function() {
     isUserAuthenticated = true;
-    $("#modal-login").modal("hide");
+    $("#login-modal").modal("hide");
     $(".show-when-logged-out").attr("hidden", "");
     $(".show-when-logged-in").removeAttr("hidden");
 };
@@ -11,14 +11,8 @@ let onSamePageLogout = function() {
     $(".show-when-logged-out").removeAttr("hidden");
 };
 
-function relogin() {
-    onSamePageLogout();
-    customFlash("Your session has expired (or you were being sneaky). Please log in.");
-    $("#modal-login").modal("show");
-}
-
 $(document).ready(function() {
-    const jQModalLogin = $("#modal-login");
+    const jQModalLogin = $("#login-modal");
     // security - wipe contents and toggle password visibility off on hide
     jQModalLogin.on("hidden.bs.modal", function(e) {
         const jQInputPassword = $(e.target).find("#password-input");
@@ -35,7 +29,7 @@ $(document).ready(function() {
     // differentiate modal vs. non-modal logins for redirect
     jQModalLogin.find("#is_modal").val("true");
 
-    $("#modal-login__form").on("submit", async function(e) {
+    $("#login-modal__form").on("submit", async function(e) {
         e.preventDefault();
 
         let formData = new FormData(e.target);
@@ -47,15 +41,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#logout-link").on("click", async function(e) {
-        e.preventDefault();
-
-        const respJson = await fetchWrapper(LOGOUT_URL, {method: "POST"});
-        onSamePageLogout();
-        doAjaxResponseForm(respJson, e);
-    });
-
-    $("#modal-login").on("show.bs.modal", function(e) {
+    $("#login-modal").on("show.bs.modal", function(e) {
         if (window.location.href.startsWith(LOGIN_URL)) {
             e.preventDefault();
             customFlash("You're already on the login page, you doofus.");

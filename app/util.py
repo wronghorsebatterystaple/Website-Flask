@@ -7,24 +7,16 @@ from flask_login import current_user
 
 
 class ContentType(Enum):
-    """
-    Choices:
-        - `HTML`: `text/html`
-        - `JSON`: `application/json`
-        - `DEPENDS_ON_REQ_METHOD`: `text/html` if GET, otherwise `application/json`
-    """
-
-    HTML = 0
-    JSON = 1
-    DEPENDS_ON_REQ_METHOD = 2
+    HTML = "text/html"
+    JSON = "application/json"
+    DEPENDS_ON_REQ_METHOD = "`text/html` if GET, else `application/json`"
 
 
-def custom_unauthorized(content_type, do_relogin=True):
+def custom_unauthorized(content_type, redir_to_parent_endpt=False):
     """
-    Makes sure `current_user` is authenticated.
-    If not authenticated:
-        - `Content-Type: text/html` responses redirect to login page with absolute `next` URL
-        - `Content-Type: application/json` responses return `relogin` Ajax response
+    Makes sure `current_user` is authenticated. If not, redirect to login page with *aboluste* `next` URL, which
+    allows it to go from `blog.anonymousrand.xyz` to `anonymousrand.xyz/admin`, for instance, unlike the built-in
+    `unauthorized()` function.
 
     Usage:
         ```
@@ -35,29 +27,31 @@ def custom_unauthorized(content_type, do_relogin=True):
 
     Params:
         - `content_type`: specifies the `Content-Type` of the expected server response from the view function
-        - `do_relogin`: should be `False` if the view function handles requests that are not explicitly triggered
-          by a user action, like background requests. This prevents users from seeing login pop up out of nowhere
-          when an automated action happens.
+        - `redir_to_parent_endpt`: set to `True` if the current view function doesn't return something you want to
+          redirect back to on logging in (e.g. API call)
     """
 
     if not current_user.is_authenticated:
+        login_url = url_for(
+                current_app.config["LOGIN_VIEW"],
+                next=request.url[:request.url.rfind("/")] if redir_to_parent_endpt else encode_uri_component(request.url),
+                flash_msg=encode_uri_component(
+                        "Your session has expired (or you were being sneaky). Please log in."),
+                _external=True)
+
         if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
             content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
-
         match content_type:
             case ContentType.HTML:
-                return redirect(url_for(current_app.config["LOGIN_VIEW"], next=encode_uri_component(request.url)))
+                return redirect(login_url)
             case ContentType.JSON:
-                if do_relogin:
-                    return jsonify(relogin=True)
-                else:
-                    return jsonify()
+                return jsonify(redir_url=login_url)
             case _:
                 return "app/util.py: `custom_unauthorized()` reached end of switch statement", 500
     return None
 
 
-def custom_login_required(content_type, do_relogin=True):
+def custom_login_required(content_type, redir_to_parent_endpt=False):
     """
     Same functionality as custom_unauthorized(), but as a decorator.
 
@@ -73,7 +67,7 @@ def custom_login_required(content_type, do_relogin=True):
     def inner_decorator(func):
         @wraps(func) # this allows double decorator to work if this is the second decorator
         def wrapped(*args, **kwargs):
-            result = custom_unauthorized(content_type, do_relogin)
+            result = custom_unauthorized(content_type, redir_to_parent_endpt)
             if result:
                 return result
             return func(*args, **kwargs)
@@ -81,17 +75,17 @@ def custom_login_required(content_type, do_relogin=True):
     return inner_decorator
 
 
-def redir_depending_on_req_method(redir_endpoint, flash_msg=None):
+def redir_depending_on_req_method(redir_endpt, flash_msg=None):
     match request.method:
         case "GET":
             redir_url = None
             if flash_msg:
-                redir_url = url_for(redir_endpoint, flash_msg=flash_msg, _external=True)
+                redir_url = url_for(redir_endpt, flash_msg=flash_msg, _external=True)
             else:
-                redir_url = url_for(redir_endpoint, _external=True)
+                redir_url = url_for(redir_endpt, _external=True)
             return redirect(redir_url)
         case "POST":
-            redir_url = url_for(redir_endpoint, _external=True)
+            redir_url = url_for(redir_endpt, _external=True)
             if flash_msg:
                 return jsonify(redir_url=redir_url, flash_msg=flash_msg)
             else:
