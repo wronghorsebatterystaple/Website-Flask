@@ -78,18 +78,17 @@ def custom_login_required(content_type, redir_to_parent_endpt=False):
 def redir_depending_on_req_method(redir_endpt, flash_msg=None):
     match request.method:
         case "GET":
-            redir_url = None
+            redir_url = ""
             if flash_msg:
                 redir_url = url_for(redir_endpt, flash_msg=flash_msg, _external=True)
             else:
                 redir_url = url_for(redir_endpt, _external=True)
             return redirect(redir_url)
         case "POST":
-            redir_url = url_for(redir_endpt, _external=True)
+            args = {"redir_url": url_for(redir_endpt, _external=True)}
             if flash_msg:
-                return jsonify(redir_url=redir_url, flash_msg=flash_msg)
-            else:
-                return jsonify(redir_url=redir_url)
+                args["flash_msg"] = flash_msg
+            return jsonify(**args)
         case _:
             return "app/util.py: `redir_depending_on_req_method()` reached end of switch statement", 500
 
