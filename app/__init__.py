@@ -79,6 +79,6 @@ from app import models # at the bottom to prevent circular imports
 # Can't use `@app.route` in global routes.py (no global `app` variable), hence doing it this way
 def register_global_routes(app):
     app.context_processor(global_routes.inject_forms)
-    app.context_processor(global_routes.inject_blogpages_from_db)
+    app.context_processor(global_routes.inject_blogpages)
     app.add_url_rule("/bot-jail", view_func=global_routes.bot_jail, methods=["GET"])
     app.register_error_handler(CSRFError, global_routes.handle_csrf_error)

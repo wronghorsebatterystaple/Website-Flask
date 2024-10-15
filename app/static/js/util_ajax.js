@@ -1,4 +1,4 @@
-async function fetchWrapper(urlBase, options, paramsDict=null) {
+async function fetchWrapper(urlBase, options, params=null) {
     if (!options) {
         options = {};
     }
@@ -11,9 +11,9 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
     options.mode = "cors";
 
     let urlWithParams = new URL(urlBase);
-    if (paramsDict) {
-        for (let key in paramsDict) {
-            urlWithParams.searchParams.append(key, encodeURIComponent(paramsDict[key]));
+    if (params) {
+        for (let key in params) {
+            urlWithParams.searchParams.append(key, encodeURIComponent(params[key]));
         }
     }
 
@@ -48,7 +48,7 @@ async function fetchWrapper(urlBase, options, paramsDict=null) {
             if (options.body && options.body instanceof FormData) {
                 options.body.set("csrf_token", csrfToken);
             }
-            return fetchWrapper(urlBase, options, paramsDict);
+            return fetchWrapper(urlBase, options, params);
             break;
         default:
             hasHandledError = false;

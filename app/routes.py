@@ -9,11 +9,11 @@ from config import Config
 
 
 def inject_forms():
-    return dict(login_form=LoginForm(), logout_btn=LogoutBtn())
+    return dict(login_form=LoginForm())
 
 
 # for navbar
-def inject_blogpages_from_db():
+def inject_blogpages():
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     return dict(blogpages=blogpages)
 

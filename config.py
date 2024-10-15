@@ -75,6 +75,9 @@ class Config(object):
     JINJA_TRIM_BLOCKS = True
 
     # other "conventional" configs
+    CUSTOM_ERRORS = {
+        "REFRESH_CSRF": (499, "CSRF Error")
+    }
     POST_COMMENT_ALLOWED_TAGS = {
         "abbr", "acronym", "b", "blockquote", "br", "center", "code", "details", "div", "em", "h1", "h2", "h3", "i",
         "li", "p", "pre", "ol", "small", "span", "strong", "sub", "summary", "sup", "table", "tbody", "td", "th",
@@ -84,14 +87,12 @@ class Config(object):
         "class", "colspan", "data-align-bottom", "data-align-center", "data-align-right", "data-align-top",
         "data-col-width", "height", "rowspan", "title", "width"
     ]
-    CUSTOM_ERRORS = {
-        "REFRESH_CSRF": (499, "CSRF Error")
-    }
     IMAGE_UPLOAD_EXTENSIONS = [".gif", ".jpeg", ".jpg", ".png", ".svg", ".xcf"]
     IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE = [".gif", ".jpeg", ".jpg", ".png"]
     IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED = [".gif", ".jpeg", ".jpg", ".png", ".svg"]
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024 # 100 MB
     LOGIN_VIEW = "admin.login"
+    AFTER_LOGOUT_VIEW = "main.index"
     POSTS_PER_PAGE = 20
     VERIFIED_AUTHOR = "AnonymousRand"
 

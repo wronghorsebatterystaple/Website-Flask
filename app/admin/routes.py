@@ -304,9 +304,14 @@ def change_admin_password():
         
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()
-        return jsonify(redir_url=url_for("main.index", _external=True), flash_msg="Your password has been changed!")
+        return jsonify(redir_url=url_for("main.index", _external=True), flash_msg="Your password has been changed! Here's some randomart: ඞ") # this works!?
 
     return "If you see this message, please panic.", 500
+
+
+@bp.route("/session-status", methods=["GET"])
+def session_status():
+    return jsonify(logged_in=current_user.is_authenticated)
 
 
 ###################################################################################################
@@ -318,4 +323,6 @@ def change_admin_password():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-    return jsonify(redir_url=url_for("main.index", _external=True), flash_msg="Mischief managed.")
+    return jsonify(
+            redir_url=url_for(current_app.config["AFTER_LOGOUT_VIEW"], _external=True),
+            flash_msg="Mischief managed.")

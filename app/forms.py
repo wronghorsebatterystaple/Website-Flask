@@ -15,8 +15,3 @@ class LoginForm(FlaskForm):
 
     login_form_submit = SubmitField(
             "Submit")
-
-
-class LogoutBtn(FlaskForm):
-    logout_btn_submit = SubmitField(
-            "Logout pls :3")
