@@ -5,8 +5,8 @@ onSamePageLogin = addToFunction(onSamePageLogin, function() {
     updateUnreadCommentsNotifs();
 });
 
-$(document).ready(function() {
-    if (isUserAuthenticated) {
+$(document).ready(async function() {
+    if (await IS_USER_AUTHENTICATED()) {
         updateUnreadCommentsNotifs();
     }
 });

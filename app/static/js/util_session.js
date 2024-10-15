@@ -1,30 +1,32 @@
+const IS_USER_AUTHENTICATED = async function() {
+    const respJson = await fetchWrapper(SESSION_STATUS_URL, {method: "GET"});
+    return respJson.logged_in;
+};
+
 let onSamePageLogin = function() {
-    isUserAuthenticated = true;
     $("#login-modal").modal("hide");
     $(".show-when-logged-out").attr("hidden", "");
     $(".show-when-logged-in").removeAttr("hidden");
 };
 
 let onSamePageLogout = function() {
-    isUserAuthenticated = false;
     $(".show-when-logged-in").attr("hidden", "");
     $(".show-when-logged-out").removeAttr("hidden");
 };
 
 $(document).ready(function() {
-    // check periodically if session has expired
+    // check periodically if session has expired by getting current page
+    // cheap, I know, and terrible for performance---but HEAD gets 500 for some reason with no server logs
     setInterval(async function() {
-        if (!isUserAuthenticated) {
+        if (await IS_USER_AUTHENTICATED()) {
             return;
         }
 
-        const respJson = await fetchWrapper(SESSION_STATUS_URL, {method: "GET"});
-        if (respJson.logged_in === false) {
-            let redirUrl = new URL(AFTER_LOGOUT_URL);
-            redirUrl.searchParams.append("flash_msg", encodeURIComponent("you have been logged out :3"));
-            window.location.href = redirUrl;
+        const resp = await fetch(window.location.href, {method: "GET", credentials: "include", mode: "cors"});
+        if (resp.redirected || resp.status !== 200) { // `302` redirects give the status of the *post-redirect* page
+            window.location.reload();
         }
-    }, 900000);
+    }, 3600000);
 
     $("#login-modal__form").on("submit", async function(e) {
         e.preventDefault();

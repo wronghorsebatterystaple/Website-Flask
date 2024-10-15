@@ -3,7 +3,7 @@ import shutil
 import tldextract
 
 import sqlalchemy as sa
-from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
+from flask import current_app, flash, jsonify, make_response, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_user, logout_user
 from wtforms.form import Form
 
@@ -311,7 +311,9 @@ def change_admin_password():
 
 @bp.route("/session-status", methods=["GET"])
 def session_status():
-    return jsonify(logged_in=current_user.is_authenticated)
+    resp = make_response(jsonify(logged_in=current_user.is_authenticated))
+    resp.headers["Cache-Control"] = "no-cache, no-store"
+    return resp
 
 
 ###################################################################################################

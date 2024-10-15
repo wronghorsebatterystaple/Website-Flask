@@ -27,7 +27,7 @@ async function reloadComments() {
 
     // refresh the main "leave a comment" form's author autofill; don't do for replies as that should be easy
     // enough manually and could be slow automatically if there's a lot of comments
-    if (isUserAuthenticated) {
+    if (await IS_USER_AUTHENTICATED()) {
         $("#leave-a-comment").find("input[name='author']").first().val(VERIFIED_AUTHOR);
     } else {
         $("#leave-a-comment").find("input[name='author']").first().val("");
@@ -45,7 +45,7 @@ async function reloadComments() {
     }
 
     // get comment unread count in the heading if admin
-    if (isUserAuthenticated) {
+    if (await IS_USER_AUTHENTICATED()) {
         respJson = await fetchWrapper(GET_COMMENT_UNREAD_COUNT_URL, {method: "GET"});
         if (!respJson.errorStatus) {
             commentUnreadCount = respJson.count;
@@ -57,7 +57,7 @@ async function reloadComments() {
 
     // reflect comment counts in HTML
     let HTML = `(${commentCount}`;
-    if (isUserAuthenticated && commentUnreadCount > 0) {
+    if (await IS_USER_AUTHENTICATED() && commentUnreadCount > 0) {
         HTML += `<span class="show-when-logged-in">, <span class="custom-pink">${commentUnreadCount} unread</span></span>`;
     }
     HTML += ")";
@@ -86,7 +86,7 @@ async function reloadComments() {
         applyPostAndCommentStyles("#comment-list");
 
         // mark comments as read if admin
-        if (isUserAuthenticated) {
+        if (await IS_USER_AUTHENTICATED()) {
             markCommentsAsRead();
         }
     }
@@ -127,7 +127,7 @@ function getCommentId(nodeForm) {
 /**
  * Reveals fields for adding the comment on clicking a reply button.
  */
-$(document).on("submit", ".comment__reply-btn", function(e) {
+$(document).on("submit", ".comment__reply-btn", async function(e) {
     e.preventDefault();
 
     const id = getCommentId(e.target);
@@ -141,7 +141,7 @@ $(document).on("submit", ".comment__reply-btn", function(e) {
     // insert under right parent; use `name` instead of `id` in case duplicate `id`s throughout all the comments
     // causes issues
     jQFormAddReply.find("[name='parent']").val(id);
-    if (isUserAuthenticated) {
+    if (await IS_USER_AUTHENTICATED()) {
         // automatically fill in username if admin
         jQFormAddReply.find("input[name='author']").first().val(VERIFIED_AUTHOR);
         jQFormAddReply.find("input[name='content']").first().focus();
