@@ -19,7 +19,11 @@ function genFootnoteTooltips(baseSelector) {
     jQBase.find(".footnote-ref").each(function() {
         $(this).attr("data-bs-toggle", "tooltip").attr("data-bs-html", "true");
         const nodeFootnote = document.getElementById($(this).attr("href").replace("#", ""));
-        let tooltipContents = $(nodeFootnote).find("p").first().html().replace(REMOVE_BACKREF_RE, "");
+        let tooltipParas = $(nodeFootnote).find("p");
+        if (tooltipParas.length == 0) {
+            return;
+        }
+        let tooltipContents = tooltipParas.first().html().replace(REMOVE_BACKREF_RE, "");
 
         // replace serialized MathML HTML with its corresponding original LaTeX
         // to render with MathJax.typeset() on mouseover
