@@ -13,8 +13,7 @@ class LoginForm(FlaskForm):
             "Password",
             validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
 
-    login_form_submit = SubmitField(
-            "Submit")
+    login_form_submit = SubmitField("Submit")
 
 
 class ChooseActionForm(FlaskForm):
@@ -27,15 +26,11 @@ class ChooseActionForm(FlaskForm):
             ],
             validators=[InputRequired()])
 
-    choose_action_form_submit = SubmitField(
-            "Submit")
+    choose_action_form_submit = SubmitField("Submit")
 
 
 class CreateBlogpostForm(FlaskForm):
-    blogpage_id = SelectField(
-            "Blog",
-            coerce=int,
-            validators=[InputRequired()])
+    blogpage_id = SelectField("Blog", coerce=int, validators=[InputRequired()])
 
     title = StringField(
             "Title (Markdown supported (inline))",
@@ -49,15 +44,11 @@ class CreateBlogpostForm(FlaskForm):
             "Content (Markdown (all), LaTeX supported)",
             validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_MAXLEN"])])
 
-    images = MultipleFileField(
-            f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})")
+    images = MultipleFileField(f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})")
 
-    create_blogpost_form_submit = SubmitField(
-            "Submit")
+    create_blogpost_form_submit = SubmitField("Submit")
 
-    back = SubmitField(
-            "Back",
-            render_kw={"data-class": "btn--back"})
+    back = SubmitField("Back", render_kw={"data-class": "btn--back"})
 
 
 class SearchBlogpostForm(FlaskForm):
