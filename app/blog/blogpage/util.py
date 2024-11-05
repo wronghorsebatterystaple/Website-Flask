@@ -20,7 +20,7 @@ def get_blogpage_id() -> int:
     return int(request.blueprint.split('.')[-1])
 
 
-def get_post_from_url(post_sanitized_title, blogpage_id):
+def get_post(post_sanitized_title, blogpage_id):
     """
     Gets post from URL, making sure it's valid and matches the whole URL.
     """
@@ -42,7 +42,7 @@ def should_not_be_redir_to(content_type):
         @wraps(func)
         def wrapped(*args, **kwargs):
             # why does Flask view functions seem to turn `args` into `kwargs`? idk, but i'm not complaining
-            post = get_post_from_url(kwargs.get("post_sanitized_title"), get_blogpage_id())
+            post = get_post(kwargs.get("post_sanitized_title"), get_blogpage_id())
             if post is None:
                 return nonexistent_post_response(content_type)
             if request.args.get("is_redir_after_login"):

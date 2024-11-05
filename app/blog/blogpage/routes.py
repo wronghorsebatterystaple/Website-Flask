@@ -69,7 +69,7 @@ def post(post_sanitized_title):
     blogpage_id = bp_util.get_blogpage_id()
 
     # get post from URL
-    post = bp_util.get_post_from_url(post_sanitized_title, blogpage_id)
+    post = bp_util.get_post(post_sanitized_title, blogpage_id)
     if post is None:
         return bp_util.nonexistent_post_response(util.ContentType.HTML)
 
@@ -104,7 +104,7 @@ def post(post_sanitized_title):
 @bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def get_comments(post_sanitized_title):
-    post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
+    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
         return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
@@ -138,7 +138,7 @@ def get_comments(post_sanitized_title):
 @bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def get_comment_count(post_sanitized_title):
-    post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
+    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
         return bp_util.nonexistent_post_response(util.ContentType.JSON)
     return jsonify(count=post.get_comment_count())
@@ -148,7 +148,7 @@ def get_comment_count(post_sanitized_title):
 @util.custom_login_required(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def get_unread_comment_count(post_sanitized_title):
-    post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
+    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
         return bp_util.nonexistent_post_response(util.ContentType.JSON)
     return jsonify(count=post.get_unread_comment_count())
@@ -181,7 +181,7 @@ def add_comment(post_sanitized_title):
         })
 
     # get post from URL
-    post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
+    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
         return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
@@ -210,7 +210,7 @@ def delete_comment(post_sanitized_title):
         return jsonify(success=True, flash_msg=f"That comment doesn't exist :/")
 
     # get post from URL
-    post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
+    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
         return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
@@ -231,7 +231,7 @@ def delete_comment(post_sanitized_title):
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def mark_comments_as_read(post_sanitized_title):
     # get post from URL
-    post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
+    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
         return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
