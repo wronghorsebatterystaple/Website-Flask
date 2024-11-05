@@ -10,8 +10,8 @@ a:hover {
 
 blockquote {
     margin-left: 0rem;
-    border-left: 3.5px solid #cccccc;
-    padding-left: 0.75rem;
+    border-left: 4px solid lightgray;
+    padding-left: 1rem;
     color: gray;
 }
 
