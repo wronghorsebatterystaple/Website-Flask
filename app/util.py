@@ -34,7 +34,8 @@ def custom_unauthorized(content_type, redir_to_parent_endpt=False):
     if not current_user.is_authenticated:
         login_url = url_for(
                 current_app.config["LOGIN_VIEW"],
-                next=request.url[:request.url.rfind("/")] if redir_to_parent_endpt else encode_uri_component(request.url),
+                next=request.url[:request.url.rfind("/")] if redir_to_parent_endpt
+                        else encode_uri_component(request.url),
                 flash_msg=encode_uri_component(
                         "Your session has expired, or you were being sneaky…please log in again ^^"),
                 _external=True)

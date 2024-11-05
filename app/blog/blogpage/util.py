@@ -33,6 +33,7 @@ def get_post_from_url(post_sanitized_title, blogpage_id):
 def login_required_check_blogpage(content_type, redir_to_parent_endpt=False):
     """
     Enforces login to access private blogpages.
+    Use before every view function potentially accessing private blogpages!!!
     """
 
     def inner_decorator(func):

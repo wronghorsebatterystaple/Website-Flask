@@ -50,28 +50,6 @@ I hope I'm not reading this because I bricked a machine again.
     - Run `flask db migrate` on the host in the Python venv; this requires MySQL connectivity from the host
     - Run `flask db upgrade` on the host in the Python venv or restart the Docker containers
 
-### Access control overview:
-- Access control in view functions is achieved through the `@custom_login_required()` decorator and its equivalent function `custom_unauthorized()`, both provided in [app/util.py](app/util.py); see that file for full documentation and usage. These are intended to replace Flask-Login's `@login_required` and `login_manager.unauthorized()` respectively.
-- [config.py](config.py) contains settings that must be up-to-date for access control:
-    - `VERIFIED_AUTHOR`: This is the commenter name, lowercase with no whitespace, that is restricted to admin users and will grant special comment cosmetics (and a **real** verified checkmark!!!)
-- Each blogpage in the database has a boolean `login_required` column that must be up-to-date; Flask uses this to check login redirection on attempt to access these blogpages
-
-### CSP overview:
-- Refer to [config.py](config.py) for CSP; should be commented!
-
-### XSS sanitization overview:
-- Comments:
-    - Python's [bleach](https://pypi.org/project/bleach/) is the main library used for XSS sanitization during Markdown to HTML rendering for comments (`sanitize_untrusted_html()` in [app/blog/blogpage/util.py](app/blog/blogpage/util.py))
-        - Yes it's deprecated, but there is no good alternative atm, and both bleach and its main dependency html5lib are still being maintained
-        - Links and images are not allowed; full list of allowed tags is in [config.py](config.py)
-- `flash` query string parameter:
-    - Only JQuery's `text()` is used to insert contents into flash element, which is XSS-safe
-- Other query string parameters:
-    - Handled on the backend by Flask and never put directly into the DOM
-- Overall:
-    - CSP prevents inline scripts as a final safety measure
-    - Inline styles are unfortunately still allowed because I could not figure out how to get MathJax to work without them
-
 ### Adding new blogpages:
 - Add to database (reference current database entries)
     - Add a developer/backrooms blogpage too with its `blogpage_id` being the negative of the public one
