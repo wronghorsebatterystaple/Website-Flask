@@ -79,8 +79,8 @@ th {
     padding: 0.5rem;
 }
 
-td > :last-child,
-th > :last-child {
+td *:last-child,
+th *:last-child {
     margin-bottom: 0;
 }
 
@@ -203,10 +203,6 @@ textarea {
     margin-bottom: 0;
 }
 
-.md-cited-blockquote > :last-child {
-    margin-bottom: 0;
-}
-
 .md-dropdown {
     margin-bottom: 1rem;
     border: 2px solid var(--custom-blue-deep-light);
@@ -219,20 +215,12 @@ textarea {
     color: gray !important;
 }
 
-.md-dropdown__contents > :last-child {
-    margin-bottom: 0;
-}
-
 .md-dropdown__summary {
     color: var(--custom-blue-deep) !important;
 }
 
 .md-dropdown__summary > p:first-of-type {
     display: inline;
-}
-
-.md-dropdown__summary > :last-child {
-    margin-bottom: 0;
 }
 
 .md-image-inline {
@@ -244,9 +232,23 @@ textarea {
     width: 100%;
 }
 
-.md-thm {
-    border-left: 3.5px solid #a1a1ff !important;
-    color: navy !important;
+.md-math-env {
+    border-width: 4px;
+    border-style: solid;
+    padding: 0.75rem 1rem;
+    color: black;
+}
+
+.md-math-env.md-math-env--defn {
+    border-color: var(--custom-green-light);
+}
+
+.md-math-env.md-math-env--thm {
+    border-color: var(--custom-orange-deep-light);
+}
+
+.md-math-env.md-math-env--other {
+    border-color: lightgray;
 }
 
 .nav-link {

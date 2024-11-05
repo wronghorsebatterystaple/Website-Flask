@@ -22,10 +22,10 @@
         <div class="mb-1 fs-10">{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</div>
         
         {% if comment.depth < 6 %}
-          {{ wtf.quick_form(reply_comment_btn, id="comment__reply-btn-" ~ comment.id, class="comment__reply-btn", btn_type="link", btn_color="custom-orange-deep") }}
+          {{ wtf.quick_form(reply_comment_btn, id="comment__reply-btn-" ~ comment.id, class="comment__reply-btn", btn_type="link", btn_color="custom-orange-deep-dark") }}
           {{ wtf.quick_form(add_comment_form, id="comment__add-reply-form-" ~ comment.id, class="ajax-add-comment mt-3 mb-2", hidden=true) }}
         {% else %}
-          <p class="comment__nest-limit-text mb-0 custom-orange-deep">It's gonna get ugly if you keep replying…</p>
+          <p class="comment__nest-limit-text mb-0 custom-orange-deep-dark">It's gonna get ugly if you keep replying…</p>
         {% endif %}
 
         {% if current_user.is_authenticated %}

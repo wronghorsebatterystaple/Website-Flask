@@ -81,7 +81,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
             if re.search(self.RE_CAPTION_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_CAPTION_END, "", block)
-                # put area between in `<figcaption class="md-captioned-figure__caption"></figcaption>`
+                # build HTML for caption
                 elem_caption = etree.Element("figcaption")
                 elem_caption.set("class", "md-captioned-figure__caption")
                 self.parser.parseBlocks(elem_caption, blocks[caption_start_i + 1:i + 1])
@@ -101,7 +101,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
             if re.search(self.RE_FIGURE_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_FIGURE_END, "", block)
-                # build <figure class="md-captioned-figure">[figure content][figcaption]</figure>
+                # build HTML for figure
                 elem_figure = etree.SubElement(parent, "figure")
                 elem_figure.set("class", "md-captioned-figure")
                 self.parser.parseBlocks(elem_figure, blocks[0:i + 1])
@@ -125,7 +125,7 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
         ```
     HTML:
         ```
-        <blockquote class="md-cited-blockquote"></blockquote><cite class="md-cited-blockquote-cite"></cite>
+        <blockquote class="md-cited-blockquote last-child-no-mb"></blockquote><cite class="md-cited-blockquote-cite"></cite>
         ```
     """
 
@@ -168,7 +168,7 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
             if re.search(self.RE_CITATION_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_CITATION_END, "", block)
-                # put area between in `<cite class="md-cited-blockquote-cite"></cite>`
+                # build HTML for citation
                 elem_citation = etree.Element("cite")
                 elem_citation.set("class", "md-cited-blockquote-cite")
                 self.parser.parseBlocks(elem_citation, blocks[citation_start_i + 1:i + 1])
@@ -188,10 +188,9 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
             if re.search(self.RE_BLOCKQUOTE_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_BLOCKQUOTE_END, "", block)
-                # build `<blockquote class="md-cited-blockquote">[blockquote]</blockquote>
-                # <cite class="md-cited-blockquote-citation">[citation]</class></blockquote>`
+                # build HTML for blockquote
                 elem_blockquote = etree.SubElement(parent, "blockquote")
-                elem_blockquote.set("class", "md-cited-blockquote")
+                elem_blockquote.set("class", "md-cited-blockquote last-child-no-mb")
                 self.parser.parseBlocks(elem_blockquote, blocks[0:i + 1])
                 parent.append(elem_citation) # make sure citation comes after everything else
                 # remove used blocks
@@ -213,8 +212,8 @@ class DropdownBlockProcessor(BlockProcessor):
         ```
     HTML:
         ```
-        <details class="md-dropdown"><summary class="md-dropdown__summary"></summary>
-        <div class="md-dropdown__contents"></div></details>
+        <details class="md-dropdown"><summary class="md-dropdown__summary last-child-no-mb"></summary>
+        <div class="md-dropdown__contents last-child-no-mb"></div></details>
         ```
     """
 
@@ -246,9 +245,9 @@ class DropdownBlockProcessor(BlockProcessor):
             if re.search(self.RE_SUMMARY_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_SUMMARY_END, "", block)
-                # put area between in `<summary class="md-summary"></summary>`
+                # build HTML for summary
                 elem_summary = etree.Element("summary")
-                elem_summary.set("class", "md-dropdown__summary")
+                elem_summary.set("class", "md-dropdown__summary last-child-no-mb")
                 self.parser.parseBlocks(elem_summary, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
@@ -266,13 +265,12 @@ class DropdownBlockProcessor(BlockProcessor):
             if re.search(self.RE_DROPDOWN_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_DROPDOWN_END, "", block)
-                # build `<details class="md-dropdown">[summary]<div class="md-dropdown__contents">[contents]</div>
-                # </details>`
+                # build HTML for dropdown
                 elem_details = etree.SubElement(parent, "details")
                 elem_details.set("class", "md-dropdown")
                 elem_details.append(elem_summary)
                 elem_details_contents = etree.SubElement(elem_details, "div")
-                elem_details_contents.set("class", "md-dropdown__contents")
+                elem_details_contents.set("class", "md-dropdown__contents last-child-no-mb")
                 self.parser.parseBlocks(elem_details_contents, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
@@ -282,6 +280,76 @@ class DropdownBlockProcessor(BlockProcessor):
         # if no ending delimiter for dropdown, restore and do nothing
         blocks.clear()
         blocks.extend(org_blocks)
+        return False
+
+
+class MathEnvBlockProcessor(BlockProcessor):
+    """
+    Markdown:
+        ```
+        \defn\end_defn
+        ```
+        or
+        ```
+        \thm\end_thm
+        ```
+    HTML:
+        ```
+        <blockquote class="md-math-env md-math-env--defn last-child-no-mb"></blockquote>
+        ```
+        or
+        ```
+        <blockquote class="md-math-env md-math-env--thm last-child-no-mb"></blockquote>
+        ```
+    """
+
+    RE_START_CHOICES = {
+        "defn": r"\\math_env_defn$",
+        "thm": r"\\math_env_thm$",
+        "other": r"\\math_env_other$"
+    }
+    RE_END_CHOICES = {
+        "defn": r"\\end_math_env_defn$",
+        "thm": r"\\end_math_env_thm$",
+        "other": r"\\end_math_env_other$"
+    }
+    RE_START = None
+    RE_END = None
+    THM_TYPE = None
+    
+    def test(self, parent, block):
+        for thm_type, regex in self.RE_START_CHOICES.items():
+            if re.match(regex, block):
+                self.THM_TYPE = thm_type
+                self.RE_START = regex
+                self.RE_END = self.RE_END_CHOICES[thm_type]
+                return True
+        return False
+
+    def run(self, parent, blocks):
+        if not self.RE_START or not self.RE_END or not self.THM_TYPE:
+            return False
+
+        # remove starting delimiter
+        org_block_start = blocks[0]
+        blocks[0] = re.sub(self.RE_START, "", blocks[0])
+
+        # find and remove ending delimiter, and extract element
+        for i, block in enumerate(blocks):
+            if re.search(self.RE_END, block):
+                # remove ending delimiter
+                blocks[i] = re.sub(self.RE_END, "", block)
+                # build HTML
+                elem = etree.SubElement(parent, "blockquote")
+                elem.set("class", f"md-math-env md-math-env--{self.THM_TYPE} last-child-no-mb")
+                self.parser.parseBlocks(elem, blocks[0:i + 1])
+                # remove used blocks
+                for _ in range(0, i + 1):
+                    blocks.pop(0)
+                return True
+
+        # if no ending delimiter, restore and do nothing
+        blocks[0] = org_block_start
         return False
 
 
@@ -313,8 +381,7 @@ class TextboxBlockProcessor(BlockProcessor):
             if re.search(self.RE_END, block):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_END, "", block)
-                # put area between in `<table class="textbox"><tbody><tr><td colspan="1" rowspan="1">
-                # </td></tr></tbody></table>`
+                # build HTML
                 elem_table = etree.SubElement(parent, "table")
                 elem_table.set("class", "md-textbox")
                 elem_tbody = etree.SubElement(elem_table, "tbody")
@@ -323,48 +390,6 @@ class TextboxBlockProcessor(BlockProcessor):
                 elem_td.set("colspan", "1")
                 elem_td.set("rowspan", "1")
                 self.parser.parseBlocks(elem_td, blocks[0:i + 1])
-                # remove used blocks
-                for _ in range(0, i + 1):
-                    blocks.pop(0)
-                return True
-
-        # if no ending delimiter, restore and do nothing
-        blocks[0] = org_block_start
-        return False
-
-
-class ThmBlockProcessor(BlockProcessor):
-    """
-    Markdown:
-        ```
-        \thm\end_thm
-        ```
-    HTML:
-        ```
-        <blockquote class="md-thm"></blockquote>
-        ```
-    """
-
-    RE_START = r"\\thm$"
-    RE_END = r"\\end_thm$"
-
-    def test(self, parent, block):
-        return re.match(self.RE_START, block)
-
-    def run(self, parent, blocks):
-        # remove starting delimiter
-        org_block_start = blocks[0]
-        blocks[0] = re.sub(self.RE_START, "", blocks[0])
-
-        # find and remove ending delimiter, and extract element
-        for i, block in enumerate(blocks):
-            if re.search(self.RE_END, block):
-                # remove ending delimiter
-                blocks[i] = re.sub(self.RE_END, "", block)
-                # put area between in `<blockquote class="md-thm"></blockquote>`
-                elem = etree.SubElement(parent, "blockquote")
-                elem.set("class", "md-thm")
-                self.parser.parseBlocks(elem, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)
@@ -396,5 +421,5 @@ class CustomBlockExtensions(Extension):
         md.parser.blockprocessors.register(CaptionedFigureBlockProcessor(md.parser), "captioned_figure", 105)
         md.parser.blockprocessors.register(CitedBlockquoteBlockProcessor(md.parser), "cited_blockquote", 105)
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
+        md.parser.blockprocessors.register(MathEnvBlockProcessor(md.parser), "math_env", 105)
         md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
-        md.parser.blockprocessors.register(ThmBlockProcessor(md.parser), "thm", 105)

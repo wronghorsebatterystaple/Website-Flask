@@ -54,7 +54,12 @@
     color: var(--custom-orange-deep) !important;
 }
 
-.darken-on-hover:hover .custom-orange-deep {
+.custom-orange-deep-dark {
+    color: var(--custom-orange-deep-dark) !important;
+}
+
+.darken-on-hover:hover .custom-orange-deep,
+.darken-on-hover:hover .custom-orange-deep-dark {
     color: var(--custom-orange-xdeep) !important;
 }
 
@@ -76,7 +81,7 @@
 }
 
 .border-bottom--h2 {
-    border-bottom: 2px solid var(--custom-orange-deep) !important;
+    border-bottom: 2px solid var(--custom-orange-deep-dark) !important;
     padding-bottom: 0.25rem !important;
 }
 
@@ -105,8 +110,8 @@
     --bs-btn-bg: var(--custom-orange) !important;
     --bs-btn-border-color: var(--custom-orange) !important;
     --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-orange-deep) !important;
-    --bs-btn-hover-border-color: var(--custom-orange-deep) !important;
+    --bs-btn-hover-bg: var(--custom-orange-deep-dark) !important;
+    --bs-btn-hover-border-color: var(--custom-orange-deep-dark) !important;
     --bs-btn-active-color: black !important;
     --bs-btn-active-bg: var(--custom-orange) !important;
     --bs-btn-active-border-color: var(--custom-orange) !important;
@@ -118,10 +123,10 @@
 /* `btn-link` */
 /**************/
 
-.btn-link--custom-orange-deep {
-    --bs-btn-color: var(--custom-orange-deep) !important;
+.btn-link--custom-orange-deep-dark {
+    --bs-btn-color: var(--custom-orange-deep-dark) !important;
     --bs-btn-hover-color: var(--custom-orange-xdeep) !important;
-    --bs-btn-active-color: var(--custom-orange-deep) !important;
+    --bs-btn-active-color: var(--custom-orange-deep-dark) !important;
     --bs-btn-disabled-color: var(--custom-orange-deep-light) !important;
 }
 
@@ -176,24 +181,14 @@
     color: var(--custom-green-deep-xxxdark) !important;
 }
 
-.link--custom-orange-deep {
-    text-decoration-color: var(--custom-orange-deep) !important;
-    color: var(--custom-orange-deep) !important;
-}
-
-.link--custom-orange-deep:hover {
-    text-decoration-color: var(--custom-orange-xdeep) !important;
-    color: var(--custom-orange-xdeep) !important;
-}
-
 .link--custom-orange-xdeep {
     text-decoration-color: var(--custom-orange-xdeep) !important;
     color: var(--custom-orange-xdeep) !important;
 }
 
 .link--custom-orange-xdeep:hover {
-    text-decoration-color: var(--custom-orange-xxdeep) !important;
-    color: var(--custom-orange-xxdeep) !important;
+    text-decoration-color: var(--custom-orange-xxdeep-dark) !important;
+    color: var(--custom-orange-xxdeep-dark) !important;
 }
 
 .link--custom-pink-light {
@@ -343,6 +338,10 @@
 
 .w-2_5em {
     width: 2.5em !important;
+}
+
+.last-child-no-mb *:last-child {
+    margin-bottom: 0 !important;
 }
 
 /*********/

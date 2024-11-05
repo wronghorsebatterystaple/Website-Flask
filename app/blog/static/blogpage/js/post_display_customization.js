@@ -22,10 +22,8 @@ function applyPostAndCommentStyles(baseSelector) {
     jQCommentContent.find("h2").addClass("comment__h2");
     jQPostContent.find("img").addClass("post__img");
     jQCommentContent.find("img").addClass("comment__img");
-    jQPostAndCommentContent.find(".post__h1, .comment__h1")
-            .addClass("mb-3 border-bottom--h1 custom-green-deep-dark fs-4");
-    jQPostAndCommentContent.find(".post__h2, .comment__h2")
-            .addClass("mb-3 border-bottom--h2 custom-orange-deep fs-7");
+    jQPostAndCommentContent.find(".post__h1, .comment__h1").addClass("mb-3 border-bottom--h1 fs-4");
+    jQPostAndCommentContent.find(".post__h2, .comment__h2").addClass("mb-3 border-bottom--h2 fs-7");
 
     // images use alt text as hover text too
     jQPostAndCommentContent.find(".post__img[alt], .comment__img[alt]").each(function() {
