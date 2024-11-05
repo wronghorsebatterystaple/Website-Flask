@@ -12,9 +12,9 @@ class ContentType(Enum):
     DEPENDS_ON_REQ_METHOD = "`text/html` if GET, else `application/json`"
 
 
-def custom_unauthorized(content_type, redir_to_parent_endpt=False):
+def custom_unauthorized(content_type):
     """
-    Makes sure `current_user` is authenticated. If not, redirect to login page with *aboluste* `next` URL, which
+    Makes sure `current_user` is authenticated. If not, redirect to login page with *absolute* `next` URL, which
     allows it to go from `blog.anonymousrand.xyz` to `anonymousrand.xyz/admin`, for instance, unlike the built-in
     `unauthorized()` function.
 
@@ -27,32 +27,27 @@ def custom_unauthorized(content_type, redir_to_parent_endpt=False):
 
     Params:
         - `content_type`: specifies the `Content-Type` of the expected server response from the view function
-        - `redir_to_parent_endpt`: set to `True` if the current view function doesn't return something you want to
-          redirect back to on logging in (e.g. API call)
     """
 
     if not current_user.is_authenticated:
-        login_url = url_for(
-                current_app.config["LOGIN_VIEW"],
-                next=request.url[:request.url.rfind("/")] if redir_to_parent_endpt
-                        else encode_uri_component(request.url),
-                flash_msg=encode_uri_component(
-                        "Your session has expired, or you were being sneaky…please log in again ^^"),
-                _external=True)
-
         if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
             content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
+
         match content_type:
             case ContentType.HTML:
-                return redirect(login_url)
+                return redirect(url_for(
+                        current_app.config["LOGIN_VIEW"],
+                        flash_msg=encode_uri_component("Your session has expired. Please log in again ^^"),
+                        next=encode_uri_component(request.url),
+                        _external=True))
             case ContentType.JSON:
-                return jsonify(redir_url=login_url)
+                return jsonify(relogin=True)
             case _:
                 return "app/util.py: `custom_unauthorized()` reached end of switch statement", 500
     return None
 
 
-def custom_login_required(content_type, redir_to_parent_endpt=False):
+def custom_login_required(content_type)
     """
     Same functionality as custom_unauthorized(), but as a decorator.
 
@@ -68,7 +63,7 @@ def custom_login_required(content_type, redir_to_parent_endpt=False):
     def inner_decorator(func):
         @wraps(func) # this allows double decorator to work if this is the second decorator
         def wrapped(*args, **kwargs):
-            result = custom_unauthorized(content_type, redir_to_parent_endpt)
+            result = custom_unauthorized(content_type)
             if result:
                 return result
             return func(*args, **kwargs)

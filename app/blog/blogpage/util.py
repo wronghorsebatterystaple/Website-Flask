@@ -30,7 +30,34 @@ def get_post_from_url(post_sanitized_title, blogpage_id):
             .first()
 
 
-def login_required_check_blogpage(content_type, redir_to_parent_endpt=False):
+def should_not_be_redir_to(content_type):
+    """
+    If redirecting to this view function via the `next` parameter after logging in, instead redirect to simply the
+    GET endpoint for the current post.
+
+    Important: the view function this decorator wraps must have `post_sanitized_title` as its first parameter.
+    """
+
+    def inner_decorator(func):
+        @wraps(func)
+        def wrapped(*args, **kwargs):
+            # why does Flask view functions seem to turn `args` into `kwargs`? idk, but i'm not complaining
+            post = get_post_from_url(kwargs.get("post_sanitized_title"), get_blogpage_id())
+            if post is None:
+                return nonexistent_post_response(content_type)
+            if request.args.get("is_redir_after_login"):
+                # here it's always `redirect()` aka HTML content type because this view function must've been called
+                # by JS changing `window.location.href` after successful login + seeing `redir_url` JSON key from
+                # `login()` view func. `window.location.href` change is always just the same as a `redirect()` via
+                # GET an HTML page, as we typically do on loading a new page.
+                return redirect(url_for("blog.post_by_id", post_id=post.id, _external=True))
+
+            return func(*args, **kwargs)
+        return wrapped
+    return inner_decorator
+
+
+def login_required_check_blogpage(content_type):
     """
     Enforces login to access private blogpages.
     Use before every view function potentially accessing private blogpages!!!
@@ -55,7 +82,7 @@ def login_required_check_blogpage(content_type, redir_to_parent_endpt=False):
                         return "app/blog/blogpage/util.py: `login_required_check_blogpage()` reached end of switch statement", 500
 
             if blogpage.is_login_required:
-                result = util.custom_unauthorized(content_type, redir_to_parent_endpt)
+                result = util.custom_unauthorized(content_type)
                 if result:
                     return result
 

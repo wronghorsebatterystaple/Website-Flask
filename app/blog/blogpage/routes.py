@@ -101,7 +101,8 @@ def post(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON, redir_to_parent_endpt=True)
+@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def get_comments(post_sanitized_title):
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
@@ -134,7 +135,8 @@ def get_comments(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON, redir_to_parent_endpt=True)
+@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def get_comment_count(post_sanitized_title):
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
@@ -143,7 +145,8 @@ def get_comment_count(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
-@util.custom_login_required(content_type=util.ContentType.JSON, redir_to_parent_endpt=True)
+@util.custom_login_required(content_type=util.ContentType.JSON)
+@bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def get_unread_comment_count(post_sanitized_title):
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())
     if post is None:
@@ -157,7 +160,8 @@ def get_unread_comment_count(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON, redir_to_parent_endpt=True)
+@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def add_comment(post_sanitized_title):
     # captcha
     if not turnstile.verify():
@@ -197,7 +201,8 @@ def add_comment(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
-@util.custom_login_required(content_type=util.ContentType.JSON, redir_to_parent_endpt=True)
+@util.custom_login_required(content_type=util.ContentType.JSON)
+@bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def delete_comment(post_sanitized_title):
     # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
@@ -222,7 +227,8 @@ def delete_comment(post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
-@util.custom_login_required(content_type=util.ContentType.JSON, redir_to_parent_endpt=True)
+@util.custom_login_required(content_type=util.ContentType.JSON)
+@bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
 def mark_comments_as_read(post_sanitized_title):
     # get post from URL
     post = bp_util.get_post_from_url(post_sanitized_title, bp_util.get_blogpage_id())

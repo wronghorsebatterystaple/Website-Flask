@@ -42,8 +42,8 @@ function addCommentHoverTooltip() {
                 <ul class='mb-0'>
                   <li>Markdown
                     <ul>
+                      <li>Python-Markdown's <code>extra</code> extension is supported</li>
                       <li>No images, links, or footnotes</li>
-                      <li>Python-Markdown official <code>extra</code> extension</li>
                     </ul>
                   </li>
                   <li>LaTeX (via MathJax)

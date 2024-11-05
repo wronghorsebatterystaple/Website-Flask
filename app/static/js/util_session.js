@@ -14,22 +14,18 @@ let onSamePageLogout = function() {
     $(".show-when-logged-out").removeAttr("hidden");
 };
 
-async function checkSessionExpiry() {
-    if (await IS_USER_AUTHENTICATED()) {
-        return;
-    }
-
-    const resp = await fetch(window.location.href, {method: "GET", credentials: "include", mode: "cors"});
-    if (resp.redirected || resp.status !== 200) { // `302` redirects give the status of the *post-redirect* page
-        window.location.reload();
-    }
+// this can't do anything to prevent users from just closing the modal
+// my principle is that letting an expired session simply continue viewing a restricted page with no ability to
+// interact (since it will always ask for modal and not do anything) is not a huge deal
+// (if I forgot to log out at public computer or something then we have a LOT of other problems)
+function relogin() {
+    // don't do `onSamePageLogout()` to change visuals either since there's an infinite loop with `reloadComments()`
+    // that I don't wanna fix
+    customFlash("Your session has expired. Please log in again ^^");
+    $("#login-modal").modal("show");
 }
 
 $(document).ready(function() {
-    // check periodically if session has expired by getting current page
-    // cheap, I know, and terrible for performance---but HEAD gets 500 for some reason with no server logs
-    setInterval(checkSessionExpiry, 3600000);
-
     $("#login-modal__form").on("submit", async function(e) {
         e.preventDefault();
 
@@ -48,7 +44,7 @@ $(document).ready(function() {
     });
 
     const jQModalLogin = $("#login-modal");
-    // differentiate modal vs. non-modal logins for redirect
+    // differentiate modal vs. non-modal logins for redirecting back
     jQModalLogin.find("#is_modal").val("true");
 
     $("#login-modal").on("show.bs.modal", function(e) {

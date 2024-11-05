@@ -42,7 +42,6 @@ async function fetchWrapper(urlBase, options, params=null) {
             // CSRF token expiry; refresh CSRF token and resend the request if this is the case
             let newToken = respJson.new_csrf_token;
             reloadCSRF(newToken);
-            onSamePageLogout(); // session must have expired for CSRF expiry
 
             // resend request with updated CSRF token in FormData (header refresh handled by recursive call)
             if (options.body && options.body instanceof FormData) {
@@ -62,6 +61,7 @@ async function fetchWrapper(urlBase, options, params=null) {
  *     - `relogin`
  *     - `redir_url`
  *     - `flash_msg`
+ *     - `is_redir_after_login`
  */
 function doAjaxResponseBase(respJson) {
     if (respJson.relogin) {
@@ -75,6 +75,9 @@ function doAjaxResponseBase(respJson) {
         // flash message after page load by appending message to URL as custom `flash_msg` param
         if (respJson.flash_msg) {
             newUrl.searchParams.append("flash_msg", encodeURIComponent(respJson.flash_msg));
+        }
+        if (respJson.is_redir_after_login) {
+            newUrl.searchParams.append("is_redir_after_login", true);
         }
 
         window.location.href = newUrl;

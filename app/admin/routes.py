@@ -43,18 +43,29 @@ def login():
             })
 
         # no persistent cookies, so session expires on both browser close (if it isn't running in background)
-        # and on `PERMANENT_SESSION_LIFETIME` timeout (check README for cookie explanation)
+        # and on `PERMANENT_SESSION_LIFETIME` timeout (check readme for cookie explanation)
         login_user(user, remember=False)
         session.permanent = False
 
+        # if modal login, we are done
         if request.form.get("is_modal") == "true":
             return jsonify(success=True, flash_msg="The universe is at your fingertips…")
 
+        # if not modal login, then try to redirect back to previous page
         next_url = util.decode_uri_component(
                 request.args.get("next", url_for("admin.choose_action", _external=True)))
         next_url_extracted = tldextract.extract(next_url)
+        # make sure we can only redirect within the same domain
         if f"{next_url_extracted.domain}.{next_url_extracted.suffix}" == current_app.config["SERVER_NAME"]:
-            return jsonify(success=True, redir_url=next_url)
+            # when we do the redir back after logging in, we need to let our server know that it is a post-login
+            # redir, so if we were trying to redir back to an API endpoint or something instead of a typical
+            # webpage, we can handle it properly
+            #
+            # the `is_redir_after_login` key takes the following path:
+            #     `login()` view func (here) adds to response JSON ->
+            #     `doAjaxResponseBase()` handles response JSON and adds to params of url being redirected to ->
+            #     view func of url being redirected to handles this
+            return jsonify(success=True, redir_url=next_url, is_redir_after_login=True)
 
         return jsonify(success=True, redir_url=url_for("admin.choose_action", flash_msg="haker :3", _external=True))
 
