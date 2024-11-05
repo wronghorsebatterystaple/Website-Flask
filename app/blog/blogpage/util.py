@@ -20,41 +20,16 @@ def get_blogpage_id() -> int:
     return int(request.blueprint.split('.')[-1])
 
 
-def get_post(post_sanitized_title, blogpage_id):
+def get_post(post, post_sanitized_title, blogpage_id):
     """
     Gets post from URL, making sure it's valid and matches the whole URL.
     """
 
+    if post is not None:
+        return post
     return db.session.query(Post) \
             .filter_by(sanitized_title=post_sanitized_title, blogpage_id=blogpage_id) \
             .first()
-
-
-def should_not_be_redir_to(content_type):
-    """
-    If redirecting to this view function via the `next` parameter after logging in, instead redirect to simply the
-    GET endpoint for the current post.
-
-    Important: the view function this decorator wraps must have `post_sanitized_title` as its first parameter.
-    """
-
-    def inner_decorator(func):
-        @wraps(func)
-        def wrapped(*args, **kwargs):
-            # why does Flask view functions seem to turn `args` into `kwargs`? idk, but i'm not complaining
-            post = get_post(kwargs.get("post_sanitized_title"), get_blogpage_id())
-            if post is None:
-                return nonexistent_post_response(content_type)
-            if request.args.get("is_redir_after_login"):
-                # here it's always `redirect()` aka HTML content type because this view function must've been called
-                # by JS changing `window.location.href` after successful login + seeing `redir_url` JSON key from
-                # `login()` view func. `window.location.href` change is always just the same as a `redirect()` via
-                # GET an HTML page, as we typically do on loading a new page.
-                return redirect(url_for("blog.post_by_id", post_id=post.id, _external=True))
-
-            return func(*args, **kwargs)
-        return wrapped
-    return inner_decorator
 
 
 def login_required_check_blogpage(content_type):
@@ -91,7 +66,22 @@ def login_required_check_blogpage(content_type):
     return inner_decorator
 
 
-def nonexistent_post_response(content_type):
+def requires_valid_post(content_type):
+    def inner_decorator(func):
+        @wraps(func)
+        def wrapped(*args, **kwargs):
+            blogpage_id = get_blogpage_id()
+            # why does Flask view functions seem to turn `args` into `kwargs`? idk, but i'm not complaining
+            post = get_post(kwargs.get("post", None), kwargs.get("post_sanitized_title"), blogpage_id)
+            if post is None:
+                return nonexistent_post(content_type)
+            # also return `post` in addition since functions with these decorators probably need `post` anyway
+            return func(post=post, *args, **kwargs)
+        return wrapped
+    return inner_decorator
+
+
+def nonexistent_post(content_type):
     if content_type == util.ContentType.DEPENDS_ON_REQ_METHOD:
         content_type = util.ContentType.HTML if request.method == "GET" else util.ContentType.JSON
 
@@ -106,7 +96,32 @@ def nonexistent_post_response(content_type):
                     redir_url=url_for(f"{request.blueprint}.index", _external=True), 
                     flash_msg="That post doesn't exist :/")
         case _:
-            return "app/blog/blogpage/util.py: `return_nonexistent_post()` reached end of switch statement", 500
+            return "app/blog/blogpage/util.py: `nonexistent_post()` reached end of switch statement", 500
+
+
+def should_not_be_redir_to(content_type):
+    """
+    If redirecting to this view function via the `next` parameter after logging in, instead redirect to simply the
+    GET endpoint for the current post.
+
+    Important: the view function this decorator wraps must have `post_sanitized_title` as its first parameter.
+    """
+
+    def inner_decorator(func):
+        @wraps(func)
+        def wrapped(*args, **kwargs):
+            post = get_post(kwargs.get("post", None), kwargs.get("post_sanitized_title"), get_blogpage_id())
+            if post is None:
+                return nonexistent_post(content_type)
+            if request.args.get("is_redir_after_login"):
+                # here it's always `redirect()` aka HTML content type because this view function must've been called
+                # by JS changing `window.location.href` after successful login + seeing `redir_url` JSON key from
+                # `login()` view func. `window.location.href` change is always just the same as a `redirect()` via
+                # GET an HTML page, as we typically do on loading a new page.
+                return redirect(url_for("blog.post_by_id", post_id=post.id, _external=True))
+            return func(*args, **kwargs)
+        return wrapped
+    return inner_decorator
 
 
 def render_post_titles_markdown(post):

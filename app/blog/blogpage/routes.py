@@ -65,14 +65,8 @@ def index():
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
 @bp_util.login_required_check_blogpage(content_type=util.ContentType.HTML)
-def post(post_sanitized_title):
-    blogpage_id = bp_util.get_blogpage_id()
-
-    # get post from URL
-    post = bp_util.get_post(post_sanitized_title, blogpage_id)
-    if post is None:
-        return bp_util.nonexistent_post_response(util.ContentType.HTML)
-
+@bp_util.requires_valid_post(content_type=util.ContentType.HTML)
+def post(post, post_sanitized_title): # first param is from `requires_valid_post` decorator
     # render Markdown for post
     post = bp_util.render_post_titles_markdown(post)
     content_md = None
@@ -102,12 +96,9 @@ def post(post_sanitized_title):
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
 @bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
-def get_comments(post_sanitized_title):
-    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
-    if post is None:
-        return bp_util.nonexistent_post_response(util.ContentType.JSON)
-
+def get_comments(post, post_sanitized_title):
     # get comments from db and render Markdown
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
     comments = db.session.scalars(comments_query).all()
@@ -136,21 +127,17 @@ def get_comments(post_sanitized_title):
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
 @bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
-def get_comment_count(post_sanitized_title):
-    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
-    if post is None:
-        return bp_util.nonexistent_post_response(util.ContentType.JSON)
+def get_comment_count(post, post_sanitized_title):
     return jsonify(count=post.get_comment_count())
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
 @util.custom_login_required(content_type=util.ContentType.JSON)
+@bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
-def get_unread_comment_count(post_sanitized_title):
-    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
-    if post is None:
-        return bp_util.nonexistent_post_response(util.ContentType.JSON)
+def get_unread_comment_count(post, post_sanitized_title):
     return jsonify(count=post.get_unread_comment_count())
 
 
@@ -161,8 +148,9 @@ def get_unread_comment_count(post_sanitized_title):
 
 @bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
 @bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
-def add_comment(post_sanitized_title):
+def add_comment(post, post_sanitized_title):
     # captcha
     if not turnstile.verify():
         return jsonify(redir_url=url_for("bot_jail", _external=True))
@@ -179,11 +167,6 @@ def add_comment(post_sanitized_title):
         return jsonify(submission_errors={
             "author": ["$8 isn't going to buy you a verified checkmark here."]
         })
-
-    # get post from URL
-    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
-    if post is None:
-        return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
     # add comment
     comment = Comment(
@@ -202,17 +185,13 @@ def add_comment(post_sanitized_title):
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
 @util.custom_login_required(content_type=util.ContentType.JSON)
+@bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
-def delete_comment(post_sanitized_title):
+def delete_comment(post, post_sanitized_title):
     # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
     if comment is None:
         return jsonify(success=True, flash_msg=f"That comment doesn't exist :/")
-
-    # get post from URL
-    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
-    if post is None:
-        return bp_util.nonexistent_post_response(util.ContentType.JSON)
 
     # delete comment
     descendants = comment.get_descendants(post)
@@ -228,13 +207,9 @@ def delete_comment(post_sanitized_title):
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
 @util.custom_login_required(content_type=util.ContentType.JSON)
+@bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.should_not_be_redir_to(content_type=util.ContentType.JSON)
-def mark_comments_as_read(post_sanitized_title):
-    # get post from URL
-    post = bp_util.get_post(post_sanitized_title, bp_util.get_blogpage_id())
-    if post is None:
-        return bp_util.nonexistent_post_response(util.ContentType.JSON)
-
+def mark_comments_as_read(post, post_sanitized_title):
     # mark comments under current post as read
     unread_comments_query = post.comments.select().filter_by(is_unread=True)
     unread_comments = db.session.scalars(unread_comments_query).all()

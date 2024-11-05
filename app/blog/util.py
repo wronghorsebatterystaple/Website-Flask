@@ -3,7 +3,7 @@ from functools import wraps
 from flask import redirect, request, url_for
 
 
-def should_not_be_redir_to(content_type):
+def should_not_be_redir_to():
     """
     If redirecting to this view function via the `next` parameter after logging in, instead redirect to simply the
     GET endpoint for the blog's index.
