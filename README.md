@@ -50,6 +50,9 @@ I hope I'm not reading this because I bricked a machine again.
     - Run `flask db migrate` on the host in the Python venv; this requires MySQL connectivity from the host
     - Run `flask db upgrade` on the host in the Python venv or restart the Docker containers
 
+### Access control notes:
+- Currently based on the expectation that all endpoints are access-controlled server-side, thus it doesn't matter as much if client-side updates visuals etc. on session expiry in a timely manner. The admin controls can still be there if interacting with them all requires logging in on the server-side. This is good because my client-side is an absolute dumpster fire of vanilla JS and JQuery.
+
 ### Adding new blogpages:
 - Add to database (reference current database entries)
     - Add a developer/backrooms blogpage too with its `blogpage_id` being the negative of the public one
