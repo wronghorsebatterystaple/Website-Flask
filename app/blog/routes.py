@@ -3,6 +3,7 @@ from flask import current_app, jsonify, redirect, request, url_for
 from flask_login import current_user
 
 import app.util as util
+import app.blog.util as blog_util
 from app import db
 from app.blog import bp
 from app.models import *
@@ -39,6 +40,7 @@ def post_by_id(post_id):
 
 @bp.route("/get-posts-with-unread-comments", methods=["POST"])
 @util.custom_login_required(content_type=util.ContentType.JSON)
+@blog_util.should_not_be_redir_to()
 def get_posts_with_unread_comments():
     posts_with_unread_comments = {}
     posts = db.session.query(Post).all()
