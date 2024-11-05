@@ -122,12 +122,24 @@ I hope I'm not reading this because I bricked a machine again.
     - `__[text]__` to underline
     - `~~[text]~~` to strikethrough
     - `'''[text]'''` to do code in gray 
-- Blocks (all delimiters must be surrounded by a blank line on both sides; not allows in comments due to potential bugs):
-    - `\captioned_figure` and `\end_captioned_figure` with `\caption` and `\end_caption` somewhere inside to do a captioned figure
-    - `\cited_blockquote` and `\end_cited_blockquote` with `\citation` and `\end_citation` somewhere inside to do a blockquote with citation (`<cite>`)
-    - `\dropdown` and `\end_dropdown` with `\summary` and `\end_summary` as the first part of the content inside to do a `<details>`-style dropdown with custom formatting
-    - `\textbox` and `\end_textbox` to put everything inside a 1-cell table
-    - `\thm` and `\end_thm` to highlight everything inside as a navy blue blockquote, such as for important theorems or simply matching blockquote color to code
+- Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
+    - `\begin_[block type]` and `end_[block type]`, surrounded by a blank line on both sides, puts everything in between in the specified `[block type]`
+    - Available `[block type]`s:
+        - `math_env_[env type]`: a math environment, similar to those defined in LaTeX, with special styling
+            - Available `[env type]`s:
+                - `coro`: corollary
+                - `defn`: definition
+                - `prop`: proposition
+                - `thm`: theorem
+        - `captioned_figure`: a figure, usually but not necessarily an image, with a caption underneath
+            - Requires nested `caption` block inside
+        - `cited_blockquote`: a blockquote with a citation underneath
+            - Requires nested `citation` block inside
+        - `dropdown`: an expandable/collapsible dropdown
+            - Requires nested `summary` block inside specifying the preview text when the dropdown is collapsed
+        - `textbox`: a textbox (1-cell table)
+    - See docstrings in [app/markdown_extensions/custom_extensions.py](app/markdown_extensions/custom_extensions.py) for more detailed usage instructions
+    - Not allowed in non-admin comments due to potential bugs and crashes and 500 Internal Server Errors
 - Images:
     - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!)
 

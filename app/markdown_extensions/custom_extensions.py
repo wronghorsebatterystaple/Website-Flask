@@ -36,7 +36,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
         ```
         \begin_captioned_figure\begin_caption\end_caption\end_captioned_figure
         ```
-    HTML:
+    Generated HTML:
         ```
         <figure class="md-captioned-figure"><figcaption class="md-captioned-figure__caption"></figcaption></figure>
         ```
@@ -123,7 +123,7 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
         ```
         \begin_cited_blockquote\begin_citation\end_citation\end_cited_blockquote
         ```
-    HTML:
+    Generated HTML:
         ```
         <blockquote class="md-cited-blockquote"></blockquote><cite class="md-cited-blockquote-cite"></cite>
         ```
@@ -210,7 +210,7 @@ class DropdownBlockProcessor(BlockProcessor):
         ```
         \begin_dropdown\begin_summary\end_summary\end_dropdown
         ```
-    HTML:
+    Generated HTML:
         ```
         <details class="md-dropdown"><summary class="md-dropdown__summary last-child-no-mb"></summary>
         <div class="md-dropdown__contents last-child-no-mb"></div></details>
@@ -289,7 +289,7 @@ class MathEnvBlockProcessor(BlockProcessor):
         ```
         \begin_math_env_[env type]\end_math_env_[env type]
         ```
-    HTML:
+    Generated HTML:
         ```
         <blockquote class="md-math-env md-math-env--[env type] last-child-no-mb"></blockquote>
         ```
@@ -353,7 +353,7 @@ class TextboxBlockProcessor(BlockProcessor):
         ```
         \begin_textbox\end_textbox
         ```
-    HTML:
+    Generated HTML:
         ```
         <table class="md-textbox"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
         ```
