@@ -21,7 +21,7 @@ let onSamePageLogout = function() {
 function relogin() {
     // don't do `onSamePageLogout()` to change visuals either since there's an infinite loop with `reloadComments()`
     // that I don't wanna fix
-    customFlash("Your session has expired. Please log in again ^^");
+    customFlash("your session has expired. please log in again ^^");
     $("#login-modal").modal("show");
 }
 

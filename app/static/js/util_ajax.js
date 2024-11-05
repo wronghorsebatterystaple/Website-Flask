@@ -26,8 +26,14 @@ async function fetchWrapper(urlBase, options, params=null) {
         respJson = null;
     }
 
-    // no error
+    // no error; base response
     if (resp.ok && respJson !== null) {
+        // catch `relogin` key and make sure Ajax response doesn't continue to proceed
+        if (respJson.relogin) {
+            relogin();
+            return {errorStatus: 401, hasHandledError: false};
+        }
+
         doAjaxResponseBase(respJson);
         return respJson;
     }
@@ -64,11 +70,6 @@ async function fetchWrapper(urlBase, options, params=null) {
  *     - `is_redir_after_login`
  */
 function doAjaxResponseBase(respJson) {
-    if (respJson.relogin) {
-        relogin();
-        return;
-    }
-
     if (respJson.redir_url) {
         let newUrl = new URL(decodeURIComponent(respJson.redir_url));
 

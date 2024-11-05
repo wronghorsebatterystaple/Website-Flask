@@ -95,7 +95,7 @@ async function reloadComments() {
 async function markCommentsAsRead() {
     let respJson = await fetchWrapper(MARK_COMMENTS_AS_READ_URL, {method: "POST"});
     if (respJson.success) {
-        updateUnreadCommentsNotifs(); // update notification icon after marking comments as read
+        updateUnreadComments(); // update notification icon after marking comments as read
     }
 }
 

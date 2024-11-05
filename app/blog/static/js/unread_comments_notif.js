@@ -2,16 +2,16 @@ const jQIconBell = $("#unread-comments-notif-btn-icon");
 
 // when logging in via modal on a `blog.` page/opening a `blog.` page as admin, check for notifications
 onSamePageLogin = addToFunction(onSamePageLogin, function() {
-    updateUnreadCommentsNotifs();
+    updateUnreadComments();
 });
 
 $(document).ready(async function() {
     if (await IS_USER_AUTHENTICATED()) {
-        updateUnreadCommentsNotifs();
+        updateUnreadComments();
     }
 });
 
-async function updateUnreadCommentsNotifs() {
+async function updateUnreadComments() {
     let notifCount = await updateUnreadCommentsDropdown();
     if (notifCount > 0) {
         setBellWithNotif();
@@ -60,6 +60,6 @@ async function updateUnreadCommentsDropdown() {
 $(document).ready(function() {
     // refresh notifications on click
     $("#unread-comments-notif-btn").on("click", function() {
-        updateUnreadCommentsNotifs();
+        updateUnreadComments();
     });
 });
