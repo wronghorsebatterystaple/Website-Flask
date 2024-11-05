@@ -51,14 +51,14 @@ def custom_unauthorized(content_type):
     return None
 
 
-def custom_login_required(content_type):
+def requires_login(content_type):
     """
     Same functionality as custom_unauthorized(), but as a decorator.
 
     Usage:
         ```
         @bp.route(...)
-        @util.custom_login_required(...)
+        @util.requires_login(...)
         def view_func():
             pass
         ```

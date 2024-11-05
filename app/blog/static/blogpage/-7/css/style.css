@@ -1,1 +1,7 @@
-../../7/css/style.css
+.blogpage__name {
+    color: var(--custom-pink-light);
+}
+
+.blogpage__subname {
+    color: var(--custom-orange-deep-dark);
+}

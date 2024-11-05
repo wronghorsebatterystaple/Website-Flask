@@ -21,7 +21,7 @@ def inject_blogpage_from_db():
 
 
 @bp.route("/", methods=["GET"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.HTML)
+@bp_util.requires_login_for_restricted_bp(content_type=util.ContentType.HTML)
 def index():
     page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     blogpage_id = bp_util.get_blogpage_id()
@@ -64,7 +64,7 @@ def index():
 
 
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.HTML)
+@bp_util.requires_login_for_restricted_bp(content_type=util.ContentType.HTML)
 @bp_util.requires_valid_post(content_type=util.ContentType.HTML)
 def post(post, post_sanitized_title): # first param is from `requires_valid_post` decorator
     # render Markdown for post
@@ -95,7 +95,7 @@ def post(post, post_sanitized_title): # first param is from `requires_valid_post
 
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.requires_login_for_restricted_bp(content_type=util.ContentType.JSON)
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.not_a_redir_target(content_type=util.ContentType.JSON)
 def get_comments(post, post_sanitized_title):
@@ -126,7 +126,7 @@ def get_comments(post, post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.requires_login_for_restricted_bp(content_type=util.ContentType.JSON)
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.not_a_redir_target(content_type=util.ContentType.JSON)
 def get_comment_count(post, post_sanitized_title):
@@ -134,7 +134,7 @@ def get_comment_count(post, post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
-@util.custom_login_required(content_type=util.ContentType.JSON)
+@util.requires_login(content_type=util.ContentType.JSON)
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.not_a_redir_target(content_type=util.ContentType.JSON)
 def get_unread_comment_count(post, post_sanitized_title):
@@ -147,7 +147,7 @@ def get_unread_comment_count(post, post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
-@bp_util.login_required_check_blogpage(content_type=util.ContentType.JSON)
+@bp_util.requires_login_for_restricted_bp(content_type=util.ContentType.JSON)
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.not_a_redir_target(content_type=util.ContentType.JSON)
 def add_comment(post, post_sanitized_title):
@@ -184,7 +184,7 @@ def add_comment(post, post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
-@util.custom_login_required(content_type=util.ContentType.JSON)
+@util.requires_login(content_type=util.ContentType.JSON)
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.not_a_redir_target(content_type=util.ContentType.JSON)
 def delete_comment(post, post_sanitized_title):
@@ -206,7 +206,7 @@ def delete_comment(post, post_sanitized_title):
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
-@util.custom_login_required(content_type=util.ContentType.JSON)
+@util.requires_login(content_type=util.ContentType.JSON)
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.not_a_redir_target(content_type=util.ContentType.JSON)
 def mark_comments_as_read(post, post_sanitized_title):

@@ -32,7 +32,7 @@ def get_post(post, post_sanitized_title, blogpage_id):
             .first()
 
 
-def login_required_check_blogpage(content_type):
+def requires_login_for_restricted_bp(content_type):
     """
     Enforces login to access private blogpages.
     Use before every view function potentially accessing private blogpages!!!
@@ -54,7 +54,7 @@ def login_required_check_blogpage(content_type):
                                 redir_url=url_for(f"{request.blueprint}.index", _external=True), 
                                 flash_msg="That post doesn't exist :/")
                     case _:
-                        return "app/blog/blogpage/util.py: `login_required_check_blogpage()` reached end of switch statement", 500
+                        return "app/blog/blogpage/util.py: `requires_login_for_restricted_bp()` reached end of switch statement", 500
 
             if blogpage.is_login_required:
                 result = util.custom_unauthorized(content_type)
