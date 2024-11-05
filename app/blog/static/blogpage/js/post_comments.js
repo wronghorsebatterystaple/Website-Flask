@@ -14,11 +14,6 @@ $(document).ready(function() {
     }, 1000);
 });
 
-// when logging out via modal on a post page, reload comments to clear unread indications (borders)
-onSamePageLogout = addToFunction(onSamePageLogout, function() {
-    reloadComments();
-});
-
 async function reloadComments() {
     // make sure we don't keep polling for scroll position if the comments have already been loaded
     if (commentLoadIntervalId) {

@@ -17,7 +17,8 @@ def custom_unauthorized(content_type):
     Makes sure `current_user` is authenticated. If not:
         - `Content-Type: text/html`: redirects to login page (GET using Flask's `redirect()`)
         - `Content-Type: application/json`: returns `relogin` key in JSON response which is universally handled by
-          my `fetchWrapper()` and triggers a modal log in
+          my `fetchWrapper()` and triggers a modal log in. This prevents redirects as in the earlier case, which
+          can cause loss of form data etc.
     In addition, these use *absolute* URLs unlike Flask-Login's built-in `unauthorized()`, which is essential
     because I have subdomains.
 

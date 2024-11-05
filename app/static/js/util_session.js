@@ -9,18 +9,11 @@ let onSamePageLogin = function() {
     $(".show-when-logged-in").removeAttr("hidden");
 };
 
-let onSamePageLogout = function() {
-    $(".show-when-logged-in").attr("hidden", "");
-    $(".show-when-logged-out").removeAttr("hidden");
-};
-
 // this can't do anything to prevent users from just closing the modal
 // my principle is that letting an expired session simply continue viewing a restricted page with no ability to
 // interact (since it will always ask for modal and not do anything) is not a huge deal
 // (if I forgot to log out at public computer or something then we have a LOT of other problems)
 function relogin() {
-    // don't do `onSamePageLogout()` to change visuals either since there's an infinite loop with `reloadComments()`
-    // that I don't wanna fix
     customFlash("your session has expired. please log in again ^^");
     $("#login-modal").modal("show");
 }
