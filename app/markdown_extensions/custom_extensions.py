@@ -34,7 +34,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \captioned_figure\caption\end_caption\end_captioned_figure
+        \begin_captioned_figure\begin_caption\end_caption\end_captioned_figure
         ```
     HTML:
         ```
@@ -42,9 +42,9 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
         ```
     """
 
-    RE_FIGURE_START = r"\\captioned_figure$"
+    RE_FIGURE_START = r"\\begin_captioned_figure$"
     RE_FIGURE_END = r"\\end_captioned_figure$"
-    RE_CAPTION_START = r"\\caption$"
+    RE_CAPTION_START = r"\\begin_caption$"
     RE_CAPTION_END = r"\\end_caption$"
 
     def test(self, parent, block):
@@ -121,17 +121,17 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \cited_blockquote\citation\end_citation\end_cited_blockquote
+        \begin_cited_blockquote\begin_citation\end_citation\end_cited_blockquote
         ```
     HTML:
         ```
-        <blockquote class="md-cited-blockquote last-child-no-mb"></blockquote><cite class="md-cited-blockquote-cite"></cite>
+        <blockquote class="md-cited-blockquote"></blockquote><cite class="md-cited-blockquote-cite"></cite>
         ```
     """
 
-    RE_BLOCKQUOTE_START = r"\\cited_blockquote$"
+    RE_BLOCKQUOTE_START = r"\\begin_cited_blockquote$"
     RE_BLOCKQUOTE_END = r"\\end_cited_blockquote$"
-    RE_CITATION_START = r"\\citation$"
+    RE_CITATION_START = r"\\begin_citation$"
     RE_CITATION_END = r"\\end_citation$"
 
     def test(self, parent, block):
@@ -190,7 +190,7 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
                 blocks[i] = re.sub(self.RE_BLOCKQUOTE_END, "", block)
                 # build HTML for blockquote
                 elem_blockquote = etree.SubElement(parent, "blockquote")
-                elem_blockquote.set("class", "md-cited-blockquote last-child-no-mb")
+                elem_blockquote.set("class", "md-cited-blockquote")
                 self.parser.parseBlocks(elem_blockquote, blocks[0:i + 1])
                 parent.append(elem_citation) # make sure citation comes after everything else
                 # remove used blocks
@@ -208,7 +208,7 @@ class DropdownBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \dropdown\summary\end_summary\end_dropdown
+        \begin_dropdown\begin_summary\end_summary\end_dropdown
         ```
     HTML:
         ```
@@ -217,9 +217,9 @@ class DropdownBlockProcessor(BlockProcessor):
         ```
     """
 
-    RE_DROPDOWN_START = r"\\dropdown$"
+    RE_DROPDOWN_START = r"\\begin_dropdown$"
     RE_DROPDOWN_END = r"\\end_dropdown$"
-    RE_SUMMARY_START = r"\\summary$"
+    RE_SUMMARY_START = r"\\begin_summary$"
     RE_SUMMARY_END = r"\\end_summary$"
 
     def test(self, parent, block):
@@ -287,47 +287,41 @@ class MathEnvBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \defn\end_defn
-        ```
-        or
-        ```
-        \thm\end_thm
+        \begin_math_env_[env type]\end_math_env_[env type]
         ```
     HTML:
         ```
-        <blockquote class="md-math-env md-math-env--defn last-child-no-mb"></blockquote>
-        ```
-        or
-        ```
-        <blockquote class="md-math-env md-math-env--thm last-child-no-mb"></blockquote>
+        <blockquote class="md-math-env md-math-env--[env type] last-child-no-mb"></blockquote>
         ```
     """
 
     RE_START_CHOICES = {
-        "defn": r"\\math_env_defn$",
-        "thm": r"\\math_env_thm$",
-        "other": r"\\math_env_other$"
+        "coro": r"\\begin_math_env_coro$",
+        "defn": r"\\begin_math_env_defn$",
+        "prop": r"\\begin_math_env_prop$",
+        "thm": r"\\begin_math_env_thm$"
     }
     RE_END_CHOICES = {
+        "coro": r"\\end_math_env_coro$",
         "defn": r"\\end_math_env_defn$",
-        "thm": r"\\end_math_env_thm$",
-        "other": r"\\end_math_env_other$"
+        "prop": r"\\end_math_env_prop$",
+        "thm": r"\\end_math_env_thm$"
     }
     RE_START = None
     RE_END = None
-    THM_TYPE = None
+    ENV_TYPE = None
     
     def test(self, parent, block):
-        for thm_type, regex in self.RE_START_CHOICES.items():
+        for env_type, regex in self.RE_START_CHOICES.items():
             if re.match(regex, block):
-                self.THM_TYPE = thm_type
+                self.ENV_TYPE = env_type
                 self.RE_START = regex
-                self.RE_END = self.RE_END_CHOICES[thm_type]
+                self.RE_END = self.RE_END_CHOICES[env_type]
                 return True
         return False
 
     def run(self, parent, blocks):
-        if not self.RE_START or not self.RE_END or not self.THM_TYPE:
+        if not self.RE_START or not self.RE_END or not self.ENV_TYPE:
             return False
 
         # remove starting delimiter
@@ -341,7 +335,7 @@ class MathEnvBlockProcessor(BlockProcessor):
                 blocks[i] = re.sub(self.RE_END, "", block)
                 # build HTML
                 elem = etree.SubElement(parent, "blockquote")
-                elem.set("class", f"md-math-env md-math-env--{self.THM_TYPE} last-child-no-mb")
+                elem.set("class", f"md-math-env md-math-env--{self.ENV_TYPE} last-child-no-mb")
                 self.parser.parseBlocks(elem, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
@@ -357,7 +351,7 @@ class TextboxBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \textbox\end_textbox
+        \begin_textbox\end_textbox
         ```
     HTML:
         ```
@@ -365,7 +359,7 @@ class TextboxBlockProcessor(BlockProcessor):
         ```
     """
 
-    RE_START = r"\\textbox$"
+    RE_START = r"\\begin_textbox$"
     RE_END = r"\\end_textbox$"
 
     def test(self, parent, block):
