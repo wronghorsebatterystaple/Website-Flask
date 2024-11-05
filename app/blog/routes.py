@@ -40,7 +40,7 @@ def post_by_id(post_id):
 
 @bp.route("/get-posts-with-unread-comments", methods=["POST"])
 @util.custom_login_required(content_type=util.ContentType.JSON)
-@blog_util.should_not_be_redir_to()
+@blog_util.not_a_redir_target()
 def get_posts_with_unread_comments():
     posts_with_unread_comments = {}
     posts = db.session.query(Post).all()

@@ -99,7 +99,7 @@ def nonexistent_post(content_type):
             return "app/blog/blogpage/util.py: `nonexistent_post()` reached end of switch statement", 500
 
 
-def should_not_be_redir_to(content_type):
+def not_a_redir_target(content_type):
     """
     If redirecting to this view function via the `next` parameter after logging in, instead redirect to simply the
     GET endpoint for the current post.
