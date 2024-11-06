@@ -32,7 +32,7 @@ input[value="Reply"][value="Delete"] {
 
 .md-captioned-figure__caption {
     text-align: center;
-    color: gray;
+    color: dimgray;
     font-size: 0.95rem;
 }
 
@@ -54,22 +54,31 @@ input[value="Reply"][value="Delete"] {
 
 .md-dropdown {
     margin-bottom: 1rem;
-    border: 2px solid var(--custom-blue-deep-light);
+    border-width: 2px;
+    border-style: solid;
     border-radius: var(--bs-border-radius);
-    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+    padding: 0.5rem 0.75rem;
+    color: dimgray;
 }
 
-.md-dropdown__contents {
+.md-dropdown__content {
     margin-top: 0.5rem;
-    color: gray !important;
-}
-
-.md-dropdown__summary {
-    color: var(--custom-blue-deep) !important;
 }
 
 .md-dropdown__summary > p:first-of-type {
     display: inline;
+}
+
+.md-dropdown--default {
+    border-color: var(--custom-blue-deep-light);
+}
+
+.md-dropdown--default .md-dropdown__summary {
+    color: var(--custom-blue-deep);
+}
+
+.md-dropdown--pf {
+    border-color: lightgray;
 }
 
 .md-image-inline {
@@ -79,26 +88,43 @@ input[value="Reply"][value="Delete"] {
 
 .md-textbox {
     width: 100%;
+    border-collapse: separate;
+    border-radius: var(--bs-border-radius);
+    border-spacing: 0;
 }
 
-.md-math {
+.md-textbox--default td {
+    padding: 0.5rem 0.75rem;
+}
+
+.md-textbox--coro,
+.md-textbox--defn,
+.md-textbox--prop,
+.md-textbox--thm
+{
     border-width: 4px;
     border-style: solid;
-    padding: 0.75rem 1rem;
-    color: black;
 }
 
-.md-math.md-math--coro,
-.md-math.md-math--prop,
+.md-textbox--coro td,
+.md-textbox--defn td,
+.md-textbox--prop td,
+.md-textbox--thm td
+{
+    padding: 0.75rem 1rem;
+}
+
+.md-textbox--coro,
+.md-textbox--prop
 {
     border-color: lightgray;
 }
 
-.md-math.md-math--defn {
+.md-textbox--defn {
     border-color: var(--custom-green-light);
 }
 
-.md-math.md-math--thm {
+.md-textbox--thm {
     border-color: var(--custom-orange-deep-light);
 }
 

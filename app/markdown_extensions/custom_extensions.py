@@ -208,53 +208,80 @@ class DropdownBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \begin_dropdown\begin_summary\end_summary\end_dropdown
+        \begin_dropdown[_type]\begin_summary\end_summary\end_dropdown[_type]
         ```
     Generated HTML:
         ```
-        <details class="md-dropdown"><summary class="md-dropdown__summary last-child-no-mb"></summary>
-        <div class="md-dropdown__contents last-child-no-mb"></div></details>
+        <details class="md-dropdown md-dropdown--[type]"><summary class="md-dropdown__summary last-child-no-mb"></summary>
+        <div class="md-dropdown__content last-child-no-mb"></div></details>
         ```
     """
 
-    RE_DROPDOWN_START = r"\\begin_dropdown$"
-    RE_DROPDOWN_END = r"\\end_dropdown$"
+    RE_DROPDOWN_START_CHOICES = {
+        "default": r"\\begin_dropdown$",
+        "pf": r"\\begin_dropdown_pf$",
+    }
+    RE_DROPDOWN_END_CHOICES = {
+        "default": r"\\end_dropdown$",
+        "pf": r"\\end_dropdown_pf$",
+    }
     RE_SUMMARY_START = r"\\begin_summary$"
     RE_SUMMARY_END = r"\\end_summary$"
-
+    RE_DROPDOWN_START = None
+    RE_DROPDOWN_END = None
+    TYPE = None
+    
     def test(self, parent, block):
-        return re.match(self.RE_DROPDOWN_START, block)
+        for type, regex in self.RE_DROPDOWN_START_CHOICES.items():
+            if re.match(regex, block):
+                self.TYPE = type
+                self.RE_DROPDOWN_START = regex
+                self.RE_DROPDOWN_END = self.RE_DROPDOWN_END_CHOICES[type]
+                return True
+        return False
 
     def run(self, parent, blocks):
-        org_blocks = list(blocks)
+        if not self.RE_DROPDOWN_START or not self.RE_DROPDOWN_END or not self.TYPE:
+            return False
 
+        org_blocks = list(blocks)
         # remove dropdown starting delimiter
         blocks[0] = re.sub(self.RE_DROPDOWN_START, "", blocks[0])
 
         # remove summary starting delimiter that must immediately follow dropdown's starting delimiter
         # if no starting delimiter for summary, restore and do nothing
+        has_summary = True
         if not re.search(self.RE_SUMMARY_START, blocks[1]):
-            blocks.clear()
-            blocks.extend(org_blocks)
-            return False
+            has_summary = False
+            # `pf` dropdowns get default summary value, so it's optional
+            if self.TYPE != "pf":
+                blocks.clear() # `blocks = org_blocks` doesn't work even though `org_blocks` is literally a copy
+                blocks.extend(org_blocks)
+                return False
         blocks[1] = re.sub(self.RE_SUMMARY_START, "", blocks[1])
 
         # find and remove summary ending delimiter, and extract element
         elem_summary = None
-        for i, block in enumerate(blocks):
-            if re.search(self.RE_SUMMARY_END, block):
-                # remove ending delimiter
-                blocks[i] = re.sub(self.RE_SUMMARY_END, "", block)
-                # build HTML for summary
-                elem_summary = etree.Element("summary")
-                elem_summary.set("class", "md-dropdown__summary last-child-no-mb")
-                self.parser.parseBlocks(elem_summary, blocks[0:i + 1])
-                # remove used blocks
-                for _ in range(0, i + 1):
-                    blocks.pop(0)
-                break
+        # fill in default summary value for `pf`
+        if self.TYPE == "pf" and not has_summary:
+            elem_summary = etree.Element("summary")
+            elem_summary.set("class", "md-dropdown__summary last-child-no-mb")
+            elem_summary.text = "Proof."
+        if has_summary:
+            for i, block in enumerate(blocks):
+                if re.search(self.RE_SUMMARY_END, block):
+                    # remove ending delimiter
+                    blocks[i] = re.sub(self.RE_SUMMARY_END, "", block)
+                    # build HTML for summary
+                    elem_summary = etree.Element("summary")
+                    elem_summary.set("class", "md-dropdown__summary last-child-no-mb")
+                    self.parser.parseBlocks(elem_summary, blocks[0:i + 1])
+                    # remove used blocks
+                    for _ in range(0, i + 1):
+                        blocks.pop(0)
+                    break
 
-        # if no ending delimiter for summary, restore and do nothing
+        # if no ending delimiter for summary (and summary is not optional), restore and do nothing
         if elem_summary is None:
             blocks.clear()
             blocks.extend(org_blocks)
@@ -267,11 +294,11 @@ class DropdownBlockProcessor(BlockProcessor):
                 blocks[i] = re.sub(self.RE_DROPDOWN_END, "", block)
                 # build HTML for dropdown
                 elem_details = etree.SubElement(parent, "details")
-                elem_details.set("class", "md-dropdown")
+                elem_details.set("class", f"md-dropdown md-dropdown--{self.TYPE}")
                 elem_details.append(elem_summary)
-                elem_details_contents = etree.SubElement(elem_details, "div")
-                elem_details_contents.set("class", "md-dropdown__contents last-child-no-mb")
-                self.parser.parseBlocks(elem_details_contents, blocks[0:i + 1])
+                elem_details_content = etree.SubElement(elem_details, "div")
+                elem_details_content.set("class", "md-dropdown__content last-child-no-mb")
+                self.parser.parseBlocks(elem_details_content, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)
@@ -283,89 +310,49 @@ class DropdownBlockProcessor(BlockProcessor):
         return False
 
 
-class MathEnvBlockProcessor(BlockProcessor):
-    """
-    Markdown:
-        ```
-        \begin_math_[env type]\end_math_[env type]
-        ```
-    Generated HTML:
-        ```
-        <blockquote class="md-math md-math--[env type] last-child-no-mb"></blockquote>
-        ```
-    """
-
-    RE_START_CHOICES = {
-        "coro": r"\\begin_math_coro$",
-        "defn": r"\\begin_math_defn$",
-        "prop": r"\\begin_math_prop$",
-        "thm": r"\\begin_math_thm$"
-    }
-    RE_END_CHOICES = {
-        "coro": r"\\end_math_coro$",
-        "defn": r"\\end_math_defn$",
-        "prop": r"\\end_math_prop$",
-        "thm": r"\\end_math_thm$"
-    }
-    RE_START = None
-    RE_END = None
-    ENV_TYPE = None
-    
-    def test(self, parent, block):
-        for env_type, regex in self.RE_START_CHOICES.items():
-            if re.match(regex, block):
-                self.ENV_TYPE = env_type
-                self.RE_START = regex
-                self.RE_END = self.RE_END_CHOICES[env_type]
-                return True
-        return False
-
-    def run(self, parent, blocks):
-        if not self.RE_START or not self.RE_END or not self.ENV_TYPE:
-            return False
-
-        # remove starting delimiter
-        org_block_start = blocks[0]
-        blocks[0] = re.sub(self.RE_START, "", blocks[0])
-
-        # find and remove ending delimiter, and extract element
-        for i, block in enumerate(blocks):
-            if re.search(self.RE_END, block):
-                # remove ending delimiter
-                blocks[i] = re.sub(self.RE_END, "", block)
-                # build HTML
-                elem = etree.SubElement(parent, "blockquote")
-                elem.set("class", f"md-math md-math--{self.ENV_TYPE} last-child-no-mb")
-                self.parser.parseBlocks(elem, blocks[0:i + 1])
-                # remove used blocks
-                for _ in range(0, i + 1):
-                    blocks.pop(0)
-                return True
-
-        # if no ending delimiter, restore and do nothing
-        blocks[0] = org_block_start
-        return False
-
-
 class TextboxBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \begin_textbox\end_textbox
+        \begin_textbox[_type]\end_textbox[_type]
         ```
     Generated HTML:
         ```
-        <table class="md-textbox"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+        <table class="md-textbox md-textbox--[type]"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
         ```
     """
 
-    RE_START = r"\\begin_textbox$"
-    RE_END = r"\\end_textbox$"
-
+    RE_START_CHOICES = {
+        "default": r"\\begin_textbox$",
+        "coro": r"\\begin_textbox_coro$",
+        "defn": r"\\begin_textbox_defn$",
+        "prop": r"\\begin_textbox_prop$",
+        "thm": r"\\begin_textbox_thm$"
+    }
+    RE_END_CHOICES = {
+        "default": r"\\end_textbox$",
+        "coro": r"\\end_textbox_coro$",
+        "defn": r"\\end_textbox_defn$",
+        "prop": r"\\end_textbox_prop$",
+        "thm": r"\\end_textbox_thm$"
+    }
+    RE_START = None
+    RE_END = None
+    TYPE = None
+    
     def test(self, parent, block):
-        return re.match(self.RE_START, block)
+        for type, regex in self.RE_START_CHOICES.items():
+            if re.match(regex, block):
+                self.TYPE = type
+                self.RE_START = regex
+                self.RE_END = self.RE_END_CHOICES[type]
+                return True
+        return False
 
     def run(self, parent, blocks):
+        if not self.RE_START or not self.RE_END or not self.TYPE:
+            return False
+
         # remove starting delimiter
         org_block_start = blocks[0] # use simpler restoring system for non-nested BlockProcessors
         blocks[0] = re.sub(self.RE_START, "", blocks[0])
@@ -377,7 +364,7 @@ class TextboxBlockProcessor(BlockProcessor):
                 blocks[i] = re.sub(self.RE_END, "", block)
                 # build HTML
                 elem_table = etree.SubElement(parent, "table")
-                elem_table.set("class", "md-textbox")
+                elem_table.set("class", f"md-textbox md-textbox--{self.TYPE}")
                 elem_tbody = etree.SubElement(elem_table, "tbody")
                 elem_tr = etree.SubElement(elem_tbody, "tr")
                 elem_td = etree.SubElement(elem_tr, "td")
@@ -415,5 +402,4 @@ class CustomBlockExtensions(Extension):
         md.parser.blockprocessors.register(CaptionedFigureBlockProcessor(md.parser), "captioned_figure", 105)
         md.parser.blockprocessors.register(CitedBlockquoteBlockProcessor(md.parser), "cited_blockquote", 105)
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
-        md.parser.blockprocessors.register(MathEnvBlockProcessor(md.parser), "math", 105)
         md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
