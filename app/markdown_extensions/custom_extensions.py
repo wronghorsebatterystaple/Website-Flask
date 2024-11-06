@@ -207,8 +207,14 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
 class DropdownBlockProcessor(BlockProcessor):
     """
     Markdown:
+        Default `type`:
         ```
-        \begin_dropdown[_type]\begin_summary\end_summary\end_dropdown[_type]
+        \begin_dropdown\begin_summary\end_summary\end_dropdown
+        ```
+
+        Else:
+        ```
+        \begin_dropdown_[type]\begin_summary\end_summary\end_dropdown_[type]
         ```
     Generated HTML:
         ```
@@ -313,8 +319,14 @@ class DropdownBlockProcessor(BlockProcessor):
 class TextboxBlockProcessor(BlockProcessor):
     """
     Markdown:
+        Default `type`:
         ```
-        \begin_textbox[_type]\end_textbox[_type]
+        \begin_textbox\end_textbox
+        ```
+
+        Else:
+        ```
+        \begin_textbox_[type]\end_textbox_[type]
         ```
     Generated HTML:
         ```

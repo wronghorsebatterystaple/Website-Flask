@@ -106,19 +106,22 @@ I hope I'm not reading this because I bricked a machine again.
 - Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
     - `\begin_[block type]` and `end_[block type]`, surrounded by a blank line on both sides, puts everything in between in the specified `[block type]`
     - Available `[block type]`s:
-        - `math_[env type]`: a math environment, similar to those defined in LaTeX, with special styling
-            - Available `[env type]`s:
-                - `coro`: corollary
-                - `defn`: definition
-                - `prop`: proposition
-                - `thm`: theorem
         - `captioned_figure`: a figure, usually but not necessarily an image, with a caption underneath
             - Requires nested `caption` block inside
         - `cited_blockquote`: a blockquote with a citation underneath
             - Requires nested `citation` block inside
-        - `dropdown`: an expandable/collapsible dropdown
-            - Requires nested `summary` block inside specifying the preview text when the dropdown is collapsed
-        - `textbox`: a textbox (1-cell table)
+        - `dropdown_[type]`: an expandable/collapsible dropdown
+            - Available `[type]`s:
+                - Leave blank for default; no trailing underscore needed
+                - `pf`: proof
+            - All `[type]`s except `pf` requires nested `summary` block inside specifying the preview text when the dropdown is collapsed (`pf` gets a default `summary` block)
+        - `textbox_[type]`: a textbox (1-cell table)
+            - Available `[type]`s:
+                - Leave blank for default; no trailing underscore needed
+                - `coro`: corollary
+                - `defn`: definition
+                - `prop`: proposition
+                - `thm`: theorem
     - See docstrings in [app/markdown_extensions/custom_extensions.py](app/markdown_extensions/custom_extensions.py) for more detailed usage instructions
     - Not allowed in non-admin comments due to potential bugs and crashes and 500 Internal Server Errors
 - Images:
