@@ -287,25 +287,25 @@ class MathEnvBlockProcessor(BlockProcessor):
     """
     Markdown:
         ```
-        \begin_math_env_[env type]\end_math_env_[env type]
+        \begin_math_[env type]\end_math_[env type]
         ```
     Generated HTML:
         ```
-        <blockquote class="md-math-env md-math-env--[env type] last-child-no-mb"></blockquote>
+        <blockquote class="md-math md-math--[env type] last-child-no-mb"></blockquote>
         ```
     """
 
     RE_START_CHOICES = {
-        "coro": r"\\begin_math_env_coro$",
-        "defn": r"\\begin_math_env_defn$",
-        "prop": r"\\begin_math_env_prop$",
-        "thm": r"\\begin_math_env_thm$"
+        "coro": r"\\begin_math_coro$",
+        "defn": r"\\begin_math_defn$",
+        "prop": r"\\begin_math_prop$",
+        "thm": r"\\begin_math_thm$"
     }
     RE_END_CHOICES = {
-        "coro": r"\\end_math_env_coro$",
-        "defn": r"\\end_math_env_defn$",
-        "prop": r"\\end_math_env_prop$",
-        "thm": r"\\end_math_env_thm$"
+        "coro": r"\\end_math_coro$",
+        "defn": r"\\end_math_defn$",
+        "prop": r"\\end_math_prop$",
+        "thm": r"\\end_math_thm$"
     }
     RE_START = None
     RE_END = None
@@ -335,7 +335,7 @@ class MathEnvBlockProcessor(BlockProcessor):
                 blocks[i] = re.sub(self.RE_END, "", block)
                 # build HTML
                 elem = etree.SubElement(parent, "blockquote")
-                elem.set("class", f"md-math-env md-math-env--{self.ENV_TYPE} last-child-no-mb")
+                elem.set("class", f"md-math md-math--{self.ENV_TYPE} last-child-no-mb")
                 self.parser.parseBlocks(elem, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
@@ -415,5 +415,5 @@ class CustomBlockExtensions(Extension):
         md.parser.blockprocessors.register(CaptionedFigureBlockProcessor(md.parser), "captioned_figure", 105)
         md.parser.blockprocessors.register(CitedBlockquoteBlockProcessor(md.parser), "cited_blockquote", 105)
         md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
-        md.parser.blockprocessors.register(MathEnvBlockProcessor(md.parser), "math_env", 105)
+        md.parser.blockprocessors.register(MathEnvBlockProcessor(md.parser), "math", 105)
         md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)

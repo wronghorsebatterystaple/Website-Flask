@@ -106,7 +106,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
     - `\begin_[block type]` and `end_[block type]`, surrounded by a blank line on both sides, puts everything in between in the specified `[block type]`
     - Available `[block type]`s:
-        - `math_env_[env type]`: a math environment, similar to those defined in LaTeX, with special styling
+        - `math_[env type]`: a math environment, similar to those defined in LaTeX, with special styling
             - Available `[env type]`s:
                 - `coro`: corollary
                 - `defn`: definition

@@ -81,24 +81,24 @@ input[value="Reply"][value="Delete"] {
     width: 100%;
 }
 
-.md-math-env {
+.md-math {
     border-width: 4px;
     border-style: solid;
     padding: 0.75rem 1rem;
     color: black;
 }
 
-.md-math-env.md-math-env--coro,
-.md-math-env.md-math-env--prop,
+.md-math.md-math--coro,
+.md-math.md-math--prop,
 {
     border-color: lightgray;
 }
 
-.md-math-env.md-math-env--defn {
+.md-math.md-math--defn {
     border-color: var(--custom-green-light);
 }
 
-.md-math-env.md-math-env--thm {
+.md-math.md-math--thm {
     border-color: var(--custom-orange-deep-light);
 }
 
