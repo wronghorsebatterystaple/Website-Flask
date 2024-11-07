@@ -173,16 +173,12 @@ textarea {
 }
 
 .footnotes {
-    color: gray; 
     font-size: 0.9rem;
 }
 
-.footnotes__details {
+.footnotes__wrapper {
     margin-bottom: 1rem;
-}
-
-.footnotes__details-summary {
-    color: gray !important;
+    color: dimgray;
 }
 
 .icon-navbar-toggler {

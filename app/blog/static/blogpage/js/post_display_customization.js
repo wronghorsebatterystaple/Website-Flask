@@ -65,15 +65,15 @@ function tweakFootnotes() {
         // just because the singular form bothers me
         jQFootnotes.addClass("footnotes");
         jQFootnotes.removeClass("footnote");
-        jQFootnotes.wrap("<details id=\"footnotes__details\" class=\"footnotes__details\"></details>")
-        jQFootnotes.before("<summary class=\"footnotes__details-summary\">Footnotes</summary>");
+        jQFootnotes.wrap("<details id=\"footnotes__wrapper\" class=\"footnotes__wrapper\"></details>")
+        jQFootnotes.before("<summary>Footnotes</summary>");
     }
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
     $(".footnote-ref").on("click", function(e) {
-        const jQFootnotesDetails = $("#footnotes__details");
-        if (!jQFootnotesDetails.is("[open]")) {
-            jQFootnotesDetails.attr("open", "");
+        const jQFootnotesWrapper = $("#footnotes__wrapper");
+        if (!jQFootnotesWrapper.is("[open]")) {
+            jQFootnotesWrapper.attr("open", "");
         }
     });
 }
