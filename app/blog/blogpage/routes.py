@@ -2,6 +2,7 @@ import markdown
 from markdown.extensions.toc import TocExtension
 
 import sqlalchemy as sa
+import sqlalchemy.sql.functions as sa_func
 from flask import current_app, get_template_attribute, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user
 
@@ -33,7 +34,7 @@ def index():
     if blogpage.is_all_posts:
         posts = db.paginate(
                 db.session.query(Post).join(Post.blogpage).filter_by(is_login_required=False, is_published=True)
-                        .order_by(sa.desc(Post.timestamp)),
+                        .order_by(sa.desc(sa_func.coalesce(Post.edited_timestamp, Post.timestamp))),
                 page=page_num,
                 per_page=current_app.config["POSTS_PER_PAGE"],
                 error_out=False)
