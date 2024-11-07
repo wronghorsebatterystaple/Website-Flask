@@ -81,3 +81,5 @@ function tweakFootnotes() {
 applyPostAndCommentStyles("body");
 addCommentHoverTooltip();
 tweakFootnotes();
+// for making sure TOC is vertically centered
+document.documentElement.style.setProperty("--toc-heading-outer-height", `${$("#toc__heading").outerHeight()}px`);

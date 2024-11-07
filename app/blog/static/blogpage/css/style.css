@@ -161,20 +161,18 @@ input[value="Reply"][value="Delete"] {
 @media(min-width: 1400px) {
     .post__toc {
         position: sticky;
-        top: 8rem;
         float: left;
-        /* these confusing `calc`s just means the TOC takes up 2/3 of the margin on the left of the screen (up to
-         * the size it would be on a 1536px screen), and `margin-left` is such that it the TOC is perfectly
-         * centered within the left margin (with 1/6 of the margin on each side of the TOC) */
-        /* I'm sure there are better ways to do this but im a frontend noob so math it is */
-        margin-left: calc(-5 * (min(100vw, 1536px) - var(--container-content-max-width)) / 12);
         border: none;
         padding: 0;
-        width: calc((min(100vw, 1536px) - var(--container-content-max-width)) / 3.3333);
-        /* this is `100svh - [top] - [chosen bottom spacing]`; using this (only partially hardcoded) value
-         * instead of like `80svh` to make sure it will never exceed the bottom of the page when fixed, in case
-         * `top` becomes really large */
-        max-height: max(min(100svh, 864px) - 8rem - 8rem, 15rem);
+        /* TOC takes up max 75% of the screen height, and is vertically centered (as if it took 75% of the screen
+         * height) when sticky */
+        top: calc(12.5svh + var(--toc-heading-outer-height));
+        max-height: calc(75svh - var(--toc-heading-outer-height));
+        /* TOC takes up 2/3 of the margin on the left of the screen (up to the size it would be on a 1536px screen),
+         * and is perfectly centered within the left margin (with 1/6 of the margin on each side of the TOC) */
+        /* I'm sure there are better ways to do this but im a frontend noob so math it is */
+        margin-left: calc(-5 * (min(100vw, 1536px) - var(--container-content-max-width)) / 12);
+        width: calc((min(100vw, 1536px) - var(--container-content-max-width)) / 3);
     }
 
     .toc__heading {
