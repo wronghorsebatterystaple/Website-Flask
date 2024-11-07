@@ -8,6 +8,7 @@ import xml.etree.ElementTree as etree
 
 
 # TODO: release all these extensions as separate packages? how to package multiple in one like extra?
+# TODO: if releasing Counter, test with no adding html/varied params, also linking to counter via URL fragment
 class Counter(Postprocessor):
     def __init__(self, md, regex, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
         super().__init__(md, *args, **kwargs)
