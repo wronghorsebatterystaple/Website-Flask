@@ -1,6 +1,7 @@
 from markdown.extensions import Extension
 from markdown.blockprocessors import BlockProcessor
 from markdown.inlinepatterns import InlineProcessor, SimpleTagInlineProcessor
+from markdown.postprocessors import Postprocessor
 
 import re
 import xml.etree.ElementTree as etree
@@ -33,34 +34,50 @@ class LinkTargetInlineProcessor(InlineProcessor):
 
 
 # TODO: release all these extensions as separate packages? how to package multiple in one like extra?
-class CounterInlineProcessor(InlineProcessor):
-    def __init__(self, pattern, md=None):
-        super().__init__(pattern, md)
+class CounterPostProcessor(Postprocessor):
+    def __init__(self, regex, md, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
+        super().__init__(md, *args, **kwargs)
+        self.regex = regex
+        self.add_html_elem = add_html_elem
+        self.html_id_prefix = html_id_prefix
+        self.html_class = html_class
         self.counter = []
 
-    def handleMatch(self, m, data):
-        input_counter = m.group(1)
-        parsed_counter = input_counter.split(",")
-        while len(parsed_counter) > len(self.counter):
-            self.counter.append(0)
+    def run(self, text):
+        new_text = ""
+        prev_match_end = 0
 
-        for i, parsed_item in enumerate(parsed_counter):
-            try:
-                parsed_item = int(parsed_item)
-            except:
-                return False
-            self.counter[i] += parsed_item
-            # if changing current counter section, reset all child sections back to 0
-            if parsed_item != 0 and len(parsed_counter) >= i + 1:
-                self.counter[i+1:] = [0] * (len(self.counter) - (i+1))
+        for m in re.finditer(self.regex, text):
+            input_counter = m.group(1)
+            parsed_counter = input_counter.split(",")
+            # make sure we have enough room to parse counter into `self.counter`
+            while len(parsed_counter) > len(self.counter):
+                self.counter.append(0)
 
-        # only output as many counter sections as were inputted
-        output_counter = list(map(str, self.counter[:len(parsed_counter)]))
-        elem = etree.Element("span")
-        elem.set("id", f"md-counter-{'-'.join(output_counter)}")
-        elem.set("class", "md-counter")
-        elem.text = ".".join(output_counter)
-        return elem, m.start(0), m.end(0)
+            # parse counter
+            for i, parsed_item in enumerate(parsed_counter):
+                try:
+                    parsed_item = int(parsed_item)
+                except:
+                    return False
+                self.counter[i] += parsed_item
+                # if changing current counter section, reset all child sections back to 0
+                if parsed_item != 0 and len(parsed_counter) >= i + 1:
+                    self.counter[i+1:] = [0] * (len(self.counter) - (i+1))
+
+            # only output as many counter sections as were inputted
+            output_counter = list(map(str, self.counter[:len(parsed_counter)]))
+            output_text = ".".join(output_counter)
+            if self.add_html_elem:
+                output_text = \
+                        f"<span id=\"{self.html_id_prefix}{'-'.join(output_counter)}\" class=\"{self.html_class}\">" \
+                        + output_text \
+                        + "</span>"
+            new_text += text[prev_match_end:m.start()] + output_text
+            prev_match_end = m.end()
+        # make sure we remember to fill in remaining text after last regex match!
+        new_text += text[prev_match_end:]
+        return new_text
 
 
 class CaptionedFigureBlockProcessor(BlockProcessor):
@@ -367,6 +384,7 @@ class TextboxBlockProcessor(BlockProcessor):
         ```
     """
 
+    # TODO: if publishing these extensions, let these dicts be defined as kwargs in extension config
     RE_START_CHOICES = {
         "default": r"\\begin_textbox$",
         "coro": r"\\begin_textbox_coro$",
@@ -441,7 +459,8 @@ class CustomInlineExtensions(Extension):
         md.inlinePatterns.register(GrayCodeInlineProcessor(regex, md), "gray_code", 999)
 
         regex = r"{{\s*([0-9,]+)\s*}}"
-        md.inlinePatterns.register(CounterInlineProcessor(regex, md), "counter", 1)
+        md.postprocessors.register(CounterPostProcessor(
+            regex, md, add_html_elem=True, html_id_prefix="md-counter-", html_class="md-counter"), "counter", 105)
 
 
 class CustomBlockExtensions(Extension):

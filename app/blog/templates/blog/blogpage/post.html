@@ -52,7 +52,7 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
       {% set class = "link--custom-orange-xdeep" %}
     {% endif %}
     <li>
-      <a class="{{ class }} underline-on-hover-only" href="#{{ toc_token.id }}">{{ toc_token.html }}</a>
+      <a class="{{ class }} underline-on-hover-only" href="#{{ toc_token.id }}">{{ toc_token.html|safe }}</a>
       {% if toc_token.children %}
       <ul>
         {{ loop(toc_token.children) }}
