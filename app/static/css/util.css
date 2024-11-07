@@ -10,6 +10,10 @@
     color: blue !important;
 }
 
+.dimgray {
+    color: dimgray !important;
+}
+
 .gray {
     color: gray !important;
 }
@@ -322,6 +326,10 @@
 
 .p-mb-0 p {
     margin-bottom: 0 !important;
+}
+
+.pt-0_75rem {
+    padding-top: 0.75rem !important;
 }
 
 .pt-2_5rem {

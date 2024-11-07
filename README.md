@@ -102,7 +102,7 @@ I hope I'm not reading this because I bricked a machine again.
 - Inline:
     - `__[text]__` to underline
     - `~~[text]~~` to strikethrough
-    - `'''[text]'''` to do code in gray 
+    - `{{[section 1 change],[section 2 change],…}}` for a counter that increments each section by the specified amount, and displays as many sections as given (similar to LaTeX theorem counters)
 - Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
     - `\begin_[block type]` and `end_[block type]`, surrounded by a blank line on both sides, puts everything in between in the specified `[block type]`
     - Available `[block type]`s:

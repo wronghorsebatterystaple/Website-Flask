@@ -8,8 +8,8 @@ import xml.etree.ElementTree as etree
 
 
 # TODO: release all these extensions as separate packages? how to package multiple in one like extra?
-class CounterPostProcessor(Postprocessor):
-    def __init__(self, regex, md, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
+class Counter(Postprocessor):
+    def __init__(self, md, regex, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
         super().__init__(md, *args, **kwargs)
         self.regex = regex
         self.add_html_elem = add_html_elem
@@ -53,7 +53,7 @@ class CounterPostProcessor(Postprocessor):
         return new_text
 
 
-class CaptionedFigureBlockProcessor(BlockProcessor):
+class CaptionedFigure(BlockProcessor):
     """
     Markdown:
         ```
@@ -140,7 +140,7 @@ class CaptionedFigureBlockProcessor(BlockProcessor):
         return False
 
 
-class CitedBlockquoteBlockProcessor(BlockProcessor):
+class CitedBlockquote(BlockProcessor):
     """
     Markdown:
         ```
@@ -227,7 +227,7 @@ class CitedBlockquoteBlockProcessor(BlockProcessor):
         return False
 
 
-class DropdownBlockProcessor(BlockProcessor):
+class Dropdown(BlockProcessor):
     """
     Markdown:
         Default `type`:
@@ -339,7 +339,7 @@ class DropdownBlockProcessor(BlockProcessor):
         return False
 
 
-class TextboxBlockProcessor(BlockProcessor):
+class Textbox(BlockProcessor):
     """
     Markdown:
         Default `type`:
@@ -427,18 +427,16 @@ class CustomInlineExtensions(Extension):
         regex = r"()~~([\S\s]*?)~~"
         md.inlinePatterns.register(SimpleTagInlineProcessor(regex, "del"), "strikethrough", 105)
 
-        # `'''[text]'''` for gray code
-        regex = r"'''([\S\s]*?)'''"
-        md.inlinePatterns.register(GrayCodeInlineProcessor(regex, md), "gray_code", 999)
-
+        # `{{[section 1 change],[section 2 change],…}}` for a counter that increments each section by the specified
+        # amount, and displays as many sections as given (similar to LaTeX theorem counters)
         regex = r"{{\s*([0-9,]+)\s*}}"
-        md.postprocessors.register(CounterPostProcessor(
-            regex, md, add_html_elem=True, html_id_prefix="md-counter-", html_class="md-counter"), "counter", 105)
+        md.postprocessors.register(Counter(
+            md, regex, add_html_elem=True, html_id_prefix="md-counter-", html_class="md-counter"), "counter", 105)
 
 
 class CustomBlockExtensions(Extension):
     def extendMarkdown(self, md):
-        md.parser.blockprocessors.register(CaptionedFigureBlockProcessor(md.parser), "captioned_figure", 105)
-        md.parser.blockprocessors.register(CitedBlockquoteBlockProcessor(md.parser), "cited_blockquote", 105)
-        md.parser.blockprocessors.register(DropdownBlockProcessor(md.parser), "dropdown", 105)
-        md.parser.blockprocessors.register(TextboxBlockProcessor(md.parser), "textbox", 105)
+        md.parser.blockprocessors.register(CaptionedFigure(md.parser), "captioned_figure", 105)
+        md.parser.blockprocessors.register(CitedBlockquote(md.parser), "cited_blockquote", 105)
+        md.parser.blockprocessors.register(Dropdown(md.parser), "dropdown", 105)
+        md.parser.blockprocessors.register(Textbox(md.parser), "textbox", 105)
