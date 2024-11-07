@@ -204,6 +204,11 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: 0.5rem;
 }
 
+.toc__body ol,
+.toc__body ul {
+    padding-left: 1.5rem;
+}
+
 .toc__heading {
     background-color: var(--bs-body-bg); /* to match card body */
 }

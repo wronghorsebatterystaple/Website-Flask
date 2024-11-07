@@ -7,32 +7,6 @@ import re
 import xml.etree.ElementTree as etree
 
 
-# todo is this ever used? if so, is it too much work to use attr lists?
-class GrayCodeInlineProcessor(InlineProcessor):
-    def handleMatch(self, m, data):
-        elem = etree.Element("code")
-        elem.set("class", "gray")
-        elem.text = m.group(1)
-        return elem, m.start(0), m.end(0)
-
-
-# TODO: can this be replaced with attribute lists? also not even used
-class LinkTargetInlineProcessor(InlineProcessor):
-    """
-    Links that open on same page, instead of default `target="_blank"`:
-        ```
-        \[<span data-same-page>[display text]</span>\]([link href])
-        ```
-    """
-
-    def handleMatch(self, m, data):
-        elem = etree.Element("a")
-        elem.set("data-same-page", "")
-        elem.set("href", m.group(2))
-        elem.text = m.group(1)
-        return elem, m.start(0), m.end(0)
-
-
 # TODO: release all these extensions as separate packages? how to package multiple in one like extra?
 class CounterPostProcessor(Postprocessor):
     def __init__(self, regex, md, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
@@ -46,7 +20,6 @@ class CounterPostProcessor(Postprocessor):
     def run(self, text):
         new_text = ""
         prev_match_end = 0
-
         for m in re.finditer(self.regex, text):
             input_counter = m.group(1)
             parsed_counter = input_counter.split(",")
@@ -75,7 +48,7 @@ class CounterPostProcessor(Postprocessor):
                         + "</span>"
             new_text += text[prev_match_end:m.start()] + output_text
             prev_match_end = m.end()
-        # make sure we remember to fill in remaining text after last regex match!
+        # remember to fill in the remaining text after last regex match!
         new_text += text[prev_match_end:]
         return new_text
 
