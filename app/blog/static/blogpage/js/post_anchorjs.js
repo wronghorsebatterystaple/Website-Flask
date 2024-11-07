@@ -1,12 +1,12 @@
 const ANCHORJS_OPTIONS = {
     icon: "\uF470",
-    placement: "right",
+    placement: "right", // TODO: left instead?
     truncate: 1000
 };
 
 function addPostAnchors() {
     anchors.options = ANCHORJS_OPTIONS;
-    anchors.add(".post__h1, .post__h2");
+    anchors.add(".post__h1, .post__h2"); // auto-generates `id`s too
 
     $(".anchorjs-link").on("click", function(e) {
         const jQHeading = $(e.target).parent();

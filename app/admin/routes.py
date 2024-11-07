@@ -9,7 +9,7 @@ from wtforms.form import Form
 
 import app.admin.util as admin_util
 import app.util as util
-from app import db, turnstile
+from app import db
 from app.admin import bp
 from app.admin.forms import *
 from app.forms import *
@@ -29,8 +29,6 @@ def login():
                 prompt="Access the Secrets of the Universe",
                 form=form)
     elif request.method == "POST":
-        if not turnstile.verify():
-            return jsonify(redir_url=url_for("bot_jail", _external=True))
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 

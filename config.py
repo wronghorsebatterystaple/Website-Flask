@@ -25,7 +25,7 @@ class Config(object):
         "script-src": _csp_default_src + [
             "cdn.jsdelivr.net",
             "cdnjs.cloudflare.com",
-            "code.jquery.com",
+            "code.jquery.com"
         ],
         "style-src": _csp_default_src + [
             "cdn.jsdelivr.net",

@@ -6,7 +6,6 @@ from flask_moment import Moment
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
-from flask_turnstile import Turnstile
 from flask_wtf.csrf import CSRFProtect, CSRFError
 
 from config import Config
@@ -16,16 +15,14 @@ from config import Config
 cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
 db = SQLAlchemy(session_options={"autoflush": True}) # autoflush allows our post editing code to work properly
+# not using `session_protection="strong"` to avoid potential security mess of finding original IP through Cloudflare
+# and Nginx; and more crucially IPv4 vs. IPv6 hell
 login_manager = LoginManager()
 login_manager.login_view = Config.LOGIN_VIEW
 migrate = Migrate()
 minify = Minify()
 moment = Moment()
 talisman = Talisman()
-turnstile = Turnstile()
-# not using session_protection="strong" to avoid potential security mess of finding original IP through Cloudflare
-# and Nginx; and more crucially IPv4 vs. IPv6 hell
-
 
 import app.routes as global_routes # after initializing global extension variables to prevent circular imports
 
@@ -68,7 +65,6 @@ def create_app():
             app,
             content_security_policy=Config.CSP,
             content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
-    turnstile.init_app(app)
 
     return app
 

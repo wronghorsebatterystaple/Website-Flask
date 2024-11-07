@@ -6,6 +6,7 @@ import re
 import xml.etree.ElementTree as etree
 
 
+# todo is this ever used? if so, is it too much work to use attr lists?
 class GrayCodeInlineProcessor(InlineProcessor):
     def handleMatch(self, m, data):
         elem = etree.Element("code")
@@ -14,6 +15,7 @@ class GrayCodeInlineProcessor(InlineProcessor):
         return elem, m.start(0), m.end(0)
 
 
+# TODO: can this be replaced with attribute lists? also not even used
 class LinkTargetInlineProcessor(InlineProcessor):
     """
     Links that open on same page, instead of default `target="_blank"`:
@@ -27,6 +29,37 @@ class LinkTargetInlineProcessor(InlineProcessor):
         elem.set("data-same-page", "")
         elem.set("href", m.group(2))
         elem.text = m.group(1)
+        return elem, m.start(0), m.end(0)
+
+
+# TODO: release all these extensions as separate packages? how to package multiple in one like extra?
+class CounterInlineProcessor(InlineProcessor):
+    def __init__(self, pattern, md=None):
+        super().__init__(pattern, md)
+        self.counter = []
+
+    def handleMatch(self, m, data):
+        input_counter = m.group(1)
+        parsed_counter = input_counter.split(",")
+        while len(parsed_counter) > len(self.counter):
+            self.counter.append(0)
+
+        for i, parsed_item in enumerate(parsed_counter):
+            try:
+                parsed_item = int(parsed_item)
+            except:
+                return False
+            self.counter[i] += parsed_item
+            # if changing current counter section, reset all child sections back to 0
+            if parsed_item != 0 and len(parsed_counter) >= i + 1:
+                self.counter[i+1:] = [0] * (len(self.counter) - (i+1))
+
+        # only output as many counter sections as were inputted
+        output_counter = list(map(str, self.counter[:len(parsed_counter)]))
+        elem = etree.Element("span")
+        elem.set("id", f"md-counter-{'-'.join(output_counter)}")
+        elem.set("class", "md-counter")
+        elem.text = ".".join(output_counter)
         return elem, m.start(0), m.end(0)
 
 
@@ -393,7 +426,6 @@ class TextboxBlockProcessor(BlockProcessor):
         return False
 
 
-"""Markdown tweaks round 1."""
 class CustomInlineExtensions(Extension):
     def extendMarkdown(self, md):
         # `__[text]__` for underline
@@ -407,6 +439,9 @@ class CustomInlineExtensions(Extension):
         # `'''[text]'''` for gray code
         regex = r"'''([\S\s]*?)'''"
         md.inlinePatterns.register(GrayCodeInlineProcessor(regex, md), "gray_code", 999)
+
+        regex = r"{{\s*([0-9,]+)\s*}}"
+        md.inlinePatterns.register(CounterInlineProcessor(regex, md), "counter", 1)
 
 
 class CustomBlockExtensions(Extension):

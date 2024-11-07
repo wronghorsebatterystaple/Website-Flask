@@ -7,7 +7,7 @@ from flask_login import current_user
 
 import app.blog.blogpage.util as bp_util
 import app.util as util
-from app import db, turnstile
+from app import db
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
 from app.markdown_extensions.custom_extensions import CustomBlockExtensions, CustomInlineExtensions
@@ -66,16 +66,14 @@ def index():
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
 @bp_util.requires_login_for_restricted_bp(content_type=util.ContentType.HTML)
 @bp_util.requires_valid_post(content_type=util.ContentType.HTML)
-def post(post, post_sanitized_title): # first param is from `requires_valid_post` decorator
+def post(post, post_sanitized_title):  # first param is from `requires_valid_post` decorator
     # render Markdown for post
     post = bp_util.render_post_titles_markdown(post)
     content_md = None
     if post.content:
-        # generating HTML `id`s is left to AnchorJS frontend instead of `TocExtension`, as it's more convenient to
-        # use AnchorJS anyway for handling the logic of showing the button when its parent heading is hovered
         content_md = markdown.Markdown(extensions=[
             "extra",
-            TocExtension(toc_depth=2),
+            TocExtension(toc_depth=2), # automatically generates HTML `id` attributes for headers in TOC
             CustomInlineExtensions(),
             CustomBlockExtensions()
         ])
@@ -151,10 +149,6 @@ def get_unread_comment_count(post, post_sanitized_title):
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.not_a_redir_target(content_type=util.ContentType.JSON)
 def add_comment(post, post_sanitized_title):
-    # captcha
-    if not turnstile.verify():
-        return jsonify(redir_url=url_for("bot_jail", _external=True))
-
     # validate form submission
     add_comment_form = AddCommentForm()
     if not add_comment_form.validate():
