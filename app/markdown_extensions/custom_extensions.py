@@ -362,6 +362,7 @@ class Textbox(BlockProcessor):
         "default": r"\\begin{textbox}$",
         "coro": r"\\begin{coro}$",
         "defn": r"\\begin{defn}$",
+        "important": r"\\begin{important}$",
         "prop": r"\\begin{prop}$",
         "thm": r"\\begin{thm}$"
     }
@@ -369,6 +370,7 @@ class Textbox(BlockProcessor):
         "default": r"\\end{textbox}$",
         "coro": r"\\end{coro}$",
         "defn": r"\\end{defn}$",
+        "important": r"\\end{important}$",
         "prop": r"\\end{prop}$",
         "thm": r"\\end{thm}$"
     }

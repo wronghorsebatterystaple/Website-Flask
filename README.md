@@ -119,6 +119,7 @@ I hope I'm not reading this because I bricked a machine again.
             - Alternative styles:
                 - `coro`: corollary
                 - `defn`: definition
+                - `important`: important stuff (gets fancier styling)
                 - `prop`: proposition
                 - `thm`: theorem
     - See docstrings in [app/markdown_extensions/custom_extensions.py](app/markdown_extensions/custom_extensions.py) for more detailed usage instructions

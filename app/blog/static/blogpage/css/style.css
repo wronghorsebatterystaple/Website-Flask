@@ -100,6 +100,7 @@ input[value="Reply"][value="Delete"] {
 
 .md-textbox--coro,
 .md-textbox--defn,
+.md-textbox--important,
 .md-textbox--prop,
 .md-textbox--thm
 {
@@ -109,6 +110,7 @@ input[value="Reply"][value="Delete"] {
 
 .md-textbox--coro td,
 .md-textbox--defn td,
+.md-textbox--important td,
 .md-textbox--prop td,
 .md-textbox--thm td
 {
@@ -123,6 +125,13 @@ input[value="Reply"][value="Delete"] {
 
 .md-textbox--defn {
     border-color: var(--custom-green-light);
+}
+
+.md-textbox--important {
+    border-top-color: var(--custom-green-light);
+    border-right-color: var(--custom-blue-light);
+    border-bottom-color: var(--custom-pink-xlight);
+    border-left-color: var(--custom-orange-deep-light);
 }
 
 .md-textbox--thm {
