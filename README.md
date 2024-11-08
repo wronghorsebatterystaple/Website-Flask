@@ -104,20 +104,19 @@ I hope I'm not reading this because I bricked a machine again.
     - `~~[text]~~` to strikethrough
     - `{{[section 1 change],[section 2 change],…}}` for a counter that increments each section by the specified amount, and displays as many sections as given (similar to LaTeX theorem counters)
 - Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
-    - `\begin_[block type]` and `end_[block type]`, surrounded by a blank line on both sides, puts everything in between in the specified `[block type]`
+    - `\begin{[block type]}` and `end{[block type]}`, surrounded by a blank line on both sides, puts everything in between in the specified `[block type]`
     - Available `[block type]`s:
         - `captioned_figure`: a figure, usually but not necessarily an image, with a caption underneath
             - Requires nested `caption` block inside
         - `cited_blockquote`: a blockquote with a citation underneath
             - Requires nested `citation` block inside
-        - `dropdown_[type]`: an expandable/collapsible dropdown
-            - Available `[type]`s:
-                - Leave blank for default; no trailing underscore needed
+        - `dropdown`: an expandable/collapsible dropdown
+            - Alternative styles:
+                - `exer`: exercise
                 - `pf`: proof
-            - All `[type]`s except `pf` requires nested `summary` block inside specifying the preview text when the dropdown is collapsed (`pf` gets a default `summary` block)
-        - `textbox_[type]`: a textbox (1-cell table)
-            - Available `[type]`s:
-                - Leave blank for default; no trailing underscore needed
+            - All `[type]`s except `exer` and `pf` requires nested `summary` block inside specifying the preview text when the dropdown is collapsed (`pf` gets a default `summary` block)
+        - `textbox`: a textbox (1-cell table)
+            - Alternative styles:
                 - `coro`: corollary
                 - `defn`: definition
                 - `prop`: proposition

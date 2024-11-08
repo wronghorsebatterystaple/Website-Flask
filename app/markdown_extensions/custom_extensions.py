@@ -58,7 +58,7 @@ class CaptionedFigure(BlockProcessor):
     """
     Markdown:
         ```
-        \begin_captioned_figure\begin_caption\end_caption\end_captioned_figure
+        \begin{captioned_figure}\begin{caption}\end{caption}\end{captioned_figure}
         ```
     Generated HTML:
         ```
@@ -66,10 +66,10 @@ class CaptionedFigure(BlockProcessor):
         ```
     """
 
-    RE_FIGURE_START = r"\\begin_captioned_figure$"
-    RE_FIGURE_END = r"\\end_captioned_figure$"
-    RE_CAPTION_START = r"\\begin_caption$"
-    RE_CAPTION_END = r"\\end_caption$"
+    RE_FIGURE_START = r"\\begin{captioned_figure}$"
+    RE_FIGURE_END = r"\\end{captioned_figure}$"
+    RE_CAPTION_START = r"\\begin{caption}$"
+    RE_CAPTION_END = r"\\end{caption}$"
 
     def test(self, parent, block):
         return re.match(self.RE_FIGURE_START, block)
@@ -145,7 +145,7 @@ class CitedBlockquote(BlockProcessor):
     """
     Markdown:
         ```
-        \begin_cited_blockquote\begin_citation\end_citation\end_cited_blockquote
+        \begin{cited_blockquote}\begin{citation}\end{citation}\end{cited_blockquote}
         ```
     Generated HTML:
         ```
@@ -153,10 +153,10 @@ class CitedBlockquote(BlockProcessor):
         ```
     """
 
-    RE_BLOCKQUOTE_START = r"\\begin_cited_blockquote$"
-    RE_BLOCKQUOTE_END = r"\\end_cited_blockquote$"
-    RE_CITATION_START = r"\\begin_citation$"
-    RE_CITATION_END = r"\\end_citation$"
+    RE_BLOCKQUOTE_START = r"\\begin{cited_blockquote}$"
+    RE_BLOCKQUOTE_END = r"\\end{cited_blockquote}$"
+    RE_CITATION_START = r"\\begin{citation}$"
+    RE_CITATION_END = r"\\end{citation}$"
 
     def test(self, parent, block):
         return re.match(self.RE_BLOCKQUOTE_START, block)
@@ -233,12 +233,12 @@ class Dropdown(BlockProcessor):
     Markdown:
         Default `type`:
         ```
-        \begin_dropdown\begin_summary\end_summary\end_dropdown
+        \begin{dropdown}\begin{summary}\end{summary}\end{dropdown}
         ```
 
         Else:
         ```
-        \begin_dropdown_[type]\begin_summary\end_summary\end_dropdown_[type]
+        \begin{dropdown_}[type]\begin{summary}\end{summary}\end{dropdown_}[type]
         ```
     Generated HTML:
         ```
@@ -248,17 +248,17 @@ class Dropdown(BlockProcessor):
     """
 
     RE_DROPDOWN_START_CHOICES = {
-        "default": r"\\begin_dropdown$",
-        "exer": r"\\begin_dropdown_exer$",
-        "pf": r"\\begin_dropdown_pf$"
+        "default": r"\\begin{dropdown}$",
+        "exer": r"\\begin{exer}$",
+        "pf": r"\\begin{pf}$"
     }
     RE_DROPDOWN_END_CHOICES = {
-        "default": r"\\end_dropdown$",
-        "exer": r"\\end_dropdown_exer$",
-        "pf": r"\\end_dropdown_pf$"
+        "default": r"\\end{dropdown}$",
+        "exer": r"\\end{exer}$",
+        "pf": r"\\end{pf}$"
     }
-    RE_SUMMARY_START = r"\\begin_summary$"
-    RE_SUMMARY_END = r"\\end_summary$"
+    RE_SUMMARY_START = r"\\begin{summary}$"
+    RE_SUMMARY_END = r"\\end{summary}$"
     RE_DROPDOWN_START = None
     RE_DROPDOWN_END = None
     TYPE = None
@@ -350,12 +350,12 @@ class Textbox(BlockProcessor):
     Markdown:
         Default `type`:
         ```
-        \begin_textbox\end_textbox
+        \begin{textbox}\end{textbox}
         ```
 
         Else:
         ```
-        \begin_textbox_[type]\end_textbox_[type]
+        \begin{textbox_}[type]\end{textbox_}[type]
         ```
     Generated HTML:
         ```
@@ -365,18 +365,18 @@ class Textbox(BlockProcessor):
 
     # TODO: if publishing these extensions, let these dicts be defined as kwargs in extension config
     RE_START_CHOICES = {
-        "default": r"\\begin_textbox$",
-        "coro": r"\\begin_textbox_coro$",
-        "defn": r"\\begin_textbox_defn$",
-        "prop": r"\\begin_textbox_prop$",
-        "thm": r"\\begin_textbox_thm$"
+        "default": r"\\begin{textbox}$",
+        "coro": r"\\begin{coro}$",
+        "defn": r"\\begin{defn}$",
+        "prop": r"\\begin{prop}$",
+        "thm": r"\\begin{thm}$"
     }
     RE_END_CHOICES = {
-        "default": r"\\end_textbox$",
-        "coro": r"\\end_textbox_coro$",
-        "defn": r"\\end_textbox_defn$",
-        "prop": r"\\end_textbox_prop$",
-        "thm": r"\\end_textbox_thm$"
+        "default": r"\\end{textbox}$",
+        "coro": r"\\end{coro}$",
+        "defn": r"\\end{defn}$",
+        "prop": r"\\end{prop}$",
+        "thm": r"\\end{thm}$"
     }
     RE_START = None
     RE_END = None
