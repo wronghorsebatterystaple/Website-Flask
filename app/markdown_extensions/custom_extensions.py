@@ -1,7 +1,7 @@
 from markdown.extensions import Extension
 from markdown.blockprocessors import BlockProcessor
 from markdown.inlinepatterns import InlineProcessor, SimpleTagInlineProcessor
-from markdown.postprocessors import Postprocessor
+from markdown.preprocessors import Preprocessor
 
 import re
 import xml.etree.ElementTree as etree
@@ -9,7 +9,7 @@ import xml.etree.ElementTree as etree
 
 # TODO: release all these extensions as separate packages? how to package multiple in one like extra?
 # TODO: if releasing Counter, test with no adding html/varied params, also linking to counter via URL fragment
-class Counter(Postprocessor):
+class Counter(Preprocessor):
     def __init__(self, md, regex, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
         super().__init__(md, *args, **kwargs)
         self.regex = regex
@@ -18,40 +18,44 @@ class Counter(Postprocessor):
         self.html_class = html_class
         self.counter = []
 
-    def run(self, text):
-        new_text = ""
-        prev_match_end = 0
-        for m in re.finditer(self.regex, text):
-            input_counter = m.group(1)
-            parsed_counter = input_counter.split(",")
-            # make sure we have enough room to parse counter into `self.counter`
-            while len(parsed_counter) > len(self.counter):
-                self.counter.append(0)
+    def run(self, lines):
+        new_lines = []
+        for line in lines:
+            new_line = ""
+            prev_match_end = 0
 
-            # parse counter
-            for i, parsed_item in enumerate(parsed_counter):
-                try:
-                    parsed_item = int(parsed_item)
-                except:
-                    return False
-                self.counter[i] += parsed_item
-                # if changing current counter section, reset all child sections back to 0
-                if parsed_item != 0 and len(parsed_counter) >= i + 1:
-                    self.counter[i+1:] = [0] * (len(self.counter) - (i+1))
+            for m in re.finditer(self.regex, line):
+                input_counter = m.group(1)
+                parsed_counter = input_counter.split(",")
+                # make sure we have enough room to parse counter into `self.counter`
+                while len(parsed_counter) > len(self.counter):
+                    self.counter.append(0)
 
-            # only output as many counter sections as were inputted
-            output_counter = list(map(str, self.counter[:len(parsed_counter)]))
-            output_text = ".".join(output_counter)
-            if self.add_html_elem:
-                output_text = \
-                        f"<span id=\"{self.html_id_prefix}{'-'.join(output_counter)}\" class=\"{self.html_class}\">" \
-                        + output_text \
-                        + "</span>"
-            new_text += text[prev_match_end:m.start()] + output_text
-            prev_match_end = m.end()
-        # remember to fill in the remaining text after last regex match!
-        new_text += text[prev_match_end:]
-        return new_text
+                # parse counter
+                for i, parsed_item in enumerate(parsed_counter):
+                    try:
+                        parsed_item = int(parsed_item)
+                    except:
+                        return False
+                    self.counter[i] += parsed_item
+                    # if changing current counter section, reset all child sections back to 0
+                    if parsed_item != 0 and len(parsed_counter) >= i + 1:
+                        self.counter[i+1:] = [0] * (len(self.counter) - (i+1))
+
+                # only output as many counter sections as were inputted
+                output_counter = list(map(str, self.counter[:len(parsed_counter)]))
+                output_counter_text = ".".join(output_counter)
+                if self.add_html_elem:
+                    output_counter_text = \
+                            f"<span id=\"{self.html_id_prefix}{'-'.join(output_counter)}\" class=\"{self.html_class}\">" \
+                            + output_counter_text \
+                            + "</span>"
+                new_line += line[prev_match_end:m.start()] + output_counter_text
+                prev_match_end = m.end()
+            # remember to fill in the remaining text after last regex match!
+            new_line += line[prev_match_end:]
+            new_lines.append(new_line)
+        return new_lines
 
 
 class CaptionedFigure(BlockProcessor):
@@ -231,15 +235,10 @@ class CitedBlockquote(BlockProcessor):
 class Dropdown(BlockProcessor):
     """
     Markdown:
-        Default `type`:
         ```
-        \begin{dropdown}\begin{summary}\end{summary}\end{dropdown}
+        \begin{[type]}\begin{summary}\end{summary}\end{[type]}
         ```
 
-        Else:
-        ```
-        \begin{dropdown_}[type]\begin{summary}\end{summary}\end{dropdown_}[type]
-        ```
     Generated HTML:
         ```
         <details class="md-dropdown md-dropdown--[type]"><summary class="md-dropdown__summary last-child-no-mb"></summary>
@@ -348,15 +347,10 @@ class Dropdown(BlockProcessor):
 class Textbox(BlockProcessor):
     """
     Markdown:
-        Default `type`:
         ```
-        \begin{textbox}\end{textbox}
+        \begin{[type]}\end{[type]}
         ```
 
-        Else:
-        ```
-        \begin{textbox_}[type]\end{textbox_}[type]
-        ```
     Generated HTML:
         ```
         <table class="md-textbox md-textbox--[type]"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
@@ -436,7 +430,7 @@ class CustomInlineExtensions(Extension):
         # `{{[section 1 change],[section 2 change],…}}` for a counter that increments each section by the specified
         # amount, and displays as many sections as given (similar to LaTeX theorem counters)
         regex = r"{{\s*([0-9,]+)\s*}}"
-        md.postprocessors.register(Counter(
+        md.preprocessors.register(Counter(
             md, regex, add_html_elem=True, html_id_prefix="md-counter-", html_class="md-counter"), "counter", 105)
 
 
