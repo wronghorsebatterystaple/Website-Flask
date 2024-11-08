@@ -128,10 +128,20 @@ input[value="Reply"][value="Delete"] {
 }
 
 .md-textbox--important {
+    /*
     border-top-color: var(--custom-green-light);
     border-right-color: var(--custom-blue-light);
     border-bottom-color: var(--custom-pink-xlight);
     border-left-color: var(--custom-orange-deep-light);
+    */
+    border-width: 6px;
+    border-color: transparent;
+    border-image: conic-gradient(
+            var(--custom-green-light),
+            var(--custom-blue-light),
+            var(--custom-pink-xlight),
+            var(--custom-orange-deep-light),
+            var(--custom-green-light)) 1;
 }
 
 .md-textbox--thm {
