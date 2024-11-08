@@ -127,21 +127,27 @@ input[value="Reply"][value="Delete"] {
     border-color: var(--custom-green-light);
 }
 
+/* hacky way to get gradient + rounded border (from https://stackoverflow.com/a/51496341) */
 .md-textbox--important {
-    /*
-    border-top-color: var(--custom-green-light);
-    border-right-color: var(--custom-blue-light);
-    border-bottom-color: var(--custom-pink-xlight);
-    border-left-color: var(--custom-orange-deep-light);
-    */
-    border-width: 6px;
+    position: relative;
     border-color: transparent;
-    border-image: conic-gradient(
-            var(--custom-green-light),
+}
+
+.md-textbox--important:before {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: conic-gradient(
+            var(--custom-green),
             var(--custom-blue-light),
             var(--custom-pink-xlight),
             var(--custom-orange-deep-light),
-            var(--custom-green-light)) 1;
+            var(--custom-green));
+    mask:
+       linear-gradient(#000 0 0) exclude,
+       linear-gradient(#000 0 0) content-box;
+    padding: 6px; /* border width; appears a bit smaller than it should be */
+    content: "";
 }
 
 .md-textbox--thm {
