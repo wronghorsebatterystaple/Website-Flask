@@ -249,17 +249,22 @@ class Dropdown(BlockProcessor):
 
     RE_DROPDOWN_START_CHOICES = {
         "default": r"\\begin_dropdown$",
-        "pf": r"\\begin_dropdown_pf$",
+        "exer": r"\\begin_dropdown_exer$",
+        "pf": r"\\begin_dropdown_pf$"
     }
     RE_DROPDOWN_END_CHOICES = {
         "default": r"\\end_dropdown$",
-        "pf": r"\\end_dropdown_pf$",
+        "exer": r"\\end_dropdown_exer$",
+        "pf": r"\\end_dropdown_pf$"
     }
     RE_SUMMARY_START = r"\\begin_summary$"
     RE_SUMMARY_END = r"\\end_summary$"
     RE_DROPDOWN_START = None
     RE_DROPDOWN_END = None
     TYPE = None
+    DEFAULT_SUMMARIES = {
+        "pf": "Proof"
+    }
     
     def test(self, parent, block):
         for type, regex in self.RE_DROPDOWN_START_CHOICES.items():
@@ -283,8 +288,8 @@ class Dropdown(BlockProcessor):
         has_summary = True
         if not re.search(self.RE_SUMMARY_START, blocks[1]):
             has_summary = False
-            # `pf` dropdowns get default summary value, so it's optional
-            if self.TYPE != "pf":
+            # these dropdowns get default summary value, so it's optional
+            if self.TYPE not in self.DEFAULT_SUMMARIES:
                 blocks.clear() # `blocks = org_blocks` doesn't work even though `org_blocks` is literally a copy
                 blocks.extend(org_blocks)
                 return False
@@ -292,11 +297,11 @@ class Dropdown(BlockProcessor):
 
         # find and remove summary ending delimiter, and extract element
         elem_summary = None
-        # fill in default summary value for `pf`
-        if self.TYPE == "pf" and not has_summary:
+        # fill in default summary value for these
+        if self.TYPE in self.DEFAULT_SUMMARIES and not has_summary:
             elem_summary = etree.Element("summary")
             elem_summary.set("class", "md-dropdown__summary last-child-no-mb")
-            elem_summary.text = "Proof."
+            elem_summary.text = self.DEFAULT_SUMMARIES[self.TYPE]
         if has_summary:
             for i, block in enumerate(blocks):
                 if re.search(self.RE_SUMMARY_END, block):
