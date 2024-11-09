@@ -25,12 +25,13 @@ I hope I'm not reading this because I bricked a machine again.
 # Developer notes to compensate for possibly scuffed coding practices
 
 ### IMPORTANT:
-- Always make sure [.gitignore](.gitignore) is up to date with the correct paths and items!
-- Always make sure access control is correct (see overview below)!
-- Always make sure [config.py](config.py) is updated and has the correct filename/path (some Python files import it directly as a module)!
-- Always make sure backup scripts in [deployment/backup-scripts/](deployment/backup-scripts/) have the correct paths and configs!
-- Always make sure this README is updated!
-- Always make sure Cloudflare firewall rules etc. still use the right URLs!
+Keep up-to-date:
+    - [.gitignore](.gitignore)
+    - [config.py](config.py)
+    - README
+    - Backup scripts in [deployment/backup-scripts/](deployment/backup-scripts/)
+    - Cloudflare firewall rules etc.
+- Server-side access control must be perfect
 
 ### Deployment maintenance:
 - Sync/keep up-to-date according to comments and common sense:
@@ -51,7 +52,9 @@ I hope I'm not reading this because I bricked a machine again.
     - Run `flask db upgrade` on the host in the Python venv or restart the Docker containers
 
 ### Access control notes:
-- Currently based on the expectation that all endpoints are access-controlled server-side, thus it doesn't matter as much if client-side updates visuals etc. on session expiry in a timely manner. The admin controls can still be there if interacting with them all requires logging in on the server-side. This is good because my client-side is an absolute dumpster fire of vanilla JS and JQuery.
+- Assume the user can reach all endpoints, so **access-control must be perfect server-side**
+    - Use the functions defined in [app/util.py](app.util.py) for access control
+- It doesn't matter as much if client-side is lax on updating hidden HTML links etc. on session expiry. This is good because my client-side is an absolute dumpster fire.
 
 ### Adding new blogpages:
 - Add to database (reference current database entries)
@@ -87,9 +90,9 @@ I hope I'm not reading this because I bricked a machine again.
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed
 
 ### Updating HTML custom errors:
-- Update [config.py](config.py)
-- Update [app/routes.py](app/routes.py) error handlers if necessary
+- Update `CUSTOM_ERRORS` in [config.py](config.py)
 - Update `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js)
+- Update [app/routes.py](app/routes.py) error handlers if necessary
 
 ### Other notes:
 - `url_for()` to a blueprint (trusted destination!) should always be used with `_external=True` in both HTML templates and Flask to simplify the cross-origin nature of having a blog subdomain

@@ -75,8 +75,8 @@ class Config(object):
     JINJA_TRIM_BLOCKS = True
 
     # other "conventional" configs
-    CUSTOM_ERRORS = {
-        "REFRESH_CSRF": (499, "CSRF Error")
+    CUSTOM_ERRORS = { # error code isn't actually used I think so it's just documentation?
+        "REFRESH_CSRF": (499, "CSRF token expired, missing, or invalid.")
     }
     POST_COMMENT_ALLOWED_TAGS = {
         "abbr", "acronym", "b", "blockquote", "br", "center", "code", "details", "div", "em", "h1", "h2", "h3", "i",
