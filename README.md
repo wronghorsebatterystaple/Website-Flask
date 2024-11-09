@@ -39,7 +39,7 @@ Keep up-to-date:
     - Dockerfiles
     - Docker entrypoint scripts
     - Docker environment variables
-    - [deployment/backup-scripts/db_backup_config.sh](deployment/backup-scripts/db_backup_config.sh) configs (not commented; sync all of them!)
+    - `deployment/backup-scripts/db_backup_config.sh` configs (not commented; sync all of them!)
     - Backup scripts
     - `systemd` services
 - To connect to the MySQL instance running in Docker from the host:
@@ -53,7 +53,7 @@ Keep up-to-date:
 
 ### Access control notes:
 - Assume the user can reach all endpoints, so **access-control must be perfect server-side**
-    - Use the functions defined in [app/util.py](app.util.py) for access control
+    - Use the functions defined in [app/util.py](app/util.py) for access control
 - It doesn't matter as much if client-side is lax on updating hidden HTML links etc. on session expiry. This is good because my client-side is an absolute dumpster fire.
 
 ### Adding new blogpages:
@@ -65,8 +65,7 @@ Keep up-to-date:
     - Update `URLS_LOGIN_REQUIRED` with the backrooms blogpage
 - Create new static directories for it in [app/blog/static/blogpage/](app/blog/static/blogpage/) from the [template](app/blog/static/blogpage/blogpage_template/), and update other static directory names if necessary
     - Remember that since HTML templates are the same for every blogpage, things like font or background image customizations must be done through static files like CSS, which are imported individually per blogpage
-    - If overriding default background image, change `backgroundImgOverrideName` in a JS file belonging to this new blueprint
-        - This is handled rather clumsily by [app/blog/static/blogpage/js/try_override_background_img.js](app/blog/static/blogpage/js/try_override_background_img.js) by updating `URL_backgroundImgOverride`, which is finally used by [app/static/js/set_background_img.js](app/static/js/set_background_img.js) to update the `CSSStyleSheet` `backgroundImgStyleSheet`
+    - If overriding default background image, change `backgroundImgOverrideName` in a file `app/blog/static/blogpage/[blueprint]/js/override_background_img.js`
 
 ### Changing blogpage IDs/blogpage static paths:
 - Change the static directories, obviously
@@ -85,13 +84,13 @@ Keep up-to-date:
 - POST forms:
     - All other forms
     - Usage guidelines:
-        - Must be Ajax, using `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js) and sending FormData (since the CSRF error handling is designed only for FormData). See `doAjaxResponseBase()` in the same file for documentation on the basic, always-supported JSON keys that the backend can return.
-    - Refer to [app/static/js/session_util.js](app/static/js/session_util.js), [app/admin/static/js/form_submit.js](app/admin/static/js/form_submit.js), and [app/blog/static/blogpage/js/comments.js](app/blog/static/blogpage/js/comments.js) for examples of POST forms
+        - Must be Ajax, using `fetchWrapper()` in [app/static/js/util_ajax.js](app/static/js/util_ajax.js) and sending FormData (since the CSRF error handling is designed only for FormData). See `doAjaxResponseBase()` in the same file for documentation on the basic, always-supported JSON keys that the backend can return.
+    - Refer to [app/static/js/util_session.js](app/static/js/util_session.js), [app/admin/static/js/form_submit.js](app/admin/static/js/form_submit.js), and [app/blog/static/blogpage/js/post_comments.js](app/blog/static/blogpage/js/post_comments.js) for examples of POST forms
 - Always add HTML classes `auth-true`/`auth-false` (for showing/hiding elements) when needed
 
 ### Updating HTML custom errors:
 - Update `CUSTOM_ERRORS` in [config.py](config.py)
-- Update `fetchWrapper()` in [app/static/js/ajax_util.js](app/static/js/ajax_util.js)
+- Update `fetchWrapper()` in [app/static/js/util_ajax.js](app/static/js/util_ajax.js)
 - Update [app/routes.py](app/routes.py) error handlers if necessary
 
 ### Other notes:
