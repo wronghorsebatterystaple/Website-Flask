@@ -41,7 +41,7 @@ def custom_unauthorized(content_type):
             case ContentType.HTML:
                 return redirect(url_for(
                         current_app.config["LOGIN_VIEW"],
-                        flash_msg=encode_uri_component("your session has expired. please log in again ^^"),
+                        flash_msg=encode_uri_component("please log in ^^"),
                         next=encode_uri_component(request.url),
                         _external=True))
             case ContentType.JSON:
