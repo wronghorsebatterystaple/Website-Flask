@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # SYNC: relative path to Git repo base
 for file in ../../app/blog/static/blogpage/*; do
     git add "$file/images/"
