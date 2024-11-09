@@ -100,7 +100,9 @@ Keep up-to-date:
 # Blog writer notes
 
 ### Markdown syntax and custom syntax:
-- Make sure to check out `Python-Markdown` official extensions' [documentations](https://python-markdown.github.io/extensions/)
+- Make sure to check out the documentation for Python-Markdown's [official extensions](https://python-markdown.github.io/extensions/)
+    - Check code in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py) to see which ones are used
+    - Attribute Lists allows you to take advantage of the many util CSS classes in [app/static/css/util.css](app/static/css/util.css)
 - Inline:
     - `__[text]__` to underline
     - `~~[text]~~` to strikethrough

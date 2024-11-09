@@ -90,7 +90,6 @@ input[value="Reply"][value="Delete"] {
 .md-textbox {
     width: 100%;
     border-collapse: separate;
-    border-radius: var(--bs-border-radius);
     border-spacing: 0;
 }
 
@@ -127,27 +126,15 @@ input[value="Reply"][value="Delete"] {
     border-color: var(--custom-green-light);
 }
 
-/* hacky way to get gradient + rounded border (from https://stackoverflow.com/a/51496341) */
 .md-textbox--important {
-    position: relative;
+    border-width: 6px;
     border-color: transparent;
-}
-
-.md-textbox--important:before {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: conic-gradient(
+    border-image: conic-gradient(
             var(--custom-green),
             var(--custom-blue-light),
             var(--custom-pink-xlight),
             var(--custom-orange-deep-light),
-            var(--custom-green));
-    mask:
-       linear-gradient(#000 0 0) exclude,
-       linear-gradient(#000 0 0) content-box;
-    padding: 6px; /* border width; appears a bit smaller than it should be */
-    content: "";
+            var(--custom-green)) 1;
 }
 
 .md-textbox--thm {

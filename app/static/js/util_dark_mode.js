@@ -2,6 +2,10 @@ const DARKREADER_OPTIONS = {
     contrast: 130
 };
 const DARKREADER_FIXES = {
+    // CSS selectors for elements that are not automatically inverted by DarkReader (images, SVG icons etc.)
+    invert: [
+        ".dark-mode-manual"
+    ]
 }
 
 DarkReader.setFetchMethod(window.fetch); // solves CORS issue

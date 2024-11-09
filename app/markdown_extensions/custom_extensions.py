@@ -353,7 +353,7 @@ class Textbox(BlockProcessor):
 
     Generated HTML:
         ```
-        <table class="md-textbox md-textbox--[type]"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
+        <table class="md-textbox md-textbox--[type] last-child-no-mb"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
         ```
     """
 
@@ -402,7 +402,7 @@ class Textbox(BlockProcessor):
                 blocks[i] = re.sub(self.RE_END, "", block)
                 # build HTML
                 elem_table = etree.SubElement(parent, "table")
-                elem_table.set("class", f"md-textbox md-textbox--{self.TYPE}")
+                elem_table.set("class", f"md-textbox md-textbox--{self.TYPE} last-child-no-mb")
                 elem_tbody = etree.SubElement(elem_table, "tbody")
                 elem_tr = etree.SubElement(elem_tbody, "tr")
                 elem_td = etree.SubElement(elem_tr, "td")
