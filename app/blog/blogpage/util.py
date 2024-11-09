@@ -67,6 +67,12 @@ def requires_login_if_restricted_bp(content_type):
 
 
 def requires_valid_post(content_type):
+    """
+    Makes sure URL points to a post that exists, and if so, fetches the post from the db and passes it to its inner
+    function as a parameter for later use.
+    """
+
+
     def inner_decorator(func):
         @wraps(func)
         def wrapped(*args, **kwargs):

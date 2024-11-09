@@ -81,9 +81,9 @@ def post(post, post_sanitized_title):  # first param is from `requires_valid_pos
         ])
         post.content = content_md.convert(post.content)
 
-    # strip Markdown for title here instead of on the frontend with JQuery `.text()` because this is only part of
-    # the title, and I can't put `<span>`s or anything in `<title>` to selectively only change part of it in JS
-    # only Jinja can selectively put stuff in `<title>`, so I use bs4 here to do `.text()` and send that to Jinja
+    # strip Markdown for title here instead of on the frontend because this is only part of the title, and I can't
+    # put `<span>`s or anything in `<title>` to selectively only change part of it in JS
+    # only Jinja can selectively put stuff in `<title>`, so I use bs4 here to extract the text for Jinja
     post_title_no_markdown = bp_util.strip_markdown_from_html(post.title)
     add_comment_form = AddCommentForm()
     return render_template(
