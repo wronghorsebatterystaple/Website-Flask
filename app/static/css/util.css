@@ -360,6 +360,12 @@
 /* Other */
 /*********/
 
+a.discreet-link {
+    text-decoration-style: dotted !important;
+    text-decoration-color: unset;
+    color: unset;
+}
+
 .flex-basis-75 {
     flex-basis: 75% !important;
 }

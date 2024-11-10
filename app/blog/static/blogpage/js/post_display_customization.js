@@ -7,14 +7,6 @@ function applyPostAndCommentStyles(baseSelector) {
     const jQCommentContent = jQBase.find(".comment__content");
     const jQPostAndCommentContent = $.merge(jQPostContent, jQCommentContent);
 
-    // make all links except same-page ones indicated by custom markdown and same-page URL fragments
-    // (including footnotes and footnote backrefs) open in new tab
-    jQPostAndCommentContent.find("a").each(function() {
-        if (!$(this).is("[data-same-page]") && !$(this).attr("href").startsWith("#")) {
-            $(this).attr("target", "_blank");
-        }
-    });
-
     // add CSS classes for extra styling
     jQPostContent.find("h1").addClass("post__h1 ");
     jQCommentContent.find("h1").addClass("comment__h1");
