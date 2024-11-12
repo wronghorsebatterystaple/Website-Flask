@@ -2,6 +2,25 @@
     background: white;
 }
 
+.hljs-addition,
+.hljs-bullet,
+.hljs-code,
+.hljs-keyword,
+.hljs-meta,
+.hljs-type {
+    color: var(--custom-pink);
+}
+
+.hljs-built_in,
+.hljs-section,
+.hljs-title {
+    color: var(--custom-orange-xdeep);
+}
+
+.hljs-comment {
+    color: var(--custom-green-deep-xdark);
+}
+
 .hljs-deletion,
 .hljs-literal,
 .hljs-meta .hljs-string,
@@ -14,21 +33,6 @@
     color: var(--custom-blue-deep-dark);
 }
 
-.hljs-comment {
-    color: var(--custom-green-deep-xdark);
-}
-
-.hljs-built_in,
-.hljs-section,
-.hljs-title {
-    color: var(--custom-orange-xdeep);
-}
-
-.hljs-addition,
-.hljs-bullet,
-.hljs-code,
-.hljs-keyword,
-.hljs-meta,
-.hljs-type {
-    color: var(--custom-pink);
+.hljs-variable {
+    color: unset;
 }
