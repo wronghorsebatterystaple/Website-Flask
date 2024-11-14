@@ -1,5 +1,5 @@
 import sqlalchemy as sa
-from flask import jsonify, render_template, url_for
+from flask import jsonify, redirect, render_template, url_for
 from flask_wtf.csrf import generate_csrf
 
 from app import db
@@ -20,6 +20,10 @@ def inject_blogpages():
 
 def bot_jail():
     return render_template("bot_jail.html")
+
+
+def handle_general_http_error(e):
+    return redirect(f"https://http.cat/{e.code}")
 
 
 def handle_csrf_error(e):
