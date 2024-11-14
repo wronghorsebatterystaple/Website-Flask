@@ -53,7 +53,7 @@ async function reloadComments() {
     // reflect comment counts in HTML
     let HTML = `(${commentCount}`;
     if (await IS_USER_AUTHENTICATED() && commentUnreadCount > 0) {
-        HTML += `<span class="show-when-logged-in">, <span class="custom-pink">${commentUnreadCount} unread</span></span>`;
+        HTML += `<span class="show-when-logged-in">, <span class="custom-pink-light">${commentUnreadCount} unread</span></span>`;
     }
     HTML += ")";
     $("#comment-counts").html(HTML);

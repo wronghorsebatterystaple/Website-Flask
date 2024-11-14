@@ -8,7 +8,7 @@
 .hljs-keyword,
 .hljs-meta,
 .hljs-type {
-    color: var(--custom-pink);
+    color: var(--custom-pink-light);
 }
 
 .hljs-built_in,

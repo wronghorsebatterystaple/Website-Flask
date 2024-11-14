@@ -39,8 +39,8 @@ function randomizeColors() {
             selection: "--custom-orange-shallow-light"
         },
         pink: {
-            flash: {border: "--custom-pink-xlight", background: "--custom-pink-xxxlight"},
-            selection: "--custom-pink-xxlight"
+            flash: {border: "--custom-pink-xxlight", background: "--custom-pink-xxxxlight"},
+            selection: "--custom-pink-xxxlight"
         }
     };
     const color = Object.keys(colorChoices)[Math.floor(Math.random() * Object.keys(colorChoices).length)];

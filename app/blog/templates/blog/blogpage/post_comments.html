@@ -14,7 +14,7 @@
             {{ comment.author }}<i class="bi bi-check-circle ms-2" title="Actually verified, unlike Twitter."></i>
           </h3>
     {% else %}
-      <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %}{% if current_user.is_authenticated and comment.is_unread %} border--custom-pink-light border--3px{% endif %}">
+      <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %}{% if current_user.is_authenticated and comment.is_unread %} border--custom-pink-xlight border--3px{% endif %}">
         <div class="card-body pb-2">
           <h3 class="mb-2 fs-7">{{ comment.author }}</h3>
     {% endif %}
@@ -29,9 +29,9 @@
         {% endif %}
 
         {% if current_user.is_authenticated %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-light") }}
+          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-xlight") }}
         {% else %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-light", hidden=true) }}
+          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-xlight", hidden=true) }}
         {% endif %}
       </div>
     </div>

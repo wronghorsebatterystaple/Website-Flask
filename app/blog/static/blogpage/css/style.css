@@ -126,7 +126,7 @@ input[value="Reply"][value="Delete"] {
     border-image: conic-gradient(
             var(--custom-green),
             var(--custom-blue-light),
-            var(--custom-pink-xlight),
+            var(--custom-pink-xxlight),
             var(--custom-orange-deep-light),
             var(--custom-green))
             1;
@@ -146,7 +146,7 @@ input[value="Reply"][value="Delete"] {
     .md-textbox--notat,
     .md-textbox--thm
 ) .md-theorem-heading {
-    color: var(--custom-pink);
+    color: var(--custom-pink-light);
 }
 
 .post__h1 {

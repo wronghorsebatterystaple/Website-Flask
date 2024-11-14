@@ -67,12 +67,12 @@
     color: var(--custom-orange-xdeep) !important;
 }
 
-.custom-pink{
-    color: var(--custom-pink) !important;
+.custom-pink-light
+    color: var(--custom-pink-light) !important;
 }
 
-.custom-pink-light {
-    color: var(--custom-pink-light) !important;
+.custom-pink-xlight {
+    color: var(--custom-pink-xlight) !important;
 }
 
 /************/
@@ -97,8 +97,8 @@
     border-color: var(--custom-orange-deep) !important;
 }
 
-.border--custom-pink-light {
-    border-color: var(--custom-pink-light) !important;
+.border--custom-pink-xlight {
+    border-color: var(--custom-pink-xlight) !important;
 }
 
 .border--3px {
@@ -138,11 +138,11 @@
     --bs-btn-disabled-color: var(--custom-orange-deep-light) !important;
 }
 
-.btn-link--custom-pink-light {
-    --bs-btn-color: var(--custom-pink-light) !important;
-    --bs-btn-hover-color: var(--custom-pink) !important;
-    --bs-btn-active-color: var(--custom-pink-light) !important;
-    --bs-btn-disabled-color: var(--custom-pink-xlight) !important;
+.btn-link--custom-pink-xlight {
+    --bs-btn-color: var(--custom-pink-xlight) !important;
+    --bs-btn-hover-color: var(--custom-pink-light) !important;
+    --bs-btn-active-color: var(--custom-pink-xlight) !important;
+    --bs-btn-disabled-color: var(--custom-pink-xxlight) !important;
 }
 
 /**********/
@@ -199,14 +199,14 @@
     color: var(--custom-orange-xdeep-dark) !important;
 }
 
-.link--custom-pink-light {
-    text-decoration-color: var(--custom-pink-light) !important;
-    color: var(--custom-pink-light) !important;
+.link--custom-pink-xlight {
+    text-decoration-color: var(--custom-pink-xlight) !important;
+    color: var(--custom-pink-xlight) !important;
 }
 
-.link--custom-pink-light:hover {
-    text-decoration-color: var(--custom-pink) !important;
-    color: var(--custom-pink) !important;
+.link--custom-pink-xlight:hover {
+    text-decoration-color: var(--custom-pink-light) !important;
+    color: var(--custom-pink-light) !important;
 }
 
 /***************/

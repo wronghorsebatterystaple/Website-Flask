@@ -50,7 +50,7 @@ async function updateUnreadCommentsDropdown() {
 
     let html = "";
     for (const [postTitle, v] of Object.entries(respJson)) {
-        html += `<a class="dropdown-item" href="${v.url}"><span class="custom-pink">(${v.unread_comment_count})</span> ${postTitle}</a>`;
+        html += `<a class="dropdown-item" href="${v.url}"><span class="custom-pink-light">(${v.unread_comment_count})</span> ${postTitle}</a>`;
     }
     jQDropdownUnreadComments.html(html);
 

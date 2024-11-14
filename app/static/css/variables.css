@@ -2,45 +2,45 @@
     /* general */
     --container-content-max-width: min(672px, 100vw);
 
-    /* custom colors */
-    --custom-blue: #00eaff;                 /* hue 185 */
-    --custom-blue-light: #8cf5ff;
-    --custom-blue-xxlight: #bffaff;
-    --custom-blue-xxxlight: #f7feff;
-    --custom-blue-deep: #00bfff;            /* hue 195 */
-    --custom-blue-deep-light: #47d1ff;
-    --custom-blue-deep-xlight: #b3ecff;
-    --custom-blue-deep-dark: #00b0eb;
-    --custom-blue-deep-xdark: #00a3d9;
+    /* custom colors */                     /* h  , s  , v   */
+    --custom-blue: #00eaff;                 /* 185, 100, 100 */
+    --custom-blue-light: #8cf5ff;           /* 185, 45 , 100 */
+    --custom-blue-xxlight: #bffaff;         /* 185, 25 , 100 */
+    --custom-blue-xxxlight: #f7feff;        /* 188, 3  , 100 */
+    --custom-blue-deep: #00bfff;            /* 195, 100, 100 */
+    --custom-blue-deep-light: #47d1ff;      /* 195, 72 , 100 */
+    --custom-blue-deep-xlight: #b3ecff;     /* 195, 30 , 100 */
+    --custom-blue-deep-dark: #00b0eb;       /* 195, 100, 92  */
+    --custom-blue-deep-xdark: #00a3d9;      /* 195, 100, 85  */
 
-    --custom-green: #b7ff00;                /* hue 77 */
-    --custom-green-light: #c9ff40;
-    --custom-green-xxxlight: #fefffa;
-    --custom-green-deep: #8cff00;           /* hue 87 */
-    --custom-green-deep-light: #a3ff33;
-    --custom-green-deep-xlight: #c0ff73;
-    --custom-green-deep-xxlight: #ecffd5;
-    --custom-green-deep-dark: #76d600;
-    --custom-green-deep-xdark: #6fc900;
-    --custom-green-deep-xxdark: #68bd00;
-    --custom-green-deep-xxxdark: #61b000;
+    --custom-green: #b7ff00;                /* 77 , 100, 100 */
+    --custom-green-light: #c9ff40;          /* 77 , 75 , 100 */
+    --custom-green-xxxlight: #fefffa;       /* 72 , 2  , 100 */
+    --custom-green-deep: #8cff00;           /* 87 , 100, 100 */
+    --custom-green-deep-light: #a3ff33;     /* 87 , 80 , 100 */
+    --custom-green-deep-xlight: #c0ff73;    /* 87 , 55 , 100 */
+    --custom-green-deep-xxlight: #ecffd5;   /* 87 , 16 , 100 */
+    --custom-green-deep-dark: #76d600;      /* 87 , 100, 84  */
+    --custom-green-deep-xdark: #6fc900;     /* 87 , 100, 79  */
+    --custom-green-deep-xxdark: #68bd00;    /* 87 , 100, 74  */
+    --custom-green-deep-xxxdark: #61b000;   /* 87 , 100, 69  */
 
-    --custom-orange: #ffd500;               /* hue 50 */
-    --custom-orange-light: #ffdf40;
-    --custom-orange-xxxlight: #fffdf7;
-    --custom-orange-shallow-light: #fff04d; /* hue 55 */
-    --custom-orange-deep: #ffc800;          /* hue 47 */
-    --custom-orange-deep-light: #ffdb59;
-    --custom-orange-deep-dark: #f7c200;
-    --custom-orange-xdeep: #ffa200;         /* hue 37 */
-    --custom-orange-xdeep-dark: #d98900;
+    --custom-orange: #ffd500;               /* 50 , 100, 100 */
+    --custom-orange-light: #ffdf40;         /* 50 , 75 , 100 */
+    --custom-orange-xxxlight: #fffdf7;      /* 45 , 3  , 100 */
+    --custom-orange-shallow-light: #fff04d; /* 55 , 70 , 100 */
+    --custom-orange-deep: #ffc800;          /* 47 , 100, 100 */
+    --custom-orange-deep-light: #ffdb59;    /* 47 , 65 , 100 */
+    --custom-orange-deep-dark: #f7c200;     /* 47 , 100, 97  */
+    --custom-orange-xdeep: #ffa200;         /* 38 , 100, 100 */
+    --custom-orange-xdeep-dark: #d98900;    /* 38 , 100, 85  */
 
-    --custom-pink: #ff59d0;                 /* hue 317 */
-    --custom-pink-light: #ff8cde;
-    --custom-pink-xlight: #ffbdec;
-    --custom-pink-xxlight: #ffdef6;
-    --custom-pink-xxxlight: #fffafe;
-    --custom-pink-dark: #f200ae;
+    --custom-pink: #ff00b7;                 /* 317, 100, 100 */
+    --custom-pink-light: #ff59d0;           /* 317, 65 , 100 */
+    --custom-pink-xlight: #ff8cde;          /* 317, 45 , 100 */
+    --custom-pink-xxlight: #ffbdec;         /* 317, 26 , 100 */
+    --custom-pink-xxxlight: #ffdef6;        /* 316, 13 , 100 */
+    --custom-pink-xxxxlight: #fffafe;       /* 312, 2  , 100 */
 }
 
 /* for scoping issues on accessing `--bs-gutter-x` */
