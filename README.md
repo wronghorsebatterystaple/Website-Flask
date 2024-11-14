@@ -122,19 +122,18 @@ Keep up-to-date:
                 - Alternative `<block type>`s:
                     - `ex`: example
                     - `exer`: exercise
-                    - `notat`: notation
                     - `pf`: proof
                     - `rmk`: remark
                 - Requires nested `summary` block inside, except for the following `<block type>`s that get defaults:
-                    - `notat`
                     - `pf`
                     - `rmk`
             - `textbox`: a textbox (1-cell table)
-                - Alternative styles:
+                - Alternative `<block type>`s:
                     - `coro`: corollary
                     - `defn`: definition
                     - `impt`: important
                     - `lem`: lemma
+                    - `notat`: notation
                     - `prop`: proposition
                     - `thm`: theorem
         - Not allowed in non-admin comments due to potential bugs and crashes and 500 Internal Server Errors

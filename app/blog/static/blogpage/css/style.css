@@ -77,9 +77,7 @@ input[value="Reply"][value="Delete"] {
     color: var(--custom-blue-deep);
 }
 
-.md-dropdown--ex,
 .md-dropdown--exer,
-.md-dropdown--notat,
 .md-dropdown--pf,
 .md-dropdown--rmk {
     border-color: lightgray;
@@ -103,7 +101,7 @@ input[value="Reply"][value="Delete"] {
 .md-textbox--coro,
 .md-textbox--defn,
 .md-textbox--impt,
-.md-textbox--lem,
+.md-textbox--notat,
 .md-textbox--prop,
 .md-textbox--thm
 {
@@ -112,13 +110,13 @@ input[value="Reply"][value="Delete"] {
 }
 
 .md-textbox--coro,
-.md-textbox--lem,
 .md-textbox--prop
 {
     border-color: lightgray;
 }
 
-.md-textbox--defn {
+.md-textbox--defn,
+.md-textbox--notat {
     border-color: var(--custom-green-light);
 }
 
@@ -145,6 +143,7 @@ input[value="Reply"][value="Delete"] {
 :is(
     .md-textbox--defn,
     .md-textbox--impt,
+    .md-textbox--notat,
     .md-textbox--thm
 ) .md-theorem-heading {
     color: var(--custom-pink);
