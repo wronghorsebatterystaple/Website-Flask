@@ -57,7 +57,7 @@ input[value="Reply"][value="Delete"] {
     border-width: 2px;
     border-style: solid;
     border-radius: var(--bs-border-radius);
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 1rem;
     color: dimgray;
 }
 
@@ -77,7 +77,11 @@ input[value="Reply"][value="Delete"] {
     color: var(--custom-blue-deep);
 }
 
-.md-dropdown--unimportant {
+.md-dropdown--ex,
+.md-dropdown--exer,
+.md-dropdown--notat,
+.md-dropdown--pf,
+.md-dropdown--rmk {
     border-color: lightgray;
 }
 
@@ -93,12 +97,13 @@ input[value="Reply"][value="Delete"] {
 }
 
 .md-textbox--default td {
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 1rem;
 }
 
 .md-textbox--coro,
 .md-textbox--defn,
 .md-textbox--important,
+.md-textbox--lem,
 .md-textbox--prop,
 .md-textbox--thm
 {
@@ -109,6 +114,7 @@ input[value="Reply"][value="Delete"] {
 .md-textbox--coro td,
 .md-textbox--defn td,
 .md-textbox--important td,
+.md-textbox--lem td,
 .md-textbox--prop td,
 .md-textbox--thm td
 {
@@ -116,6 +122,7 @@ input[value="Reply"][value="Delete"] {
 }
 
 .md-textbox--coro,
+.md-textbox--lem,
 .md-textbox--prop
 {
     border-color: lightgray;

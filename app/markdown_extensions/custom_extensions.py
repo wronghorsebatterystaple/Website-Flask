@@ -248,11 +248,19 @@ class Dropdown(BlockProcessor):
 
     RE_DROPDOWN_START_CHOICES = {
         "default": r"\\begin{dropdown}$",
-        "unimportant": r"\\begin{unimportant}$"
+        "ex": r"\\begin{ex}$",
+        "exer": r"\\begin{exer}$",
+        "notat": r"\\begin{notat}$",
+        "pf": r"\\begin{pf}$",
+        "rmk": r"\\end{rmk}$"
     }
     RE_DROPDOWN_END_CHOICES = {
         "default": r"\\end{dropdown}$",
-        "unimportant": r"\\end{unimportant}$"
+        "ex": r"\\end{ex}$",
+        "exer": r"\\end{exer}$",
+        "notat": r"\\end{notat}$",
+        "pf": r"\\end{pf}$",
+        "rmk": r"\\end{rmk}$"
     }
     RE_SUMMARY_START = r"\\begin{summary}$"
     RE_SUMMARY_END = r"\\end{summary}$"
@@ -260,7 +268,9 @@ class Dropdown(BlockProcessor):
     RE_DROPDOWN_END = None
     TYPE = None
     DEFAULT_SUMMARIES = {
-        "unimportant": "Proof"
+        "notat": "Notation",
+        "pf": "Proof",
+        "rmk": "Remark"
     }
     
     def test(self, parent, block):
@@ -361,6 +371,7 @@ class Textbox(BlockProcessor):
         "coro": r"\\begin{coro}$",
         "defn": r"\\begin{defn}$",
         "important": r"\\begin{important}$",
+        "lem": r"\\begin{lem}$",
         "prop": r"\\begin{prop}$",
         "thm": r"\\begin{thm}$"
     }
@@ -369,6 +380,7 @@ class Textbox(BlockProcessor):
         "coro": r"\\end{coro}$",
         "defn": r"\\end{defn}$",
         "important": r"\\end{important}$",
+        "lem": r"\\end{lem}$",
         "prop": r"\\end{prop}$",
         "thm": r"\\end{thm}$"
     }
