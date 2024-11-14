@@ -24,7 +24,7 @@ body {
 
 code,
 pre code {
-    color: var(--custom-pink);
+    color: var(--custom-pink-dark);
     font-size: 100% !important;
 }
 

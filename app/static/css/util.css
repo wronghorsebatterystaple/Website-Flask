@@ -195,8 +195,8 @@
 }
 
 .link--custom-orange-xdeep:hover {
-    text-decoration-color: var(--custom-orange-xxdeep-dark) !important;
-    color: var(--custom-orange-xxdeep-dark) !important;
+    text-decoration-color: var(--custom-orange-xdeep-dark) !important;
+    color: var(--custom-orange-xdeep-dark) !important;
 }
 
 .link--custom-pink-light {

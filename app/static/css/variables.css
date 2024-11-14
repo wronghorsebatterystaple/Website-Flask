@@ -32,14 +32,15 @@
     --custom-orange-deep: #ffc800;          /* hue 47 */
     --custom-orange-deep-light: #ffdb59;
     --custom-orange-deep-dark: #f7c200;
-    --custom-orange-xdeep: #ffae00;         /* hue 41 */
-    --custom-orange-xxdeep-dark: #d98600;   /* hue 37 */
+    --custom-orange-xdeep: #ffa200;         /* hue 37 */
+    --custom-orange-xdeep-dark: #d98900;
 
     --custom-pink: #ff59d0;                 /* hue 317 */
     --custom-pink-light: #ff8cde;
     --custom-pink-xlight: #ffbdec;
     --custom-pink-xxlight: #ffdef6;
     --custom-pink-xxxlight: #fffafe;
+    --custom-pink-dark: #f200ae;
 }
 
 /* for scoping issues on accessing `--bs-gutter-x` */
