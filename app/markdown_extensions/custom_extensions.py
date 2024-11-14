@@ -545,15 +545,17 @@ class TheoremHeading(InlineProcessor):
 
     Usage:
         ```
-        {[<theorem heading>]}[<optional theorem name>]
+        {[<theorem heading>]}{<optional theorem name>}[<optional hidden theorem name>]
         ```
         - HTML output:
             ```
-            <span id="[optional theorem name]" class="md-theorem-heading">
+            <span id="[optional theorem name/optional hidden theorem name]" class="md-theorem-heading">
               [theorem heading]
             </span>
             [optional theorem name]
             ```
+        - `<optional hidden theorem name>` only adds an HTML `id`, and is not displayed. It is ignored if
+          `<optional theorem name>` is provided.
     """
 
     def handleMatch(self, m, current_text_block):
@@ -562,6 +564,8 @@ class TheoremHeading(InlineProcessor):
         if m.group(2):
             elem.text += f" ({m.group(2)})"
             elem.set("id", TheoremHeading.format_for_html(m.group(2)))
+        elif m.group(3):
+            elem.set("id", TheoremHeading.format_for_html(m.group(3)))
         elem.set("class", "md-theorem-heading")
         return elem, m.start(0), m.end(0)
 
@@ -600,7 +604,7 @@ class CustomInlineExtensions(Extension):
         regex = r"{{([0-9,]+)}}"
         md.preprocessors.register(Counter(md, regex, add_html_elem=True, html_id_prefix=""), "counter", 105)
 
-        regex = r"{\[(.+?)\]}(?:\[(.+?)\])?"
+        regex = r"{\[(.+?)\]}(?:{(.+?)})?(?:\[(.+?)\])?"
         md.inlinePatterns.register(TheoremHeading(regex, md), "theorem_heading", 105)
 
 
