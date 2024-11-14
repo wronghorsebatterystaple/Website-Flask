@@ -40,9 +40,6 @@
     --custom-pink-xlight: #ffbdec;
     --custom-pink-xxlight: #ffdef6;
     --custom-pink-xxxlight: #fffafe;
-
-    /* color settings */
-    --code-color: navy;
 }
 
 /* for scoping issues on accessing `--bs-gutter-x` */

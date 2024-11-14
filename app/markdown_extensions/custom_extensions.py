@@ -476,26 +476,20 @@ class Textbox(BlockProcessor):
     """
 
     # TODO: if publishing these extensions, let these dicts be defined as kwargs in extension config
-    # `ex` and `lem` are unimplemented in the frontend as I've decided they shouldn't need special formatting,
-    # but I'm leaving them here to be more easily compatible with my LaTeX notes + in case it's needed in the future
     RE_START_CHOICES = {
         "default": r"\\begin{textbox}$",
-        "ex": r"\\begin{ex}$",
         "coro": r"\\begin{coro}$",
         "defn": r"\\begin{defn}$",
         "impt": r"\\begin{impt}$",
-        "lem": r"\\begin{lem}$",
         "notat": r"\\begin{notat}$",
         "prop": r"\\begin{prop}$",
         "thm": r"\\begin{thm}$"
     }
     RE_END_CHOICES = {
         "default": r"\\end{textbox}$",
-        "ex": r"\\end{ex}$",
         "coro": r"\\end{coro}$",
         "defn": r"\\end{defn}$",
         "impt": r"\\end{impt}$",
-        "lem": r"\\end{lem}$",
         "notat": r"\\end{notat}$",
         "prop": r"\\end{prop}$",
         "thm": r"\\end{thm}$"

@@ -120,7 +120,6 @@ Keep up-to-date:
                 - Requires nested `citation` block inside
             - `dropdown`: an expandable/collapsible dropdown
                 - Alternative `<block type>`s:
-                    - `ex`: example
                     - `exer`: exercise
                     - `pf`: proof
                     - `rmk`: remark
@@ -132,7 +131,6 @@ Keep up-to-date:
                     - `coro`: corollary
                     - `defn`: definition
                     - `impt`: important
-                    - `lem`: lemma
                     - `notat`: notation
                     - `prop`: proposition
                     - `thm`: theorem

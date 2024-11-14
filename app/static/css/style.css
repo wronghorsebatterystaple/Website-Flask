@@ -22,18 +22,20 @@ body {
     font-size: 16px;
 }
 
-code {
-    color: var(--code-color); /* overridable by Highlight.js */
-    font-size: 97.5% !important;
+code,
+pre code {
+    color: var(--custom-pink);
+    font-size: 100% !important;
 }
 
+/* need to do this for DarkReader to affect blogpage index page posts (i hate css) */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    color: inherit; /* need to do this for DarkReader to affect blogpage index page posts (i hate css) */
+    color: inherit;
 }
 
 label:has(+ [required]):after,
@@ -59,10 +61,6 @@ nav .dropdown-menu {
 pre {
     margin-bottom: 0;
     font-size: 100%;
-}
-
-pre code {
-    color: var(--code-color);
 }
 
 table {
