@@ -1,5 +1,5 @@
-const HORIZ_SCOLL_DIV_HTML = "<div class=\"scroll-overflow-x\"></div>";
-const HORIZ_SCOLL_DIV_HTML_WIDTH_FULL = "<div class=\"scroll-overflow-x\" width=\"full\"></div>";
+const HORIZ_SCOLL_DIV_HTML = '<div class="scroll-overflow-x"></div>';
+const HORIZ_SCOLL_DIV_HTML_FULL_WIDTH = '<div class="scroll-overflow-x" width="full"></div>';
 
 /**
  * Preconditions:

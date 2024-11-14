@@ -96,29 +96,19 @@ input[value="Reply"][value="Delete"] {
     border-spacing: 0;
 }
 
-.md-textbox--default td {
+.md-textbox td {
     padding: 0.75rem 1rem;
 }
 
 .md-textbox--coro,
 .md-textbox--defn,
-.md-textbox--important,
+.md-textbox--impt,
 .md-textbox--lem,
 .md-textbox--prop,
 .md-textbox--thm
 {
     border-width: 4px;
     border-style: solid;
-}
-
-.md-textbox--coro td,
-.md-textbox--defn td,
-.md-textbox--important td,
-.md-textbox--lem td,
-.md-textbox--prop td,
-.md-textbox--thm td
-{
-    padding: 0.75rem 1rem;
 }
 
 .md-textbox--coro,
@@ -132,7 +122,7 @@ input[value="Reply"][value="Delete"] {
     border-color: var(--custom-green-light);
 }
 
-.md-textbox--important {
+.md-textbox--impt {
     border-width: 6px;
     border-color: transparent;
     border-image: conic-gradient(
@@ -140,11 +130,24 @@ input[value="Reply"][value="Delete"] {
             var(--custom-blue-light),
             var(--custom-pink-xlight),
             var(--custom-orange-deep-light),
-            var(--custom-green)) 1;
+            var(--custom-green))
+            1;
 }
 
 .md-textbox--thm {
     border-color: var(--custom-orange-deep-light);
+}
+
+.md-theorem-heading {
+    font-weight: bold;
+}
+
+:is(
+    .md-textbox--defn,
+    .md-textbox--impt,
+    .md-textbox--thm
+) .md-theorem-heading {
+    color: var(--custom-pink);
 }
 
 .post__h1 {

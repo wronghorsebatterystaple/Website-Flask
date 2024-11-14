@@ -55,7 +55,7 @@ function tweakFootnotes() {
         // just because the singular form bothers me
         jQFootnotes.addClass("footnotes");
         jQFootnotes.removeClass("footnote");
-        jQFootnotes.wrap("<details id=\"footnotes__wrapper\" class=\"footnotes__wrapper\"></details>")
+        jQFootnotes.wrap('<details id="footnotes__wrapper" class="footnotes__wrapper"></details>')
         jQFootnotes.before("<summary>Footnotes</summary>");
     }
 

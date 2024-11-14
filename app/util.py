@@ -1,3 +1,4 @@
+import re
 import urllib.parse as parse
 from enum import Enum
 from functools import wraps

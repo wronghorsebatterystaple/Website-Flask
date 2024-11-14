@@ -7,67 +7,38 @@ import re
 import xml.etree.ElementTree as etree
 
 
-# TODO: release all these extensions as separate packages? how to package multiple in one like extra?
-# TODO: if releasing Counter, test with no adding html/varied params, also linking to counter via URL fragment
-class Counter(Preprocessor):
-    def __init__(self, md, regex, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
-        super().__init__(md, *args, **kwargs)
-        self.regex = regex
-        self.add_html_elem = add_html_elem
-        self.html_id_prefix = html_id_prefix
-        self.html_class = html_class
-        self.counter = []
-
-    def run(self, lines):
-        new_lines = []
-        for line in lines:
-            new_line = ""
-            prev_match_end = 0
-
-            for m in re.finditer(self.regex, line):
-                input_counter = m.group(1)
-                parsed_counter = input_counter.split(",")
-                # make sure we have enough room to parse counter into `self.counter`
-                while len(parsed_counter) > len(self.counter):
-                    self.counter.append(0)
-
-                # parse counter
-                for i, parsed_item in enumerate(parsed_counter):
-                    try:
-                        parsed_item = int(parsed_item)
-                    except:
-                        return False
-                    self.counter[i] += parsed_item
-                    # if changing current counter section, reset all child sections back to 0
-                    if parsed_item != 0 and len(parsed_counter) >= i + 1:
-                        self.counter[i+1:] = [0] * (len(self.counter) - (i+1))
-
-                # only output as many counter sections as were inputted
-                output_counter = list(map(str, self.counter[:len(parsed_counter)]))
-                output_counter_text = ".".join(output_counter)
-                if self.add_html_elem:
-                    output_counter_text = \
-                            f"<span id=\"{self.html_id_prefix}{'-'.join(output_counter)}\" class=\"{self.html_class}\">" \
-                            + output_counter_text \
-                            + "</span>"
-                new_line += line[prev_match_end:m.start()] + output_counter_text
-                prev_match_end = m.end()
-            # remember to fill in the remaining text after last regex match!
-            new_line += line[prev_match_end:]
-            new_lines.append(new_line)
-        return new_lines
-
+# TODO: if publishing, let user define html classes like with counter
 
 class CaptionedFigure(BlockProcessor):
     """
-    Markdown:
+    A figure with a caption underneath. Useful for images, but the figure content doesn't have to be an image.
+
+    Usage:
         ```
-        \begin{captioned_figure}\begin{caption}\end{caption}\end{captioned_figure}
+
+        \begin{captioned_figure}
+
+        <figure content>
+
+        \begin{caption}
+
+        <caption>
+
+        \end{caption}
+
+        \end{captioned_figure}
+
         ```
-    Generated HTML:
-        ```
-        <figure class="md-captioned-figure"><figcaption class="md-captioned-figure__caption"></figcaption></figure>
-        ```
+        - HTML output:
+            ```
+            <figure class="md-captioned-figure">
+              [figure content]
+              <figcaption class="md-captioned-figure__caption">
+                [caption]
+              </figcaption>
+            </figure>
+            ```
+        - Note that the `caption` block can be placed anywhere within the `captioned_figure` block
     """
 
     RE_FIGURE_START = r"\\begin{captioned_figure}$"
@@ -145,16 +116,126 @@ class CaptionedFigure(BlockProcessor):
         return False
 
 
+# TODO: release all these extensions as separate packages? how to package multiple in one like extra?
+# TODO: if releasing Counter, test with no adding html/varied params, also linking to counter via URL fragment
+class Counter(Preprocessor):
+    # TODO: if publishing, verify example
+    """
+    A counter that is intended to reproduce LaTeX theorem counter functionality by allowing you to specify increments
+    for each "counter section".
+        - "Counter sections" are the typically period-separated numbers in theorem counters. For example, in
+          `Theorem 1.2.4`, the counter sections are 1, 2, and 4.
+
+    Functionality:
+        - Increments each section of the counter by specified amount
+        - Resets all child counters section to 0 after incrementing a counter
+        - Displays only as many counter sections as provided in the Markdown
+
+    Usage:
+        ```
+        {{<section 1 change>,<section 2 change>,<...>}}
+        ```
+
+    Example usage:
+        - Markdown:
+            ```
+            Section {{1}}
+            Subsection {{0,1,0}} (displays as many sections as given)
+            Lemma {{0,0,0,1}}
+            Theorem {{0,0,1}} (the fourth counter section is reset here). Let \(s\) be a lorem ipsum.
+            Mental Breakdown {{0,0,0,3}}
+            I have no idea what this means {{1,2,0,3,9}}
+            ```
+        - Output:
+            ```
+            Section 1
+            Subsection 1.1.0 (displays as many sections as given)
+            Lemma 1.1.1.1
+            Theorem 1.1.2 (the fourth counter section is reset here). Let \(s\) be a lorem ipsum.
+            Mental Breakdown 1.1.2.3
+            I have no idea what this means 2.3.2.6.9
+            ```
+    """
+
+    def __init__(self, md, regex, add_html_elem=False, html_id_prefix="", html_class="", *args, **kwargs):
+        super().__init__(md, *args, **kwargs)
+        self.regex = regex
+        self.add_html_elem = add_html_elem
+        self.html_id_prefix = html_id_prefix
+        self.html_class = html_class
+        self.counter = []
+
+    def run(self, lines):
+        new_lines = []
+        for line in lines:
+            new_line = ""
+            prev_match_end = 0
+
+            for m in re.finditer(self.regex, line):
+                input_counter = m.group(1)
+                parsed_counter = input_counter.split(",")
+                # make sure we have enough room to parse counter into `self.counter`
+                while len(parsed_counter) > len(self.counter):
+                    self.counter.append(0)
+
+                # parse counter
+                for i, parsed_item in enumerate(parsed_counter):
+                    try:
+                        parsed_item = int(parsed_item)
+                    except:
+                        return False
+                    self.counter[i] += parsed_item
+                    # if changing current counter section, reset all child sections back to 0
+                    if parsed_item != 0 and len(parsed_counter) >= i + 1:
+                        self.counter[i+1:] = [0] * (len(self.counter) - (i+1))
+
+                # only output as many counter sections as were inputted
+                output_counter = list(map(str, self.counter[:len(parsed_counter)]))
+                output_counter_text = ".".join(output_counter)
+                if self.add_html_elem:
+                    output_counter_text = \
+                            f"<span id=\"{self.html_id_prefix}{'-'.join(output_counter)}\" class=\"{self.html_class}\">" \
+                            + output_counter_text \
+                            + "</span>"
+                new_line += line[prev_match_end:m.start()] + output_counter_text
+                prev_match_end = m.end()
+            # remember to fill in the remaining text after last regex match!
+            new_line += line[prev_match_end:]
+            new_lines.append(new_line)
+        return new_lines
+
+
 class CitedBlockquote(BlockProcessor):
     """
-    Markdown:
+    A blockquote with a citation underneath. Note that the citation goes in a line below the blockquote, so this is
+    not designed for formal in-text citations.
+
+    Usage:
         ```
-        \begin{cited_blockquote}\begin{citation}\end{citation}\end{cited_blockquote}
+        
+        \begin{cited_blockquote}
+        
+        <quote>
+
+        \begin{citation}
+
+        <citation>
+
+        \end{citation}
+
+        \end{cited_blockquote}
+
         ```
-    Generated HTML:
-        ```
-        <blockquote class="md-cited-blockquote"></blockquote><cite class="md-cited-blockquote-cite"></cite>
-        ```
+        - HTML output:
+            ```
+            <blockquote class="md-cited-blockquote">
+              <quote>
+            </blockquote>
+            <cite class="md-cited-blockquote__cite">
+              <citation>
+            </cite>
+            ```
+        - Note that the `citation` block can be placed anywhere within the `cited_blockquote` block
     """
 
     RE_BLOCKQUOTE_START = r"\\begin{cited_blockquote}$"
@@ -198,7 +279,7 @@ class CitedBlockquote(BlockProcessor):
                 blocks[i] = re.sub(self.RE_CITATION_END, "", block)
                 # build HTML for citation
                 elem_citation = etree.Element("cite")
-                elem_citation.set("class", "md-cited-blockquote-cite")
+                elem_citation.set("class", "md-cited-blockquote__cite")
                 self.parser.parseBlocks(elem_citation, blocks[citation_start_i + 1:i + 1])
                 # remove used blocks
                 for _ in range(citation_start_i + 1, i + 1):
@@ -234,16 +315,35 @@ class CitedBlockquote(BlockProcessor):
 
 class Dropdown(BlockProcessor):
     """
-    Markdown:
-        ```
-        \begin{[type]}\begin{summary}\end{summary}\end{[type]}
+    A dropdown that can be toggled open or closed, with only a summary (preview) portion shown when closed.
+
+    Usage:
         ```
 
-    Generated HTML:
+        \begin{<type>}
+
+        \begin{summary}
+        
+        <summary>
+
+        \end{summary}
+
+        <collapsible content>
+
+        \end{<type>}
+
         ```
-        <details class="md-dropdown md-dropdown--[type]"><summary class="md-dropdown__summary last-child-no-mb"></summary>
-        <div class="md-dropdown__content last-child-no-mb"></div></details>
-        ```
+        - HTML output:
+            ```
+            <details class="md-dropdown md-dropdown--[type]">
+              <summary class="md-dropdown__summary last-child-no-mb">
+                [summary]
+              </summary>
+              <div class="md-dropdown__content last-child-no-mb">
+                [collapsible content]
+              </div>
+            </details>
+            ```
     """
 
     RE_DROPDOWN_START_CHOICES = {
@@ -269,8 +369,8 @@ class Dropdown(BlockProcessor):
     TYPE = None
     DEFAULT_SUMMARIES = {
         "notat": "Notation",
-        "pf": "Proof",
-        "rmk": "Remark"
+        "pf": "{[Proof]}", # syntax for later processing by `theorem_heading` custom extension
+        "rmk": "{[Remark]}"
     }
     
     def test(self, parent, block):
@@ -354,15 +454,30 @@ class Dropdown(BlockProcessor):
 
 class Textbox(BlockProcessor):
     """
-    Markdown:
-        ```
-        \begin{[type]}\end{[type]}
+    A textbox (1-cell table).
+
+    Usage:
         ```
 
-    Generated HTML:
+        \begin{<type>}
+        
+        <content>
+
+        \end{<type>}
+
         ```
-        <table class="md-textbox md-textbox--[type] last-child-no-mb"><tbody><tr><td colspan="1" rowspan="1"></td></tr></tbody></table>
-        ```
+        - HTML output:
+            ```
+            <table class="md-textbox md-textbox--[type] last-child-no-mb">
+              <tbody>
+                <tr>
+                  <td colspan="1" rowspan="1">
+                  [content]
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            ```
     """
 
     # TODO: if publishing these extensions, let these dicts be defined as kwargs in extension config
@@ -370,7 +485,7 @@ class Textbox(BlockProcessor):
         "default": r"\\begin{textbox}$",
         "coro": r"\\begin{coro}$",
         "defn": r"\\begin{defn}$",
-        "important": r"\\begin{important}$",
+        "impt": r"\\begin{impt}$",
         "lem": r"\\begin{lem}$",
         "prop": r"\\begin{prop}$",
         "thm": r"\\begin{thm}$"
@@ -379,7 +494,7 @@ class Textbox(BlockProcessor):
         "default": r"\\end{textbox}$",
         "coro": r"\\end{coro}$",
         "defn": r"\\end{defn}$",
-        "important": r"\\end{important}$",
+        "impt": r"\\end{impt}$",
         "lem": r"\\end{lem}$",
         "prop": r"\\end{prop}$",
         "thm": r"\\end{thm}$"
@@ -429,21 +544,69 @@ class Textbox(BlockProcessor):
         return False
 
 
+class TheoremHeading(InlineProcessor):
+    """
+    A theorem heading that allows you to add custom styling and can generate linkable HTML `id`s.
+
+    Usage:
+        ```
+        {[<theorem heading>]}[<optional theorem name>]
+        ```
+        - HTML output:
+            ```
+            <span id="[optional theorem name]" class="md-theorem-heading">
+              [theorem heading]
+            </span>
+            [optional theorem name]
+            ```
+    """
+
+    def handleMatch(self, m, current_text_block):
+        elem = etree.Element("span")
+        elem.text = m.group(1)
+        if m.group(2):
+            elem.text += f" ({m.group(2)})"
+            elem.set("id", TheoremHeading.format_for_html(m.group(2)))
+        elem.set("class", "md-theorem-heading")
+        return elem, m.start(0), m.end(0)
+
+    @staticmethod
+    def format_for_html(s):
+        s = ("-".join(s.split())).lower() 
+        s = s[:-1].replace(".", "-") + s[-1] # replace periods except possibly last one with dashes (e.g. thm counter)
+        s = re.sub(r"[^A-Za-z0-9-]", r"", s)
+        return s
+
+
 class CustomInlineExtensions(Extension):
     def extendMarkdown(self, md):
-        # `__[text]__` for underline
-        regex = r"()__([\S\s]*?)__"
+        """
+        Underlines text.
+
+        Usage:
+            ```
+            __<text>__
+            ```
+        """
+        regex = r"()__([\S\s]+?)__"
         md.inlinePatterns.register(SimpleTagInlineProcessor(regex, "u"), "underline", 105)
 
-        # `~~[text]~~` for strikethrough
-        regex = r"()~~([\S\s]*?)~~"
+        """
+        Strikes through text.
+        
+        Usage:
+            ```
+            ~~<text>~~
+            ```
+        """
+        regex = r"()~~([\S\s]+?)~~"
         md.inlinePatterns.register(SimpleTagInlineProcessor(regex, "del"), "strikethrough", 105)
 
-        # `{{[section 1 change],[section 2 change],…}}` for a counter that increments each section by the specified
-        # amount, and displays as many sections as given (similar to LaTeX theorem counters)
-        regex = r"{{\s*([0-9,]+)\s*}}"
-        md.preprocessors.register(Counter(
-            md, regex, add_html_elem=True, html_id_prefix="md-counter-", html_class="md-counter"), "counter", 105)
+        regex = r"{{([0-9,]+)}}"
+        md.preprocessors.register(Counter(md, regex, add_html_elem=True, html_id_prefix=""), "counter", 105)
+
+        regex = r"{\[(.+?)\]}(?:\[(.+?)\])?"
+        md.inlinePatterns.register(TheoremHeading(regex, md), "theorem_heading", 105)
 
 
 class CustomBlockExtensions(Extension):

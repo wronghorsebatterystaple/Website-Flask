@@ -18,10 +18,6 @@ def inject_blogpages():
     return dict(blogpages=blogpages)
 
 
-def bot_jail():
-    return render_template("bot_jail.html")
-
-
 def handle_general_http_error(e):
     return redirect(f"https://http.cat/{e.code}")
 

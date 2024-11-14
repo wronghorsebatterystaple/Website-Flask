@@ -103,33 +103,43 @@ Keep up-to-date:
 - Make sure to check out the documentation for Python-Markdown's [official extensions](https://python-markdown.github.io/extensions/)
     - Check code in [app/blog/blogpage/routes.py](app/blog/blogpage/routes.py) to see which ones are used
     - Attribute Lists allows you to take advantage of the many util CSS classes in [app/static/css/util.css](app/static/css/util.css)
-- Inline:
-    - `__[text]__` to underline
-    - `~~[text]~~` to strikethrough
-    - `{{[section 1 change],[section 2 change],…}}` for a counter that increments each section by the specified amount, and displays as many sections as given (similar to LaTeX theorem counters)
-- Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
-    - `\begin{[block type]}` and `end{[block type]}`, surrounded by a blank line on both sides, puts everything in between in the specified `[block type]`
-    - Available `[block type]`s:
-        - `captioned_figure`: a figure, usually but not necessarily an image, with a caption underneath
-            - Requires nested `caption` block inside
-        - `cited_blockquote`: a blockquote with a citation underneath
-            - Requires nested `citation` block inside
-        - `dropdown`: an expandable/collapsible dropdown
-            - Alternative styles:
-                - `exer`: exercise
-                - `pf`: proof
-            - All `[type]`s except `exer` and `pf` requires nested `summary` block inside specifying the preview text when the dropdown is collapsed (`pf` gets a default `summary` block)
-        - `textbox`: a textbox (1-cell table)
-            - Alternative styles:
-                - `coro`: corollary
-                - `defn`: definition
-                - `important`: important stuff (gets fancier styling)
-                - `prop`: proposition
-                - `thm`: theorem
-    - See docstrings in [app/markdown_extensions/custom_extensions.py](app/markdown_extensions/custom_extensions.py) for more detailed usage instructions
-    - Not allowed in non-admin comments due to potential bugs and crashes and 500 Internal Server Errors
-- Images:
-    - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!)
+- Custom Markdown syntax:
+    - Check source code for detailed documentation and usages
+    - Inline:
+        - `__[text]__` to underline
+        - `~~[text]~~` to strikethrough
+        - `{{[section 1 change],[section 2 change],…}}` for a counter that is intended to reproduce LaTeX theorem counter functionality by allowing you to specify increments for each "counter section".
+            - "Counter sections" are the typically period-separated numbers in theorem counters. For example, in
+              `Theorem 1.2.4`, the counter sections are 1, 2, and 4.
+    - Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
+        - `\begin{<block type>}` and `end{<block type>}`, surrounded by a blank line on both sides, puts everything in between in the specified `<block type>`
+        - Available `<block type>`s:
+            - `captioned_figure`: a figure with a caption underneath
+                - Requires nested `caption` block inside
+            - `cited_blockquote`: a blockquote with a citation underneath
+                - Requires nested `citation` block inside
+            - `dropdown`: an expandable/collapsible dropdown
+                - Alternative `<block type>`s:
+                    - `ex`: example
+                    - `exer`: exercise
+                    - `notat`: notation
+                    - `pf`: proof
+                    - `rmk`: remark
+                - Requires nested `summary` block inside, except for the following `<block type>`s that get defaults:
+                    - `notat`
+                    - `pf`
+                    - `rmk`
+            - `textbox`: a textbox (1-cell table)
+                - Alternative styles:
+                    - `coro`: corollary
+                    - `defn`: definition
+                    - `impt`: important
+                    - `lem`: lemma
+                    - `prop`: proposition
+                    - `thm`: theorem
+        - Not allowed in non-admin comments due to potential bugs and crashes and 500 Internal Server Errors
+    - Images:
+        - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!)
 
 ### Other syntax notes:
 - Raw HTML (including with attributes!) will be rendered, which is useful for additional styling or in environments where Markdown equivalents may not always work (footnotes, tables, blockquotes etc.). Examples:
