@@ -248,13 +248,11 @@ class Dropdown(BlockProcessor):
 
     RE_DROPDOWN_START_CHOICES = {
         "default": r"\\begin{dropdown}$",
-        "exer": r"\\begin{exer}$",
-        "pf": r"\\begin{pf}$"
+        "unimportant": r"\\begin{unimportant}$"
     }
     RE_DROPDOWN_END_CHOICES = {
         "default": r"\\end{dropdown}$",
-        "exer": r"\\end{exer}$",
-        "pf": r"\\end{pf}$"
+        "unimportant": r"\\end{unimportant}$"
     }
     RE_SUMMARY_START = r"\\begin{summary}$"
     RE_SUMMARY_END = r"\\end{summary}$"
@@ -262,7 +260,7 @@ class Dropdown(BlockProcessor):
     RE_DROPDOWN_END = None
     TYPE = None
     DEFAULT_SUMMARIES = {
-        "pf": "Proof"
+        "unimportant": "Proof"
     }
     
     def test(self, parent, block):

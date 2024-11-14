@@ -77,8 +77,7 @@ input[value="Reply"][value="Delete"] {
     color: var(--custom-blue-deep);
 }
 
-.md-dropdown--exer,
-.md-dropdown--pf {
+.md-dropdown--unimportant {
     border-color: lightgray;
 }
 
