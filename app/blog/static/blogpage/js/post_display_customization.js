@@ -17,10 +17,8 @@ function applyPostAndCommentStyles(baseSelector) {
     jQPostAndCommentContent.find(".post__h1, .comment__h1").addClass("mb-3 border-bottom--h1 fs-4");
     jQPostAndCommentContent.find(".post__h2, .comment__h2").addClass("mb-3 border-bottom--h2 fs-7");
 
-    // images use alt text as hover text too
-    jQPostAndCommentContent.find(".post__img[alt], .comment__img[alt]").each(function() {
-        $(this).attr("title", $(this).attr("alt"));
-    });
+    // default open certain dropdowns in post
+    jQBase.find("details").filter(".md-dropdown--ex, .md-dropdown--notat").attr("open", "");
 }
 
 // for syntax guide
@@ -62,11 +60,8 @@ function tweakFootnotes() {
     }
 
     // footnotes collapsible opens if footnote link clicked on and the collapsible is closed
-    $(".footnote-ref").on("click", function(e) {
-        const jQFootnotesWrapper = $("#footnotes__wrapper");
-        if (!jQFootnotesWrapper.is("[open]")) {
-            jQFootnotesWrapper.attr("open", "");
-        }
+    $(".footnote-ref").on("click", function() {
+        $("#footnotes__wrapper").attr("open", "");
     });
 }
 

@@ -1,4 +1,5 @@
 import markdown
+import image_titles
 from markdown.extensions.toc import TocExtension
 
 import sqlalchemy as sa
@@ -75,6 +76,7 @@ def post(post, post_sanitized_title):  # first param is from `requires_valid_pos
     if post.content:
         content_md = markdown.Markdown(extensions=[
             "extra",
+            "image_titles",            # images use `alt` text as `title` too
             TocExtension(toc_depth=2), # automatically generates HTML `id` attributes for headers in TOC
             CustomInlineExtensions(),
             CustomBlockExtensions()
@@ -106,7 +108,8 @@ def get_comments(post, post_sanitized_title):
     for comment in comments:
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
-                    comment.content, extensions=["extra", CustomInlineExtensions(), CustomBlockExtensions()])
+                    comment.content,
+                    extensions=["extra", "image_titles", CustomInlineExtensions(), CustomBlockExtensions()])
         else:
             # no custom block Markdown for non-admin because there are ways to 500 the page that I don't wanna fix
             comment.content = markdown.markdown(

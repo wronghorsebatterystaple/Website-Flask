@@ -252,7 +252,7 @@ class Dropdown(BlockProcessor):
         "exer": r"\\begin{exer}$",
         "notat": r"\\begin{notat}$",
         "pf": r"\\begin{pf}$",
-        "rmk": r"\\end{rmk}$"
+        "rmk": r"\\begin{rmk}$"
     }
     RE_DROPDOWN_END_CHOICES = {
         "default": r"\\end{dropdown}$",
