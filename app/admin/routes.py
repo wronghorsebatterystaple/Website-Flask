@@ -110,7 +110,7 @@ def create_blogpost(**kwargs):
     if request.method == "GET":
         # automatically populate blogpage form field from query string if detected
         # don't need URL decode here, and uses first option if invalid
-        blogpage_id = request.args.get("blogpage_id")
+        blogpage_id = request.args.get("blogpage_id", None)
         if blogpage_id is not None:
             try:
                 blogpage_id = int(blogpage_id)
@@ -130,17 +130,17 @@ def create_blogpost(**kwargs):
                 subtitle=request.form.get("subtitle"),
                 content=request.form.get("content"))
         post.sanitize_title()
-        res = post.check_and_try_flushing(True)
-        if res is not None:
-            return jsonify(flash_msg=res)
+        err = post.check_and_try_flushing(True)
+        if err:
+            return jsonify(flash_msg=err)
         post.add_timestamps(False, False)
         post.expand_image_markdown()
 
         # upload images if any
         images_path = admin_util.get_images_path(post)
-        res = admin_util.upload_images(request.files.getlist("images"), images_path)
-        if res is not None:
-            return jsonify(flash_msg=res)
+        err = admin_util.upload_images(request.files.getlist("images"), images_path)
+        if err:
+            return jsonify(flash_msg=err)
 
         db.session.commit()                             # commit at very end when success is guaranteed
         return jsonify(
@@ -229,16 +229,17 @@ def edit_blogpost(**kwargs):
         post.content = request.form.get("content")
         
         post.sanitize_title()
-        res = post.check_and_try_flushing(False)
-        if res is not None:
-            return jsonify(flash_msg=res)
-        post.add_timestamps(request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"))
+        err = post.check_and_try_flushing(False)
+        if err:
+            return jsonify(flash_msg=err)
+        post.add_timestamps(
+                request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
 
         # upload images if any
-        res = admin_util.upload_images(request.files.getlist("images"), images_path)
-        if res is not None:
-            return jsonify(flash_msg=res)
+        err = admin_util.upload_images(request.files.getlist("images"), images_path)
+        if err:
+            return jsonify(flash_msg=err)
         
         # delete images if any
         try:
@@ -258,7 +259,7 @@ def edit_blogpost(**kwargs):
                 images = os.listdir(images_path)
                 for image in images:
                     file_ext = os.path.splitext(image)[1]
-                    if file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_DELETE_UNUSED"] \
+                    if file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_DELETE_UNUSED"] \
                             and image not in post.content:
                         os.remove(os.path.join(images_path, image))
 

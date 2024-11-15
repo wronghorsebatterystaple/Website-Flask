@@ -44,7 +44,7 @@ class CreateBlogpostForm(FlaskForm):
             "Content (Markdown (all), LaTeX supported)",
             validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_MAXLEN"])])
 
-    images = MultipleFileField(f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})")
+    images = MultipleFileField(f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTS)})")
 
     create_blogpost_form_submit = SubmitField("Submit")
 
@@ -84,7 +84,7 @@ class EditBlogpostForm(FlaskForm):
             validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_MAXLEN"])])
 
     images = MultipleFileField(
-            f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTENSIONS)})")
+            f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTS)})")
 
     cancel_image_uploads = SubmitField(
             "Clear images to upload",

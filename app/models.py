@@ -183,7 +183,7 @@ class Post(db.Model):
             db.session.flush()
         except sa.exc.IntegrityError:
             return "There is already a post with that title or sanitized title."
-        return None
+        return ""
 
     def add_timestamps(self, remove_edited_timestamp, update_edited_timestamp):
         """

@@ -37,22 +37,21 @@ def upload_images(images, images_path) -> str:
                 return "Image name was reduced to atoms by sanitization."
 
             file_ext = os.path.splitext(filename)[1]
-            if file_ext == ".jpg":                  # `validate_image()` (`imghdr.what()`) returns `jpg` as `jpeg`
+            if file_ext == ".jpg":                  # `imghdr.what()` in `validate_image()` returns `jpg` as `jpeg`
                 file_ext = ".jpeg"
-            # imghdr can't check SVG; trustable since admin-only
-            invalid = file_ext not in current_app.config["IMAGE_UPLOAD_EXTENSIONS"] \
-                    or (file_ext in current_app.config["IMAGE_UPLOAD_EXTENSIONS_CAN_VALIDATE"] \
+            # `imghdr` can't check SVG; trustable since admin-only ig
+            invalid = file_ext not in current_app.config["IMAGE_UPLOAD_EXTS"] \
+                    or (file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_VALIDATE"] \
                     and file_ext != validate_image(image.stream))
             if invalid:
                 return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hat"
 
             path = os.path.join(images_path, filename)
-            os.makedirs(images_path, exist_ok=True) # mkdir -p if not exist
+            os.makedirs(images_path, exist_ok=True) # make directories if not exist
             image.save(path)                        # replaces image if it's already there
     except Exception as e:
         return f"Image upload exception: {str(e)}"
-    
-    return None
+    return ""
 
 
 def validate_image(image) -> str:
@@ -60,5 +59,5 @@ def validate_image(image) -> str:
     image.seek(0)
     format = imghdr.what(None, header)
     if not format:
-        return None
+        return ""
     return f".{format}"
