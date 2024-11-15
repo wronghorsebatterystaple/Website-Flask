@@ -13,6 +13,15 @@ class ContentType(Enum):
     DEPENDS_ON_REQ_METHOD = "`text/html` if GET, else `application/json`"
 
 
+def set_content_type(content_type):
+    def inner_decorator(func):
+        @wraps(func)
+        def wrapped(*args, **kwargs):
+            return func(content_type=content_type, *args, **kwargs)
+        return wrapped
+    return inner_decorator
+
+
 def custom_unauthorized(content_type):
     """
     Makes sure `current_user` is authenticated. If not:
@@ -52,7 +61,7 @@ def custom_unauthorized(content_type):
     return None
 
 
-def requires_login(content_type):
+def requires_login():
     """
     Same functionality as custom_unauthorized(), but as a decorator.
 
@@ -66,8 +75,8 @@ def requires_login(content_type):
     """
 
     def inner_decorator(func):
-        @wraps(func) # this allows double decorator to work if this is the second decorator
-        def wrapped(*args, **kwargs):
+        @wraps(func)
+        def wrapped(content_type, *args, **kwargs):
             result = custom_unauthorized(content_type)
             if result:
                 return result

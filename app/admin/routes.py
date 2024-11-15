@@ -71,8 +71,9 @@ def login():
 
 
 @bp.route("/choose-action", methods=["GET", "POST"])
-@util.requires_login(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
-def choose_action():
+@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.requires_login()
+def choose_action(**kwargs):
     form = ChooseActionForm()
 
     if request.method == "GET":
@@ -99,8 +100,9 @@ def choose_action():
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
-@util.requires_login(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
-def create_blogpost():
+@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.requires_login()
+def create_blogpost(**kwargs):
     form = CreateBlogpostForm()
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.is_writeable]
@@ -150,8 +152,9 @@ def create_blogpost():
 
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
-@util.requires_login(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
-def search_blogpost():
+@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.requires_login()
+def search_blogpost(**kwargs):
     form = SearchBlogpostForm()
 
     if request.method == "GET":
@@ -169,8 +172,9 @@ def search_blogpost():
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
-@util.requires_login(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
-def edit_blogpost():
+@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.requires_login()
+def edit_blogpost(**kwargs):
     try:
         post_id = int(request.args.get("post_id"))
     except Exception:
@@ -281,8 +285,9 @@ def edit_blogpost():
         
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
-@util.requires_login(content_type=util.ContentType.DEPENDS_ON_REQ_METHOD)
-def change_admin_password():
+@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.requires_login()
+def change_admin_password(**kwargs):
     form = ChangeAdminPasswordForm()
 
     if request.method == "GET":
