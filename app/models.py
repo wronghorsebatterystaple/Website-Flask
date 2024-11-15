@@ -167,7 +167,7 @@ class Post(db.Model):
         """
 
         self.sanitized_title = ("-".join(self.title.split())).lower()
-        self.sanitized_title = re.sub("r[^A-Za-z0-9-]", r"", self.sanitized_title)
+        self.sanitized_title = re.sub(r"[^A-Za-z0-9-]", "", self.sanitized_title)
 
     def check_titles(self) -> str:
         """
