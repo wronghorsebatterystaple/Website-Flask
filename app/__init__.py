@@ -25,6 +25,7 @@ minify = Minify()
 moment = Moment()
 talisman = Talisman()
 
+
 import app.routes as global_routes # after initializing global extension variables to prevent circular imports
 
 

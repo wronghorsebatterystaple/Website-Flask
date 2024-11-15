@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 class Config(object):
     # basics
     SERVER_NAME = "anonymousrand.xyz"
-    ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}"]
+    ALLOWED_ORIGINS = [f"https://{SERVER_NAME}", f"https://blog.{SERVER_NAME}", "https://http.cat"]
     SECRET_KEY = os.environ.get("SECRET_KEY")
     _csp_self = ["\'self\'", SERVER_NAME, f"blog.{SERVER_NAME}"]
     _csp_default_src = _csp_self
@@ -12,7 +12,8 @@ class Config(object):
         "default-src": _csp_default_src,
         "connect-src": _csp_default_src + [
             "data:",                        # DarkReader
-            "cdnjs.cloudflare.com"          # Highlight.js
+            "cdnjs.cloudflare.com",         # Highlight.js
+            "http.cat"                      # error pages :3
         ],
         "font-src": _csp_default_src + [
             "cdn.jsdelivr.net",             # MathJax

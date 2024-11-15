@@ -3,6 +3,7 @@ import image_titles
 from markdown.extensions.toc import TocExtension
 
 import sqlalchemy as sa
+import sqlalchemy.orm as so
 import sqlalchemy.sql.functions as sa_func
 from flask import current_app, get_template_attribute, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user
@@ -41,14 +42,14 @@ def index():
                 error_out=False)
     else:
         posts = db.paginate(
-                db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id)
-                        .order_by(sa.desc(Post.timestamp)),
+                db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id).order_by(sa.desc(Post.timestamp)),
                 page=page_num,
                 per_page=current_app.config["POSTS_PER_PAGE"],
                 error_out=False)
     if posts is None:
         return "ok im actually impressed how did you do that", 500
     for post in posts:
+        so.make_transient(post) # "detach" it from the db object so we can edit without affecting db (because autoflush)
         post = bp_util.render_post_titles_markdown(post)
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
@@ -72,6 +73,7 @@ def index():
 def post(post, post_sanitized_title):  # first param is from `requires_valid_post` decorator
     # render Markdown for post
     post = bp_util.render_post_titles_markdown(post)
+    so.make_transient(post)
     content_md = None
     if post.content:
         content_md = markdown.Markdown(extensions=[
@@ -106,6 +108,7 @@ def get_comments(post, post_sanitized_title):
     comments = db.session.scalars(comments_query).all()
 
     for comment in comments:
+        so.make_transient(comment)
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
                     comment.content,
@@ -173,7 +176,7 @@ def add_comment(post, post_sanitized_title):
             content=request.form.get("content"),
             post=post,
             is_unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
-    with db.session.no_autoflush: # otherwise there's a warning
+    with db.session.no_autoflush:             # otherwise there's a warning
         if not comment.insert_comment(post, db.session.get(Comment, request.form.get("parent"))):
             return jsonify(flash_msg="haker :3")
     db.session.add(comment)
@@ -187,7 +190,6 @@ def add_comment(post, post_sanitized_title):
 @bp_util.requires_valid_post(content_type=util.ContentType.JSON)
 @bp_util.redirs_to_post_after_login(content_type=util.ContentType.JSON)
 def delete_comment(post, post_sanitized_title):
-    # check comment existence
     comment = db.session.get(Comment, request.args.get("comment_id"))
     if comment is None:
         return jsonify(success=True, flash_msg=f"That comment doesn't exist :/")

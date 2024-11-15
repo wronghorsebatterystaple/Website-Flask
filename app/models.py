@@ -159,7 +159,7 @@ class Post(db.Model):
             cascade="all, delete-orphan",
             passive_deletes=True)
 
-    # util functions
+    # util
     def sanitize_title(self):
         """
         Replaces whitespace with hyphens, uses all lowercase, and removes all non-alphanumeric and non-hypthen
@@ -169,26 +169,29 @@ class Post(db.Model):
         self.sanitized_title = ("-".join(self.title.split())).lower()
         self.sanitized_title = re.sub(r"[^A-Za-z0-9-]", "", self.sanitized_title)
 
-    def check_titles(self) -> str:
-        """
-        Preconditions:
-            - `db.session.add()`
-        """
-
+    def check_and_try_flushing(self, add_to_db_first) -> str:
         # check that title still exists after sanitization
         if self.sanitized_title == "":
             return "Post must have alphanumeric characters in its title."
-        # check that titles are unique
-        if len(db.session.query(Post).filter_by(sanitized_title = self.sanitized_title).all()) != 1:
-            return "There is already a post with that title or sanitized title."
-
-        # standardize subtitles to None/NULL
+        # standardize empty subtitles to `None` (SQL `NULL`)
         if self.subtitle == "":
             self.subtitle = None
-
+        # check that sanitized title is unique (couldn't find reliable way besides try/catch *sigh* my poor LBYL brain)
+        try:
+            if add_to_db_first:
+                db.session.add(self)
+            db.session.flush()
+        except sa.exc.IntegrityError:
+            return "There is already a post with that title or sanitized title."
         return None
 
     def add_timestamps(self, remove_edited_timestamp, update_edited_timestamp):
+        """
+        Prereqs:
+            - Post must already be added to the db or at least the transaction (`db.session.add()`)
+            - Post must have `blogpage` field auto-generated (`db.session.flush()`)
+        """
+
         if update_edited_timestamp:
             self.edited_timestamp = datetime.now(timezone.utc)
         if remove_edited_timestamp:
@@ -201,7 +204,7 @@ class Post(db.Model):
             self.timestamp = datetime.now(timezone.utc)
             self.edited_timestamp = None
 
-    def expand_image_markdown(self):
+    def expand_image_markdown(self) -> None:
         self.content = re.sub(
                 r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
                 fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/\2)", 
@@ -273,7 +276,7 @@ class Comment(db.Model):
             nullable=False,
             index=True)
 
-    # util functions
+    # util
     def insert_comment(self, post, parent) -> bool:
         if parent is None:
             # add child with left = max of right for that post + 1
@@ -352,7 +355,7 @@ class User(UserMixin, db.Model):
             sa.String(Config.DB_CONFIGS["USER_PASSWORD_HASH_MAXLEN"]),
             nullable=False)
 
-    # util functions
+    # util
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

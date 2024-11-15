@@ -127,13 +127,11 @@ def create_blogpost():
                 title=request.form.get("title"),
                 subtitle=request.form.get("subtitle"),
                 content=request.form.get("content"))
-        
         post.sanitize_title()
-        db.session.add(post)
-        res = post.check_titles()
+        res = post.check_and_try_flushing(True)
         if res is not None:
             return jsonify(flash_msg=res)
-        post.add_timestamps(False, True)
+        post.add_timestamps(False, False)
         post.expand_image_markdown()
 
         # upload images if any
@@ -142,7 +140,7 @@ def create_blogpost():
         if res is not None:
             return jsonify(flash_msg=res)
 
-        db.session.commit()                                 # commit at very end when success is guaranteed
+        db.session.commit()                             # commit at very end when success is guaranteed
         return jsonify(
                 redir_url=url_for(
                         f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
@@ -227,11 +225,10 @@ def edit_blogpost():
         post.content = request.form.get("content")
         
         post.sanitize_title()
-        res = post.check_titles()
+        res = post.check_and_try_flushing(False)
         if res is not None:
             return jsonify(flash_msg=res)
-        post.add_timestamps(
-                request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"))
+        post.add_timestamps(request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"))
         post.expand_image_markdown()
 
         # upload images if any
