@@ -4,28 +4,8 @@ import imghdr
 import os
 import shutil
 
-from flask import current_app
+from flask import current_app, jsonify, redirect, request, url_for
 from werkzeug.utils import escape, secure_filename
-
-
-def delete_dir_if_empty(path: str) -> None:
-    if os.path.exists(path) and os.path.isdir(path) and len(os.listdir(path)) == 0:
-        shutil.rmtree(path)
-
-
-def get_imgs_base_path(post: Post) -> str:
-    return os.path.join(
-            current_app.root_path,
-            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-            str(post.blogpage_id),
-            "images",
-            str(post.id))
-
-
-def sanitize_filename(filename: str) -> str:
-    filename = escape(secure_filename(filename))
-    filename = filename.replace("(", "").replace(")", "") # for Markdown parsing
-    return filename
 
 
 def upload_images(images: list, imgs_base_path: str) -> str:
@@ -63,3 +43,41 @@ def validate_image(image) -> str:
     if not format:
         return ""
     return f".{format}"
+
+
+def delete_dir_if_empty(path: str) -> None:
+    if os.path.exists(path) and os.path.isdir(path) and len(os.listdir(path)) == 0:
+        shutil.rmtree(path)
+
+
+def get_imgs_base_path(post: Post) -> str:
+    return os.path.join(
+            current_app.root_path,
+            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+            str(post.blogpage_id),
+            "images",
+            str(post.id))
+
+
+def sanitize_filename(filename: str) -> str:
+    filename = escape(secure_filename(filename))
+    filename = filename.replace("(", "").replace(")", "") # for Markdown parsing
+    return filename
+
+
+def redir_depending_on_req_method(redir_endpt: str, flash_msg: str=""):
+    match request.method:
+        case "GET":
+            redir_url = ""
+            if flash_msg != "":
+                redir_url = url_for(redir_endpt, flash_msg=flash_msg, _external=True)
+            else:
+                redir_url = url_for(redir_endpt, _external=True)
+            return redirect(redir_url)
+        case "POST":
+            kwargs = {"redir_url": url_for(redir_endpt, _external=True)}
+            if flash_msg != "":
+                kwargs["flash_msg"] = flash_msg
+            return jsonify(**kwargs)
+        case _:
+            return "app/util.py: `redir_depending_on_req_method()` reached end of switch statement", 500

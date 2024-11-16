@@ -171,11 +171,11 @@ def edit_blogpost(**kwargs):
     try:
         post_id = int(request.args.get("post_id"))
     except Exception:
-        return util.redir_depending_on_req_method("admin.search_blogpost", flash_msg="haker :3")
+        return admin_util.redir_depending_on_req_method("admin.search_blogpost", flash_msg="haker :3")
 
     post = db.session.get(Post, post_id)
     if post is None:
-        return util.redir_depending_on_req_method(
+        return admin_util.redir_depending_on_req_method(
                 "admin.search_blogpost",
                 flash_msg="That post no longer exists. Did you hit the back button? Regret it, do you?")
     

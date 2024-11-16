@@ -98,24 +98,6 @@ def set_content_type(content_type: ContentType):
     return inner_decorator
 
 
-def redir_depending_on_req_method(redir_endpt: str, flash_msg: str=""):
-    match request.method:
-        case "GET":
-            redir_url = ""
-            if flash_msg != "":
-                redir_url = url_for(redir_endpt, flash_msg=flash_msg, _external=True)
-            else:
-                redir_url = url_for(redir_endpt, _external=True)
-            return redirect(redir_url)
-        case "POST":
-            args = {"redir_url": url_for(redir_endpt, _external=True)}
-            if flash_msg != "":
-                args["flash_msg"] = flash_msg
-            return jsonify(**args)
-        case _:
-            return "app/util.py: `redir_depending_on_req_method()` reached end of switch statement", 500
-
-
 def encode_uri_component(s: str) -> str:
     """
     Mimics JavaScript's `encodeURIComponent()`.
