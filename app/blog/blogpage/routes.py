@@ -26,7 +26,7 @@ def inject_blogpage_from_db():
 
 @bp.route("/", methods=["GET"])
 @util.set_content_type(ContentType.HTML)
-@bp_util.requires_login_if_restricted_bp()
+@bp_util.require_login_if_restricted_bp()
 def index(**kwargs):
     page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
     blogpage_id = bp_util.get_blogpage_id()
@@ -69,11 +69,11 @@ def index(**kwargs):
 
 
 # private posts, unlike blogpages, are still accessible by link (like YouTube's "unlisted")
-# hence the lack of `@requires_login_if_restricted_bp()`
+# hence the lack of `@require_login_if_restricted_bp()`
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
 @util.set_content_type(ContentType.HTML)
-@bp_util.requires_valid_post()
-def post(post, post_sanitized_title, **kwargs): # first param is from `requires_valid_post` decorator
+@bp_util.require_valid_post()
+def post(post, post_sanitized_title, **kwargs): # first param is from `require_valid_post` decorator
     # render Markdown for post
     post = bp_util.render_post_titles_markdown(post)
     so.make_transient(post)
@@ -103,9 +103,9 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `requires_
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
 @util.set_content_type(ContentType.HTML)
-@bp_util.requires_login_if_restricted_bp()
-@bp_util.requires_valid_post()
-@bp_util.redirs_to_post_after_login()
+@bp_util.require_login_if_restricted_bp()
+@bp_util.require_valid_post()
+@bp_util.redir_to_post_after_login()
 def get_comments(post, post_sanitized_title, **kwargs):
     # get comments from db and render Markdown
     comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
@@ -137,18 +137,18 @@ def get_comments(post, post_sanitized_title, **kwargs):
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
 @util.set_content_type(ContentType.JSON)
-@bp_util.requires_login_if_restricted_bp()
-@bp_util.requires_valid_post()
-@bp_util.redirs_to_post_after_login()
+@bp_util.require_login_if_restricted_bp()
+@bp_util.require_valid_post()
+@bp_util.redir_to_post_after_login()
 def get_comment_count(post, post_sanitized_title, **kwargs):
     return jsonify(count=post.get_comment_count())
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
 @util.set_content_type(ContentType.JSON)
-@util.requires_login()
-@bp_util.requires_valid_post()
-@bp_util.redirs_to_post_after_login()
+@util.require_login()
+@bp_util.require_valid_post()
+@bp_util.redir_to_post_after_login()
 def get_unread_comment_count(post, post_sanitized_title, **kwargs):
     return jsonify(count=post.get_unread_comment_count())
 
@@ -160,9 +160,9 @@ def get_unread_comment_count(post, post_sanitized_title, **kwargs):
 
 @bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
 @util.set_content_type(ContentType.JSON)
-@bp_util.requires_login_if_restricted_bp()
-@bp_util.requires_valid_post()
-@bp_util.redirs_to_post_after_login()
+@bp_util.require_login_if_restricted_bp()
+@bp_util.require_valid_post()
+@bp_util.redir_to_post_after_login()
 def add_comment(post, post_sanitized_title, **kwargs):
     # validate form submission
     add_comment_form = AddCommentForm()
@@ -194,9 +194,9 @@ def add_comment(post, post_sanitized_title, **kwargs):
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
 @util.set_content_type(ContentType.JSON)
-@util.requires_login()
-@bp_util.requires_valid_post()
-@bp_util.redirs_to_post_after_login()
+@util.require_login()
+@bp_util.require_valid_post()
+@bp_util.redir_to_post_after_login()
 def delete_comment(post, post_sanitized_title, **kwargs):
     comment = db.session.get(Comment, request.args.get("comment_id"))
     if comment is None:
@@ -216,9 +216,9 @@ def delete_comment(post, post_sanitized_title, **kwargs):
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
 @util.set_content_type(ContentType.JSON)
-@util.requires_login()
-@bp_util.requires_valid_post()
-@bp_util.redirs_to_post_after_login()
+@util.require_login()
+@bp_util.require_valid_post()
+@bp_util.redir_to_post_after_login()
 def mark_comments_as_read(post, post_sanitized_title, **kwargs):
     # mark comments under current post as read
     unread_comments_query = post.comments.select().filter_by(is_unread=True)
@@ -226,5 +226,4 @@ def mark_comments_as_read(post, post_sanitized_title, **kwargs):
     for comment in unread_comments:
         comment.is_unread=False
     db.session.commit()
-
     return jsonify(success=True)

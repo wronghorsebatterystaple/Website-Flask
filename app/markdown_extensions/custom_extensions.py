@@ -559,22 +559,22 @@ class TheoremHeading(InlineProcessor):
     """
 
     def handleMatch(self, m, current_text_block):
+        def format_for_html(s: str) -> str:
+            s = ("-".join(s.split())).lower() 
+            s = s[:-1].replace(".", "-") + s[-1] # replace periods except if trailing with hyphens (for thm counter)
+            s = re.sub(r"[^A-Za-z0-9-]", r"", s)
+            return s
+
         elem = etree.Element("span")
         elem.text = m.group(1)
         if m.group(2):
             elem.text += f" ({m.group(2)})"
-            elem.set("id", TheoremHeading.format_for_html(m.group(2)))
+            elem.set("id", format_for_html(m.group(2)))
         elif m.group(3):
-            elem.set("id", TheoremHeading.format_for_html(m.group(3)))
+            elem.set("id", format_for_html(m.group(3)))
         elem.set("class", "md-theorem-heading")
         return elem, m.start(0), m.end(0)
 
-    @staticmethod
-    def format_for_html(s: str) -> str:
-        s = ("-".join(s.split())).lower() 
-        s = s[:-1].replace(".", "-") + s[-1] # replace all periods except a trailing one with dashes (e.g. thm counter)
-        s = re.sub(r"[^A-Za-z0-9-]", r"", s)
-        return s
 
 
 class CustomInlineExtensions(Extension):

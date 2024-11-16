@@ -73,7 +73,7 @@ def login():
 
 @bp.route("/choose-action", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
-@util.requires_login()
+@util.require_login()
 def choose_action(**kwargs):
     form = ChooseActionForm()
 
@@ -102,7 +102,7 @@ def choose_action(**kwargs):
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
-@util.requires_login()
+@util.require_login()
 def create_blogpost(**kwargs):
     form = CreateBlogpostForm()
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
@@ -154,7 +154,7 @@ def create_blogpost(**kwargs):
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
-@util.requires_login()
+@util.require_login()
 def search_blogpost(**kwargs):
     form = SearchBlogpostForm()
 
@@ -174,7 +174,7 @@ def search_blogpost(**kwargs):
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
-@util.requires_login()
+@util.require_login()
 def edit_blogpost(**kwargs):
     try:
         post_id = int(request.args.get("post_id"))
@@ -288,7 +288,7 @@ def edit_blogpost(**kwargs):
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
-@util.requires_login()
+@util.require_login()
 def change_admin_password(**kwargs):
     form = ChangeAdminPasswordForm()
 

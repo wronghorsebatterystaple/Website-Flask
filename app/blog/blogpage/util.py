@@ -13,7 +13,7 @@ from app.models import *
 from app.util import ContentType
 
 
-def requires_login_if_restricted_bp():
+def require_login_if_restricted_bp():
     """
     Enforces login to access private blogpages.
     Use before every view function potentially accessing private blogpages!!!
@@ -35,7 +35,7 @@ def requires_login_if_restricted_bp():
                                 redir_url=url_for(f"{request.blueprint}.index", _external=True), 
                                 flash_msg="That post doesn't exist :/")
                     case _:
-                        return "app/blog/blogpage/util.py: `requires_login_if_restricted_bp()` reached end of switch statement", 500
+                        return "app/blog/blogpage/util.py: `require_login_if_restricted_bp()` reached end of switch statement", 500
 
             if blogpage.is_login_required:
                 result = util.custom_unauthorized(content_type)
@@ -47,7 +47,7 @@ def requires_login_if_restricted_bp():
     return inner_decorator
 
 
-def requires_valid_post():
+def require_valid_post():
     """
     Makes sure URL points to a post that exists, and if so, fetches the post from the db and passes it to its inner
     function as a parameter for later use.
@@ -67,7 +67,7 @@ def requires_valid_post():
     return inner_decorator
 
 
-def redirs_to_post_after_login():
+def redir_to_post_after_login():
     """
     If redirecting to this view function via the `next` parameter after logging in, instead redirect to simply the
     GET endpoint for the current post.
@@ -92,7 +92,7 @@ def redirs_to_post_after_login():
     return inner_decorator
 
 
-@util.resolve_content_type()
+@ContentType.resolve_depending_on_req_method()
 def nonexistent_post(content_type: ContentType):
     match content_type:
         case ContentType.HTML:

@@ -12,15 +12,30 @@ class ContentType(Enum):
     JSON = "application/json"
     DEPENDS_ON_REQ_METHOD = "`text/html` if GET, else `application/json`"
 
+    @classmethod
+    def resolve_depending_on_req_method(cls):
+        """
+        Resolves `ContentType.DEPENDS_ON_REQ_METHOD` by checking the current request method.
+        """
 
-def requires_login():
+        def inner_decorator(func):
+            @wraps(func)
+            def wrapped(content_type: cls, *args, **kwargs):
+                if content_type == cls.DEPENDS_ON_REQ_METHOD:
+                    content_type = cls.HTML if request.method == "GET" else cls.JSON
+                return func(content_type, *args, **kwargs)
+            return wrapped
+        return inner_decorator
+
+
+def require_login():
     """
     Same functionality as custom_unauthorized(), but as a decorator.
 
     Usage:
         ```
         @bp.route(...)
-        @util.requires_login(...)
+        @util.require_login(...)
         def view_func():
             pass
         ```
@@ -37,7 +52,7 @@ def requires_login():
     return inner_decorator
 
 
-@resolve_content_type()
+@ContentType.resolve_depending_on_req_method()
 def custom_unauthorized(content_type: ContentType):
     """
     Makes sure `current_user` is authenticated. If not:
@@ -79,21 +94,6 @@ def set_content_type(content_type: ContentType):
         @wraps(func)
         def wrapped(*args, **kwargs):
             return func(content_type=content_type, *args, **kwargs)
-        return wrapped
-    return inner_decorator
-
-
-def resolve_content_type(content_type: ContentType):
-    """
-    Resolves `ContentType.DEPENDS_ON_REQ_METHOD` by checking the current request method.
-    """
-
-    def inner_decorator(func):
-        @wraps(func)
-        def wrapped(content_type: ContentType, *args, **kwargs):
-            if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
-                content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
-            return func(content_type, *args, **kwargs)
         return wrapped
     return inner_decorator
 
