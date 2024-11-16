@@ -570,9 +570,9 @@ class TheoremHeading(InlineProcessor):
         return elem, m.start(0), m.end(0)
 
     @staticmethod
-    def format_for_html(s):
+    def format_for_html(s: str) -> str:
         s = ("-".join(s.split())).lower() 
-        s = s[:-1].replace(".", "-") + s[-1] # replace periods except possibly last one with dashes (e.g. thm counter)
+        s = s[:-1].replace(".", "-") + s[-1] # replace all periods except a trailing one with dashes (e.g. thm counter)
         s = re.sub(r"[^A-Za-z0-9-]", r"", s)
         return s
 

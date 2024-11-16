@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 from datetime import datetime, timezone
 
@@ -76,8 +78,7 @@ class Blogpage(db.Model):
             server_default=sa.false())
 
     # relationship: `Post`
-    # using quotation marks for `"Post"` since the class isn't defined yet
-    posts: so.WriteOnlyMapped["Post"] = so.relationship(
+    posts: so.WriteOnlyMapped[Post] = so.relationship(
             back_populates="blogpage",
             cascade="all, delete-orphan",
             passive_deletes=True)
@@ -154,13 +155,13 @@ class Post(db.Model):
             back_populates="posts")
 
     # relationship: `Comment`
-    comments: so.WriteOnlyMapped["Comment"] = so.relationship(
+    comments: so.WriteOnlyMapped[Comment] = so.relationship(
             back_populates="post",
             cascade="all, delete-orphan",
             passive_deletes=True)
 
     # util
-    def sanitize_title(self):
+    def sanitize_title(self) -> None:
         """
         Replaces whitespace with hyphens, uses all lowercase, and removes all non-alphanumeric and non-hypthen
         characters.
@@ -169,7 +170,7 @@ class Post(db.Model):
         self.sanitized_title = ("-".join(self.title.split())).lower()
         self.sanitized_title = re.sub(r"[^A-Za-z0-9-]", "", self.sanitized_title)
 
-    def check_and_try_flushing(self, add_to_db_first) -> str:
+    def check_and_try_flushing(self, should_add_to_db: bool) -> str:
         # check that title still exists after sanitization
         if self.sanitized_title == "":
             return "Post must have alphanumeric characters in its title."
@@ -178,28 +179,28 @@ class Post(db.Model):
             self.subtitle = None
         # check that sanitized title is unique (couldn't find reliable way besides try/catch *sigh* my poor LBYL brain)
         try:
-            if add_to_db_first:
+            if should_add_to_db:
                 db.session.add(self)
             db.session.flush()
         except sa.exc.IntegrityError:
             return "There is already a post with that title or sanitized title."
         return ""
 
-    def add_timestamps(self, remove_edited_timestamp, update_edited_timestamp):
+    def add_timestamps(self, should_remove_edited_timestamp: bool, should_update_edited_timestamp: bool) -> None:
         """
         Prereqs:
             - Post must already be added to the db or at least the transaction (`db.session.add()`)
             - Post must have `blogpage` field auto-generated (`db.session.flush()`)
         """
 
-        if update_edited_timestamp:
+        if should_update_edited_timestamp:
             self.edited_timestamp = datetime.now(timezone.utc)
-        if remove_edited_timestamp:
+        if should_remove_edited_timestamp:
             self.edited_timestamp = None
 
-        originally_published = self.is_published
+        is_originally_published = self.is_published
         self.is_published = self.blogpage.is_published
-        if not originally_published:
+        if not is_originally_published:
             # keep updating created time instead of edited time if not already published
             self.timestamp = datetime.now(timezone.utc)
             self.edited_timestamp = None
@@ -277,7 +278,7 @@ class Comment(db.Model):
             index=True)
 
     # util
-    def insert_comment(self, post, parent) -> bool:
+    def insert_comment(self, post: Post, parent: Comment) -> bool:
         if parent is None:
             # add child with left = max of right for that post + 1
             max_right_query = post.comments.select().order_by(sa.desc(Comment.right)).limit(1)
@@ -305,7 +306,7 @@ class Comment(db.Model):
             comment.right += 2
         return True
 
-    def remove_comment(self, post) -> bool:
+    def remove_comment(self, post: Post) -> bool:
         # sanity check
         if self.post_id != post.id:
             return False
@@ -323,7 +324,7 @@ class Comment(db.Model):
             comment.right -= 2
         return True
 
-    def get_descendants(self, post) -> list:
+    def get_descendants(self, post: Post) -> list:
         comments_query = post.comments.select().filter(sa.and_(
                 Comment.left > self.left, Comment.right < self.right))
         return db.session.scalars(comments_query).all()
@@ -356,14 +357,14 @@ class User(UserMixin, db.Model):
             nullable=False)
 
     # util
-    def set_password(self, password):
+    def set_password(self, password: str) -> None:
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
         return check_password_hash(self.password_hash, password)
 
 
 # required for Flask-Login
 @login_manager.user_loader
-def load_user(id):
+def load_user(id: str) -> User:
     return db.session.get(User, int(id))

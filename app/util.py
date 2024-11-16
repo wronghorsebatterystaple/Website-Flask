@@ -13,16 +13,32 @@ class ContentType(Enum):
     DEPENDS_ON_REQ_METHOD = "`text/html` if GET, else `application/json`"
 
 
-def set_content_type(content_type):
+def requires_login():
+    """
+    Same functionality as custom_unauthorized(), but as a decorator.
+
+    Usage:
+        ```
+        @bp.route(...)
+        @util.requires_login(...)
+        def view_func():
+            pass
+        ```
+    """
+
     def inner_decorator(func):
         @wraps(func)
-        def wrapped(*args, **kwargs):
-            return func(content_type=content_type, *args, **kwargs)
+        def wrapped(content_type: ContentType, *args, **kwargs):
+            result = custom_unauthorized(content_type)
+            if result:
+                return result
+            return func(*args, **kwargs)
         return wrapped
     return inner_decorator
 
 
-def custom_unauthorized(content_type):
+@resolve_content_type()
+def custom_unauthorized(content_type: ContentType):
     """
     Makes sure `current_user` is authenticated. If not:
         - `Content-Type: text/html`: redirects to login page (GET using Flask's `redirect()`)
@@ -44,9 +60,6 @@ def custom_unauthorized(content_type):
     """
 
     if not current_user.is_authenticated:
-        if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
-            content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
-
         match content_type:
             case ContentType.HTML:
                 return redirect(url_for(
@@ -61,31 +74,31 @@ def custom_unauthorized(content_type):
     return None
 
 
-def requires_login():
-    """
-    Same functionality as custom_unauthorized(), but as a decorator.
-
-    Usage:
-        ```
-        @bp.route(...)
-        @util.requires_login(...)
-        def view_func():
-            pass
-        ```
-    """
-
+def set_content_type(content_type: ContentType):
     def inner_decorator(func):
         @wraps(func)
-        def wrapped(content_type, *args, **kwargs):
-            result = custom_unauthorized(content_type)
-            if result:
-                return result
-            return func(*args, **kwargs)
+        def wrapped(*args, **kwargs):
+            return func(content_type=content_type, *args, **kwargs)
         return wrapped
     return inner_decorator
 
 
-def redir_depending_on_req_method(redir_endpt, flash_msg=""):
+def resolve_content_type(content_type: ContentType):
+    """
+    Resolves `ContentType.DEPENDS_ON_REQ_METHOD` by checking the current request method.
+    """
+
+    def inner_decorator(func):
+        @wraps(func)
+        def wrapped(content_type: ContentType, *args, **kwargs):
+            if content_type == ContentType.DEPENDS_ON_REQ_METHOD:
+                content_type = ContentType.HTML if request.method == "GET" else ContentType.JSON
+            return func(content_type, *args, **kwargs)
+        return wrapped
+    return inner_decorator
+
+
+def redir_depending_on_req_method(redir_endpt: str, flash_msg: str=""):
     match request.method:
         case "GET":
             redir_url = ""

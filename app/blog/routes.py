@@ -7,6 +7,7 @@ import app.blog.util as blog_util
 from app import db
 from app.blog import bp
 from app.models import *
+from app.util import ContentType
 
 
 @bp.route("/", methods=["GET"])
@@ -39,7 +40,7 @@ def post_by_id(post_id):
 
 
 @bp.route("/get-posts-with-unread-comments", methods=["POST"])
-@util.set_content_type(util.ContentType.JSON)
+@util.set_content_type(ContentType.JSON)
 @util.requires_login()
 @blog_util.redirs_to_index_after_login()
 def get_posts_with_unread_comments(**kwargs):

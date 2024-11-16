@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import imghdr
 import os
 import shutil
@@ -6,12 +8,12 @@ from flask import current_app
 from werkzeug.utils import escape, secure_filename
 
 
-def delete_dir_if_empty(path) -> None:
+def delete_dir_if_empty(path: str) -> None:
     if os.path.exists(path) and os.path.isdir(path) and len(os.listdir(path)) == 0:
         shutil.rmtree(path)
 
 
-def get_images_path(post) -> str:
+def get_imgs_base_path(post: Post) -> str:
     return os.path.join(
             current_app.root_path,
             current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
@@ -20,16 +22,16 @@ def get_images_path(post) -> str:
             str(post.id))
 
 
-def sanitize_filename(filename) -> str:
+def sanitize_filename(filename: str) -> str:
     filename = escape(secure_filename(filename))
     filename = filename.replace("(", "").replace(")", "") # for Markdown parsing
     return filename
 
 
-def upload_images(images, images_path) -> str:
+def upload_images(images: list, imgs_base_path: str) -> str:
     try:
         for image in images:
-            if image.filename == "":                # this happens when no image is submitted
+            if image.filename == "":
                 continue
 
             filename = sanitize_filename(image.filename)
@@ -37,7 +39,7 @@ def upload_images(images, images_path) -> str:
                 return "Image name was reduced to atoms by sanitization."
 
             file_ext = os.path.splitext(filename)[1]
-            if file_ext == ".jpg":                  # `imghdr.what()` in `validate_image()` returns `jpg` as `jpeg`
+            if file_ext == ".jpg":                     # `imghdr.what()` in `validate_image()` returns `jpg` as `jpeg`
                 file_ext = ".jpeg"
             # `imghdr` can't check SVG; trustable since admin-only ig
             invalid = file_ext not in current_app.config["IMAGE_UPLOAD_EXTS"] \
@@ -46,9 +48,9 @@ def upload_images(images, images_path) -> str:
             if invalid:
                 return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hat"
 
-            path = os.path.join(images_path, filename)
-            os.makedirs(images_path, exist_ok=True) # make directories if not exist
-            image.save(path)                        # replaces image if it's already there
+            path = os.path.join(imgs_base_path, filename)
+            os.makedirs(imgs_base_path, exist_ok=True) # make image directory if it doesn't exist
+            image.save(path)                           # this can replace existing images
     except Exception as e:
         return f"Image upload exception: {str(e)}"
     return ""

@@ -14,6 +14,7 @@ from app.admin import bp
 from app.admin.forms import *
 from app.forms import *
 from app.models import *
+from app.util import ContentType
 
 
 @bp.route("/login", methods=["GET", "POST"])
@@ -71,7 +72,7 @@ def login():
 
 
 @bp.route("/choose-action", methods=["GET", "POST"])
-@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
 @util.requires_login()
 def choose_action(**kwargs):
     form = ChooseActionForm()
@@ -100,7 +101,7 @@ def choose_action(**kwargs):
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
-@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
 @util.requires_login()
 def create_blogpost(**kwargs):
     form = CreateBlogpostForm()
@@ -137,8 +138,8 @@ def create_blogpost(**kwargs):
         post.expand_image_markdown()
 
         # upload images if any
-        images_path = admin_util.get_images_path(post)
-        err = admin_util.upload_images(request.files.getlist("images"), images_path)
+        imgs_base_path = admin_util.get_imgs_base_path(post)
+        err = admin_util.upload_images(request.files.getlist("images"), imgs_base_path)
         if err:
             return jsonify(flash_msg=err)
 
@@ -152,7 +153,7 @@ def create_blogpost(**kwargs):
 
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
-@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
 @util.requires_login()
 def search_blogpost(**kwargs):
     form = SearchBlogpostForm()
@@ -172,7 +173,7 @@ def search_blogpost(**kwargs):
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
-@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
 @util.requires_login()
 def edit_blogpost(**kwargs):
     try:
@@ -191,10 +192,10 @@ def edit_blogpost(**kwargs):
     form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.is_writeable]
     form.content.data = post.collapse_image_markdown()
     
-    images_path = admin_util.get_images_path(post)
-    if os.path.exists(images_path) and os.path.isdir(images_path):
-        images_choices = [(f, f) for f in os.listdir(images_path)
-                if os.path.isfile(os.path.join(images_path, f)) and not f.startswith(".")]
+    imgs_base_path = admin_util.get_imgs_base_path(post)
+    if os.path.exists(imgs_base_path) and os.path.isdir(imgs_base_path):
+        images_choices = [(f, f) for f in os.listdir(imgs_base_path)
+                if os.path.isfile(os.path.join(imgs_base_path, f)) and not f.startswith(".")]
         images_choices.sort(key=lambda t: t[0])
         form.delete_images.choices = images_choices
 
@@ -213,8 +214,8 @@ def edit_blogpost(**kwargs):
             db.session.delete(post)
             db.session.commit()
             try:
-                if os.path.exists(images_path) and os.path.isdir(images_path):
-                    shutil.rmtree(images_path)
+                if os.path.exists(imgs_base_path) and os.path.isdir(imgs_base_path):
+                    shutil.rmtree(imgs_base_path)
             except Exception as e:
                 return jsonify(flash_msg=f"Directory delete exception: {str(e)}")
             return jsonify(
@@ -237,42 +238,42 @@ def edit_blogpost(**kwargs):
         post.expand_image_markdown()
 
         # upload images if any
-        err = admin_util.upload_images(request.files.getlist("images"), images_path)
+        err = admin_util.upload_images(request.files.getlist("images"), imgs_base_path)
         if err:
             return jsonify(flash_msg=err)
         
         # delete images if any
         try:
             for image in request.form.getlist("delete_images"):
-                filepath = os.path.join(images_path, image)
+                filepath = os.path.join(imgs_base_path, image)
                 if os.path.exists(filepath):
                     os.remove(filepath)
 
             # delete image directory if now empty
-            admin_util.delete_dir_if_empty(images_path)
+            admin_util.delete_dir_if_empty(imgs_base_path)
         except Exception as e:
             return jsonify(flash_msg=f"Image delete exception: {str(e)}")
 
         # delete unused images if applicable; we assume any image whose filename is not in the Markdown is unused
-        if request.form.get("delete_unused_images") and os.path.exists(images_path):
+        if request.form.get("delete_unused_images") and os.path.exists(imgs_base_path):
             try:
-                images = os.listdir(images_path)
+                images = os.listdir(imgs_base_path)
                 for image in images:
                     file_ext = os.path.splitext(image)[1]
                     if file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_DELETE_UNUSED"] \
                             and image not in post.content:
-                        os.remove(os.path.join(images_path, image))
+                        os.remove(os.path.join(imgs_base_path, image))
 
-                admin_util.delete_dir_if_empty(images_path)
+                admin_util.delete_dir_if_empty(imgs_base_path)
             except Exception as e:
                 return jsonify(flash_msg=f"Image delete unused exception: {str(e)}")
         
         # move images if moving blogpost
         if post.blogpage_id != old_blogpage_id:
-            if os.path.exists(images_path):
+            if os.path.exists(imgs_base_path):
                 try:
-                    new_images_path = admin_util.get_images_path(post)
-                    shutil.move(images_path, new_images_path)
+                    new_imgs_base_path = admin_util.get_imgs_base_path(post)
+                    shutil.move(imgs_base_path, new_imgs_base_path)
                 except Exception as e:
                     return jsonify(flash_msg=f"Image move exception: {str(e)}")
 
@@ -286,7 +287,7 @@ def edit_blogpost(**kwargs):
         
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
-@util.set_content_type(util.ContentType.DEPENDS_ON_REQ_METHOD)
+@util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
 @util.requires_login()
 def change_admin_password(**kwargs):
     form = ChangeAdminPasswordForm()

@@ -15,6 +15,7 @@ from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
 from app.markdown_extensions.custom_extensions import CustomBlockExtensions, CustomInlineExtensions
 from app.models import *
+from app.util import ContentType
 
 
 @bp.context_processor
@@ -24,7 +25,7 @@ def inject_blogpage_from_db():
 
 
 @bp.route("/", methods=["GET"])
-@util.set_content_type(util.ContentType.HTML)
+@util.set_content_type(ContentType.HTML)
 @bp_util.requires_login_if_restricted_bp()
 def index(**kwargs):
     page_num = request.args.get("page", 1, type=int) # should automatically redirect non-int to page 1
@@ -70,7 +71,7 @@ def index(**kwargs):
 # private posts, unlike blogpages, are still accessible by link (like YouTube's "unlisted")
 # hence the lack of `@requires_login_if_restricted_bp()`
 @bp.route("/<string:post_sanitized_title>", methods=["GET"])
-@util.set_content_type(util.ContentType.HTML)
+@util.set_content_type(ContentType.HTML)
 @bp_util.requires_valid_post()
 def post(post, post_sanitized_title, **kwargs): # first param is from `requires_valid_post` decorator
     # render Markdown for post
@@ -101,7 +102,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `requires_
 
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
-@util.set_content_type(util.ContentType.HTML)
+@util.set_content_type(ContentType.HTML)
 @bp_util.requires_login_if_restricted_bp()
 @bp_util.requires_valid_post()
 @bp_util.redirs_to_post_after_login()
@@ -135,7 +136,7 @@ def get_comments(post, post_sanitized_title, **kwargs):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
-@util.set_content_type(util.ContentType.JSON)
+@util.set_content_type(ContentType.JSON)
 @bp_util.requires_login_if_restricted_bp()
 @bp_util.requires_valid_post()
 @bp_util.redirs_to_post_after_login()
@@ -144,7 +145,7 @@ def get_comment_count(post, post_sanitized_title, **kwargs):
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-unread-count", methods=["GET"])
-@util.set_content_type(util.ContentType.JSON)
+@util.set_content_type(ContentType.JSON)
 @util.requires_login()
 @bp_util.requires_valid_post()
 @bp_util.redirs_to_post_after_login()
@@ -158,7 +159,7 @@ def get_unread_comment_count(post, post_sanitized_title, **kwargs):
 
 
 @bp.route("/<string:post_sanitized_title>/add-comment", methods=["POST"])
-@util.set_content_type(util.ContentType.JSON)
+@util.set_content_type(ContentType.JSON)
 @bp_util.requires_login_if_restricted_bp()
 @bp_util.requires_valid_post()
 @bp_util.redirs_to_post_after_login()
@@ -192,7 +193,7 @@ def add_comment(post, post_sanitized_title, **kwargs):
 
 
 @bp.route("/<string:post_sanitized_title>/delete-comment", methods=["POST"])
-@util.set_content_type(util.ContentType.JSON)
+@util.set_content_type(ContentType.JSON)
 @util.requires_login()
 @bp_util.requires_valid_post()
 @bp_util.redirs_to_post_after_login()
@@ -214,7 +215,7 @@ def delete_comment(post, post_sanitized_title, **kwargs):
 
 
 @bp.route("/<string:post_sanitized_title>/mark-comments-as-read", methods=["POST"])
-@util.set_content_type(util.ContentType.JSON)
+@util.set_content_type(ContentType.JSON)
 @util.requires_login()
 @bp_util.requires_valid_post()
 @bp_util.redirs_to_post_after_login()
