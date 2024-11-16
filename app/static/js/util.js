@@ -3,9 +3,7 @@ const HORIZ_SCOLL_DIV_HTML_FULL_WIDTH = '<div class="scroll-overflow-x" width="f
 
 /**
  * Preconditions:
- *     - Only use on functions that have already been initialized! Remember that hoisting does not hoist
- *       initializations; thus, JS files containing these function initializations must be executed before
- *       attempting to invoke `addToFunction()` on them!
+ *     - Target function(s) must have already been initialized
  *
  * Usage:
  *     ```
