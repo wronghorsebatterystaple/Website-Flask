@@ -15,7 +15,7 @@ from config import Config
 # declare extension instances outside so blueprints can still do `from app import db` etc.
 cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
-db = SQLAlchemy(session_options={"autoflush": True}) # autoflush allows our post editing code to work properly
+db = SQLAlchemy()
 # not using `session_protection="strong"` to avoid potential security mess of finding original IP through Cloudflare
 # and Nginx; and more crucially IPv4 vs. IPv6 hell
 login_manager = LoginManager()

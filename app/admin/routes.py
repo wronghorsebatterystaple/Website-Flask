@@ -68,8 +68,6 @@ def login():
 
         return jsonify(success=True, redir_url=url_for("admin.choose_action", flash_msg="haker :3", _external=True))
 
-    return "If you see this message, please panic.", 500
-
 
 @bp.route("/choose-action", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
@@ -96,8 +94,6 @@ def choose_action(**kwargs):
                 return jsonify(flash_msg="haker :3")
 
         return jsonify(redir_url=redir_url)
-
-    return "If you see this message, please panic.", 500
 
 
 @bp.route("/create-blogpost", methods=["GET", "POST"])
@@ -149,8 +145,6 @@ def create_blogpost(**kwargs):
                         f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
                 flash_msg="Post created successfully!") # view completed post
 
-    return "If you see this message, please panic.", 500
-
 
 @bp.route("/search-blogpost", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
@@ -168,8 +162,6 @@ def search_blogpost(**kwargs):
         if post_id is None:
             return jsonify(flash_msg="You somehow managed to choose nothing, congratulations.")
         return jsonify(redir_url=url_for("admin.edit_blogpost", post_id=post_id, _external=True))
-
-    return "If you see this message, please panic.", 500
 
 
 @bp.route("/edit-blogpost", methods=["GET", "POST"])
@@ -216,8 +208,8 @@ def edit_blogpost(**kwargs):
             try:
                 if os.path.exists(imgs_base_path) and os.path.isdir(imgs_base_path):
                     shutil.rmtree(imgs_base_path)
-            except Exception as e:
-                return jsonify(flash_msg=f"Directory delete exception: {str(e)}")
+            except Exception:
+                return jsonify(flash_msg=f"Directory delete exception")
             return jsonify(
                     redir_url=url_for(f"blog.{post.blogpage_id}.index", _external=True),
                     flash_msg="Post deleted successfully!")
@@ -251,8 +243,8 @@ def edit_blogpost(**kwargs):
 
             # delete image directory if now empty
             admin_util.delete_dir_if_empty(imgs_base_path)
-        except Exception as e:
-            return jsonify(flash_msg=f"Image delete exception: {str(e)}")
+        except Exception:
+            return jsonify(flash_msg=f"Image delete exception")
 
         # delete unused images if applicable; we assume any image whose filename is not in the Markdown is unused
         if request.form.get("delete_unused_images") and os.path.exists(imgs_base_path):
@@ -265,8 +257,8 @@ def edit_blogpost(**kwargs):
                         os.remove(os.path.join(imgs_base_path, image))
 
                 admin_util.delete_dir_if_empty(imgs_base_path)
-            except Exception as e:
-                return jsonify(flash_msg=f"Image delete unused exception: {str(e)}")
+            except Exception:
+                return jsonify(flash_msg=f"Image delete unused exception")
         
         # move images if moving blogpost
         if post.blogpage_id != old_blogpage_id:
@@ -274,8 +266,8 @@ def edit_blogpost(**kwargs):
                 try:
                     new_imgs_base_path = admin_util.get_imgs_base_path(post)
                     shutil.move(imgs_base_path, new_imgs_base_path)
-                except Exception as e:
-                    return jsonify(flash_msg=f"Image move exception: {str(e)}")
+                except Exception:
+                    return jsonify(flash_msg=f"Image move exception")
 
         db.session.commit()
         return jsonify(
@@ -283,8 +275,6 @@ def edit_blogpost(**kwargs):
                         f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
                 flash_msg="Post edited successfully!") # view edited post
 
-    return "If you see this message, please panic.", 500
-        
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
@@ -317,9 +307,9 @@ def change_admin_password(**kwargs):
         
         user.set_password(request.form.get("new_password_1"))
         db.session.commit()
-        return jsonify(redir_url=url_for("main.index", _external=True), flash_msg="Your password has been changed! Here's some randomart: ඞ") # this works!?
-
-    return "If you see this message, please panic.", 500
+        return jsonify(
+                redir_url=url_for("main.index", _external=True),
+                flash_msg="Your password has been changed! Here's some randomart: ඞ") # this works!?
 
 
 @bp.route("/session-status", methods=["GET"])

@@ -35,14 +35,15 @@ def require_login_if_restricted_bp():
                                 redir_url=url_for(f"{request.blueprint}.index", _external=True), 
                                 flash_msg="That post doesn't exist :/")
                     case _:
-                        return "app/blog/blogpage/util.py: `require_login_if_restricted_bp()` reached end of switch statement", 500
+                        return ("app/blog/blogpage/util.py: `require_login_if_restricted_bp()` reached end of switch "
+                                "statement"), 500
 
             if blogpage.is_login_required:
                 result = util.custom_unauthorized(content_type)
                 if result:
                     return result
 
-            return func(*args, **kwargs)
+            return func(content_type=content_type, *args, **kwargs)
         return wrapped
     return inner_decorator
 
@@ -57,12 +58,12 @@ def require_valid_post():
         @wraps(func)
         def wrapped(content_type: ContentType, *args, **kwargs):
             blogpage_id = get_blogpage_id()
-            # why does Flask view functions seem to turn `args` into `kwargs`? idk, but i'm not complaining
+            # Flask view functions seem to turn `args` into `kwargs`, and I'm not complaining
             post = get_post(kwargs.get("post"), kwargs.get("post_sanitized_title"), blogpage_id)
             if post is None:
                 return nonexistent_post(content_type)
             # also return `post` in addition since functions with these decorators probably need `post` anyway
-            return func(post=post, *args, **kwargs)
+            return func(post=post, content_type=content_type, *args, **kwargs)
         return wrapped
     return inner_decorator
 
@@ -87,7 +88,7 @@ def redir_to_post_after_login():
                 # `login()` view func. `window.location.href` change is always just the same as a `redirect()` via
                 # GET an HTML page, as we typically do on loading a new page.
                 return redirect(url_for("blog.post_by_id", post_id=post.id, _external=True))
-            return func(*args, **kwargs)
+            return func(content_type=content_type, *args, **kwargs)
         return wrapped
     return inner_decorator
 

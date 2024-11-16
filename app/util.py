@@ -23,7 +23,7 @@ class ContentType(Enum):
             def wrapped(content_type: cls, *args, **kwargs):
                 if content_type == cls.DEPENDS_ON_REQ_METHOD:
                     content_type = cls.HTML if request.method == "GET" else cls.JSON
-                return func(content_type, *args, **kwargs)
+                return func(content_type=content_type, *args, **kwargs)
             return wrapped
         return inner_decorator
 
@@ -47,7 +47,7 @@ def require_login():
             result = custom_unauthorized(content_type)
             if result:
                 return result
-            return func(*args, **kwargs)
+            return func(content_type=content_type, *args, **kwargs)
         return wrapped
     return inner_decorator
 

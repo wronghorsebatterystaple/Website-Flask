@@ -32,7 +32,7 @@ def index(**kwargs):
     blogpage_id = bp_util.get_blogpage_id()
     blogpage = db.session.get(Blogpage, blogpage_id)
     if blogpage is None:
-        return "ok im actually impressed how did you do that", 500
+        return "ok im actually impressed how did you do that"
 
     posts = None
     if blogpage.is_all_posts:
@@ -49,9 +49,8 @@ def index(**kwargs):
                 per_page=current_app.config["POSTS_PER_PAGE"],
                 error_out=False)
     if posts is None:
-        return "ok im actually impressed how did you do that", 500
+        return "ok im actually impressed how did you do that"
     for post in posts:
-        so.make_transient(post) # "detach" it from the db object so we can edit without affecting db (because autoflush)
         post = bp_util.render_post_titles_markdown(post)
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
@@ -76,7 +75,6 @@ def index(**kwargs):
 def post(post, post_sanitized_title, **kwargs): # first param is from `require_valid_post` decorator
     # render Markdown for post
     post = bp_util.render_post_titles_markdown(post)
-    so.make_transient(post)
     content_md = None
     if post.content:
         content_md = markdown.Markdown(extensions=[
@@ -103,7 +101,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
 @util.set_content_type(ContentType.HTML)
-@bp_util.require_login_if_restricted_bp()
 @bp_util.require_valid_post()
 @bp_util.redir_to_post_after_login()
 def get_comments(post, post_sanitized_title, **kwargs):
@@ -112,7 +109,6 @@ def get_comments(post, post_sanitized_title, **kwargs):
     comments = db.session.scalars(comments_query).all()
 
     for comment in comments:
-        so.make_transient(comment)
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
                     comment.content,
@@ -137,7 +133,6 @@ def get_comments(post, post_sanitized_title, **kwargs):
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
 @util.set_content_type(ContentType.JSON)
-@bp_util.require_login_if_restricted_bp()
 @bp_util.require_valid_post()
 @bp_util.redir_to_post_after_login()
 def get_comment_count(post, post_sanitized_title, **kwargs):
