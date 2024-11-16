@@ -15,7 +15,11 @@ from config import Config
 # declare extension instances outside so blueprints can still do `from app import db` etc.
 cors = CORS(origins=Config.ALLOWED_ORIGINS, supports_credentials=True)
 csrf = CSRFProtect()
-db = SQLAlchemy()
+# `autoflush` can unintentionally flush temporary changes on Python objects retrieved from the db back into the db.
+# at the same time, using `make_transient()` on those objects to prevent flushing removes their db relationships, while
+# `make_transient_detached()` removes their Python-only relationships (`sqlalchemy.orm.relationship()`).
+# so, manually controlling flushing is the best option here
+db = SQLAlchemy(session_options={"autoflush": False}) 
 # not using `session_protection="strong"` to avoid potential security mess of finding original IP through Cloudflare
 # and Nginx; and more crucially IPv4 vs. IPv6 hell
 login_manager = LoginManager()
