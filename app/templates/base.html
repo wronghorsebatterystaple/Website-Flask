@@ -99,7 +99,6 @@
           const AFTER_LOGOUT_URL = "{{ url_for(config['AFTER_LOGOUT_VIEW'], _external=True) }}";
           const SESSION_STATUS_URL = "{{ url_for('admin.session_status', _external=True) }}";
           let csrfToken = "{{ csrf_token() }}";
-          // const IS_USER_AUTHENTICATED() = {% if current_user.is_authenticated %}true{% else %}false{% endif %};
           let backgroundImgUrl = "";
 
           {% block js_start_inline %}{% endblock %}

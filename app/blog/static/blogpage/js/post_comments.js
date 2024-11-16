@@ -15,6 +15,8 @@ $(document).ready(function() {
 });
 
 async function reloadComments() {
+    const isUserAuthenticated = await IS_USER_AUTHENTICATED();
+
     // make sure we don't keep polling for scroll position if the comments have already been loaded
     if (commentLoadIntervalId) {
         clearInterval(commentLoadIntervalId);
@@ -22,7 +24,7 @@ async function reloadComments() {
 
     // refresh the main "leave a comment" form's author autofill; don't do for replies as that should be easy
     // enough manually and could be slow automatically if there's a lot of comments
-    if (await IS_USER_AUTHENTICATED()) {
+    if (isUserAuthenticated) {
         $("#leave-a-comment").find("input[name='author']").first().val(VERIFIED_AUTHOR);
     } else {
         $("#leave-a-comment").find("input[name='author']").first().val("");
@@ -40,7 +42,7 @@ async function reloadComments() {
     }
 
     // get comment unread count in the heading if admin
-    if (await IS_USER_AUTHENTICATED()) {
+    if (isUserAuthenticated)) {
         respJson = await fetchWrapper(GET_COMMENT_UNREAD_COUNT_URL, {method: "GET"});
         if (!respJson.errorStatus) {
             commentUnreadCount = respJson.count;
@@ -52,7 +54,7 @@ async function reloadComments() {
 
     // reflect comment counts in HTML
     let HTML = `(${commentCount}`;
-    if (await IS_USER_AUTHENTICATED() && commentUnreadCount > 0) {
+    if (isUserAuthenticated && commentUnreadCount > 0) {
         HTML += `<span class="show-when-logged-in">, <span class="custom-pink-light">${commentUnreadCount} unread</span></span>`;
     }
     HTML += ")";
@@ -81,7 +83,7 @@ async function reloadComments() {
         applyPostAndCommentStyles("#comment-list");
 
         // mark comments as read if admin
-        if (await IS_USER_AUTHENTICATED()) {
+        if (isUserAuthenticated) {
             markCommentsAsRead();
         }
     }
