@@ -140,15 +140,6 @@ input[value="Reply"][value="Delete"] {
     font-weight: bold;
 }
 
-:is(
-    .md-textbox--defn,
-    .md-textbox--impt,
-    .md-textbox--notat,
-    .md-textbox--thm
-) .md-theorem-heading {
-    color: var(--custom-pink-light);
-}
-
 .post__h1 {
     color: var(--custom-green-deep-dark);
 }
