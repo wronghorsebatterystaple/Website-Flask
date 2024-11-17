@@ -21,7 +21,8 @@ class Config(object):
             "fonts.gstatic.com"
         ],
         "img-src": _csp_default_src + [
-            "data:"                         # Bootstrap, DarkReader
+            "data:",                        # Bootstrap, DarkReader
+            "http.cat"                      # error pages :3
         ],
         "script-src": _csp_default_src + [
             "cdn.jsdelivr.net",
