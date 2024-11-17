@@ -141,11 +141,6 @@ class Post(db.Model):
             default=None,
             server_default=None)
 
-    is_published: so.Mapped[bool] = so.mapped_column(
-            nullable=False,
-            default=False,
-            server_default=sa.false())
-
     # relationship: `Blogpage`
     blogpage_id: so.Mapped[int] = so.mapped_column(
             sa.ForeignKey(Blogpage.id, ondelete="CASCADE"),
@@ -186,7 +181,11 @@ class Post(db.Model):
             return "There is already a post with that title or sanitized title."
         return ""
 
-    def add_timestamps(self, should_remove_edited_timestamp: bool, should_update_edited_timestamp: bool) -> None:
+    def add_timestamps(
+            self,
+            should_remove_edited_timestamp: bool,
+            should_update_edited_timestamp: bool,
+            old_blogpage_id=None) -> None:
         """
         Prereqs:
             - Post must already be added to the db or at least the transaction (`db.session.add()`)
@@ -198,9 +197,12 @@ class Post(db.Model):
         if should_remove_edited_timestamp:
             self.edited_timestamp = None
 
-        is_originally_published = self.is_published
-        self.is_published = self.blogpage.is_published
-        if not is_originally_published:
+        was_originally_published = False
+        if old_blogpage_id is not None:
+            old_blogpage = db.session.get(Blogpage, old_blogpage_id)
+            if old_blogpage is not None:
+                was_originally_published = old_blogpage.is_published
+        if not was_originally_published:
             # keep updating created time instead of edited time if not already published
             self.timestamp = datetime.now(timezone.utc)
             self.edited_timestamp = None

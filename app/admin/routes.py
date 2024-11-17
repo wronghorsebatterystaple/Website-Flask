@@ -226,7 +226,9 @@ def edit_blogpost(**kwargs):
         if err:
             return jsonify(flash_msg=err)
         post.add_timestamps(
-                request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"))
+                request.form.get("remove_edited_timestamp"),
+                request.form.get("update_edited_timestamp"),
+                old_blogpage_id)
         post.expand_image_markdown()
 
         # upload images if any

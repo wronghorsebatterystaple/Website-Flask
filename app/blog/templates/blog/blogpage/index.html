@@ -10,98 +10,100 @@ const TOTAL_PAGES = {{ total_pages }};
 {% endblock %}
 
 {% block content %}
-<h1 class="blogpage__name fs-1">{{ blogpage.name }}</h1>
-{% if blogpage.subname is not none %}
-  <h2 class="blogpage__subname fs-7 mt-2">{{ blogpage.subname }}</h2>
-{% endif %}
-
-<a class="btn btn-primary btn--custom-orange mt-1 show-when-logged-in" href="{{ url_for('admin.create_blogpost', blogpage_id=blogpage.publishing_sibling_id if blogpage.is_published and blogpage.publishing_sibling_id else blogpage.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
-
-<hr>
-
-{% for post in posts %}
-  <div>
-    {% if blogpage.is_all_posts %}
-      {% set color = post.blogpage.color %}
-      <a class="darken-on-hover link--{{ color }} underline-on-hover-only" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-        <div class="d-flex align-items-top">
-          <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 p-mb-0 fs-5">{{ post.title|safe }}</h1>
-          <span class="post-list__blogtitle flex-shrink-1 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
-        </div>
-
-        {% if post.subtitle is not none %}
-          <div class="d-flex align-items-top">
-              <h2 class="flex-shrink-0 flex-basis-75 mt-1 mb-0 p-mb-0 fs-8">{{ post.subtitle|safe }}</h2>
-          </div>
-        {% endif %}
-
-        <div class="d-flex align-items-center mt-2">
-          {% if post.edited_timestamp is not none %}
-            <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
-          {% else %}
-            <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
-          {% endif %}
-          <span class="d-flex align-items-center ms-auto gray">
-            <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-light">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
-          </span>
-        </div>
-    {% else %}
-      <a class="darken-on-hover underline-on-hover-only underline--custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
-        <h1 class="mb-0 p-mb-0 custom-green-deep-dark fs-5">{{ post.title|safe }}</h1>
-
-        {% if post.subtitle is not none %}
-          <h2 class="mt-1 mb-0 p-mb-0 custom-orange-deep-dark fs-8">{{ post.subtitle|safe }}</h2>
-        {% endif %}
-
-        <div class="d-flex align-items-center mt-2">
-          {% if post.edited_timestamp is not none %}
-            <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
-          {% else %}
-            <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
-          {% endif %}
-          <span class="d-flex align-items-center gray ms-auto">
-            <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-light show-when-logged-in">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
-          </span>
-        </div>
-    {% endif %}
-      </a>
-    </div>
-
-  <hr>
-{% endfor %}
-
-{% if total_pages > 0 %}
-  <div class="mt-4 mb-4 text-center">
-    <p class="mb-3">Page {{ page_num }} of {{ total_pages }}</p>
-    {% if total_pages > 1 %}
-      <div class="d-flex justify-content-center align-items-center">
-        {% if prev_page_url %}
-          <a class="w-2rem text-end underline-on-hover-only" href="{{ prev_page_url }}"><code>--</code></a>
-          <span class="pipe-1_5em mx-3"></span>
-        {% else %}
-          <a class="invisible w-2rem text-end underline-on-hover-only"><code>--</code></a>
-          <span class="pipe-1_5em invisible mx-3"></span>
-        {% endif %}
+<div class="mt-4">
+  <h1 class="blogpage__name fs-1">{{ blogpage.name }}</h1>
+  {% if blogpage.subname is not none %}
+    <h2 class="blogpage__subname fs-7 mt-2">{{ blogpage.subname }}</h2>
+  {% endif %}
   
-        <form id="goto-page-form">
-          <div class="d-flex align-items-center">
-            <div class="mx-0 px-0">
-              <label class="d-inline" for="goto-page-form__page-input">page = </label>
-              <input id="goto-page-form__page-input" class="goto-page-form__page-input form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
-            </div>
-            &nbsp;<input class="btn btn-link underline-on-hover-only" name="submit" type="submit" title="go!" value=";">
+  <a class="btn btn-primary btn--custom-orange mt-1 show-when-logged-in" href="{{ url_for('admin.create_blogpost', blogpage_id=blogpage.publishing_sibling_id if blogpage.is_published and blogpage.publishing_sibling_id else blogpage.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
+  
+  <hr>
+  
+  {% for post in posts %}
+    <div>
+      {% if blogpage.is_all_posts %}
+        {% set color = post.blogpage.color %}
+        <a class="darken-on-hover link--{{ color }} underline-on-hover-only" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+          <div class="d-flex align-items-top">
+            <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 p-mb-0 fs-5">{{ post.title|safe }}</h1>
+            <span class="post-list__blogtitle flex-shrink-1 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
           </div>
-        </form>
-      
-        {% if next_page_url %}
-          <span class="pipe-1_5em mx-3"></span>
-          <a class="w-2rem text-start underline-on-hover-only" href="{{ next_page_url }}"><code>++</code></a>
-        {% else %}
-          <span class="pipe-1_5em invisible mx-3"></span>
-          <a class="invisible w-2rem text-start underline-on-hover-only"><code>++</code></a>
-        {% endif %}
+  
+          {% if post.subtitle is not none %}
+            <div class="d-flex align-items-top">
+                <h2 class="flex-shrink-0 flex-basis-75 mt-1 mb-0 p-mb-0 fs-8">{{ post.subtitle|safe }}</h2>
+            </div>
+          {% endif %}
+  
+          <div class="d-flex align-items-center mt-2">
+            {% if post.edited_timestamp is not none %}
+              <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+            {% else %}
+              <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
+            {% endif %}
+            <span class="d-flex align-items-center ms-auto gray">
+              <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-light">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
+            </span>
+          </div>
+      {% else %}
+        <a class="darken-on-hover underline-on-hover-only underline--custom-green-deep-dark" href="{{ url_for('blog.' ~ blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
+          <h1 class="mb-0 p-mb-0 custom-green-deep-dark fs-5">{{ post.title|safe }}</h1>
+  
+          {% if post.subtitle is not none %}
+            <h2 class="mt-1 mb-0 p-mb-0 custom-orange-deep-dark fs-8">{{ post.subtitle|safe }}</h2>
+          {% endif %}
+  
+          <div class="d-flex align-items-center mt-2">
+            {% if post.edited_timestamp is not none %}
+              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+            {% else %}
+              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
+            {% endif %}
+            <span class="d-flex align-items-center gray ms-auto">
+              <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-light show-when-logged-in">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
+            </span>
+          </div>
+      {% endif %}
+        </a>
       </div>
-    {% endif %}
-  </div>
-{% endif %}
+  
+    <hr>
+  {% endfor %}
+  
+  {% if total_pages > 0 %}
+    <div class="mt-4 mb-4 text-center">
+      <p class="mb-3">Page {{ page_num }} of {{ total_pages }}</p>
+      {% if total_pages > 1 %}
+        <div class="d-flex justify-content-center align-items-center">
+          {% if prev_page_url %}
+            <a class="w-2rem text-end underline-on-hover-only" href="{{ prev_page_url }}"><code>--</code></a>
+            <span class="pipe-1_5em mx-3"></span>
+          {% else %}
+            <a class="invisible w-2rem text-end underline-on-hover-only"><code>--</code></a>
+            <span class="pipe-1_5em invisible mx-3"></span>
+          {% endif %}
+    
+          <form id="goto-page-form">
+            <div class="d-flex align-items-center">
+              <div class="mx-0 px-0">
+                <label class="d-inline" for="goto-page-form__page-input">page = </label>
+                <input id="goto-page-form__page-input" class="goto-page-form__page-input form-control d-inline w-2_5em" name="page" type="text" maxlength="5" value="" size="1"/>
+              </div>
+              &nbsp;<input class="btn btn-link underline-on-hover-only" name="submit" type="submit" title="go!" value=";">
+            </div>
+          </form>
+        
+          {% if next_page_url %}
+            <span class="pipe-1_5em mx-3"></span>
+            <a class="w-2rem text-start underline-on-hover-only" href="{{ next_page_url }}"><code>++</code></a>
+          {% else %}
+            <span class="pipe-1_5em invisible mx-3"></span>
+            <a class="invisible w-2rem text-start underline-on-hover-only"><code>++</code></a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
 {% endblock %}
