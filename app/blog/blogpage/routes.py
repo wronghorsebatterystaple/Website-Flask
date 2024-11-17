@@ -38,13 +38,14 @@ def index(**kwargs):
     if blogpage.is_all_posts:
         posts = db.paginate(
                 db.session.query(Post).join(Post.blogpage).filter_by(is_login_required=False, is_published=True)
-                        .order_by(sa.desc(sa_func.coalesce(Post.edited_timestamp, Post.timestamp))),
+                        .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()),
                 page=page_num,
                 per_page=current_app.config["POSTS_PER_PAGE"],
                 error_out=False)
     else:
         posts = db.paginate(
-                db.session.query(Post).join(Post.blogpage).filter_by(id=blogpage_id).order_by(sa.desc(Post.timestamp)),
+                db.session.query(Post).filter_by(blogpage_id=blogpage_id) \
+                        .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()),
                 page=page_num,
                 per_page=current_app.config["POSTS_PER_PAGE"],
                 error_out=False)
@@ -91,9 +92,20 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
     # only Jinja can selectively put stuff in `<title>`, so I use bs4 here to extract the text for Jinja
     post_title_no_markdown = bp_util.strip_markdown_from_html(post.title)
     add_comment_form = AddCommentForm()
+
+    posts_in_curr_bp = db.session.query(Post).filter_by(blogpage_id=post.blogpage_id)
+    curr_coalesced_timestamp = post.edited_timestamp if post.edited_timestamp is not None else post.timestamp
+    prev_post = posts_in_curr_bp.filter(
+            sa_func.coalesce(Post.edited_timestamp, Post.timestamp) < curr_coalesced_timestamp) \
+                    .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()).first()
+    next_post = posts_in_curr_bp.filter(
+            sa_func.coalesce(Post.edited_timestamp, Post.timestamp) > curr_coalesced_timestamp) \
+                    .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp)).first()
     return render_template(
             "blog/blogpage/post.html",
             post=post,
+            prev_post=prev_post,
+            next_post=next_post,
             post_title_no_markdown=post_title_no_markdown,
             toc_tokens=content_md.toc_tokens if content_md is not None else None,
             add_comment_form=add_comment_form)
@@ -105,7 +117,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
 @bp_util.redir_to_post_after_login()
 def get_comments(post, post_sanitized_title, **kwargs):
     # get comments from db and render Markdown
-    comments_query = post.comments.select().order_by(sa.desc(Comment.timestamp))
+    comments_query = post.comments.select().order_by(Comment.timestamp.desc())
     comments = db.session.scalars(comments_query).all()
 
     for comment in comments:

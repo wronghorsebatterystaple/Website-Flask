@@ -16,6 +16,7 @@ const TOTAL_PAGES = {{ total_pages }};
 {% endif %}
 
 <a class="btn btn-primary btn--custom-orange mt-1 show-when-logged-in" href="{{ url_for('admin.create_blogpost', blogpage_id=blogpage.publishing_sibling_id if blogpage.is_published and blogpage.publishing_sibling_id else blogpage.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
+
 <hr>
 
 {% for post in posts %}
@@ -25,7 +26,7 @@ const TOTAL_PAGES = {{ total_pages }};
       <a class="darken-on-hover link--{{ color }} underline-on-hover-only" href="{{ url_for('blog.' ~ post.blogpage_id ~ '.post', post_sanitized_title=post.sanitized_title) }}">
         <div class="d-flex align-items-top">
           <h1 class="flex-shrink-0 flex-basis-75 me-3 mb-0 p-mb-0 fs-5">{{ post.title|safe }}</h1>
-          <span class="post-list__blogtitle flex-shrink-9 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
+          <span class="post-list__blogtitle flex-shrink-1 ms-auto mb-0 text-end"> {{ post.blogpage.name }}</span>
         </div>
 
         {% if post.subtitle is not none %}
@@ -65,6 +66,7 @@ const TOTAL_PAGES = {{ total_pages }};
     {% endif %}
       </a>
     </div>
+
   <hr>
 {% endfor %}
 

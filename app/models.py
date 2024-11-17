@@ -283,7 +283,7 @@ class Comment(db.Model):
     def insert_comment(self, post: Post, parent: Comment) -> bool:
         if parent is None:
             # add child with left = max of right for that post + 1
-            max_right_query = post.comments.select().order_by(sa.desc(Comment.right)).limit(1)
+            max_right_query = post.comments.select().order_by(Comment.right.desc()).limit(1)
             max_right_comment = db.session.scalars(max_right_query).first()
             max_right = 0
             if max_right_comment is not None:

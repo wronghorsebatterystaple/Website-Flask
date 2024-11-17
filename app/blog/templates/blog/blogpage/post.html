@@ -22,6 +22,9 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_comments.js', _external=True) }}" defer></script>
 {% endblock %}
 
+{% block pre_content %}
+{% endblock %}
+
 {% block content %}
 <h1 class="mb-0 p-mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
 {% if post.subtitle is not none %}
@@ -36,8 +39,18 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
   <a class="go-to-comments-link me-0_75rem" href="#leave-a-comment" title="Go to comments"><i class="bi bi-chat-right-text"></i></a>
   <button id="copy-permanent-link-btn" class="btn btn-link copy-permanent-link-btn" type="button" title="Copy permanent link"><i class="bi bi-link-45deg"></i></button>
 </div>
+
 <a class="btn btn-primary btn--custom-orange mt-2 show-when-logged-in" href="{{ url_for('admin.edit_blogpost', post_id=post.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Edit/delete post</a>
-<hr class="mb-0">
+
+{% if post.blogpage_id == -3 %} <!-- TODO: tmp -->
+<div class="d-flex flex-equal-children gap-3 justify-content-between align-items-center mt-3">
+  <a class="text-start{% if prev_post is none %} invisible"{% else %}" href="{{ url_for('blog.post_by_id', post_id=prev_post.id, _external=True) }}"{% endif %}>&lt;-- prev</a>
+  <a class="text-center" href="{{ url_for('blog.' ~ blogpage_id ~ '.index', _external=True) }}">main page</a>
+  <a class="text-end{% if next_post is none %} invisible"{% else %}" href="{{ url_for('blog.post_by_id', post_id=next_post.id, _external=True) }}"{% endif %}>next ++&gt;</a>
+</div>
+{% endif %}
+
+<hr class="mt-0_75rem mb-0">
 
 {% if toc_tokens and toc_tokens|length > 0 %}
 <div class="post__toc card mb-3">
@@ -68,12 +81,14 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 <div id="post__content" class="post__content mt-3">
   {{ post.content|safe }}
 </div>
+
 <hr>
 
 <div id="leave-a-comment">
   <h2 class="fs-4">Leave a comment</h2>
   {{ wtf.quick_form(add_comment_form, class="ajax-add-comment mb-2", autofocus=false) }}
 </div>
+
 <hr>
 
 <div class="mb-3">

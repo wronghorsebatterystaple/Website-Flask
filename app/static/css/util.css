@@ -75,6 +75,157 @@
     color: var(--custom-pink-xlight) !important;
 }
 
+/********/
+/* Font */
+/********/
+
+/* override all Bootstrap `fs` classes */
+.fs-1 {
+    font-size: calc(1.5rem + 4vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-1 {
+        font-size: 3.5rem !important;
+    }
+}
+
+.fs-2 {
+    font-size: calc(1.4rem + 3.2vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-2 {
+        font-size: 3rem !important;
+    }
+}
+
+.fs-3 {
+    font-size: calc(1.3rem + 2.4vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-3 {
+        font-size: 2.5rem !important;
+    }
+}
+
+.fs-4 {
+    font-size: calc(1.25rem + 2vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-4 {
+        font-size: 2.25rem !important;
+    }
+}
+
+.fs-5 {
+    font-size: calc(1.2rem + 1.6vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-5 {
+        font-size: 2rem !important;
+    }
+}
+
+.fs-6 {
+    font-size: calc(1.15rem + 1.2vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-6 {
+        font-size: 1.75rem !important;
+    }
+}
+
+.fs-7 {
+    font-size: calc(1.1rem + 0.8vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-7 {
+        font-size: 1.5rem !important;
+    }
+}
+
+.fs-8 {
+    font-size: calc(1.05rem + 0.4vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-8 {
+        font-size: 1.25rem !important;
+    }
+}
+
+.fs-9 {
+    font-size: calc(1.025rem + 0.2vw) !important;
+}
+
+@media (min-width: 800px) {
+    .fs-9 {
+        font-size: 1.125rem !important;
+    }
+}
+
+.fs-10 {
+    font-size: 0.875rem !important;
+}
+
+/*************/
+/* Box Model */
+/*************/
+
+.me-0_75rem {
+    margin-right: 0.75rem !important;
+}
+
+.mt-0_75rem {
+    margin-top: 0.75rem !important;
+}
+
+.p-mb-0 p {
+    margin-bottom: 0 !important;
+}
+
+.pt-0_75rem {
+    padding-top: 0.75rem !important;
+}
+
+.pt-2_5rem {
+    padding-top: 2.5rem !important;
+}
+
+.pb-0_75rem {
+    padding-bottom: 0.75rem !important;
+}
+
+.w-2rem {
+    width: 2rem !important;
+}
+
+.w-2_5em {
+    width: 2.5em !important;
+}
+
+.last-child-no-mb *:last-child {
+    margin-bottom: 0 !important;
+}
+
+/********/
+/* Flex */
+/********/
+
+.flex-equal-children > * {
+    flex: 1 !important;
+}
+
+.flex-basis-75 {
+    flex-basis: 75% !important;
+}
+
 /************/
 /* `border` */
 /************/
@@ -221,141 +372,6 @@
     text-decoration-color: var(--custom-green-deep-xxdark) !important;
 }
 
-/********/
-/* Font */
-/********/
-
-/* override all Bootstrap `fs` classes */
-.fs-1 {
-    font-size: calc(1.5rem + 4vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-1 {
-        font-size: 3.5rem !important;
-    }
-}
-
-.fs-2 {
-    font-size: calc(1.4rem + 3.2vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-2 {
-        font-size: 3rem !important;
-    }
-}
-
-.fs-3 {
-    font-size: calc(1.3rem + 2.4vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-3 {
-        font-size: 2.5rem !important;
-    }
-}
-
-.fs-4 {
-    font-size: calc(1.25rem + 2vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-4 {
-        font-size: 2.25rem !important;
-    }
-}
-
-.fs-5 {
-    font-size: calc(1.2rem + 1.6vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-5 {
-        font-size: 2rem !important;
-    }
-}
-
-.fs-6 {
-    font-size: calc(1.15rem + 1.2vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-6 {
-        font-size: 1.75rem !important;
-    }
-}
-
-.fs-7 {
-    font-size: calc(1.1rem + 0.8vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-7 {
-        font-size: 1.5rem !important;
-    }
-}
-
-.fs-8 {
-    font-size: calc(1.05rem + 0.4vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-8 {
-        font-size: 1.25rem !important;
-    }
-}
-
-.fs-9 {
-    font-size: calc(1.025rem + 0.2vw) !important;
-}
-
-@media (min-width: 800px) {
-    .fs-9 {
-        font-size: 1.125rem !important;
-    }
-}
-
-.fs-10 {
-    font-size: 0.875rem !important;
-}
-
-/*************/
-/* Box Model */
-/*************/
-
-.me-0_75rem {
-    margin-right: 0.75rem !important;
-}
-
-.p-mb-0 p {
-    margin-bottom: 0 !important;
-}
-
-.pt-0_75rem {
-    padding-top: 0.75rem !important;
-}
-
-.pt-2_5rem {
-    padding-top: 2.5rem !important;
-}
-
-.pb-0_75rem {
-    padding-bottom: 0.75rem !important;
-}
-
-.w-2rem {
-    width: 2rem !important;
-}
-
-.w-2_5em {
-    width: 2.5em !important;
-}
-
-.last-child-no-mb *:last-child {
-    margin-bottom: 0 !important;
-}
-
 /*********/
 /* Other */
 /*********/
@@ -364,10 +380,6 @@ a.discreet-link {
     text-decoration-style: dotted !important;
     text-decoration-color: unset;
     color: unset;
-}
-
-.flex-basis-75 {
-    flex-basis: 75% !important;
 }
 
 .min-vh-100 {
