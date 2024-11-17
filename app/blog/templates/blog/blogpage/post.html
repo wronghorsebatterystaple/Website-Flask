@@ -2,7 +2,7 @@
 {% import "bootstrap_wtf.html" as wtf %}
 
 {% block title %}
-{{ post_title_no_markdown }} - {{ blogpage.name }}
+{{ post.title }} - {{ blogpage.name }}
 {% endblock %}
 
 {% block js_start_inline %}
@@ -27,18 +27,18 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 {% endblock %}
 
 {% block content %}
-{% if post.blogpage_id == -3 %} <!-- TODO: tmp -->
-<div class="d-flex flex-equal-children gap-3 justify-content-between align-items-center mt-0_75rem">
-  <a class="text-start{% if prev_post is none %} invisible"{% else %}" href="{{ url_for('blog.post_by_id', post_id=prev_post.id, _external=True) }}"{% endif %}>&lt;-- prev</a>
-  <a class="text-center" href="{{ url_for('blog.' ~ blogpage_id ~ '.index', _external=True) }}">main page</a>
-  <a class="text-end{% if next_post is none %} invisible"{% else %}" href="{{ url_for('blog.post_by_id', post_id=next_post.id, _external=True) }}"{% endif %}>next ++&gt;</a>
+<div class="d-flex flex-equal-children gap-3 justify-content-between align-items-center mt-3">
+  <a class="text-start underline-on-hover-only{% if prev_post is none %} invisible"{% else %}" href="{{ url_for('blog.post_by_id', post_id=prev_post.id, _external=True) }}" alt="{{ prev_post.title }}"{% endif %}>&lt;-- prev</a>
+  <a class="text-center underline-on-hover-only" href="{{ url_for('blog.' ~ blogpage_id ~ '.index', _external=True) }}">main page</a>
+  <a class="text-end underline-on-hover-only{% if next_post is none %} invisible"{% else %}" href="{{ url_for('blog.post_by_id', post_id=next_post.id, _external=True) }}" alt="{{ next_post.title }}"{% endif %}>next ++&gt;</a>
 </div>
-{% endif %}
+
+<hr class="mt-2 mb-0">
 
 <div class="mt-4">
-  <h1 class="mb-0 p-mb-0 custom-green-deep-dark fs-3">{{ post.title|safe }}</h1>
+  <h1 class="mb-0 p-mb-0 custom-green-deep-dark fs-3">{{ post.title }}</h1>
   {% if post.subtitle is not none %}
-    <h2 class="mt-2 mb-0 p-mb-0 custom-orange-deep-dark fs-7">{{ post.subtitle|safe }}</h2>
+    <h2 class="mt-2 mb-0 p-mb-0 custom-orange-deep-dark fs-7">{{ post.subtitle }}</h2>
   {% endif %}
   <div class="d-flex align-items-center mt-2 fs-9">
     {% if post.edited_timestamp is not none %}

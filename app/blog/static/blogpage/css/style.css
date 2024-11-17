@@ -166,6 +166,7 @@ input[value="Reply"][value="Delete"] {
 .post__toc {
     z-index: 999;
     border-color: gray;
+    margin-top: 1rem;
     padding: 1rem 1rem 0rem 1rem;
     max-height: max(33.3333svh, 15rem);
 }
@@ -174,6 +175,7 @@ input[value="Reply"][value="Delete"] {
     .post__toc {
         position: sticky;
         float: left;
+        margin-top: 0;
         border: none;
         padding: 0;
         /* TOC takes up max 75% of the screen height, and is vertically centered (as if it took 75% of the screen

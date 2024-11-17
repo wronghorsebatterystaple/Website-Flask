@@ -51,8 +51,6 @@ def index(**kwargs):
                 error_out=False)
     if posts is None:
         return "ok im actually impressed how did you do that"
-    for post in posts:
-        post = bp_util.render_post_titles_markdown(post)
 
     next_page_url = url_for(f"blog.{blogpage_id}.index", page=posts.next_num, _external=True) if posts.has_next \
             else None
@@ -75,7 +73,6 @@ def index(**kwargs):
 @bp_util.require_valid_post()
 def post(post, post_sanitized_title, **kwargs): # first param is from `require_valid_post` decorator
     # render Markdown for post
-    post = bp_util.render_post_titles_markdown(post)
     content_md = None
     if post.content:
         content_md = markdown.Markdown(extensions=[
@@ -87,10 +84,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
         ])
         post.content = content_md.convert(post.content)
 
-    # strip Markdown for title here instead of on the frontend because this is only part of the title, and I can't
-    # put `<span>`s or anything in `<title>` to selectively only change part of it in JS
-    # only Jinja can selectively put stuff in `<title>`, so I use bs4 here to extract the text for Jinja
-    post_title_no_markdown = bp_util.strip_markdown_from_html(post.title)
     add_comment_form = AddCommentForm()
 
     posts_in_curr_bp = db.session.query(Post).filter_by(blogpage_id=post.blogpage_id)
@@ -106,7 +99,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             post=post,
             prev_post=prev_post,
             next_post=next_post,
-            post_title_no_markdown=post_title_no_markdown,
             toc_tokens=content_md.toc_tokens if content_md is not None else None,
             add_comment_form=add_comment_form)
 

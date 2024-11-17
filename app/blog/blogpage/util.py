@@ -1,7 +1,6 @@
 import bleach
 import markdown
 import re
-from bs4 import BeautifulSoup
 from functools import wraps
 
 from flask import current_app, jsonify, redirect, request, url_for
@@ -125,13 +124,6 @@ def get_post(post: Post, post_sanitized_title: str, blogpage_id: int) -> Post:
     if post is not None:
         return post
     return db.session.query(Post).filter_by(sanitized_title=post_sanitized_title, blogpage_id=blogpage_id).first()
-
-
-def render_post_titles_markdown(post: Post) -> Post:
-    post.title = markdown.markdown(post.title, extensions=["extra", CustomInlineExtensions()])
-    if post.subtitle:
-        post.subtitle = markdown.markdown(post.subtitle, extensions=["extra", CustomInlineExtensions()])
-    return post
 
 
 def sanitize_untrusted_html(s: str) -> str:
