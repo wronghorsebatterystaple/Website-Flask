@@ -26,24 +26,19 @@ function addCommentHoverTooltip() {
     $("#leave-a-comment #content-field label").first()
             .append(" (hover to show formatting options)")
             .attr("data-bs-toggle", "tooltip")
-            .attr("data-bs-custom-class", "tooltip-text-align-left")
+            .attr("data-bs-custom-class", "comment-tooltip")
             .attr("data-bs-html", "true")
-            .attr("data-bs-title", `
-                <ul class='mb-0'>
-                  <li>Markdown
-                    <ul>
-                      <li>Python-Markdown's <code>extra</code> extension is supported</li>
-                      <li>No images, links, or footnotes</li>
-                    </ul>
-                  </li>
-                  <li>LaTeX (via MathJax)
-                    <ul>
-                      <li>Escape anything that is also Markdown: <code>\\(</code>, <code>\\)</code>, <code>\\\\</code>, <code>\*</code> etc.</li>
-                    </ul>
-                  </li>
-                  <li>My custom inline Markdown syntax if you can figure it out :3</li>
-                </ul>
-            `);
+            .attr("data-bs-title",
+                    "Markdown:" +
+                      "<ul>" +
+                        "<li>Python-Markdown with extensions <code>fenced_code</code>, <code>tables</code></li>" +
+                        "<li>No images, links, or footnotes</li>" +
+                      "</ul>" +
+                    "LaTeX (via MathJax):" +
+                      "<ul>" +
+                        "<li>Escape anything that is also Markdown: <code>\\(</code>, <code>\\)</code>," +
+                              "<code>\\\\</code>, <code>\*</code> etc.</li>" +
+                      "</ul>");
 
     refreshTooltips("#leave-a-comment");
 }

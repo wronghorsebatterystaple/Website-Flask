@@ -136,7 +136,6 @@ Keep up-to-date:
                     - `notat`: notation
                     - `prop`: proposition
                     - `thm`: theorem
-        - Not allowed in non-admin comments due to potential bugs and crashes and 500 Internal Server Errors
     - Images:
         - Only give the filename for images in Markdown; the full path will be automatically expanded (won't work if you put in full path because I'm bad at regex!!!)
 

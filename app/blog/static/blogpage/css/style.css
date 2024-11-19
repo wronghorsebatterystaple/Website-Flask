@@ -16,6 +16,15 @@ input[value="Reply"][value="Delete"] {
     font-size: 0.95rem;
 }
 
+.comment-tooltip ul {
+    margin-bottom: 0rem;
+}
+
+.comment-tooltip .tooltip-inner {
+    padding: 0.5rem 1rem;
+    text-align: left;
+}
+
 .copy-permanent-link-btn {
     margin-bottom: -0.125rem;
     font-size: 1em; /* undo Bootstrap */

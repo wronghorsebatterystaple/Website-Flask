@@ -118,9 +118,10 @@ def get_comments(post, post_sanitized_title, **kwargs):
                     comment.content,
                     extensions=["extra", "image_titles", CustomInlineExtensions(), CustomBlockExtensions()])
         else:
-            # no custom block Markdown for non-admin because there are ways to 500 the page that I don't wanna fix
-            comment.content = markdown.markdown(
-                    comment.content, extensions=["extra", CustomInlineExtensions()])
+            # no custom block Markdown for non-admin because there are prob ways to 500 the page that I don't wanna fix
+            # (and besides it loads faster)
+            # no attribute lists etc. either to prevent them from messing with DOM too much (e.g. duplicate `id`s)
+            comment.content = markdown.markdown(comment.content, extensions=["fenced_code", "tables"])
             comment.content = bp_util.sanitize_untrusted_html(comment.content)
  
     add_comment_form = AddCommentForm()

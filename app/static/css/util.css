@@ -398,10 +398,6 @@ a.discreet-link {
     overflow-y: hidden !important; /* for MathJax equation environments with `\\[pt]` extra line spacing */
 }
 
-.tooltip-text-align-left .tooltip-inner {
-    text-align: left;
-}
-
 .underline-on-hover-only {
     text-decoration-line: none !important;
 }
