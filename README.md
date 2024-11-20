@@ -128,7 +128,7 @@ Keep up-to-date:
                 - Requires nested `summary` block inside, except for the following `<block type>`s that get defaults:
                     - `pf`
                     - `rmk`
-            - `textbox`: a textbox (1-cell table)
+            - `textbox`: a textbox
                 - Alternative `<block type>`s:
                     - `coro`: corollary
                     - `defn`: definition

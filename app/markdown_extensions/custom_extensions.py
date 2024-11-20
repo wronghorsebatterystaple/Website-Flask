@@ -449,7 +449,7 @@ class Dropdown(BlockProcessor):
 
 class Textbox(BlockProcessor):
     """
-    A textbox (1-cell table).
+    A textbox.
 
     Usage:
         ```
@@ -463,15 +463,9 @@ class Textbox(BlockProcessor):
         ```
         - HTML output:
             ```
-            <table class="md-textbox md-textbox--[type] last-child-no-mb">
-              <tbody>
-                <tr>
-                  <td colspan="1" rowspan="1">
-                  [content]
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="md-textbox md-textbox--[type] last-child-no-mb">
+              [content]
+            </div>
             ```
     """
 
@@ -521,14 +515,9 @@ class Textbox(BlockProcessor):
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_END, "", block)
                 # build HTML
-                elem_table = etree.SubElement(parent, "table")
-                elem_table.set("class", f"md-textbox md-textbox--{self.TYPE} last-child-no-mb")
-                elem_tbody = etree.SubElement(elem_table, "tbody")
-                elem_tr = etree.SubElement(elem_tbody, "tr")
-                elem_td = etree.SubElement(elem_tr, "td")
-                elem_td.set("colspan", "1")
-                elem_td.set("rowspan", "1")
-                self.parser.parseBlocks(elem_td, blocks[0:i + 1])
+                elem = etree.SubElement(parent, "div")
+                elem.set("class", f"md-textbox md-textbox--{self.TYPE} last-child-no-mb")
+                self.parser.parseBlocks(elem, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)

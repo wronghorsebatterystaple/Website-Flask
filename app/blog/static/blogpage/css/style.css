@@ -92,19 +92,13 @@ input[value="Reply"][value="Delete"] {
     border-color: lightgray;
 }
 
-.md-image-inline {
-    display: inline !important;
-    margin: 0.25rem !important;
-}
-
 .md-textbox {
-    width: 100%;
+    margin-bottom: 1rem;
+    border-style: solid;
     border-collapse: separate;
     border-spacing: 0;
-}
-
-.md-textbox td {
     padding: 0.75rem 1rem;
+    width: 100%;
 }
 
 .md-textbox--coro,
@@ -115,7 +109,6 @@ input[value="Reply"][value="Delete"] {
 .md-textbox--thm
 {
     border-width: 4px;
-    border-style: solid;
 }
 
 .md-textbox--coro,
