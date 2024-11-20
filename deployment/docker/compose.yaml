@@ -18,7 +18,7 @@ services:
     restart: always
   mysql:
     container_name: personal-website-mysql
-    user: "$DOCKER_USER_STR"
+    user: "$DOCKER_USER_NAME"
     ports:
       - "3306:3306"
       - "33060:33060"
