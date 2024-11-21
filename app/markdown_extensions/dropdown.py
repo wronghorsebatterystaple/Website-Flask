@@ -58,7 +58,7 @@ class Dropdown(BlockProcessor):
         self.RE_DROPDOWN_END_CHOICES = {}
         for typ in self.types:
             if self.math_thm_heading:
-                self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}(?:\[(.+?)\])?(?:\[\[(.+?)\]\])?$"
+                self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}(?:\[(.+?)\])?(?:{{(.+?)}})?$"
             else:
                 self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}$"
             self.RE_DROPDOWN_END_CHOICES[typ] = rf"\\end{{{typ}}}$"
@@ -66,7 +66,7 @@ class Dropdown(BlockProcessor):
     def test(self, parent, block):
         for typ, regex in self.RE_DROPDOWN_START_CHOICES.items():
             if re.match(regex, block):
-                self.typ = typ
+                self.typ = self.types[typ]
                 self.re_dropdown_start = regex
                 self.re_dropdown_end = self.RE_DROPDOWN_END_CHOICES[typ]
                 return True
@@ -76,21 +76,18 @@ class Dropdown(BlockProcessor):
         if self.re_dropdown_start is None or self.re_dropdown_end is None or self.typ is None:
             return False
 
-        typ_opts = self.types[self.typ]
         org_blocks = list(blocks)
         # remove dropdown starting delimiter
         re_dropdown_start_match = None
-        # save theorem heading stuff like optional theorem name if applicable
+        # save theorem heading stuff like optional theorem name if applicable before deleting
         if self.math_thm_heading:
             re_dropdown_start_match = re.search(self.re_dropdown_start, blocks[0])
-            if re_dropdown_start_match is None: # because this should've been prereq in `test()`!
-                return False
         blocks[0] = re.sub(self.re_dropdown_start, "", blocks[0])
 
         # remove summary starting delimiter that must immediately follow dropdown's starting delimiter
         # if no starting delimiter for summary and no default, restore and do nothing
         if not re.search(self.RE_SUMMARY_START, blocks[1]):
-            if typ_opts.get("name") is None:
+            if self.typ.get("name") is None:
                 blocks.clear() # `blocks = org_blocks` doesn't work because that just reassigns function-scoped `blocks`
                 blocks.extend(org_blocks)
                 return False
@@ -100,27 +97,26 @@ class Dropdown(BlockProcessor):
         elem_summary = etree.Element("summary")
         elem_summary.set("class", self.summary_html_class)
         has_valid_summary = False
-        default_summary = typ_opts.get("name") 
+        default_summary = self.typ.get("name") 
         if default_summary is not None:
             has_valid_summary = True
             elem_summary.text = default_summary
             # fill in math counter by using my `counter` extension's syntax
             if self.math_counter:
-                counter = typ_opts.get("counter")
+                counter = self.typ.get("counter")
                 if counter is not None:
                     elem_summary.text += f" {{{{{counter}}}}}"
             # fill in math theorem heading by using my `thm_heading` extension's syntax
             if self.math_thm_heading:
-                # TODO: test
-                overrides_heading = typ_opts.get("overrides_heading")
+                overrides_heading = self.typ.get("overrides_heading")
                 if overrides_heading and re_dropdown_start_match.group(1) is not None:
-                    elem_summary.text = re.dropdown_start_match.group(1)
+                    elem_summary.text = re_dropdown_start_match.group(1)
 
                 elem_summary.text = "{[" + elem_summary.text + "]}"
                 if not overrides_heading and re_dropdown_start_match.group(1) is not None:
                     elem_summary.text += "[" + re_dropdown_start_match.group(1) + "]"
                 if re_dropdown_start_match.group(2) is not None:
-                    elem_summary.text += "[[" + re_dropdown_start_match.group(2) + "]]"
+                    elem_summary.text += "{" + re_dropdown_start_match.group(2) + "}"
 
         # find and remove summary ending delimiter, and extract element
         for i, block in enumerate(blocks):
@@ -152,7 +148,7 @@ class Dropdown(BlockProcessor):
                 blocks[i] = re.sub(self.re_dropdown_end, "", block)
                 # build HTML for dropdown
                 elem_details = etree.SubElement(parent, "details")
-                elem_details.set("class", f"{self.html_class} {typ_opts.get('html_class', '')}")
+                elem_details.set("class", f"{self.html_class} {self.typ.get('html_class', '')}")
                 elem_details.append(elem_summary)
                 elem_details_content = etree.SubElement(elem_details, "div")
                 elem_details_content.set("class", self.content_html_class)

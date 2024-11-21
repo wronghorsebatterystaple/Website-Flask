@@ -75,7 +75,7 @@ input[value="Reply"][value="Delete"] {
 }
 
 .md-dropdown__summary > p:first-of-type {
-    display: inline;
+    display: inline-block;
 }
 
 .md-dropdown--default {

@@ -36,11 +36,10 @@ class ThmHeading(InlineProcessor):
 
         elem = etree.Element("span")
         elem_heading = etree.SubElement(elem, "span")
-        elem_heading.text = m.group(1)
-        elem_non_heading = etree.SubElement(elem, "span")
-        elem_non_heading.text = ""
+        elem_heading.text = f"{m.group(1)} "
         if m.group(2) is not None:
-            elem_non_heading.text += f" ({m.group(2)}). "
+            elem_non_heading = etree.SubElement(elem, "span")
+            elem_non_heading.text = f"({m.group(2)}). "
             elem.set("id", format_for_html(m.group(2)))
         elif m.group(3) is not None:
             elem.set("id", format_for_html(m.group(3)))
@@ -51,7 +50,7 @@ class ThmHeading(InlineProcessor):
 
 class AmsthmExtension(Extension):
     def extendMarkdown(self, md):
-        regex = r"{\[(.+?)\]}(?:\[(.+?)\])?(?:\[\[(.+?)\]\])?"
+        regex = r"{\[(.+?)\]}(?:\[(.+?)\])?(?:{(.+?)})?"
         md.inlinePatterns.register(ThmHeading(regex, md), "thm_heading", 105)
 
         # TODO: these need to be passed in via extension config
