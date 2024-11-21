@@ -13,7 +13,14 @@ import app.util as util
 from app import db
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
-from app.markdown_extensions.custom_extensions import CustomBlockExtensions, CustomInlineExtensions
+# todo clean up once packaged
+from app.markdown_extensions.amsthm import AmsthmExtension
+from app.markdown_extensions.captioned_figure import CaptionedFigureExtension
+from app.markdown_extensions.cited_blockquote import CitedBlockquoteExtension
+from app.markdown_extensions.counter import CounterExtension
+from app.markdown_extensions.custom_inline_extensions import CustomInlineExtensions
+from app.markdown_extensions.dropdown import DropdownExtension
+from app.markdown_extensions.textbox import TextboxExtension
 from app.models import *
 from app.util import ContentType
 
@@ -79,8 +86,13 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             "extra",
             "image_titles",                     # images use `alt` text as `title` too
             TocExtension(toc_depth=2),          # automatically generates HTML `id` attributes for headers in TOC
+            AmsthmExtension(),
+            CaptionedFigureExtension(),
+            CitedBlockquoteExtension(),
+            CounterExtension(),
             CustomInlineExtensions(),
-            CustomBlockExtensions()
+            DropdownExtension(),
+            TextboxExtension()
         ])
         post.content = content_md.convert(post.content)
 
@@ -116,7 +128,7 @@ def get_comments(post, post_sanitized_title, **kwargs):
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
                     comment.content,
-                    extensions=["extra", "image_titles", CustomInlineExtensions(), CustomBlockExtensions()])
+                    extensions=["extra", "image_titles", CustomInlineExtensions()]) # TODO change eventually once packagized
         else:
             # no custom block Markdown for non-admin because there are prob ways to 500 the page that I don't wanna fix
             # (and besides it loads faster)

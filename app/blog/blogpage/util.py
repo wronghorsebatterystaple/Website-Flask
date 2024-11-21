@@ -7,7 +7,6 @@ from flask import current_app, jsonify, redirect, request, url_for
 
 import app.util as util
 from app import db
-from app.markdown_extensions.custom_extensions import CustomInlineExtensions
 from app.models import *
 from app.util import ContentType
 

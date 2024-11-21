@@ -38,6 +38,7 @@ function addCommentHoverTooltip() {
                       "<ul>" +
                         "<li>Escape anything that is also Markdown: <code>\\(</code>, <code>\\)</code>," +
                               "<code>\\\\</code>, <code>\*</code> etc.</li>" +
+                        "<li>My custom commands are available if you can find them :3" +
                       "</ul>");
 
     refreshTooltips("#leave-a-comment");
