@@ -83,17 +83,16 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
     # render Markdown for post
     content_md = None
     if post.content:
-        content_md = markdown.Markdown(extensions=[
+        content_md = markdown.Markdown(post.content, extensions=[
             "extra",
             "image_titles",                     # images use `alt` text as `title` too
-            TocExtension(toc_depth=2),          # automatically generates HTML `id` attributes for headers in TOC
             AmsthmExtension(),
             CaptionedFigureExtension(),
             CitedBlockquoteExtension(),
-            CounterExtension(),
             CustomInlineExtensions(),
             DropdownExtension(),
             TextboxExtension(),
+            TocExtension(marker="", toc_depth=2),
             ThmHeadingExtension()
         ])
         post.content = content_md.convert(post.content)
