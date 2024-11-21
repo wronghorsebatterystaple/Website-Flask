@@ -21,6 +21,7 @@ from app.markdown_extensions.counter import CounterExtension
 from app.markdown_extensions.custom_inline_extensions import CustomInlineExtensions
 from app.markdown_extensions.dropdown import DropdownExtension
 from app.markdown_extensions.textbox import TextboxExtension
+from app.markdown_extensions.thm_heading import ThmHeadingExtension
 from app.models import *
 from app.util import ContentType
 
@@ -92,7 +93,8 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             CounterExtension(),
             CustomInlineExtensions(),
             DropdownExtension(),
-            TextboxExtension()
+            TextboxExtension(),
+            ThmHeadingExtension()
         ])
         post.content = content_md.convert(post.content)
 
@@ -132,8 +134,7 @@ def get_comments(post, post_sanitized_title, **kwargs):
         else:
             # no custom block Markdown for non-admin because there are prob ways to 500 the page that I don't wanna fix
             # (and besides it loads faster)
-            # no attribute lists etc. either to prevent them from messing with DOM too much (e.g. duplicate `id`s)
-            comment.content = markdown.markdown(comment.content, extensions=["fenced_code", "tables"])
+            comment.content = markdown.markdown(comment.content, extensions=["extra"])
             comment.content = bp_util.sanitize_untrusted_html(comment.content)
  
     add_comment_form = AddCommentForm()

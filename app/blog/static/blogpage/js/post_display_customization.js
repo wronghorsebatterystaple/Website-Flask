@@ -31,10 +31,10 @@ function addCommentHoverTooltip() {
             .attr("data-bs-title",
                     "Markdown:" +
                       "<ul>" +
-                        "<li>Python-Markdown with extensions <code>fenced_code</code>, <code>tables</code></li>" +
+                        "<li>Python-Markdown with <code>extra</code> extension</li>" +
                         "<li>No images, links, or footnotes</li>" +
                       "</ul>" +
-                    "LaTeX (via MathJax):" +
+                    "LaTeX (MathJax):" +
                       "<ul>" +
                         "<li>Escape anything that is also Markdown: <code>\\(</code>, <code>\\)</code>," +
                               "<code>\\\\</code>, <code>\*</code> etc.</li>" +

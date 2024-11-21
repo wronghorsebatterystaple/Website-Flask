@@ -133,12 +133,7 @@ def sanitize_untrusted_html(s: str) -> str:
         - Bleach is deprecated because html5lib is, but both seem to still be mostly active
     """
 
-    s = bleach.clean(
-            s,
+    s = bleach.clean(s,
             tags=current_app.config["POST_COMMENT_ALLOWED_TAGS"],
             attributes=current_app.config["POST_COMMENT_ALLOWED_ATTRIBUTES"])
     return s
-
-
-def strip_markdown_from_html(html: str) -> str:
-    return BeautifulSoup(html, "lxml").get_text()

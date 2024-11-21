@@ -58,7 +58,7 @@ class Dropdown(BlockProcessor):
         self.RE_DROPDOWN_END_CHOICES = {}
         for typ in self.types:
             if self.math_thm_heading:
-                self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}((?:\[.+?\])?(?:(\[\[.+?\]\]))?)$"
+                self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}((?:\[.+?\])?(?:\[\[.+?\]\])?)?$"
             else:
                 self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}$"
             self.RE_DROPDOWN_END_CHOICES[typ] = rf"\\end{{{typ}}}$"
@@ -91,7 +91,7 @@ class Dropdown(BlockProcessor):
         elem_summary.text = ""
         # if no starting delimiter for summary and no default, restore and do nothing
         if not re.search(self.RE_SUMMARY_START, blocks[1]):
-            if self.types[self.typ]["name"] is None:
+            if self.types[self.typ].get("name") is None:
                 blocks.clear() # `blocks = org_blocks` doesn't work even though `org_blocks` is literally a copy
                 blocks.extend(org_blocks)
                 return False
@@ -100,11 +100,11 @@ class Dropdown(BlockProcessor):
         # find and remove summary ending delimiter, and extract element
         # fill in default summary value if applicable
         if self.types[self.typ] is not None:
-            elem_summary.text = self.types[self.typ]["name"]
+            elem_summary.text = self.types[self.typ].get("name", "")
             # fill in math counter by using my `counter` extension's syntax
             if self.math_counter:
                 # TODO: need counter to be postprocessor instead; what was the problem with that?
-                counter = self.types[self.typ]["counter"]
+                counter = self.types[self.typ].get("counter")
                 if counter is not None:
                     elem_summary.text += f" {{{{{counter}}}}}"
             # fill in math theorem heading by using my `thm_heading` extension's syntax
@@ -112,6 +112,8 @@ class Dropdown(BlockProcessor):
                 elem_summary.text = "{[" + elem_summary.text + "]}"
                 if thm_heading_text is not None:
                     elem_summary.text += thm_heading_text
+                    print(f"----thm_heading_text is: {thm_heading_text}")
+                    print(f"----summary text so far is: {elem_summary.text}")
         for i, block in enumerate(blocks):
             if re.search(self.RE_SUMMARY_END, block):
                 # remove ending delimiter
@@ -138,7 +140,7 @@ class Dropdown(BlockProcessor):
                 blocks[i] = re.sub(self.re_dropdown_end, "", block)
                 # build HTML for dropdown
                 elem_details = etree.SubElement(parent, "details")
-                elem_details.set("class", f"{self.html_class} {self.types[self.typ]['html_class']}")
+                elem_details.set("class", f"{self.html_class} {self.types[self.typ].get('html_class', '')}")
                 elem_details.append(elem_summary)
                 elem_details_content = etree.SubElement(elem_details, "div")
                 elem_details_content.set("class", self.content_html_class)
@@ -156,9 +158,8 @@ class Dropdown(BlockProcessor):
 
 class DropdownExtension(Extension):
     def extendMarkdown(self, md):
-        # TODO: would be convient if could somehow default None? like use dictionary.get() instead?
         types = {
-            "dropdown": {"name": None, "counter": "", "html_class": "md-dropdown--default"}
+            "dropdown": {"html_class": "md-dropdown--default"}
         }
         md.parser.blockprocessors.register(
                 Dropdown(md.parser, types=types, html_class="md-dropdown",
