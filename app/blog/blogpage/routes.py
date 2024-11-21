@@ -21,7 +21,6 @@ from app.markdown_extensions.counter import CounterExtension
 from app.markdown_extensions.custom_inline_extensions import CustomInlineExtensions
 from app.markdown_extensions.dropdown import DropdownExtension
 from app.markdown_extensions.textbox import TextboxExtension
-from app.markdown_extensions.thm_heading import ThmHeadingExtension
 from app.models import *
 from app.util import ContentType
 

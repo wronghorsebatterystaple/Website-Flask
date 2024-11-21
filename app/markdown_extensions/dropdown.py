@@ -76,11 +76,10 @@ class Dropdown(BlockProcessor):
         if self.re_dropdown_start is None or self.re_dropdown_end is None or self.typ is None:
             return False
 
-        typ_opts = self.types[typ]
+        typ_opts = self.types[self.typ]
         org_blocks = list(blocks)
         # remove dropdown starting delimiter
         re_dropdown_start_match = None
-        thm_heading_texxt
         # save theorem heading stuff like optional theorem name if applicable
         if self.math_thm_heading:
             re_dropdown_start_match = re.search(self.re_dropdown_start, blocks[0])
@@ -92,7 +91,7 @@ class Dropdown(BlockProcessor):
         # if no starting delimiter for summary and no default, restore and do nothing
         if not re.search(self.RE_SUMMARY_START, blocks[1]):
             if typ_opts.get("name") is None:
-                blocks.clear() # `blocks = org_blocks` doesn't work even though `org_blocks` is literally a copy
+                blocks.clear() # `blocks = org_blocks` doesn't work because that just reassigns function-scoped `blocks`
                 blocks.extend(org_blocks)
                 return False
         blocks[1] = re.sub(self.RE_SUMMARY_START, "", blocks[1])
@@ -112,6 +111,7 @@ class Dropdown(BlockProcessor):
                     elem_summary.text += f" {{{{{counter}}}}}"
             # fill in math theorem heading by using my `thm_heading` extension's syntax
             if self.math_thm_heading:
+                # TODO: test
                 overrides_heading = typ_opts.get("overrides_heading")
                 if overrides_heading and re_dropdown_start_match.group(1) is not None:
                     elem_summary.text = re.dropdown_start_match.group(1)
