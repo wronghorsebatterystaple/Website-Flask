@@ -83,12 +83,13 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
     # render Markdown for post
     content_md = None
     if post.content:
-        content_md = markdown.Markdown(post.content, extensions=[
+        content_md = markdown.Markdown(extensions=[
             "extra",
             "image_titles",                     # images use `alt` text as `title` too
             AmsthmExtension(),
             CaptionedFigureExtension(),
             CitedBlockquoteExtension(),
+            CounterExtension(),
             CustomInlineExtensions(),
             DropdownExtension(),
             TextboxExtension(),
@@ -98,7 +99,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
         post.content = content_md.convert(post.content)
 
     add_comment_form = AddCommentForm()
-
     posts_in_curr_bp = db.session.query(Post).filter_by(blogpage_id=post.blogpage_id)
     curr_coalesced_timestamp = post.edited_timestamp if post.edited_timestamp is not None else post.timestamp
     prev_post = posts_in_curr_bp.filter(

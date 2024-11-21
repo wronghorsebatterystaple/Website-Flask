@@ -112,8 +112,6 @@ class Dropdown(BlockProcessor):
                 elem_summary.text = "{[" + elem_summary.text + "]}"
                 if thm_heading_text is not None:
                     elem_summary.text += thm_heading_text
-                    print(f"----thm_heading_text is: {thm_heading_text}")
-                    print(f"----summary text so far is: {elem_summary.text}")
         for i, block in enumerate(blocks):
             if re.search(self.RE_SUMMARY_END, block):
                 # remove ending delimiter

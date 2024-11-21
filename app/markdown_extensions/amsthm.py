@@ -25,7 +25,7 @@ class AmsthmExtension(Extension):
                         summary_html_class="md-dropdown__summary last-child-no-mb",
                         content_html_class="md-dropdown__content last-child-no-mb",
                         math_counter=True, math_thm_heading=True),
-                "amsthm_dropdown", 105)
+                "amsthm_dropdown", 999)
         #md.parser.blockprocessors.register(
         #        Textbox(md.parser, types=textbox_types, html_class="md-textbox",
         #                summary_html_class="md-textbox__summary last-child-no-mb",
