@@ -58,7 +58,7 @@ class Dropdown(BlockProcessor):
         self.RE_DROPDOWN_END_CHOICES = {}
         for typ in self.types:
             if self.math_thm_heading:
-                self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}((?:\[.+?\])?(?:\[\[.+?\]\])?)?$"
+                self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}(?:\[(.+?)\])?(?:\[\[(.+?)\]\])?$"
             else:
                 self.RE_DROPDOWN_START_CHOICES[typ] = rf"\\begin{{{typ}}}$"
             self.RE_DROPDOWN_END_CHOICES[typ] = rf"\\end{{{typ}}}$"
@@ -76,57 +76,71 @@ class Dropdown(BlockProcessor):
         if self.re_dropdown_start is None or self.re_dropdown_end is None or self.typ is None:
             return False
 
+        typ_opts = self.types[typ]
         org_blocks = list(blocks)
         # remove dropdown starting delimiter
-        thm_heading_text = None
+        re_dropdown_start_match = None
+        thm_heading_texxt
+        # save theorem heading stuff like optional theorem name if applicable
         if self.math_thm_heading:
-            m = re.search(self.re_dropdown_start, blocks[0])
-            if m:
-                thm_heading_text = m.group(1)
+            re_dropdown_start_match = re.search(self.re_dropdown_start, blocks[0])
+            if re_dropdown_start_match is None: # because this should've been prereq in `test()`!
+                return False
         blocks[0] = re.sub(self.re_dropdown_start, "", blocks[0])
 
         # remove summary starting delimiter that must immediately follow dropdown's starting delimiter
-        elem_summary = etree.Element("summary")
-        elem_summary.set("class", self.summary_html_class)
-        elem_summary.text = ""
         # if no starting delimiter for summary and no default, restore and do nothing
         if not re.search(self.RE_SUMMARY_START, blocks[1]):
-            if self.types[self.typ].get("name") is None:
+            if typ_opts.get("name") is None:
                 blocks.clear() # `blocks = org_blocks` doesn't work even though `org_blocks` is literally a copy
                 blocks.extend(org_blocks)
                 return False
         blocks[1] = re.sub(self.RE_SUMMARY_START, "", blocks[1])
 
-        # find and remove summary ending delimiter, and extract element
         # fill in default summary value if applicable
-        if self.types[self.typ] is not None:
-            elem_summary.text = self.types[self.typ].get("name", "")
+        elem_summary = etree.Element("summary")
+        elem_summary.set("class", self.summary_html_class)
+        has_valid_summary = False
+        default_summary = typ_opts.get("name") 
+        if default_summary is not None:
+            has_valid_summary = True
+            elem_summary.text = default_summary
             # fill in math counter by using my `counter` extension's syntax
             if self.math_counter:
-                # TODO: need counter to be postprocessor instead; what was the problem with that?
-                counter = self.types[self.typ].get("counter")
+                counter = typ_opts.get("counter")
                 if counter is not None:
                     elem_summary.text += f" {{{{{counter}}}}}"
             # fill in math theorem heading by using my `thm_heading` extension's syntax
             if self.math_thm_heading:
+                overrides_heading = typ_opts.get("overrides_heading")
+                if overrides_heading and re_dropdown_start_match.group(1) is not None:
+                    elem_summary.text = re.dropdown_start_match.group(1)
+
                 elem_summary.text = "{[" + elem_summary.text + "]}"
-                if thm_heading_text is not None:
-                    elem_summary.text += thm_heading_text
+                if not overrides_heading and re_dropdown_start_match.group(1) is not None:
+                    elem_summary.text += "[" + re_dropdown_start_match.group(1) + "]"
+                if re_dropdown_start_match.group(2) is not None:
+                    elem_summary.text += "[[" + re_dropdown_start_match.group(2) + "]]"
+
+        # find and remove summary ending delimiter, and extract element
         for i, block in enumerate(blocks):
+            # if we haven't found summary ending delimiter but have found the overall dropdown ending delimiter, then
+            # don't keep going; maybe the summary was omitted since it could've been optional
+            if re.search(self.re_dropdown_end, block):
+                break
             if re.search(self.RE_SUMMARY_END, block):
+                has_valid_summary = True
                 # remove ending delimiter
                 blocks[i] = re.sub(self.RE_SUMMARY_END, "", block)
                 # build HTML for summary
-                # TODO: this needs to append to elem_summary to not overwrite theorem heading
-                # TODO: need config option for things like pf which do overwrite theorem heading
                 self.parser.parseBlocks(elem_summary, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)
                 break
 
-        # if no summary text (e.g. no ending delimiter with no default), restore and do nothing
-        if elem_summary.text == "":
+        # if no valid summary (e.g. no ending delimiter with no default), restore and do nothing
+        if not has_valid_summary:
             blocks.clear()
             blocks.extend(org_blocks)
             return False
@@ -138,7 +152,7 @@ class Dropdown(BlockProcessor):
                 blocks[i] = re.sub(self.re_dropdown_end, "", block)
                 # build HTML for dropdown
                 elem_details = etree.SubElement(parent, "details")
-                elem_details.set("class", f"{self.html_class} {self.types[self.typ].get('html_class', '')}")
+                elem_details.set("class", f"{self.html_class} {typ_opts.get('html_class', '')}")
                 elem_details.append(elem_summary)
                 elem_details_content = etree.SubElement(elem_details, "div")
                 elem_details_content.set("class", self.content_html_class)

@@ -6,6 +6,11 @@ import xml.etree.ElementTree as etree
 
 
 # TODO: if releasing Counter, test with no adding html/varied params, also linking to counter via URL fragment
+
+# the only reason this is a `Treeprocessor` and not a `Preprocessor`, `InlineProcessor`, or `Postprocessor`, all of
+# which make more sense, is because we need this to run after `amsthm` (`BlockProcessor`) and before `toc`
+# (`Treeprocessor` with low priority): `amsthm` generates `counter` syntax, while `toc` will duplicate unparsed
+# `counter` syntax from headings into the TOC and cause `counter` later to increment twice as much
 class Counter(Treeprocessor):
     # TODO: if publishing, verify example
     """

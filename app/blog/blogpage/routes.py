@@ -93,8 +93,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             CustomInlineExtensions(),
             DropdownExtension(),
             TextboxExtension(),
-            TocExtension(marker="", toc_depth=2),
-            ThmHeadingExtension()
+            TocExtension(marker="", toc_depth=2)
         ])
         post.content = content_md.convert(post.content)
 
