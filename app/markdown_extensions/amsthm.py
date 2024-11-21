@@ -1,64 +1,35 @@
-import re
-import xml.etree.ElementTree as etree
 from markdown.extensions import Extension
-from markdown.blockprocessors import BlockProcessor
-from markdown.inlinepatterns import InlineProcessor
 
-
-class TheoremHeading(InlineProcessor):
-    """
-    A theorem heading that allows you to add custom styling and can generate linkable HTML `id`s.
-
-    Usage:
-        ```
-        {[<theorem heading>]}{<optional theorem name>}[<optional hidden theorem name>]
-        ```
-        - HTML output:
-            ```
-            <span id="[optional theorem name/optional hidden theorem name]" class="md-theorem-heading">
-              [theorem heading]
-            </span>
-            [optional theorem name]
-            ```
-        - `<optional hidden theorem name>` only adds an HTML `id`, and is not displayed. It is ignored if
-          `<optional theorem name>` is provided.
-    """
-
-    def handleMatch(self, m, current_text_block):
-        def format_for_html(s: str) -> str:
-            s = ("-".join(s.split())).lower() 
-            s = s[:-1].replace(".", "-") + s[-1] # replace periods except if trailing with hyphens (for thm counter)
-            s = re.sub(r"[^A-Za-z0-9-]", r"", s)
-            return s
-
-        elem = etree.Element("span")
-        elem.text = m.group(1)
-        if m.group(2):
-            elem.text += f" ({m.group(2)})"
-            elem.set("id", format_for_html(m.group(2)))
-        elif m.group(3):
-            elem.set("id", format_for_html(m.group(3)))
-        elem.set("class", "md-theorem-heading")
-        return elem, m.start(0), m.end(0)
-
-
-class Amsthm(BlockProcessor):
-    def __init__(self, thms, html_class=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.thms = thms
-        # temp
-        self.thms = {
-            # html class: {name to use in regex (begin is auto): option (div/dropdown, optional, default div)}
-        }
-        if html_class_prefix is not None:
-            self.html_class_prefix = html_class_prefix
+from app.markdown_extensions.dropdown import Dropdown
+from app.markdown_extensions.textbox import Textbox
 
 
 class AmsthmExtension(Extension):
     def extendMarkdown(self, md):
-        regex = r"{\[(.+?)\]}(?:{(.+?)})?(?:\[(.+?)\])?"
-        md.inlinePatterns.register(TheoremHeading(regex, md), "theorem_heading", 105)
-        # md.parser.blockprocessors.register(Amsthm(md.parser), "amsthm", 105)
+        # TODO: these need to be passed in via extension config
+        # same with dropdown, textbox etc
+        dropdown_types = {
+            "exer": {"name": "Exercise", "counter": "0,0,1"},
+            "pf": {"name": "Proof", "counter": None},
+            "rmk": {"name": "Remark", "counter": None}
+        }
+        textbox_types = {
+            "coro": {"name": "Corollary", "counter": "0,0,1"},
+            "defn": {"name": "Definition", "counter": "0,0,1"},
+            "notat": {"name": "Notation", "counter": None},
+            "prop": {"name": "Proposition", "counter": "0,0,1"},
+            "thm": {"name": "Theorem", "counter": "0,0,1"}
+        }
+        md.parser.blockprocessors.register(
+                Dropdown(md.parser, types=dropdown_types, html_class="md-dropdown",
+                        summary_html_class="md-dropdown__summary last-child-no-mb",
+                        content_html_class="md-dropdown__content last-child-no-mb",
+                        math_counter=True, math_thm_heading=True),
+                "amsthm_dropdown", 105)
+        #md.parser.blockprocessors.register(
+        #        Textbox(md.parser, types=textbox_types, math_counter=True, math_thm_heading=True),
+        #        "amsthm_textbox", 105)
+        # TODO: counter needed too with configs on generate html etc?
 
 
 def makeExtension(**kwargs):
