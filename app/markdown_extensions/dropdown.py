@@ -86,37 +86,36 @@ class Dropdown(BlockProcessor):
                 return False
         blocks[1] = re.sub(self.RE_SUMMARY_START, "", blocks[1])
 
-        # fill in default summary value if applicable
-        elem_summary = etree.Element("summary")
-        elem_summary.set("class", self.summary_html_class)
-        has_valid_summary = False
-        default_summary = self.typ.get("name") 
-        if default_summary is not None:
-            has_valid_summary = True
-            elem_summary.text = default_summary
+        # prepend default summary text if applicable
+        summary_prepend = self.typ.get("name") 
+        if summary_prepend is not None:
+            re_dropdown_start_match = re.match(self.re_dropdown_start, blocks[0])
+            if re_dropdown_start_match is None:
+                print(f"---what: {self.re_dropdown_start} -------- {blocks[0]}")
+                return False
+            # override theorem heading with theorem name first if applicable
+            if self.use_math_thm_heading:
+                if self.typ.get("overrides_heading") and re_dropdown_start_match.group(1) is not None:
+                    summary_prepend = re_dropdown_start_match.group(1)
             # fill in math counter by using my `counter` extension's syntax
             if self.use_math_counter:
                 counter = self.typ.get("counter")
                 if counter is not None:
-                    elem_summary.text += f" {{{{{counter}}}}}"
+                    summary_prepend += f" {{{{{counter}}}}}"
             # fill in math theorem heading by using my `thm_heading` extension's syntax
             if self.use_math_thm_heading:
-                re_dropdown_start_match = re.search(self.re_dropdown_start, blocks[0])
-                overrides_heading = self.typ.get("overrides_heading")
-                # override heading with theorem name if applicable
-                if overrides_heading and re_dropdown_start_match.group(1) is not None:
-                    elem_summary.text = re_dropdown_start_match.group(1)
-
-                elem_summary.text = "{[" + elem_summary.text + "]}"
-                if not overrides_heading and re_dropdown_start_match.group(1) is not None:
-                    elem_summary.text += "[" + re_dropdown_start_match.group(1) + "]"
+                summary_prepend = "{[" + summary_prepend + "]}"
+                if not self.typ.get("overrides_heading") and re_dropdown_start_match.group(1) is not None:
+                    summary_prepend += "[" + re_dropdown_start_match.group(1) + "]"
                 if re_dropdown_start_match.group(2) is not None:
-                    elem_summary.text += "{" + re_dropdown_start_match.group(2) + "}"
-
+                    summary_prepend += "{" + re_dropdown_start_match.group(2) + "}"
         # remove dropdown starting delimiter (after extracting theorem headings if applicable)
         blocks[0] = re.sub(self.re_dropdown_start, "", blocks[0])
 
         # find and remove summary ending delimiter, and extract element
+        elem_summary = etree.Element("summary")
+        elem_summary.set("class", self.summary_html_class)
+        has_valid_summary = self.typ.get("name") is not None
         for i, block in enumerate(blocks):
             # if we haven't found summary ending delimiter but have found the overall dropdown ending delimiter, then
             # don't keep going; maybe the summary was omitted since it could've been optional
@@ -132,12 +131,22 @@ class Dropdown(BlockProcessor):
                 for _ in range(0, i + 1):
                     blocks.pop(0)
                 break
-
         # if no valid summary (e.g. no ending delimiter with no default), restore and do nothing
         if not has_valid_summary:
             blocks.clear()
             blocks.extend(org_blocks)
             return False
+
+        # add prepended text (add to first paragraph child if it exists to let it be on the same line without like
+        # weird CSS `display: inline` or whatever interactions)
+        if summary_prepend is not None:
+            summary_first_p = elem_summary.find("p")
+            if summary_first_p is not None:
+                summary_first_p.text = summary_prepend + summary_first_p.text if summary_first_p.text is not None \
+                        else summary_prepend
+            else:
+                elem_summary.text = summary_prepend + elem_summary.text if elem_summary.text is not None \
+                        else summary_prepend
 
         # find and remove dropdown ending delimiter, and extract element
         for i, block in enumerate(blocks):
@@ -155,7 +164,6 @@ class Dropdown(BlockProcessor):
                 for _ in range(0, i + 1):
                     blocks.pop(0)
                 return True
-
         # if no ending delimiter for dropdown, restore and do nothing
         blocks.clear()
         blocks.extend(org_blocks)

@@ -60,52 +60,60 @@ class Textbox(BlockProcessor):
         if self.re_start is None or self.re_end is None or self.typ is None:
             return False
 
+        # TODO: why is only restoring one block work?
         org_block_start = blocks[0]
-        # fill in math theorem heading if applicable
-        # TODO: does this need to be at the end?
-        elem = etree.SubElement(parent, "div")
-        elem.set("class", f"{self.html_class} {self.typ.get('html_class', '')}")
-        default_prefix = self.typ.get("name")
-        if default_prefix is not None:
-            elem.text = default_prefix
-            # TODO: util function for this somehow that is shared with dropdown?
+        # fill in default prepended text if applicable
+        prepend = self.typ.get("name")
+        if prepend is not None:
+            re_start_match = re.match(self.re_start, blocks[0])
+            # override theorem heading with theorem name first if applicable
+            if self.use_math_thm_heading:
+                if self.typ.get("overrides_heading") and re_start_match.group(1) is not None:
+                    prepend = re_start_match.group(1)
             # fill in math counter by using my `counter` extension's syntax
             if self.use_math_counter:
-                counter = self.type.get("counter")
+                counter = self.typ.get("counter")
                 if counter is not None:
-                    elem.text += f" {{{{{counter}}}}}"
+                    prepend += f" {{{{{counter}}}}}"
             # fill in math theorem heading by using my `thm_heading` extension's syntax
             if self.use_math_thm_heading:
-                re_start_match = re.search(self.re_start, blocks[0])
-                overrides_heading = self.typ.get("overrides_heading")
-                # override heading with theorem if applicable
-                if overrides_heading and re_start_match.group(1) is not None:
-                    elem_summary.text = re_start_match.group(1)
-
-                elem_summary.text = "{[" + elem_summary.text + "]}"
-                if not overrides_heading and re_start_match.group(1) is not None:
-                    elem_summary.text += "[" + re_start_match.group(1) + "]"
+                prepend = "{[" + prepend + "]}"
+                if not self.typ.get("overrides_heading") and re_start_match.group(1) is not None:
+                    prepend += "[" + re_start_match.group(1) + "]"
                 if re_start_match.group(2) is not None:
-                    elem_summary.text += "{" + re_start_match.group(2) + "}"
-
+                    prepend += "{" + re_start_match.group(2) + "}"
         # remove starting delimiter (after extracting theorem headings if applicable)
         blocks[0] = re.sub(self.re_start, "", blocks[0])
 
         # find and remove ending delimiter, and extract element
+        elem = etree.SubElement(parent, "div")
+        elem.set("class", f"{self.html_class} {self.typ.get('html_class', '')}")
+        ending_delim_found = False
         for i, block in enumerate(blocks):
-            if re.search(self.RE_END, block):
+            if re.search(self.re_end, block):
+                ending_delim_found = True
                 # remove ending delimiter
-                blocks[i] = re.sub(self.RE_END, "", block)
+                blocks[i] = re.sub(self.re_end, "", block)
                 # build HTML
                 self.parser.parseBlocks(elem, blocks[0:i + 1])
                 # remove used blocks
                 for _ in range(0, i + 1):
                     blocks.pop(0)
-                return True
-
+                break
         # if no ending delimiter, restore and do nothing
-        blocks[0] = org_block_start
-        return False
+        if not ending_delim_found:
+            blocks[0] = org_block_start
+            return False
+
+        # add prepended text (add to first paragraph child if it exists to let it be on the same line without like
+        # weird CSS `display: inline` or whatever interactions)
+        if prepend is not None:
+            first_p = elem.find("p")
+            if first_p is not None:
+                first_p.text = prepend + first_p.text if first_p.text is not None else prepend
+            else:
+                elem.text = prepend + elem.text if elem.text is not None else prepend
+        return True
 
 
 class TextboxExtension(Extension):
