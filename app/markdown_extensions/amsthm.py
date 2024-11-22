@@ -7,7 +7,6 @@ from app.markdown_extensions.dropdown import Dropdown
 from app.markdown_extensions.textbox import Textbox
 
 
-# TODO: make ending punct customizeable, also whether no-title headings are given ending punct too
 class ThmHeading(InlineProcessor):
     """
     A theorem heading that allows you to add custom styling and can generate linkable HTML `id`s.
@@ -27,6 +26,11 @@ class ThmHeading(InlineProcessor):
           `<optional_theorem_name>` is provided.
     """
 
+    def __init__(self, *args, ending_punct=".", ending_punct_if_nameless=True, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ending_punct = ending_punct
+        self.ending_punct_if_nameless = ending_punct_if_nameless
+
     def handleMatch(self, m, current_text_block):
         def format_for_html(s: str) -> str:
             s = ("-".join(s.split())).lower() 
@@ -36,13 +40,19 @@ class ThmHeading(InlineProcessor):
 
         elem = etree.Element("span")
         elem_heading = etree.SubElement(elem, "span")
-        elem_heading.text = f"{m.group(1)} "
+        is_nameless = True
         if m.group(2) is not None:
+            is_nameless = False
             elem_non_heading = etree.SubElement(elem, "span")
-            elem_non_heading.text = f"({m.group(2)}). "
+            elem_non_heading.text = f"({m.group(2)}){self.ending_punct} "
             elem.set("id", format_for_html(m.group(2)))
         elif m.group(3) is not None:
             elem.set("id", format_for_html(m.group(3)))
+        
+        if is_nameless and self.ending_punct_if_nameless:
+            elem_heading.text = f"{m.group(1)}{self.ending_punct}"
+        else:
+            elem_heading.text = f"{m.group(1)} "
         elem.set("class", "md-thm-heading")
         elem_heading.set("class", "md-thm-heading--heading")
         return elem, m.start(0), m.end(0)
@@ -51,7 +61,7 @@ class ThmHeading(InlineProcessor):
 class AmsthmExtension(Extension):
     def extendMarkdown(self, md):
         regex = r"{\[(.+?)\]}(?:\[(.+?)\])?(?:{(.+?)})?"
-        md.inlinePatterns.register(ThmHeading(regex, md), "thm_heading", 105)
+        md.inlinePatterns.register(ThmHeading(regex, md, ending_punct_if_nameless=False), "thm_heading", 105)
 
         # TODO: these need to be passed in via extension config
         # same with dropdown, textbox etc
