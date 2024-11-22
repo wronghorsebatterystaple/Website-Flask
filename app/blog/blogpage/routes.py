@@ -14,7 +14,7 @@ from app import db
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
 # todo clean up once packaged
-from app.markdown_extensions.amsthm import AmsthmExtension
+from app.markdown_extensions.thms import ThmsExtension
 from app.markdown_extensions.captioned_figure import CaptionedFigureExtension
 from app.markdown_extensions.cited_blockquote import CitedBlockquoteExtension
 from app.markdown_extensions.counter import CounterExtension
@@ -85,7 +85,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
         content_md = markdown.Markdown(extensions=[
             "extra",
             "image_titles",                     # images use `alt` text as `title` too
-            AmsthmExtension(),
+            ThmsExtension(),
             CaptionedFigureExtension(),
             CitedBlockquoteExtension(),
             CounterExtension(),

@@ -58,7 +58,7 @@ class ThmHeading(InlineProcessor):
         return elem, m.start(0), m.end(0)
 
 
-class AmsthmExtension(Extension):
+class ThmsExtension(Extension):
     def extendMarkdown(self, md):
         regex = r"{\[(.+?)\]}(?:\[(.+?)\])?(?:{(.+?)})?"
         md.inlinePatterns.register(ThmHeading(regex, md, ending_punct_if_nameless=False), "thm_heading", 105)
@@ -84,12 +84,12 @@ class AmsthmExtension(Extension):
                         summary_html_class="md-dropdown__summary last-child-no-mb",
                         content_html_class="md-dropdown__content last-child-no-mb",
                         use_math_counter=True, use_math_thm_heading=True),
-                "amsthm_dropdown", 999)
+                "thms_dropdown", 999)
         md.parser.blockprocessors.register(
                 Textbox(md.parser, types=textbox_types, html_class="md-textbox last-child-no-mb",
                         use_math_counter=True, use_math_thm_heading=True),
-                "amsthm_textbox", 105)
+                "thms_textbox", 105)
 
 
 def makeExtension(**kwargs):
-    return AmsthmExtension(**kwargs)
+    return ThmsExtension(**kwargs)
