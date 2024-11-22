@@ -26,11 +26,6 @@ class ThmHeading(InlineProcessor):
           `<optional_theorem_name>` is provided.
     """
 
-    def __init__(self, *args, ending_punct=".", ending_punct_if_nameless=True, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ending_punct = ending_punct
-        self.ending_punct_if_nameless = ending_punct_if_nameless
-
     def handleMatch(self, m, current_text_block):
         def format_for_html(s: str) -> str:
             s = ("-".join(s.split())).lower() 
@@ -39,46 +34,90 @@ class ThmHeading(InlineProcessor):
             return s
 
         elem = etree.Element("span")
+        elem.set("class", "md-thm-heading")
         elem_heading = etree.SubElement(elem, "span")
-        is_nameless = True
+        elem_heading.set("class", "md-thm-heading__heading")
+        elem_heading.text = f"{m.group(1)}"
         if m.group(2) is not None:
-            is_nameless = False
             elem_non_heading = etree.SubElement(elem, "span")
-            elem_non_heading.text = f"({m.group(2)}){self.ending_punct} "
+            elem_non_heading.text = f" ({m.group(2)})"
             elem.set("id", format_for_html(m.group(2)))
         elif m.group(3) is not None:
             elem.set("id", format_for_html(m.group(3)))
-        
-        if is_nameless and self.ending_punct_if_nameless:
-            elem_heading.text = f"{m.group(1)}{self.ending_punct}"
-        else:
-            elem_heading.text = f"{m.group(1)} "
-        elem.set("class", "md-thm-heading")
-        elem_heading.set("class", "md-thm-heading--heading")
         return elem, m.start(0), m.end(0)
 
 
 class ThmsExtension(Extension):
     def extendMarkdown(self, md):
         regex = r"{\[(.+?)\]}(?:\[(.+?)\])?(?:{(.+?)})?"
-        md.inlinePatterns.register(ThmHeading(regex, md, ending_punct_if_nameless=False), "thm_heading", 105)
+        md.inlinePatterns.register(ThmHeading(regex, md), "thm_heading", 105)
 
         # TODO: these need to be passed in via extension config
         # same with dropdown, textbox etc
-        # and use notat* and rmk*?
         # TODO:: test without math counter/thm heading (set to False)
         dropdown_types = {
-            "exer": {"name": "Exercise", "counter": "0,0,1", "html_class": "md-dropdown--exer"},
-            "pf"  : {"name": "Proof", "html_class": "md-dropdown--pf", "overrides_heading": True},
-            "rmk" : {"name": "Remark", "html_class": "md-dropdown--rmk"}
+            "exer": {
+                "name": "Exercise",
+                "html_class": "md-dropdown--exer",
+                "counter": "0,0,1",
+                "use_punct_if_nameless": False
+            },
+            "pf": {
+                "name": "Proof",
+                "html_class": "md-dropdown--pf",
+                "overrides_heading": True,
+                "use_punct_if_nameless": False
+            },
+            r"rmk\\\*": {
+                "name": "Remark",
+                "html_class": "md-dropdown--rmk",
+                "use_punct_if_nameless": False
+            }
         }
         textbox_types = {
-            "coro" : {"name": "Corollary", "counter": "0,0,1", "html_class": "md-textbox--coro"},
-            "defn" : {"name": "Definition", "counter": "0,0,1", "html_class": "md-textbox--defn"},
-            "notat": {"name": "Notation", "html_class": "md-textbox--notat"},
-            "prop" : {"name": "Proposition", "counter": "0,0,1", "html_class": "md-textbox--prop"},
-            "thm"  : {"name": "Theorem", "counter": "0,0,1", "html_class": "md-textbox--thm"}
+            "coro": {
+                "name": "Corollary",
+                "html_class": "md-textbox--coro",
+                "counter": "0,0,1"
+            },
+            "defn": {
+                "name": "Definition",
+                "html_class": "md-textbox--defn",
+                "counter": "0,0,1"
+            },
+            r"defn\\\*": {
+                "name": "Definition",
+                "html_class": "md-textbox--defn"
+            },
+            r"notat\\\*": {
+                "name": "Notation",
+                "html_class": "md-textbox--notat"
+            },
+            "prop": {
+                "name": "Proposition",
+                "html_class": "md-textbox--prop",
+                "counter": "0,0,1"
+            },
+            "thm": {
+                "name": "Theorem",
+                "html_class": "md-textbox--thm",
+                "counter": "0,0,1"
+            },
+            r"thm\\\*": {
+                "name": "Theorem",
+                "html_class": "md-textbox--thm"
+            }
         }
+        # set default values for dicts
+        for d in [dropdown_types, textbox_types]:
+            for type_opts in d.values():
+                type_opts.setdefault("name", "")
+                type_opts.setdefault("html_class", "")
+                type_opts.setdefault("counter", None)
+                type_opts.setdefault("overrides_heading", False)
+                type_opts.setdefault("punct", ".")
+                type_opts.setdefault("use_punct_if_nameless", True)
+
         md.parser.blockprocessors.register(
                 Dropdown(md.parser, types=dropdown_types, html_class="md-dropdown",
                         summary_html_class="md-dropdown__summary last-child-no-mb",

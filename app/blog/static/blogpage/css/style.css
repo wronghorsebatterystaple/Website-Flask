@@ -142,7 +142,7 @@ input[value="Reply"][value="Delete"] {
     border-color: var(--custom-orange-deep-light);
 }
 
-.md-thm-heading--heading {
+.md-thm-heading__heading {
     font-weight: bold;
 }
 

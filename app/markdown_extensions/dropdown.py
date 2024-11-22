@@ -51,7 +51,7 @@ class Dropdown(BlockProcessor):
         self.use_math_thm_heading = use_math_thm_heading
         self.re_dropdown_start = None
         self.re_dropdown_end = None
-        self.typ = None
+        self.type_opts = None
 
         # init regex patterns
         self.re_dropdown_start_choices = {}
@@ -63,34 +63,56 @@ class Dropdown(BlockProcessor):
                 self.re_dropdown_start_choices[typ] = rf"^\\begin{{{typ}}}"
             self.re_dropdown_end_choices[typ] = rf"^\\end{{{typ}}}"
     
+    # TODO: way too much shared code here; somehow put this in thms.py instead?
     def gen_auto_prepend(self, block: str) -> str:
-        summary_prepend = self.typ.get("name", "")
+        summary_prepend = self.type_opts.get("name")
         if summary_prepend == "":
             return ""
 
         re_dropdown_start_match = re.match(self.re_dropdown_start, block, re.MULTILINE)
         # override theorem heading with theorem name first if applicable
         if self.use_math_thm_heading:
-            if self.typ.get("overrides_heading") and re_dropdown_start_match.group(1) is not None:
+            if self.type_opts.get("overrides_heading") and re_dropdown_start_match.group(1) is not None:
                 summary_prepend = re_dropdown_start_match.group(1)
         # fill in math counter by using my `counter` extension's syntax
         if self.use_math_counter:
-            counter = self.typ.get("counter")
+            counter = self.type_opts.get("counter")
             if counter is not None:
                 summary_prepend += f" {{{{{counter}}}}}"
         # fill in math theorem heading by using my `thm_heading` extension's syntax
         if self.use_math_thm_heading:
             summary_prepend = "{[" + summary_prepend + "]}"
-            if not self.typ.get("overrides_heading") and re_dropdown_start_match.group(1) is not None:
+            if not self.type_opts.get("overrides_heading") and re_dropdown_start_match.group(1) is not None:
                 summary_prepend += "[" + re_dropdown_start_match.group(1) + "]"
             if re_dropdown_start_match.group(2) is not None:
                 summary_prepend += "{" + re_dropdown_start_match.group(2) + "}"
         return summary_prepend
 
+    def do_auto_prepend(self, elem: etree.Element, prepend: str) -> None:
+        if not prepend:
+            return
+
+        # add to first paragraph child if it exists to let it be on the same line to minimize weird
+        # CSS `display: inline` or whatever chaos
+        elem_to_prepend_into = None
+        first_p = elem.find("p")
+        if first_p is not None:
+            elem_to_prepend_into = first_p
+        else:
+            elem_to_prepend_into = elem
+
+        if elem_to_prepend_into.text is not None:
+            elem_to_prepend_into.text = f"{prepend}{self.type_opts.get('punct')} {elem_to_prepend_into.text}"
+        else:
+            if self.type_opts.get("use_punct_if_nameless"):
+                elem_to_prepend_into.text = f"{prepend}{self.type_opts.get('punct')}"
+            else:
+                elem_to_prepend_into.text = prepend
+
     def test(self, parent, block):
         for typ, regex in self.re_dropdown_start_choices.items():
             if re.match(regex, block, re.MULTILINE):
-                self.typ = self.types[typ]
+                self.type_opts = self.types[typ]
                 self.re_dropdown_start = regex
                 self.re_dropdown_end = self.re_dropdown_end_choices[typ]
                 return True
@@ -101,7 +123,7 @@ class Dropdown(BlockProcessor):
         # remove summary starting delimiter that must immediately follow dropdown's starting delimiter
         # if no starting delimiter for summary and no default, restore and do nothing
         if not re.match(self.RE_SUMMARY_START, blocks[1], re.MULTILINE):
-            if self.typ.get("name") is None:
+            if self.type_opts.get("name") is None:
                 blocks.clear() # `blocks = org_blocks` doesn't work because that just reassigns function-scoped `blocks`
                 blocks.extend(org_blocks)
                 return False
@@ -115,7 +137,7 @@ class Dropdown(BlockProcessor):
         # find and remove summary ending delimiter, and extract element
         elem_summary = etree.Element("summary")
         elem_summary.set("class", self.summary_html_class)
-        has_valid_summary = self.typ.get("name") is not None
+        has_valid_summary = self.type_opts.get("name") is not None
         for i, block in enumerate(blocks):
             # if we haven't found summary ending delimiter but have found the overall dropdown ending delimiter,
             # then don't keep going; maybe the summary was omitted since it could've been optional
@@ -139,14 +161,7 @@ class Dropdown(BlockProcessor):
 
         # add prepended text (add to first paragraph child if it exists to let it be on the same line
         # to minimize weird CSS `display: inline` or whatever quirks)
-        if summary_prepend != "":
-            summary_first_p = elem_summary.find("p")
-            if summary_first_p is not None:
-                summary_first_p.text = summary_prepend + summary_first_p.text if summary_first_p.text is not None \
-                        else summary_prepend
-            else:
-                elem_summary.text = summary_prepend + elem_summary.text if elem_summary.text is not None \
-                        else summary_prepend
+        self.do_auto_prepend(elem_summary, summary_prepend)
 
         # find and remove dropdown ending delimiter, and extract element
         for i, block in enumerate(blocks):
@@ -155,7 +170,7 @@ class Dropdown(BlockProcessor):
                 blocks[i] = re.sub(self.re_dropdown_end, "", block, flags=re.MULTILINE)
                 # build HTML for dropdown
                 elem_details = etree.SubElement(parent, "details")
-                elem_details.set("class", f"{self.html_class} {self.typ.get('html_class', '')}")
+                elem_details.set("class", f"{self.html_class} {self.type_opts.get('html_class')}")
                 elem_details.append(elem_summary)
                 elem_details_content = etree.SubElement(elem_details, "div")
                 elem_details_content.set("class", self.content_html_class)
