@@ -206,6 +206,10 @@
     width: 2.5em !important;
 }
 
+.w-max-content {
+    width: max-content !important;
+}
+
 .last-child-no-mb *:last-child {
     margin-bottom: 0 !important;
 }
