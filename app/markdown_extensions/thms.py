@@ -71,6 +71,7 @@ class ThmsExtension(Extension):
             r"rmk\\\*": {
                 "name": "Remark",
                 "html_class": "md-dropdown--rmk",
+                "overrides_heading": True,
                 "use_punct_if_nameless": False
             }
         }
