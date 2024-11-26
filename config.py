@@ -89,7 +89,7 @@ class Config(object):
         "class", "colspan", "data-align-bottom", "data-align-center", "data-align-right", "data-align-top",
         "data-col-width", "height", "rowspan", "title", "width"
     ]
-    IMAGE_UPLOAD_EXTS = [".gif", ".jpeg", ".jpg", ".png", ".svg", ".xcf"]
+    IMAGE_UPLOAD_EXTS = [".excalidraw", ".gif", ".jpeg", ".jpg", ".png", ".svg", ".xcf"]
     IMAGE_UPLOAD_EXTS_CAN_VALIDATE = [".gif", ".jpeg", ".jpg", ".png"]
     IMAGE_UPLOAD_EXTS_CAN_DELETE_UNUSED = [".gif", ".jpeg", ".jpg", ".png", ".svg"]
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024 # 100 MB
