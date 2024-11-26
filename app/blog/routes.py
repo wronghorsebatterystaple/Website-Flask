@@ -20,7 +20,7 @@ def index():
 
 
 # for more permanent links that don't change if a post changes title/moves between blogs
-# MySQL also does not change id on delete
+# (MySQL also does not change id on delete)
 @bp.route("/<int:post_id>", methods=["GET"])
 def post_by_id(post_id):
     post = db.session.get(Post, post_id)
@@ -30,6 +30,11 @@ def post_by_id(post_id):
                 flash_msg=util.encode_uri_component("That post doesn't exist :/"),
                 _external=True))
 
+    # prevent brute-force enumeration of post IDs to find unlinked posts
+    if post.blogpage.is_login_required and not current_user.is_authenticated:
+        result = util.custom_unauthorized(ContentType.HTML)
+        if result:
+            return result
     return redirect(url_for(
             f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True))
 

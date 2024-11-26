@@ -382,6 +382,12 @@ a.discreet-link {
     color: unset;
 }
 
+.discreet-tooltip {
+    text-decoration-style: dotted !important;
+    text-decoration-color: unset;
+    color: unset;
+}
+
 .min-vh-100 {
     min-height: 100svh !important;
 }
