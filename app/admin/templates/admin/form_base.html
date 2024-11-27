@@ -13,5 +13,6 @@
 {% endblock %}
 
 {% block js_deferred_linked %}
-<script src="{{ url_for('admin.static', filename='js/form_submit.js', _external=True) }}"></script>
+<script src="{{ url_for('admin.static', filename='js/form_submit.js', _external=True) }}" defer></script>
+<script src="{{ url_for('admin.static', filename='js/events.js', _external=True) }}" defer></script>
 {% endblock %}

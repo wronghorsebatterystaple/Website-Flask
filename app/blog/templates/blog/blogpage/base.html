@@ -26,6 +26,5 @@ let backgroundImgName = "";
 
 {% block js_deferred_linked %}
 {{ super() }}
-<script src="{{ url_for('blog.static', filename='blogpage/js/events.js', _external=True) }}" defer></script>
 <script src="{{ url_for('blog.static', filename='blogpage/js/goto_page_form.js', _external=True) }}" defer></script>
 {% endblock %}

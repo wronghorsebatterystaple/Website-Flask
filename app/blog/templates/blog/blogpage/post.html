@@ -20,6 +20,7 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
 {% block js_deferred_linked %}
 {{ super() }}
 <script src="{{ url_for('blog.static', filename='blogpage/js/post_comments.js', _external=True) }}" defer></script>
+<script src="{{ url_for('blog.static', filename='blogpage/js/post_events.js', _external=True) }}" defer></script>
 {% endblock %}
 
 {% block pre_content %}

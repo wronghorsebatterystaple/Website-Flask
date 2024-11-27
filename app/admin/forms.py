@@ -48,7 +48,8 @@ class CreateBlogpostForm(FlaskForm):
 
     create_blogpost_form_submit = SubmitField("Submit")
 
-    back = SubmitField("Back", render_kw={"data-class": "btn--back"})
+    # TODO: finish making these all type buttons, and then do frontend changes (DELETE)
+    back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
 
 
 class SearchBlogpostForm(FlaskForm):
@@ -58,18 +59,13 @@ class SearchBlogpostForm(FlaskForm):
             query_factory=lambda: db.session.query(Post).order_by(Post.title),
             get_label="title")
 
-    search_blogpost_form_submit = SubmitField(
-            "Submit")
+    search_blogpost_form_submit = SubmitField("Submit")
 
-    back = SubmitField(
-            "Back",
-            render_kw={"data-class": "btn--back"})
+    back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
 
 
 class EditBlogpostForm(FlaskForm):
-    blogpage_id = SelectField(
-            "Blog",
-            validators=[InputRequired()])
+    blogpage_id = SelectField("Blog", validators=[InputRequired()])
 
     title = StringField(
             "Title (Markdown supported (inline))",
@@ -83,57 +79,38 @@ class EditBlogpostForm(FlaskForm):
             "Content (Markdown (all), LaTeX supported)",
             validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_MAXLEN"])])
 
-    images = MultipleFileField(
-            f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTS)})")
+    images = MultipleFileField(f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTS)})")
 
-    cancel_image_uploads = SubmitField(
-            "Clear images to upload",
-            render_kw={"id": "btn--cancel-image-uploads", "data-class": "btn--no-submit"})
+    # TODO: make buttonfield that extends subitfield and just doesn't assign the type=submit?
+    cancel_image_uploads = SubmitField("Clear images to upload", render_kw={"type": "button"})
 
-    delete_images = SelectMultipleField(
-            "Delete images")
+    delete_images = SelectMultipleField("Delete images")
 
-    cancel_delete_images = SubmitField(
-            "Clear images to delete",
-            render_kw={"id": "btn--cancel-delete-images", "data-class": "btn--no-submit"})
+    cancel_delete_images = SubmitField("Clear images to delete", render_kw={"type": "button"})
 
-    delete_unused_images = BooleanField(
-            "Delete unused images")
+    delete_unused_images = BooleanField("Delete unused images")
 
-    update_edited_timestamp = BooleanField(
-            "Update edited timestamp")
+    update_edited_timestamp = BooleanField("Update edited timestamp")
 
-    remove_edited_timestamp = BooleanField(
-            "Remove edited timestamp")
+    remove_edited_timestamp = BooleanField("Remove edited timestamp")
 
-    edit_blogpost_form_submit = SubmitField(
-            "Submit")
+    edit_blogpost_form_submit = SubmitField("Submit")
 
-    delete_post = SubmitField(
-            "Delete Post",
-            render_kw={"data-class": "btn--needs-confirm"})
+    delete_post = SubmitField("Delete Post", render_kw={"data-class": "btn--needs-confirm", "type": "button"})
 
-    back = SubmitField(
-            "Back",
-            render_kw={"data-class": "btn--back"})
+    back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
 
 
 class ChangeAdminPasswordForm(FlaskForm):
     old_password = PasswordField(
-            "Old password",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
+            "Old password", validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
 
     new_password_1 = PasswordField(
-            "New password",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
+            "New password", validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
 
     new_password_2 = PasswordField(
-            "Repeat new password",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
+            "Repeat new password", validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
 
-    change_admin_password_submit = SubmitField(
-            "Submit")
+    change_admin_password_submit = SubmitField("Submit")
 
-    back = SubmitField(
-            "Back",
-            render_kw={"data-class": "btn--back"})
+    back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})

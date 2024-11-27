@@ -164,7 +164,7 @@ def search_blogpost(**kwargs):
         return jsonify(redir_url=url_for("admin.edit_blogpost", post_id=post_id, _external=True))
 
 
-@bp.route("/edit-blogpost", methods=["GET", "POST"])
+@bp.route("/edit-blogpost", methods=["GET", "POST", "DELETE"])
 @util.set_content_type(ContentType.DEPENDS_ON_REQ_METHOD)
 @util.require_login()
 def edit_blogpost(**kwargs):
@@ -201,19 +201,6 @@ def edit_blogpost(**kwargs):
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        # handle post deletion
-        if "delete_post" in request.form:
-            db.session.delete(post)
-            db.session.commit()
-            try:
-                if os.path.exists(imgs_base_path) and os.path.isdir(imgs_base_path):
-                    shutil.rmtree(imgs_base_path)
-            except Exception:
-                return jsonify(flash_msg=f"Directory delete exception")
-            return jsonify(
-                    redir_url=url_for(f"blog.{post.blogpage_id}.index", _external=True),
-                    flash_msg="Post deleted successfully!")
-
         # handle post editing otherwise
         old_blogpage_id = post.blogpage_id
         post.blogpage_id = request.form.get("blogpage_id")
@@ -242,7 +229,6 @@ def edit_blogpost(**kwargs):
                 filepath = os.path.join(imgs_base_path, image)
                 if os.path.exists(filepath):
                     os.remove(filepath)
-
             # delete image directory if now empty
             admin_util.delete_dir_if_empty(imgs_base_path)
         except Exception:
@@ -257,7 +243,6 @@ def edit_blogpost(**kwargs):
                     if file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_DELETE_UNUSED"] \
                             and image not in post.content:
                         os.remove(os.path.join(imgs_base_path, image))
-
                 admin_util.delete_dir_if_empty(imgs_base_path)
             except Exception:
                 return jsonify(flash_msg=f"Image delete unused exception")
@@ -276,6 +261,17 @@ def edit_blogpost(**kwargs):
                 redir_url=url_for(
                         f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True),
                 flash_msg="Post edited successfully!") # view edited post
+    elif request.method == "DELETE":
+        db.session.delete(post)
+        db.session.commit()
+        try:
+            if os.path.exists(imgs_base_path) and os.path.isdir(imgs_base_path):
+                shutil.rmtree(imgs_base_path)
+        except Exception:
+            return jsonify(flash_msg=f"Directory delete exception")
+        return jsonify(
+                redir_url=url_for(f"blog.{post.blogpage_id}.index", _external=True),
+                flash_msg="Post deleted successfully!")
 
 
 @bp.route("/change-admin-password", methods=["GET", "POST"])

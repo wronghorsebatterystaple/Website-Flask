@@ -28,37 +28,31 @@
     <div class="{{ mb }}">
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
-        {% if autofocus %}
-          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=True) }}
-        {% else %}
-          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
-        {% endif %}
-
+        <!-- TODO: make these __input instead of -input? same with field etc. -->
+        <!-- TODO: is name a good enough substitute for id? so we don't need the id? e.g. do names have to be unique? -->
+        {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=autofocus) }}
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
       </div>
     </div>
 
   {% elif field.type == "SubmitField" %}
+    {% set class = "" %}
     {% if btn_type == "" %}
-      {{ field(class="btn btn--" ~ btn_color ~ mb) }}
+      {% set class = "btn btn--" ~ btn_color ~ mb %}
     {% else %}
       {% set class = "btn btn-" ~ btn_type ~ " btn-" ~ btn_type ~ "--" ~ btn_color ~ mb %}
       {% if btn_type == "link" %}
         {% set class = class ~ " underline-on-hover-only" %}
       {% endif %}
-      {{ field(class=class) }}
     {% endif %}
+    {{ field(id=field.name ~ "-input", class=class) }}
 
+  <!-- this will usually be `StringField`, but not always -->
   {% else %}
     <div class="{{ mb }}">
       {{ field.label(class="form-label") }}
       <div class="input-group has-validation">
-        {% if autofocus %}
-          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=True) }}
-        {% else %}
-          {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else "")) }}
-        {% endif %}
-
+        {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=autofocus) }}
         {% if field.type == "PasswordField" %}
           <i id="{{ field.name }}-show" class="toggle--password-visibility bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
         {% endif %}
