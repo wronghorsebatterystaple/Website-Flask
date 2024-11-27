@@ -29,29 +29,6 @@ class ChooseActionForm(FlaskForm):
     choose_action_form_submit = SubmitField("Submit")
 
 
-class CreateBlogpostForm(FlaskForm):
-    blogpage_id = SelectField("Blog", coerce=int, validators=[InputRequired()])
-
-    title = StringField(
-            "Title (Markdown supported (inline))",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_MAXLEN"])])
-
-    subtitle = StringField(
-            "Subtitle (Markdown supported (inline))",
-            validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_MAXLEN"])])
-
-    content = TextAreaField(
-            "Content (Markdown (all), LaTeX supported)",
-            validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_MAXLEN"])])
-
-    images = MultipleFileField(f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTS)})")
-
-    create_blogpost_form_submit = SubmitField("Submit")
-
-    # TODO: finish making these all type buttons, and then do frontend changes (DELETE)
-    back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
-
-
 class SearchBlogpostForm(FlaskForm):
     post = QuerySelectField(
             "Post",
@@ -64,8 +41,8 @@ class SearchBlogpostForm(FlaskForm):
     back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
 
 
-class EditBlogpostForm(FlaskForm):
-    blogpage_id = SelectField("Blog", validators=[InputRequired()])
+class BlogpostBaseForm(FlaskForm):
+    blogpage_id = SelectField("Blog", coerce=int, validators=[InputRequired()])
 
     title = StringField(
             "Title (Markdown supported (inline))",
@@ -84,6 +61,15 @@ class EditBlogpostForm(FlaskForm):
     # TODO: make buttonfield that extends subitfield and just doesn't assign the type=submit?
     cancel_image_uploads = SubmitField("Clear images to upload", render_kw={"type": "button"})
 
+
+class CreateBlogpostForm(BlogpostBaseForm):
+    create_blogpost_form_submit = SubmitField("Submit")
+
+    # TODO: finish making these all type buttons, and then do frontend changes (DELETE)
+    back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
+
+
+class EditBlogpostForm(BlogpostBaseForm):
     delete_images = SelectMultipleField("Delete images")
 
     cancel_delete_images = SubmitField("Clear images to delete", render_kw={"type": "button"})
