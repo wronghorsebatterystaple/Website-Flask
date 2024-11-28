@@ -44,17 +44,12 @@ class SearchBlogpostForm(FlaskForm):
 class BlogpostBaseForm(FlaskForm):
     blogpage_id = SelectField("Blog", coerce=int, validators=[InputRequired()])
 
-    title = StringField(
-            "Title (Markdown supported (inline))",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_MAXLEN"])])
+    title = StringField("Title", validators=[InputRequired(), Length(max=Config.DB_CONFIGS["POST_TITLE_MAXLEN"])])
 
-    subtitle = StringField(
-            "Subtitle (Markdown supported (inline))",
-            validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_MAXLEN"])])
+    subtitle = StringField("Subtitle", validators=[Length(max=Config.DB_CONFIGS["POST_SUBTITLE_MAXLEN"])])
 
     content = TextAreaField(
-            "Content (Markdown (all), LaTeX supported)",
-            validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_MAXLEN"])])
+            "Content (Markdown, LaTeX supported)", validators=[Length(max=Config.DB_CONFIGS["POST_CONTENT_MAXLEN"])])
 
     images = MultipleFileField(f"Upload images (supported formats: {', '.join(Config.IMAGE_UPLOAD_EXTS)})")
 
