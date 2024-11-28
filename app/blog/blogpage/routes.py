@@ -220,7 +220,6 @@ def delete_comment(post, post_sanitized_title, **kwargs):
         db.session.delete(descendant)
     db.session.delete(comment)
     db.session.commit()
-
     return jsonify(success=True, flash_msg="literally 1984")
 
 

@@ -35,22 +35,26 @@ async function updateUnreadCommentsDropdown() {
 
     // get posts with unread comments
     jQDropdownUnreadComments.html('<span class="dropdown-item">Loading…</span>');
-    const respJson = await fetchWrapper(GET_POSTS_WITH_UNREAD_COMMENTS_URL, {method: "POST"});
+    const resp = await fetchWrapper(GET_POSTS_WITH_UNREAD_COMMENTS_URL, {method: "POST"});
 
-    if (respJson.errorStatus) {
+    if (resp.errorStatus) {
         jQDropdownUnreadComments.html('<span class="dropdown-item">Unable to load posts :/</span>');
         return -1;
     }
 
-    let postCount = Object.keys(respJson).length;
+    let postCount = Object.keys(resp).length;
     if (postCount === 0) {
         jQDropdownUnreadComments.html('<span class="dropdown-item">There\'s nothing here :]</span>');
         return postCount;
     }
 
     let html = "";
-    for (const [postTitle, v] of Object.entries(respJson)) {
-        html += `<a class="dropdown-item" href="${v.url}"><span class="custom-pink-light">(${v.unread_comment_count})</span> ${postTitle}</a>`;
+    for (const [postTitle, v] of Object.entries(resp)) {
+        html +=
+                `<a class="dropdown-item" href="${v.url}">` +
+                  `<span class="custom-pink-light">(${v.unread_comment_count})</span>` +
+                  `${postTitle}` +
+                "</a>";
     }
     jQDropdownUnreadComments.html(html);
 

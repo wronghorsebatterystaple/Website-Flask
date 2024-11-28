@@ -51,8 +51,10 @@ async function reloadComments() {
     // reflect comment counts in HTML
     let HTML = `(${commentCount}`;
     if (isUserAuthenticated && commentUnreadCount > 0) {
-        HTML += `<span class="show-when-logged-in">, <span class="custom-pink-light">${commentUnreadCount} unread` +
-                `</span></span>`;
+        HTML +=
+            '<span class="show-when-logged-in">' +
+              `, <span class="custom-pink-light">${commentUnreadCount} unread</span>` +
+            "</span>";
     }
     HTML += ")";
     $("#comment-counts").html(HTML);
@@ -154,12 +156,11 @@ $(document).on("submit", ".ajax-add-comment", async function(e) {
     onCommentAjaxDone(respJson, e);
 });
 
-$(document).on("submit", ".ajax-delete-comment", async function(e) {
+$(document).on("submit", ".ajax-delete-comment", confirmBtn(async function(e) {
     e.preventDefault();
 
     let formData = new FormData(e.target);
     const respJson = await fetchWrapper(
             DELETE_COMMENT_URL, {method: "POST", body: formData}, {comment_id: getCommentId(e.target)});
-
     onCommentAjaxDone(respJson, e);
-});
+}));

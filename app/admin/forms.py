@@ -65,7 +65,6 @@ class BlogpostBaseForm(FlaskForm):
 class CreateBlogpostForm(BlogpostBaseForm):
     create_blogpost_form_submit = SubmitField("Submit")
 
-    # TODO: finish making these all type buttons, and then do frontend changes (DELETE)
     back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
 
 
@@ -82,7 +81,7 @@ class EditBlogpostForm(BlogpostBaseForm):
 
     edit_blogpost_form_submit = SubmitField("Submit")
 
-    delete_post = SubmitField("Delete Post", render_kw={"data-class": "btn--needs-confirm", "type": "button"})
+    delete_post = SubmitField("Delete Post", render_kw={"type": "button"})
 
     back = SubmitField("Back", render_kw={"data-class": "back-btn", "type": "button"})
 

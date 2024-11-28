@@ -1,15 +1,10 @@
-/**
- * Converts <form> element and its data to a JSON for Ajax.
- */
-function formToJSON(formObj) {
-    let array = formObj.serializeArray();
-    let json = {};
-  
-    $.map(array, function(n, i) {
-        json[n["name"]] = n["value"];
-    });
-  
-    return json;
+function confirmBtn(btnHandler) {
+    return function() {
+        if (!confirm("Mouse aim check")) {
+            return false;
+        }
+        btnHandler.apply(this, arguments);
+    };
 }
 
 $(document).ready(function() {

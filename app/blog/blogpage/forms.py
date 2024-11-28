@@ -21,4 +21,4 @@ class ReplyCommentBtn(FlaskForm):
 
 
 class DeleteCommentBtn(FlaskForm):
-    delete_comment = SubmitField("Delete", render_kw={"data-class": "btn--needs-confirm"})
+    delete_comment = SubmitField("Delete")
