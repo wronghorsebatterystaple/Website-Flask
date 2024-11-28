@@ -103,8 +103,8 @@ function onCommentAjaxDone(respJson, e) {
         $(e.target).find("*").filter(function() {
             return this.id.match(/.*-input/);
         }).each(function() {
-            $(this).val("");
             if ($(this).is("textarea")) {
+                $(this).val("");
                 adjustTextareaHeight($(this).get(0), false);
             }
         });
