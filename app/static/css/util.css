@@ -316,8 +316,8 @@
 }
 
 .link--custom-blue-deep:hover {
-    text-decoration-color: var(--custom-blue-deep-xdark) !important;
-    color: var(--custom-blue-deep-xdark) !important;
+    text-decoration-color: var(--custom-blue-xdeep) !important;
+    color: var(--custom-blue-xdeep) !important;
 }
 
 .link--custom-green-deep-dark {

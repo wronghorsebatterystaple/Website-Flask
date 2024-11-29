@@ -4,8 +4,8 @@ a {
 }
 
 a:hover {
-    text-decoration-color: var(--custom-blue-deep-xdark);
-    color: var(--custom-blue-deep-xdark);
+    text-decoration-color: var(--custom-blue-xdeep);
+    color: var(--custom-blue-xdeep);
 }
 
 blockquote {
@@ -138,7 +138,7 @@ textarea {
 
 .btn-link {
     --bs-btn-color: var(--custom-blue-deep);
-    --bs-btn-hover-color: var(--custom-blue-deep-xdark);
+    --bs-btn-hover-color: var(--custom-blue-xdeep);
     --bs-btn-active-color: var(--custom-blue-deep);
     --bs-btn-disabled-color: var(--custom-blue-deep-light);
     background-color: transparent !important;
@@ -156,9 +156,9 @@ textarea {
     white-space: normal;
 }
 
-.dropdown-menu {
-    --bs-dropdown-link-active-color: var(--bs-body-color);
-    --bs-dropdown-link-active-bg: var(--custom-blue-light);
+.dropdown-item:active {
+    background-color: var(--custom-green-light);
+    color: var(--bs-body-color);
 }
 
 .flash {
