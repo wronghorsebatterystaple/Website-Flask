@@ -92,7 +92,7 @@ textarea {
     font-family: var(--bs-font-monospace);
 }
 
-/* To compensate for fixed navbar; can be inaccurate on page load still with JS-based layout shifts but oh well */
+/* to compensate for fixed navbar; can be inaccurate on page load still with JS-based layout shifts but oh well */
 [id] {
     scroll-margin-top: var(--navbar-outer-height);
 }

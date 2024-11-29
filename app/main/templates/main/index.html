@@ -21,7 +21,7 @@ const ICON_GITHUB_DARK_URL = "{{ url_for('main.static', filename='images/icon_gi
   
   <h2 class="mt-5 mb-3 border-bottom--h2 custom-orange-deep fs-5">FAQ</h2>
   <h3 class="fs-9">what's your real name</h3>
-  <p class="dimgray">i don't know either</p>
+  <p class="dimgray">i have no idea either</p>
   <h3 class="fs-9">what's your social security number</h3>
   <p class="dimgray">127.0.0.1</p>
   <h3 class="fs-9">why are you using jquery in 2024</h3>
@@ -32,15 +32,11 @@ const ICON_GITHUB_DARK_URL = "{{ url_for('main.static', filename='images/icon_gi
 {% endblock %}
 
 {% block footer %}
-<footer class="d-flex justify-content-evenly align-items-center mt-auto pt-2_5rem pb-2 text-center">
+<footer class="d-flex justify-content-between align-items-around mt-auto pt-2_5rem pb-2 text-center">
   <a href="https://github.com/AnonymousRand" target="_blank" title="GitHub"><img id="footer__github-icon" src="{{ url_for('main.static', filename='images/icon_github_light.svg', _external=True) }}" alt="GitHub" width="32px"></a>
-  <span class="pipe-2em mx-2"></span>
   <a href="https://gitlab.com/AnonymousRand" target="_blank" title="GitLab"><img src="{{ url_for('main.static', filename='images/icon_gitlab.svg', _external=True) }}" alt="GitLab" width="32px"></a>
-  <span class="pipe-2em mx-2"></span>
   <a href="https://musescore.com/piano_transcriptions_yt" target="_blank" title="MuseScore"><img src="{{ url_for('main.static', filename='images/icon_musescore.png', _external=True) }}" alt="MuseScore" width="32px"></a>
-  <span class="pipe-2em mx-2"></span>
   <a href="https://www.youtube.com/@limitsofthepiano" title="YouTube (piano arrangements of film/orchestral music)" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_youtube.png', _external=True) }}" alt="YouTube" width="32px"></a>
-  <span class="pipe-2em mx-2"></span>
   <a href="https://www.youtube.com/@AnonRand2" title="YouTube (clip dump)" target="_blank"><img src="{{ url_for('main.static', filename='images/icon_youtube.png', _external=True) }}" alt="YouTube" width="32px"></a>
 </footer>
 {% endblock %}

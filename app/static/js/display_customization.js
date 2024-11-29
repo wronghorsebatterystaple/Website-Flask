@@ -27,34 +27,76 @@ function applySyntaxHighlighting(baseSelector) {
 function randomizeColors() {
     const colorChoices = {
         blue: {
-            flash: {border: "--custom-blue-light", background: "--custom-blue-xxxlight"},
+            form: {
+                accent: "--custom-blue",
+                border: "--custom-blue",
+                boxShadow: "color-mix(in srgb, var(--custom-blue) 22.5%, transparent)"
+            },
+            flash: {
+                border: "--custom-blue-light",
+                background: "--custom-blue-xxxlight"
+            },
             selection: "--custom-blue-xxlight"
         },
         green: {
-            flash: {border: "--custom-green", background: "--custom-green-xxxlight"},
+            form: {
+                accent: "--custom-green",
+                border: "--custom-green",
+                boxShadow: "color-mix(in srgb, var(--custom-green) 40%, transparent)"
+            },
+            flash: {
+                border: "--custom-green",
+                background: "--custom-green-xxxlight"
+            },
             selection: "--custom-green-deep-xlight"
         },
         orange: {
-            flash: {border: "--custom-orange-light", background: "--custom-orange-xxxlight"},
+            form: {
+                accent: "--custom-orange",
+                border: "--custom-orange",
+                boxShadow: "color-mix(in srgb, var(--custom-orange) 30%, transparent)"
+            },
+            flash: {
+                border: "--custom-orange-light",
+                background: "--custom-orange-xxxlight"
+            },
             selection: "--custom-orange-shallow-light"
         },
         pink: {
-            flash: {border: "--custom-pink-xxlight", background: "--custom-pink-xxxxlight"},
+            form: {
+                accent: "--custom-pink-xxlight",
+                border: "--custom-pink-xxlight",
+                boxShadow: "color-mix(in srgb, var(--custom-pink-xxlight) 50%, transparent)"
+            },
+            flash: {
+                border: "--custom-pink-xxlight",
+                background: "--custom-pink-xxxxlight"
+            },
             selection: "--custom-pink-xxxlight"
         }
     };
     const color = Object.keys(colorChoices)[Math.floor(Math.random() * Object.keys(colorChoices).length)];
     const colorChoice = colorChoices[color];
-    // can't use `css()` here since it doesn't support `!important`, which is needed
+    // can't use `css()` here since it doesn't support `!important`, which is needed sometimes
     $("body").append(`
         <style>
             #flash {
-                border-color: var(${colorChoice.flash.border}) !important;
-                background-color: var(${colorChoice.flash.background}) !important
+                border-color: var(${colorChoice.flash.border});
+                background-color: var(${colorChoice.flash.background});
             }
 
             ::selection {
-                background-color: var(${colorChoice.selection}) !important;
+                background-color: var(${colorChoice.selection});
+            }
+
+            :is(select, input:not([type="button"], [type="submit"]), textarea):focus {
+                box-shadow: 0 0 0 0.25rem ${colorChoice.form.boxShadow} !important;
+                border-color: var(${colorChoice.form.border}) !important;
+            }
+            
+            /* probably won't work yet, maybe in the future though :( */
+            input.is([type="checkbox"], [type="radio"]) {
+                accent-color: var(${colorChoice.form.accent}) !important;
             }
         </style>
     `);
