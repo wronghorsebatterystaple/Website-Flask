@@ -16,7 +16,7 @@ const TOTAL_PAGES = {{ total_pages }};
     <h2 class="blogpage__subname fs-7 mt-2">{{ blogpage.subname }}</h2>
   {% endif %}
   
-  <a class="btn btn-primary btn--custom-orange mt-1 show-when-logged-in" href="{{ url_for('admin.create_blogpost', blogpage_id=blogpage.publishing_sibling_id if blogpage.is_published and blogpage.publishing_sibling_id else blogpage.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
+  <a class="btn btn-primary btn--custom-orange-light mt-1 show-when-logged-in" href="{{ url_for('admin.create_blogpost', blogpage_id=blogpage.publishing_sibling_id if blogpage.is_published and blogpage.publishing_sibling_id else blogpage.id) }}" role="button"{% if not current_user.is_authenticated %} hidden{% endif %}>Create post</a>
   
   <hr>
   

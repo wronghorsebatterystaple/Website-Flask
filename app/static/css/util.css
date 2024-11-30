@@ -264,18 +264,19 @@
 /* `btn` */
 /*********/
 
-.btn--custom-orange {
-    --bs-btn-color: black !important;
-    --bs-btn-bg: var(--custom-orange) !important;
-    --bs-btn-border-color: var(--custom-orange) !important;
-    --bs-btn-hover-color: black !important;
-    --bs-btn-hover-bg: var(--custom-orange-deep-dark) !important;
-    --bs-btn-hover-border-color: var(--custom-orange-deep-dark) !important;
-    --bs-btn-active-color: black !important;
-    --bs-btn-active-bg: var(--custom-orange) !important;
-    --bs-btn-active-border-color: var(--custom-orange) !important;
-    --bs-btn-disabled-bg: var(--custom-orange-light) !important;
-    --bs-btn-disabled-border-color: var(--custom-orange-light) !important;
+.btn:not(.btn-link, .nav-link) {
+    border-width: 3px;
+    border-style: solid;
+}
+
+.btn--custom-orange-light {
+    color: black !important;
+    background-color: var(--custom-orange-light) !important;
+    border-color: var(--custom-orange-deep-dark) !important;
+}
+
+.btn--custom-orange-light:hover {
+    background-color: var(--custom-orange) !important;
 }
 
 /**************/

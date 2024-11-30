@@ -63,7 +63,7 @@
   {% endif %}
 {% endmacro %}
 
-{% macro quick_form(form, id="", class="", action="", method="post", btn_type="", btn_color="custom-orange", autofocus=true, hidden=false) %}
+{% macro quick_form(form, id="", class="", action="", method="post", btn_type="", btn_color="custom-orange-light", autofocus=true, hidden=false) %}
   <form novalidate
     {% if id %} id="{{ id }}"{% endif %}
     {% if class %} class="{{ class }}"{% endif %}
