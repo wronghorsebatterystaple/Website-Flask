@@ -284,17 +284,19 @@
 /**************/
 
 .btn-link--custom-orange-deep-dark {
-    --bs-btn-color: var(--custom-orange-deep-dark) !important;
-    --bs-btn-hover-color: var(--custom-orange-xdeep) !important;
-    --bs-btn-active-color: var(--custom-orange-deep-dark) !important;
-    --bs-btn-disabled-color: var(--custom-orange-deep-light) !important;
+    color: var(--custom-orange-deep-dark) !important;
+}
+
+.btn-link--custom-orange-deep-dark:hover {
+    color: var(--custom-orange-xdeep) !important;
 }
 
 .btn-link--custom-pink-xlight {
-    --bs-btn-color: var(--custom-pink-xlight) !important;
-    --bs-btn-hover-color: var(--custom-pink-light) !important;
-    --bs-btn-active-color: var(--custom-pink-xlight) !important;
-    --bs-btn-disabled-color: var(--custom-pink-xxlight) !important;
+    color: var(--custom-pink-xlight) !important;
+}
+
+.btn-link--custom-pink-xlight:hover {
+    color: var(--custom-pink-light) !important;
 }
 
 /**********/
