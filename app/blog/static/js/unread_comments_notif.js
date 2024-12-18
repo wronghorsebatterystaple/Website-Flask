@@ -14,20 +14,26 @@ $(document).ready(async function() {
 async function updateUnreadComments() {
     let notifCount = await updateUnreadCommentsDropdown();
     if (notifCount > 0) {
-        setBellWithNotif();
+        setBellWithNotif(notifCount);
     } else {
         setBellWithoutNotif();
     }
 }
 
-function setBellWithNotif() {
+function setBellWithNotif(notifCount) {
     jQIconBell.removeClass("bi-bell");
     jQIconBell.addClass("bi-bell-fill");
+    if (orgTitle !== null) {
+        document.title = `(${notifCount}) ` + orgTitle;
+    }
 }
 
 function setBellWithoutNotif() {
     jQIconBell.removeClass("bi-bell-fill");
     jQIconBell.addClass("bi-bell");
+    if (orgTitle !== null) {
+        document.title = orgTitle;
+    }
 }
 
 async function updateUnreadCommentsDropdown() {
@@ -52,7 +58,7 @@ async function updateUnreadCommentsDropdown() {
     for (const [postTitle, v] of Object.entries(resp)) {
         html +=
                 `<a class="dropdown-item" href="${v.url}">` +
-                  `<span class="custom-pink-light">(${v.unread_comment_count})</span>` +
+                  `<span class="custom-pink-light">(${v.unread_comment_count})</span> ` +
                   `${postTitle}` +
                 "</a>";
     }
@@ -61,7 +67,10 @@ async function updateUnreadCommentsDropdown() {
     return postCount;
 }
 
+let orgTitle = null;
 $(document).ready(function() {
+    orgTitle = document.title;
+
     // refresh notifications on click
     $("#unread-comments-notif-btn").on("click", function() {
         updateUnreadComments();
