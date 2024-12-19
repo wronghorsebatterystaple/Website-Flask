@@ -27,7 +27,15 @@
       <!-- fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap">
+      <link
+          rel="preload"
+          as="style
+          href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      >
+      <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap"
+      >
 
       <!-- AnchorJS -->
       <script
@@ -49,7 +57,7 @@
           crossorigin="anonymous">
       </script>
 
-      <!-- Flask-Moment (JS bundling moment.js to Flask is included separately for CSP) -->
+      <!-- Flask-Moment (the JS bundling moment.js to Flask is included separately for CSP) -->
       <script
           src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"
           integrity="sha384-Jx7nF8Lr+lkOLpB9WqQqk6OK83W8P87BGQxdNEFvHM5SEiItXH87Ednyl0soQZs8"
