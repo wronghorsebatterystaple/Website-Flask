@@ -235,3 +235,7 @@ textarea {
     max-width: 30rem !important;
     color: #2b2b2b !important;
 }
+
+.tooltip-inner *:last-child {
+    margin-bottom: 0 !important;
+}
