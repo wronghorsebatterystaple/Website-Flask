@@ -6,9 +6,9 @@ from markdown.extensions import Extension
 from app.markdown_extensions.mixins import HtmlClassMixin, ThmMixin, TypesMixin
 
 
-class Textbox(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
+class Div(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
     """
-    A textbox.
+    A general-purpose `<div>`.
 
     Usage:
         ```
@@ -22,7 +22,7 @@ class Textbox(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
         ```
         - HTML output:
             ```
-            <div class="md-textbox md-textbox--[type] last-child-no-mb">
+            <div class="md-div md-div--[type]">
               [content]
             </div>
             ```
@@ -70,15 +70,13 @@ class Textbox(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
         return True
 
 
-class TextboxExtension(Extension):
+class DivExtension(Extension):
     def extendMarkdown(self, md):
         types = {
-            "textbox": {"html_class": "md-dropdown--default"}
+            "textbox": {"html_class": "md-textbox md-textbox--default last-child-no-mb"}
         }
-        md.parser.blockprocessors.register(
-                Textbox(md.parser, types=types, html_class="md-textbox last-child-no-mb"),
-                "textbox", 105)
+        md.parser.blockprocessors.register(Div(md.parser, types=types, html_class="md-div"), "div", 105)
 
 
 def makeExtension(**kwargs):
-    return TextboxExtension(**kwargs)
+    return DivExtension(**kwargs)

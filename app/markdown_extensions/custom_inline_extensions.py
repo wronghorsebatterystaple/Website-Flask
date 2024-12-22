@@ -2,7 +2,6 @@ from markdown.extensions import Extension
 from markdown.inlinepatterns import SimpleTagInlineProcessor
 
 
-# TODO: if publishing extensions, let user define html classes like with counter
 class CustomInlineExtensions(Extension):
     def extendMarkdown(self, md):
         """
