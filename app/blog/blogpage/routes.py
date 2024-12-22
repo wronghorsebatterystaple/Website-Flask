@@ -17,7 +17,6 @@ from app.blog.blogpage.forms import *
 from app.markdown_extensions.thms import ThmsExtension
 from app.markdown_extensions.captioned_figure import CaptionedFigureExtension
 from app.markdown_extensions.cited_blockquote import CitedBlockquoteExtension
-from app.markdown_extensions.counter import CounterExtension
 from app.markdown_extensions.custom_inline_extensions import CustomInlineExtensions
 from app.markdown_extensions.dropdown import DropdownExtension
 from app.markdown_extensions.div import DivExtension
@@ -88,7 +87,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             ThmsExtension(),
             CaptionedFigureExtension(),
             CitedBlockquoteExtension(),
-            CounterExtension(),
             CustomInlineExtensions(),
             DropdownExtension(),
             DivExtension(),
