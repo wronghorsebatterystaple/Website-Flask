@@ -22,7 +22,7 @@ class Div(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
         ```
         - HTML output:
             ```
-            <div class="md-div md-div--[type]">
+            <div class="md-div md-div-[type]">
               [content]
             </div>
             ```
@@ -73,7 +73,7 @@ class Div(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
 class DivExtension(Extension):
     def extendMarkdown(self, md):
         types = {
-            "textbox": {"html_class": "md-textbox md-textbox--default last-child-no-mb"}
+            "textbox": {"html_class": "md-textbox md-textbox-default last-child-no-mb"}
         }
         md.parser.blockprocessors.register(Div(md.parser, types=types, html_class="md-div"), "div", 105)
 

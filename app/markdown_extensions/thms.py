@@ -160,57 +160,57 @@ class ThmsExtension(Extension):
         div_types = {
             "coro": {
                 "name": "Corollary",
-                "html_class": "md-textbox md-textbox--coro last-child-no-mb",
+                "html_class": "md-textbox md-textbox-coro last-child-no-mb",
                 "counter": "0,0,1"
             },
             "defn": {
                 "name": "Definition",
-                "html_class": "md-textbox md-textbox--defn last-child-no-mb",
+                "html_class": "md-textbox md-textbox-defn last-child-no-mb",
                 "counter": "0,0,1"
             },
             r"defn\\\*": {
                 "name": "Definition",
-                "html_class": "md-textbox md-textbox--defn last-child-no-mb"
+                "html_class": "md-textbox md-textbox-defn last-child-no-mb"
             },
             "ex": {
                 "name": "Example",
-                "html_class": "md-div--ex"
+                "html_class": "md-div-ex"
             },
             r"notat\\\*": {
                 "name": "Notation",
-                "html_class": "md-textbox md-textbox--notat last-child-no-mb"
+                "html_class": "md-textbox md-textbox-notat last-child-no-mb"
             },
             "prop": {
                 "name": "Proposition",
-                "html_class": "md-textbox md-textbox--prop last-child-no-mb",
+                "html_class": "md-textbox md-textbox-prop last-child-no-mb",
                 "counter": "0,0,1"
             },
             "thm": {
                 "name": "Theorem",
-                "html_class": "md-textbox md-textbox--thm last-child-no-mb",
+                "html_class": "md-textbox md-textbox-thm last-child-no-mb",
                 "counter": "0,0,1"
             },
             r"thm\\\*": {
                 "name": "Theorem",
-                "html_class": "md-textbox md-textbox--thm last-child-no-mb"
+                "html_class": "md-textbox md-textbox-thm last-child-no-mb"
             }
         }
         dropdown_types = {
             "exer": {
                 "name": "Exercise",
-                "html_class": "md-dropdown--exer",
+                "html_class": "md-dropdown-exer",
                 "counter": "0,0,1",
                 "use_punct_if_nameless": False
             },
             "pf": {
                 "name": "Proof",
-                "html_class": "md-dropdown--pf",
+                "html_class": "md-dropdown-pf",
                 "overrides_heading": True,
                 "use_punct_if_nameless": False
             },
             r"rmk\\\*": {
                 "name": "Remark",
-                "html_class": "md-dropdown--rmk",
+                "html_class": "md-dropdown-rmk",
                 "overrides_heading": True,
                 "use_punct_if_nameless": False
             }

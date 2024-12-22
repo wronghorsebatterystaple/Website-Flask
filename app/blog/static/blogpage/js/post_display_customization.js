@@ -18,7 +18,7 @@ function applyPostAndCommentStyles(baseSelector) {
     jQPostAndCommentContent.find(".post__h2, .comment__h2").addClass("mb-3 border-bottom--h2 fs-7");
 
     // default open certain dropdowns in post
-    jQBase.find("details").filter(".md-dropdown--ex, .md-dropdown--notat").attr("open", "");
+    jQBase.find("details").filter(".md-dropdown-ex, .md-dropdown-notat").attr("open", "");
 }
 
 // for syntax guide

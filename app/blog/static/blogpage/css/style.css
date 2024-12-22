@@ -81,51 +81,51 @@ input[value="Reply"][value="Delete"] {
     margin-top: 1rem;
 }
 
-.md-dropdown--default {
+.md-dropdown-default {
     border-color: var(--custom-blue-deep-light);
 }
 
-.md-dropdown--default .md-dropdown__content {
+.md-dropdown-default .md-dropdown__content {
     color: dimgray;
 }
 
-.md-dropdown--default .md-dropdown__summary {
+.md-dropdown-default .md-dropdown__summary {
     color: var(--custom-blue-deep);
 }
 
-.md-dropdown--exer,
-.md-dropdown--pf,
-.md-dropdown--rmk {
+.md-dropdown-exer,
+.md-dropdown-pf,
+.md-dropdown-rmk {
     border-color: lightgray;
     color: dimgray;
 }
 
-.md-textbox--coro,
-.md-textbox--defn,
-.md-textbox--impt,
-.md-textbox--notat,
-.md-textbox--prop,
-.md-textbox--thm
+.md-textbox-coro,
+.md-textbox-defn,
+.md-textbox-impt,
+.md-textbox-notat,
+.md-textbox-prop,
+.md-textbox-thm
 {
     border-width: 4px;
 }
 
-.md-textbox--coro,
-.md-textbox--prop
+.md-textbox-coro,
+.md-textbox-prop
 {
     border-color: lightgray;
 }
 
-.md-textbox--defn,
-.md-textbox--notat {
+.md-textbox-defn,
+.md-textbox-notat {
     border-color: var(--custom-green-light);
 }
 
-.md-div--ex {
+.md-div-ex {
     color: dimgray;
 }
 
-.md-textbox--impt {
+.md-textbox-impt {
     border-width: 6px;
     border-color: transparent;
     border-image: conic-gradient(
@@ -144,11 +144,11 @@ input[value="Reply"][value="Delete"] {
     width: 100%;
 }
 
-.md-textbox--default {
+.md-textbox-default {
     border-width: 1px;
 }
 
-.md-textbox--thm {
+.md-textbox-thm {
     border-color: var(--custom-orange-deep-light);
 }
 

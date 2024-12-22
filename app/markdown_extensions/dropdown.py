@@ -28,7 +28,7 @@ class Dropdown(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
         ```
         - HTML output:
             ```
-            <details class="md-dropdown md-dropdown--[type]">
+            <details class="md-dropdown md-dropdown-[type]">
               <summary class="md-dropdown__summary last-child-no-mb">
                 [summary]
               </summary>
@@ -124,7 +124,7 @@ class Dropdown(BlockProcessor, HtmlClassMixin, ThmMixin, TypesMixin):
 class DropdownExtension(Extension):
     def extendMarkdown(self, md):
         types = {
-            "dropdown": {"html_class": "md-dropdown--default"}
+            "dropdown": {"html_class": "md-dropdown-default"}
         }
         md.parser.blockprocessors.register(
                 Dropdown(md.parser, types=types, html_class="md-dropdown",
