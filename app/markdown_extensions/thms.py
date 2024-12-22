@@ -7,7 +7,6 @@ from markdown.treeprocessors import Treeprocessor
 
 # TODO: conditional import depending on user config (like if user config includes dropdown, import dropdown)?
 from app.markdown_extensions.dropdown import Dropdown
-from app.markdown_extensions.mixins import HtmlClassMixin, ThmMixin, TypesMixin
 from app.markdown_extensions.div import Div
 
 
