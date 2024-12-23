@@ -13,6 +13,8 @@ COPY personal_website.py config.py ./
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+COPY requirements_testpypi.txt requirements_testpypi.txt
+RUN pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -r requirements_testpypi.txt
 
 WORKDIR ./app/static/
 RUN apt update -y

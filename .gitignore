@@ -12,7 +12,7 @@ venv/
 app/static/node_modules/
 app/static/css/custom_bootstrap.*
 
-# Python
+# python
 __pycache__/
 
 # vim

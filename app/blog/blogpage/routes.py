@@ -1,6 +1,11 @@
 import markdown
 import image_titles
 from markdown.extensions.toc import TocExtension
+from markdown_environments.captioned_figure import CaptionedFigureExtension
+from markdown_environments.cited_blockquote import CitedBlockquoteExtension
+from markdown_environments.div import DivExtension
+from markdown_environments.dropdown import DropdownExtension
+from markdown_environments.thms import ThmsExtension
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -13,13 +18,7 @@ import app.util as util
 from app import db
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
-# todo clean up once packaged
-from app.markdown_extensions.thms import ThmsExtension
-from app.markdown_extensions.captioned_figure import CaptionedFigureExtension
-from app.markdown_extensions.cited_blockquote import CitedBlockquoteExtension
 from app.markdown_extensions.custom_inline_extensions import CustomInlineExtensions
-from app.markdown_extensions.dropdown import DropdownExtension
-from app.markdown_extensions.div import DivExtension
 from app.models import *
 from app.util import ContentType
 
@@ -84,12 +83,12 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
         content_md = markdown.Markdown(extensions=[
             "extra",
             "image_titles",                     # images use `alt` text as `title` too
-            ThmsExtension(),
             CaptionedFigureExtension(),
             CitedBlockquoteExtension(),
             CustomInlineExtensions(),
             DropdownExtension(),
             DivExtension(),
+            ThmsExtension(),
             TocExtension(marker="", toc_depth=2)
         ])
         post.content = content_md.convert(post.content)
