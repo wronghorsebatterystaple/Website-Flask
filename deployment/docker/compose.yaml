@@ -1,5 +1,5 @@
 services:
-  flask:
+  personal-website-flask:
     container_name: personal-website-flask
     user: "$DOCKER_USER_STR"
     ports:
@@ -16,7 +16,7 @@ services:
         source: ../../app/blog/static/blogpage/             # SYNC: path
         target: /personal-website/app/blog/static/blogpage/ # SYNC: path, Dockerfile WORKDIR
     restart: always
-  mysql:
+  personal-website-mysql:
     container_name: personal-website-mysql
     user: "$DOCKER_USER_NAME"
     ports:

@@ -77,6 +77,11 @@ def index(**kwargs):
 @util.set_content_type(ContentType.HTML)
 @bp_util.require_valid_post()
 def post(post, post_sanitized_title, **kwargs): # first param is from `require_valid_post` decorator
+    def generate_anchors(value, separator):
+        value = (separator.join(value.split())).lower()
+        value = re.sub(f"[^A-Za-z0-9{separator}]", "", value)
+        return value
+
     # render Markdown for post
     content_md = None
     if post.content:
@@ -89,7 +94,9 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             DropdownExtension(),
             DivExtension(),
             ThmsExtension(),
-            TocExtension(marker="", toc_depth=2)
+            TocExtension(
+                    marker="", permalink="\uf470", permalink_class="header-link",
+                    permalink_title="", slugify=generate_anchors, toc_depth=2)
         ])
         post.content = content_md.convert(post.content)
 

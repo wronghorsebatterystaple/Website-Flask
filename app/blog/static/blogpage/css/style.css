@@ -39,6 +39,20 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: -0.1875rem;
 }
 
+.header-link {
+    display: none;
+    margin-left: 0.25em;
+    padding-right: 0;
+    vertical-align: bottom;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-family: bootstrap-icons; /* for Bootstrap's private area unicode icon to show */
+}
+
+:is(h1, h2, h3, h4, h5, h6):hover .header-link {
+    display: inline;
+}
+
 .md-captioned-figure__caption {
     text-align: center;
     color: dimgray;

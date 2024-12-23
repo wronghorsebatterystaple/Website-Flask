@@ -97,14 +97,6 @@ textarea {
     scroll-margin-top: var(--navbar-outer-height);
 }
 
-.anchorjs-link {
-    margin-left: 0.125em !important;
-    padding-right: 0 !important;
-    vertical-align: bottom;
-    font-size: 0.9em;
-    font-family: bootstrap-icons; /* for Bootstrap's private area unicode icon to show */
-}
-
 .background-img {
     background-position: center center;
     background-size: cover;

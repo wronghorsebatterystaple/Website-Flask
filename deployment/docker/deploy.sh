@@ -6,5 +6,6 @@ if ! id "$DOCKER_USER"; then
 fi
 
 docker compose down
-docker compose build --no-cache # rebuild with no cache to apply changes
+docker system prune --force
+docker compose build # make sure changes in Dockerfile/build directory are always applied
 DOCKER_USER_NAME="$(id -u "$DOCKER_USER"):$(id -g "$DOCKER_USER")" docker compose up

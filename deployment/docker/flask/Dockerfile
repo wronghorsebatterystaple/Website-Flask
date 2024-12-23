@@ -1,6 +1,6 @@
 # SYNC: all filepaths and names
 
-FROM python:3.10
+FROM nikolaik/python-nodejs:python3.10-nodejs23-slim
 
 EXPOSE 8008
 
@@ -17,9 +17,6 @@ COPY requirements_testpypi.txt requirements_testpypi.txt
 RUN pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -r requirements_testpypi.txt
 
 WORKDIR ./app/static/
-RUN apt update -y
-RUN apt upgrade -y
-RUN apt install npm -y
 RUN npm run compile_bootstrap
 WORKDIR ../../
 
