@@ -7,7 +7,6 @@ from markdown_environments.div import DivExtension
 from markdown_environments.dropdown import DropdownExtension
 from markdown_environments.thms import ThmsExtension
 from markdown_inline_extras.strikethrough import StrikethroughExtension
-from markdown_inline_extras.underline import UnderlineExtension
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -174,8 +173,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             ),
             TocExtension(
                     marker="", permalink="\uf470", permalink_class="header-link",
-                    permalink_title="", slugify=generate_anchors, toc_depth=2),
-            UnderlineExtension()
+                    permalink_title="", slugify=generate_anchors, toc_depth=2)
         ])
         post.content = content_md.convert(post.content)
 
@@ -210,7 +208,7 @@ def get_comments(post, post_sanitized_title, **kwargs):
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
                     comment.content,
-                    extensions=["extra", "image_titles", UnderlineExtension(), StrikethroughExtension()])
+                    extensions=["extra", "image_titles", StrikethroughExtension()])
         else:
             # no custom block Markdown for non-admin because there are prob ways to 500 the page that I don't wanna fix
             # (and besides it loads faster)

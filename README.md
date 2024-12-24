@@ -106,13 +106,8 @@ Keep up-to-date:
 - Custom Markdown syntax:
     - Check source code for detailed documentation and usages
     - Inline:
-        - `__<text>__`: underline
         - `~~<text>~~`: strikethrough
-        - `{{<section 1 change>,<section 2 change>,…}}`: counter that is intended to reproduce LaTeX theorem counter functionality by allowing you to specify increments for each "counter section".
-            - "Counter sections" are the typically period-separated numbers in theorem counters. For example, in
-              `Theorem 1.2.4`, the counter sections are 1, 2, and 4.
-        - `{[<theorem heading>]}{<optional theorem name>}[<optional hidden theorem name>]`: theorem heading that allows you to add custom styling and can generate linkable HTML `id`s
-            - Can use theorem counters within `<theorem heading>`
+    **TODO: update once finalized**
     - Blocks (all delimiters must be surrounded by a blank line on both sides; not allowed in comments due to potential bugs):
         - `\begin{<block type>}` and `end{<block type>}`, surrounded by a blank line on both sides, puts everything in between in the specified `<block type>`
         - Available `<block type>`s:

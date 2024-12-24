@@ -1,2 +1,2 @@
 markdown-environments==0.8.0
-markdown-inline-extras==0.3.0
+markdown-inline-extras==0.5.0
