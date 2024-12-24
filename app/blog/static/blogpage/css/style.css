@@ -166,7 +166,7 @@ input[value="Reply"][value="Delete"] {
     border-color: var(--custom-orange-deep-light);
 }
 
-.md-thm-heading__heading {
+.md-thm-heading__thm-type {
     font-weight: bold;
 }
 

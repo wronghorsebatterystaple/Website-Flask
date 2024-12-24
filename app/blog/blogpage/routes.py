@@ -6,6 +6,8 @@ from markdown_environments.cited_blockquote import CitedBlockquoteExtension
 from markdown_environments.div import DivExtension
 from markdown_environments.dropdown import DropdownExtension
 from markdown_environments.thms import ThmsExtension
+from markdown_inline_extras.strikethrough import StrikethroughExtension
+from markdown_inline_extras.underline import UnderlineExtension
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -18,7 +20,6 @@ import app.util as util
 from app import db
 from app.blog.blogpage import bp
 from app.blog.blogpage.forms import *
-from app.markdown_extensions.custom_inline_extensions import CustomInlineExtensions
 from app.models import *
 from app.util import ContentType
 
@@ -77,26 +78,104 @@ def index(**kwargs):
 @util.set_content_type(ContentType.HTML)
 @bp_util.require_valid_post()
 def post(post, post_sanitized_title, **kwargs): # first param is from `require_valid_post` decorator
-    def generate_anchors(value, separator):
-        value = (separator.join(value.split())).lower()
-        value = re.sub(f"[^A-Za-z0-9{separator}]", "", value)
-        return value
-
     # render Markdown for post
     content_md = None
     if post.content:
+        def generate_anchors(value, separator):
+            value = (separator.join(value.split())).lower()
+            value = re.sub(f"[^A-Za-z0-9{separator}]", "", value)
+            return value
+
         content_md = markdown.Markdown(extensions=[
             "extra",
             "image_titles",                     # images use `alt` text as `title` too
-            CaptionedFigureExtension(),
-            CitedBlockquoteExtension(),
-            CustomInlineExtensions(),
-            DropdownExtension(),
-            DivExtension(),
-            ThmsExtension(),
+            CaptionedFigureExtension(html_class="md-captioned-figure", caption_html_class="md-captioned-figure__caption"),
+            CitedBlockquoteExtension(html_class="md-cited-blockquote", citation_html_class="md-cited-blockquote__citation"),
+            DivExtension(
+                html_class="md-div",
+                types={
+                    "textbox": {"html_class": "md-textbox md-textbox-default last-child-no-mb"}
+                }
+            ),
+            DropdownExtension(
+                html_class="md-dropdown",
+                summary_html_class="md-dropdown__summary last-child-no-mb",
+                content_html_class="md-dropdown__content last-child-no-mb",
+                types = {
+                    "dropdown": {"html_class": "md-dropdown-default"}
+                }
+            ),
+            StrikethroughExtension(),
+            ThmsExtension(
+                div_html_class="md-div",
+                div_types={
+                    "coro": {
+                        "thm_heading_thm_type": "Corollary",
+                        "html_class": "md-textbox md-textbox-coro last-child-no-mb",
+                        "counter": "0,0,1"
+                    },
+                    "defn": {
+                        "thm_heading_thm_type": "Definition",
+                        "html_class": "md-textbox md-textbox-defn last-child-no-mb",
+                        "counter": "0,0,1"
+                    },
+                    r"defn\\\*": {
+                        "thm_heading_thm_type": "Definition",
+                        "html_class": "md-textbox md-textbox-defn last-child-no-mb"
+                    },
+                    "ex": {
+                        "thm_heading_thm_type": "Example",
+                        "html_class": "md-div-ex"
+                    },
+                    r"notat\\\*": {
+                        "thm_heading_thm_type": "Notation",
+                        "html_class": "md-textbox md-textbox-notat last-child-no-mb"
+                    },
+                    "prop": {
+                        "thm_heading_thm_type": "Proposition",
+                        "html_class": "md-textbox md-textbox-prop last-child-no-mb",
+                        "counter": "0,0,1"
+                    },
+                    "thm": {
+                        "thm_heading_thm_type": "Theorem",
+                        "html_class": "md-textbox md-textbox-thm last-child-no-mb",
+                        "counter": "0,0,1"
+                    },
+                    r"thm\\\*": {
+                        "thm_heading_thm_type": "Theorem",
+                        "html_class": "md-textbox md-textbox-thm last-child-no-mb"
+                    }
+                },
+                dropdown_html_class="md-dropdown",
+                dropdown_summary_html_class="md-dropdown__summary last-child-no-mb",
+                dropdown_content_html_class="md-dropdown__content last-child-no-mb",
+                dropdown_types={
+                    "exer": {
+                        "thm_heading_thm_type": "Exercise",
+                        "html_class": "md-dropdown-exer",
+                        "counter": "0,0,1",
+                        "use_punct_if_nameless": False
+                    },
+                    "pf": {
+                        "thm_heading_thm_type": "Proof",
+                        "html_class": "md-dropdown-pf",
+                        "overrides_heading": True,
+                        "use_punct_if_nameless": False
+                    },
+                    r"rmk\\\*": {
+                        "thm_heading_thm_type": "Remark",
+                        "html_class": "md-dropdown-rmk",
+                        "overrides_heading": True,
+                        "use_punct_if_nameless": False
+                    }
+                },
+                thm_heading_html_class="md-thm-heading",
+                thm_heading_thm_type_html_class="md-thm-heading__thm-type"
+            ),
             TocExtension(
                     marker="", permalink="\uf470", permalink_class="header-link",
-                    permalink_title="", slugify=generate_anchors, toc_depth=2)
+                    permalink_title="", slugify=generate_anchors, toc_depth=2),
+            UnderlineExtension()
         ])
         post.content = content_md.convert(post.content)
 
@@ -131,7 +210,7 @@ def get_comments(post, post_sanitized_title, **kwargs):
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
                     comment.content,
-                    extensions=["extra", "image_titles", CustomInlineExtensions()]) # TODO change eventually once packagized
+                    extensions=["extra", "image_titles", UnderlineExtension(), StrikethroughExtension()])
         else:
             # no custom block Markdown for non-admin because there are prob ways to 500 the page that I don't wanna fix
             # (and besides it loads faster)

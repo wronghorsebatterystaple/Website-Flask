@@ -1,1 +1,2 @@
-markdown-environments==0.1.2
+markdown-environments==0.7.0
+markdown-inline-extras==0.3.0
