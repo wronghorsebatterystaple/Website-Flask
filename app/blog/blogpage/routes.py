@@ -95,7 +95,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                 html_class="md-cited-blockquote", citation_html_class="md-cited-blockquote__citation"
             ),
             DivExtension(
-                html_class="md-div",
                 types={
                     "textbox": {"html_class": "md-textbox md-textbox-default last-child-no-mb"}
                 }
@@ -110,7 +109,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             ),
             StrikethroughExtension(),
             ThmsExtension(
-                div_html_class="md-div",
                 div_types={
                     "coro": {
                         "thm_type": "Corollary",
