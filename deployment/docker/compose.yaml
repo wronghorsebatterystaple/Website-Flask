@@ -9,8 +9,8 @@ services:
       dockerfile: deployment/docker/flask/Dockerfile        # SYNC: path, relative to `context`
       network: host
     env_file:                                               # SYNC: env file paths
-      - ./flask/envs/.env
-      - ./flask/envs/.flaskenv
+      - ./flask/.env
+      - ./flask/.flaskenv
     volumes:
       - type: bind                                          # for persisting uploaded images in static folders
         source: ../../app/blog/static/blogpage/             # SYNC: path
@@ -23,8 +23,6 @@ services:
       - "3306:3306"
       - "33060:33060"
     image: "mysql:8.0.37"                                   # SYNC: host's MySQL version if using bind mount
-    env_file:
-      - ./mysql/envs/.env                                   # SYNC: env file paths
     volumes:
       - type: bind                                          # for persisting database
         source: ./mysql/mysql-data-dir/                     # SYNC: MySql data directory for persistence

@@ -1,11 +1,11 @@
-import markdown
 import image_titles
-from markdown.extensions.toc import TocExtension
+import markdown
 from markdown_environments.captioned_figure import CaptionedFigureExtension
 from markdown_environments.cited_blockquote import CitedBlockquoteExtension
 from markdown_environments.div import DivExtension
 from markdown_environments.dropdown import DropdownExtension
 from markdown_environments.thms import ThmsExtension
+from markdown.extensions.toc import TocExtension
 from markdown_inline_extras.strikethrough import StrikethroughExtension
 
 import sqlalchemy as sa
@@ -88,8 +88,12 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
         content_md = markdown.Markdown(extensions=[
             "extra",
             "image_titles",                     # images use `alt` text as `title` too
-            CaptionedFigureExtension(html_class="md-captioned-figure", caption_html_class="md-captioned-figure__caption"),
-            CitedBlockquoteExtension(html_class="md-cited-blockquote", citation_html_class="md-cited-blockquote__citation"),
+            CaptionedFigureExtension(
+                html_class="md-captioned-figure", caption_html_class="md-captioned-figure__caption"
+            ),
+            CitedBlockquoteExtension(
+                html_class="md-cited-blockquote", citation_html_class="md-cited-blockquote__citation"
+            ),
             DivExtension(
                 html_class="md-div",
                 types={
@@ -109,39 +113,39 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                 div_html_class="md-div",
                 div_types={
                     "coro": {
-                        "thm_heading_thm_type": "Corollary",
+                        "thm_type": "Corollary",
                         "html_class": "md-textbox md-textbox-coro last-child-no-mb",
-                        "counter": "0,0,1"
+                        "thm_counter_incr": "0,0,1"
                     },
                     "defn": {
-                        "thm_heading_thm_type": "Definition",
+                        "thm_type": "Definition",
                         "html_class": "md-textbox md-textbox-defn last-child-no-mb",
-                        "counter": "0,0,1"
+                        "thm_counter_incr": "0,0,1"
                     },
                     r"defn\\\*": {
-                        "thm_heading_thm_type": "Definition",
+                        "thm_type": "Definition",
                         "html_class": "md-textbox md-textbox-defn last-child-no-mb"
                     },
                     "ex": {
-                        "thm_heading_thm_type": "Example",
+                        "thm_type": "Example",
                         "html_class": "md-div-ex"
                     },
                     r"notat\\\*": {
-                        "thm_heading_thm_type": "Notation",
+                        "thm_type": "Notation",
                         "html_class": "md-textbox md-textbox-notat last-child-no-mb"
                     },
                     "prop": {
-                        "thm_heading_thm_type": "Proposition",
+                        "thm_type": "Proposition",
                         "html_class": "md-textbox md-textbox-prop last-child-no-mb",
-                        "counter": "0,0,1"
+                        "thm_counter_incr": "0,0,1"
                     },
                     "thm": {
-                        "thm_heading_thm_type": "Theorem",
+                        "thm_type": "Theorem",
                         "html_class": "md-textbox md-textbox-thm last-child-no-mb",
-                        "counter": "0,0,1"
+                        "thm_counter_incr": "0,0,1"
                     },
                     r"thm\\\*": {
-                        "thm_heading_thm_type": "Theorem",
+                        "thm_type": "Theorem",
                         "html_class": "md-textbox md-textbox-thm last-child-no-mb"
                     }
                 },
@@ -150,26 +154,26 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                 dropdown_content_html_class="md-dropdown__content last-child-no-mb",
                 dropdown_types={
                     "exer": {
-                        "thm_heading_thm_type": "Exercise",
+                        "thm_type": "Exercise",
                         "html_class": "md-dropdown-exer",
-                        "counter": "0,0,1",
-                        "use_punct_if_nameless": False
+                        "thm_counter_incr": "0,0,1",
+                        "use_punct_if_nothing_after": False
                     },
                     "pf": {
-                        "thm_heading_thm_type": "Proof",
+                        "thm_type": "Proof",
                         "html_class": "md-dropdown-pf",
-                        "overrides_heading": True,
-                        "use_punct_if_nameless": False
+                        "thm_name_overrides_thm_heading": True,
+                        "use_punct_if_nothing_after": False
                     },
                     r"rmk\\\*": {
-                        "thm_heading_thm_type": "Remark",
+                        "thm_type": "Remark",
                         "html_class": "md-dropdown-rmk",
-                        "overrides_heading": True,
-                        "use_punct_if_nameless": False
+                        "thm_name_overrides_thm_heading": True,
+                        "use_punct_if_nothing_after": False
                     }
                 },
                 thm_heading_html_class="md-thm-heading",
-                thm_heading_thm_type_html_class="md-thm-heading__thm-type"
+                thm_type_html_class="md-thm-heading__thm-type"
             ),
             TocExtension(
                     marker="", permalink="\uf470", permalink_class="header-link",

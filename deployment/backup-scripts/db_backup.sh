@@ -5,11 +5,12 @@
 #
 # Args:
 #     - `$1`: destination path for backup, formatted identically to the destination path of `scp`
-#     - `$2`: backup number to be appended to the backup name (make sure of this in `db_backup_config.sh`!)
+#     - `$2`: backup number to be appended to the backup name
 
 source ./db_backup_config.sh
 
 set -e
 
-mysqldump --protocol=tcp -u "$db_username" --password="$db_password" "$db_name" > "$host_backup_path"
+# make sure there is a secured MySQL config file providing `$db_username`'s password!
+mysqldump --protocol=tcp -u "$db_username" "$db_name" > "$host_backup_path"
 rsync -e "ssh -i $ssh_private_key_location" --backup --suffix=`date +'.%F_%H-%M-%S'` "$host_backup_path" "$1"

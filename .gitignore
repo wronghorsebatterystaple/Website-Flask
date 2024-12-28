@@ -1,13 +1,11 @@
 # security
-deployment/docker/flask/envs/*
-!deployment/docker/flask/envs/.flaskenv
-deployment/docker/mysql/envs/
+.env
+deployment/docker/flask/.env
 deployment/docker/mysql/mysql-data-dir/
 deployment/backup-scripts/db_backup_config.sh
 deployment/backup-scripts/backup*.sql
-.env
 
-# package manager
+# package managers
 venv/
 app/static/node_modules/
 app/static/css/custom_bootstrap.*

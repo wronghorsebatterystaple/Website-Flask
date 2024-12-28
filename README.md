@@ -39,7 +39,7 @@ Keep up-to-date:
     - Dockerfiles
     - Docker entrypoint scripts
     - Docker environment variables
-    - `deployment/backup-scripts/db_backup_config.sh` configs (not commented; sync all of them!)
+    - `deployment/backup-scripts/db_backup_config.sh` configs
     - Backup scripts
     - `systemd` services
 - To connect to the MySQL instance running in Docker from the host:
