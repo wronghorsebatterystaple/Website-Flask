@@ -27,7 +27,7 @@
 
     --custom-orange: #ffd500;               /* 50 , 100, 100 */
     --custom-orange-light: #ffdf40;         /* 50 , 75 , 100 */
-    --custom-orange-xxxlight: #fffdf7;      /* 45 , 3  , 100 */
+    --custom-orange-xxxlight: #fffefa;      /* 48 , 2  , 100 */
     --custom-orange-shallow-light: #fff04d; /* 55 , 70 , 100 */
     --custom-orange-deep: #ffc800;          /* 47 , 100, 100 */
     --custom-orange-deep-light: #ffdb59;    /* 47 , 65 , 100 */
@@ -35,12 +35,15 @@
     --custom-orange-xdeep: #ffa200;         /* 38 , 100, 100 */
     --custom-orange-xdeep-dark: #d98900;    /* 38 , 100, 85  */
 
-    --custom-pink: #ff00b7;                 /* 317, 100, 100 */
-    --custom-pink-light: #ff59d0;           /* 317, 65 , 100 */
-    --custom-pink-xlight: #ff8cde;          /* 317, 45 , 100 */
-    --custom-pink-xxlight: #ffbfed;         /* 317, 25 , 100 */
-    --custom-pink-xxxlight: #ffdef6;        /* 316, 13 , 100 */
-    --custom-pink-xxxxlight: #fffafe;       /* 312, 2  , 100 */
+    --custom-pink: #ff0080;                 /* 330, 100, 100 */
+    --custom-pink-light: #ff8cc6;           /* 330, 45 , 100 */
+    --custom-pink-xlight: #ffbfdf;          /* 330, 25 , 100 */
+    --custom-pink-deep: #ff00ab;            /* 320, 100, 100 */
+    --custom-pink-deep-light: #ff4dc4;      /* 320, 70 , 100 */
+    --custom-pink-deep-xlight: #ff80d5;     /* 320, 50 , 100 */
+    --custom-pink-deep-xxlight: #ffbfea;    /* 320, 25 , 100 */
+    --custom-pink-deep-xxxlight: #ffe0f5;   /* 319, 12 , 100 */
+    --custom-pink-deep-xxxxlight: #fffcfe;  /* 320, 1  , 100 */
 }
 
 /* for scoping issues on accessing `--bs-gutter-x` */

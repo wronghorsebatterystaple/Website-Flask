@@ -53,7 +53,7 @@ async function reloadComments() {
     if (isUserAuthenticated && commentUnreadCount > 0) {
         HTML +=
             '<span class="show-when-logged-in">' +
-              `, <span class="custom-pink-light">${commentUnreadCount} unread</span>` +
+              `, <span class="custom-pink-deep-light">${commentUnreadCount} unread</span>` +
             "</span>";
     }
     HTML += ")";

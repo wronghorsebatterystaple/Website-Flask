@@ -58,7 +58,7 @@ async function updateUnreadCommentsDropdown() {
     for (const [postTitle, v] of Object.entries(resp)) {
         html +=
                 `<a class="dropdown-item" href="${v.url}">` +
-                  `<span class="custom-pink-light">(${v.unread_comment_count})</span> ` +
+                  `<span class="custom-pink-deep-light">(${v.unread_comment_count})</span> ` +
                   `${postTitle}` +
                 "</a>";
     }

@@ -24,7 +24,7 @@ body {
 
 code,
 pre code {
-    color: var(--custom-pink);
+    color: var(--custom-pink-deep);
     font-size: 100% !important;
 }
 
@@ -109,19 +109,19 @@ textarea {
 }
 
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
-    border-top-color: var(--custom-pink-xlight) !important;
+    border-top-color: var(--custom-pink-light) !important;
 }
 
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
-    border-right-color: var(--custom-pink-xlight) !important;
+    border-right-color: var(--custom-pink-light) !important;
 }
 
 .bs-tooltip-bottom .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
-    border-bottom-color: var(--custom-pink-xlight) !important;
+    border-bottom-color: var(--custom-pink-light) !important;
 }
 
 .bs-tooltip-left .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
-    border-left-color: var(--custom-pink-xlight) !important;
+    border-left-color: var(--custom-pink-light) !important;
 }
 
 .btn-close {
@@ -221,9 +221,9 @@ textarea {
 }
 
 .tooltip .tooltip-inner {
-    border: 1px solid var(--custom-pink-light) !important;
+    border: 1px solid var(--custom-pink-deep-light) !important;
     border-radius: var(--bs-border-radius);
-    background-color: var(--custom-pink-xxxxlight) !important;
+    background-color: var(--custom-pink-deep-xxxxlight) !important;
     max-width: 30rem !important;
     color: #2b2b2b !important;
 }

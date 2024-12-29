@@ -43,7 +43,7 @@ const TOTAL_PAGES = {{ total_pages }};
               <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {% endif %}
             <span class="d-flex align-items-center ms-auto gray">
-              <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-light">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
+              <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-deep-light">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
             </span>
           </div>
       {% else %}
@@ -61,7 +61,7 @@ const TOTAL_PAGES = {{ total_pages }};
               <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
             {% endif %}
             <span class="d-flex align-items-center gray ms-auto">
-              <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-light show-when-logged-in">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
+              <span class="me-2">{% if current_user.is_authenticated and post.get_unread_comment_count() > 0 %}<span class="custom-pink-deep-light show-when-logged-in">({{ post.get_unread_comment_count() }})</span> {% endif %}{{ post.get_comment_count() }}</span><i class="post-list__comment-icon bi bi-chat-right-text"></i>
             </span>
           </div>
       {% endif %}
