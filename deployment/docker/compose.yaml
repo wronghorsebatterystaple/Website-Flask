@@ -3,7 +3,7 @@ services:
     container_name: personal-website-flask
     user: "$DOCKER_USER_STR"
     ports:
-      - "8008:8008"                                         # SYNC: Nginx and entrypoint Gunicorn ports
+      - "8080:8080"                                         # SYNC: Nginx and entrypoint Gunicorn ports
     build:
       context: ../../                                       # must be parent; Dockerfile can't access parent dirs
       dockerfile: deployment/docker/flask/Dockerfile        # SYNC: path, relative to `context`
