@@ -131,11 +131,11 @@ def create_blogpost(**kwargs):
         if err:
             return jsonify(flash_msg=err)
         post.add_timestamps(False, False)
-        post.expand_image_markdown()
+        post.expand_img_markdown()
 
         # upload images if any
         imgs_base_path = admin_util.get_imgs_base_path(post)
-        err = admin_util.upload_images(request.files.getlist("images"), imgs_base_path)
+        err = admin_util.upload_imgs(request.files.getlist("images"), imgs_base_path)
         if err:
             return jsonify(flash_msg=err)
 
@@ -182,14 +182,14 @@ def edit_blogpost(**kwargs):
     form = EditBlogpostForm(obj=post) # pre-populate fields by name; again form must be created outside
     blogpages = db.session.query(Blogpage).order_by(Blogpage.ordering).all()
     form.blogpage_id.choices = [(blogpage.id, blogpage.name) for blogpage in blogpages if blogpage.is_writeable]
-    form.content.data = post.collapse_image_markdown()
+    form.content.data = post.collapse_img_markdown()
     
     imgs_base_path = admin_util.get_imgs_base_path(post)
     if os.path.exists(imgs_base_path) and os.path.isdir(imgs_base_path):
-        images_choices = [(f, f) for f in os.listdir(imgs_base_path)
+        imgs_choices = [(f, f) for f in os.listdir(imgs_base_path)
                 if os.path.isfile(os.path.join(imgs_base_path, f)) and not f.startswith(".")]
-        images_choices.sort(key=lambda t: t[0])
-        form.delete_images.choices = images_choices
+        imgs_choices.sort(key=lambda t: t[0])
+        form.delete_images.choices = imgs_choices
 
     if request.method == "GET":
         return render_template(
@@ -216,17 +216,17 @@ def edit_blogpost(**kwargs):
                 request.form.get("remove_edited_timestamp"),
                 request.form.get("update_edited_timestamp"),
                 old_blogpage_id)
-        post.expand_image_markdown()
+        post.expand_img_markdown()
 
         # upload images if any
-        err = admin_util.upload_images(request.files.getlist("images"), imgs_base_path)
+        err = admin_util.upload_imgs(request.files.getlist("images"), imgs_base_path)
         if err:
             return jsonify(flash_msg=err)
         
         # delete images if any
         try:
-            for image in request.form.getlist("delete_images"):
-                filepath = os.path.join(imgs_base_path, image)
+            for img in request.form.getlist("delete_images"):
+                filepath = os.path.join(imgs_base_path, img)
                 if os.path.exists(filepath):
                     os.remove(filepath)
             # delete image directory if now empty
@@ -237,12 +237,12 @@ def edit_blogpost(**kwargs):
         # delete unused images if applicable; we assume any image whose filename is not in the Markdown is unused
         if request.form.get("delete_unused_images") and os.path.exists(imgs_base_path):
             try:
-                images = os.listdir(imgs_base_path)
-                for image in images:
-                    file_ext = os.path.splitext(image)[1]
+                imgs = os.listdir(imgs_base_path)
+                for img in imgs:
+                    file_ext = os.path.splitext(img)[1]
                     if file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_DELETE_UNUSED"] \
-                            and image not in post.content:
-                        os.remove(os.path.join(imgs_base_path, image))
+                            and img not in post.content:
+                        os.remove(os.path.join(imgs_base_path, img))
                 admin_util.delete_dir_if_empty(imgs_base_path)
             except Exception:
                 return jsonify(flash_msg=f"Image delete unused exception")

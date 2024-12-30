@@ -207,14 +207,14 @@ class Post(db.Model):
             self.timestamp = datetime.now(timezone.utc)
             self.edited_timestamp = None
 
-    def expand_image_markdown(self) -> None:
+    def expand_img_markdown(self) -> None:
         self.content = re.sub(
                 r"(!\[[\S\s]*?\])\(([\S\s]+?)\)",
                 (fr"\1({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/images/{self.id}/"
                         fr"\2)"),
                 self.content)
 
-    def collapse_image_markdown(self) -> str:
+    def collapse_img_markdown(self) -> str:
         return re.sub(
                 (fr"(!\[[\S\s]*?\])\({current_app.config['BLOGPAGE_ROUTES_TO_BLOGPAGE_STATIC']}/{self.blogpage_id}/"
                         fr"images/{self.id}/([\S\s]+?)\)"),

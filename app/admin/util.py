@@ -8,37 +8,37 @@ from flask import current_app, jsonify, redirect, request, url_for
 from werkzeug.utils import escape, secure_filename
 
 
-def upload_images(images: list, imgs_base_path: str) -> str:
+def upload_imgs(imgs: list[werkzeug.datastructures.FileStorage], imgs_base_path: str) -> str:
     try:
-        for image in images:
-            if image.filename == "":
+        for img in imgs:
+            if img.filename == "":
                 continue
 
-            filename = sanitize_filename(image.filename)
+            filename = sanitize_filename(img.filename)
             if filename == "":
                 return "Image name was reduced to atoms by sanitization."
 
             file_ext = os.path.splitext(filename)[1]
-            if file_ext == ".jpg":                     # `imghdr.what()` in `validate_image()` returns `jpg` as `jpeg`
+            if file_ext == ".jpg":                     # `imghdr.what()` in `validate_img()` returns `jpg` as `jpeg`
                 file_ext = ".jpeg"
             # `imghdr` can't check SVG; trustable since admin-only ig
             invalid = file_ext not in current_app.config["IMAGE_UPLOAD_EXTS"] \
                     or (file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_VALIDATE"] \
-                    and file_ext != validate_image(image.stream))
+                    and file_ext != validate_img(img.stream))
             if invalid:
-                return "Invalid image. If it's another heic or webp im gonna lose my mind i swear to god i hat"
+                return "Invalid img. If it's another heic or webp im gonna lose my mind i swear to god i hat"
 
             path = os.path.join(imgs_base_path, filename)
             os.makedirs(imgs_base_path, exist_ok=True) # make image directory if it doesn't exist
-            image.save(path)                           # this can replace existing images
+            img.save(path)                             # this can replace existing images
     except Exception as e:
         return f"Image upload exception: {str(e)}"
     return ""
 
 
-def validate_image(image) -> str:
-    header = image.read(512)
-    image.seek(0)
+def validate_img(img) -> str:
+    header = img.read(512)
+    img.seek(0)
     format = imghdr.what(None, header)
     if not format:
         return ""
