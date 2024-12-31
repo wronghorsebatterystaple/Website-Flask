@@ -139,14 +139,14 @@ input[value="Reply"][value="Delete"] {
     color: dimgray;
 }
 
-/* TODO check best pink variant */
+/* TODO check best pink-deep variant */
 .md-textbox-impt {
     border-width: 6px;
     border-color: transparent;
     border-image: conic-gradient(
             var(--custom-green),
             var(--custom-blue-light),
-            var(--custom-pink-xlight),
+            var(--custom-pink-deep-xlight),
             var(--custom-orange-deep-light),
             var(--custom-green))
             1;

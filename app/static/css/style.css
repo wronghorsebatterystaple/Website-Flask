@@ -109,19 +109,19 @@ textarea {
 }
 
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
-    border-top-color: var(--custom-pink-light) !important;
+    border-top-color: var(--custom-pink-deep-xlight) !important;
 }
 
 .bs-tooltip-top .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
-    border-right-color: var(--custom-pink-light) !important;
+    border-right-color: var(--custom-pink-deep-xlight) !important;
 }
 
 .bs-tooltip-bottom .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
-    border-bottom-color: var(--custom-pink-light) !important;
+    border-bottom-color: var(--custom-pink-deep-xlight) !important;
 }
 
 .bs-tooltip-left .tooltip-arrow::before, .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
-    border-left-color: var(--custom-pink-light) !important;
+    border-left-color: var(--custom-pink-deep-xlight) !important;
 }
 
 .btn-close {

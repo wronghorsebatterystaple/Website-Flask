@@ -62,17 +62,17 @@ function randomizeColors() {
             },
             selection: "--custom-orange-shallow-light"
         },
-        pink: {
+        pink-deep: {
             form: {
-                accent: "--custom-pink-deep-xxlight",
-                border: "--custom-pink-deep-xxlight",
-                boxShadow: "color-mix(in srgb, var(--custom-pink-deep-xxlight) 50%, transparent)"
+                accent: "--custom-pink-xlight",
+                border: "--custom-pink-xlight",
+                boxShadow: "color-mix(in srgb, var(--custom-pink-xlight) 50%, transparent)"
             },
             flash: {
-                border: "--custom-pink-deep-xxlight",
+                border: "--custom-pink-xlight",
                 background: "--custom-pink-deep-xxxxlight"
             },
-            selection: "--custom-pink-deep-xxxlight"
+            selection: "--custom-pink-xxlight"
         }
     };
     const color = Object.keys(colorChoices)[Math.floor(Math.random() * Object.keys(colorChoices).length)];
