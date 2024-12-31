@@ -62,7 +62,7 @@ function randomizeColors() {
             },
             selection: "--custom-orange-shallow-light"
         },
-        pink-deep: {
+        pink: {
             form: {
                 accent: "--custom-pink-xlight",
                 border: "--custom-pink-xlight",
