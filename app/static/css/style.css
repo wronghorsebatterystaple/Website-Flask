@@ -205,7 +205,7 @@ textarea {
     margin-top: 0.3125em;
 }
 
-.toggle--password-visibility {
+.toggle-password-visibility {
     display: flex;
     align-items: center;
 }

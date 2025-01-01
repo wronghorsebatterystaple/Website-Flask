@@ -23,7 +23,7 @@ function setEyeWithoutSlash(toggleId) {
 }
 
 $(document).ready(function() {
-    $(".toggle--password-visibility").on("click", function(e) {
+    $(".toggle-password-visibility").on("click", function(e) {
         const jQToggle = $(e.target);
         togglePasswordVisibility(jQToggle.attr("data-target"), jQToggle.attr("id"));
     });

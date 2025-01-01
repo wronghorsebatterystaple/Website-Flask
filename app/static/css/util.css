@@ -391,6 +391,11 @@ a.discreet-link {
     color: unset;
 }
 
+.extend-off-page {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .min-vh-100 {
     min-height: 100svh !important;
 }

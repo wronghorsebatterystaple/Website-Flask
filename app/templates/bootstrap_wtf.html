@@ -54,7 +54,7 @@
       <div class="input-group has-validation">
         {{ field(id=field.name ~ "-input", class="form-control" ~ (" is-invalid" if field.errors else ""), autofocus=autofocus) }}
         {% if field.type == "PasswordField" %}
-          <i id="{{ field.name }}-show" class="toggle--password-visibility bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
+          <i id="{{ field.name }}-show" class="toggle-password-visibility bi bi-eye-slash ps-3" data-target="{{ field.name }}-input"></i>
         {% endif %}
 
         <div class="invalid-feedback" aria-describedby="{{ field.name }}"></div>
