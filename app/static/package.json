@@ -9,7 +9,7 @@
   "author": "AnonymousRand",
   "license": "ISC",
   "devDependencies": {
-    "sass": "^1.79.4"
+    "sass": "^1.83.0"
   },
   "dependencies": {
     "bootstrap": "^5.3.3"
