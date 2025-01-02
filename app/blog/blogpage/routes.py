@@ -1,10 +1,6 @@
 import image_titles
 import markdown
-from markdown_environments.captioned_figure import CaptionedFigureExtension
-from markdown_environments.cited_blockquote import CitedBlockquoteExtension
-from markdown_environments.div import DivExtension
-from markdown_environments.dropdown import DropdownExtension
-from markdown_environments.thms import ThmsExtension
+from markdown_environments import *
 from markdown.extensions.toc import TocExtension
 from markdown_inline_extras.strikethrough import StrikethroughExtension
 
