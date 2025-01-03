@@ -6,12 +6,11 @@ from config import Config
 
 
 class LoginForm(FlaskForm):
-    is_modal = HiddenField(
-            default="no")
+    is_modal = HiddenField(default="no")
 
     password = PasswordField(
-            "Password",
-            validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])])
+        "Password",
+        validators=[InputRequired(), Length(max=Config.DB_CONFIGS["USER_PASSWORD_MAXLEN"])]
+    )
 
-    login_form_submit = SubmitField(
-            "Submit")
+    login_form_submit = SubmitField("Submit")

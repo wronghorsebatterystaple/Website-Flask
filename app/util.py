@@ -30,7 +30,7 @@ class ContentType(Enum):
 
 def require_login():
     """
-    Same functionality as custom_unauthorized(), but as a decorator.
+    Same functionality as `custom_unauthorized()`, but as a decorator.
 
     Usage:
         ```
@@ -70,8 +70,8 @@ def custom_unauthorized(content_type: ContentType):
             return result
         ```
 
-    Params:
-        - `content_type`: specifies the `Content-Type` of the expected server response from the view function
+    Args:
+        content_type: specifies the `Content-Type` of the expected server response from the view function
     """
 
     if not current_user.is_authenticated:
@@ -85,7 +85,7 @@ def custom_unauthorized(content_type: ContentType):
             case ContentType.JSON:
                 return jsonify(relogin=True)
             case _:
-                return "app/util.py: `custom_unauthorized()` reached end of switch statement", 500
+                return "app/util.py: custom_unauthorized() reached end of switch statement", 500
     return None
 
 

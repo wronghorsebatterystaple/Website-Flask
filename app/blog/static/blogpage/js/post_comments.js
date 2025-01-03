@@ -48,7 +48,7 @@ async function reloadComments() {
         }
     }
 
-    // reflect comment counts in HTML
+    // add comment counts to HTML
     let HTML = `(${commentCount}`;
     if (isUserAuthenticated && commentUnreadCount > 0) {
         HTML +=
@@ -91,7 +91,7 @@ async function reloadComments() {
 async function markCommentsAsRead() {
     let respJson = await fetchWrapper(MARK_COMMENTS_AS_READ_URL, {method: "POST"});
     if (respJson.success) {
-        updateUnreadComments(); // update notification icon after marking comments as read
+        updateUnreadComments();
     }
 }
 
@@ -109,7 +109,7 @@ function onCommentAjaxDone(respJson, e) {
             }
         });
 
-        // reload comment section to show changes asynchronously
+        // reload comment section to show changes
         reloadComments();
     }
 }
@@ -120,9 +120,7 @@ function getCommentId(nodeForm) {
 
 // no `$(document).ready()` listener attachments for the remaining listeners since comments can be reloaded
 
-/**
- * Reveals fields for adding the comment on clicking a reply button.
- */
+// reveals fields for adding the comment on clicking a reply button
 $(document).on("submit", ".comment__reply-btn", async function(e) {
     e.preventDefault();
 
@@ -134,8 +132,7 @@ $(document).on("submit", ".comment__reply-btn", async function(e) {
     }
 
     jQFormAddReply.removeAttr("hidden");
-    // insert under right parent; use `name` instead of `id` in case duplicate `id`s throughout all the comments
-    // causes issues
+    // insert under right parent; use `name` instead of `id` in case duplicate `id`s in comments causes issues
     jQFormAddReply.find("[name='parent']").val(id);
     if (await IS_USER_AUTHENTICATED()) {
         // automatically fill in username if admin
@@ -161,6 +158,7 @@ $(document).on("submit", ".ajax-delete-comment", confirmBtn(async function(e) {
 
     let formData = new FormData(e.target);
     const respJson = await fetchWrapper(
-            DELETE_COMMENT_URL, {method: "POST", body: formData}, {comment_id: getCommentId(e.target)});
+        DELETE_COMMENT_URL, {method: "POST", body: formData}, {comment_id: getCommentId(e.target)}
+    );
     onCommentAjaxDone(respJson, e);
 }));

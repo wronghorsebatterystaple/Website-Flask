@@ -24,57 +24,57 @@ function applySyntaxHighlighting(baseSelector) {
     });
 }
 
+const colorChoices = {
+    blue: {
+        form: {
+            accent: "--custom-blue",
+            border: "--custom-blue",
+            boxShadow: "color-mix(in srgb, var(--custom-blue) 22.5%, transparent)"
+        },
+        flash: {
+            border: "--custom-blue-light",
+            background: "--custom-blue-xxxlight"
+        },
+        selection: "--custom-blue-xxlight"
+    },
+    green: {
+        form: {
+            accent: "--custom-green",
+            border: "--custom-green",
+            boxShadow: "color-mix(in srgb, var(--custom-green) 40%, transparent)"
+        },
+        flash: {
+            border: "--custom-green",
+            background: "--custom-green-xxxlight"
+        },
+        selection: "--custom-green-deep-xlight"
+    },
+    orange: {
+        form: {
+            accent: "--custom-orange",
+            border: "--custom-orange",
+            boxShadow: "color-mix(in srgb, var(--custom-orange) 30%, transparent)"
+        },
+        flash: {
+            border: "--custom-orange-light",
+            background: "--custom-orange-xxxlight"
+        },
+        selection: "--custom-orange-shallow-light"
+    },
+    pink: {
+        form: {
+            accent: "--custom-pink-xlight",
+            border: "--custom-pink-xlight",
+            boxShadow: "color-mix(in srgb, var(--custom-pink-xlight) 50%, transparent)"
+        },
+        flash: {
+            border: "--custom-pink-xlight",
+            background: "--custom-pink-deep-xxxxlight"
+        },
+        selection: "--custom-pink-xxlight"
+    }
+};
 function randomizeColors() {
-    const colorChoices = {
-        blue: {
-            form: {
-                accent: "--custom-blue",
-                border: "--custom-blue",
-                boxShadow: "color-mix(in srgb, var(--custom-blue) 22.5%, transparent)"
-            },
-            flash: {
-                border: "--custom-blue-light",
-                background: "--custom-blue-xxxlight"
-            },
-            selection: "--custom-blue-xxlight"
-        },
-        green: {
-            form: {
-                accent: "--custom-green",
-                border: "--custom-green",
-                boxShadow: "color-mix(in srgb, var(--custom-green) 40%, transparent)"
-            },
-            flash: {
-                border: "--custom-green",
-                background: "--custom-green-xxxlight"
-            },
-            selection: "--custom-green-deep-xlight"
-        },
-        orange: {
-            form: {
-                accent: "--custom-orange",
-                border: "--custom-orange",
-                boxShadow: "color-mix(in srgb, var(--custom-orange) 30%, transparent)"
-            },
-            flash: {
-                border: "--custom-orange-light",
-                background: "--custom-orange-xxxlight"
-            },
-            selection: "--custom-orange-shallow-light"
-        },
-        pink: {
-            form: {
-                accent: "--custom-pink-xlight",
-                border: "--custom-pink-xlight",
-                boxShadow: "color-mix(in srgb, var(--custom-pink-xlight) 50%, transparent)"
-            },
-            flash: {
-                border: "--custom-pink-xlight",
-                background: "--custom-pink-deep-xxxxlight"
-            },
-            selection: "--custom-pink-xxlight"
-        }
-    };
     const color = Object.keys(colorChoices)[Math.floor(Math.random() * Object.keys(colorChoices).length)];
     const colorChoice = colorChoices[color];
     // can't use `css()` here since it doesn't support `!important`, which is needed sometimes

@@ -23,8 +23,10 @@ def upload_imgs(imgs: list[werkzeug.datastructures.FileStorage], imgs_base_path:
                 file_ext = ".jpeg"
             # `imghdr` can't check SVG; trustable since admin-only ig
             invalid = file_ext not in current_app.config["IMAGE_UPLOAD_EXTS"] \
-                    or (file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_VALIDATE"] \
-                    and file_ext != validate_img(img.stream))
+                    or (
+                        file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_VALIDATE"]
+                        and file_ext != validate_img(img.stream)
+                    )
             if invalid:
                 return "Invalid img. If it's another heic or webp im gonna lose my mind i swear to god i hat"
 
@@ -52,11 +54,9 @@ def delete_dir_if_empty(path: str) -> None:
 
 def get_imgs_base_path(post: Post) -> str:
     return os.path.join(
-            current_app.root_path,
-            current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
-            str(post.blogpage_id),
-            "images",
-            str(post.id))
+        current_app.root_path, current_app.config["ROOT_TO_BLOGPAGE_STATIC"],
+        str(post.blogpage_id), "images", str(post.id)
+    )
 
 
 def sanitize_filename(filename: str) -> str:
@@ -80,4 +80,4 @@ def redir_depending_on_req_method(redir_endpt: str, flash_msg: str=""):
                 kwargs["flash_msg"] = flash_msg
             return jsonify(**kwargs)
         case _:
-            return "app/util.py: `redir_depending_on_req_method()` reached end of switch statement", 500
+            return "app/util.py: redir_depending_on_req_method() reached end of switch statement", 500

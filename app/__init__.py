@@ -68,9 +68,9 @@ def create_app():
     moment.init_app(app)
     login_manager.init_app(app)
     talisman.init_app(
-            app,
-            content_security_policy=Config.CSP,
-            content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"])
+        app, content_security_policy=Config.CSP,
+        content_security_policy_nonce_in=["script-src", "script-src-attr", "script-src-elem"]
+    )
 
     return app
 

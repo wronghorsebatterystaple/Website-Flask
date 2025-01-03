@@ -33,7 +33,7 @@ def require_login_if_restricted_bp():
                                 redir_url=url_for(f"{request.blueprint}.index", _external=True), 
                                 flash_msg="That post doesn't exist :/")
                     case _:
-                        return ("app/blog/blogpage/util.py: `require_login_if_restricted_bp()` reached end of switch "
+                        return ("app/blog/blogpage/util.py: require_login_if_restricted_bp() reached end of switch "
                                 "statement"), 500
 
             if blogpage.is_login_required:
@@ -104,7 +104,7 @@ def nonexistent_post(content_type: ContentType):
                     redir_url=url_for(f"{request.blueprint}.index", _external=True), 
                     flash_msg="That post doesn't exist :/")
         case _:
-            return "app/blog/blogpage/util.py: `nonexistent_post()` reached end of switch statement", 500
+            return "app/blog/blogpage/util.py: nonexistent_post() reached end of switch statement", 500
 
 
 def get_blogpage_id() -> int:

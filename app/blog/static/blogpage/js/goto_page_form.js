@@ -8,7 +8,6 @@ $(document).ready(function() {
             customFlash("oh no you broke my website o_O");
             return;
         }
-
         window.location.href = window.location.pathname + `?page=${pageNum}`;
     });
 });

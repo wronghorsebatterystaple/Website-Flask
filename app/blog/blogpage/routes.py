@@ -1,14 +1,13 @@
-import image_titles
 import markdown
-from markdown_environments import *
-from markdown.extensions.toc import TocExtension
-from markdown_inline_extras.strikethrough import StrikethroughExtension
-
+import image_titles
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 import sqlalchemy.sql.functions as sa_func
 from flask import current_app, get_template_attribute, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user
+from markdown_environments import *
+from markdown.extensions.toc import TocExtension
+from markdown_inline_extras.strikethrough import StrikethroughExtension
 
 import app.blog.blogpage.util as bp_util
 import app.util as util
@@ -38,18 +37,16 @@ def index(**kwargs):
     posts = None
     if blogpage.is_all_posts:
         posts = db.paginate(
-                db.session.query(Post).join(Post.blogpage).filter_by(is_login_required=False, is_published=True)
-                        .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()),
-                page=page_num,
-                per_page=current_app.config["POSTS_PER_PAGE"],
-                error_out=False)
+            db.session.query(Post).join(Post.blogpage).filter_by(is_login_required=False, is_published=True)
+                    .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()),
+            page=page_num, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False
+        )
     else:
         posts = db.paginate(
-                db.session.query(Post).filter_by(blogpage_id=blogpage_id) \
-                        .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()),
-                page=page_num,
-                per_page=current_app.config["POSTS_PER_PAGE"],
-                error_out=False)
+            db.session.query(Post).filter_by(blogpage_id=blogpage_id) \
+                    .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()),
+            page=page_num, per_page=current_app.config["POSTS_PER_PAGE"], error_out=False
+        )
     if posts is None:
         return "ok im actually impressed how did you do that"
 
@@ -59,12 +56,9 @@ def index(**kwargs):
             else None
 
     return render_template(
-            "blog/blogpage/index.html",
-            posts=posts,
-            total_pages=posts.pages,
-            page_num=page_num,
-            prev_page_url=prev_page_url,
-            next_page_url=next_page_url)
+        "blog/blogpage/index.html", posts=posts, total_pages=posts.pages, page_num=page_num,
+        prev_page_url=prev_page_url, next_page_url=next_page_url
+    )
 
 
 # private posts, unlike blogpages, are still accessible by link (like YouTube's "unlisted")
@@ -185,18 +179,15 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
     posts_in_curr_bp = db.session.query(Post).filter_by(blogpage_id=post.blogpage_id)
     curr_coalesced_timestamp = post.edited_timestamp if post.edited_timestamp is not None else post.timestamp
     prev_post = posts_in_curr_bp.filter(
-            sa_func.coalesce(Post.edited_timestamp, Post.timestamp) < curr_coalesced_timestamp) \
-                    .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()).first()
+        sa_func.coalesce(Post.edited_timestamp, Post.timestamp) < curr_coalesced_timestamp
+    ).order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp).desc()).first()
     next_post = posts_in_curr_bp.filter(
-            sa_func.coalesce(Post.edited_timestamp, Post.timestamp) > curr_coalesced_timestamp) \
-                    .order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp)).first()
+        sa_func.coalesce(Post.edited_timestamp, Post.timestamp) > curr_coalesced_timestamp
+    ).order_by(sa_func.coalesce(Post.edited_timestamp, Post.timestamp)).first()
     return render_template(
-            "blog/blogpage/post.html",
-            post=post,
-            prev_post=prev_post,
-            next_post=next_post,
-            toc_tokens=content_md.toc_tokens if content_md is not None else None,
-            add_comment_form=add_comment_form)
+        "blog/blogpage/post.html", post=post, prev_post=prev_post, next_post=next_post,
+        toc_tokens=content_md.toc_tokens if content_md is not None else None, add_comment_form=add_comment_form
+    )
 
 
 @bp.route("/<string:post_sanitized_title>/get-comments", methods=["GET"])
@@ -211,8 +202,8 @@ def get_comments(post, post_sanitized_title, **kwargs):
     for comment in comments:
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
             comment.content = markdown.markdown(
-                    comment.content,
-                    extensions=["extra", "image_titles", StrikethroughExtension()])
+                comment.content, extensions=["extra", "image_titles", StrikethroughExtension()]
+            )
         else:
             # no custom block Markdown for non-admin because there are prob ways to 500 the page that I don't wanna fix
             # (and besides it loads faster)
@@ -223,12 +214,9 @@ def get_comments(post, post_sanitized_title, **kwargs):
     reply_comment_btn = ReplyCommentBtn()
     delete_comment_btn = DeleteCommentBtn()
     return jsonify(html=render_template(
-            "blog/blogpage/post_comments.html",
-            post=post,
-            comments=comments,
-            add_comment_form=add_comment_form,
-            delete_comment_btn=delete_comment_btn,
-            reply_comment_btn=reply_comment_btn))
+        "blog/blogpage/post_comments.html", post=post, comments=comments, add_comment_form=add_comment_form,
+        delete_comment_btn=delete_comment_btn, reply_comment_btn=reply_comment_btn
+    ))
 
 
 @bp.route("/<string:post_sanitized_title>/get-comment-count", methods=["GET"])
@@ -273,17 +261,13 @@ def add_comment(post, post_sanitized_title, **kwargs):
         })
 
     # add comment
-    comment = Comment(
-            author=author,
-            content=request.form.get("content"),
-            post=post,
-            is_unread=not is_verified_author) # make sure I my own comments aren't unread when I add them, cause duh
-    with db.session.no_autoflush:             # otherwise there's a warning
+    # make sure I my own comments aren't unread when I add them, cause duh
+    comment = Comment(author=author, content=request.form.get("content"), post=post, is_unread=not is_verified_author)
+    with db.session.no_autoflush: # otherwise there's a warning
         if not comment.insert_comment(post, db.session.get(Comment, request.form.get("parent"))):
             return jsonify(flash_msg="haker :3")
     db.session.add(comment)
     db.session.commit()
-
     return jsonify(success=True, flash_msg="Comment added successfully!")
 
 

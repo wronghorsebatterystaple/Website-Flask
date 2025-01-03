@@ -16,9 +16,11 @@ let onDarkModeChange = function(enabled) {};
 let jQSwitchDarkMode = null;
 if (localStorage.getItem("darkMode") === "true") {
     enableDarkMode(false);
-} else if (localStorage.getItem("darkMode") === null
-        && window.matchMedia
-        && window.matchMedia("(prefers-color-scheme: dark)").matches) { // default to system setting
+} else if (
+    localStorage.getItem("darkMode") === null
+    && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+) {
+    // defaults to system setting
     enableDarkMode(false);
 }
 
@@ -28,11 +30,9 @@ function enableDarkMode(isVoluntary) {
     if (jQSwitchDarkMode && !jQSwitchDarkMode.prop("checked")) {
         jQSwitchDarkMode.prop("checked", true);
     }
-
     if (isVoluntary) {
         localStorage.setItem("darkMode", "true");
     }
-
     // only call after `$(document).ready()` in case we need to modify DOM elements
     if (jQuery.isReady) {
         onDarkModeChange(true);
@@ -45,11 +45,9 @@ function disableDarkMode(isVoluntary) {
     if (jQSwitchDarkMode && jQSwitchDarkMode.prop("checked")) {
         jQSwitchDarkMode.prop("checked", false);
     }
-
     if (isVoluntary) {
         localStorage.setItem("darkMode", "false");
     }
-
     if (jQuery.isReady) {
         onDarkModeChange(false);
     }
@@ -80,7 +78,7 @@ $(document).ready(function() {
         }
     });
 
-    // not triggered by prop(); detects manual change in switch state and activates/deactivates DarkReader
+    // not triggered by `prop()`; detects manual change in switch state and activates/deactivates DarkReader
     jQSwitchDarkMode.on("change", function(e) {
         if (e.target.checked) {
             enableDarkMode(true);

@@ -7,12 +7,10 @@ from config import Config
 
 class AddCommentForm(FlaskForm):
     parent = HiddenField(default=None)
-
     author = StringField("Name",validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_AUTHOR_MAXLEN"])])
-
     content = TextAreaField(
-            "Comment", validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_MAXLEN"])])
-
+        "Comment", validators=[InputRequired(), Length(max=Config.DB_CONFIGS["COMMENT_CONTENT_MAXLEN"])]
+    )
     add_comment_form_submit = SubmitField("Submit")
 
 
