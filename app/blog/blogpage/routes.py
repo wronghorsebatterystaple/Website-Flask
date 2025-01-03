@@ -96,78 +96,84 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                 }
             ),
             DropdownExtension(
-                html_class="md-dropdown",
-                summary_html_class="md-dropdown__summary last-child-no-mb",
-                content_html_class="md-dropdown__content last-child-no-mb",
                 types = {
                     "dropdown": {"html_class": "md-dropdown-default"}
-                }
+                },
+                html_class="md-dropdown",
+                summary_html_class="md-dropdown__summary last-child-no-mb",
+                content_html_class="md-dropdown__content last-child-no-mb"
             ),
             StrikethroughExtension(),
             ThmsExtension(
-                div_types={
-                    "coro": {
-                        "thm_type": "Corollary",
-                        "html_class": "md-textbox md-textbox-coro last-child-no-mb",
-                        "thm_counter_incr": "0,0,1"
-                    },
-                    "defn": {
-                        "thm_type": "Definition",
-                        "html_class": "md-textbox md-textbox-defn last-child-no-mb",
-                        "thm_counter_incr": "0,0,1"
-                    },
-                    r"defn\\\*": {
-                        "thm_type": "Definition",
-                        "html_class": "md-textbox md-textbox-defn last-child-no-mb"
-                    },
-                    "ex": {
-                        "thm_type": "Example",
-                        "html_class": "md-div-ex"
-                    },
-                    r"notat\\\*": {
-                        "thm_type": "Notation",
-                        "html_class": "md-textbox md-textbox-notat last-child-no-mb"
-                    },
-                    "prop": {
-                        "thm_type": "Proposition",
-                        "html_class": "md-textbox md-textbox-prop last-child-no-mb",
-                        "thm_counter_incr": "0,0,1"
-                    },
-                    "thm": {
-                        "thm_type": "Theorem",
-                        "html_class": "md-textbox md-textbox-thm last-child-no-mb",
-                        "thm_counter_incr": "0,0,1"
-                    },
-                    r"thm\\\*": {
-                        "thm_type": "Theorem",
-                        "html_class": "md-textbox md-textbox-thm last-child-no-mb"
+                div_config={
+                    "types": {
+                        "coro": {
+                            "thm_type": "Corollary",
+                            "html_class": "md-textbox md-textbox-coro last-child-no-mb",
+                            "thm_counter_incr": "0,0,1"
+                        },
+                        "defn": {
+                            "thm_type": "Definition",
+                            "html_class": "md-textbox md-textbox-defn last-child-no-mb",
+                            "thm_counter_incr": "0,0,1"
+                        },
+                        r"defn\\\*": {
+                            "thm_type": "Definition",
+                            "html_class": "md-textbox md-textbox-defn last-child-no-mb"
+                        },
+                        "ex": {
+                            "thm_type": "Example",
+                            "html_class": "md-div-ex"
+                        },
+                        r"notat\\\*": {
+                            "thm_type": "Notation",
+                            "html_class": "md-textbox md-textbox-notat last-child-no-mb"
+                        },
+                        "prop": {
+                            "thm_type": "Proposition",
+                            "html_class": "md-textbox md-textbox-prop last-child-no-mb",
+                            "thm_counter_incr": "0,0,1"
+                        },
+                        "thm": {
+                            "thm_type": "Theorem",
+                            "html_class": "md-textbox md-textbox-thm last-child-no-mb",
+                            "thm_counter_incr": "0,0,1"
+                        },
+                        r"thm\\\*": {
+                            "thm_type": "Theorem",
+                            "html_class": "md-textbox md-textbox-thm last-child-no-mb"
+                        }
                     }
                 },
-                dropdown_html_class="md-dropdown",
-                dropdown_summary_html_class="md-dropdown__summary last-child-no-mb",
-                dropdown_content_html_class="md-dropdown__content last-child-no-mb",
-                dropdown_types={
-                    "exer": {
-                        "thm_type": "Exercise",
-                        "html_class": "md-dropdown-exer",
-                        "thm_counter_incr": "0,0,1",
-                        "use_punct_if_nothing_after": False
+                dropdown_config={
+                    "types": {
+                        "exer": {
+                            "thm_type": "Exercise",
+                            "html_class": "md-dropdown-exer",
+                            "thm_counter_incr": "0,0,1",
+                            "use_punct_if_nothing_after": False
+                        },
+                        "pf": {
+                            "thm_type": "Proof",
+                            "html_class": "md-dropdown-pf",
+                            "thm_name_overrides_thm_heading": True,
+                            "use_punct_if_nothing_after": False
+                        },
+                        r"rmk\\\*": {
+                            "thm_type": "Remark",
+                            "html_class": "md-dropdown-rmk",
+                            "thm_name_overrides_thm_heading": True,
+                            "use_punct_if_nothing_after": False
+                        }
                     },
-                    "pf": {
-                        "thm_type": "Proof",
-                        "html_class": "md-dropdown-pf",
-                        "thm_name_overrides_thm_heading": True,
-                        "use_punct_if_nothing_after": False
-                    },
-                    r"rmk\\\*": {
-                        "thm_type": "Remark",
-                        "html_class": "md-dropdown-rmk",
-                        "thm_name_overrides_thm_heading": True,
-                        "use_punct_if_nothing_after": False
-                    }
+                    "html_class": "md-dropdown",
+                    "summary_html_class": "md-dropdown__summary last-child-no-mb",
+                    "content_html_class": "md-dropdown__content last-child-no-mb"
                 },
-                thm_heading_html_class="md-thm-heading",
-                thm_type_html_class="md-thm-heading__thm-type"
+                thm_heading_config={
+                    "html_class": "md-thm-heading",
+                    "emph_html_class": "md-thm-heading__emph"
+                }
             ),
             TocExtension(
                     marker="", permalink="\uf470", permalink_class="header-link",
