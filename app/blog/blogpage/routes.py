@@ -7,7 +7,6 @@ from flask import current_app, get_template_attribute, jsonify, redirect, render
 from flask_login import current_user
 from markdown_environments import *
 from markdown.extensions.toc import TocExtension
-from markdown_inline_extras.strikethrough import StrikethroughExtension
 
 import app.blog.blogpage.util as bp_util
 import app.util as util
@@ -97,7 +96,6 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                 summary_html_class="md-dropdown__summary last-child-no-mb",
                 content_html_class="md-dropdown__content last-child-no-mb"
             ),
-            StrikethroughExtension(),
             ThmsExtension(
                 div_config={
                     "types": {
@@ -201,9 +199,7 @@ def get_comments(post, post_sanitized_title, **kwargs):
 
     for comment in comments:
         if comment.author == current_app.config["VERIFIED_AUTHOR"]:
-            comment.content = markdown.markdown(
-                comment.content, extensions=["extra", "image_titles", StrikethroughExtension()]
-            )
+            comment.content = markdown.markdown(comment.content, extensions=["extra", "image_titles"])
         else:
             # no custom block Markdown for non-admin because there are prob ways to 500 the page that I don't wanna fix
             # (and besides it loads faster)
