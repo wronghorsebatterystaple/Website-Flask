@@ -196,7 +196,7 @@ def edit_blogpost(**kwargs):
         if not form.validate():
             return jsonify(submission_errors=form.errors)
 
-        # handle post editing otherwise
+        # handle post editing
         old_blogpage_id = post.blogpage_id
         post.blogpage_id = request.form.get("blogpage_id")
         post.title = request.form.get("title")

@@ -78,14 +78,15 @@ def custom_unauthorized(content_type: ContentType):
         match content_type:
             case ContentType.HTML:
                 return redirect(url_for(
-                        current_app.config["LOGIN_VIEW"],
-                        flash_msg=encode_uri_component("please log in ^^"),
-                        next=encode_uri_component(request.url),
-                        _external=True))
+                    current_app.config["LOGIN_VIEW"],
+                    flash_msg=encode_uri_component("please log in ^^"),
+                    next=encode_uri_component(request.url),
+                    _external=True)
+                )
             case ContentType.JSON:
                 return jsonify(relogin=True)
             case _:
-                return "app/util.py: custom_unauthorized() reached end of switch statement", 500
+                return "app/util.py: `custom_unauthorized()` reached end of switch statement", 500
     return None
 
 

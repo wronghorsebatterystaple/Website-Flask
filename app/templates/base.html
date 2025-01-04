@@ -75,7 +75,7 @@
       <link
           rel="stylesheet"
           href="{{ url_for('static', filename='css/custom_bootstrap.css', _external=True) }}"
-     >
+      >
       <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
@@ -109,10 +109,11 @@
       <!-- no defer because util -->
       <script src="{{ url_for('static', filename='js/util.js', _external=True) }}"></script>
       <script src="{{ url_for('static', filename='js/util_ajax.js', _external=True) }}"></script>
-      <script src="{{ url_for('static', filename='js/util_dark_mode.js', _external=True) }}"></script>
       <script src="{{ url_for('static', filename='js/util_form.js', _external=True) }}"></script>
       <script src="{{ url_for('static', filename='js/util_session.js', _external=True) }}"></script>
       <script src="{{ url_for('static', filename='js/util_tooltip.js', _external=True) }}"></script>
+      <!-- no defer to avoid brief light mode flash -->
+      <script src="{{ url_for('static', filename='js/dark_mode.js', _external=True) }}"></script>
 
       {% block js_start_linked %}{% endblock %}
 

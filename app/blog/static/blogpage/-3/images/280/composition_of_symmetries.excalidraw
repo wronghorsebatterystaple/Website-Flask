@@ -23,11 +23,16 @@
       "index": "b8j",
       "roundness": null,
       "seed": 907817120,
-      "version": 51,
-      "versionNonce": 183703341,
+      "version": 56,
+      "versionNonce": 1884323388,
       "isDeleted": false,
-      "boundElements": [],
-      "updated": 1732617557870,
+      "boundElements": [
+        {
+          "id": "IJOA59G5UyVxP8nN50r1U",
+          "type": "arrow"
+        }
+      ],
+      "updated": 1735972151090,
       "link": null,
       "locked": false
     },
@@ -423,11 +428,11 @@
         "type": 2
       },
       "seed": 553989156,
-      "version": 689,
-      "versionNonce": 1109344451,
+      "version": 769,
+      "versionNonce": 1798477244,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1732617545732,
+      "updated": 1735972151090,
       "link": null,
       "locked": false,
       "points": [
@@ -444,7 +449,7 @@
           44.3743056010544
         ],
         [
-          -59.16986458625797,
+          -59.46619070539964,
           90.56310050137836
         ],
         [
@@ -458,7 +463,12 @@
       ],
       "lastCommittedPoint": null,
       "startBinding": null,
-      "endBinding": null,
+      "endBinding": {
+        "elementId": "AelOjzKaLUkpGBhgnEJI1",
+        "focus": -0.5083509592270976,
+        "gap": 1,
+        "fixedPoint": null
+      },
       "startArrowhead": null,
       "endArrowhead": "arrow",
       "elbowed": false

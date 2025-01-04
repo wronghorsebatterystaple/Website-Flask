@@ -80,4 +80,4 @@ def redir_depending_on_req_method(redir_endpt: str, flash_msg: str=""):
                 kwargs["flash_msg"] = flash_msg
             return jsonify(**kwargs)
         case _:
-            return "app/util.py: redir_depending_on_req_method() reached end of switch statement", 500
+            return "app/util.py: `redir_depending_on_req_method()` reached end of switch statement", 500
