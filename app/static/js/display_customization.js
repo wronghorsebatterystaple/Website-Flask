@@ -71,7 +71,7 @@ const colorChoices = {
             border: "--custom-pink-xlight",
             background: "--custom-pink-deep-xxxxlight"
         },
-        selection: "--custom-pink-xxlight"
+        selection: "--custom-pink-deep-xxxlight"
     }
 };
 function randomizeColors() {
@@ -115,3 +115,5 @@ applyGlobalStyles("body");
 reloadBackgroundImg();
 // for making sure navigating to a URL fragment doesn't hide it in the sticky navbar
 document.documentElement.style.setProperty("--navbar-outer-height", `${$("#navbar").outerHeight()}px`);
+// open default open dropdowns
+$("details.dropdown--default-open").attr("open", "");

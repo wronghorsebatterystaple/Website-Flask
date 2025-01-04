@@ -85,12 +85,12 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             ),
             DivExtension(
                 types={
-                    "textbox": {"html_class": "md-textbox md-textbox-default last-child-no-mb"}
+                    "textbox": {"html_class": "md-textbox last-child-no-mb border--1px"}
                 }
             ),
             DropdownExtension(
                 types = {
-                    "dropdown": {"html_class": "md-dropdown-default"}
+                    "dropdown": {"html_class": "md-dropdown--default"}
                 },
                 html_class="md-dropdown",
                 summary_html_class="md-dropdown__summary last-child-no-mb",
@@ -101,39 +101,49 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                     "types": {
                         "coro": {
                             "thm_type": "Corollary",
-                            "html_class": "md-textbox md-textbox-coro last-child-no-mb",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--lightgray",
+                            "thm_counter_incr": "0,0,1"
+                        },
+                        "coroimpt": {
+                            "thm_type": "Corollary",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-orange-deep-light",
                             "thm_counter_incr": "0,0,1"
                         },
                         "defn": {
                             "thm_type": "Definition",
-                            "html_class": "md-textbox md-textbox-defn last-child-no-mb",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light",
                             "thm_counter_incr": "0,0,1"
                         },
                         r"defn\\\*": {
                             "thm_type": "Definition",
-                            "html_class": "md-textbox md-textbox-defn last-child-no-mb"
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light"
                         },
                         "ex": {
                             "thm_type": "Example",
-                            "html_class": "md-div-ex"
+                            "html_class": "dimgray"
                         },
                         r"notat\\\*": {
                             "thm_type": "Notation",
-                            "html_class": "md-textbox md-textbox-notat last-child-no-mb"
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light"
                         },
                         "prop": {
                             "thm_type": "Proposition",
-                            "html_class": "md-textbox md-textbox-prop last-child-no-mb",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--lightgray",
                             "thm_counter_incr": "0,0,1"
                         },
                         "thm": {
                             "thm_type": "Theorem",
-                            "html_class": "md-textbox md-textbox-thm last-child-no-mb",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-orange-deep-light",
                             "thm_counter_incr": "0,0,1"
                         },
                         r"thm\\\*": {
                             "thm_type": "Theorem",
-                            "html_class": "md-textbox md-textbox-thm last-child-no-mb"
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-orange-deep-light"
+                        },
+                        "thmimpt": {
+                            "thm_type": "Theorem",
+                            "html_class": "md-textbox last-child-no-mb border--6px border--colorful",
+                            "thm_counter_incr": "0,0,1"
                         }
                     }
                 },
@@ -141,19 +151,25 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                     "types": {
                         "exer": {
                             "thm_type": "Exercise",
-                            "html_class": "md-dropdown-exer",
+                            "html_class": "md-dropdown--exer",
                             "thm_counter_incr": "0,0,1",
                             "use_punct_if_nothing_after": False
                         },
                         "pf": {
                             "thm_type": "Proof",
-                            "html_class": "md-dropdown-pf",
+                            "html_class": "md-dropdown--pf",
+                            "thm_name_overrides_thm_heading": True,
+                            "use_punct_if_nothing_after": False
+                        },
+                        "pfopen": {
+                            "thm_type": "Proof",
+                            "html_class": "md-dropdown--pf dropdown--default-open",
                             "thm_name_overrides_thm_heading": True,
                             "use_punct_if_nothing_after": False
                         },
                         r"rmk\\\*": {
                             "thm_type": "Remark",
-                            "html_class": "md-dropdown-rmk",
+                            "html_class": "md-dropdown--rmk",
                             "thm_name_overrides_thm_heading": True,
                             "use_punct_if_nothing_after": False
                         }

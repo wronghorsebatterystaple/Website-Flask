@@ -75,6 +75,10 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: 0.25rem;
 }
 
+.md-div--ex {
+    color: dimgray;
+}
+
 .md-dropdown {
     margin-bottom: 1rem;
     border-width: 2px;
@@ -95,61 +99,29 @@ input[value="Reply"][value="Delete"] {
     margin-top: 1rem;
 }
 
-.md-dropdown-default {
+.md-dropdown--default {
     border-color: var(--custom-blue-deep-light);
 }
 
-.md-dropdown-default .md-dropdown__content {
+.md-dropdown--default .md-dropdown__content {
     color: dimgray;
 }
 
-.md-dropdown-default .md-dropdown__summary {
+.md-dropdown--default .md-dropdown__summary {
     color: var(--custom-blue-deep);
 }
 
-.md-dropdown-exer,
-.md-dropdown-pf,
-.md-dropdown-rmk {
+.md-dropdown--exer,
+.md-dropdown--pf,
+.md-dropdown--rmk {
     border-color: lightgray;
     color: dimgray;
 }
 
-.md-textbox-coro,
-.md-textbox-defn,
-.md-textbox-impt,
-.md-textbox-notat,
-.md-textbox-prop,
-.md-textbox-thm
-{
-    border-width: 4px;
-}
-
-.md-textbox-coro,
-.md-textbox-prop
-{
-    border-color: lightgray;
-}
-
-.md-textbox-defn,
-.md-textbox-notat {
-    border-color: var(--custom-green-light);
-}
-
-.md-div-ex {
-    color: dimgray;
-}
-
-/* TODO check best pink-deep variant */
-.md-textbox-impt {
-    border-width: 6px;
-    border-color: transparent;
-    border-image: conic-gradient(
-            var(--custom-green),
-            var(--custom-blue-light),
-            var(--custom-pink-deep-xlight),
-            var(--custom-orange-deep-light),
-            var(--custom-green))
-            1;
+.md-dropdown--exer .md-dropdown__content {
+    margin-top: 0.75rem;
+    border-top: 2px solid lightgray;
+    padding-top: 0.75rem;
 }
 
 .md-textbox {
@@ -159,15 +131,7 @@ input[value="Reply"][value="Delete"] {
     width: 100%;
 }
 
-.md-textbox-default {
-    border-width: 1px;
-}
-
-.md-textbox-thm {
-    border-color: var(--custom-orange-deep-light);
-}
-
-.md-thm-heading__emph {
+:is(.md-textbox, .md-dropdown--exer, .md-dropdown--pf) .md-thm-heading__emph {
     font-weight: bold;
 }
 
