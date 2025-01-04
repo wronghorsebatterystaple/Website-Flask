@@ -1,3 +1,4 @@
+import glob
 import os
 import shutil
 import tldextract
@@ -233,10 +234,13 @@ def edit_blogpost(**kwargs):
             try:
                 imgs = os.listdir(imgs_base_path)
                 for img in imgs:
-                    file_ext = os.path.splitext(img)[1]
+                    filename, file_ext = os.path.splitext(img)
                     if file_ext in current_app.config["IMAGE_UPLOAD_EXTS_CAN_DELETE_UNUSED"] \
                             and img not in post.content:
-                        os.remove(os.path.join(imgs_base_path, img))
+                        # delete everything matching that image's extension-less filename, so .excalidraw files
+                        # or whatever with the same filename are also removed
+                        for file in glob.iglob(f"{os.path.join(imgs_base_path, filename)}.*"):
+                            os.remove(file)
                 admin_util.delete_dir_if_empty(imgs_base_path)
             except Exception:
                 return jsonify(flash_msg=f"Image delete unused exception")
