@@ -4,7 +4,7 @@ set -e
 
 # SYNC: relative path to Git repo base
 for file in ../../app/blog/static/blogpage/*; do
-    if [[ -f "$file/images/" ]]; then
+    if [[ -d "$file/images/" ]]; then
         git add "$file/images/"
     fi
 done

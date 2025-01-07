@@ -119,12 +119,10 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                             "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light"
                         },
                         "ex": {
-                            "thm_type": "Example",
-                            "html_class": "dimgray"
+                            "thm_type": "Example"
                         },
                         r"notat\\\*": {
-                            "thm_type": "Notation",
-                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light"
+                            "thm_type": "Notation"
                         },
                         "prop": {
                             "thm_type": "Proposition",
@@ -152,26 +150,22 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                         "exer": {
                             "thm_type": "Exercise",
                             "html_class": "md-dropdown--exer",
-                            "thm_counter_incr": "0,0,1",
-                            "use_punct_if_nothing_after": False
+                            "thm_counter_incr": "0,0,1"
                         },
                         "pf": {
                             "thm_type": "Proof",
                             "html_class": "md-dropdown--pf",
-                            "thm_name_overrides_thm_heading": True,
-                            "use_punct_if_nothing_after": False
+                            "thm_name_overrides_thm_heading": True
                         },
                         "pfopen": {
                             "thm_type": "Proof",
                             "html_class": "md-dropdown--pf dropdown--default-open",
-                            "thm_name_overrides_thm_heading": True,
-                            "use_punct_if_nothing_after": False
+                            "thm_name_overrides_thm_heading": True
                         },
                         r"rmk\\\*": {
                             "thm_type": "Remark",
                             "html_class": "md-dropdown--rmk",
-                            "thm_name_overrides_thm_heading": True,
-                            "use_punct_if_nothing_after": False
+                            "thm_name_overrides_thm_heading": True
                         }
                     },
                     "html_class": "md-dropdown",
@@ -184,8 +178,9 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                 }
             ),
             TocExtension(
-                    marker="", permalink="\uf470", permalink_class="header-link",
-                    permalink_title="", slugify=generate_anchors, toc_depth=2)
+                marker="", permalink="\uf470", permalink_class="header-link",
+                permalink_title="", slugify=generate_anchors, toc_depth=2
+            )
         ])
         post.content = content_md.convert(post.content)
 
