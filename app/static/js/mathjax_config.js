@@ -6,9 +6,10 @@ let onMathJaxTypeset = function(baseSelector) {
 
     // make \[\] LaTeX blocks scroll horizontally on overflow
     jQBase.find("mjx-math[style='margin-left: 0px; margin-right: 0px;']").wrap(HORIZ_SCOLL_DIV_HTML);
+    // for `\tag{}`ed equations
     jQBase.find("mjx-math[width='full']").each(function() {
-        $(this).parent("mjx-container").css("min-width", ""); // can cause overflow problems
-        $(this).wrap(HORIZ_SCOLL_DIV_HTML_FULL_WIDTH);        // for \tag{}ed
+        $(this).parent("mjx-container").css("min-width", ""); // otherwise text just overflows
+        $(this).wrap(HORIZ_SCOLL_DIV_HTML_FULL_WIDTH);
     });
 }
 
