@@ -47,7 +47,7 @@ const colorChoices = {
             border: "--custom-green",
             background: "--custom-green-xxxlight"
         },
-        selection: "--custom-green-deep-xlight"
+        selection: "--custom-green-light"
     },
     orange: {
         form: {
