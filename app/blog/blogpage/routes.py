@@ -121,6 +121,11 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                         "ex": {
                             "thm_type": "Example"
                         },
+                        "lem": {
+                            "thm_type": "Lemma",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--lightgray",
+                            "thm_counter_incr": "0,0,1"
+                        },
                         r"notat\\\*": {
                             "thm_type": "Notation"
                         },
@@ -153,6 +158,11 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                             "thm_counter_incr": "0,0,1"
                         },
                         "pf": {
+                            "thm_type": "Proof",
+                            "html_class": "md-dropdown--pf",
+                            "thm_name_overrides_thm_heading": True
+                        },
+                        "pfnested": {
                             "thm_type": "Proof",
                             "html_class": "md-dropdown--pf",
                             "thm_name_overrides_thm_heading": True
