@@ -88,10 +88,6 @@ th *:last-child {
     margin-bottom: 0;
 }
 
-textarea {
-    font-family: var(--bs-font-monospace);
-}
-
 /* to compensate for fixed navbar; can be inaccurate on page load still with JS-based layout shifts but oh well */
 [id] {
     scroll-margin-top: var(--navbar-outer-height);
