@@ -118,7 +118,7 @@ input[value="Reply"][value="Delete"] {
     color: dimgray;
 }
 
-.md-dropdown--exer .md-dropdown__content {
+:is(.md-dropdown--exer, .md-dropdown--pf, .md-dropdown--rmk) .md-dropdown__content {
     margin-top: 0.75rem;
     border-top: 2px solid lightgray;
     padding-top: 0.75rem;
