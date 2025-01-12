@@ -134,6 +134,10 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                             "html_class": "md-textbox last-child-no-mb border--4px border--lightgray",
                             "thm_counter_incr": "0,0,1"
                         },
+                        r"prop\\\*": {
+                            "thm_type": "Proposition",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--lightgray"
+                        },
                         "thm": {
                             "thm_type": "Theorem",
                             "html_class": "md-textbox last-child-no-mb border--4px border--custom-orange-deep-light",
