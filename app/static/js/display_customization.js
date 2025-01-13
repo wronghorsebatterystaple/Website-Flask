@@ -33,9 +33,9 @@ const colorChoices = {
         },
         flash: {
             border: "--custom-blue-light",
-            background: "--custom-blue-xxxlight"
+            background: "--custom-blue-xxlight"
         },
-        selection: "--custom-blue-xxlight"
+        selection: "--custom-blue-xlight"
     },
     green: {
         form: {
@@ -63,12 +63,12 @@ const colorChoices = {
     },
     pink: {
         form: {
-            accent: "--custom-pink-xlight",
-            border: "--custom-pink-xlight",
-            boxShadow: "color-mix(in srgb, var(--custom-pink-xlight) 50%, transparent)"
+            accent: "--custom-pink-light",
+            border: "--custom-pink-light",
+            boxShadow: "color-mix(in srgb, var(--custom-pink-light) 50%, transparent)"
         },
         flash: {
-            border: "--custom-pink-xlight",
+            border: "--custom-pink-light",
             background: "--custom-pink-deep-xxxxlight"
         },
         selection: "--custom-pink-deep-xxxlight"

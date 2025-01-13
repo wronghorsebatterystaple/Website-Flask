@@ -234,6 +234,10 @@
     border-width: 1px !important;
 }
 
+.border--2px {
+    border-width: 2px !important;
+}
+
 .border--3px {
     border-width: 3px !important;
 }
@@ -265,27 +269,27 @@
     border-image: conic-gradient(
         var(--custom-green-light) 60deg,
         var(--custom-blue-light) 90deg,
-        var(--custom-pink-xxlight) 120deg,
-        var(--custom-pink-xxlight) 240deg,
+        var(--custom-pink-xlight) 120deg,
+        var(--custom-pink-xlight) 240deg,
         var(--custom-orange-xlight) 270deg,
         var(--custom-green-light) 300deg
     ) 1 !important;
 }
 
-.border--custom-green-light {
-    border-color: var(--custom-green-light) !important;
+.border--custom-blue-light {
+    border-color: var(--custom-blue-light) !important;
 }
 
 .border--custom-orange-deep {
     border-color: var(--custom-orange-deep) !important;
 }
 
-.border--custom-orange-deep-light {
-    border-color: var(--custom-orange-deep-light) !important;
-}
-
 .border--custom-pink-deep-xlight {
     border-color: var(--custom-pink-deep-xlight) !important;
+}
+
+.border--custom-pink-deep-xxlight {
+    border-color: var(--custom-pink-deep-xxlight) !important;
 }
 
 .border--lightgray {

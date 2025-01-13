@@ -90,7 +90,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             ),
             DropdownExtension(
                 types = {
-                    "dropdown": {"html_class": "md-dropdown--default"}
+                    "dropdown": {"html_class": "md-dropdown--default border--2px"}
                 },
                 html_class="md-dropdown",
                 summary_html_class="md-dropdown__summary last-child-no-mb",
@@ -106,17 +106,17 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                         },
                         "coroimpt": {
                             "thm_type": "Corollary",
-                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-orange-deep-light",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-pink-deep-xxlight",
                             "thm_counter_incr": "0,0,1"
                         },
                         "defn": {
                             "thm_type": "Definition",
-                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-blue-light",
                             "thm_counter_incr": "0,0,1"
                         },
                         r"defn\\\*": {
                             "thm_type": "Definition",
-                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light"
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-blue-light"
                         },
                         "ex": {
                             "thm_type": "Example",
@@ -147,12 +147,12 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                         },
                         "thm": {
                             "thm_type": "Theorem",
-                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-orange-deep-light",
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-pink-deep-xxlight",
                             "thm_counter_incr": "0,0,1"
                         },
                         r"thm\\\*": {
                             "thm_type": "Theorem",
-                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-orange-deep-light"
+                            "html_class": "md-textbox last-child-no-mb border--4px border--custom-pink-deep-xxlight"
                         },
                         "thmimpt": {
                             "thm_type": "Theorem",
@@ -165,31 +165,31 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                     "types": {
                         "exer": {
                             "thm_type": "Exercise",
-                            "html_class": "md-dropdown--exer",
+                            "html_class": "md-dropdown--exer border--2px",
                             "thm_counter_incr": "0,0,1"
                         },
                         r"exer\\\*": {
                             "thm_type": "Exercise",
-                            "html_class": "md-dropdown--exer"
+                            "html_class": "md-dropdown--exer border--2px"
                         },
                         "pf": {
                             "thm_type": "Proof",
-                            "html_class": "md-dropdown--pf",
+                            "html_class": "md-dropdown--pf border--2px",
                             "thm_name_overrides_thm_heading": True
                         },
                         "pfnested": {
                             "thm_type": "Proof",
-                            "html_class": "md-dropdown--pf",
+                            "html_class": "md-dropdown--pf border--2px",
                             "thm_name_overrides_thm_heading": True
                         },
                         "pfopen": {
                             "thm_type": "Proof",
-                            "html_class": "md-dropdown--pf dropdown--default-open",
+                            "html_class": "md-dropdown--pf dropdown--default-open border--2px",
                             "thm_name_overrides_thm_heading": True
                         },
                         r"rmk\\\*": {
                             "thm_type": "Remark",
-                            "html_class": "md-dropdown--rmk",
+                            "html_class": "md-dropdown--rmk border--2px",
                             "thm_name_overrides_thm_heading": True
                         }
                     },
