@@ -75,7 +75,8 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: 0.25rem;
 }
 
-.md-div--ex {
+.md-div--ex,
+.md-div--notat {
     color: dimgray;
 }
 

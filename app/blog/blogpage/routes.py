@@ -119,7 +119,13 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                             "html_class": "md-textbox last-child-no-mb border--4px border--custom-green-light"
                         },
                         "ex": {
-                            "thm_type": "Example"
+                            "thm_type": "Example",
+                            "html_class": "md-div--ex",
+                            "thm_counter_incr": "0,0,1"
+                        },
+                        r"ex\\\*": {
+                            "thm_type": "Example",
+                            "html_class": "md-div--ex"
                         },
                         "lem": {
                             "thm_type": "Lemma",
@@ -127,7 +133,8 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                             "thm_counter_incr": "0,0,1"
                         },
                         r"notat\\\*": {
-                            "thm_type": "Notation"
+                            "thm_type": "Notation",
+                            "html_class": "md-div--notat"
                         },
                         "prop": {
                             "thm_type": "Proposition",
@@ -160,6 +167,10 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                             "thm_type": "Exercise",
                             "html_class": "md-dropdown--exer",
                             "thm_counter_incr": "0,0,1"
+                        },
+                        r"exer\\\*": {
+                            "thm_type": "Exercise",
+                            "html_class": "md-dropdown--exer"
                         },
                         "pf": {
                             "thm_type": "Proof",
