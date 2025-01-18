@@ -203,7 +203,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                 }
             ),
             TocExtension(
-                marker="", permalink="\uf470", permalink_class="header-link",
+                marker="", permalink="\uf470", permalink_class="heading-link",
                 permalink_title="", slugify=generate_anchors, toc_depth=2
             )
         ])

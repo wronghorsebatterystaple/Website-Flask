@@ -39,7 +39,7 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: -0.1875rem;
 }
 
-.header-link {
+.heading-link {
     display: none;
     margin-left: 0.25em;
     padding-right: 0;
@@ -49,7 +49,7 @@ input[value="Reply"][value="Delete"] {
     font-family: bootstrap-icons; /* for Bootstrap's private area unicode icon to show */
 }
 
-:is(h1, h2, h3, h4, h5, h6):hover .header-link {
+:is(h1, h2, h3, h4, h5, h6):hover .heading-link {
     display: inline;
 }
 
