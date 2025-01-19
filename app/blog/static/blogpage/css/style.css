@@ -108,9 +108,12 @@ input[value="Reply"][value="Delete"] {
     width: 100%;
 }
 
-/* doesn't detect without `details` */
-details:not(.md-dropdown) .md-thm-heading__emph {
+.md-thm-heading__emph {
     font-weight: bold;
+}
+
+.md-dropdown .md-thm-heading__emph {
+    font-weight: unset;
 }
 
 /* use these as heading sections within proofs */
