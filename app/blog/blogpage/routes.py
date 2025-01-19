@@ -90,7 +90,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
             ),
             DropdownExtension(
                 types = {
-                    "dropdown": {"html_class": "md-dropdown--default border--2px"}
+                    "dropdown": {"html_class": "border--2px border--lightgray dimgray"}
                 },
                 html_class="md-dropdown",
                 summary_html_class="md-dropdown__summary last-child-no-mb",
@@ -120,12 +120,10 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                         },
                         "ex": {
                             "thm_type": "Example",
-                            "html_class": "md-div--ex",
                             "thm_counter_incr": "0,0,1"
                         },
                         r"ex\\\*": {
-                            "thm_type": "Example",
-                            "html_class": "md-div--ex"
+                            "thm_type": "Example"
                         },
                         "lem": {
                             "thm_type": "Lemma",
@@ -133,8 +131,7 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                             "thm_counter_incr": "0,0,1"
                         },
                         r"notat\\\*": {
-                            "thm_type": "Notation",
-                            "html_class": "md-div--notat"
+                            "thm_type": "Notation"
                         },
                         "prop": {
                             "thm_type": "Proposition",
@@ -165,31 +162,31 @@ def post(post, post_sanitized_title, **kwargs): # first param is from `require_v
                     "types": {
                         "exer": {
                             "thm_type": "Exercise",
-                            "html_class": "md-dropdown--exer border--2px",
+                            "html_class": "border--2px border--lightgray dimgray",
                             "thm_counter_incr": "0,0,1"
                         },
                         r"exer\\\*": {
                             "thm_type": "Exercise",
-                            "html_class": "md-dropdown--exer border--2px"
+                            "html_class": "border--2px border--lightgray dimgray"
                         },
                         "pf": {
                             "thm_type": "Proof",
-                            "html_class": "md-dropdown--pf border--2px",
+                            "html_class": "border--2px border--lightgray dimgray",
                             "thm_name_overrides_thm_heading": True
                         },
                         "pfnested": {
                             "thm_type": "Proof",
-                            "html_class": "md-dropdown--pf border--2px",
+                            "html_class": "border--2px border--lightgray dimgray",
                             "thm_name_overrides_thm_heading": True
                         },
                         "pfopen": {
                             "thm_type": "Proof",
-                            "html_class": "md-dropdown--pf dropdown--default-open border--2px",
+                            "html_class": "dropdown--default-open border--2px border--lightgray dimgray",
                             "thm_name_overrides_thm_heading": True
                         },
                         r"rmk\\\*": {
                             "thm_type": "Remark",
-                            "html_class": "md-dropdown--rmk border--2px",
+                            "html_class": "border--2px border--lightgray dimgray",
                             "thm_name_overrides_thm_heading": True
                         }
                     },

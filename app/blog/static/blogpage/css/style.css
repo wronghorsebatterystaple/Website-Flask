@@ -75,11 +75,6 @@ input[value="Reply"][value="Delete"] {
     margin-bottom: 0.25rem;
 }
 
-.md-div--ex,
-.md-div--notat {
-    color: dimgray;
-}
-
 .md-dropdown {
     margin-bottom: 1rem;
     border-style: solid;
@@ -99,14 +94,7 @@ input[value="Reply"][value="Delete"] {
     margin-top: 1rem;
 }
 
-.md-dropdown--exer,
-.md-dropdown--pf,
-.md-dropdown--rmk {
-    border-color: lightgray;
-    color: dimgray;
-}
-
-:is(.md-dropdown--exer, .md-dropdown--pf, .md-dropdown--rmk) .md-dropdown__content {
+.md-dropdown .md-dropdown__content {
     margin-top: 0.75rem;
     border-top: 2px solid lightgray;
     padding-top: 0.75rem;
@@ -120,12 +108,9 @@ input[value="Reply"][value="Delete"] {
     width: 100%;
 }
 
-.md-thm-heading__emph {
+/* doesn't detect without `details` */
+details:not(.md-dropdown) .md-thm-heading__emph {
     font-weight: bold;
-}
-
-:is(.md-dropdown--rmk, .md-dropdown--pf) .md-thm-heading__emph {
-    font-weight: unset;
 }
 
 /* use these as heading sections within proofs */
