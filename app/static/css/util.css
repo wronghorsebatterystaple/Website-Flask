@@ -250,18 +250,18 @@
     border-width: 6px !important;
 }
 
-.border-bottom--h1 {
+.border-b {
+    border-bottom-style: solid !important;
+}
+
+.border-b--h1 {
     border-bottom: 3px solid var(--custom-green-deep-dark) !important;
     padding-bottom: 0.5rem !important;
 }
 
-.border-bottom--h2 {
+.border-b--h2 {
     border-bottom: 2px solid var(--custom-orange-deep-dark) !important;
     padding-bottom: 0.25rem !important;
-}
-
-.border-bottom--underline {
-    border-bottom: 1px solid black !important;
 }
 
 .border--colorful {

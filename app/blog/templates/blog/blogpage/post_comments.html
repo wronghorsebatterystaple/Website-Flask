@@ -10,35 +10,35 @@
     {% if comment.author|trim == config["VERIFIED_AUTHOR"] %}
       <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %} border--custom-orange-deep border--3px">
         <div class="card-body pb-2">
-          <h3 class="d-flex align-items-center fs-7">
-            {{ comment.author }}<i class="bi bi-check-circle ms-2" title="Actually verified, unlike Twitter."></i>
+          <h3 class="d-flex align-items-center mb-3 border-b border--1px border--lightgray pb-3 fs-7">
+            {{ comment.author }}<i class="bi bi-check-circle ms-2" title="actually verified, unlike twitter"></i>
           </h3>
     {% else %}
       <div class="comment card mt-{% if comment.depth == 0 %}3{% else %}1{% endif %}{% if current_user.is_authenticated and comment.is_unread %} border--custom-pink-deep-xlight border--3px{% endif %}">
         <div class="card-body pb-2">
-          <h3 class="mb-2 fs-7">{{ comment.author }}</h3>
+          <h3 class="mb-3 border-b border--1px border--lightgray pb-3 fs-7">{{ comment.author }}</h3>
     {% endif %}
-        <div class="comment__content mb-3 gray">{{ comment.content|safe }}</div>
-        <div class="mb-1 fs-10">{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</div>
-        
-        {% if comment.depth < 6 %}
-          {{ wtf.quick_form(reply_comment_btn, id="comment__reply-btn-" ~ comment.id, class="comment__reply-btn", btn_type="link", btn_color="custom-orange-deep-dark") }}
-          {{ wtf.quick_form(add_comment_form, id="comment__add-reply-form-" ~ comment.id, class="ajax-add-comment mt-3 mb-2", hidden=true) }}
-        {% else %}
-          <p class="comment__nest-limit-text mb-0 custom-orange-deep-dark">It's gonna get ugly if you keep replying…</p>
-        {% endif %}
+          <div class="comment__content mb-3">{{ comment.content|safe }}</div>
+          <div class="mb-1 dimgray fs-10">{{ moment(comment.timestamp).format("lll") }} ({{ moment(comment.timestamp).fromNow() }})</div>
+          
+          {% if comment.depth < 6 %}
+            {{ wtf.quick_form(reply_comment_btn, id="comment__reply-btn-" ~ comment.id, class="comment__reply-btn", btn_type="link", btn_color="custom-orange-deep-dark") }}
+            {{ wtf.quick_form(add_comment_form, id="comment__add-reply-form-" ~ comment.id, class="mt-3 mb-2 ajax-add-comment", hidden=true) }}
+          {% else %}
+            <p class="comment__nest-limit-text mb-0 custom-orange-deep-dark">It's gonna get ugly if you keep replying…</p>
+          {% endif %}
 
-        {% if current_user.is_authenticated %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-deep-xlight") }}
-        {% else %}
-          {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-deep-xlight", hidden=true) }}
-        {% endif %}
+          {% if current_user.is_authenticated %}
+            {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-deep-xlight") }}
+          {% else %}
+            {{ wtf.quick_form(delete_comment_btn, id="comment__delete-form-" ~ comment.id, class="ajax-delete-comment show-when-logged-in", btn_type="link", btn_color="custom-pink-deep-xlight", hidden=true) }}
+          {% endif %}
+        </div>
       </div>
-    </div>
 
-    {% if descendants %}
-      {{ loop(descendants) }}
-    {% endif %}
+      {% if descendants %}
+        {{ loop(descendants) }}
+      {% endif %}
 
     {% if comment.depth > 0 %}
       </div>
