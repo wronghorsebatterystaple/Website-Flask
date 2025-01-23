@@ -64,7 +64,7 @@
 
 .darken-on-hover:hover .custom-orange-deep,
 .darken-on-hover:hover .custom-orange-deep-dark {
-    color: var(--custom-orange-xdeep) !important;
+    color: var(--custom-orange-xxdeep) !important;
 }
 
 .custom-pink-deep-light {
@@ -324,7 +324,7 @@
 }
 
 .btn-link--custom-orange-deep-dark:hover {
-    color: var(--custom-orange-xdeep) !important;
+    color: var(--custom-orange-xxdeep) !important;
 }
 
 .btn-link--custom-pink-deep-xlight {
@@ -385,8 +385,18 @@
 }
 
 .link--custom-orange-xdeep:hover {
-    text-decoration-color: var(--custom-orange-xdeep-dark) !important;
-    color: var(--custom-orange-xdeep-dark) !important;
+    text-decoration-color: var(--custom-orange-xxdeep) !important;
+    color: var(--custom-orange-xxdeep) !important;
+}
+
+.link--custom-orange-xxdeep {
+    text-decoration-color: var(--custom-orange-xxdeep) !important;
+    color: var(--custom-orange-xxdeep) !important;
+}
+
+.link--custom-orange-xxdeep:hover {
+    text-decoration-color: var(--custom-orange-xxdeep-dark) !important;
+    color: var(--custom-orange-xxdeep-dark) !important;
 }
 
 .link--custom-pink-deep-xlight {

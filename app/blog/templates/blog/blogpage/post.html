@@ -43,7 +43,7 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
   {% endif %}
   <div class="d-flex align-items-center mt-2 fs-9">
     {% if post.edited_timestamp is not none %}
-      <span class="post__timestamp me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | Edited {{ moment(post.edited_timestamp).format("l") }}</span>
+      <span class="post__timestamp me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | edited {{ moment(post.edited_timestamp).format("l") }}</span>
     {% else %}
       <span class="post__timestamp me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
     {% endif %}
@@ -65,7 +65,7 @@ const PERMANENT_LINK_URL = "{{ url_for('blog.post_by_id', post_id=post.id, _exte
         {% if toc_token.level == 1 %}
           {% set class = "link--custom-green-deep-xdark" %}
         {% elif toc_token.level == 2 %}
-          {% set class = "link--custom-orange-xdeep" %}
+          {% set class = "link--custom-orange-xxdeep" %}
         {% endif %}
   
         <li>
