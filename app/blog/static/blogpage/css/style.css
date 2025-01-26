@@ -131,7 +131,7 @@ input[value="Reply"][value="Delete"] {
 }
 
 .post__h2 {
-    color: var(--custom-orange-xdeep);
+    color: var(--custom-orange-deep);
 }
 
 .post__img {
