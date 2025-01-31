@@ -84,7 +84,7 @@ class Post(db.Model):
         # `sa.text("NOW()")` should produce the same format as when SQLAlchemy casts Python's `datetime` obj
         nullable=False, default=lambda: datetime.now(timezone.utc), server_default=sa.text("NOW()"), index=True
     )
-    edited_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None, server_default=None)
+    updated_timestamp: so.Mapped[datetime] = so.mapped_column(nullable=True, default=None, server_default=None)
     content: so.Mapped[sa_mysql.MEDIUMTEXT()] = so.mapped_column(
         sa_mysql.MEDIUMTEXT(charset="utf8mb4", collation="utf8mb4_0900_ai_ci"),
         nullable=True, default=None, server_default=None
@@ -127,8 +127,8 @@ class Post(db.Model):
 
     def add_timestamps(
         self,
-        should_remove_edited_timestamp: bool,
-        should_update_edited_timestamp: bool,
+        should_remove_updated_timestamp: bool,
+        should_update_updated_timestamp: bool,
         old_blogpage_id=None
     ) -> None:
         """
@@ -137,10 +137,10 @@ class Post(db.Model):
             - Post must have `blogpage` field auto-generated (`db.session.flush()`)
         """
 
-        if should_update_edited_timestamp:
-            self.edited_timestamp = datetime.now(timezone.utc)
-        if should_remove_edited_timestamp:
-            self.edited_timestamp = None
+        if should_update_updated_timestamp:
+            self.updated_timestamp = datetime.now(timezone.utc)
+        if should_remove_updated_timestamp:
+            self.updated_timestamp = None
 
         was_originally_published = False
         if old_blogpage_id is not None:
@@ -148,9 +148,9 @@ class Post(db.Model):
             if old_blogpage is not None:
                 was_originally_published = old_blogpage.is_published
         if not was_originally_published:
-            # keep updating created time instead of edited time if not already published
+            # keep updating created time instead of updated time if not already published
             self.timestamp = datetime.now(timezone.utc)
-            self.edited_timestamp = None
+            self.updated_timestamp = None
 
     def expand_img_markdown(self) -> None:
         self.content = re.sub(

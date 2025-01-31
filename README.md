@@ -22,15 +22,15 @@ I hope I'm not reading this because I bricked a machine again.
     - `app/static/css/custom_bootstrap.css` and `app/static/css/custom_bootstrap.css.map`: run `npm compile_bootstrap` from within the [app/static/](app/static/) folder
 5. Navigate to [deployment/docker/](deployment/docker/) and run `deploy.sh` (or use a `systemd` service, for example [deployment/systemd-reference/personal-website.service](deployment/systemd-reference/personal-website.service))
 
-# Developer notes to compensate for possibly scuffed coding practices
+# Developer notes to compensate for possibly scuffed code
 
 ### IMPORTANT:
 Keep up-to-date:
-    - [.gitignore](.gitignore)
-    - [config.py](config.py)
-    - README
-    - Backup scripts in [deployment/backup-scripts/](deployment/backup-scripts/)
-    - Cloudflare firewall rules etc.
+- [.gitignore](.gitignore)
+- [config.py](config.py)
+- README
+- Backup scripts in [deployment/backup-scripts/](deployment/backup-scripts/)
+- Cloudflare firewall rules etc.
 - Server-side access control must be perfect
 
 ### Deployment maintenance:

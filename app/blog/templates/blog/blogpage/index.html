@@ -37,8 +37,8 @@ const TOTAL_PAGES = {{ total_pages }};
           {% endif %}
   
           <div class="d-flex align-items-center mt-2">
-            {% if post.edited_timestamp is not none %}
-              <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | updated {{ moment(post.edited_timestamp).format("l") }}</span>
+            {% if post.updated_timestamp is not none %}
+              <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }} | updated {{ moment(post.updated_timestamp).format("l") }}</span>
             {% else %}
               <span class="flex-basis-75 me-3 mb-0">{{ moment(post.timestamp).format("l") }}</span>
             {% endif %}
@@ -55,8 +55,8 @@ const TOTAL_PAGES = {{ total_pages }};
           {% endif %}
   
           <div class="d-flex align-items-center mt-2">
-            {% if post.edited_timestamp is not none %}
-              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | updated {{ moment(post.edited_timestamp).format("l") }}</span>
+            {% if post.updated_timestamp is not none %}
+              <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }} | updated {{ moment(post.updated_timestamp).format("l") }}</span>
             {% else %}
               <span class="flex-basis-75 me-3 mb-0 black">{{ moment(post.timestamp).format("l") }}</span>
             {% endif %}

@@ -209,7 +209,7 @@ def edit_blogpost(**kwargs):
         if err:
             return jsonify(flash_msg=err)
         post.add_timestamps(
-            request.form.get("remove_edited_timestamp"), request.form.get("update_edited_timestamp"), old_blogpage_id
+            request.form.get("remove_updated_timestamp"), request.form.get("update_updated_timestamp"), old_blogpage_id
         )
         post.expand_img_markdown()
 
@@ -259,8 +259,8 @@ def edit_blogpost(**kwargs):
             redir_url=url_for(
                 f"blog.{post.blogpage_id}.post", post_sanitized_title=post.sanitized_title, _external=True
             ),
-            flash_msg="Post edited successfully!"
-        ) # view edited post
+            flash_msg="Post updated successfully!"
+        ) # view updated post
     elif request.method == "DELETE":
         db.session.delete(post)
         db.session.commit()
