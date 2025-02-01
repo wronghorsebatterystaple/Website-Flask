@@ -45,7 +45,7 @@ Mako==1.3.8
 Markdown==3.7
 markdown-environments==1.2.0
 markdown-image-titles==0.1.0
-MarkupSafe==2.1.5
+MarkupSafe==3.0.2
 matplotlib-inline==0.1.7
 mistune==3.0.2
 nbclient==0.10.0
